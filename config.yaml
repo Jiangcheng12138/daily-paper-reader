@@ -25,3 +25,75 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: TR HB
+      description: 帮我寻找有关torpor和hibernation研究的论文
+      enabled: true
+      paper_sources:
+        - arxiv
+        - biorxiv
+      keywords:
+        - keyword: hibernation
+          keyword_cn: 冬眠
+          query: physiological processes of mammalian hibernation
+        - keyword: torpor
+          keyword_cn: 蛰伏
+          query: mechanisms and characteristics of animal torpor
+        - keyword: metabolic suppression
+          keyword_cn: 代谢抑制
+          query: metabolic rate reduction during hibernation and torpor
+        - keyword: thermoregulation
+          keyword_cn: 体温调节
+          query: body temperature regulation in hibernating animals
+        - keyword: physiological adaptation
+          keyword_cn: 生理适应
+          query: physiological adaptations for extreme cold and food scarcity
+      intent_queries:
+        - query: Molecular and genetic mechanisms underlying mammalian hibernation
+          query_cn: 哺乳动物冬眠的分子和遗传机制
+          enabled: true
+          source: manual
+          note: ''
+        - query: Comparison of physiological states between daily torpor and seasonal hibernation
+          query_cn: 每日蛰伏与季节性冬眠生理状态的比较
+          enabled: true
+          source: manual
+          note: ''
+        - query: Medical applications of induced torpor and synthetic hibernation
+          query_cn: 诱导蛰伏与人工冬眠的医学应用
+          enabled: true
+          source: manual
+          note: ''
+        - query: Neurobiological control of metabolic suppression in hibernators
+          query_cn: 冬眠动物代谢抑制的神经生物学控制
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-03-29T16:57:17.731Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
+  biorxiv:
+    papers_table: biorxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_biorxiv_papers_exact
+    vector_rpc_exact: match_biorxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_biorxiv_papers_bm25
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
