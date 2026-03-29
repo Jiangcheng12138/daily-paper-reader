@@ -1,0 +1,4268 @@
+Title: The Gibbs free energy landscape based on liver metabolome revealed thermodynamic robustness against fasting and obesity
+
+URL Source: https://www.biorxiv.org/content/10.64898/2025.12.04.692290v2.full.pdf
+
+Number of Pages: 86
+
+Markdown Content:
+Abekawa 1
+
+The Gibbs  free  energy  landscape  based on liver metabolome revealed thermodynamic 1
+
+robustness against fasting and obesity 2
+
+3
+
+AU THORS 4
+
+Takumi Abekawa 1, Satoshi Ohno 1,2,3,* , Akiyoshi Hirayama 4, Tomoyoshi Soga 4,5 ,5
+
+Shinya Kuroda 1,2, 6,*
+
+6
+
+7
+
+AFFILIATIONS 8
+
+> 1
+
+Department of Biological Sciences, Graduate School of Science, The University of Tokyo, 9
+
+7-3-1 Hongo, Bunkyo -ku, Tokyo 113 -0033, Japan. 10 
+
+> 2
+
+Molecular Genetics Research Laboratory, Graduate School of Science, The University of 11 
+
+Tokyo, 7 -3-1 Hongo, Bunkyo -ku, Tokyo, Japan. 12 
+
+> 3
+
+Life Science Center for Survival Dynamics, Tsukuba Advanced Research Alliance 13 
+
+(TARA), University of Tsukuba, 1 -1-1 Tennodai, Tsukuba, Ibaraki 305 -8577, Japan .14 
+
+> 4
+
+Institute for Advanced Biosciences, Keio University, 246 -2 Mizukami, Kakuganji, 15 
+
+Tsuruoka, Yamagata 997 -0052, Japan 16 
+
+> 5
+
+Human Biology -Microbiome -Quantum Research Center (WPI -Bio2Q), Keio University, 17 
+
+Tsuruoka , Yamagata  997 -0052, Japan 18 
+
+> 6
+
+Lead contact 19 
+
+> *
+
+Correspondence to:  s-ohno@tara.tsukuba.ac.jp  (S. O.) 20 
+
+> *
+
+Correspondence to: skuroda@bs.s.u -tokyo.ac.jp (S.K.) 21 
+
+22 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 2
+
+SUMMARY 23 
+
+Mammalian liver metabolism undergoes  a substantial  shift during fasting. Thermodynamic 24 
+
+principles impose fundamental constraints on metabolism , and  the Gibbs free energy change 25 
+
+of reaction  (Δ𝑟 𝐺 ′) indicates  the  reaction’s direction and distance from equilibrium. However, 26 
+
+Δ𝑟 𝐺 ′ landscape s in intact mammalian organs  remain  largely uncharacterized.  Here, we 27 
+
+mapped  Δ𝑟 𝐺 ′ profile  of  glucose metabolism  in mouse liver  during fasting, using 28 
+
+experimentally measured absolute metabolite concentrations  and a newly  developed 29 
+
+computational method,  GLEAM . We found that despite  large  metabolite  fluctuations  during 30 
+
+fasting , the corresponding  Δ𝑟 𝐺 ′s remained  robust , even for  reactions  revers ing  the  direction 31 
+
+between  glycolysis and gluconeogenesis.  A remarkable thermodynamic robustness  is found 32 
+
+in  maintaining  potential  candidates of  rate -limiting  step s during  fasting.  This  robustness  is 33 
+
+achieved by expending  substantial  cost s for  enzyme  expression s, contributing to efficient 34 
+
+switching  from  glycolysis  to  gluconeogenesis . Furthermore , obese m ouse  liver also showed 35 
+
+thermodynamic robustness despite  obesity -induced metabolic disruption . Our framework 36 
+
+provide d a n ovel  thermodynamic perspective on  intact  organ  metabolis m, demonstrating that 37 
+
+the liver  robust ly  maintains thermodynamic  characteristics  favorable  for metabolic  control 38 
+
+by buffering metabolite concentration  differences .39 
+
+40 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 3
+
+GLOSSARY 41 
+
+Metabolite abbreviations  Metabolite names 
+
+G6P  Glucose 6 -phosphate 
+
+F6P  Fructose 6 -phosphate 
+
+F1,6BP  Fructose 1,6 -bisphosphate 
+
+ADP  ADP 
+
+ATP  ATP 
+
+DHAP  Glycerone phosphate 
+
+GAP  Glyceraldehyde 3 -phosphate 
+
+NAD  NAD +
+
+NADH  NADH 
+
+Pi  Orthophosphate 
+
+3PG  3-Phospho -D-glycerate 
+
+2PG  2-Phospho -D-glycerate 
+
+PEP  Phosphoenolpyruvate 
+
+H2O  H2O 
+
+G1P  Glucose 1 -phosphate 
+
+G3P  sn -Glycerol 3 -phosphate 
+
+Pyr  Pyruvate 
+
+CoA  Coenzyme A 
+
+CO2  CO2 
+
+AcCoA  Acetyl -CoA 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 4
+
+OAA  Oxaloacetate 
+
+Cit  Citrate 
+
+AKG  alpha -Ketoglutaric acid 
+
+SucCoA  Sucinyl -CoA 
+
+Suc  Succinate 
+
+GDP  GDP 
+
+GTP  GTP 
+
+Fum  Fumarate 
+
+FAD  FAD 
+
+FADH2  FADH2 
+
+Mal  Malate 
+
+Glu  Glutamate 
+
+NH3  Ammonia 
+
+Ala  L-Alanine 
+
+Lac  Lactate 
+
+HCO3  HCO 3-
+
+NADP  NADP +
+
+NADPH  NADPH 
+
+Reaction abbreviations  React ion names 
+
+GLUT  Glucose transporter 
+
+GCK  Glucokinase 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 5
+
+HK  Hexokinase 
+
+GPI  Glucose -6-phosphate isomerase 
+
+PFK  Phosphofructokinase 
+
+ALDO  Aldolase 
+
+TPI  Triosephosphate isomerase 
+
+GAPDH:PGK  Glyceraldehyde -3-phosphate dehydrogenase and 
+
+Phosphoglycerate kinase 
+
+PGAM  Phosphoglycerate mutase 
+
+ENO  Enolase 
+
+PGM  Phosphoglucomutase 
+
+FBP  Fructose -1,6 -bisphosphatase 
+
+G6PC  Glucose -6-phosphatase 
+
+GPD  Glycerol -3-phosphate dehydrogenase 
+
+PKLR  Pyruvate kinase 
+
+PDH  Pyruvate dehydrogenase 
+
+CS  Citrate synthase 
+
+ACO:IDH  Aconitase and Isocitrate dehydrogenase 
+
+OGDH  2-Oxoglutarate dehydrogenase 
+
+LSC  Succinate -CoA ligase 
+
+SDH  Succinate dehydrogenase 
+
+FH  Fumarate hydratase 
+
+MDH  Malate dehydrogenase 
+
+GDH  Glutamate dehydrogenase 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 6
+
+ALT  Alanine aminotransferase 
+
+LDH  Lactate dehydrogenase 
+
+MCT  Monocarboxylate transporter 
+
+PC  Pyruvate carboxylase 
+
+PCK  Phosphoenolpyruvate carboxykinase 
+
+ME  Malic enzyme 
+
+42 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 7
+
+INTRODUCTION 43 
+
+Blood glucose homeostasis is  crucial  in mammals  for  providing stable  energy sources  to 44 
+
+organs and maintaining health.  During fasting , t he liver plays a central role in maintaining 45 
+
+blood glucose homeostasis by shifting its metabolism from glycolysis to gluconeogenesis  1–
+
+46 
+
+> 5
+
+. This metabolic shift is a  highly  regulated process that involves  the  directional  revers al  of 47 
+
+metabolic reactions and fluctuations in  the concentrations of numerous metabolites  6–8.48 
+
+Obesity induces metabolic dysregulation in the liver  7–12 , leading to impaired glucose 49 
+
+homeostasis  13 –17  and the development of further diseases , including type 2 diabetes  9,18 –20 .50 
+
+51 
+
+Metabolic processes are governed by the laws of thermodynamics.  According to the second 52 
+
+law of thermodynamics, in the cellular environment, metabolic reactions proceed in the 53 
+
+direction where the Gibbs free energy change of reaction ( Δ𝑟 𝐺 ′) is negative, and  Δ𝑟 𝐺 ′ is 54 
+
+zero when the reaction reaches equilibrium. Therefore,  Δ𝑟 𝐺 ′ indicates the reaction distance 55 
+
+from equilibrium.  Δ𝑟 𝐺 ′ can be calculated as the difference between the Gibbs free energy 56 
+
+of formation ( Δ𝑓 𝐺 ′) of the product and substrate  metabolites :57 
+
+Δ𝑟 𝐺 ′ = ∑ 𝑆 𝑖 Δ𝑓 𝐺 𝑖 
+
+> ′
+> 𝑖
+
+(1) 
+
+where  𝑆 𝑖  is the stoichiometric coefficient  of metabolite  i in the reaction . Δ𝑓 𝐺 ′ depends on 58 
+
+the  metabolite  activit y, practically  substituted  by  the  concentration :59 
+
+Δ𝑓 𝐺 ′ = Δ𝑓 𝐺 ′∘ + 𝑅𝑇  ln  𝑐  (2)
+
+where  Δ𝑓 𝐺 ′∘ is  the  standard Gibbs free energy of formation representing  Δ𝑓 𝐺 ′ at 1  M of 60 
+
+metabolite concentration,  𝑅  is the gas constant,  𝑇  is temperature, and  𝑐  is  metabolite 61 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 8
+
+concentr ation.  The p rime placed  in  Δ𝑓 𝐺 ′∘ , Δ𝑓 𝐺 ′ , and  Δ𝑟 𝐺 ′ denote s that  those  values 62 
+
+incorporate  the effect of  a particular pH , pMg , and ionic strength  on  metabolite  activity .63 
+
+Although calculation  of  Δ𝑟 𝐺 ′ requires absolute  metabolite  con centrations , mass 64 
+
+spectrometry -based metabolomics analyses  often  suffer from ion  suppression , a phenomenon 65 
+
+where  co -eluting compounds compromise quantitative accuracy by reducing analyte 66 
+
+ionization efficiency  21 . Nevertheless , previous studies have successfully achieved absolute 67 
+
+quantification of intracellular metabolites, primarily by employing isotope -labeled internal 68 
+
+standards  22,23 . These techniques have enabled the investigation of absolute metabolite 69 
+
+concentrations and subsequent  thermo dynamic analyses, such as  Δ𝑟 𝐺 ′ landscapes, in 70 
+
+microorganisms and cultured cells . 24 –27 . Despite these advancements, thermodynamic 71 
+
+profiles have rarely been investigated at  in vivo  mammalian organ level s. Furthermore, all 72 
+
+prior thermodynamic studies have focused on glycolysis -dominant conditions where glucose 73 
+
+is the primary nutrient, leaving a  large  gap in our understanding of  metabolism during fasting ,74 
+
+a condition dominated by gluconeogenesis .75 
+
+76 
+
+Mathematical  metabolic  modeling  is an essential framework for  a quantitative system -level 77 
+
+understanding  of  metabolism . The thermodynamic principle regarding reaction direction has 78 
+
+been widely applied as a constraint to increase the reliability of metabolic models  28 –35 .79 
+
+Furthermore, the significance of  Δ𝑟 𝐺 ′ extends beyond physical aspects such as distance 80 
+
+from equilibrium and reaction directionality to several physiological meanings, including 81 
+
+pathway rate -limiting steps  quantified by the flux control coefficient (FCC)  36 –38 , and enzyme 82 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 9
+
+demands  for carrying metabolic flux  39 –42 . However,  these  thermodynamic  frameworks have 83 
+
+hardly  been applied to experimental  data , especially  those from  multicellular organisms .84 
+
+85 
+
+In this study, we  explored  Δ𝑟 𝐺 ′ landscape  in the  liver metabolism of mice a t different 86 
+
+fasting levels  using time -series absolute quantitative metabolomic data  measured by  CE -MS ,87 
+
+which can reduce the effect of ion  suppression  43,44 , without using isotopically  labeled 88 
+
+standards . Our results are the first  in vivo  identification of large -scale  Δ𝑟 𝐺 ′ landscapes in 89 
+
+mammalian organisms, and  also  the first elucidation of  Δ𝑟 𝐺 ′ behavior during fasting in any 90 
+
+cell type s. Since metabolomic data contains uncertainties, we developed  GLEAM  (Gibbs free 91 
+
+energy of reaction Landscape Estimation from metabolome Assisted by variance -covariance 92 
+
+Matrix)  to estimate  Δ𝑟 𝐺 ′ with  thermodynamically consistent metabolite concentrations 93 
+
+from experimental metabolomic data.  The  estimated  Δ𝑟 𝐺 ′ showed  that  the  global  Δ𝑟 𝐺 ′
+
+94 
+
+landscape  in mouse liver is robust  during fasting , despite  large fluctuations in metabolite 95 
+
+concentrations . We further integrated  the  Δ𝑟 𝐺 ′ and enzym e kinetics  to investigate  the 96 
+
+physiological significance  of the  Δ𝑟 𝐺 ′ landscape  in terms of  rate -limiting  step s and 97 
+
+efficien cy  of  metabolic  switching . In addition to  the  thermodynamic robustness  of mouse 98 
+
+liver  against  fasting , we also  demonstrated  the  robustness against obesity using  leptin -99 
+
+deficient obese ( ob /ob ) mice  45,46 . Thus,  our  study  provide s novel  insights  into  glucose 100 
+
+metabolism  in  in vivo  mammalian liver  from  a thermodynamic  standpoint.  These findings 101 
+
+extend  our understanding of mammalian metabolisms  beyond  individual  metabolite 102 
+
+concentrations. 103 
+
+104 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 10 
+
+RESULTS 105 
+
+𝚫 𝒓 𝑮 ′ landscape is robust against fasting despite metabolite concentration fluctuations 106 
+
+In this study, w e developed  GLEAM  to estimate  Δ𝑟 𝐺 ′ from time -series metabolome and 107 
+
+Δ𝑓 𝐺 ′∘. One of the challenges in estimating  Δ𝑟 𝐺 ′ in an entire reaction pathway is inherent 108 
+
+uncertainties  and missing values in metabolome and  Δ𝑓 𝐺 ′∘ data. To address this issue, 109 
+
+GLEAM  utilizes  thermodynamic constraints and  variances and covariances of metabolome 110 
+
+and  Δ𝑓 𝐺 ′∘ data, and  estimates  a complete set of thermodynamically consistent metabolite 111 
+
+concentrations  and  Δ𝑓 𝐺 ′∘ , and subsequent  Δ𝑟 𝐺 ′ (see Methods). Briefly,  GLEAM  fits 112 
+
+metabolite concentrations and  Δ𝑓 𝐺 ′∘ to data  from  the  experiment or database  within a range 113 
+
+that every reaction holds  Δ𝑟 𝐺 ′ < 0 by  the  weighted least mean squares method. The weights 114 
+
+of the  residuals  are  determined  by  variances and covariances of metabolite concentrations 115 
+
+and  Δ𝑓 𝐺 ′∘ data. 116 
+
+117 
+
+By  applying  GLEAM  to time -series metabolom ic  data from  ad libitum  feeding  to  fasting  in 118 
+
+mice,  and  Δ𝑓 𝐺 ′∘ data  from eQuilibrator  (Table  S1) , we  estimated  the  Δ𝑟 𝐺 ′ landscape  (Fig. 119 
+
+1A, B,  Table  S2)  in glycolysis, gluconeogenesis, and TCA cycle  (Table  S3 ) in the liver . At 120 
+
+ad libitum  feeding  (0-hour fasting ), when glycolysis is dominant,  most  of the  irreversible 121 
+
+rea ctions  exhibited  Δ𝑟 𝐺 ′ < −10 kJ/mol , which we re  defined  as  far -from -equilibrium 122 
+
+reaction s, such as  Δ𝑟 𝐺 ′ = −21.56 kJ/mol in PFK and  Δ𝑟 𝐺 ′ = −34.34 kJ/mol in PDH. 123 
+
+Among the 11 irreversible reactions, only three reactions (ACO:IDH, PC, and PCK) 124 
+
+exhibited  Δ𝑟 𝐺 ′ > −10 kJ/mol , and  PC and PCK were exce ptionally  close to  equilib rium ,125 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 11 
+
+with  Δ𝑟 𝐺 ′ = −3.48 kJ/mol and −3.70 kJ/mol, respectively.  In  contrast,  most  of the  reversible 126 
+
+reactions  exhibited  Δ𝑟 𝐺 ′ > −5 kJ/mol , which we re  defined  as  near -equilibrium reaction s, at 127 
+
+ad libitum  feeding, such as  Δ𝑟 𝐺 ′ = −0.24 kJ/mol  in GPI  and  Δ𝑟 𝐺 ′ = −0.03 kJ/mol  in SDH .128 
+
+Four  reversible  reactions (ALDO, LSC, MDH, and ME)  were exceptions  that  exhibited  Δ𝑟 𝐺 ′
+
+129 
+
+< −5 kJ/mol.  Among those reactions,  MDH was largely  away  from equilibri um in the 130 
+
+opposite direction of the oxidative TCA cycle, with  Δ𝑟 𝐺 ′ = −18.13 kJ/mol. 131 
+
+132 
+
+The fasting -indu ced metabolic shift in the liver from glycolysis to gluconeogenesis may lead 133 
+
+to changes in thermodynamic characteristi cs of metabolic reactions, including reversal of the 134 
+
+sign of  Δ𝑟 𝐺 ′ of some reactions  i.e.,  reversal of their direction, by  fluctuations in several 135 
+
+metabolite concentrations . After 16 -hour fasting when gluconeogenesis is dominant,  Δ𝑟 𝐺 ′
+
+136 
+
+values remained similar in the liver (Fig.  1C), with variation in 24/29 reactions being less 137 
+
+than 5 kJ/mol. As a result of this thermodynamic robustness, all irreversible reactions 138 
+
+exhibited  Δ𝑟 𝐺 ′ < −10 kJ/mol after 16 -hour fasting, indicating that the overall trend of 139 
+
+irreversible reactions being far -from -equilibrium reactions was maintained across  ad libitum 140 
+
+feeding and after fasting. Although PC and PCK had been near -equilibrium at  ad libitum 141 
+
+feeding, these reactions moved away from equilibrium to exhibit  Δ𝑟 𝐺 ′ = −9.07 kJ/mol and 142 
+
+−5.25 kJ/mol after fasting, respectively. As for reversible re actions, despite reversal of some 143 
+
+directions to switch the liver’s metabolism from gl ycolysis to gluconeogenesis, all the 144 
+
+reversible reactions with  Δ𝑟 𝐺 ′ > −5 kJ/mol at  ad libitum  feeding remained  Δ𝑟 𝐺 ′ > −5145 
+
+kJ/mol, indicating that the overall trend of reversible reactions being near -equilibrium 146 
+
+reactions was maintained across  ad libitum  feeding and after fasting. In contrast to  Δ𝑟 𝐺 ′,147 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 12 
+
+individual metabolite concentrations widely fluctuated during 16 -hour fasting (Fig.  1D), with 148 
+
+log2 fold change exceeding 0.5 for over 50% of metabolites. This result suggests that the 149 
+
+thermodynamic architecture in glucose metabolism was robust against fasting while 150 
+
+metabolite concentrations were reorganized. Note that the robustness of  Δ𝑟 𝐺 ′ and 151 
+
+metabolite concentrations cannot be directly compared by correlation coefficients for Fig.  1C152 
+
+and D because  Δ𝑟 𝐺 ′ values were not normalized while metabolite concentrations were 153 
+
+normalized, leading to much higher correlation coefficient for  Δ𝑟 𝐺 ′. The reason why  Δ𝑟 𝐺 ′
+
+154 
+
+values were not normalized in Fig.  1C is that  Δ𝑟 𝐺 ′ does not represent abundance and thus 155 
+
+should be evaluated their robustness not by fold changes but by difference values. 156 
+
+157 
+
+To examine whether the thermodynamic characteristics of  metabolic  reactions  observed  in 158 
+
+mouse liver are  conserved  across  species , we compared the estimated  Δ𝑟 𝐺 ′ in  glycolytic 159 
+
+reactions in mouse liver with those in  other biological systems.  The p revious stud y 26 
+
+160 
+
+determined  Δ𝑟 𝐺 ′ in glycoly sis  of  immortalized  baby  mouse  kidney  epithelial  (iBMK) c ells, 161 
+
+yeast, and  Escheri chia  coli , r eporting  that  in all these cell types,  similar to mouse liver, 162 
+
+reversible reactions  were  closer to equilibrium compared to the irreversible reaction , PFK 163 
+
+(Fig. 1 E). This  result  suggests that the thermod ynamic  characteristics  in  glycolysis are  widely 164 
+
+conserved across species.  An exception is  PKLR,  whose  Δ𝑟 𝐺 ′ in  mouse  liver was more than 165 
+
+20 kJ/mol smaller than th ose  in the  other cell  types . Among the metabolite concentrations (or 166 
+
+ratios ) involved  in PKLR,  pyruvate  concentration and ATP/ADP  were smaller in mouse liver 167 
+
+than  in mammalian iBMK cells, yeast, and  E. coli  (Table S 4). In particular,  pyruvate 168 
+
+concentrations were two orders of magnitude  smaller  in  mouse liver  (3.77 × 10 -2 mM) 169 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 13 
+
+compared to the other  three cell types (5.88  mM in  iBMK  cells , 9.40  mM in  yeast,  and  3.66 170 
+
+mM in  E. coli ).171 
+
+172 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 14 
+
+𝚫 𝒓 𝑮 ′ maintenance  during  fasting  is associated with  metabolite concentration 173 
+
+fluctuations  in different ways among pathways 174 
+
+To characterize  the  metabolic reaction s exhibiting large  thermodynamic changes 175 
+
+accompanying the  fasting -induced  metabolic shift, we  link ed  the attributes of reactions 176 
+
+including reversibility  and pathway  to  Δ𝑟 𝐺 16 h 
+
+> ′
+
+− ∆𝑟 𝐺 0h 
+
+> ′
+
+, defined as  Δ𝑟 𝐺 ′ variations  during 177 
+
+fasting  (Fig. 2A) . Among the  seven irreve rsible  reactions of glycolysis and gluconeogenesis, 178 
+
+four reactions (GCK, PFK, PKLR, and PC) exhibited an absolute  Δ𝑟 𝐺 ′ variation  during 179 
+
+fasting  greater than 5 kJ/mol. In contrast, only one reversible reaction (ALDO)  out of 11 180 
+
+showed an absolute  Δ𝑟 𝐺 ′ variation  during fasting  exceeding 5 kJ/mol, despite the reversal 181 
+
+of reversible reaction directions between glycolysis and gluconeogenesis under these 182 
+
+conditions.  This  result  suggests that reversible reactions maintained  Δ𝑟 𝐺 ′ more strictly than 183 
+
+irreversible reactions even though the sign of  Δ𝑟 𝐺 ′ is reversed. In the TCA cycle, the 184 
+
+absolute  Δ𝑟 𝐺 ′ variations  during  fasting were less than 3 kJ/mol for all reactions, indicating 185 
+
+that the TCA cycle is thermodynamically stable in response to fasting. 186 
+
+187 
+
+As  Δ𝑟 𝐺 ′ variations  during  fasting differed between irreversible and reversible reactions in 188 
+
+glycolysis and gluconeogenesis, we further examined the relationship between the distance 189 
+
+from equilibrium  (| Δ𝑟 𝐺 ′|)  at  ad libitum  feeding and the absolute  Δ𝑟 𝐺 ′ variation (Fig. 2B). 190 
+
+In glycolysis and gluconeogenesis, the absolute  Δ𝑟 𝐺 ′ variations  during  fasting were less 191 
+
+than 3.5 kJ/mol for near -equ ilibrium reactions with | Δ𝑟 𝐺 ′| < 5 kJ/mol  at  ad libitum  feeding 192 
+
+except for PC. PC moved away from equilibrium only when gluconeogenesis is dominant in 193 
+
+response to fasting. In contrast, the absolute  Δ𝑟 𝐺 ′ variations  of  the reactions  with  |Δ𝑟 𝐺 ′| ≥194 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 15 
+
+5 kJ/mol  at  ad libitum  feeding  ranged between 0 and 10 kJ/mol , and were  significantly  larger 195 
+
+than those of the  near -equilibrium reactions  (p value = 0.037 < 0.05  calculated by  two -tailed 196 
+
+Welch’s  t-test , n = 12 for  near -equilibrium reactions with | Δ𝑟 𝐺 ′| < 5  and n = 6 for the other 197 
+
+reactions with  | Δ𝑟 𝐺 ′ | ≥ 5 kJ/mol) . This  result  suggests that  Δ𝑟 𝐺 ′ of near -equilibrium 198 
+
+reactions in glycolysis and gluconeogenesis  tend ed  to be  strictly maintained, while this 199 
+
+tendency  wa s lost among  other  reactions. In the TCA cycle,  Δ𝑟 𝐺 ′ wa s strictly maintained 200 
+
+regardless of the distance fro m equilibrium.  The statistical test was not performed  for the 201 
+
+TCA cycle due to  a lack of near -equilibrium reactions .202 
+
+203 
+
+To investigate the reason maintaining  Δ𝑟 𝐺 ′ in  near -equilibrium reactions in glycolysis and 204 
+
+gluconeogenesis,  as well as  in  the TCA cycle  reactions , we compared the absolute  Δ𝑟 𝐺 ′
+
+205 
+
+variation  with  the total absolute  Δ𝑓 𝐺 ′ variation of metabolites  involved  in  the reaction  (Fig. 206 
+
+2C) . T he total absolute  Δ𝑓 𝐺 ′ variation of metabolites  is defined as  ∑|𝑆 (Δ𝑓 𝐺 16h  
+
+> ′
+
+− Δ𝑓 𝐺 0h  
+
+> ′
+
+)|,207 
+
+where  S is the  stoichiometric  coefficient of a metabolite  involved  in  the  reaction . The  Δ𝑟 𝐺 ′
+
+208 
+
+variation is associated  in various ways  with fluctuations in the  Δ𝑓 𝐺 ′ of substrates and 209 
+
+products, which depend on the metabolite concentration s. For example,  when substrate and 210 
+
+product concentrations remain relatively constant  and  changes in  their  Δ𝑓 𝐺 ′ remain small ,211 
+
+the  Δ𝑟 𝐺 ′ variation is  small  (e.g. , GPD in Fig. 2D).  Even when  substrate and product 212 
+
+concentrations large ly  fluctuat e and  changes  in  their  Δ𝑓 𝐺 ′ are large , the  Δ𝑟 𝐺 ′ variation can 213 
+
+remain small  when  the changes in  Δ𝑓 𝐺 ′ of substrate a nd products  are  cancelled out . This 214 
+
+can happen, for instance, when both the substrate and product  Δ𝑓 𝐺 ′ values increase 215 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 16 
+
+simultaneously  (e.g. , GAPDH:PGK in Fig. 2D ). In contrast,  when  the changes in  Δ𝑓 𝐺 ′ of 216 
+
+substrate and products  are  not  cancelled out , the  Δ𝑟 𝐺 ′ variation  becomes large  (e.g. , GCK 217 
+
+in Fig. 2D).  In glycolysis and gluconeogenesis, reactions with small absolute  Δ𝑟 𝐺 ′ variation 218 
+
+due to small fluctuation in metabolite concentrations, such as GPD, and  due to  the 219 
+
+cancellation of  Δ𝑓 𝐺 ′ variations such as GAPDH:PGK, were both observed  (Fig. 2C) . The 220 
+
+existence of the latter type of reaction suggests that while metabolite concentrations fluctuate 221 
+
+in response to fasting in glycolysis and gluconeogenesis, the fluctuations in metabolites 222 
+
+involved in  near -equilibrium reactions were coordinated, thereby maintaining  Δ𝑟 𝐺 ′ of these 223 
+
+reactions. In the TCA cycle, the reason for maintaining  the  absolute  Δ𝑟 𝐺 ′ variations were 224 
+
+small fluctuations in metabolite concentrations  for  all the reactions. 225 
+
+226 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 17 
+
+Thermodynamic  Rate -limiting  Candidates (TRCs) were maintained during fasting 227 
+
+One  of the  physiological consequence s of reaction distance s from equilibrium is the control 228 
+
+of steady -state pathway flux es . The extent to which perturbation of each reaction can control 229 
+
+pathway steady -state flux is quantified by the  flux  control  coefficient (FCC) in  metabolic 230 
+
+control  analysis (MCA)  36,47 . In this study, we analytically calculated FCC s under both 231 
+
+arbitrary  Δ𝑟 𝐺 ′ landscapes and those observed in mouse liver within glycolysis (Fig. 3A), 232 
+
+gluconeogenesis (Fig. 3B), and the TCA cycle (Fig. 3C) from an enzymatic rate law using 233 
+
+the MCA’s theorems. To incorporate reaction distance from equilibrium, we used reversible 234 
+
+kinetics called  the direct binding modular rate law  48  as the  enzymatic  rate law. Under this 235 
+
+framework , a flux  𝑣  can be decomposed into the effect of  thermodynamics  𝜂 rev  (Fig. 3D) 236 
+
+and substrate saturation  𝜂 sat ,s 49 :237 
+
+𝑣  = 𝐸 𝑘 cat  
+
+> +
+
+𝜂 rev 𝜂 sat ,s, (3)
+
+𝜂 rev  = 1 − exp  (Δ𝑟 𝐺 ′
+
+𝑅𝑇  ), (4)
+
+𝜂 sat ,s =
+
+∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 )
+
+> |𝑆 𝑖 |
+> 𝑖 ∈𝑀 s
+
+1 + ∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 
+
+) 
+
+> |𝑆 𝑖 |
+> 𝑖 ∈𝑀 s
+
++ ∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 
+
+)
+
+> |𝑆 𝑖 |
+> 𝑖 ∈𝑀 p
+
+(5)
+
+where  𝐸  is  an  enzyme concentration,  𝑘 cat  
+
+> +
+
+is the forward catalytic constant,  𝐾 m is the 238 
+
+Michaelis -Menten constant,  𝑀 s is substrate s, and  𝑀 p is product s. Using this reaction rate 239 
+
+raw, we  calculated FCC  based on the  connectivity theorem and summation theorem  in MCA 240  
+
+> 50
+
+(see Methods).  This FCC calculation depends on m etabolite concentration s, Δ𝑓 𝐺 ′∘, and 241 
+
+𝐾 m. For  Δ𝑓 𝐺 ′∘, we used sampling values for the confidence interval calculation in  GLEAM .242 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 18 
+
+𝐾 m values were sampled from distributions based on BRENDA database data  51 . Metabolite 243 
+
+concentrations were  obtained  by the following two approaches .244 
+
+245 
+
+We in vestigated FCC  for  metabolite concentrations  in mouse liver using sampled  values  for 246 
+
+confidence interval calculations in  GLEAM , and FCC for  arbitrary  Δ𝑟 𝐺 ′ landscape s to 247 
+
+identify thermodynamic conditions for large FCC . FCC s for  arbitrary  Δ𝑟 𝐺 ′ landscape s248 
+
+showed that FCC  value  larger than 0.5 , which  is greater  than the sum of  FCCs of the  other 249 
+
+reactions in the pathway , required  𝜂 rev  ≈ 1  except for  in  reaction s located upstream in a 250 
+
+pathway (Fig. S 1 A to D ).  In  mouse liver , reactions with  𝜂 rev  ≈ 1  at  ad libitum  feeding 251 
+
+included irreversible reactions GCK, PFK, PKLR,  and  the reversible reaction ALDO  in 252 
+
+glycolysis . Among the m, reactions  that could  achie ve  FCC ≈ 1 were GCK and PFK , while 253 
+
+the  other  reactions  could  achieve  FCC of  between  0.5  and 0.7  (Fig. 3E).  We also found  that 254 
+
+GPI,  which is  a reversible  reaction  located upstream in the pathway , could  achieve  FCC  =255 
+
+0. 42 at  𝜂 rev  ≈ 0. 70 . In gluconeogenesis, reactions with  𝜂 rev  ≈ 1  after  16 -hour  fasting  were 256 
+
+the irreversible reactions PC, PCK, FBP, and G6PC, all of which  could  achieve FCC ≈ 1 (Fig. 257 
+
+3F). All  the  other reactions exhibited only small FCC values. In the TCA cycle, similar FCC 258 
+
+distributions were observed at  ad libitum  feeding and  after fasting  (Fig. 3G,  S3). Reactions 259 
+
+with  𝜂 rev  ≈ 1 were irreversible reactions CS, ACO:IDH, OGDH, and  a reversible reaction 260 
+
+LSC. Among these  reactions , CS and OGDH  could  achieve FCC ≈ 1, while ACO:IDH and 261 
+
+LSC  could  achiev e FCC  slightly  below 0.7 . Generally, reversible reactions  have not been 262 
+
+conside red  rate -limiting reactions  because they have been  recognized  to be qualitatively 263 
+
+closer to equilibrium than  irreversible  reactions.  However, our  quantitative  analysis 264 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 19 
+
+demonstrated that the reversible reactions GPI, ALDO, and LSC  could  achieve  FCC  of 265 
+
+between 0.4 and 0.7  comparable to several irreversible reactions. Considering the results of 266 
+
+arbitrary  Δ𝑟 𝐺 ′ landscape s, these  large  FCC values of the reversible reactions can be 267 
+
+attributed to GPI being located relatively upstream in glycolysis, and ALDO and LSC being 268 
+
+sufficiently  away  from equilibrium to  exhibit  𝜂 rev  ≈ 1 despite being closer to equilibrium 269 
+
+than irreversible reactions. 270 
+
+271 
+
+As described above,  a reaction with  FCC  larger than 0.5  seems  to be  either  away  enough 272 
+
+from equilibrium  to  exhibit  𝜂 rev  ≈ 1, or located upstream in  a pathway.  Because the location 273 
+
+of a reaction in a pathway depends on the definition of the pathway, a  reaction being  away 274 
+
+enough  from equilibrium  to  exhibit  𝜂 rev  ≈ 1  is a key determinant for  the reaction  to have 275 
+
+large FCC, sometimes being referred to as the rate -limiting step . Therefore, we introduced 276 
+
+Thermodynamic Rate -limiting Candidate (TRC) as reactions with  𝜂 rev  ≥ 0. 86 277 
+
+correspond ing  to  Δ𝑟 𝐺 ′ ≤ −5 kJ/mol , and examined which reaction is thermodynamically 278 
+
+capable of being a  rate -limiting  step for any pathway  definition s at  ad libitum  feeding  (Fig. 279 
+
+3H, 0h) and after fasting (Fig. 3H, 16h) . TRC reactions both at  ad libitum  feeding  and after 280 
+
+fasting included GCK, PFK, CS, and  seven other  reactions,  indicating  these reactions can be 281 
+
+a rate -limiting  step  regardless of fasting levels.  The parameter  𝜂 rev  and TRC status (either 282 
+
+TRC or not) are sensitive to  Δ𝑟 𝐺 ′ variations  at a  near -equilibrium  region  (Δ𝑟 𝐺 ′ > −5283 
+
+kJ/mol ) while they are  in sensitive at a far -from -equilibrium  region  (Δ𝑟 𝐺 ′ < −10  kJ/mol ) (Fig. 284 
+
+3D). Due to this property, 15 out of 18 reactions remained either TRC (red line in Fig. 3H) 285 
+
+or non -TRC (blue line in Fig. 3H) across  at  ad libitu m feeding and after fasting in glycolysis 286 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 20 
+
+and gluconeogenesis, where only  Δ𝑟 𝐺 ′ of near -equilibrium reactions were strictly 287 
+
+maintained. This  result  suggests that fasting -induced fluctuations in metabolite 288 
+
+concentrations occur within a range that  maintain s the TRC status for most reactions. The 289 
+
+three reactions  of ALDO, PC, and PCK  were the exceptions  that did not remain TRC or non -290 
+
+TRC (gray line in Fig. 3H) , and w hether these reactions are rate -limiting or not  would  depend 291 
+
+on  fasting levels . The  reactions  maintaining  their  TRC status  described  above  remain  stable 292 
+
+across  the threshold from  𝜂 rev  = 0. 73 to 0.9 9.293 
+
+294 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 21 
+
+Gly colysis  and  gluconeogenesis  achieve  efficient  directional  switch ing  by  expending 295 
+
+large Enzyme  Costs 296 
+
+A fundamental question in biology is to understand what biological systems are  optimized 297 
+
+for . While objective  functions optimized  in  microbial metabolism —such as maximizing 298 
+
+growth or ATP production  52  and minimizing enzyme demands  42 —have been  reported,  the 299 
+
+objective function for  in vivo  mammalian metabolism  remains  completely  unknown .300 
+
+Therefore, we  examined  the optimality of metabolism in  mouse liver  from the aspect of 301 
+
+metabolite concentration s and  Δ𝑟 𝐺 ′ landscape obtained from  GLEAM .302 
+
+303 
+
+By solving the equation  of the direct binding modular rate law  (Eq.  3) with respect to the 304 
+
+enzyme amount , we obtain 305 
+
+𝐸  = 𝑣 
+
+𝑘 cat  
+
+> +
+
+𝜂 rev  
+
+> −1
+
+𝜂 sat ,s 
+
+> −1
+
+. (6)
+
+This equation shows  that  the  closer to  a reaction  is to equilibrium  (the smaller  𝜂 rev  is) , the 306 
+
+greater the enzyme amount required to achieve the same flux  𝑣 . Here w e defined Enzyme 307 
+
+Cost (EC) as the product of enzyme amount and enzyme molecular weight , and Enzyme Cost 308 
+
+Minimum (ECM)  as the theoretical  state that minimizes the total EC within the entire 309 
+
+pathway  (see Method). By comparing ECs and metabolite concentrations in  mouse liver  to 310 
+
+those in  ECM , we investigated whether mouse liver metabolism is optimized for enzyme 311 
+
+demands reduction . As with FCC calculation,  we calculated  EC using  sampling values  of 312 
+
+metabolite concentrations and  Δ𝑓 𝐺 ′∘ used in  the confidence interval calculation in  GLEAM .313 
+
+For  𝐾 m values, we  obtained  them as  geometric means of  data in the BRENDA database  51 .314 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 22 
+
+315 
+
+We calculated EC  and ECM for the reactions in glycolysis  at  ad libitum  feeding, 316 
+
+gluconeogenesis  after  16 -hour fasting, and the TCA cycle under both these conditions  (Table 317 
+
+S5).  The liver showed larger total EC  compared to ECM , with a difference between pathways .318 
+
+The liver/ECM ratio  of total EC  was on the order of 10 4 for glycolysis and gluconeogenesis, 319 
+
+but only  10 1 for the TCA cycle  (Fig. 4 A).  Additionally, we  compar ed  ECM -predicted 320 
+
+metabolite concentrations with liver metabolite concentrations  in each pathway, and found 321 
+
+typical fold errors of  10 RMSE  = 29 .79  (RMSE: root mean square error on a log 10 -scale) for 322 
+
+glycolysis and gluconeogenesis and 1 4.40  for the TCA cycle (Fig. 4 B).  The se  findings  show 323 
+
+that enzyme and metabolite  concentrations  in the liver  are not optimized for  EC , and this is 324 
+
+more evident in glycolysis and gluconeogenesis than in the TCA cycle. 325 
+
+326 
+
+To identify a key reaction  contribut ing to the large total EC of glycolysis and gluconeogenesis 327 
+
+in mouse liver , we  broke down the total EC of pathways int o ECs of  individual  reaction s328 
+
+(Table  S5). The  GAPDH:PGK  reaction in mouse liver exhibited  the highest  EC of 10 6 both 329 
+
+in glycolysis and  gluconeogenesis  (Fig. 4C),  while  EC of reactions in the TCA cycle ( e.g. ,330 
+
+SDH, ACO:IDH,  and  FH) are  at most  on the order of 10 2. The EC values of GAPDH:PGK 331 
+
+are 99% and 89% of the total EC of  glycolysis  and  gluconeogenesis , respectively, suggesting 332 
+
+that GAPDH:PGK outstandingly elevates the total EC of glycolysis and gluconeogenesis. 333 
+
+The high EC for GAPDH:PGK  both  in  glycolysis and  gluconeogenesis  is  attributed  to  two 334 
+
+factors . One factor is low substrate saturation (F ig. 4C, blue), which is given by the lower 335 
+
+substrate metabolite concentrations  (3.4×10 −3 mM  of GAP  ad libitum  feeding  and  1.3×10 −2
+
+336 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 23 
+
+mM  of 3PG after fasting) t han their respective  𝐾 m values  (1.9×10 −1 mM  for GAP and 337 
+
+3.5×10 −1 mM  for 3PG), resulting in large  𝜂 sat ,s 
+
+> −1
+
+. From  Eq.  6, a large  𝜂 sat ,s 
+
+> −1
+
+, indicating low 338 
+
+substrate  saturation,  cause s an increase in  EC to carry a certain flux.  Under th is  condition, an 339 
+
+increase in flux from higher enzyme levels is mitigated by fluctuations in metabolite 340 
+
+concentrations.  The  other  factor of t he high EC for GAPDH:PGK  is liver thermodynamics 341 
+
+(F ig. 4C, red), where t he  reaction  was  markedly  close to equilibrium ( Δ𝑟 𝐺 ′ = −0.01 kJ/mol 342 
+
+both at  ad libitum  feeding and  after  fasting) , leading to  large  𝜂 rev  
+
+> −1
+
+. When the reaction is close 343 
+
+to equilibrium, i ncreasing the enzyme abundance enhances both the forward and reverse 344 
+
+fluxes, thus limiting the net flux increase.  Thus, the elevated EC for this reaction is a result 345 
+
+of both low substrate saturation and high reaction reversibility. 346 
+
+347 
+
+The l iver glycolysis and gluconeogenesis required much larger EC than ECM, especially in 348 
+
+the midstream reversible reactions due to large  𝜂 rev  
+
+> −1
+
+values. We hypothesized that the reason 349 
+
+for this may be that the enzyme costs are  required  for  enabl ing  switching  from  glycolysis  to 350 
+
+gluconeogenesis during fasting. To assess the metabolic hurdle for directional switching  from 351 
+
+glycolysis to gluconeogenesis , we introduced the Metabolite Equilibrium Gap (MEG) as the 352 
+
+typical fold change in metabolite concentration required for  the  direction al  switching  (Table 353 
+
+S6) (see Methods). In glycolysis and gluconeogenesis, mouse liver exhibited MEG = 1.35 354 
+
+while ECM exhibited MEG = 16. 01  (Fig. 4D), suggesting that the liver achieves  directional 355 
+
+switching  from glycolysis to gluconeogenesis  with much smaller metabolite concentration 356 
+
+changes than ECM.  Unlike glycolysis and gluconeogenesis,  the TCA cycle, which does not 357 
+
+undergo direction al  switching during fasting, exhibited a larger MEG (6.85)  in the liver  than 358 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 24 
+
+that of glycolysis and gluconeogenesis. The mouse liver expends a much larger enzyme cost 359 
+
+in glycolysis and gluconeogenesis than the theoretical minimum, allowing it to achieve 360 
+
+directional switching with smaller changes in metabolite concentration. Conversely, a smaller 361 
+
+enzyme cost is expended for the TCA cycle —which does not undergo directional 362 
+
+switching —than for glycolysis and gluconeogenesis. 363 
+
+364 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 25 
+
+Robustness of  𝚫 𝒓 𝑮 ′ in  the  liver  against  obesity 365 
+
+Obesity disrupts  liver  metabolism, leading to  impaired  homeost asis  in  response  to  fasting 366  
+
+> 7,8,10
+
+and subsequent development of various diseases  9,18 –20 . Recent stud ies  have  repo rted 367 
+
+that  the  obesity -associated  dysregulation  of  liver  metabolism  occurs  even  at  ad libitum 368 
+
+feeding  11,12 . To  reveal  the impact of obesity -induced metabolic disruption on the 369 
+
+thermodynamic characteristics of reactions, we calculated  Δ𝑟 𝐺 ′ in the  ob /ob  mouse  liver 370 
+
+during fasting. 371 
+
+372 
+
+The  Δ𝑟 𝐺 ′ landscape in  ob /ob  mouse liver (Fig. 5A ; Table  S2)  showed  that  the difference in 373 
+
+Δ𝑟 𝐺 ′ from  WT mouse liver was less than 5 kJ/mol for most  reactions  both at  ad libitum 374 
+
+feeding and after 16 -hour fasting  (Fig. 5B,  C,  S3 ). Consequently , the overall trend of 375 
+
+irreversible reactions being far from equilibrium  ( Δ𝑟 𝐺 ′ < −10  kJ /mol  ) and reversible 376 
+
+reactions being near equilibrium  (Δ𝑟 𝐺 ′ > −5 kJ /mol ) was preserved even under obesity.  The 377 
+
+similar  Δ𝑟 𝐺 ′ values between WT and  ob /ob  mouse  indicate that the concentration ratios of 378 
+
+substrates and products  for the reactions  are comparable between  the  genotype s. Individual 379 
+
+metabolite concentrations  (Table  S2 ), h owever, showed  discrepancies  between WT and  ob /ob 380 
+
+mouse liver  (Fig.  5D) , with  log2 fold change  ex ceeding  0.5  for  16/ 31 and 13/31 metabolite 381 
+
+concentrations  at  ad libitum  feeding  and  after 16 -hour fasting , respectively . This result 382 
+
+suggests that the thermodynamic characteristics of reactions remain  robust  against obesity 383 
+
+despite  the changes in individual concentrations.  Particularly, in  most reversible reactions of 384 
+
+glycolysis and gluconeogenesis, the differences in  Δ𝑓 𝐺 ′ between WT and  ob /ob  mouse  were 385 
+
+not reflected in  the differences in  Δ𝑟 𝐺 ′ (Fig. 5 E). This result prominently  demonstrates  that 386 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 26 
+
+the reaction thermodynamic characteristics are robust to obesity while the individual 387 
+
+metabolite concentrations are sensitive .388 
+
+389 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 27 
+
+DISCUSSION 390 
+
+We  revealed  the  Δ𝑟 𝐺 ′ landscape  of glucose metabolism  in  in vivo  mouse liver  for the first 391 
+
+time  from fasting time -series absolute quantitative metabolome data  using  the  newly 392 
+
+developed  GLEAM . In mouse liver, overall  trend of  Δ𝑟 𝐺 ′ landscape  was  maintained 393 
+
+regardless of fasting level  (Fig. 1 B, C). The  Δ𝑟 𝐺 ′ maintenance  was  markedly strict  in near -394 
+
+equilibrium reactions  in glycolysis and gluconeogenesis  such as GAPDH:PGK  (Fig. 2B ),395 
+
+despite large fluctuations  in  metabolite concentration s (Fig.  1D,  2C ), while this  strictness  was 396 
+
+not true for  the other  reactions  such as  GCK . In the TCA cycle,  overall  Δ𝑟 𝐺 ′ variations  were 397 
+
+small due to minimal metabolite concentration fluctuations during fasting  (Fig. 2B, C) . This 398 
+
+thermodynamic robustness against fasting led to  maintenance  of  the  reactions that could have 399 
+
+large FCC  i.e. , TRC  during fasting  (Fig. 3H)  because  FCC  is  sensitive  to  Δ𝑟 𝐺 ′ variation 400 
+
+only in the near -equilibrium region . T he thermodynamic landscape in  the liver  could  also 401 
+
+contribute to an efficient  switching  from  glycolysis  to  gluconeogenesis  by expending a large r402 
+
+enzyme  expression  than  that  theoretically minimized  (Fig. 4 A to  D). We also found  similar 403 
+
+Δ𝑟 𝐺 ′ landscapes between WT and  ob /ob  mouse  (Fig. 5A to  C), while  metabolite 404 
+
+concentrations  were quite different  (Fig.  5D). Our results revealed  that  the liver  robustly 405 
+
+maintains  Δ𝑟 𝐺 ′ landscapes  favorable  for metabolic  control  in  contrast to  fluctuations in 406 
+
+individual metabolite concentrations  caused by fasting and obesity .407 
+
+408 
+
+Met hods for estimating thermodynamically consistent metabolite concentrations,  Δ𝑓 𝐺 ′∘, and 409 
+
+Δ𝑟 𝐺 ′ from absolute quantitative metabolome data have been  proposed  in previous studies 410 
+
+> 26,27,53
+
+. In these methods,  Δ𝑓 𝐺 ′∘ values  were  fixed  to  the  inputs  of the  model,  or  estimated 411 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 28 
+
+without considering  the  covariance . However, metabolites sharing  common chemical  groups ,412 
+
+such as ADP and ATP,  tend to exhibit similar  Δ𝑓 𝐺 ′∘ values , because  Δ𝑓 𝐺 ′∘ depends on 413 
+
+str ucture s of metabolite s. Incorporating covariance information into the estimation thus 414 
+
+better reflects the underlying chemical relationships between metabolites  and  allows for 415 
+
+narrower confidence intervals in the estimated values  54 . By leveraging  the  covariance  matrix 416 
+
+of  Δ𝑓 𝐺 ′∘ from eQuilibrator  55 , GLEAM  achieves more  precise  and consistent estimat ion  of 417 
+
+thermodynamic characteristics  throughout  the entire metabolic network. 418 
+
+419 
+
+Our study narrowed down the  reactions that could achieve large FCC in the pathways , i.e. ,420 
+
+candidate s for  a rete -limiting step  using the  obtained  Δ𝑟 𝐺 ′ landscape in mouse liver  (Fig. 421 
+
+3E  to G, S 2).  A previous stud y experimentally measured FCC in glycolysis in  iBMK cells ,422 
+
+and  reactions  exhibiting large  FCC s are  hexokinase (HK), which catalyzes the same reaction 423 
+
+as GCK, and PFK  56 . Another  pr evious  stud y exhibited  PC  having  dominant FCC  in 424 
+
+gluconeogenesis in rat liver  57,58 . Although no studies have measured FCC in the TCA cycle 425 
+
+to  our knowledge , CS , IDH , and OGDH have  conventionally  been  regarded as  rate -limiting 426 
+
+steps.  All these reactions  are included  in  the  TRCs  in this study , supporting the validity of 427 
+
+our  Δ𝑟 𝐺 ′ estimation  even though  this study focuses on m ouse  liver metabolism . While  one 428 
+
+study  based  on standard -state calculation has indirectly showed the connection between 429 
+
+reactions away from  equilibrium  and driver nodes to control the entire ne twork defined using 430 
+
+control theory  in terms of  topological features  59 , the functional advantage  of controlling 431 
+
+pathway flux via these reactions  remains unclear  and is  an  important future topic  for 432 
+
+understanding system -level  metabolic regulation .433 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 29 
+
+434 
+
+When calculating EC , we made two assumptions:  having  common  turnover number,  𝑘 cat 435 
+
+values  for all reactions and setting saturation  (𝑐 /𝐾 m) to the geometric mean of the pathway 436 
+
+when  𝐾 m could not be obtained  from BRENDA . These assumptions were required because 437 
+
+of  the difficulty of obtaining kinetic parameters in mammals . The former assumption may 438 
+
+cause inaccurate weighting of  individual enzymes  in  the total EC  minimization,  and  the latter 439 
+
+may  lead to  inaccurate  𝜂 sat ,s 
+
+> −1
+
+. However,  the  metabolite concentrations  close to ECM  were 440 
+
+reported  with a modeling  wh ere  𝑘 cat  and  𝐾 m information  was  lacking  and only the 441 
+
+influence of  𝜂 rev  
+
+> −1
+
+was  considered  42 . This means that the  Δ𝑟 𝐺 ′ landscape  in ECM  would be 442 
+
+similar  under any  𝑘 cat  and  𝐾 m values . Therefore,  our conclusion  of  mouse liver 443 
+
+metabolism  not being optimized for enzyme cost reduction  would be  reasonable  regardless 444 
+
+of  𝑘 cat  and  𝐾 m assumptions .445 
+
+446 
+
+According to  Eq.  23 , 24 , 30  to  35 , and 3 8, the design of  Δ𝑟 𝐺 ′ landscape faces  a trade -off 447 
+
+between FCC concentration  and  enzyme cost minimization.  If  only  a few  reactions  in a 448 
+
+metabolic pathway  are far from  equilibrium  and  exhibit  𝜂 rev  close to  1, large  FCCs  are 449 
+
+likely to be  concentrated  in  these  reactions . In this case,  𝜂 rev  of other reactions are close to 450 
+
+zero, leading to  a large EC . This  trade -off can be rephrased as a trade -off between flexibility 451 
+
+responding to multiple  condition s and  survival cost reduction under a single  condition 452 
+
+because  the  pathway  flux can be efficiently regulated through  a minimal  number of enzyme 453 
+
+activity changes  when  FCCs  are  concentrat ed  in  limited  reactions . A similar  trade -off also 454 
+
+occurs between MEG reduction and  enzyme cost minimization . In  mouse liver, particularly 455 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 30 
+
+in glycolysis and gluconeogenesis, reactions that could achieve high FCC were concentrated 456 
+
+in a few  reactions  (Fig. 3E  to  G, S 2), and MEG was remarkably small ( Fig. 4D ), while  there 457 
+
+were large deviations  between mouse liver  and  ECM in total EC and metabolite 458 
+
+concentrations (Fig. 4A, B). Th ese results indicate  that metaboli c regulation  in  mouse liver 459 
+
+adopts a strategy of flexibly responding to changes in environmental and physiological 460 
+
+conditions rather than  optimizing  for  a certain condition . In contrast,  the  previous stud y in  E. 461 
+
+coli  showed that both enzyme concentrations and metabolite concentrations are well 462 
+
+predicted by E CM  within a typical fold error range of  10 0 42  (Fig. S 3). Taken together, these 463 
+
+facts  suggest differences  in metaboli c regulation  strategies between cell types ; mouse liver 464 
+
+expen ds  costs to perform  flexible  metabolic regulation , while  E. coli  optimized  survival cost 465 
+
+in a  certain  condition.  Furthermore,  our  study  also showed that this difference in metabolic 466 
+
+regulation strategy  may also  exist  between pathways  by demonstrating  the large differences 467 
+
+in TRC proportions and total EC optimality between glycolysis  and  gluconeogenesis , and the 468 
+
+TCA cyc le.  Note th at although glycolysis in mouse liver and  E. coli  shared a common 469 
+
+thermodynamic tendency of reversible reactions being close to equilibrium with  Δ𝑟 𝐺 ′ < −10 470 
+
+kJ/mol  (Fig.  1E), EC in them can be greatly different. As shown in  Eq.  38 and 3 9, thermoduric 471 
+
+characteristics of reactions affect EC through  𝜂 rev  
+
+> −1
+
+, which indicates  𝑣 total /𝑣 net  , where 472 
+
+𝑣 total  is the total flux of forward and backward reactions, and  𝑣 tatal  is the net flux. In  E. 473 
+
+coli , most reversible reactions exhibited  Δ𝑟 𝐺 ′ < −1 kJ/mol , contributing to reducing EC 474 
+
+with  𝜂 rev  
+
+> −1
+
+on the order of 10 0 (Fig.  S4, orange)  26,60 . In contrast, most reversible reactions in 475 
+
+mouse liver exhibited  Δ𝑟 𝐺 ′ > −0.1 kJ/mol , where  𝜂 rev  
+
+> −1
+
+rises sharply (Fig.  S4, green), 476 
+
+leading to much larger EC than  E. coli .477 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 31 
+
+478 
+
+One of the limitations  of this study is that  we assumed  hepatocyte s as a single compartment 479 
+
+and calculated  Δ𝑟 𝐺 ′ from metabolite concentrations averaged within the cell.  As glycolysis 480 
+
+operates  in  the  cytosol and the TCA cycle  operate s in mitochondria,  more  accurate  Δ𝑟 𝐺 ′
+
+481 
+
+calculation requires  concentration s in  each of these compartments. Furthermore,  localized 482 
+
+concentrations can be affected by  substrate channeling  61 . Substrate channeling is a 483 
+
+phenomenon where enzymes of consecutive reactions form complexes, allowing the product 484 
+
+of the former enzyme to be directly transferred to the active site of the latter enzyme without 485 
+
+being released into the solvent.  For reactions  involved  in substrate  channeling , Δ𝑟 𝐺 ′ is 486 
+
+dependent on  the  channeled  metabolite concentration  in  a limited  space  among  the enzymes. 487 
+
+Although substrate channeling has not yet been confirmed in living organisms,  the 488 
+
+channeling of oxaloacetate between MDH and CS has  been  indirectly  supported  by 489 
+
+experiments  62,63 , and  ALDO, TPI, and GAP  have  also  been  suggested to form complexes 490 
+
+> 64,65
+
+. Another limitation is that t he FCC calculations  were  based solely on stoichiometric 491 
+
+relationships and  did  not account for allosteric regulations  because of  the severe lack of  𝐾 i492 
+
+in mammals and  simplification  of  the  calculation . Inclusion of allosteric regulations  would 493 
+
+alter FCC values , allowing for further  narrowing down  the  reactions that  can  have  a large 494 
+
+FCC. 495 
+
+496 
+
+In conclusion, we developed  GLEAM  to estimate  Δ𝑟 𝐺 ′ in the glucose metabolism  in  mouse 497 
+
+liver  and  revealed  the  thermodynamic robust ness  against fasting and obesity.  Furthermore ,498 
+
+we suggested that  these  thermodynamic characteristics in the liver  contribute  to  efficient 499 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 32 
+
+metabolic  control in  two  ways: the  maintenance  of rate -limiting step candidates and the 500 
+
+switching  between glycolysis and gluconeogenesis with minimal metabolite fluctuations by 501 
+
+expending large enzyme expressions . This study thus provides crucial insights into the 502 
+
+principles underlying the highly flexible and robust metabolic regulation observed in 503 
+
+mammalian liver, paving the way for future investigations into therapeutic targets for 504 
+
+metabolic diseases. 505 
+
+506 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 33 
+
+RESOURCE  AVAILABILITY 507 
+
+LEAD CONTACT 508 
+
+Requests for further information and resources should be directed to and will be fulfilled by 509 
+
+the lead contact , Shinya Kuroda ( skuroda@bs.s.u -tokyo.ac.jp ). 510 
+
+511 
+
+MATERIAL AVAILABILITY 512 
+
+This study did not generate new unique reagents. 513 
+
+514 
+
+DATA AND  CODE  AVAILABILITY 515 
+
+Metabolomic data from  WT and  ob /ob  mice  in our previous studies  8,66  were  used in this 516 
+
+study. 517 
+
+518 
+
+The  information on  kinetic parameter  (Michaelis -Menten constant and turnover number) 519 
+
+distributions  used for FCC calculation , the FCC values generated in this study, and the 520 
+
+MATLAB  code for  GLEAM and the analysis of FCC and EC  are  deposited  in  GitHub 521 
+
+(https://github.com/tabekawa/Thermodynamics_MouseLiver ).  All  other  data needed to 522 
+
+evaluate the conclusions in the paper are present in the paper or the  supplement al  information .523 
+
+524 
+
+Any additional information required to reanalyze the data reported in this paper is available 525 
+
+from the lead contact upon request .526 
+
+527 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 34 
+
+ACKNOWLEDGMENTS 528 
+
+We thank our laboratory members for critically reading this manuscript. The computational 529 
+
+analysis of this work was performed in part with support of the supercomputer system of the 530 
+
+National Institute of Genetics (NIG), Research Organization of Information and Systems 531 
+
+(ROIS). 532 
+
+533 
+
+This study was supported by the Japan Society for the Promotion of Science (JSPS) 534 
+
+KAKENHI (Grant Numbers JP17H06300, JP17H06299, JP18H03979, JP21H04759, 535 
+
+JP22K17992, JP23H04946, JP23H04939)  (S.K.);  the Japan Science and Technology Agency 536 
+
+(JST) as part of CREST (JPMJCR2123, JPMJCR25T3) and as part of ASPIRE 537 
+
+(JPMJAP24B1)  (S.K.);  The Uehara Memorial Foundation  (S.K.);  AMED Grant Number 538 
+
+JP21zf0127001 (T.S.) ; JST, CREST Grant Number JPMJCR2123 (T.S.) ; MEXT KAKENHI 539 
+
+Grant Number JP23H04946  (T.S.) ; World Premier International Research Center Initiative 540 
+
+(WPI), Human Biology -Microbiome -Quantum Research Center (Bio2Q), MEXT, Japan 541 
+
+(T.S.) ; JSPS KAKENHI  JP24K11417  (A.H.);  and the FOREST Program of the Japan Science 542 
+
+and Technology  Agency (JPMJFR2052)  (A.H.) .543 
+
+544 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 35 
+
+AUTHOR CONTRIBUTIONS 545 
+
+Conceptualization:  T.A., S .O., and  S.K.546 
+
+Methodology:  T.A., S .O., A .H., and  T.S.547 
+
+Investigation:  T.A., A .H., and  T.S.548 
+
+Visualization:  T.A.549 
+
+Funding acquisition:  A.H., T .S., and  S.K.550 
+
+Project administration:  S.K.551 
+
+Supervision: S .K.552 
+
+Writing  – original draft:  T.A., S .O., and  S.K.553 
+
+Writing  – review & editing:  T.A., S .O., A .H., T .S., and  S.K.554 
+
+555 
+
+DECLARATION OF INTERESTS 556 
+
+The authors declare no competing interests. 557 
+
+558 
+
+DECLARATION OF GENERATIVE AI AND AI -ASSISTED TECHNOLOGIES 559 
+
+During the preparation of this work, the authors used  ChatGPT, DeepL, and Claude  in order 560 
+
+improve the readability and language of the manuscript.  After using th ese  tool s, the authors 561 
+
+reviewed and edited the content as needed and take full responsibility for the content of the 562 
+
+publication. 563 
+
+564 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 36 
+
+STAR M ETHODS 565 
+
+EXPERIMENTAL MODEL AND  PARTICIPANT  DETAILS 566 
+
+Metabolomic data from  WT and  ob /ob  mice  in our previous studies  8,66  were  used in this 567 
+
+study. 568 
+
+569 
+
+METHOD  DETAILS 570 
+
+Metabolic  network  for  glucose  metabolism in  mice 571 
+
+A metabolic network  for  glucose metabolism in mice  was constructed t o calculate  Δ𝑟 𝐺 ′. Th e572 
+
+network consist s of  total  55 reactions and 80 metabolites  in the  liver, muscle, and blood ( the 573 
+
+same  reactions and metabolites in different compartments were counted as distinct  ones ), and 574 
+
+involves  glycolysis , gluconeogenesis,  TCA cycle, glycogen metabolism, alanine metabolism, 575 
+
+and transporters  (Fig. S 5, Table  S3 ).  Among  the 55  reactions,  we defined 23 reversible 576 
+
+reactions and 32 irreversible  reactions based on the  tissue -specific genome -scale metabolic 577 
+
+network  67 . All  the transporters were defined as reversible reactions. 578 
+
+579 
+
+Reversible reactions  GAPDH and PGK  were combined into  a single  reversible  reactio n580 
+
+GAPDH:PGK  because  1,3 -bisphosphoglycerate  was  not measured in the metabolomic data 581 
+
+> 8
+
+. According to the experimentally  measured  metabolite  concentrations , a  reversible reaction 582 
+
+ACO proceeded in the reverse direction of the oxidative TCA cycle with a little 583 
+
+thermodynamic driving force at all the  time points  in WT and  ob /ob  mice , breaking  a584 
+
+sequential pathway from CS to FH.  Since this long sequential pathway is  necessary  for the 585 
+
+downstream  analysis , such as FCC and MEC calculation , we  summed  ACO and  irreversible 586 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 37 
+
+reaction, IDH, which have a large thermodynamic driving force in the direction of the 587 
+
+oxidative  TCA  cycle , as a  single  irreversible  reactio n,  ACO:IDH .588 
+
+589 
+
+In the  skeletal  muscle,  FBP, G6PC, and PCK in gluconeogenesis  were  not  include d in the 590 
+
+metabolic network . Although PC is also involved in gluconeogenesis, PC is included in the 591 
+
+metabolic network of  skeletal  muscle because we could not exclude the possibility of its 592 
+
+expression in  the  skeletal  muscle  68,69 .593 
+
+594 
+
+In this study,  we  assumed  the liver and skeletal  muscle  as a single  compartment  of 595 
+
+hepatocytes and myocytes, respectively , and  cytosolic and mitochondrial compartments  in 596 
+
+these cells  were  not considered for simplification of the modeling.  Therefore, the  Δ𝑟 𝐺 ′
+
+597 
+
+calculated  in this study  represent s the  average  values within  the  cells. 598 
+
+599 
+
+Algorithm of GLEAM 600 
+
+We developed  GLEAM  as a method  to  estimate  complete set of  thermodynamically 601 
+
+consistent  metabolite concentrations  and  Δ𝑓 𝐺 ′∘ values, from metabolomic data on a 602 
+
+logarithmic scale,  𝐥𝐧  𝒄  ∈ ℝ𝑚 ×ℎ×𝑔  , and  Δ𝑓 𝐺 ′∘ data  calculated by the component 603 
+
+contribution method  70 , 𝚫 𝒇 𝑮 ′∘ ∈ ℝ𝑚  , where  m, h, g are the number of metabolites, 604 
+
+timepoints, and genotypes, respectively.  Since metabolom ic  and  Δ𝑓 𝐺 ′∘ data contain 605 
+
+uncertainties  and missing  values, directly substituting the m into the definition equation of 606 
+
+Δ𝑟 𝐺 ′ (Eq. 1, 2)  often violates the second law of thermodynamics. To address  this issue ,607 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 38 
+
+GLEAM c orrects  for  the  uncertaint ies  and missing values  by c alculate the most plausible 608 
+
+value s based on  measured metabolomic  data within  a thermodynamically feasible  space. 609 
+
+610 
+
+We first formulate  the  quadratic programming problem to minimize the d epartures  of 611 
+
+estimated  metabolite concentrations and  Δ𝑓 𝐺 ′∘ from the  experimental  and database  values 612 
+
+under thermodynamic and physiological constraints: 613 
+
+min   
+
+> 𝑦 ∈{ln 𝑐 ,Δ𝑓 𝐺 ′∘},𝑎
+
+𝑍 QP 
+
+= ∑ 1
+
+#𝑦 exp  {(𝒚  + 𝒂  − 𝒚 𝐞𝐱𝐩 )T𝚺 (𝒚 ) 
+
+> −1
+
+(𝒚  + 𝒂  − 𝒚 𝐞𝐱𝐩 ) + ∑ 𝜆  |(𝑷 𝒊 )T𝒂 
+
+√𝐷 𝑖𝑖 
+
+|
+
+> 𝑖
+
+}
+
+> 𝑦
+
+s. t. ∆𝑟 𝐺 𝑗  
+
+> ′
+
+< 0 ∀𝑖  ∈ 𝑀 , ∀𝑗  ∈ 𝑁 
+
+∆𝑟 𝐺 𝑗  
+
+> ′
+
+= ∑ 𝑆 𝑖 ,𝑗 (∆𝑓 𝐺 𝑖  
+
+> ′∘
+
++ 𝑅𝑇  ln  𝑐 𝑖 )
+
+> 𝑖 ∈𝑀
+
+∀𝑗  ∈ 𝑁 cell 
+
+Δ𝑟 𝐺 GLUT  
+
+> ′
+
+= 𝑅𝑇  ln  [Glu [h]]
+
+[Glu [b]]
+
+Δ𝑟 𝐺 MCT  
+
+> ′
+
+= 𝑅𝑇  ln  [H+[b]][Lac [b]]
+
+[H+[h]][Lac [h]]
+
+𝑏 𝑖  ≤ ln  𝑐 𝑖  ≤ 𝑢 𝑏 𝑖  ∀𝑖  ∈ 𝑀 
+
+𝑏 𝑖  ≤ ln  𝑐 𝑖 1
+
+𝑐 𝑖 2
+
+≤ 𝑢 𝑏 𝑖  ∀(𝑖 1, 𝑖 2) ∈ 𝑀 cofactor 
+
+(7)
+
+where  𝑐 𝑖  is concentration of metabolite  i, 𝑆 𝑖𝑗  is  stoichiometric coefficient  of metabolite  i614 
+
+in reaction  j, 𝑅  is gas constant, and  𝑇  is  temperature . 𝑀  , 𝑁  , and  𝑁 cell  are  sets of 615 
+
+metaboli tes, reactions , and  intracellular reactions , respectively.  𝑀 cofactor  is the cofactor 616 
+
+pairs of which the ratio was constrained.  𝚺  is variance -covariance matrix  of which the  eigen 617 
+
+decomposition  is  𝚺  = 𝐏𝐃𝐏 T. 𝑎  is  systematic error,  and  𝜆  is  regularization parameter . The 618 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 39 
+
+superscript  exp  means  measured or  database value . The first term in curly brackets of the 619 
+
+objective function represents the  variance and covariance -weighted  residuals of  estimated 620 
+
+metabolite concentrations  and  Δ𝑓 𝐺 ′∘, which  considers  systematic errors from experimental 621 
+
+operations, while the second term  represents  a regularization term for systematic errors to 622 
+
+avoid overfitting. By using the  covarianc es in  Δ𝑓 𝐺 ′∘ for the weight of  residuals,  the 623 
+
+estimation reflects the  correlations in  Δ𝑓 𝐺 ′∘ due to shared chemical groups.  In contrast , all 624 
+
+covariances  between metabolite concentrations were  set to zero, making  𝚺  a diagonal 625 
+
+matrix , since no  prior  correlation  in metabolite concentrations  is expected .626 
+
+627 
+
+The  solution  of  th e optimization  problem  (7) may not provide unique concentrations ,628 
+
+especially for unmeasured metabolites , which can lead  to  undetermined  Δ𝑟 𝐺 ′ of  the 629 
+
+reactions  involving the unmeasured metabolites . To estimate  unique  Δ𝑟 𝐺 ′, two terms  with 630 
+
+variance of unmeasured metabolite concentrations were added  to the objective function :631 
+
+𝑍 QP _ unique (𝑦 , 𝑎 ) = ∑ 1
+
+#𝑦 exp  {(𝒚  + 𝒂  − 𝒚 𝐞𝐱𝐩 )T𝚺 (𝒚 ) 
+
+> −1
+
+(𝒚  + 𝒂  − 𝒚 𝐞𝐱𝐩 ) + ∑ 𝜆  |(𝑷 𝒊 )T𝒂 
+
+√𝐷 𝑖𝑖 
+
+|
+
+> 𝑖
+
+}
+
+> 𝑦
+
++ 𝜖 1 ∑ 1
+
+(ℎ2 − ℎ1) ∑ (ln  𝑐 𝑖 ,ℎ2 − ln  𝑐 𝑖 ,ℎ1 )2
+
+> 𝑖 ∈𝑀 unmeasured (ℎ1,ℎ2)∈𝐻 adj
+
++ 𝜖 2 ∑ (ln  𝑐 𝑖  − ln  𝑐 𝑖 ̂ )2
+
+> 𝑖 ∈𝑀 unmeasured
+
+(8) 
+
+where  𝐻 adj  is  pair s of adjacent timepoints,  𝑀 unmeasured  is  unmeasured metabolites,  ln  𝑐 ̂632 
+
+is  median of upper and lower bounds of metabolite concentration , and  𝜖 1 is  small  value s633 
+
+enough to prioritize the first term over the second term.  Similarly,  𝜖 2 (𝜖 1 ≫ 𝜖 2) allows the 634 
+
+second term to take precedence over  the  third term.  The second term  of the objective function 635 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 40 
+
+(the first additional term)  reduces the sum of concentration changes of unmeasured 636 
+
+metabolites across time points, making smooth concentration changes more likely to be 637 
+
+estimated than unnatural  repetition  of  increases  and  decreases. The third term  of the objective 638 
+
+function (the second additional term)  departure s of  the estimated unmeasured  metabolite 639 
+
+concentrations  from  the median of the ir  upper and lower bounds. This term can be justified 640 
+
+by the trade -off  in  increasing  concentrations  between  elevation of  enzyme efficiency and 641 
+
+cellular burden from osmotic pressure and toxicity  40,71 . S ince the  objective function  includes 642 
+
+terms with greatly different orders of magnitude due to  𝜖  ∈ {𝜖 1, 𝜖 2}, it has difficulty in 643 
+
+optimiz ed at once . Therefore, in implementation, we first  solve the optimization problem 644 
+
+only  for  the first term,  then, with  the  measured metabolite  concentrations  and  Δ𝑓 𝐺 ′∘ fixed 645 
+
+to the  obtained  solutions, and then solve the optimization problem for  the second and third 646 
+
+terms. 647 
+
+648 
+
+Metabolic networks can include reversible reactions and their directions are  unknown  under 649 
+
+a condition of interest. By introducing binary variables representing reaction, GLEAM model 650 
+
+is finally  formalized  by the following mixed integer quadratic programming  problem: 651 
+
+652 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 41 
+
+min 
+
+𝑦 ∈{ln  𝑐 ,Δ𝑓 𝐺 ′∘},𝑎 ,𝑣 ,𝑑  𝑍 MIQP 
+
+= ∑ 1
+
+#𝑦 exp  {(𝒚  + 𝒂  − 𝒚 𝐞𝐱𝐩 )T𝚺 (𝒚 )
+
+−1 (𝒚  + 𝒂  − 𝒚 𝐞𝐱𝐩 ) + ∑ 𝜆  |(𝑷 𝒊 )T𝒂 
+
+√𝐷 𝑖𝑖 
+
+|
+
+𝑖 
+
+}
+
+𝑦 
+
++ 𝜖 1 ∑ 1
+
+(ℎ2 − ℎ1) ∑ (ln  𝑐 𝑖 ,ℎ2 − ln  𝑐 𝑖 ,ℎ1 )2
+
+𝑖 ∈𝑀 unmeasured (ℎ1,ℎ2)∈𝐻 adj 
+
++ 𝜖 2 ∑ (ln  𝑐 𝑖  − ln  𝑐 𝑖 ̂ )2
+
+𝑖 ∈𝑀 unmeasured 
+
+s. t. 𝑑 𝑗  ⋅ ∆𝑟 𝐺 𝑗 
+
+′ < 0 ∀𝑖  ∈ 𝑀 , ∀𝑗  ∈ 𝑁 
+
+∆𝑟 𝐺 𝑗 
+
+′ = ∑ 𝑆 𝑖 ,𝑗 (∆𝑓 𝐺 𝑖 
+
+′∘ + 𝑅𝑇  ln  𝑐 𝑖 )
+
+𝑖 ∈𝑀 
+
+< 0 ∀𝑖  ∈ 𝑀 , ∀𝑗  ∈ 𝑁 cell 
+
+Δ𝑟 𝐺 GLUT 
+
+′ = 𝑅𝑇  ln  [Glu [h]]
+
+[Glu [b]]
+
+Δ𝑟 𝐺 MCT 
+
+′ = 𝑅𝑇  ln  [H+[b]][Lac [b]]
+
+[H+[h]][Lac [h]]
+
+𝑑 𝑗  ∈ {−1,1} ∀𝑗  ∈ 𝑁 rev 
+
+𝑑 𝑗  ∈ {1} ∀𝑗  ∈ 𝑁 irrev _f
+
+𝑑 𝑗  ∈ {−1} ∀𝑗  ∈ 𝑁 irrev _b
+
+𝑑 𝑗  ⋅ 𝑣 𝑗  > 0 𝑗  ∈ 𝑁 
+
+∑ 𝑆 𝑖 ,𝑗 𝑣 𝑗 
+
+𝑗 ∈𝑁 
+
+= 0 𝑖  ∈ 𝑀 steady 
+
+𝑙 𝑏 𝑖  ≤ ln  𝑐 𝑖  ≤ 𝑢 𝑏 𝑖  ∀𝑖  ∈ 𝑀 
+
+𝑙 𝑏 𝑖  ≤ ln  𝑐 𝑖 1
+
+𝑐 𝑖 2
+
+≤ 𝑢 𝑏 𝑖  ∀(𝑖 1, 𝑖 2) ∈ 𝑀 cofactor 
+
+(9)
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 42 
+
+where  𝑣 𝑗  is metabolic flux through reaction  j, 𝑑 𝑗  = {1, −1} is a binary variable 653 
+
+representing direction of reaction  j, and  𝑁 rev  is  reversible  reaction s.  𝑁 irrev _f and  𝑁 irrev _b
+
+654 
+
+are ir reversible  reaction s of which the direction is fixed to forward and backward with respect 655 
+
+to the definition of metabolic network, respectively.  𝑀 steady  is metabolite s assumed to be 656 
+
+in steady state.  To solve this  mixed integer quadratic programming  problem efficiently, 657 
+
+GLEAM  treats it as a bilevel optimization problem, where the optimization of binary 658 
+
+variables is the upper -level problem and the optimization of continuous variables is the 659 
+
+lower -level problem :660 
+
+min  
+
+> 𝑑
+
+𝑍 MIQP  (𝑦 ∗, 𝑎 ∗, 𝑣 ∗, 𝑑 )
+
+s. t. 𝑦 ∗, 𝑎 ∗, 𝑣 ∗ ∈ arg  min  
+
+> 𝑦 ,𝑎 ,𝑣
+
+𝑍 MIQP (𝑦 , 𝑎 , 𝑣 , 𝑑 )
+
+𝑦 , 𝑎 , 𝑣 , 𝑑  ∈ ΩGLEAM 
+
+(10) 
+
+where  ΩGLEAM  is  the  solution space defined in the problem (9).  In the  bilevel optimization 661 
+
+problem , binary variables are optimized by a genetic algorithm,  while  continuous variables 662 
+
+are optimized by the interior -point method  under  the  individuals of  binary  variables ( Fig.  S6). 663 
+
+The genetic algorithm was performed by the MATLAB function ga with termination 664 
+
+condition of  FunctionTolerance =  10 -9 and population size of  PopulationSize = 500 . The 665 
+
+lower -level quadratic programming problem was  solved using Gurobi  72  MATLAB API with 666 
+
+dual feasibility tolerance of OptimalityTol = 10 -9 and primal feasibility tolerance of 667 
+
+FeasibilityTol = 10 -9. Th is  bilevel optimization was performed 10 times from random initial 668 
+
+values, and the solution with the minimum objective function value was  selected  as the 669 
+
+optimal solution. 670 
+
+671 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 43 
+
+Calculation of  confidence  intervals 672 
+
+The c onfidence intervals  of the estimation by GLEAM  were calculated using  parametric 673 
+
+bootstrap sampling  of  metabolite concentrations and  Δ𝑓 𝐺 ′∘. These  data were  first  resampled 674 
+
+by adding perturbation based on the  variance and  residual of each metabolite concentration 675 
+
+and  Δ𝑓 𝐺 ′∘ in the  Δ𝑟 𝐺 ′ estimat ion by  Eq.  9 using  the  experimental  and database  values  27,73 .676 
+
+To  generate  Δ𝑓 𝐺 ′∘ samples reflecting  the ir  covariance,  the perturbations  were applied after 677 
+
+the  basis  of  Δ𝑓 𝐺 ′∘ vector was  transform ed by transposed matrix of the eigenvectors of the 678 
+
+variance -covariance matrix: 679 
+
+ln  𝑐 𝑖  
+
+> 𝑏
+
+= ln  𝑐 𝑖  
+
+> exp
+
++ 𝜎 𝑖 𝛿 𝑖 
+
+> 𝑏
+
+, ∀𝑏  ∈ 𝐵 , (11 )
+
+(𝑷 (∆𝒇 𝑮 ′∘)𝒊 )T
+
+𝚫 𝒇 𝑮 ′𝒐 ,𝒃  = (𝑷 (∆𝒇 𝑮 ′∘)𝒊 )T
+
+𝚫 𝒇 𝑮 ′𝒐 ,𝐞𝐱𝐩  + √𝐷 (∆𝑓 𝐺 ′𝑜 )𝑖𝑖 𝛿 𝑖 
+
+> 𝑏
+
+, (12 )
+
+𝚺 (𝒚 ) 
+
+> 𝒃
+
+= 𝚺 (𝒚 ), (13 )
+
+𝛿 𝑖 
+
+> 𝑏
+
+~𝒩 (0, (𝑠 𝑑 ∗)2), (14 )
+
+𝑠 𝑑 ∗ = √ 1
+
+#𝑦 exp  − 1 ∑ ((𝑷 (𝒚 )𝒊 )T𝒚 ∗ + (𝑷 (𝒚 )𝒊 )T𝒂 ∗ − (𝑷 (𝒚 )𝒊 )T𝒚 𝐞𝐱𝐩 
+
+√𝐷 (𝑦 )𝑖𝑖 
+
+− 𝑒𝑟 𝑟 ∗)
+
+> 2
+> 𝑖
+
+, (15 )
+
+𝑒𝑟 𝑟 ∗ = 1
+
+#𝑦 exp  (𝒚 ∗ + 𝒂 ∗ − 𝒚 𝐞𝐱𝐩 )T𝚺 (𝒚 ) 
+
+> −1
+
+(𝒚 ∗ + 𝒂 ∗ − 𝒚 𝐞𝐱𝐩 ) (16 )
+
+where  𝑏  is  the  indices  of bootstrap samples  𝐵 , ∗ represents the optimized values by  Eq.  9680 
+
+using  the  experimental  and database values.  𝛿  is  gaussian  noise generated from the normal 681 
+
+distribution with mean 0 and standard  deviation  𝑠 𝑑 ∗, which represents the standard deviation 682 
+
+of  metabolite concentration and  Δ𝑓 𝐺 ′∘ residuals in the  Δ𝑟 𝐺 ′ estimat ion  from  the 683 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 44 
+
+experimental  and database  values . Using  the  resampled  metabolite concentrations  and  Δ𝑓 𝐺 ′∘
+
+684 
+
+values , we  conducted  the estimation  of thermodynamically consistent metabolite 685 
+
+concentrations and  Δ𝑓 𝐺 ′∘ in the same manner as  the  estimation from  the  experimental  and 686 
+
+database values . In this optimization , the directions of reversible reactions were fixed to those 687 
+
+estimated from  the  experimental  and database values . Th is  resampling and optimization were 688 
+
+performed 2000 times . By applying  the percentile method  to the resulting  2000 sets of  the 689 
+
+estimated values, we obtained the  95% confidence intervals. 690 
+
+691 
+
+Selection  of  regularization  parameter 692 
+
+The r egularization parameter  𝜆  for systematic errors  in GLEAM  was selected  by  the 693 
+
+reduced chi -square  ( 𝜒 red  
+
+> 2
+
+). 𝜒 red  
+
+> 2
+
+was calculated using  the estimated metabolite 694 
+
+concentrations and  Δ𝑓 𝐺 ′∘ from resampled values  27,73 :695 
+
+𝜒 red  
+
+> 2
+
+= #𝑦 exp 𝐸𝑃𝐸 
+
+𝑑𝑓  , (17 )
+
+𝐸𝑃𝐸  = 1
+
+#𝐵  ∑ 1
+
+#𝑦 exp  (𝒚 𝒃 ∗ + 𝒂 𝒃 ∗ − 𝒚 𝐞𝐱𝐩 )T𝚺 (𝒚 ) 
+
+> −1
+
+(𝒚 𝒃 ∗ + 𝒂 𝒃 ∗ − 𝒚 𝐞𝐱𝐩 )
+
+> 𝑏 ∈𝐵
+
+, (18 )
+
+𝑑𝑓  = #𝑦 exp 
+
+2𝑠 𝑑 ∗ (𝐸𝑃𝐸  − 𝑒𝑟 𝑟 ∗) (19 )
+
+where  𝑏  ∗ represents the optimized values calculated from the resampled values. T he model 696 
+
+is interpreted as fitting  the data  ideally  when  𝜒 red  
+
+> 2
+
+= 1,  as  overfitt ing  when  𝜒 red  
+
+> 2
+
+< 1 , and 697 
+
+as  poorly fitting  when  𝜒 red  
+
+> 2
+
+> 1. In this study,  𝜒 red  
+
+> 2
+
+= 1.03 when  𝜆  = 1.51 , and therefore  it 698 
+
+was  selected as the  best regularization  parameter. 699 
+
+700 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 45 
+
+Application of  GLEAM  to mice data 701 
+
+We applied  GLEAM  to  absolute  quantitative  metabolome data  in the liver,  skeletal  muscle ,702 
+
+and plasma from WT and  ob /ob  mice (n = 5)  after  0, 2, 4, 6, 8, 12, and 16  hours of fasting 703 
+
+(Table  S1), which were  measured  in our  previous  studies  8,66 . We used the  logarithmic  mean 704 
+
+and variance of  the  metabolites, which  were  successful ly measured  in three or more samples 705 
+
+per condition, and metabolites with two or fewer measured samples were treated as 706 
+
+unmeasured metabolites.  The cofactors ATP, ADP, GTP, GDP, NAD +, NADH, FAD,  FADH2, 707 
+
+NADP +, and NADPH were treated as unmeasured metabolites  regardless of the number of 708 
+
+measured samples due to sample degradation, and instead, their ratios were constrained by 709 
+
+previous reports (Table S 7). Intracellular  lactate was also treated as an unmeasured 710 
+
+metabolite in the same manner as the cofactors because it might leach out of the  container 711 
+
+during  measurement . The upper and lower bounds for many metabolites in GLEAM were set 712 
+
+to  a physiologically  typical  range of  intracellular  metabolite concentration (lower bound: 10 -
+
+713  
+
+> 7
+
+M, upper bound: 10 -2 M)  26 , while the bounds for  some  unmeasured metabolites were 714 
+
+individually defined based on biological  knowledge  (Table S 7). 715 
+
+716 
+
+Δ𝑓 𝐺 ′∘ data calculated by the component contribution method  70  were  retrieved  from 717 
+
+eQuilibrator  database ( Table  S1)  55 . We used  the  identical  Δ𝑓 𝐺 ′∘ data  for both liver and 718 
+
+skeletal  muscle under the condition in eQulibrator of  pH = 7.2, pMg = 3.0, and ionic strength 719 
+
+= 0.15 M  26 . We also set the condition in blood to pH = 7.4  74  because  Δ𝑟 𝐺 ′ for MCT depends 720 
+
+on pH in the  cells  and blood. T emperature was  input  to  𝑇  = 310.15  K for all the 721 
+
+compartments .722 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 46 
+
+723 
+
+In  the liver, glycolysis  was  assumed  to be dominant  at the 0h -fasting state ( ad libitum  feeding) 724 
+
+while  gluconeogenesis  was assumed to take over after no later than  16h -fasting , both in WT 725  
+
+> 75 –79
+
+and  ob /ob  mouse  80 . A t these two timepoints, the directions of reversible reactions 726 
+
+involved  in glycolysis and gluconeogenesis (GPI, ALDO, TPI, GAPDH:PGK, PGAM, ENO, 727 
+
+PGM, GPD, LDH)  were fixed and  treated as  those of the  irreversible reactions  in the 728 
+
+calculation  of GLEAM .729 
+
+730 
+
+Since  the reaction rates are sufficiently fast er than  the temporal changes in metabolite and 731 
+
+enzyme  levels  during starvatio n, our metabolic model  was  assumed  to be  in  a pseudo -steady 732 
+
+state at each  measured  time point. This  assumption leads to mass balance  equilibrium  for  the 733 
+
+intermediate metabolites  (G6P , F6P , F1,6BP , DHAP , GAP , 3PG , 2PG , PEP , Pyruvate , AcCoA ,734 
+
+Cit , Isocit , AKG , SucCoA , Suc , Fum , Mal , OAA ) within  the  metabolic network. 735 
+
+736 
+
+Derivation  of FCC 737 
+
+We  derived  flux control  coefficient s ( FCC s)  with in glycolysis  (Fig. 3A), gluconeogenesis 738 
+
+(Fig. 3B), and the TCA cycle (Fig. 3C)  from the direct binding modular rate law  48 , whic h is 739 
+
+equivalent to the  reversible Michaelis -Menten  kinetics  81  for simple reversible uni -uni 740 
+
+reaction s,  using theorems  of Metabolic Control Analysis (MCA)  36,47 . In  the direct binding 741 
+
+modular rate law , flux can be described by the effect of the maximal rate, the thermodynami cs ,742 
+
+and  the saturation  of substrate  49 :743 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 47 
+
+𝑣  = 𝐸 𝑘 cat 
+
++ 𝜂 rev 𝜂 sat ,s, (20 )
+
+𝜂 rev  = 1 − exp  (Δ𝑟 𝐺 ′
+
+𝑅𝑇  ), (21 )
+
+𝜂 sat ,s =
+
+∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 )
+
+|𝑆 𝑖 |
+
+𝑖 ∈𝑀 s
+
+1 + ∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 )
+
+|𝑆 𝑖 |
+
+𝑖 ∈𝑀 s + ∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 )
+
+|𝑆 𝑖 |
+
+𝑖 ∈𝑀 p
+
+(22 )
+
+where  𝑀 s is substrates,  𝑀 p is products.  From  Eq.  20, we calculated the elasticity of 744 
+
+substrate  𝜖 s,𝑖 
+
+𝑣  and  product  𝜖 p,𝑖 
+
+𝑣  :745 
+
+𝜖 s,𝑖  
+
+> 𝑣
+
+= 𝜕𝑣 
+
+𝜕 𝑐 𝑖 
+
+𝑐 𝑖 
+
+𝑣  = |𝑆 𝑖 |(𝜂 rev  
+
+> −1
+
+− 𝜂 sat ,s), (23 )
+
+𝜖 p,𝑖  
+
+> 𝑣
+
+= 𝜕𝑣 
+
+𝜕 𝑐 𝑖 
+
+𝑐 i
+
+𝑣  = |𝑆 𝑖 |(1 − 𝜂 rev  
+
+> −1
+
+− 𝜂 sat ,p), (24 )
+
+𝜂 sat ,p =
+
+∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 )
+
+> |𝑆 𝑖 |
+> 𝑖 ∈𝑀 p
+
+1 + ∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 ) 
+
+> |𝑆 𝑖 |
+> 𝑖 ∈𝑀 s
+
++ ∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 )
+
+> |𝑆 𝑖 |
+> 𝑖 ∈𝑀 p
+
+. (25 )
+
+The  stoichiometric  matri ces of the pathways we analyzed here are full  rank, and each of  th eir 746 
+
+null space s is one -dimensional,  which means the  degree  of freedom of  steady -state flux is 747 
+
+one.  For these pathways , the  following  Eq.  26  and 27  hold from the connectivity theorem 748 
+
+and the  summation theorem  in MCA, respectively  50 :749 
+
+𝐂 𝐯 
+
+𝐉  𝛜 𝐜 
+
+𝐯  = 𝟎 , (26 )
+
+∑ 𝐶 𝑣 𝑗 
+
+𝐽 
+
+𝑗 
+
+= 1, (27 )
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 48 
+
+𝐂 𝐯 
+
+𝐉  =
+
+(
+
+𝐶 𝑣 1
+
+𝐽  ⋯ 𝐶 𝑣 𝑛 
+
+𝐽 
+
+⋮ ⋱ ⋮
+
+𝐶 𝑣 1
+
+𝐽  ⋯ 𝐶 𝑣 𝑛 
+
+𝐽  )
+
+, (28 )
+
+𝛜 𝐜 
+
+𝐯  =
+
+(
+
+𝜖 𝑐 1
+
+𝑣 1 ⋯ 𝜖 𝑐 𝑘 
+
+𝑣 1
+
+⋮ ⋱ ⋮
+
+𝜖 𝑐 1
+
+𝑣 𝑛  ⋯ 𝜖 𝑐 𝑘 
+
+𝑣 𝑛 
+
+)
+
+(29 )
+
+where  𝜖 𝑐 
+
+𝑣  = {𝜖 𝑠 
+
+𝑣 , 𝜖 𝑝 
+
+𝑣 }. Integrating  Eq.  23, 24, 26 , and 27, we obtained FCC as: 750 
+
+𝐶 𝑣 𝑙 
+
+𝐽  = 𝛼 𝑙 
+
+∑ 𝛼 𝑗 𝑗 
+
+, (30 )
+
+where  𝛼  for GAPDH:PGK in glycolysis is described as 751 
+
+𝛼  = ∏ (−𝜖 p
+
+𝑣 𝑗  )
+
+ALDO 
+
+𝑗 =0
+
+(𝜖 s
+
+𝑣 TPI  − 𝜖 p
+
+𝑣 TPI  ) ∏ 𝜖 s
+
+𝑣 𝑗 
+
+𝑛 +1
+
+𝑗 =𝑙 +1
+
+, (31 )
+
+𝛼  for  downstream  reactions of GAPDH:PGK in glycolysis is described as 752 
+
+𝛼  = ∏ (−𝜖 p
+
+𝑣 𝑗  )
+
+ALDO 
+
+𝑗 =0
+
+(𝜖 s
+
+𝑣 TPI  − 𝜖 p
+
+𝑣 TPI  ) ∏ (−𝜖 p
+
+𝑣 𝑙  )
+
+𝑙 −1
+
+𝑗 =GAPDH :PGK 
+
+∏ 𝜖 s
+
+𝑣 𝑗 
+
+𝑛 +1
+
+𝑗 =𝑙 +1
+
+, (32 )
+
+𝛼  for ALDO in gluconeogenesis is described as 753 
+
+𝛼  = ∏ (−𝜖 p
+
+𝑣 𝑗  )
+
+GAPDH :PGK 
+
+𝑗 =0
+
+(𝜖 s
+
+𝑣 TPI  − 𝜖 p
+
+𝑣 TPI  ) ∏ 𝜖 s
+
+𝑣 𝑗 
+
+𝑛 +1
+
+𝑗 =𝑙 +1
+
+, (33 )
+
+𝛼  for  downstream  reactions of ALDO in gluconeogenesis is described as 754 
+
+𝛼  = ∏ (−𝜖 p
+
+𝑣 𝑗  )
+
+GAPDH :PGK 
+
+𝑗 =0
+
+(𝜖 s
+
+𝑣 TPI  − 𝜖 p
+
+𝑣 TPI  ) ∏ (−𝜖 p
+
+𝑣 𝑗  )
+
+𝑙 −1
+
+𝑗 =ALDO 
+
+∏ 𝜖 s
+
+𝑣 𝑗 
+
+𝑛 +1
+
+𝑗 =𝑙 +1
+
+, (34 )
+
+𝛼  for other reactions is described as 755 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 49 
+
+𝛼 𝑙  = ∏(−𝜖 p 
+
+> 𝑣 𝑗
+
+)
+
+> 𝑙 −1
+> 𝑗 =0
+
+∏ 𝜖 s
+
+> 𝑣 𝑗
+> 𝑛 +1
+> 𝑗 =𝑙 +1
+
+. (35 )
+
+Note that reaction indices  𝑗  ∈ {1, . . . , 𝑁 } are denoted such that 1 represents the most 756 
+
+upstream reaction and N represents the most downstream reaction  in the pathway , and  𝜖 s 
+
+> 𝑣 0
+
+=757 
+
+𝜖 p 
+
+> 𝑣 0
+
+= 𝜖 s 
+
+> 𝑣 𝑛 +1
+
+= 𝜖 p 
+
+> 𝑣 𝑛 +1
+
+= 1.758 
+
+759 
+
+Metabolite concentrations and  𝚫 𝒇 𝑮 ′∘ values  used  in FCC calculation 760 
+
+We calculated  FCC s under  arbitrar y Δ𝑟 𝐺 ′ landscapes as well as under the hepatic one s. For 761 
+
+both  conditions , we used  Δ𝑓 𝐺 ′∘ values sampled for confidence interval calculation in 762 
+
+GLEAM . To generate the hepatic  Δ𝑟 𝐺 ′ landscapes, we used metabolite concentrations 763 
+
+sampled  in the  confidence interval calculation . To generate  arbitrar y Δ𝑟 𝐺 ′ landscape s, 764 
+
+logarithmic  metabolite concentrations were uniformly sampled from the  physiologically 765 
+
+reasonable solution space  Ωln  𝑐 :766 
+
+Ωln  𝑐  =
+
+{
+
+ln  𝑐  |
+
+|
+
+∆𝑟 𝐺 𝑗  
+
+> ′
+
+< 0
+
+𝑙𝑏 𝑖  ≤ ln  𝑐 𝑖  ≤ 𝑢 𝑏 𝑖 
+
+𝑙 𝑏 𝑖  = 𝑢 𝑏 𝑖  = ln  𝑐 𝑖  
+
+> 𝑏 ∗
+
+𝑖  ∈ 𝑀 blood }
+
+(36 )
+
+where  𝑀 blood  represents blood metabolites.  The uppe r and lower bounds of metabolite 767 
+
+concentrations were the same as those used in GLEAM (Table S 7).  This sampling was 768 
+
+performed 20 times for each  Δ𝑓 𝐺 ′∘ set using MATLAB function  polySampler  in the 769 
+
+Volume -and -Sampling  package  82 . Thus, we obtained 2000  × 20 = 40000  arbitrar y Δ𝑟 𝐺 ′
+
+770 
+
+landscape s in total. 771 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 50 
+
+772 
+
+𝑲 𝐦  values used in FCC calculation 773 
+
+In FCC calculation, we sampled  Michaelis -Menten constants  𝐾 m for each  Δ𝑟 𝐺 ′ landscape 774 
+
+to calculate reaction saturation level.  To sample  𝐾 m, we first retrieved  𝐾 m and  the turnover 775 
+
+number,  𝑘 cat  ∈ {𝑘 cat  
+
+> +
+
+, 𝑘 cat  
+
+> −
+
+} values for enzymes of  Mus musculus , Rattus norvegicus , Homo 776 
+
+sapiens , Bos taurus , Sus scrofa , Canis lupus familiaris , and  Mammalia  83  from BRENDA 777 
+
+database  51 . For  𝐾 m and  𝑘 cat  values from three or more data without reports of mutant 778 
+
+enzymes, we  calculated their logarithmic mean s and standard deviation s. For  𝐾 m and  𝑘 cat 779 
+
+from  fewer than three  data , we set  the  logarithmic  mean of  𝑘 cat  (/s) to 1 with  a standard 780 
+
+deviation  of  1.5, and  the  logarithmic mean of  𝐾 m (mM) to  −1 with  a standard deviation  of 781 
+
+1 84 . With the  mean s and standard  deviation s of  𝐾 m and  𝑘 cat  , we uniformly sampled 782 
+
+logarithmic  𝐾 m, 𝑘 cat  values  for each  enzyme  from the  solution  space  ΩKP :783 
+
+ΩKP ,𝑗 
+
+=
+
+{
+
+(log  𝐾 m ,
+
+log  𝑘 cat )
+
+|
+
+|
+
+|
+
+log  𝜇 𝐾 m,𝑖 ,𝑗  − 2𝜎 𝐾 m,𝑖 ,𝑗  ≤ log  𝐾 m,𝑖 ,𝑗  ≤ log  𝜇 𝐾 m,𝑖 ,𝑗  + 2𝜎 𝐾 m,𝑖 ,𝑗 
+
+log  𝜇 𝑘 cat ,𝑗  − 2𝜎 𝑘 cat ,𝑗  ≤ log  𝑘 cat ,𝑗  ≤ log  𝜇 𝑘 cat ,𝑗  + 2𝜎 𝑘 cat ,𝑗 
+
+log  𝑘 cat ,𝑗  
+
+> +
+
+− log  𝑘 cat ,𝑗  
+
+> −
+
+− ∑ lo g 𝐾 m,𝑖 ,𝑗 
+
+> |𝑆 𝑖 ,𝑗 |
+> 𝑖 ∈𝑀 s
+
++ ∑ log  𝐾 m,𝑖 ,𝑗 
+
+> |𝑆 𝑖 ,𝑗 |
+> 𝑖 ∈𝑀 p
+
+= log  𝐾 eq ,𝑗 
+
+𝐾 eq ,𝑗  = exp  (− 1
+
+𝑅𝑇  ∑ 𝑆 𝑖 ,𝑗 ∆𝑓 𝐺 𝑖 
+
+> ′∘
+> 𝑖 ∈𝑀
+
+)
+
+}
+
+,
+
+∀𝑖  ∈ 𝑀 , ∀𝑗  ∈ 𝑁 
+
+(37 )
+
+where  𝜇  is mean,  𝜎  is standard  deviation , and  𝐾 eq  is equilibrium constant.  The  third 784 
+
+constraint reflects the Haldane relationship  81 . These  samplings were performed 20 times for 785 
+
+each  Δ𝑟 𝐺 ′ landscape  using MATLAB function  polySampler  in the  Volume -and -Sampling 786 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 51 
+
+package  82 . Thus , we finally calculated FCC under the arbitrary and hepatic  Δ𝑟 𝐺 ′
+
+787 
+
+landscapes with  20 ×  20 × 2000 =  80 0000  and  20 × 2000 =  40000  sets of  metabolite 788 
+
+concentrations,  Δ𝑓 𝐺 ′∘ and  𝐾 m values, respectively. 789 
+
+790 
+
+Definitions of EC and total EC 791 
+
+By solving  the  equation of the direct binding modular rate law  (Eq.  20)  with respect to 792 
+
+enzyme amount, we can obtain  enzyme  demand  needed to carry a certain flux: 793 
+
+𝐸  = 𝑣 
+
+𝑘 cat  
+
+> +
+
+𝜂 rev  
+
+> −1
+
+𝜂 sat ,s 
+
+> −1
+
+. (38)
+
+With this equation, we  defined  Enzyme Cost (EC) as the product of  the  enzyme demand and 794 
+
+the enzyme molecular weight  w:795 
+
+EC  = 𝑤𝐸 . (39 )
+
+The enzyme molecular weights were  retrieved  from  the  UniProt database  85 . We also  defined 796 
+
+pathway ’s total EC as the sum of ECs in the pathway: 797 
+
+total  EC  = ∑ EC 𝑗 
+
+> 𝑗 ∈𝑁 pathway
+
+(40)
+
+where  𝑁 pathway  is reactions included in the pathway.  We calculated  ECs  in glycolysis  (Fig. 798 
+
+3A) , gluconeogenesis  (Fig. 3B) , and the TCA cycle  (Fig. 3C), which  were the same as those 799 
+
+used in FCC calculations , under the hepatic  Δ𝑟 𝐺 ′ landscape using metabolite concentrations 800 
+
+and  Δ𝑓 𝐺 ′∘ values sampled for confidence interval calculation in  GLEAM, and  geometric 801 
+
+mean of  𝐾 m values  from  the  BRENDA database  51  obtained in FCC calculation  (Table  S5).802 
+
+For  𝐾 m with fewer than three data  found in the BRENDA , we set the ir  𝑐 /𝐾 m values  to  the 803 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 52 
+
+geometric mean of the pathway . 𝑘 cat 
+
++ values were  assumed  to be the same within a  pathway, 804 
+
+and their effect can be ignored in this study because we only  focus ed on the relative values 805 
+
+of EC. 806 
+
+807 
+
+Minimiz ation of total EC 808 
+
+Since EC is dependent on metabolite concentrations, we  defined  Enzyme  Cost  Minimum 809 
+
+(ECM)  as a  theoretical  condition  where  total EC  is minimized with  metabolite concentrations .810 
+
+We obtained  ECM  by solving the following  non -linear  optimization problem  42 :811 
+
+min 
+
+ln  𝑐  total  EC  = ∑ EC 𝑗 
+
+𝑗 ∈𝑁 pathway 
+
+s. t. EC 𝑗  = 𝑤𝑣 𝜂 rev ,𝑗 
+
+−1 𝜂 sat ,s,𝑗 
+
+−1 , 𝑗  ∈ 𝑁 
+
+𝜂 rev ,𝑗  = 1 − exp  (Δ𝑟 𝐺 𝑗 
+
+′
+
+𝑅𝑇  )
+
+𝜂 sat ,s,𝑗  =
+
+∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 ,𝑗 
+
+)
+
+|𝑆 𝑖 ,𝑗 |
+
+𝑖 ∈𝑀 s
+
+1 + ∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 ,𝑗 )
+
+|𝑆 𝑖 ,𝑗 |
+
+𝑖 ∈𝑀 s + ∏ ( 𝑐 𝑖 
+
+𝐾 m,𝑖 ,𝑗 )
+
+|𝑆 𝑖 ,𝑗 |
+
+𝑖 ∈𝑀 p
+
+∆𝑟 𝐺 𝑗 
+
+′ = ∑ 𝑆 𝑖 ,𝑗 (∆𝑓 𝐺 𝑖 
+
+′∘,liver  + 𝑅𝑇  ln  𝑐 𝑖 )
+
+𝑖 ∈𝑀 
+
+< 0, 𝑗  ∈ 𝑁 
+
+𝑙 𝑏 𝑖  ≤ ln  𝑐 𝑖  ≤ 𝑢 𝑏 𝑖 , 𝑖  ∈ 𝑀 
+
+𝑙 𝑏 𝑖  = 𝑢 𝑏 𝑖  = ln  𝑐 𝑖 
+
+mouse  , 𝑖  ∈ 𝑀 blood 
+
+𝑙 𝑏 𝑖  = 𝑢 𝑏 𝑖  = ln  𝑐 𝑖 
+
+mouse  , 𝑖  ∈ 𝑀 terminal 
+
+ln  𝑐 𝑖 1
+
+𝑐 𝑖 2
+
+= (ln  𝑐 𝑖 1
+
+𝑐 𝑖 2
+
+)
+
+mouse 
+
+, ∀(𝑖 1, 𝑖 2) ∈ 𝑀 cofactor .
+
+(41)
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 53 
+
+w and  v are  normalized by the minimum molecular weight and  flux , respectively.  The  relative 812 
+
+flux values for a pathway we  analyzed  were unique because  the  degree  of freedom of these 813 
+
+pathways ’ steady flux is 1.  ln  𝑐 mouse  represents  metabolite  concentration  in mouse  i.e. ,814 
+
+ln  𝑐 ∗ and  ln  𝑐 𝑏 ∗ . 𝑀 blood  represents blood metabolites , and  𝑀 terminal  represents 815 
+
+intracellular  metabolite s at the termini of each pathway: Glucose and Pyr for glycolysis and 816 
+
+gluconeogenesis, and AcCoA, OAA, and Mal for the TCA cycle. By fixing these 817 
+
+concentrations  and  cofactor  ratios to  those in  mouse liver, the total Gibbs free energy change 818 
+
+across the entire pathway in ECM is consistent with that  in  the  mouse liver . ECM was 819 
+
+calculated by MATLAB function  fmincon  with termination  tolerance  on the first -order 820 
+
+optimality of  OptimalityTolerance  = 10 -7, tolerance  on the constraint violation of 821 
+
+ConstraintTolerance  = 10 -9, maximum number of function  evaluations  of 822 
+
+MaxFunctionEvaluations  = 1000000 , and maximum number of iterations of  MaxIterations  =823 
+
+100000 . The  optimization  was performed 100 times for a single problem , and the solution 824 
+
+minimizing the objective function was selected as ECM. 825 
+
+826 
+
+Calculation  of MEG 827 
+
+To quantify  the  efficiency  of  metabolic  switching  in terms of metabolite  concentration 828 
+
+change s, we defined the  Metabolite Equilibrium Gap (MEG)  as the minimum concentration 829 
+
+changes  required to reverse the direction of metabolism: 830 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 54 
+
+MEG  = exp  𝐴 
+
+𝐴  = min   
+
+> ln 𝑐
+
+√ 1
+
+#𝑀  ∑(ln  𝑐 𝑖  − ln  𝑐 𝑖 
+
+> sys
+
+)2
+
+> 𝑖 ∈𝑀
+
+s. t. Δ𝑟 𝐺 𝑗  
+
+> ′
+
+= ∑ 𝑆 𝑖 ,𝑗 (∆𝑓 𝐺 𝑖  
+
+> ′∘
+
++ 𝑅𝑇  ln  𝑐 𝑖 )
+
+> 𝑖 ∈𝑀
+
+= 0, 𝑗  ∈ 𝑁 shift 
+
+∆𝑟 𝐺 𝑗  
+
+> ′
+
+= ∑ 𝑆 𝑖 ,𝑗 (∆𝑓 𝐺 𝑖  
+
+> ′∘
+
++ 𝑅𝑇  ln  𝑐 𝑖 )
+
+> 𝑖 ∈𝑀
+
+< 0, 𝑗  ∈ 𝑁  ∉ 𝑁 shift 
+
+𝑏 𝑖  ≤ ln  𝑐 𝑖  ≤ 𝑢 𝑏 𝑖 , 𝑗  ∈ 𝑀 
+
+(4 2)
+
+where  sys  represents a value in a target system  corresponding  to the liver or ECM  in th is 831 
+
+study.  𝑁 shift  is  the  reactions that must proceed in the reverse direction when switching 832 
+
+metabol ism s;  it includes  reversible reactions  in glycolysis and gluconeogenesis,  and  all 833 
+
+reactions in the TCA cycle.  Δ𝑓 𝐺 ′∘ values used in MEG calculation were the same as those 834 
+
+in the liver (and also the  same  as those in ECM).  MEG was calculated using  Gurobi  72 
+
+835 
+
+MATLAB API with dual feasibility  tolerance  of  OptimalityTol  = 10 -9 and primal feasibility 836 
+
+tolerance  of  FeasibilityTol  = 10 -9.837 
+
+838 
+
+QUANTIFICATION  AND STATISTICAL ANALYSIS 839 
+
+Statistical tests, optimizations,  computational  samplings , and  calculations  of  Δ𝑟 𝐺 ′, FCC , and 840 
+
+EC were performed using MATLAB 2021b (The MathWorks Inc.) and Gurobi (version 841 
+
+10.0.3)  72 . Database handlings were performed using Python (version 3.10. All details of 842 
+
+statistical tests are  described  in the Results section.  The MATLAB  package  Plot Groups of 843 
+
+Stacked Bars  86  was used to create the figures. 844 
+
+845 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 55 
+
+846 
+
+Fig. 1 : 𝚫 𝒓 𝑮 ′ landscape is robust against fasting despite metabolite concentration 847 
+
+fluctuations 848 
+
+(A) Overview of the application of GLEAM to estimate  Δ𝑟 𝐺 ′ landscape in the mouse liver. 849 
+
+Metabolomic data were  acquired  from the liver,  skeletal  muscle, and plasma of WT and  ob /ob 850 
+
+mice during fasting ( Table  S1)  8,66 . n = 5  biological  replicates were used per group.  The 851 
+
+estimated  metabolite concentrations,  Δ𝑓 𝐺 ′∘ , and  Δ𝑟 𝐺 ′ values  by GLEAM are shown in 852 
+
+Table  S2.  (B) Δ𝑟 𝐺 ′ landscape of glucose metabolism in mouse liver  at  ad lib itum  feeding 853 
+
+and after  16 -hour fasting . Δ𝑟 𝐺 ′ is depicted by arrow colors. Shaded text s represent  reaction 854 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 56 
+
+names; boxed reactions are irreversible, while unboxed reactions are reversible. Blue 855 
+
+shading s indicate near -equilibrium reactions with  Δ𝑟 𝐺 ′ > −5 kJ/mol , and gray shading s856 
+
+indicate  the other  reactions  with  Δ𝑟 𝐺 ′ ≤ −5 kJ/mol . Unshaded text s represent metabolites. 857 
+
+[h], [m], and [b] indicate  hepatic , myocytic, and blood  metabolites , respectively. 858 
+
+Abbreviations of reactions and metabolites are defined in the glossary and  Table  S3.  (C)859 
+
+Comparison of  Δ𝑟 𝐺 ′ in WT  mouse liver at  ad libitum  feeding and after 16 -hour fasting. The 860 
+
+forward direction ( Δ𝑟 𝐺 ′ < 0) is defined as the reaction direction at  ad libitum  feeding. Error 861 
+
+bars show 95% confidence intervals.  (D) Comparison of metabolite concentrations in WT 862 
+
+mouse liver at  ad libitum  feeding and after 16 -hour fasting. Plotted metabolite concentrations 863 
+
+represent those normalized by the mean value at all seven time points and two genotypes (14 864 
+
+conditions in total) to eliminate scale differences in concentrations among metabolites. Error 865 
+
+bars show 95% confidence intervals.  (E) Comparison of  Δ𝑟 𝐺 ′ in  glycolysis  across  cell types 866 
+
+and organisms . T he data in iBMK cell, yeast, and  E. coli  were measured using LC -MS and 867 
+
+isotope  tracer s 26 . Standard  Gibbs free energy was calculated  by  treating all metabolite 868 
+
+concentrations as 1 M.  The vertical axis represents cumulative  Δ𝑟 𝐺 ′ from GPI. Error bars 869 
+
+show  95% confidence intervals. 870 
+
+871 
+
+872 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 57 
+
+873 
+
+Fig. 2 : 𝚫 𝒓 𝑮 ′ maintenance during fasting is associated with metabolite concentration 874 
+
+fluctuations in different ways among pathways 875 
+
+(A) Absolute  Δ𝑟 𝐺 ′ variation =  |Δ𝑟 𝐺 16 h
+
+′ − Δ𝑟 𝐺 0h
+
+′ | . Bars  depict  irreversible reactions in 876 
+
+glycolysis and gluconeogenesis (orange),  reversible  reactions in glycolysis and 877 
+
+gluconeogenesis (blue), irreversible reactions  in the  TCA cycle (yellow), reversible reactions 878 
+
+in the  TCA cycle (purple), and the other reactions in the metabolic network (grey), 879 
+
+respectively.  Error bars  show  95% confidence intervals.  (B) Relationship between absolute 880 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 58 
+
+Δ𝑟 𝐺 ′ variation and reaction  distance  from  equilibrium  represented by absolute  Δ𝑟 𝐺 ′ at  ad 881 
+
+libitum  feeding.  Error bars  show  95% confidence intervals.  The reaction PC is highlighted 882 
+
+and discussed in the Results section.  (C) Comparison of absolute  Δ𝑟 𝐺 ′ variation of reactions 883 
+
+and total absolute  Δ𝑓 𝐺 ′ variation of metabolites. Absolute  Δ𝑓 𝐺 ′ variation is dependent on 884 
+
+concentrations of metabolites involved in the reaction, and defined by  ∑|𝑆 (Δ𝑓 𝐺 16ℎ  
+
+> ′
+
+−885 
+
+Δ𝑓 𝐺 0ℎ  
+
+> ′
+
+)|. When  Δ𝑓 𝐺 ′ variation =  𝑆 (Δ𝑓 𝐺 16ℎ  
+
+> ′
+
+− Δ𝑓 𝐺 0ℎ  
+
+> ′
+
+) of the metabolites involved in the 886 
+
+reaction are cancelled out, absolute  Δ𝑟 𝐺 ′ variation is smaller than total absolute  Δ𝑓 𝐺 ′
+
+887 
+
+variation, resulting in the reaction being plotted in the lower right.  Plotted  reactions for 888 
+
+glycolysis and gluconeogenesis, and the TCA cycles are the same as Fig. 2B.  Error bars  show 889 
+
+95% confidence intervals.  The reactions GPD, GAPDH:PGK and GCK are highlighted and 890 
+
+discussed in the Results section.  (D) Time courses of  Δ𝑟 𝐺 ′ variation  and  Δ𝑓 𝐺 ′ variation 891 
+
+for representative reactions: GPD (small  Δ𝑓 𝐺 ′ variations ), GAPDH:PGK ( large  Δ𝑓 𝐺 ′
+
+892 
+
+variations which are canceled out ), and GCK ( large  Δ𝑓 𝐺 ′ variations which are not canceled 893 
+
+out ). Red and  grey lines depict  Δ𝑟 𝐺 ′ variation and  Δ𝑓 𝐺 ′ variation,  respectively . Error bars 894 
+
+show  95% confidence intervals. 895 
+
+896 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 59 
+
+897 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 60 
+
+Fig. 3 : Thermodynamic  Rate -limiting  Candidates (TRCs) were maintained during 898 
+
+fasting 899 
+
+(A) Glycolysis pathway  where  FCCs were  calculated . (B) Gluconeogenesis pathway  where 900 
+
+FCCs were  calculated . (C) The TCA cycle  where  FCCs were  calculated . MDH was excluded 901 
+
+from th is  TCA cycle because it proceeded in the opposite direction to the oxidative TCA 902 
+
+cycle.  (D) Correspondence  between  Δ𝑟 𝐺 ′ and  𝜂 rev . (E-G) Relationship between  𝜂 rev  and 903 
+
+FCC in glycolysis ( E), gluconeogenesis ( F), and the TCA cycle ( G) in the mouse liver.  𝜂 rev 904 
+
+and FCC values of each point were calculated from each sampled set of metabolite 905 
+
+concentrations  and  Δ𝑓 𝐺 ′∘ values for the calculation of confidence intervals and sampled 906 
+
+𝐾 m values based on BRENDA database (see Methods). Metabolite concentrations at  ad 907 
+
+libitum  feeding were used for  glycolysis  (E) and the TCA cycle ( G), and those  after  16 -hour 908 
+
+fasting were used for gluconeogenesis ( F).  Vertical variation  is attributed  to  differences in 909 
+
+𝐾 m values  and condition  of the  other reaction s, while  horizontal variation reflects differences 910 
+
+in metabolite concentrations and  Δ𝑓 𝐺 ′∘. (H) Alterations of TRC status based on t ransitions 911 
+
+in  𝜂 rev  for reactions in glycolysis and gluconeogenesis before and after starvation. Red , blue, 912 
+
+and grey  lines  depict reactions remaining TRC  (5 reactions),  reactions remaining non -TRC 913 
+
+(10 reactions), and  reactions  altering  their  TRC status  (either TRC or not ) during  fasting (3 914 
+
+reactions), respectiv ely . Black dashed lines indicate the  boundary  between  TRC  and  non -915 
+
+TRC  where  𝜂 𝑟𝑒𝑣  = 0.86  i.e. , Δ𝑟 𝐺 ′ = −5 kJ /mol  . Error  bars  show  95% confidence 916 
+
+intervals. 917 
+
+918 
+
+919 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 61 
+
+920 
+
+Fig.  4:  Glycolysis and  gluconeogenesis  achieve  efficient  switching  by  expending  large 921 
+
+Enzyme  Costs 922 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 62 
+
+(A) Ratio of total enzyme cost under metabolite concentrations in the mouse liver and ECM 923 
+
+(Liver/ECM).  The total EC w as  calculated for  glycolysis , gluconeogenesis, and the TCA 924 
+
+cycle, which are the same as the pathways used for FCC  calculation  (Fig. 3A  to  C). 925 
+
+Metabolite concentrations at  ad libitum  feeding and after 16 -hour fasting were used for 926 
+
+glycolysis and gluconeogenesis, respectively.  𝐾 m values for EC calculation were the 927 
+
+geometric  mean of data in  the  BRENDA database ( Table  S5).  Error bars  show  95% 928 
+
+confidence intervals.  EC in mouse liver, and metabolite  concentrations  and EC at ECM are 929 
+
+shown in  Table  S5. (B) Comparison of metabolite concentrations in the mouse liver and ECM. 930 
+
+Plotted data are for the measured metabolites, and the scatter plot for the TCA cycle includes 931 
+
+the data both at  ad libitum  feeding and after 16 -hour fasting. RMSE is  the  root mean square 932 
+
+error on a log 10 -scale of ECM ’s prediction  compared to metabolite concentrations in the 933 
+
+mouse liver, and  typical  fold error (typical FE) = 10 RMSE . Error bars  show  95% confidence 934 
+
+intervals.  Plotted data are for the measured metabolites.  (C) EC of each reaction in glycolysis, 935 
+
+gluconeogenesis, and the TCA cycle.  The left  and right bars  of each reaction  are  EC  in  the 936 
+
+mouse liver  and  ECM , respectively.  Since the vertical axis represents a logarithmic scale, EC 937 
+
+can be depicted by the stacked bar of normalized enzyme molecular weight (green), the effect 938 
+
+of thermodynamics,  𝜂 rev  
+
+> −1
+
+(red) , and saturation,  𝜂 sat ,s 
+
+> −1
+
+(blue). Note that  although  the total 939 
+
+Gibbs free energy change across the entire pathway  in ECM is fixed to that in the mouse liver 940 
+
+(see Methods),  the  sum of  𝜂 rev  
+
+> −1
+
+differs due to the  non -linear  increase  of  𝜂 rev  over  Δ𝑟 𝐺 ′
+
+941 
+
+(Fig. 3D) . Error bars  show  95% confidence intervals.  (D) Comparison of metabolite 942 
+
+concentrations in the liver or ECM, and those for MEG calculation, where the reactions 943 
+
+required to  reverse  for metabolic  switching  are at  equilibrium . Plotted data are for the 944 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 63 
+
+measured metabolites.  Error bars  show  95% confidence intervals.  Metabolite concentrations 945 
+
+where the reactions required to  reverse  for metabolic  switching  are at  equilibrium  are shown 946 
+
+in  Table  S6.947 
+
+948 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 64 
+
+949 
+
+Fig. 5 : Robustness of  𝚫 𝒓 𝑮 ′ in  the  liver  against obesity 950 
+
+(A) Δ𝑟 𝐺 ′ landscape of glucose metabolism in  ob /ob  mouse liver  at  ad lib itum  feeding and 951 
+
+after  16 -hour fasting . Δ𝑟 𝐺 ′ is depicted by arrow colors. Shaded text s represent  reaction 952 
+
+names; boxed reactions are irreversible, while unboxed reactions are reversible. Blue 953 
+
+shading s indicate near -equilibrium reactions with  Δ𝑟 𝐺 ′ > −5 kJ/mol , and gray shading s954 
+
+indicate  the other  reactions  with  Δ𝑟 𝐺 ′ ≤ −5 kJ/mol . Unshaded text s represent metabolites. 955 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 65 
+
+The  estimated  metabolite concentrations,  Δ𝑓 𝐺 ′∘, and  Δ𝑟 𝐺 ′ values  by GLEAM are shown 956 
+
+in  Table  S2.  (B) Comparison of  Δ𝑟 𝐺 ′ in WT and  ob /ob  mouse liver.  The forward direction 957 
+
+(Δ𝑟 𝐺 ′ < 0) is  defined as the reaction direction in WT at  ad libitum  feeding . Error bars  show 958 
+
+95% confidence intervals.  (C) Difference in  Δ𝑟 𝐺 ′ between WT and  ob /ob  mouse liver 959 
+
+( Δ𝑟 𝐺 𝑜𝑏 /𝑜𝑏  
+
+> ′
+
+− Δ𝑟 𝐺 WT  
+
+> ′
+
+).  Reactions are arranged from left to right in order of decreasing 960 
+
+absolute difference in  Δ𝑟 𝐺 ′. Error bars  show  95% confidence intervals.  (D) Comparison of 961 
+
+metabolite concentrations in WT and  ob /ob  mouse liver.  Plotted data  represent the 962 
+
+concentrations normalized by the mean value at all seven time points and two genotypes  (i.e. ,963 
+
+14 conditions) to eliminate scale differences  in concentrations among metabolites.  Error bars 964 
+
+show  95% confidence intervals.  (E) Comparison of absolut e difference  in  Δ𝑟 𝐺 ′ variation 965 
+
+and to tal absolute deference in  Δ𝑓 𝐺 ′ = ∑|𝑆 (Δ𝑓 𝐺 𝑜𝑏 /𝑜𝑏  
+
+> ′
+
+− Δ𝑓 𝐺 WT  
+
+> ′
+
+)|, between WT and  ob /ob 966 
+
+mouse liver.  Plotted  data includes those at  ad libitum  feeding  and  after 16 -hour fasting.  The 967 
+
+reactions for glycolysis and gluconeogenesis, and the TCA cycles are the same as Fig. 2B. 968 
+
+Error bars  show  95% confidence intervals. 969 
+
+970 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 66 
+
+REFERENCES 971 
+
+1.  Scrutton, M.C., and Utter, M.F. (1968). The Regulation of Glycolysis and 972 
+
+Gluconeogenesis in Animal Tissues. Annu. Rev. Biochem.  37 , 249 –302. 973 
+
+2.  Rothman, D.L., Magnusson, I., Katz, L.D., Shulman, R.G., and Shulman, G.I. (1991). 974 
+
+Quantitation of Hepatic Glycogenolysis And Gluconeogenesis in Fasting Humans With 975  13  C NMR. Science  254 , 573 –576. 976 
+
+3.  Nordlie, R.C., Foster, J.D., and Lange, A.J. (1999). Regulation of glucose production by 977 
+
+the liver. Annu. Rev. Nutr.  19 , 379 –406. 978 
+
+4.  Moore, M.C., Coate, K.C., Winnick, J.J., An, Z., and Cherrington, A.D. (2012). 979 
+
+Regulation of hepatic glucose uptake and storage in vivo. Adv. Nutr.  3, 286 –294. 980 
+
+5.  Han, H. -S., Kang, G., Kim, J.S., Choi, B.H., and Koo, S. -H. (2016). Regulation of 981 
+
+glucose metabolism from a liver -centric perspective. Exp. Mol. Med.  48 , e218. 982 
+
+6.  Katz, J., and Tayek, J.A. (1998). Gluconeogenesis and the Cori cycle in 12 -, 20 -, and 40 -983 
+
+h-fasted humans. American Journal of Physiology -Endocrinology and Metabolism  275 ,984 
+
+E537 –E542. 985 
+
+7.  Egami, R., Kokaji, T., Hatano, A., Yugi, K., Eto, M., Morita, K., Ohno, S., Fujii, M., 986 
+
+Hironaka, K. -I., Uematsu, S., et al. (2021). Trans -omic analysis reveals obesity -987 
+
+associated dysregulation of inter -organ metabolic cycles between the liver and skeletal 988 
+
+muscle. iScience  24 , 102217. 989 
+
+8.  Morita, K., Hatano, A., Kokaji, T., Sugimoto, H., Tsuchiya, T., Ozaki, H., Egami, R., Li, 990 
+
+D., Terakawa, A., Ohno, S., et al. (2025). Structural robustness and temporal 991 
+
+vulnerability of the starvation -responsive metabolic network in healthy and obese mouse 992 
+
+liver. Sci. Signal.  18 , eads2547. 993 
+
+9.  Samuel, V.T., and Shulman, G.I. (2016). The pathogenesis of insulin resistance: 994 
+
+integrating signaling pathways and substrate flux. J. Clin. Invest.  126 , 12 –22. 995 
+
+10.  Stern, J.H., Smith, G.I., Chen, S., Unger, R.H., Klein, S., and Scherer, P.E. (2019). 996 
+
+Obesity dysregulates fasting -induced changes in glucagon secretion. J. Endocrinol.  243 ,997 
+
+149 –160. 998 
+
+11.  Stocks, B., Gonzalez -Franquesa, A., Borg, M.L., Björnholm, M., Niu, L., Zierath, J.R., 999 
+
+and Deshmukh, A.S. (2022). Integrated Liver and Plasma Proteomics in Obese Mice 1000 
+
+Reveals Complex Metabolic Regulation. Mol. Cell. Proteomics  21 , 100207. 1001 
+
+12.  Bai, Y., Morita, K., Kokaji, T., Hatano, A., Ohno, S., Egami, R., Pan, Y., Li, D., Yugi, K., 1002 
+
+Uematsu, S., et al. (2024). Trans -omic analysis reveals opposite metabolic dysregulation 1003 
+
+between feeding and fasting in liver associated with obesity. iScience  27 , 109121. 1004 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 67 
+
+13.  Magnusson, I., Rothman, D.L., Katz, L.D., Shulman, R.G., and Shulman, G.I. (1992). 1005 
+
+Increased rate of gluconeogenesis in type II diabetes mellitus. A 13C nuclear magnetic 1006 
+
+resonance study. J. Clin. Invest.  90 , 1323 –1327. 1007 
+
+14.  Hundal, R.S., Krssak, M., Dufour, S., Laurent, D., Lebon, V., Chandramouli, V., Inzucchi, 1008 
+
+S.E., Schumann, W.C., Petersen, K.F., Landau, B.R., et al. (2000). Mechanism by which 1009 
+
+metformin reduces glucose production in type 2 diabetes. Diabetes  49 , 2063 –2069. 1010 
+
+15.  Wajngot, A., Chandramouli, V., Schumann, W.C., Ekberg, K., Jones, P.K., Efendic, S., 1011 
+
+and Landau, B.R. (2001). Quantitative contributions of gluconeogenesis to glucose 1012 
+
+production during fasting in type 2 diabetes mellitus. Metabolism  50 , 47 –52. 1013 
+
+16.  Petersen, K.F., Price, T.B., and Bergeron, R. (2004). Regulation of Net Hepatic 1014 
+
+Glycogenolysis and Gluconeogenesis during Exercise: Impact of Type 1 Diabetes. J. 1015 
+
+Clin. Endocrinol. Metab.  89 , 4656 –4664. 1016 
+
+17.  Petersen, M.C., Vatner, D.F., and Shulman, G.I. (2017). Regulation of hepatic glucose 1017 
+
+metabolism in health and disease. Nat. Rev. Endocrinol.  13 , 572 –587. 1018 
+
+18.  Schramm, T.K., Gislason, G.H., Køber, L., Rasmussen, S., Rasmussen, J.N., Abildstrøm, 1019 
+
+S.Z., Hansen, M.L., Folke, F., Buch, P., Madsen, M., et al. (2008). Diabetes Patients 1020 
+
+Requiring Glucose -Lowering Therapy and Nondiabetics With a Prior Myocardial 1021 
+
+Infarction Carry the Same Cardiovascular Risk. Circulation  117 , 1945 –1954. 1022 
+
+19.  Spencer, E.A., Pirie, K.L., Stevens, R.J., Beral, V., Brown, A., Liu, B., Green, J., and 1023 
+
+Reeves, G.K. (2008). Diabetes and modifiable risk factors for cardiovascular disease: 1024 
+
+the prospective Million Women Study. Eur. J. Epidemiol.  23 , 793 –799. 1025 
+
+20.  Gancheva, S., Jelenik, T., Álvarez -Hernández, E., and Roden, M. (2018). Interorgan 1026 
+
+metabolic crosstalk in human insulin resistance. Physiol. Rev.  98 , 1371 –1415. 1027 
+
+21.  Annesley, T.M. (2003). Ion suppression in mass spectrometry. Clin. Chem.  49 , 1041 –1028 
+
+1044. 1029 
+
+22.  Mashego, M.R., Wu, L., Van Dam, J.C., Ras, C., Vinke, J.L., Van Winden, W.A., Van 1030 
+
+Gulik, W.M., and Heijnen, J.J. (2004). MIRACLE: mass isotopomer ratio analysis of U -1031 
+
+13C -labeled extracts. A new method for accurate quantification of changes in 1032 
+
+concentrations of intracellular metabolites. Biotechnol. Bioeng.  85 , 620 –628. 1033 
+
+23.  Sugimoto, M., Hirayama, A., Robert, M., Abe, S., Soga, T., and Tomita, M. (2010). 1034 
+
+Prediction of metabolite identity from accurate mass, migration time prediction and 1035 
+
+isotopic pattern information in CE -TOFMS data. Electrophoresis  31 , 2311 –2318. 1036 
+
+24.  Bennett, B.D., Kimball, E.H., Gao, M., Osterhout, R., Van Dien, S.J., and Rabinowitz, 1037 
+
+J.D. (2009). Absolute metabolite concentrations and implied enzyme active site 1038 
+
+occupancy in Escherichia coli. Nat. Chem. Biol.  5, 593 –599. 1039 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 68 
+
+25.  Canelas, A.B., Ras, C., ten Pierick, A., van Gulik, W.M., and Heijnen, J.J. (2011). An in 1040 
+
+vivo data -driven framework for classification and quantification of enzyme kinetics and 1041 
+
+determination of apparent thermodynamic data. Metab. Eng.  13 , 294 –306. 1042 
+
+26.  Park, J.O., Rubin, S.A., Xu, Y.F., Amador -Noguez, D., Fan, J., Shlomi, T., and 1043 
+
+Rabinowitz, J.D. (2016). Metabolite concentrations, fluxes and free energies imply 1044 
+
+efficient enzyme usage. Nat. Chem. Biol.  12 , 482 –489. 1045 
+
+27.  Niebel, B., Leupold, S., and Heinemann, M. (2019). An upper limit on Gibbs energy 1046 
+
+dissipation governs cellular metabolism. Nature Metabolism  1, 125 –132. 1047 
+
+28.  Mavrovouniotis, M.L. (1993). Identification of localized and distributed bottlenecks in 1048 
+
+metabolic pathways. Proc. Int. Conf. Intell. Syst. Mol. Biol.  1, 275 –283. 1049 
+
+29.  Henry, C.S., Jankowski, M.D., Broadbelt, L.J., and Hatzimanikatis, V. (2006). Genome -1050 
+
+Scale Thermodynamic Analysis of Escherichia coli Metabolism. Biophys. J.  90 , 1453 –1051 
+
+1461. 1052 
+
+30.  Feist, A.M., Henry, C.S., Reed, J.L., Krummenacker, M., Joyce, A.R., Karp, P.D., 1053 
+
+Broadbelt, L.J., Hatzimanikatis, V., and Palsson, B.Ø. (2007). A genome -scale metabolic 1054 
+
+reconstruction for Escherichia coli K -12 MG1655 that accounts for 1260 ORFs and 1055 
+
+thermodynamic information. Mol. Syst. Biol.  3, 121. 1056 
+
+31.  Henry, C.S., Broadbelt, L.J., and Hatzimanikatis, V. (2007). Thermodynamics -based 1057 
+
+metabolic flux analysis. Biophys. J.  92 , 1792 –1805. 1058 
+
+32.  Soh, K.C., and Hatzimanikatis, V. (2010). Network thermodynamics in the post -genomic 1059 
+
+era. Curr. Opin. Microbiol.  13 , 350 –357. 1060 
+
+33.  Hamilton, J.J., Dwivedi, V., and Reed, J.L. (2013). Quantitative assessment of 1061 
+
+thermodynamic constraints on the solution space of genome -scale metabolic models. 1062 
+
+Biophys. J.  105 , 512 –522. 1063 
+
+34.  Seep, L., Razaghi -Moghadam, Z., and Nikoloski, Z. (2021). Reaction lumping in 1064 
+
+metabolic networks for application with thermodynamic metabolic flux analysis. Sci. 1065 
+
+Rep.  11 , 8544. 1066 
+
+35.  Janasch, M., Crang, N., Asplund -Samuelsson, J., Sporre, E., Bruch, M., Gynnå, A., Jahn, 1067 
+
+M., and Hudson, E.P. (2022). Thermodynamic limitations of PHB production from 1068 
+
+formate and fructose in Cupriavidus necator. Metab. Eng.  73 , 256 –269. 1069 
+
+36.  Kacser, H., and Burns, J.A. (1973). The control of flux. Symp. Soc. Exp. Biol.  27 , 65 –1070 
+
+104. 1071 
+
+37.  Dai, Z., and Locasale, J.W. (2018). Thermodynamic constraints on the regulation of 1072 
+
+metabolic fluxes. J. Biol. Chem.  293 , 19725 –19739. 1073 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 69 
+
+38.  van Niekerk, D.D., Rust, E., Bruggeman, F., Westerhoff, H.V., and Snoep, J.L. (2023). 1074 
+
+Is distance from equilibrium a good indicator for a reaction’s flux control? Biosystems. 1075 
+
+232 , 104988. 1076 
+
+39.  Flamholz, A., Noor, E., Bar -Even, A., Liebermeister, W., and Milo, R. (2013). Glycolytic 1077 
+
+strategy as a tradeoff between energy yield and protein cost. Proceedings of the National 1078 
+
+Academy of Sciences  110 , 10039 –10044. 1079 
+
+40.  Tepper, N., Noor, E., Amador -Noguez, D., Haraldsdóttir, H.S., Milo, R., Rabinowitz, J., 1080 
+
+Liebermeister, W., and Shlomi, T. (2013). Steady -State Metabolite Concentrations 1081 
+
+Reflect a Balance between Maximizing Enzyme Efficiency and Minimizing Total 1082 
+
+Metabolite Load. PLoS One  8, e75370. 1083 
+
+41.  Noor, E., Bar -Even, A., Flamholz, A., Reznik, E., Liebermeister, W., and Milo, R. (2014). 1084 
+
+Pathway Thermodynamics Highlights Kinetic Obstacles in Central Metabolism. PLoS 1085 
+
+Comput. Biol.  10 . https://doi.org/10.1371/journal.pcbi.1003483. 1086 
+
+42.  Noor, E., Flamholz, A., Bar -Even, A., Davidi, D., Milo, R., and Liebermeister, W. (2016). 1087 
+
+The Protein Cost of Metabolic Fluxes: Prediction from Enzymatic Rate Laws and Cost 1088 
+
+Minimization. PLoS Comput. Biol.  12 , e1005167. 1089 
+
+43.  Soga, T., Ohashi, Y., Ueno, Y., Naraoka, H., Tomita, M., and Nishioka, T. (2003). 1090 
+
+Quantitative metabolome analysis using capillary electrophoresis mass spectrometry. J. 1091 
+
+Proteome Res.  2, 488 –494. 1092 
+
+44.  Soga, T., Ishikawa, T., Igarashi, S., Sugawara, K., Kakazu, Y., and Tomita, M. (2007). 1093 
+
+Analysis of nucleotides by pressure -assisted capillary electrophoresis -mass 1094 
+
+spectrometry using silanol mask technique. J. Chromatogr. A  1159 , 125 –133. 1095 
+
+45.  Ingalls, A.M., Dickie, M.M., and Snell, G.D. (1950). Obese, a new mutation in the house 1096 
+
+mouse. J. Hered.  41 , 317 –318. 1097 
+
+46.  Lindström, P. (2007). The physiology of obese -hyperglycemic mice [ob/ob mice]. 1098 
+
+ScientificWorldJournal  7, 666 –685. 1099 
+
+47.  Heinrich, R., and Rapoport, T.A. (1974). A linear steady -state treatment of enzymatic 1100 
+
+chains. General properties, control and effector strength. Eur. J. Biochem.  42 , 89 –95. 1101 
+
+48.  Liebermeister, W., Uhlendorf, J., and Klipp, E. (2010). Modular rate laws for enzymatic 1102 
+
+reactions: thermodynamics, elasticities and implementation. Bioinformatics  26 , 1528 –1103 
+
+1534. 1104 
+
+49.  Noor, E., Flamholz, A., Liebermeister, W., Bar -Even, A., and Milo, R. (2013). A note on 1105 
+
+the kinetics of enzyme action: A decomposition that highlights thermodynamic effects. 1106 
+
+FEBS Lett.  587 , 2772 –2777. 1107 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 70 
+
+50.  Hofmeyr, J.H., and Cornish -Bowden, A. (1996). Co -response analysis: a new 1108 
+
+experimental strategy for metabolic control analysis. J. Theor. Biol.  182 , 371 –380. 1109 
+
+51.  Chang, A., Jeske, L., Ulbrich, S., Hofmann, J., Koblitz, J., Schomburg, I., Neumann -1110 
+
+Schaal, M., Jahn, D., and Schomburg, D. (2021). BRENDA, the ELIXIR core data 1111 
+
+resource in 2021: new developments and updates. Nucleic Acids Res.  49 , D498 –D508. 1112 
+
+52.  Schuetz, R., Zamboni, N., Zampieri, M., Heinemann, M., and Sauer, U. (2012). 1113 
+
+Multidimensional Optimality of Microbial Metabolism. Science  336 , 601 –604. 1114 
+
+53.  De Martino, D., Figliuzzi, M., De Martino, A., and Marinari, E. (2012). A scalable 1115 
+
+algorithm to explore the Gibbs energy landscape of genome -scale metabolic networks. 1116 
+
+PLoS Comput. Biol.  8, e1002562. 1117 
+
+54.  Mahamkali, V., McCubbin, T., Beber, M.E., Noor, E., Marcellin, E., and Nielsen, L.K. 1118 
+
+(2021). multiTFA: a Python package for multi -variate thermodynamics -based flux 1119 
+
+analysis. Bioinformatics  37 , 3064 –3066. 1120 
+
+55.  Beber, M.E., Gollub, M.G., Mozaffari, D., Shebek, K.M., Flamholz, A.I., Milo, R., and 1121 
+
+Noor, E. (2022). eQuilibrator 3.0: a database solution for thermodynamic constant 1122 
+
+estimation. Nucleic Acids Res.  50 , D603 –D609. 1123 
+
+56.  Tanner, L.B., Goglia, A.G., Wei, M.H., Sehgal, T., Parsons, L.R., Park, J.O., White, E., 1124 
+
+Toettcher, J.E., and Rabinowitz, J.D. (2018). Four key steps control glycolytic flux in 1125 
+
+mammalian cells. Cell Syst.  7, 49 -62.e8. 1126 
+
+57.  Groen, A.K., van Roermund, C.W., Vervoorn, R.C., and Tager, J.M. (1986). Control of 1127 
+
+gluconeogenesis in rat liver cells. Flux control coefficients of the enzymes in the 1128 
+
+gluconeogenic pathway in the absence and presence of glucagon. Biochem. J  237 , 379 –1129 
+
+389. 1130 
+
+58.  Rigoulet, M., Leverve, X.M., Plomp, P.J., and Meijer, A.J. (1987). Stimulation by 1131 
+
+glucose of gluconeogenesis in hepatocytes isolated from starved rats. Biochem. J.  245 ,1132 
+
+661 –668. 1133 
+
+59.  Fan, W., Hao, Y., Hou, X., Ding, C., Huang, D., Zheng, W., and Dai, Z. (2025). 1134 
+
+Unraveling principles of thermodynamics for genome -scale metabolic networks using 1135 
+
+graph neural networks. Cell Syst.  16 , 101393. 1136 
+
+60.  Park, J.O., Tanner, L.B., Wei, M.H., Khana, D.B., Jacobson, T.B., Zhang, Z., Rubin, S.A., 1137 
+
+Li, S.H. -J., Higgins, M.B., Stevenson, D.M., et al. (2019). Near -equilibrium glycolysis 1138 
+
+supports metabolic homeostasis and energy yield. Nat. Chem. Biol.  15 , 1001 –1008. 1139 
+
+61.  Milani, M., Pesce, A., Bolognesi, M., Bocedi, A., and Ascenzi, P. (2003). Substrate 1140 
+
+channeling: Molecular bases. Biochem. Mol. Biol. Educ.  31 , 228 –233. 1141 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 71 
+
+62.  Datta, A., Merz, J.M., and Spivey, H.O. (1985). Substrate channeling of oxalacetate in 1142 
+
+solid -state complexes of malate dehydrogenase and citrate synthase. J. Biol. Chem.  260 ,1143 
+
+15008 –15012. 1144 
+
+63.  Wu, F., and Minteer, S. (2015). Krebs cycle metabolon: structural evidence of substrate 1145 
+
+channeling revealed by cross -linking and mass spectrometry. Angew. Chem. Int. Ed Engl. 1146 
+
+54 , 1851 –1854. 1147 
+
+64.  Anderson, L.E., Goldhaber -Gordon, I.M., Li, D., Tang, X.Y., Xiang, M., and Prakash, N. 1148 
+
+(1995). Enzyme -enzyme interaction in the chloroplast: glyceraldehyde -3-phosphate 1149 
+
+dehydrogenase, triose phosphate isomerase and aldolase. Planta  196 , 245 –255. 1150 
+
+65.  Araiza -Olivera, D., Chiquete -Felix, N., Rosas -Lemus, M., Sampedro, J.G., Peña, A., 1151 
+
+Mujica, A., and Uribe -Carvajal, S. (2013). A glycolytic metabolon in Saccharomyces 1152 
+
+cerevisiae is stabilized by F -actin. FEBS J.  280 , 3887 –3905. 1153 
+
+66.  Li, D., Morita, K., Kokaji, T., Hatano, A., Hirayama, A., Soga, T., Suzuki, Y., Matsumoto, 1154 
+
+M., Tsuchiya, T., Ozaki, H., et al. (2025). Global loss of responsiveness in key regulator 1155 
+
+metabolites and elevated enzyme proteins as metabolic dysregulation in skeletal muscle 1156 
+
+and liver of obese mice during starvation. bioRxiv, 2025.01.22.634184. 1157 
+
+https://doi.org/10.1101/2025.01.22.634184. 1158 
+
+67.  Bordbar, A., Feist, A.M., Usaite -Black, R., Woodcock, J., Palsson, B.O., and Famili, I. 1159 
+
+(2011). A multi -tissue type genome -scale metabolic network for analysis of whole -body 1160 
+
+systems physiology. BMC Syst. Biol.  5. https://doi.org/10.1186/1752 -0509 -5-180. 1161 
+
+68.  Lancha, A.H., Jr, Recco, M.B., and Curi, R. (1994). Pyruvate carboxylase activity in the 1162 
+
+heart and skeletal muscles of the rat. Evidence for a stimulating effect of exercise. 1163 
+
+Biochem. Mol. Biol. Int.  32 , 483 –489. 1164 
+
+69.  Minet, A.D., and Gaster, M. (2010). Pyruvate carboxylase is expressed in human skeletal 1165 
+
+muscle. Biochem. Biophys. Res. Commun.  402 , 196 –197. 1166 
+
+70.  Noor, E., Haraldsdóttir, H.S., Milo, R., and Fleming, R.M.T. (2013). Consistent 1167 
+
+Estimation of Gibbs Energy Using Component Contributions. PLoS Comput. Biol.  9.1168 
+
+https://doi.org/10.1371/journal.pcbi.1003098. 1169 
+
+71.  Schuster, S., and Heinrich, R. (1991). Minimization of intermediate concentrations as a 1170 
+
+suggested optimality principle for biochemical networks: I. Theoretical analysis. J. Math. 1171 
+
+Biol.  29 , 425 –442. 1172 
+
+72.  Gurobi Optimization, L.L.C. (2024). Gurobi Optimizer Reference Manual. 1173 
+
+https://www.gurobi.com/. 1174 
+
+73.  Hastie, T., Tibshirani, R., and Friedman, J. (2009). The elements of statistical learning: 1175 
+
+Data mining, inference, and prediction, second edition 2nd ed. (Springer). 1176 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 72 
+
+74.  Haraldsdóttir, H.S., Thiele, I., and Fleming, R.M.T. (2012). Quantitative assignment of 1177 
+
+reaction directionality in a multicompartmental human metabolic reconstruction. 1178 
+
+Biophys. J.  102 , 1703 –1711. 1179 
+
+75.  Burgess, S.C., Jeffrey, F.M.H., Storey, C., Milde, A., Hausler, N., Merritt, M.E., Mulder, 1180 
+
+H., Holm, C., Sherry, A.D., and Malloy, C.R. (2005). Effect of murine strain on metabolic 1181 
+
+pathways of glucose production after brief or prolonged fasting. Am. J. Physiol. 1182 
+
+Endocrinol. Metab.  289 , E53 -61. 1183 
+
+76.  Satapati, S., Sunny, N.E., Kucejova, B., Fu, X., He, T.T., Méndez -Lucas, A., Shelton, 1184 
+
+J.M., Perales, J.C., Browning, J.D., and Burgess, S.C. (2012). Elevated TCA cycle 1185 
+
+function in the pathology of diet -induced hepatic insulin resistance and fatty liver. J. 1186 
+
+Lipid Res.  53 , 1080 –1092. 1187 
+
+77.  Hasenour, C.M., Wall, M.L., Ridley, D.E., Hughey, C.C., James, F.D., Wasserman, D.H., 1188 
+
+and Young, J.D. (2015). Mass spectrometry -based microassay of (2)H and (13)C plasma 1189 
+
+glucose labeling to quantify liver metabolic fluxes in vivo. Am. J. Physiol. Endocrinol. 1190 
+
+Metab.  309 , E191 -203. 1191 
+
+78.  Hasenour, C.M., Rahim, M., and Young, J.D. (2020). In vivo estimates of liver metabolic 1192 
+
+flux assessed by 13C -propionate and 13C -lactate are impacted by tracer recycling and 1193 
+
+equilibrium assumptions. Cell Rep.  32 , 107986. 1194 
+
+79.  Wang, Y., Kwon, H., Su, X., and Wondisford, F.E. (2020). Glycerol not lactate is the 1195 
+
+major net carbon source for gluconeogenesis in mice during both short and prolonged 1196 
+
+fasting. Molecular Metabolism  31 , 36 –44. 1197 
+
+80.  Turner, S.M., Linfoot, P.A., Neese, R.A., and Hellerstein, M.K. (2005). Sources of 1198 
+
+plasma glucose and liver glycogen in fasted ob/ob mice. Acta Diabetol.  42 , 187 –193. 1199 
+
+81.  Haldane, J.B.S. (1930). Enzymes (Longmans, Green and Co.). 1200 
+
+82.  Cousins, B. (2022). Volume -and -Sampling  - File Exchange  - MATLAB CentralFile 1201 
+
+Exchange  - MATLAB Central. 1202 
+
+https://www.mathworks.com/matlabcentral/fileexchange/43596 -volume -and -sampling. 1203 
+
+83.  Ohno, S., Quek, L. -E., Krycer, J.R., Yugi, K., Hirayama, A., Ikeda, S., Shoji, F., Suzuki, 1204 
+
+K., Soga, T., James, D.E., et al. (2020). Kinetic trans -omic analysis reveals key 1205 
+
+regulatory mechanisms for insulin -regulated glucose metabolism in adipocytes. iScience 1206 
+
+23 , 101479. 1207 
+
+84.  Lubitz, T., Schulz, M., Klipp, E., and Liebermeister, W. (2010). Parameter balancing in 1208 
+
+kinetic models of cell metabolism. J. Phys. Chem. B  114 , 16298 –16303. 1209 
+
+85.  UniProt Consortium (2023). UniProt: The universal protein knowledgebase in 2023. 1210 
+
+Nucleic Acids Res.  51 , D523 –D531. 1211 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 73 
+
+86.  Evan (2025). Plot Groups of Stacked Bars  - File Exchange  - MATLAB CentralFile 1212 
+
+Exchange  - MATLAB Central. 1213 
+
+https://jp.mathworks.com/matlabcentral/fileexchange/32884 -plot -groups -of -stacked -1214 
+
+bars. 1215 
+
+1216 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 74 
+
+SUPPLEMENT AL  INFORMATION 1217 
+
+Fig ure s S1 to S 61218 
+
+Tables S1 to S 71219 
+
+References ( 87) to ( 97)1220 
+
+1221 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 75 
+
+1222 
+
+Fig.  S1: Relationship between  𝜼 𝐫𝐞𝐯  and FCC  for  arbitrary  𝚫 𝒓 𝑮 ′ landscapes 1223 
+
+(A-D) A rbitrary  Δ𝑟 𝐺 ′ landscapes were generated by the  uniform  sampling of  intrasellar 1224 
+
+metabolite concentrations under the blood metabolite concentrations at  ad libitum  feeding 1225 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 76 
+
+and  after  16 -hour fasting (see Methods). The a rbitrary  Δ𝑟 𝐺 ′ landscapes at  ad libitum  feeding 1226 
+
+were  used for FCC calculation in glycolysis ( A) and the TCA cycle ( C), while those after 16 -1227 
+
+hour fasting  were  used for gluconeogenesis ( B), and the TCA cycle ( D).  Plotted data 1228 
+
+represents  each sampled set of metabolite  concentrations  and  Δ𝑓 𝐺 ′∘, and  𝐾 m values. 1229 
+
+1230 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 77 
+
+1231 
+
+Fig.  S2 : Relationship between  𝜼 𝐫𝐞𝐯  and FCC in the TCA cycle in the mouse liver after 1232 
+
+16 -hour fasting 1233 
+
+Plotted data  represents  each set of metabolite  concentrations  and  Δ𝑓 𝐺 ′∘ values  sampled  for 1234 
+
+the calculation of confidence intervals, and  𝐾 m values sampled based on BRENDA database 1235 
+
+(see Methods). 1236 
+
+1237 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 78 
+
+1238 
+
+Fig.  S3:  Typical fold error of ECM ’s prediction compared to metabolite concentrations 1239 
+
+in the mouse liver and  E.  coli 1240 
+
+Glyc . and Gluc. means glycolysis and gluconeogenesis, respectively.  Minimizations of total 1241 
+
+EC in  E. coli  were conducted for  the  metabolic network, which consists of  glycolysis , the 1242 
+
+pentose phosphate pathway, and the TCA cycle,  assuming  four different enzymatic rate  law s1243 
+
+(see Methods). 1244 
+
+1245 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 79 
+
+1246 
+
+Fig.  S4:  Correspondence between  𝚫 𝒓 𝑮 ′ and  𝜼 𝐫𝐞𝐯 
+
+−𝟏 
+
+1247 
+
+Orange and green area depict the range of  Δ𝑟 𝐺 ′ that most reversible reactions in glycolysis 1248 
+
+exhibited in  E. coli  26,60  and mouse liver, respectively .1249 
+
+1250 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 80 
+
+1251 
+
+Fig. S 5:  A whole metabolic network  used to estimate  𝚫 𝒓 𝑮 ′ landscape 1252 
+
+Shaded text s represent  reaction names; boxed reactions are irreversible, while unboxed 1253 
+
+reactions are reversible. Unshaded text s represent metabolites.  Although  the  network consists 1254 
+
+of liver, blood, and  skeletal  muscle t o improve  the accuracy of  Δ𝑓 𝐺 ′∘ estimation,  only the 1255 
+
+Δ𝑟 𝐺 ′ landscape of reactions and transporters in the liver were discussed in this study because 1256 
+
+the  concentration  of  unmeasured  major  metabolites, such as glucose in skeletal muscle, 1257 
+
+cannot be estimated with  sufficient accuracy  due to  a lack of  reactions .1258 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 81 
+
+1259 
+
+Fig. S 6:  Flowchart  of the bilevel optimization problem in GLEAM 1260 
+
+The optimization  problem s for the continuous and binary variables are treated as the lower -1261 
+
+level and upper -level  problems , respectively.  The optimal solution of GLEAM was selected 1262 
+
+after solving this bilevel optimization 10 times. 1263 
+
+1264 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint Abekawa 82 
+
+SUPPLEMENT AL T ABLES 1265 
+
+Table  S1: Metabolomic and  𝚫 𝒇 𝑮 ′∘ data used as input for GLEAM  (Excel file) 1266 
+
+This file includes the input metabolomic and  Δ𝑓 𝐺 ′∘ data for GLEAM ( logarithmic  mean of 1267 
+
+metabolome concentrations,  Δ𝑓 𝐺 ′∘ values, and variance -covariance matrix of metabolite 1268 
+
+concentrations and  Δ𝑓 𝐺 ′∘s). The metabolite concentrations were measured form from WT 1269 
+
+and  ob /ob  mice in previous  studies  8,66 , and  Δ𝑓 𝐺 ′∘ data were  retrieved  from eQuilibrator 1270 
+
+database  55 . NaN represents unmeasured metabolite. [h], [m], and [b] indicate  hepatic ,1271 
+
+myocytic, and blood compartment, respectively.  The l ogarithmic  mean of  metabolite 1272 
+
+concentrations  shown in this file  is  converted from  a logarithmic  scale to  a linear  scale .1273 
+
+1274 
+
+Table  S2: Thermodynamically consistent metabolite concentrations,  𝚫 𝒇 𝑮 ′∘, and  𝚫 𝒓 𝑮 ′
+
+1275 
+
+estimated by GLEAM  (Excel file) 1276 
+
+This file includes the  thermodynamically  consistent metabolite concentrations,  Δ𝑓 𝐺 ′∘, and 1277 
+
+Δ𝑟 𝐺 ′ values in mouse liver  and  blood estimated by GLEAM.  For glucose and lactate, hepatic 1278 
+
+and blood metabolites are distinguished by the [h] and [b], respectively. 1279 
+
+1280 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 83 
+
+Table  S3: Metabolites and reactions in the metabolic network for glucose metabolism 1281 
+
+in mice  (Excel file) 1282 
+
+This file includes  definitions  of metabolite abbreviations, reaction abbreviations, and  the 1283 
+
+metabolic network  i.e. , the  stoichiometric matrix for glucose metabolism used in this study. 1284 
+
+In the  Reactions and  Stoichiometric matrix sheet, [h], [m], and [b] indicate  hepatic , myocytic, 1285 
+
+and blood  compartments , respectively. 1286 
+
+1287 
+
+Table  S4:  Metabolite concentrations and a cofactor ratio involved in PKLR between 1288 
+
+mouse liver and other cell types 1289 
+
+Metabolites, 
+
+cofacer ratio s Mouse liver  iBMK cell  Yeast  E. coli 
+
+PEP  2.02 ×10 -5 M 1. 16 ×10 -5 M 2.91 ×10 -5 M 1.84 ×10 -4 M
+
+Pyr  3.77 ×10 -5 M 5.88 ×10 -3 M 9.40 ×10 -3 M 3.66 ×10 -3 M
+
+ATP/ADP  1.00  8.2 1 3.95  17.35 
+
+Metabolite concentrations in iBMK cell, Yeast, and E. coli were measured by LC -MS  26 .1290 
+
+1291 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 84 
+
+Table  S5:  EC calculation in mouse liver and ECM  (Excel file) 1292 
+
+This file includes EC values within glycolysis, gluconeogenesis, and the TCA cycle in mouse 1293 
+
+liver and EC, metabolite concentrations in ECM, and  geometric  mean  of  Michaelis -Menten 1294 
+
+constant  retrieved from BRENDA databa se  51  used for EC calculation . In EC calculation, 1295 
+
+metabolite concentrations at  ad libitum  feeding were used for  glycolysis  and the TCA cycle, 1296 
+
+and those  after  16 -hour fasting were used for gluconeogenesis and the TCA cycle. EC is 1297 
+
+product of normalized  molecular weight , 1/𝜂 rev , and  1/𝜂 sat ,s.1298 
+
+1299 
+
+Table  S6:  Metabolite concentrations  where the reactions required to reverse for 1300 
+
+metabolic switching are at equilibrium , as determined by MEG calculation  (Excel file) 1301 
+
+This file includes the metabolite concentrations that  are  the  optimal  solution to the 1302 
+
+optimization  problem in MEG calculation  for  glycolysis, gluconeogenesis, and the TCA 1303 
+
+cycle.  At these concentrations , the  reactions required to reverse for  directional  switching  of 1304 
+
+the pathways are at equilibrium with the  minimum  concentration changes from mouse liver 1305 
+
+or ECM. 1306 
+
+1307 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 85 
+
+Table S 7:  Upper and lower bounds of metabolite concentrations and cofactor ratios 1308 
+
+Metabolites, 
+
+cofacer ratio s Lower bound s Upper bound s References 
+
+Intracellular g lucose * 1.0×10 -3 M 1.5×10 -2 M 87 
+
+Hepatic  Pi  3.0×10 -3 M 4.3×10 -3 M 88 
+
+Myocytic  Pi  3.0×10 -3 M 9.0×10 -3 M 88,89 
+
+CO 2, HCO 3- 1.5×10 -3 M 2.5×10 -3 M 90 
+
+NH 3 2.0×10 -4 M 1.0×10 -3 M 91 
+
+Other  intracellular 
+
+metabolites * 1.0×10 -7 M 1.0×10 -2 M 26 
+
+Blood metabolites  1.0×10 -7 M 1.0×10 -1 M 92 
+
+ATP/ADP  1 10  89,93,94 
+
+NAD +/NADH  3 10  95 
+
+GTP/GDP  1 10  96 
+
+NADP +/NADPH  0.05  0.2  97 
+
+*: The upper bounds of  intracellular  glucose, G6P, F6P, F1,6BP, DHAP, GAP, 3PG, 2PG, 1309 
+
+PEP, G1P, G3P, and Lac in  ob /ob  mouse are  1.0×10 -1 M.1310 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.64898/2025.12.04.692290 doi: bioRxiv preprint
+
+Abekawa 86 
+
+SUPPLEMENT AL  REFERENCES 1311 
+
+87.  Wals, P.A., and Katz, J. (1993). A concentration gradient of glucose from liver to plasma. 1312 
+
+Metabolism  42 , 1492 –1496. 1313 
+
+88.  Till, U., Brox, D., and Frunder, H. (1969). Orthophosphate turnover in the extracellular 1314 
+
+and intracellular space of mouse liver. Eur. J. Biochem.  11 , 541 –548. 1315 
+
+89.  Veech, R.L., Lawson, J.W., Cornell, N.W., and Krebs, H.A. (1979). Cytosolic 1316 
+
+phosphorylation potential. J. Biol. Chem.  254 , 6538 –6547. 1317 
+
+90.  Beard, D.A., and Qian, H. (2005). Thermodynamic -based computational profiling of 1318 
+
+cellular regulatory control in hepatocyte metabolism. American Journal of Physiology -1319 
+
+Endocrinology and Metabolism  288 , E633 –E644. 1320 
+
+91.  Meijer, A.J., Lamers, W.H., and Chamuleau, R.A. (1990). Nitrogen metabolism and 1321 
+
+ornithine cycle function. Physiol. Rev.  70 , 701 –748. 1322 
+
+92.  Ando, H., Ushijima, K., Shimba, S., and Fujimura, A. (2016). Daily Fasting Blood 1323 
+
+Glucose Rhythm in Male Mice: A Role of the Circadian Clock in the Liver. 1324 
+
+Endocrinology  157 , 463 –469. 1325 
+
+93.  Mörikofer -Zwez, S., and Walter, P. (1989). Binding of ADP to rat liver cytosolic proteins 1326 
+
+and its influence on the ratio of free ATP/free ADP. Biochem. J  259 , 117 –124. 1327 
+
+94.  Traut, T.W. (1994). Physiological concentrations of purines and pyrimidines. Mol. Cell. 1328 
+
+Biochem.  140 , 1 –22. 1329 
+
+95.  Lin, S. -J., and Guarente, L. (2003). Nicotinamide adenine dinucleotide, a metabolic 1330 
+
+regulator of transcription, longevity and disease. Curr. Opin. Cell Biol.  15 , 241 –246. 1331 
+
+96.  Bos, J.L., Rehmann, H., and Wittinghofer, A. (2007). GEFs and GAPs: Critical 1332 
+
+Elements in the Control of Small G Proteins. Cell  129 , 865 –877. 1333 
+
+97.  Veech, R.L., Eggleston, L.V., and Krebs, H.A. (1969). The redox state of free 1334 
+
+nicotinamide –adenine dinucleotide phosphate in the cytoplasm of rat liver. Biochem. J 1335 
+
+115 , 609 –619. 1336

@@ -1,0 +1,719 @@
+Title: Bimodal Coupling Optimization in Biological Rhythms: Balancing Energy Efficiency and Functional Demand
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.03.25.713094v1.full.pdf
+
+Number of Pages: 16
+
+Markdown Content:
+# Bimodal Coupling Optimization in Biological Rhythms: Balancing Energy Efficiency and Functional Demand 
+
+Jiajun Zhang 1,2, Jing Han 1,2*, Liang-Liang Xie 3
+
+> 1
+
+State Key Laboratory of Mathematical Sciences, Academy of Mathematics and Systems Science, 
+
+> 2
+
+Chinese Academy of Sciences, Beijing 100190, China School of Mathematical Sciences, University of Chinese Academy of Sciences, Beijing 100049, China 
+
+> 3
+
+Department of Electrical and Computer Engineering, University of Waterloo *E-mail: hanjing@amss.ac.cn 
+
+Biological rhythms are governed by intricate interactions among oscillatory subsystems, yet how they balance functional demands and energy efficiency remains unclear. We present a bimodal coupling optimization strat-egy where physiological systems dynamically alternate between synchronized (energy-saving) and desynchronized (function-priority) coupling modes. By employing the water-filling principle developed in communications engi-neering, we prove synchronized heart rate(HR)-respiration oscillations maximize energy efficiency (oxygen uptake per cardiac work). Then, system modeling confirms task/stress-induced oxygen demands enhance oxygen uptake at the cost of desynchronization and reduced efficiency. Experiments reveal a 70.36% decrease in HR-respiration synchronization during arithmetic versus relaxation, enabling 4.43% higher oxygen uptake but with 11.38% lower energy efficiency. This bimodal coupling optimization strategy is also evident in pancreatic islets, with their in-sulin/glucagon oscillator alternating between in-phase (energy-saving) and anti-phase (rapid glucose reduction) coupling. This framework, integrating engineering and life sciences, reveals a universal regulatory principle for biological oscillatory systems. 
+
+Introduction 
+
+Physiological rhythms are pervasive throughout the hu-man body and fundamental to life [1, 2]. Disruptions in rhythmic processes beyond normal ranges or the emergence of abnormal rhythms are associated with diseases [3]. Pe-riodic phenomena are universal, ranging from largescale annual-seasonal cycles to cellular cycles [4, 5]. At the or-gan level, physiological signals such as heart rate (HR), res-piration, blood pressure, blood oxygen saturation, and brain waves exhibit periodic oscillations. The human body, as a complex system, involves interac-tions between subsystems, leading to inter-subsystem cou-pling oscillations (rhythms) across different time and spatial scales: for example, at the organ level, cardiopulmonary in-teractions coordinate millisecondscale cardiac rhythms with secondscale respiratory cycles [6–8]; at the cell level, circa-dian clocks, cell cycle progression, and redox oscillations achieve synchronization across hourly timescales through precisely regulated gene expression [9]. This oscillatory coupling is not a static feature but undergoes dynamic re-configuration with physiological states, such as the restruc-turing of physiological network topology during sleep cycles [10] and the dynamic adjustment of muscle group coordina-tion patterns under motor tasks [11]. This indicates that the switching of oscillatory coupling patterns embodies system optimization as life wisdom. However, research on the physiological significance and optimization mechanisms of this dynamic coupled oscilla-tion pattern is limited. Existing theories either focus on sin-gle oscillation systems (such as the trade-off between robust-ness and metabolic efficiency in glycolytic oscillations [12]), with less emphasis on coupling mechanisms; or they address the study of coupling patterns in the context of complex net-work optimization and regulation, but do not primarily target periodic phenomena [13–15]. We find that the regulatory strategies of biological oscilla-tory coupling manifest in two key objectives: (1) maximize energy efficiency and (2) optimally meet functional de-mands . For example, the synchronization of yeast metabolic gene expression with the respiratory cycle phase optimizes metabolic efficiency [16], and flexible θ − γ cross-frequency coupling in neural networks can adapt to different tasks [17– 19]. A fundamental question thus arises: does the life system balance energy efficiency and functional demands by strate-gically switching between two different coupling modes? However, current research on the physiological significance of these coupling modes remains speculative, lacking a rig-orous mathematical and mechanistic framework. In this study, we aim to uncover the optimization prin-ciples governing the dynamic regulation of oscillatory cou-pling in living systems, through investigating the cardiopul-monary coupling system — a critical interaction between two vital subsystems in the human body. The heart is a vi-tal organ that drives blood circulation in the body, sustain-ing essential life functions [20, 21]. Heartbeat and respi-ration are two fundamental physiological processes that sus-tain life. The heartbeat ensures continuous blood circulation, delivering oxygen and nutrients to every cell while removing 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Fig. 1: Framework of Bimodal Coupling Optimization in Biological Oscillatory Systems. (a) Conceptual overview shows a novel and underexplored intersection of oscillation rhythms, multi-system coupling, and optimization, exemplified by the autonomic nervous system (ANS)-mediated heart-rate variability (HRV) and respiration coupled subsystems. (b) Our theoretical approach employs a gas-exchange model together with a “water-filling” analogy (borrowed from communications engineering) to mathematically prove that phase synchronized HR-respiration maximizes energy efficiency (oxygen uptake per unit cardiac work). (c) Experimental validation via continuous HR-respiration recordings under three conditions (mental arithmetic, positive memory recall, essential-oil inhalation), with real-time measures of coupling synchrony ( HBC ), oxygen uptake ( VO2 ), cardiac work ( W ), and efficiency ( ηo2 ). Refer to the bottom image for the complete experimental setup, including the scenario and equipment. The experiment consists of five scenarios, each with different items to induce specific stress/relaxation states. (d) summarizes a general bimodal “Yin-Yang” trade-off strategy: desynchronized coupling for “high-output” (functional demand) and synchronized coupling for “energy-saving” (maximal efficiency), demonstrating nature’s optimal “design logic” and the body’s wisdom. (the figure is drawn by Figdraw, and the photos are of the author.) waste products [22]. Respiration facilitates gas exchange, supplying oxygen to the bloodstream and expelling carbon dioxide [23, 24]. Heart rate and respiration are both peri-odic oscillations (Fig. 1), and the oscillation of heart rate, specifically observed as the variations in the time intervals between successive heartbeats, is referred to as heart rate variability (HRV). The rhythmic coupling between heartbeat and respiration is vital for maintaining the body’s metabolic balance and energy production. Since S. Hales’ seminal ob-servation of respiration-associated pulse variations in 1733 and C. Ludwig’s groundbreaking kymographic recordings in 1847, cardiopulmonary coupling has remained a classic proposition in systems physiology [25]. It manifests as car-dioventilatory coupling, respiratory stroke volume synchro-nization, and respiratory heart rate variability (RespHRV) [26]. RespHRV[27]—now termed to more accurately re-flect its physiological nature than the historical “respiratory sinus arrhythmia” (RSA) [28]—is among the most signif-icant and widely studied of these phenomena. RespHRV is characterized by an increase in heart rate during inspi-ration and a decrease during expiration (Fig. 1), and as a major contributor to heart rate variability (HRV), it is of-ten quantified via the high-frequency component (HF, 0.15-0.4 Hz)[31], but only when respiration falls within this band. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Studies have shown that cardiopulmonary coupling enhances the matching of alveolar ventilation and capillary perfu-sion, thereby improving the efficiency of respiratory gas ex-change. Many researches have focused on quantifying the synchronization level of HR-respiration coupling [29–45] to reflect the balance between activities of sympathetic nervous system (SNS) and parasympathetic nervous system (PNS) in the autonomic nervous system (ANS). This is based upon the consensus that when the PNS predominates, RespHRV com-ponents is the main contributor to HRV spectrum, whereas SNS activity increases the low-frequency (LF) components of HRV spectrum [31]. Throughout this paper, RespHRV is defined by aligning HRV with the actual respiratory fre-quency rather than by the fixed HF band. Accordingly, LF denotes the residual, non-respiration-locked component of the low-frequency band, distinct from RespHRV. Intriguingly, the foundational principle of “heart-breath interdependence” [46] in Daoist cultivation practices also emphasizes the synchronized coupling oscillations. This suggests a profound connection between synchronization, deep relaxation, and energy conservation. Inspired by this, we have developed the Heart-Breath Coherence ( HBC ) met-ric [29]. HBC more accurately quantifies the degree of synchrony between HR and respiration by taking into ac-count dynamic breathing patterns and incorporating the respiration-HR phase difference. This allows for a better assessment of ANS balance. This metric has been demon-strated to significantly enhance performance in assessing the body’s relaxation/stress levels, outperforming the existing 26 HR/respiration-related metrics based on frequency-domain and time-domain analyses [29]. Thus, Daoist wisdom finds resonance in modern science. The consensus derived from both Eastern wisdom and modern science has raised a critical question: does HR-respiration synchronization represent an energy-saving mode under the optimization of energy efficiency in the cardiopulmonary system? Surprisingly, our exploration uncovered profound similarities with the optimal resource allocation strategy based on the “water-filling” principle in communication engineering [47], suggesting the possibility of universal optimization strategies in complex systems. On the other hand, drawing from the world classic I Ching 
+
+which states that “the interaction of yin and yang constitutes the Dao”, we believe that the work/stress state (correspond-ing to “yang”) in living organisms also holds physiologi-cal significance, just as the relaxed state (corresponding to “yin”) does. Key elements such as HF/LF, PNS/SNS, and re-laxation/work can all be viewed as paired “yin” and “yang” aspects. Previous studies have demonstrated that the LF os-cillations in HRV spectrum can maintain a robust metabolic level during high-intensity exercise [48]. This prompts us to further explore the physiological significance of the LF components and the physiological optimization logic under-lying the dynamic changes in the synchronization of HR-respiratory oscillations. In this paper, we propose a theoretical paradigm “ bi-modal coupling optimization strategy ” to reveal how the cardiopulmonary system achieves a trade-off between energy efficiency optimization and functional prioritiza-tion by switching between high-synchronization and low-synchronization modes. We quantify the functional de-mands of the cardiopulmonary system as the volume of oxy-gen uptake, and its energy efficiency as the oxygen uptake per unit of cardiac work. By integrating a gas exchange dynamic model [49], applying the water-filling optimization theory and numerical optimization approach, we prove that complete synchronization of HR and respiration achieves optimal energy efficiency. Human data from multi-scenario experiments also support this theory: higher HR-respiration synchronization (higher HBC values) corresponds to more relaxed state and higher energy efficiency, while maintaining oxygen levels at baseline; under stressful tasks such as men-tal arithmetic, the demand for oxygen increases, and the rise in heart rate leads to increased cardiac workload. The syn-chronization between HR and respiration is disrupted (lower 
+
+HBC value), resulting in reduced energy efficiency in the cardiopulmonary system, but oxygen uptake increases. Be-yond oxygen uptake, respiration is also vital for the expul-sion of carbon dioxide. We also investigate the energy effi-ciency as characterized by carbon dioxide elimination, and obtained similar results. Fig. 1 vividly illustrates the basic concepts and ideas of this study. 
+
+Results 
+
+HR-respiration synchronization maximizes energy effi-ciency 
+
+We determine the optimal synchronization between heart-beats and respiration to maximize the oxygen uptake per unit of cardiac work. Consider a sequence of heartbeat tim-ings τ0 < τ1 < τ2 < ⋯ < τn. According to the gas ex-change model, the total oxygen uptake during the time inter-val [τ0, τ n] can be calculated via the following integral (see e.g. [50]): 
+
+VO2 [τ0, τ n] = D0 ∫
+
+> τn
+> τ0
+
+[pao (t) − po(t)] dt (1) where, pao (t) and po(t) denote the alveolar and blood oxy-gen pressures respectively, and D0 = 3.5 × 10 −4 L mmHg −1
+
+s−1 denotes the oxygen diffusion constant [51]. Both the variations of pao (t) and po(t) are not only affected by res-piration but also by the heartbeat timings ([49]). Given the time interval [τ0, τ n], our goal is to determine the optimal timings of the intermediate heartbeats τ ≜ {τk}n−1 
+
+> k=1
+
+so that the total oxygen uptake (1) is maximized subject to the total cardiac work constraint [50]: 
+
+W (τ ) = Vc2Rbn
+
+∑
+
+> k=1
+
+1
+
+τk − τk−1
+
+≤ nW 0 (2) where W0 denotes the bound on the average cardiac work per heartbeat. We assume that Vc and Rb are constants, fol-lowing a common modeling choice in the literature [50, 52– 55]. Appendix G discusses cases where Rb and Vc are time-varying. By solving this optimization problem with the Karush-Kuhn-Tucker (KKT) conditions [56, 57], we have the fol-lowing result. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Fig. 2: The respiratory-synchronized HR pattern maximizes cardiopulmonary energy efficiency. (a) Analogy between the cardiopulmonary optimization problem (blue box) and communication system’s water-filling theory (gray box). The op-timal HR pattens show strict phase-dependency with respiration (inspiratory acceleration and expiratory deceleration). The water-filling theory in communication system illustrates channel allocation principles (light gray), and shares similar math-ematical foundations between the two optimization problems. (b) Numerical solutions of the cardiopulmonary optimization with constrained cardiac work W0. For given respiratory cycles (T = 3-10 s; blue dotted curves), computed optimal HR (red lines) exhibit near-identical start-to-end values within each respiratory period. It shows that the optimal HR for continuous breathing contains only the respiratory-synchronized component. (c) The polar plot visualizes the energy efficiency as a func-tion of HR-respiration phase differences. The distance from the center along each radial spoke represents the magnitude of energy efficiency for that specific phase difference. For respiratory cycles ranging from T = 3-10 s, the chart consistently shows that energy efficiency is maximized when the phase difference is 0 ○. (d) Energy efficiency comparison between optimal-HR and optimal-HR+LF. For every given cardiac work, respiratory-synchronized HR consistently achieves higher efficiency, fur-ther validating the theoretical optimum. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Theorem 1. The optimal heartbeat timings τ ∗ = {τ ∗ 
+
+> k
+
+}n−1
+
+> k=1
+
+maximizing VO2 [τ0, τ n] in (1) subject to the constraint (2) can be determined by solving the following equations: 
+
+1
+
+(τ ∗ 
+
+> k+1
+
+− τ ∗ 
+
+> k
+
+)2 − 1
+
+(τ ∗ 
+
+> k
+
+− τ ∗
+
+> k−1
+
+)2 = 1
+
+λ∗ h(τ ∗ 
+
+> k
+
+)
+
+for k = 1, 2, . . . , n − 1, (3) 
+
+> n
+
+∑
+
+> k=1
+
+1
+
+τ ∗ 
+
+> k
+
+− τ ∗
+
+> k−1
+
+= nW 0
+
+Vc2Rb
+
+, (4) 
+
+where the function h(t) depends on the alveolar oxygen pressure pao (t) and is defined in (16), and the constant 
+
+λ∗ > 0 is the Lagrange multiplier associated with the con-straint (2) and its value can also be determined by solving the equations above. 
+
+Although an explicit analytic solution of (3)-(4) is gener-ally impossible (depending on pao (t), which conversely is affected by τ ∗), the following property can be easily de-duced about the R-R intervals, i.e., the time intervals be-tween consecutive heartbeats. 
+
+Corollary 1.1 (Phase dependency of HR on respiration ).
+
+Consider a single respiratory cycle containing a sequence of heartbeat timings τ0, . . . , τ n1 , the optimal R-R intervals 
+
+RR ∗ 
+
+> k
+
+= τ ∗ 
+
+> k
+
+− τ ∗ 
+
+> k−1
+
+exhibit respiratory-phase-dependent dy-namics: 
+
+RR ∗ 
+
+> k+1
+
+− RR ∗
+
+> k
+
+⎧⎪⎪⎨⎪⎪⎩
+
+< 0, if τ ∗ 
+
+> k
+
+∈ Iinsp 
+
+> 0, if τ ∗ 
+
+> k
+
+∈ Iexp 
+
+for k = 1, 2, . . . , n 1 − 1
+
+(5) 
+
+where Iinsp and Iexp represent the inspiratory and expira-tory phases of the respiratory cycle, respectively. Therefore, as the reciprocal of the R-R intervals, the optimal HR in-creases during the inspiratory phase and decreases during the expiratory phase. 
+
+Basically, (5) implies that the heart rate speeds up during inspiration and slows down during expiration, which means the phase difference ( ∆θ) between HR and respiration is 0 ○
+
+(as shown in Fig. 2a). Below we elucidate the implications of the theorem and highlight the key ideas underlying its proof. The complete proof is provided in the Methods sec-tion. The main idea behind the optimal solution in Theorem 1 is analogous to the water-filling principle in communication engineering (see Fig. 2a). Both address constrained resource allocation: the water-filling approach optimizes power allo-cation across channels to maximize communication capac-ity, while our cardiopulmonary solution optimizes heartbeat distribution under cardiac work constraint to maximize oxy-gen uptake. Both adopt a “more for better” strategy—more power for channels with higher gains, and more heartbeats for periods with higher alveolar oxygen pressure. Within each R-R interval, oxygen uptake mainly depends on the alveolar-capillary partial pressure gradient at the start of the heartbeat. Since blood oxygen partial pressure here equals venous oxygen pressure ( ≈ 40 mmHg), alveolar oxy-gen partial pressure primarily governs the oxygen uptake. This pressure fluctuates with respiration: rising during in-spiration, peaking at phase transition, and falling during ex-piration [58–62]. Hence, the optimal HR-respiration pat-terns are characterized by HR increases during inspi-ration and decreases during expiration, achieving phase synchronization (see the optimal HR modes in Fig. 2a). Corollary 1.1 shows that phase-dependent HR—an in-crease during inspiration followed by a corresponding de-crease during expiration—is a necessary condition for max-imizing energy efficiency. The optimal heartbeat sequence satisfies the equations (3)-(4) in Theorem 1. Nevertheless, the bidirectional influence between the alveolar oxygen par-tial pressure and the heart rate renders the analytical solution generally impossible. Instead, we find the numerical solu-tion (details in Methods) for the optimal HR, yielding the results in Fig. 2b. For the numerical calculation, we choose the cardiac work bound W0 such that the mean heart rate does not exceed 90 bpm (a physiologically reasonable range supported by ex-perimental data) to facilitate a clearer demonstration of the phase relationship between HR and respiration. These re-sults show that the optimal HR at the beginning of the res-piratory cycle is essentially consistent with that at the end. This indicates that the optimal HR pattern for energy effi-ciency across multiple respiratory cycles should not contain LF components other than the respiratory frequency, mean-ing that RespHRV accounts for the entirety of HRV spec-trum. To further validate and visualize our findings, we first generate HR-respiration with different phase differences by reordering the optimal R-R interval sequence. As shown in Fig. 2c, optimal energy efficiency is always achieved at phase difference ∆θ = 0○. Then, we systematically synthesized HR (details in Appendix B) containing vary-ing amplitudes of LF components while maintaining equiv-alent cardiac work. As demonstrated in Fig. 2c, the en-ergy efficiency ( ηo2 ) of purely respiratory-synchronized HR (RespHRV-only, blue datapoints) consistently exceed that of LF-containing patterns (red datapoints) across all tested con-ditions. Combining the theorem proof and numerical simulations, we demonstrate that HRV with only RespHRV components (i.e., fully respiration-synchronized HR) can achieve maxi-mal oxygen uptake under identical cardiac work constraints. 
+
+Increased oxygen demand requires breaking HR-respiration synchrony 
+
+When the human body transitions from a relaxed state to a stressed state, the dominant component in HRV spectrum shifts from RespHRV to LF oscillations [63, 64]. Since HR-respriation synchronization (RespHRV) improves energy ef-ficiency, why does stress disrupt its synchronization? The following analysis shows that the transition from RespHRV to LF as the primary component in HRV spectrum serves to meet functional demands (specifically the increased oxygen uptake requirements of the body). The analytical approach and logical steps to address this issue are as follows. (1) If a significant increase in oxygen uptake ( VO2 )is required, can this be achieved without disrupting the HR-respiration synchronization (i.e., maintaining the same 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Fig. 3: Oxygen uptake ( VO2 ) primary depends on mean heart rate (HR) (minimal effect of amplitude modula-tion). Oxygen uptake ( VO2 ) under optimized HR patterns (red curves) across mean HR values (70, 74, 78, 80, 90, 100 bpm) and amplitude ranges (A = [a1, a 2, ..., a 9] = [4,6,..., 20] bpm) at fixed respiratory period ( T = 3.7s). Purple shad-ing and errorbar denote mean values ± standard deviations of 
+
+VO2 when varying amplitudes at each mean HR. The subfig-ure shows the changes of oxygen uptake VO2 and cardiac work W for different HR amplitudes when the mean HR is 90 bpm. waveform and phase between HR and respiration)? This means that the only variable we can change is the ampli-tude of the HR . Therefore, we first examine whether alter-ing the amplitude of the HR waveform can achieve the goal of significantly increasing VO2 (note that the HR-respiration synchronization and the mean HR must remain unchanged). As shown in Fig. 3, we use sine wave forms to simulate HR and respiratory data under some ideal conditions. Given a respiratory cycle of T = 3.7s (the average respiratory cy-cle observed in the mental arithmetic task experiment), the HR patterns are set to be fully synchronized with respira-tion which can maximize the VO2 . With different mean and amplitudes of HR, the oxygen uptake are calculated by the gas exchange dynamic model [49] (details in Appendix B). Results show that the contribution of only changing the am-plitude of the HR to VO2 is on the order of 10 −1mL , which is not sufficient to significantly increase VO2 .(2) Since by changing the amplitude of HR does not achieve the goal of significantly increasing VO2 , we then at-tempt to increase the mean HR. Results in Fig. 3 show that increasing the mean HR can significantly increase VO2 . The increase in oxygen uptake is on the order of 10 mL for every 2 bpm increase in the mean HR, which is significantly higher than the effect of changes in HR amplitude. (3) Since increasing the mean HR is necessary for sig-nificantly enhancing VO2 , will this inevitably introduce LF 
+
+Fig. 4: An increase in mean HR introduces LF com-ponents and disrupts HR-respiration synchronization, which can be dynamically measured by HBC . (a) Simu-lation of HR under sympathetic activation by the cardiopul-monary dynamic model. Blue dashed line, red line, and pur-ple line show sympathetic tone, HR and oxygen uptake re-spectively. HR increases with enhanced sympathetic input, introducing LF components into HRV spectrum, and oxy-gen uptake rises accordingly. (b) Changes in HBC induced by HR in Fig (a). Insets show the power spectral density of HRV. Values of HBC decrease/increase as the proportion of LF components in HRV increases/decreases. 
+
+components in the HRV frequency domain and disrupt the HR-respiration synchronization? Results show that LF com-ponents will appear in the HRV spectrum when the mean HR increases or decreases based on a numerical study of a physiological mechanism model of the cardiopulmonary system [65], which is improved and validated by our team [66] (more details in Appendix D). When a person is under stress, the activity of the SNS increases, stimulating an el-evation in HR. Therefore, we introduce varying strength of SNS activity, and find that the LF component appear in re-sponse to changes in SNS activity (Fig. 4a). These results demonstrate that to increase oxygen uptake, the mean HR must be elevated, which will introduce LF components into the HRV spectrum, disrupt HR-respiration synchronization, and reduce energy efficiency. It means that the LF components in the HRV spectrum achieve functional demands at the cost of cardiopulmonary energy efficiency. 
+
+Bimodal coupling optimization with HBC 
+
+Now, we have theoretically established the “ bimodal cou-pling optimization strategy ”: (1) the high HR-respiration synchronization level (RespHRV component) maximizes the energy efficiency; (2) the low HR-respiration synchroniza-tion level (LF component) serves to enhance oxygen uptake to meet functional demands. However, complete synchronization and complete desyn-chronization modes are rarely observed. Instead, both Re-spHRV and LF components of HRV spectrum typically co-exist simultaneously, with their relative proportions varying. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Fig. 5: The HR-respiration synchronization level can be dynamically measured by HBC . (a) Synthetic HR and respi-ration data with dynamically changing synchronization levels. From left to right, the synchrony of HR-respiration weakens, manifested by increased phase difference ( ∆θ) and LF components, and a gradual decrease in the proportion of RespHRV components. (b) Trends in HBC calculated from HR and respiratory data in Fig (a). Insets show the power spectral density of HRV for the corresponding time period. HBC values are computed every 1 second, based on a 40-second window of HR and respiratory data centered around the current time point, generating a dynamic curve of HR-respiration synchronization level. Therefore, it is necessary to consider a measure of the HR-respiration synchronization level and its relationship with energy efficiency. To address this issue and enable practi-cal application and experimental validation of these theoret-ical findings with real data, we employ HBC to dynamically quantify the ratios of RespHRV and LF components in HRV spectrum (details of calculation of HBC are in Appendix C). As shown in the Fig. 4b and Fig. 5, for dynamic HR-respiration curves, HBC [29] has been proved that it can well quantify the real-time RespHRV/LF ratio and contain the phase difference between HR and respiration (as the prop-erty of optimal HR modes proven in the theorem 1). The HR and respiration here are synthesized in the form of sinusoidal waves (details in Appendix B). When the LF component or the phase difference increase, HBC correspondingly de-creases. Therefore, we can validate the aforementioned the-oretical results by examining the relationship between HBC 
+
+and energy efficiency. 
+
+Experiments show HR-respiratory synchronicity ( HBC )correlates positively with energy efficiency 
+
+Below we validate the “ bimodal coupling optimization strategy ” with experimental data. We design experiments to induce varying degrees of re-laxation and stress in humans, demonstrating different HR-respiration synchronization levels that are effectively quan-tified by HBC in our past research [29]. Specifically, in this paper we have extended the experiments by incorporating a stressful mental arithmetic task and expanding the partic-ipant cohort to 65 volunteers. The experimental protocol comprises five scenarios, which contains different items for inducing relaxed or stressed state (Methods for details): 
+
+① Arithmetic task 
+
+The greatest pressure throughout the entire experiment 
+
+② Listening to sounds , including the blue noise, smooth piano music, and quarrel audio. 
+
+③ Emotional evocations , including recalling posi-tive/relaxing moment or annoying moment. 
+
+④ Smelling odors , including the essential oil, toilet cleaner spirit, and Chinese herb. 
+
+⑤ Watching videos , including relaxing videos (lovely flower or pet) and a scary spider video. For each item of the experiment, data of HR, respira-tion and the fingertip oxygen saturation are measured syn-chronously, which can be used to derive and calculate the cardiac work ( W ), the volume of oxygen taken up by the blood ( VO2 ), the volume of carbon dioxide output ( VCO 2 ), the energy efficiency of cardiopulmonary system ( ηo2 = VO2
+
+> W
+
+or ηco 2 = VCO 2 
+
+> W
+
+) and the HR-respiration synchronization level ( HBC ), and then to verify relationship among them (de-tails in Appendix A). Since the conclusions regarding CO 2
+
+are similar to those for O2, to maintain focus, subsequent analyses primarily center on oxygen uptake, with certain 
+
+CO 2-related findings provided in Appendix E. Since direct measurement of oxygen uptake involves alve-olar and blood oxygen partial pressures that are challenging to assess non-invasively and continuously, we employ a gas exchange dynamic model [49] incorporating actual data of HR, respiration for estimation. The mental arithmetic item represent the most stressful period for volunteers throughout the experiment, character-ized by the highest average HR, highest proportion of LF components in HRV spectrum which means SNS is very ac-tivie, and the lowest HR-respiration synchronization level (HBC value is the lowest). Among the four other scenar-ios, as reported by volunteers, the most relaxing items are smelling the essential oil, listening to the smooth piano, re-calling the positive mement, and watching the relaxed video, during which the RespHRV component is the main compo-
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Fig. 6: Relaxation enhances the energy efficiency of the cardiopulmonary system ( ηo2 or ηco 2 ) which correlates posi-tively with HR-respiration synchronization level assessed by HBC . The bottom-right panel shows the experimental setup of five scenarios, each containing items inducing either relaxation or stress. (a) , (b) and (c) respectively show the HBC , ηo2 ,and ηco 2 values for 65 volunteers across different experimental items. Numbers above comparison brackets are p-values from pairwise comparisons; see Methods for statistical details. Significance codes: * p < 0.05, ** p < 0.01, *** p < 0.001. During the arithmetic task (a stress state), all three metrics are significantly lower than during other relaxation items. (d) Individual and group-averaged HBC -ηo2 regression lines. Colored points represent data from each volunteer, while lines of the same color show the fitted trend for that individual. The bold dark blue line and shaded area indicate the group mean ± SD. A positive correlation is observed in 92.2% of volunteers (correlation coefficient = 0.45 ± 0.16). (e) , (f) Mean ± SD of ηo2 /ηco 2
+
+and HBC for each item across all volunteers. The correlation is significant ( p < 0.01 , with r = 0.8, t(9) = 4.01, confidence interval = [0.48, 1] for ηo2 and r = 0.78 , t(9) = 3.80, confidence interval = [0.44, 1] for ηco 2 ). nent of HRV (higher HBC values). Based on the analysis of the experimental data, here are the findings: (1) Cardiopulmonary energy efficiency ( ηo2 or ηco 2 ) is re-duced under stress but improves in a relaxed state. The re-sults of ηo2 and ηco 2 show consistent patterns. Regarding the overall distribution across all volunteers (Fig. 6b), the arith-metic task exhibites significantly lower ηo2 compared to all relaxation-inducing items (Smooth piano p = 2.2e−7, t(47 ) =5.84, confidence interval = [0.17, 0.34], d = 0.74; Positive moment p = 6.2e−7, V = 1039, confidence interval = [0.15, 0.34], d = 0.86; Essential oil p = 3.4e−17 , t(61 ) = 11.68, confidence interval = [0.47, 0.66], d = 1.48; Relaxed video 
+
+p = 2.1e−8, t(45 ) = 6.78, confidence interval = [0.24, 0.45], d = 1.00). Turning to the analysis of group-level means (Fig. 6e), two key findings emerge: firstly, the arithmetic task yields the lowest mean ηo2 among all experimental items. Secondly, within each of the three other scenarios (emotional evocations, smelling odors, and watching videos), relaxation items consistently demonstrate higher mean ηo2 than their stress-inducing items (i.e. for the smelling odors scenario, essencial oil > Chinese herb > toilet). The exception is blue noise in the sound scenario, it may be due to the fact that not all volunteers perceived blue noise as stressful. (2) The energy efficiency ( ηo2 or ηco 2 ) demonstrates a statistically significant positive correlation with the HR-
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Fig. 7: During stress, the cardiac work ( W ) and volume of oxygen uptake ( VO2 ) are increasing. (a) The cardiac work ( W )for different experimental items. The W during the arithmetic task is significantly more than that during other relaxed items in each scenario. Numbers above comparison brackets are p-values from pairwise comparisons; see Methods for statistical details. Significance codes: * p < 0.05, ** p < 0.01, *** p < 0.001. (b) The oxygen uptake ( VO2 ) for different experimental items. The VO2 during the arithmetic task is more than that during other relaxed items except the item of essential oil. (c) 
+
+The individual W -VO2 regression line for each volunteer, along with the group-averaged regression line. W -VO2 showes a positive correlation in 89.1% of volunteers, with correlation coefficients of 0.58 ± 0.29. respiration synchronization levels (measured by HBC val-ues). Firstly, if we examine all items undertaken by each in-dividual, the HBC and energy efficiency ηo2 show a positive correlation for 92.2% of the volunteers with mean correction coefficients r = 0.45 ± 0.16 (Fig. 6d). Secondly, if we ex-amine mean values of HBC and ηo2 of each item for all vol-unteers, they show the significant positive correlation, with correlation coefficients of r = 0.80 and p=0.0015 (Fig. 6e). Furthermore, values of HBC during the arithmetic task for all volunteers are significantly lower than that during other relaxed items which show the same trend as the energy ef-ficiency ηo2 (Fig. 6a and e) (Smooth piano p = 0.0011 , V = 1442, confidence interval = [0.04, 0.19], d = 0.45; Pos-itive moment p = 3.2e−8, V = 975, confidence interval = [0.08, 0.23], d = 0.50; Essential oil p = e−9, t(61 ) = 9.81, confidence interval = [2.06, 3.12], d = 1.25; Relaxed video 
+
+p = 0.0084 , V = 779, confidence interval = [0.03, 0.18], d = 0.51). 
+
+Experiments show under stress: cardiac work and O2
+
+uptake increase 
+
+(1) Oxygen uptake: during physical or psychological stress, the human body requires more oxygen consumption and uptake. Fig. 7b shows the volume of oxygen taken up during the arithmetic task is significantly more compared to 3 other relaxed items: listening to the smooth piano ( p <
+
+0.001 , t(61 ) = -3.84, confidence interval = [-20.42, -6.43], d = -0.49), recalling to the positive moment ( p < 0.001 , t(61 )
+
+= -1.08, confidence interval = [-10.55, 3.17], d = -0.14) and watching the relaxed video ( p < 0.001 , t(45 ) = -4.01, confi-dence interval = [-25.45, -8.43], d = -0.59). The p-value of oxygen uptake between the arithmetic task and smelling to the essential oil scenario is more than 0.05 (V = 854, confi-dence interval = [-8.95, 3.56], d = -0.14), (2) Cardiac work: obviously, the heart works harder dur-ing the working/stress state (Fig. 7a). The overall distri-Table 1: Physiological responses during different tasks.                         
+
+> Item VO2
+> (mL/min)
+> W
+> (J/min) HBC ηo2
+> (mL/J) Relaxed Piano Music 232.76 75.82 0.38 3.17 Positive Moment 235.14 78.05 0.41 3.12 Essential Oil 243.47 72.55 0.57 3.45 Relaxed Video 233.42 75.71 0.36 3.19 Average ( ◯)236.20 75.53 0.43 3.23 Stress Arithmetic (
+
+# △) 247.14 88.87 0.26 2.91 Difference ( ◯-△)/△ -4.43% -15.00% 70.36% 11.38% 
+
+bution of cardiac work during the arithmetic task is signif-icantly more than that during relaxed items in each experi-mental scenario: listening to the smooth piano ( p < 0.001 ,V = 294, confidence interval = [-15.08, -6.05], d = -0.71), recalling to the positive moment ( p < 0.001 , V = -78, confi-dence interval = [-16.46, -6.76], d = -0.88), smelling to the essential oil ( p < 0.001 , V = 74, confidence interval = [-18.82, -10.41], d = -0.95), and watching the relaxed video (p < 0.001 , V = 58, confidence interval = [-19.43, -9.83], d = -0.92). To cope with changes of physical and mental states, the cardiac work and oxygen uptake are changing. Meanwhile, the increase in work done by the heart is often accompanied by an increase in oxygen uptake (Fig. 7c). Overall, as shown in Table 1, these results confirm that during tasks, the HR-respiration synchronization level and energy efficiency decrease, while the cardiac work and oxygen uptake increase. Specifically, under stress (mental arithmetic task) compared to relaxation, the mean HR-respiration synchronization level decreases by 70.36%, mean energy efficiency decreases by 11.38%, the mean oxygen uptake increases by 4.43%, and the mean cardiac 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+work increases by 15.00%. 
+
+Discussion 
+
+Through theoretical mathematical proof and simulations based on cardiopulmonary coupling mode and the gas ex-change dynamic model, and empirical validation using ex-perimental data, we demonstrate: (1) using water-filling the-ory, we demonstrate that complete in-phase oscillation be-tween HR and respiration maximizes oxygen uptake while limiting the maximum cardiac work. Through a numeri-cal optimization approach based on simulated annealing, we further confirm that full synchronization between HR and respiration represents the most energy-efficient mode. Ex-perimental data also validate that in more relaxed states, the HBC —a measure of HR-respiration synchronization level—increases, leading to enhanced energy efficiency in the cardiopulmonary system; (2) model-based numerical simulations reveal that under high oxygen demand (e.g., during stressful tasks), an increase in mean heart rate (and thus cardiac work) is required to meet demands for oxy-gen uptake. This introduces LF components into HRV, dis-rupting HR-respiration synchrony and reducing energy effi-ciency. The low-synchronization mode serves as an adap-tive strategy that prioritizes functional demands at the ex-pense of energy efficiency. Experimental data further con-firm that during stress (e.g., mental arithmetic tasks), oxy-gen uptake increases while HBC decreases, accompanied by reduced energy efficiency. Moreover, dynamic changes in 
+
+HBC strongly correlate with variations in cardiopulmonary energy efficiency, demonstrating a significant positive rela-tionship. This further shows that dynamical changes syn-chronization level of HR and respiration can balance func-tional demands and energy efficiency. This work advances our understanding of HR-respiration coupling by providing a rigorous theoretical proof for the physiological significance of in-phase synchronization. This contribution is distinct from previous work: First, it estab-lishes a mechanistic link that complements the phenomeno-logical findings of prior physiological experiments [67, 68]. Second, by employing analytical optimization conditions, our framework formally proves that a zero-phase difference is the optimal solution for energy efficiency, an insight not attainable through the numerical approaches used in pre-vious theoretical models [50, 69]. It should be noted that the current theoretical framework is primarily predicated on the physiological parameters of healthy individuals in a non-exercise condition. Although the quantification of cardiopul-monary coupling has been extensively studied for applica-tions in emotion classification, sleep monitoring, and disease surveillance, its specific quantification methods and physio-logical implications remain controversial. Our theoretical re-sults demonstrate that HR-respiration synchronization maxi-mizes cardiopulmonary energy efficiency, supporting the hy-pothesis that RespHRV serves as an intrinsic resting func-tion of the cardiopulmonary system [67]. This also high-lights the physiological significance of zero phase differ-ence between HR and respiration, which was previously only demonstrated in experimental studies on dogs [68]. These findings further suggest that phase difference must be con-sidered in mathematical methods for quantifying cardiopul-monary coupling. Our experimental results show that the HR-respiration synchronization level operates along a dynamic continuum rather than exhibiting binary RespHRV/LF state transitions. The proposed HBC metric quantitatively captures this con-tinuum, which show significant correlation with cardiopul-monary energy efficiency. This reveals an optimal regu-latory strategy where the human body fine-tunes the Re-spHRV/LF ratio to balance energy conservation and func-tional demands. Notably, HBC provides a viable solution for noninvasive, continuous monitoring of cardiopulmonary efficiency, as its computation requires only HR and respira-tory data. The experimental results show that the energy saving caused by changes in the HR-respiration synchronization levles are of physiological significance. Classic literature [70] indicates that a typical healthy adult expends approx-imately 81.4 J/min of cardiac work under resting conditions [70]. In our experiments, the cardiac work during the stress-ful mental arithmetic task exceeds this value, whereas the four relaxation scenarios demonstrates reduced cardiac en-ergy expenditure. This indicates that our experimental sce-narios effectively induce the stress or more relaxed mood. On the other hand, it also shows that compared with the resting state, the cardiac energy consumption of the men-tal arithmetic task is approximately 7.47 J/min higher. This implies that if a person remains in a state of stress or work-ing for 8 hours a day, the heart will consume approxi-mately 3585.60 J more energy. On the other hand, relax-ation induced through smoothing music and pleasant memo-ries demonstrates greater cardiac work efficiency compared to ordinary rest, achieving more significant energy conserva-tion. This indicates the importance of deep relaxation —such as that attained through meditation and mindfulness prac-tices — for health maintenance and well-being. It should be noted that since some physiological parame-ters cannot be directly measured noninvasively, our experi-mental results are obtained by combining measurable phys-iological quantities with a gas exchange dynamics model [49]. Although this introduces a potential source of dis-crepancy, we have undertaken multiple steps to ensure and demonstrate the model’s reliability. Firstly, the physiologi-cal quantities obtained by the model [49] are all within the normal physiological range for the healthy human, which in-clude that the oxygen exchange efficiency in the lung, the volume of oxygen uptake and the lung capillary saturation of oxygen ( ScO2). Mean values of these quantities for all volunteers calculated by the model are 4.2%, 233.1 ml and 97.4% respectively, which correspond to normal physiolog-ical values [71, 72]. Furthermore, we also utilize the exper-imental data of the finger blood oxygen saturation ( SpO2)to estimate the blood oxygen partial pressure and derive the volume of oxygen uptake ( VO2 ) by SpO2, which is consis-tent with the results calculated by the model (shown in the Appendix F). Consequently, while minor discrepancies with real data persist, as illustrated in Fig. 6 (which may stem from mea-surement noise or participant adherence), they do not un-dermine the model’s core utility or our conclusions. Future research incorporating advanced measurement technologies 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Fig. 8: Bimodal coupling strategies in the Cardiopulmonary System and Islet System. (a) and (b) respectively show the oscillatory patterns of insulin (red) and glucagon (blue) in the pancreatic islet system under normoglycemic and hyperglycemic conditions. During normglycemia, their in-phase oscillations may minimize blood glucose fluctuations (maintaining glucose homeostasis) without increasing energy expenditure for β-cell insulin secretion. Under hyperglycemic conditions, insulin secretion increases and the two hormones transition to anti-phase oscillatory patterns to meet the functional requirement for rapid blood glucose reduction. (c) and (d) respectively show HR and respiration in the cardiopulmonary system during relaxed and stressed states. In the relaxed state, their in-phase synchronized oscillations maximize oxygen uptake with a restricted cardiac work. Under stress, this synchronization is disrupted, with the emergence of LF components in HRV. (a) and (c) correspond to the synchronized energy-saving mode within our proposed bimodal optimization framework, while (b) and (d) represent the desynchronized functional-priority mode. could further enhance the precision and comprehensive-ness of physiological parameter quantification, thereby en-abling more nuanced mechanistic interpretations. Futher-more, more sophisticated experimental protocols would help to investigate its broader implications: for example, adopt-ing fully randomized scenario and item sequences to better control potential order effects, expanding the range of emo-tional or physiological scenarios tested, and including more diverse participant cohorts, etc. Intriguingly, we identify analogous bimodal coupling regulation in the pancreatic islet system . In fact, our theo-retical prove depends minimally on the details of cardiopul-monary coupling system, suggesting that the proposed bi-modal optimization strategy may generalize to other oscilla-tory subsystems in living organisms. Experimental studies [73, 74] demonstrate that insulin (secreted by β-cells) and glucagon (secreted by α-cells) exhibit in-phase oscillations under normoglycemic conditions but switch to anti-phase 
+
+oscillations during hyperglycemia (Fig. 8a-b). This can be formalized as an optimization problem based on α–β cell coupling: 
+
+min  
+
+> I(t)
+
+∫
+
+> T
+> 0
+
+G0 − G(t; I(t)) dt 
+
+s.t. ∫
+
+> T
+> 0
+
+I(t) dt ≤ I0
+
+(6) where I(t), G(t), G0, and I0 represent insulin concentration dynamics, blood glucose variation, baseline glucose level, and total insulin secretion from β-cells, respectively. The objective function quantifies the magnitude of blood glucose concentration fluctuations (with smaller values being prefer-able for maintaining glucose homeostasis). The constraint specifies the maximum total concentration of insulin se-creted during time 0−T by β-cells, representing the maximal energy expenditure during insulin secretion. This optimiza-tion framework formalizes how to allocate oscillatory insulin concentrations to minimize blood glucose variability while preserving β-cell energy expenditure. Under hypoglycemic conditions, the glucose concentration G(t) approximates the basal level G0. This formulation appears to align with the HR-respiratory coupling optimal problem (as shown in Fig. 8a) and shares conceptual similarities with the water-filling principle from communication theory: given a maximal to-tal insulin output, temporal allocation of secretion may op-timize glycemic stability. The optimal solution under nor-moglycemia could involve in-phase α–β oscillations, poten-tially maximizing energy efficiency. During hyperglycemia, preliminary observations [75] indicate that functional de-mand for rapid glucose reduction may require increased in-sulin secretion, which appears to disrupt synchronized α–β
+
+oscillations (as shown in Fig. 8b) - a pattern resembling our cardiopulmonary observations. However, more rigorous the-oretical exploration of this optimization problem requires an established and physiologically plausible model of α–β cell interactions. Therefore, we cannot provide the stringent the-oretical proofs. The bimodal optimization paradigm opens a new per-spective for understanding intelligent regulation in biolog-ical systems. In systems biology, this paradigm provides 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+a novel approach to investigate oscillatory coupling, as demonstrated by the HR-respiration coupling in the car-diopulmonary system, with preliminary evidence also sug-gesting its applicability to the pancreatic islet system. For health preservation, our findings emphasize the importance of work-rest balance, as continuous high intensity work, chronic stress and excessive anxiety will deplete cardiac en-ergy reserves. From the interdisciplinary perspective, the integration of eastern “Yin-Yang” philosophy and “Heart-Breath Interdependence” Daoist cultivation principle with western science (specifically, systems physiology, dynami-cal systems modeling, and optimization theories from engi-neering), offers unique insights into optimization strategies for complex oscillatory networks. 
+
+Methods 
+
+Proof of Theorem 1 
+
+Theorem 1 can be proved in three steps: Step1 - Derive an explicit expression of the objective func-tion. First, consider the oxygen uptake on each R-R interval: 
+
+VO2 [τk−1, τ k] = D0 ∫
+
+> τk
+> τk−1
+
+(pao (t) − po(t)) dt 
+
+for k = 1, 2, . . . , n . Direct measurement of pao (t) and po(t)
+
+is generally difficult and invasive, but they can be obtained via a gas exchange dynamic model [49] as the following: 
+
+dp o(t)
+
+dt = D0
+
+σV cCu
+
+(1 + 4Th
+
+σd ˜f (po)
+
+dp o
+
+)−1(pao (t) − po(t)) 
+
+(7) where the function ˜f (po(t)) represents the oxygen-hemoglobin dissociation curve: 
+
+˜f (po) = LK T σp o(1 + KT σp o)3 + KRσp o(1 + KT σp o)3
+
+L(1 + KT σp o)4 + (1 + KRσp o)4
+
+(8) which is a monotonously increasing function, i.e., d ˜f (po) 
+
+> dp o
+
+>
+
+0, implying a strict rise in the percentage of hemoglobin that becomes oxygen-bound as the partial pressure of oxy-gen in the blood increases [51]. During each RR interval 
+
+[τk−1, τ k], the partial pressure of oxygen po(t) demonstrates a consistent increasing trend, implying dp o(t) 
+
+> dt
+
+> 0 through-out this period. Consequently, ˜f ′(po(t)) = d ˜f (po(t))  
+
+> dt
+
+=   
+
+> d˜f(po)
+> dp o
+> dp o(t)
+> dt
+
+> 0, for t ∈ [τk−1, τ k]. The constants σ =
+
+1.4 × 10 −6L−1mmHg −1, Vc = 0.07 L, Cu = 25 .426 Lmol −1,and Th = 2 × 10 −3molL −1 are oxygen solubility in blood plasma, capillary volume, unit conversion factor, capillary haemoglobin concentration, respectively [49]. Then, the oxygen uptake on each R-R interval can be cal-culated as the following: 
+
+VO2 [τk−1, τ k]
+
+= D0 ∫
+
+> τk
+> τk−1
+
+(pao (t) − po(t)) dt 
+
+= σV cCu ∫
+
+> τk
+> τk−1
+
+dp o(t)
+
+dt (1 + 4Th
+
+σd ˜f (po)
+
+dp o
+
+)dt (9) 
+
+= σV cCu[po(τk−) − po(τk−1+)] 
+
++4VcThCu[ ˜f (po(τk−)) − ˜f (po(τk−1+))] 
+
+= σV cCupo(τk−) + 4VcThCu ˜f (po(τk−)) + C1
+
+where (9) follows from (7), and C1 is some constant since immediately after each heartbeat po(τk−1+) can be assumed to be the same. According to the basic physiology [51], when blood has moved a third of the distance through the capillary, its oxygen partial pressure rises to a level that is approximately consistent with the oxygen partial pressure in the alveoli, which means that po(τk−) ≈ pao (τk). Therefore, noting that VO2 [τ0, τ n] = ∑nk=1 VO2 [τk−1, τ k], the objective function (1) can be replaced by: maximize 
+
+> τ
+> n
+
+∑
+
+> k=1
+
+[σV cCupao (τk) + 4VcThCu ˜f (pao (τk))] 
+
+≜ g(τ ). (10) Step2 - Apply the KKT conditions The optimization problem (10) subject to (2) can be solved using a method analogous to the water-filling principle [56, 57]. First, construct the Lagrange function as follows: 
+
+L(τ , λ ) = g(τ ) + λ( nW 0
+
+Vc2Rb
+
+−
+
+> n
+
+∑
+
+> k=1
+
+1
+
+τk − τk−1
+
+). (11) Based on the KKT conditions, the optimal heartbeat se-quence τ ∗ = {τ ∗ 
+
+> k
+
+}nk=0 should meet the following criteria: 1) Primal Feasibility: 
+
+nW 0
+
+Vc2Rb
+
+−
+
+> n
+
+∑
+
+> k=1
+
+1
+
+τk − τk−1
+
+≥ 0 (12) 2) Dual Feasibility: 
+
+λ ≥ 0 (13) 3) Complementary Slackness: 
+
+λ ( nW 0
+
+Vc2Rb
+
+−
+
+> n
+
+∑
+
+> k=1
+
+1
+
+τk − τk−1
+
+) = 0 (14) 4) Stationarity: For k = 1, 2, . . . , n − 1,
+
+∂L ∂τ k
+
+= ∂g (τ )
+
+∂τ k
+
++ λ [ 1
+
+(τk − τk−1)2 − 1
+
+(τk+1 − τk)2 ] = 0 (15) where 
+
+∂g (τ )
+
+∂τ k
+
+= [σV cCu + 4VcThCu ˜f ′(pao (τk))] p′
+
+> ao
+
+(τk)
+
+≜h(τk).
+
+(16) Because ˜f ′(x) is always positive as noted earlier, we have 
+
+˜f ′(pao (τk)) > 0. Therefore, the sign of h(τk) is determined by the sign of p′
+
+> ao
+
+(τk).Step3 - Solve for the optimal heartbeat timings Since pao (t) is not constant throughout the respiratory cycle, which guarantees the existence of at least one i ∈
+
+{1, . . . , n − 1} such that p′
+
+> ao
+
+(τi) ≠ 0, it follows from (16) that h(τi) ≠ 0 for such i. Therefore, we must have λ ≠ 0 by (15). Hence by (13), we have the solution: 
+
+λ∗ > 0. (17) Hence by (14), 
+
+nW 0
+
+Vc2Rb
+
+−
+
+> n
+
+∑
+
+> k=1
+
+1
+
+τ ∗ 
+
+> k
+
+− τ ∗
+
+> k−1
+
+= 0, (18) which means the optimum is achieved precisely when the total cardiac work equals nW 0.Combining (15) and (18), we obtain Theorem 1. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+Proof of Corollary 1.1 
+
+It has been shown in [58–62] that when the amount of in-haled gas is sufficient (non-hypoxic), the temporal derivative of alveolar oxygen partial pressure exhibits the following be-havior during the interval between the second and penulti-mate heartbeats within one respiratory cycle: 
+
+p′
+
+> ao
+
+(τk) { > 0 if τk ∈ Iinsp 
+
+< 0 if τk ∈ Iexp 
+
+, for k ∈ [1, n 1 − 1], (19) where τ1 and τn1−1 denote the timings of the second and penultimate heartbeats during one respiratory cycle, respec-tively. It should be noted that due to the presence of alveolar dead space (represented by the model parameter VD , more detalis in Appendix A), pao (t) exhibits a brief initial de-crease (lasting approximately 0.5 seconds [58]) at the start of inspiration before establishing the characteristic pattern of increase during inspiration and decrease during expira-tion. Since our subsequent proofs only require the behavior of pao (t) after the second heartbeat, we restrict the index 
+
+k in τk accordingly to exclude this initial transient phase. Therefore, by (16), 
+
+h(τk) { > 0 if τk ∈ Iinsp 
+
+< 0 if τk ∈ Iexp 
+
+, for k ∈ [1, n 1 − 1]. (20) Next, Corollary 1.1 easily follows from (3) and (20)-(17). 
+
+Numerical solution of the HR-respiratory coupling mode with optimal energy efficiency 
+
+The numerical solution to the optimization problem is ob-tained using the simulated annealing algorithm. The initial temperature is set to 100, and decreases continuously ac-cording to the formula θk+1 = θk × 0.95 . When the temper-ature drops to 10 −4, the algorithm switches to the gradient descent method with learning rate as 0.1. The convergence condition is set as the gradient magnitude being less than 
+
+10 −5 or reaching the maximum number of iterations of 5000. To optimize the observation of the phase relationship be-tween peak heart rate timing and respiration, the constrained cardiac work ( W0) is determined for each specified respira-tory cycle duration T . For each T value (3, 4, 5, 6, 7, 8, 9, 10), W0 is set to its maximum permissible value, subject to two critical constraints: (1) the mean heart rate remains be-low 90 bpm, a physiologically appropriate threshold aligned with empirical observations from experimental data; (2) the total heartbeat count is an even number (thereby ensuring an odd RR interval count). The resulting W0 values are 1.00, 1.25, 1.41, 1.16, 1.28, 1.36, 1.22, 1.49, respectively. The time duration [τ0, τ n] are set as 10 complete respiratory cy-cles. After obtaining the optimal solution, the average of the optimal heart rates over respiratory cycles is calculated and plotted in Fig. 2b. 
+
+Calculation of cardiac work 
+
+The heart pumps out a volume Vc of blood with pressure 
+
+P during each R-R interval ( RR i) as proposed in [50], de-noting the blood flow resistance as Rb:
+
+Vc = PRb ∫
+
+> τi
+> τi−1
+
+dt = PRb
+
+RR i (21) Therefore, the cardiac work W (J) per heart beat can be computed by: 
+
+W = P V c = Vc2Rb
+
+RR i
+
+(22) The heart stroke volume Vc and Rb are set as 70 ml and 1119 mmHg s L −1 (mean in the physiological range [76– 78]) respectively. 
+
+Calculation of oxygen uptake and carbon dioxide output 
+
+The computation of pulmonary oxygen uptake ( VO2 ) and carbon dioxide output ( VCO 2 ) involve alveolar oxygen par-tial pressure ( pao ), alveolar carbon dioxide partial pressure (pac ), blood oxygen partial pressure ( po), and blood carbon dioxide partial pressure ( pc). These parameters cannot be di-rectly measured non-invasively and continuously. Therefore, we employ continuously measurable physiological signals (HR and respiration) combined with a gas exchange dynamic model [49] to calculate VO2 and VCO 2 . Appendix A details the gas exchange dynamic model used and the methodology for calculating oxygen uptake by incorporating actual heart rate and respiratory data into the model. 
+
+Experimental data 
+
+The database of 65 healthy volunteers aged 27.4 ±8.9 years (31 males and 34 females) are recorded. The HR, respiration and fingertip oxygen saturation are measured synchronously by portable Embletta MPR PG device (Natus Medical Inc., San Carlos, CA, USA), and the frequency of output data are 5hz, 5hz and 3hz respectively. Continuous eletrocardiogra-phy (ECG) data is acquired using 3-channel recordings with the sampling rate of 250 Hz, and the respiratory data is ac-quired by the belt-type sensor placed on the chest and ab-domen with the sampling rate of 100 Hz. Ethics Committee at the Department of Psychology, Ts-inghua University approved the whole experimental setup, and all volunteers gave their written consents before the ex-periment. Alcohol and vigorous exercise are forbidden for 24 hours and an hour before the experiment. The experi-ment was conducted between 7 and 9 p.m. every night and lasted for about an hour. At the beginning of the experiment, volunteers were instructed to breathe deeply and slowly to the rhythm of the metronome, which allowed volunteers to get used to the site and equipment and to eliminate effects of potential stress. The experiment includes five scenarios to induce relax or stress state of the voluteers. and the detailed experimental process is as follows: 1) Scenario 1 - arithmetic task: volunteers have to count down from 1000 in steps of 17 for one minute, and are told to present their calculation results at the end of this item. They are considered to be under stress in this stage. 2) Scenario 2 - listening to sounds: volunteers listen to (i) the blue noise, (ii) the smooth piano music, (iii) quarrel audio with their eyes closed, and each lasts for 90 s. 3) Scenario 3 - emotional evocations: volunteers are in-structed to recall (i) positive and relaxing moments, (ii) neg-ative and annoying moments by picture and voice guidance. Each item lasts for 150 s and the data is used for analysis in the last 60 s, which is the most intense stage of volunteers’ emotions. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+4) Scenario 4 - smelling odors: volunteers are requested to smell (i) essential oils, (ii) toilet clean spirit, (iii) Chinese herb and they do not know what they will smell before each item. Each odor lasts for 90 s. 5) Scenario 5 - watching videos: volunteers watch videos without sounds about (i) lovely flower or pet, (ii) scary spi-ders. Each video lasts for 60 s. In experimental scenarios 2-5, listening to piano music, recalling positive moment, smelling essential oil, and watch-ing lovely flower or pet video are implemented to induce a more relaxed emotional state. A resting stage of 45 s is set between each item, during which volunteers were instructed to take deep breaths. In the actual implementation of the experimental protocol, the sequence of scenarios and items was not identical for all participants. Specifically, for sce-nario order: 15 volunteers followed the 1-2-3-4-5 order, 14 volunteers completed scenarios in the 1-2-5-3-4 order, and 10 volunteers followed the 1-2-3-5-4 order, with other se-quences assigned to a relatively smaller number of volun-teers. Additionally, the order of experimental items within each scenario was adjusted; for instance, in scenario 3, both positive-negative and negative-positive item presentation or-ders were implemented. After the experiment, visual analogue scale (VAS) is used to get feedback on how relaxed and stressed volunteers feel during each item. In addition, for the emotional evocation scenario, volunteers are asked to report whether they really introduced the corresponding emotion, so as to delete some unqualified data. 
+
+Validation of the gas exchange dynamic model by exper-imentally measured fingertip blood oxygen 
+
+Since our conclusions depend on the gas exchange dy-namic model [49], validating its effectiveness and reliabil-ity is essential. Appendix F presents the detailed validation strategies and their corresponding results. Specifically, we validate the model outputs using measured fingertip blood oxygen levels. The validation process involves two key anal-yses: (1) comparative assessment between the real finger-tip blood oxygen ( SpO2) variations and the model-derived arterial blood oxygen ( SaO2) fluctuations, and (2) investi-gation of whether oxygen uptake estimates based on finger-tip measurements exhibits consistent conclusion with model-calculated oxygen uptake - regarding whether the oxygen uptake per unit cardiac work (energy efficiency) still main-tains a positive correlation with HR-respiration synchroniza-tion level ( HBC ). Results show that: (1) the mean value of the difference bewteen SaO2 and SpO2 is only 2.12% (Ap-pendix Fig. S 3a). SaO2 and SpO2 are positive correlated with r = 0.69 and p < 0.001 (Appendix Fig. S 3b); (2) the HBC also demonstrates significant positive correlation with the SpO2-estimated oxygen uptake with r = 0.69 and 
+
+p < 0.01 . (Appendix Fig. S 4b). These results affirmatively confirm both propositions, thereby validating the reliability of the model. 
+
+Analysis and statistics 
+
+The normality of the paired differences is assessed using the Shapiro-Wilk test. For comparisons where the paired differences do not deviate significantly from normality, two-sided paired t-tests are employed. These results are reported with the mean difference, its 95% confidence interval (CI), the t-statistic, and the associated p-value. In cases where the normality assumption is violated, two-sided Wilcoxon signed-rank tests are performed. For these tests, we re-port the V statistic, p-value, and the Hodges-Lehmann es-timate of the location shift with its 95% CI. Effect sizes for paired comparisons are calculated as Cohen’s d, defined as the mean of the paired differences divided by their standard deviation. This is computed as: 
+
+d = dsd
+
+,
+
+where for each pair i, 
+
+di = xi − yi, i = 1, . . . , n, d = 1
+
+n
+
+> n
+
+∑
+
+> i=1
+
+di, sd =
+
+¿ÁÁÀ 1
+
+n − 1
+
+> n
+
+∑
+
+> i=1
+
+(di − d)2,
+
+Here d is the sample mean of the differences, sd is their sam-ple standard deviation, and n is the number of pairs. For correlation analyses, the normality of each variable is exam-ined separately using the Shapiro-Wilk test. If both variables are normally distributed, Pearson’s correlation coefficient is computed along with its p-value. Otherwise, Spearman’s rank correlation and its p-value are reported. 
+
+References 
+
+[1] Lakatos, P., Gross, J. & Thut, G. A New Unifying Account of the Roles of Neuronal Entrainment. Curr. Biol. 29, 809-905 (2019). [2] Ivanov, P. C. The New Field of Network Physiology: Build-ing the Human Physiolome. Front. Netw. Physiol. 1, 711778 (2021). [3] Glass, L. Synchronization and rhythmic processes in physiol-ogy. Nature 410, 277-284 (2001). [4] Moser, M., Fru¨ uhwirth, M. & Kenner, T. The symphony of life - importance, interaction and visualization of biological rhythms. IEEE Eng. Med. Biol. 27, 29–37 (2008). [5] Moser, M., Fr¨ uhwirth, M., Penter, R. & Winker, R. Why life oscillates – from a topographical towards a functional chrono-biology. Cancer. Cause. Control 17, 591-599 (2006). [6] Dick, T. E. et al. Cardiorespiratory coupling: common rhythms in cardiac, sympathetic, and respiratory activities. 
+
+Prog. Brain. Res. 209, 191-205 (2014). [7] Topc ¸u C ¸ . et al. Disentangling respiratory sinus arrhythmia in heart rate variability records. Pyhsiol. Meas. 39, 054002 (2018). [8] Moser, M. et al. Heart rate variability as a prognostic tool in cardiology. A contribution to the problem from a theoretical point of view. Circulation 90, 1078-1082 (1994). [9] Masuda, K., Sakurai, T. & Hirano, A. A coupled model be-tween circadian, cell-cycle, and redox rhythms reveals their regulation of oxidative stress. Sci. Rep. 14, 15479 (2024). [10] Bashan, A. et al. Network physiology reveals relations be-tween network topology and physiological function. Nat. Commun. 3, 702 (2012). [11] Kerkman, J.N. et al. Network structure of the human muscu-loskeletal system shapes neural interactions on multiple time scales. Sci. Adv. 4, eaat0497 (2018). [12] Chandra, F. A., Buzi, G. & Doyle, J. C. Glycolytic Oscil-lations and Limits on Robust Efficiency. Sci. 333, 187-192 (2011). 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+[13] Pyrkov, A. et al. Complexity of life sciences in quantum and AI era. Wires. Comput. Mol. Sci. 14, e1701 (2024). [14] Pecora, L. M. et al. Cluster synchronization and isolated desynchronization in complex networks with symmetries. 
+
+Nat. Commun. 5, 4079 (2014). [15] Millman, D. et al. Self-organized criticality occurs in non-conservative neuronal networks during up states. Nat. Phys. 
+
+6, 801-805 (2010). [16] Tu, B. P. et al. Logic of the Yeast Metabolic Cycle: Temporal Compartmentalization of Cellular Processes. Sci. 310, 1152-1158 (2005). [17] Tort, A. B. et al. Theta–gamma coupling increases during the learning of item–context associations. Proc. Natl. Acad. Sci. 
+
+106, 20942-20947 (2009). [18] Canolty, R. T. et al. High Gamma Power Is Phase-Locked to Theta Oscillations in Human Neocortex. Sci. 313, 1626-1628 (2006). [19] Axmacher, N. et al. Cross-frequency coupling supports multi-item working memory in the human hippocampus. Proc. Natl. Acad. Sci. 107, 3228-3233 (2010). [20] Bornstein, M. R., Tian, R. & Arany, Z. Human cardiac metabolism. Cell. Metab. 36, 1456-1481 (2024). [21] Kolwicz Jr, S. C., Purohit, S. & Tian, R. Cardiac metabolism and its interactions with contraction, growth, and survival of cardiomyocytes. Circ. Res. 113, 603-616 (2013). [22] Harvey, W. On the motion of the heart and blood in animals. 
+
+G. Bell and Sons (1889). [23] Courtney, R. The functions of breathing and its dysfunctions and their relationship to breathing therapy. Int. J. Osteopath. Med. 12, 78-85 (2009). [24] Qureshi, S. M. Measurement of respiratory function: an up-date on gas exchange. Anaesth. Intens. Care. 12, 490-495 (2011). [25] Kralemann, B. et al. In vivo cardiac phase response curve elu-cidates human respiratory heart rate variability. Nat. Commun. 
+
+4, 2418 (2013). [26] Elstad, M. et al. Cardiorespiratory interactions in humans and animals: rhythms for life. Am J Physiol Heart Circ Physiol. 
+
+315, H6-H17 (2018). [27] Menuet, C. et al. Redefining respiratory sinus arrhythmia as respiratory heart rate variability: an international Expert Rec-ommendation for terminological clarity. Nat Rev Cardiol 22, 
+
+978-984 (2025). [28] Billman, G. E. Heart rate variability—a historical perspective. 
+
+Front. Physiol. 2, 86 (2011). [29] Han J. & Zhang J. A New Heartbeat-Respiration Cou-pling Metric for Relaxation/Stress Monitoring. IEEE Trans. Biomed. Eng. 72, 1410-1421 (2025). [30] McCraty, R. et al. The coherent heart heart-brain interac-tions, psychophysiological coherence, and the emergence of system-wide order. Integral Review: A Transdisciplinary & Transcultural Journal for New Thought, Research, & Praxis 
+
+5, 10-115 (2009). [31] Shaffer, F., McCraty, R. & Zerr, C. L. A healthy heart is not a metronome: an integrative review of the heart’s anatomy and heart rate variability. Front. Psychol. 5, 108292 (2014). [32] Natarajan, A. Heart rate variability during mindful breathing meditation, Front. Physiol. 13, 1017350 (2023). [33] Homma, I. & Masaoka, Y. Breathing rhythms and emotions, 
+
+Exp. Physiol. 93, 1011-1021 (2008). [34] Hernando, A. et al. Inclusion of respiratory frequency infor-mation in heart rate variability analysis for stress assessment. 
+
+IEEE J. Biomed. Health. 20, 1016-1025 (2016). [35] Yamuza, M. T. V. et al. Human emotion characterization by heart rate variability analysis guided by respiration. IEEE J. Biomed. Health. 23, 2446-2454 (2019). [36] Cui, J. et al. Cardiopulmonary resonance function and indices-a quantitative measurement for respiratory sinus ar-rhythmia. Front. Physiol. 11, 867 (2020). [37] Abreu, R. M. D. et al. A transfer entropy approach for the assessment of the impact of inspiratory muscle training on the cardiorespiratory coupling of amateur cyclists. Front. Physiol. 
+
+11, 134 (2020). [38] Saul, J. P. et al. Transfer function analysis of autonomic regu-lation. II. Respiratory sinus arrhythmia. Am. J. Physiol-heart. C. 256, H153-161 (1989). [39] Bandrivskyy, A. et al. Wavelet phase coherence analysis: ap-plication to skin temperature and blood flow. Cardiovascular engineering: an international journal 4, 89–93 (2004). [40] Iatsenko, D. et al. Evolution of cardiorespiratory interactions with age Philos. T. R. Soc. A. 371, 20110622 (2013). [41] Porta, A. et al. Paced breathing increases the redundancy of cardiorespiratory control in healthy individuals and chronic heart failure patients. Entropy 20, 949 (2018). [42] Electrophysiology, Task Force of the European Society of Cardiology the North American Society of Pacing. Heart rate variability: standards of measurement, physiological interpre-tation and clinical use. Circulation 93, 1043-1065 (1996). [43] Baevsky, R. M. Methodical recommendations use kardivar system for determination of the stress level and estimation of the body adaptability standards of measurements and physio-logical interpretation. (2009). [44] Bauer, A. et al. Deceleration capacity of heart rate as a pre-dictor of mortality after myocardial infarction: cohort study. 
+
+lancet 367, 1647–1681 (2006). [45] Nasario-Junior, O., Benchimol-Barbosa, P. R. & Nadal, J. Re-fining the deceleration capacity index in phase-rectified signal averaging to assess physical conditioning level. J. Electrocar-diol. 47, 306–310 (2014). [46] Anonymous. Shui Huo Zhen Jing. In Daoist Canon, vol. 20, edited by Daoist Canon Editorial Committee, 345–348. Bei-jing: Cultural Relics Press, 1988 [47] Tse, D. & Viswanath, P. Fundamentals of Wireless Commu-nication. Cambridge University Press (2005). [48] Li, N. et al. Robust efficiency and actuator saturation explain healthy heart rate control and variability. Proc. Natl. Acad. Sci. 111, E3476-E3485 (2014). [49] Ben-Tal, A. Simplified models for gas exchange in the human lungs. J. Theor. Biol. 238, 474–495 (2006). [50] Ben-Tal, A., Shamailov, S. S. & Paton, J. F. R. Evaluating the physiological significance of respiratory sinus arrhythmia: looking beyond ventilation-perfusion efficiency: Respiratory sinus arrhythmia function. J. Physiol. 590, 1989-2008 (2012). [51] Hall, J. E. & Hall, M. E. Guyton and Hall Textbook of Medi-cal Physiology E-Book. Elsevier Health Sciences (2020). [52] Molkov, Y. I. et al. A closed-loop model of the respiratory sys-tem: focus on hypercapnia and active expiration. PLoS One. 
+
+9, 10 (2014). [53] Jaworski, J. & Redlarski, G. A compartment model of alveolar-capillary oxygen diffusion with ventilation-perfusion gradient and dynamics of air transport through the respiratory tract. Comput Biol Med. 51, 159-70 (2014). [54] Ben-Tal, A. & Smith, J. C. A model for control of breath-ing in mammals: Coupling neural dynamics to peripheral gas exchange and transport, J Theor Biol. 251, 480-497 (2008) [55] Ben-Tal, A., Shamailov, S. S. & Paton, J. F. Central regulation of heart rate and the appearance of respiratory sinus arrhyth-mia: new insights from mathematical modeling. Math Biosci. 
+
+255, 71-82 (2014). [56] Karush, W., Minima of Functions of Several Variables with Inequalities as Side Conditions, M.S. thesis, Department of Mathematics, University of Chicago (1939). 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.713094 doi: bioRxiv preprint
+
+[57] Kuhn, H. W. & Tucker, A. W., Nonlinear Programming, in Jerzy Neyman (ed.), Proceedings of the Second Berkeley Symposium, University of California Press, Berkeley, 481-492 (1951). [58] Dubois, A. B. Alveolar CO2 and O2 during breath holding, expiration, and inspiration. J. Appl. Physiol. 5, 1-12 (1952). [59] Yokota, H., Hoofd, L. J. C. & Kreuzer, F. Alveolar oxygen tension in anesthetized artificially ventilated dogs. Pfl¨ ugers Archiv 340, 273-290 (1973). [60] Yokota, H. & Kreuzer, F. Alveolar to arterial transmission of oxygen fluctuations due to respiration in anesthetized dogs. 
+
+Pfl¨ ugers Archiv 340, 291-306 (1973). [61] Formenti, F. et al. Respiratory oscillations in alveolar oxygen tension measured in arterial blood. Sci. Rep. 7, 7499 (2017). [62] Eldridge, F. L. & Millhorn, D. E. Oscillation, gating and memory in the respiratory control system. Compr. Physiol. ,93-114 (2011). [63] Sakakibara, M., Takeuchi, S. & Hayano, J. Effect of relax-ation training on cardiac parasympathetic tone. Psychophysi-ology 31, 223-228 (1994). [64] Thayer, J. F., Friedman, B. H. & Borkovec, T. D. Autonomic characteristics of generalized anxiety disorder and worry. 
+
+Biol. Psychiat. 39, 255-266 (1996). [65] Shi, W. et al. A Resonance Cardiorespiratory Coupling Model: Learning and Validation from Human Heart-Rate and Respiration Data, 42nd Chinese Control Conference (CCC) ,6835-6840 (2023). [66] Wang, Z. et al. An integrated model to predict heart rate se-quence from respiratory inputs. Biomed. Signal. Proces. 109, 
+
+107981 (2025). [67] Hayano, J. & Yasuma, F. Hypothesis: respiratory sinus ar-rhythmia is an intrinsic resting function of cardiopulmonary system. Cardiovasc. Res. 58, 1-9 (2003). [68] Lehrer, P. M. & Gevirtz, R. Heart rate variability biofeedback: how and why does it work? Front. Psychol. 5, 104242 (2014). [69] Ben-Tal, A., Shamailov, S.S. & Paton, J.F.R. Central regula-tion of heart rate and the appearance of respiratory sinus ar-rhythmia: New insights from mathematical modeling. Math. Biosci. , 255 , 71-82 (2014). [70] Vogel, S. Vital Circuits: On Pumps, Pipes, and the Workings of Circulatory Systems. Oxford University Press, New York (1992). [71] Sin, P. Y. et al. Interactions between heart rate variability and pulmonary gas exchange efficiency in humans. Exp. Physiol. 
+
+95, 788-797 (2010). [72] Giardino, N. D. et al. Respiratory sinus arrhythmia is asso-ciated with efficiency of pulmonary gas exchange in healthy humans. Am. J. Physiol-heart. C. 284, H1585-H1591 (2003). [73] Ren, H. et al. Pancreatic α and β cells are globally phase-locked. Nat. Commun. 13, 3721 (2022). [74] Watts, M. et al. Paracrine regulation of glucagon secretion: the β/α/δ model. Am. J. Physiol-endoc. M. 310, E597-E611 (2016). [75] Noguchi, G. M. & Huising, M. O. Integrating the inputs that shape pancreatic islet hormone release. Nat. Metab. 1, 1189-1201 (2019). [76] Zhu J. X., Deng B. & Guan Y. F. Medical Physiology. Peking University Medical Press (2018). [77] Ben-Tal, A., Shamailov, S. S. & Paton, J. F. Central regulation of heart rate and the appearance of respiratory sinus arrhyth-mia: new insights from mathematical modeling. Math. Biosci. 
+
+255, 71-82 (2014). [78] Sparks, H. V. & Rooke, T. W. Essentials of cardiovascular physiology. University of Minnesota Press (2015). 
+
+Author contributions 
+
+J.H.: Conceived the research framework, formulated core hypotheses and conclusions. J.Z.: Executed the experiments and analyzed the experimental data, conducted simulations and mathematical proofs. L-L.X.: Supervised the mathe-matical proofs, provided the key proof idea and method. J.Z. and J.H.: Writed the original draft. All authors contributed to critical review, editing, and final approval of the manuscript.
