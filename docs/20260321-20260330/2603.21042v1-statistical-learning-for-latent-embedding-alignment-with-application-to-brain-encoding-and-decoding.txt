@@ -1,0 +1,872 @@
+Title: Statistical Learning for Latent Embedding Alignment with Application to Brain Encoding and Decoding
+
+URL Source: https://arxiv.org/pdf/2603.21042v1
+
+Published Time: Tue, 24 Mar 2026 01:04:13 GMT
+
+Number of Pages: 35
+
+Markdown Content:
+# Statistical Learning for Latent Embedding Alignment with Application to Brain Encoding and Decoding 
+
+## Shuoxun Xu ∗, Zhanhao Yan ∗
+
+## , and Lexin Li †
+
+University of California at Berkeley 
+
+Abstract 
+
+Brain encoding and decoding aims to understand the relationship between exter-nal stimuli and brain activities, and is a fundamental problem in neuroscience. In this article, we study latent embedding alignment for brain encoding and decoding, with a focus on improving sample efficiency under limited fMRI-stimulus paired data and substantial subject heterogeneity. We propose a lightweight alignment framework equipped with two statistical learning components: inverse semi-supervised learning that leverages abundant unpaired stimulus embeddings through inverse mapping and residual debiasing, and meta transfer learning that borrows strength from pretrained models across subjects via sparse aggregation and residual correction. Both meth-ods operate exclusively at the alignment stage while keeping encoders and decoders frozen, allowing for efficient computation, modular deployment, and rigorous theoret-ical analysis. We establish finite-sample generalization bounds and safety guarantees, and demonstrate competitive empirical performance on the large-scale fMRI-image reconstruction benchmark data. 
+
+Key Words: Brain-computer-interface; Functional magnetic resonance imaging; Semi-supervised learning; Transfer learning. 
+
+> ∗
+
+Co-first authors 
+
+> †
+
+Corresponding author 
+
+1
+
+> arXiv:2603.21042v1 [stat.ME] 22 Mar 2026
+
+# 1 Introduction 
+
+Brain encoding and decoding aims to understand the relationship between external stim-uli and brain activities: encoding models how the brain transforms external information into neural signals, while decoding infers and reconstructs stimuli or cognitive states from recorded neural activities. It is a fundamental problem in cognitive and computational neuroscience, as it reveals how the brain represents, processes, and interprets information, providing crucial insights into the neural mechanisms underlying perception, cognition, and behavior. It also plays a central role in the development of brain-computer-interface tech-nologies, by identifying informative neural representations and enabling algorithms that accurately translate brain activities into intended commands for external devices. In this article, we focus on an important class of encoding and decoding problems, namely, vi-sual reconstruction of natural image stimuli using functional magnetic resonance imaging (fMRI). In recent years, there has been a surge of research on this topic, thanks to rapid advances in neuroimaging technologies and breakthroughs in deep learning models (Gaziv et al., 2022; Ozcelik and VanRullen, 2023; Takagi and Nishimoto, 2023; Scotti et al., 2023; Liu et al., 2023; Chen et al., 2023b; Gu et al., 2024; Huo et al., 2024, among others). See also Rakhimberdina et al. (2021); Guo et al. (2025) for reviews. Despite the rapid progress, however, numerous challenges remain, including the high complexity of natural images, the low signal-to-noise ratio of fMRI, the limited availability of paired natural image and fMRI samples, and substantial subject-to-subject variability. Visual reconstruction typically consists of three main steps: encoding, alignment, and decoding; see Figure 1 for an illustration. First, in the encoding phase, an encoder trans-forms raw visual stimuli such as natural images into a latent stimulus representation that captures essential structural and semantic information. In parallel, another encoder maps the fMRI signals into a latent neural representation that summarizes brain activity patterns. 2Figure 1: Schematic plot of brain encoding and decoding. Encoder models built on contrastive language-image pretraining (CLIP, Radford et al., 2021), vision transformer (ViT, Dosovitskiy et al., 2021) and residual network (ResNet, He et al., 2016) are widely used to create such embeddings. Then, in the alignment phase, the focus is to learn a mapping from the neural latent representation to the stimulus latent representation. By establishing this mapping, one can predict the stimulus latent represen-tation from a new fMRI recording. Finally, in the decoding phase, the predicted stimulus latent representation is translated back into the visual domain to reconstruct the perceived images. Decoder models built on generative adversarial networks (GANs, Goodfellow et al., 2014), variational autoencoders (VAEs, Kingma and Welling, 2014), diffusion models (Ho et al., 2020) and their variants are commonly employed for this purpose. Together, encod-ing, alignment, and decoding form an integrated pipeline for transforming brain-derived signals into coherent and meaningful visual reconstructions. In this article, we study the visual reconstruction problem by concentrating on the align-ment step, which, from a statistical learning perspective, can be formulated as a supervised regression problem. The goal is to learn a mapping from the latent representation of the fMRI recording, usually in the form of a vector, to the latent representation of the natural image stimulus, again in the form of a vector. Existing solutions include classical regression models, canonical correlation analysis, optimal transport, and more recently, contrastive learning (Han et al., 2022; Chen et al., 2023b). Notably, Qian et al. (2024) proposed to use 3a linear mapping for alignment, and showed that it achieves a reasonable reconstruction accuracy. Built on this observation, we consider a relatively simple multi-layer perceptron (MLP)-based regression model for alignment, and couple it with two statistical learning components, a new inverse semi-supervised learning approach to address the challenge of limited sample size of natural image and fMRI pairs, and a new transfer learning approach to address the challenge of substantial subject variability. For both cases, we develop statis-tical approaches tailored to the unique characteristics of the visual reconstruction problem. We also establish rigorous theoretical properties, and demonstrate the competitive empir-ical performance of our new reconstruction methods. Our proposal enjoys several advantages and makes useful contributions to both brain encoding and decoding as well as statistical learning in general. First of all, visual re-construction, or more broadly, brain encoding and decoding and brain-computer-interface, represents an important application of artificial intelligence (AI). With the recent rapid ad-vancement of AI technologies and increasingly powerful AI tools, a crucial question arises: how can classical statistical learning contribute to and facilitate this ongoing progress? The proposed work can be seen as an attempt in this direction. Specifically, we demonstrate how the integration of statistical thinking, the application of statistical principles, and the development of suitably modified statistical models can facilitate AI methodologies. Through such efforts, we aim to illustrate that statistical approaches can play a useful role in advancing AI, including in complex domains such as brain-computer-interface. Second, our proposal also advances the broader application of brain encoding and decoding. The proposed solutions are not limited to specific encoder-decoder architectures, nor particular stimulus-neural activity pairs such as natural images and fMRI, but are applicable to a wide range of encoding and decoding settings, including image, text, audio, video stimuli, and fMRI, electroencephalogram modalities. More importantly, built on relatively sim-ple statistical principles, it offers clear computational advantages: the proposed inverse 4semi-supervised approach uses only one-tenth the number of free parameters of advanced alternatives, and the transfer learning approach requires roughly half as many training samples as the baseline. Although it may achieve lower reconstruction accuracy than the most sophisticated deep learning models, its empirical performance remains competitive. As such, our lightweight design offers a practically useful tradeoff, enabling more efficient deployment on platforms such as wearable or portable devices. Finally, our semi-supervised and transfer learning approaches are of independent values and contribute to general sta-tistical methodology as well. Although inspired by classical semi-supervised and transfer learning ideas, they are not a straightforward adaptation of existing techniques. In par-ticular, our inverse semi-supervised learning approach reverses the roles of predictors and responses, and combines pseudo-predictor construction with residual debiasing, creating a new paradigm than traditional semi-supervised learning. Our transfer learning approach avoids pooling multi-subject data via joint fitting, but instead integrates pretrained models through sparse weighting followed by residual correction, offering a modular and privacy-preserving alternative to existing parameter-transfer strategies. Moreover, both compo-nents are supported by rigorous theoretical guarantees, including explicit upper bounds on the generalization risk, the safety properties ensuring performance no worse than the baseline, as well as the quantified gains in terms of the finite-sample generalization bound. We also remark that, in our study, we deliberately focus on training the alignment step 
+
+only , while keeping both the image and fMRI encoders, as well as the decoder, frozen . This design is driven by several considerations. One is computational cost, as fine-tuning large encoder or decoder models would require substantial computational resources and large amount of paired samples. In contrast, a lightweight alignment module enables fast train-ing, low computational cost, and competitive performance under limited data. Moreover, although the encoders and decoder are kept frozen, strengthening the alignment map-ping itself can still considerably improve reconstruction accuracy, since a main source of 5reconstruction error comes from the inaccuracy in mapping the latent features of fMRI and stimulus. Finally, the alignment step is precisely the component most amenable to statistical analysis. It has a clear supervised regression structure that allows rigorous char-acterization of estimation error, bias correction, and sample efficiency gains. In contrast, the encoder and decoder involve highly complicated architectures for which meaningful statistical guarantees are far more difficult to obtain. Therefore, focusing on alignment achieves a balance between practical feasibility and theoretical tractability, enabling both effective reconstruction performance and principled statistical understanding. The rest of the article is organized as follows. Section 2 formulates the alignment problem. Section 3 presents inverse semi-supervised learning for alignment. Section 4 presents transfer learning for alignment. Section 5 conducts numerical studies. Section 6 concludes with a discussion. The Supplementary Appendix collects all technical proofs. 
+
+# 2 Latent Embedding Alignment Setup 
+
+In a typical brain encoding-decoding experiment using natural image stimuli, participants view a sequence of images while their brain activity is recorded using fMRI, a noninvasive neuroimaging technique that measures brain activity indirectly through the blood-oxygen-level-dependent (BOLD) signal. Each fMRI image contains tens of thousands of voxels, and each voxel summarizes the aggregated activities of thousands of neurons in a small cortical region, sampled at regular time intervals, typically every 0.5 to 2 seconds. During the experiment, natural images, ranging from objects to complex scenes, are presented in a controlled manner, whereas fMRI signals are collected. To connect the external vi-sual input with the internal neural representation, both the visual stimuli and the brain neural responses are transformed into latent feature representations through separate en-coders. A natural image encoder, such as a convolutional neural network, e.g., ResNet, or a 6transformer-based vision model, e.g., ViT or CLIP, extracts hierarchical visual features cap-turing structural, semantic, and contextual information from each image. These features form a vector in a high-dimensional latent space that summarizes the key visual content. Similarly, an fMRI encoder maps the raw voxel-wise BOLD activations into another latent vector that captures the spatial pattern of neural activities across different regions. Let X ∈ Rd and Y ∈ Rm denote the latent feature vectors from the encoders of neural activities and stimuli, respectively. The typical latent feature dimensions d, m are 512, 1024, 2048, and in our experiment, we choose d = 2048, and m = 1024. To formalize the alignment problem, we view it as a supervised learning task in which the goal is to construct a predictive mapping from the latent fMRI feature vector X to the latent visual feature vector Y . Specifically, define the mapping, 
+
+f ∗ : Rd → Rm, f ∗(X) = E(Y |X), (1) which is the main target of interest in our alignment problem. Define the noise, 
+
+e = Y − f ∗(X), such that P (|⟨ e, u ⟩| > t ) ≤ 2 exp 
+
+
+
+− t2
+
+2σ2
+
+
+
+, (2) for any unit vector u ∈ Rm and any t > 0. This noise term captures various sources of discrepancy, including encoder mismatch, measurement variability, and latent structure missed by the mapping f ∗. It is assumed to have zero mean, and is sub-Gaussian with parameter σ2 following (2), which is a quite mild condition. We learn f ∗ via a multi-layer perceptron (MLP, Rumelhart et al., 1986), 
+
+fΘ(X) = θLfL
+
+ θL−1 · · · f1(θ0X) · · · ,
+
+indexed by the parameter space, 
+
+M = Θ = ( θL, . . . , θ 0) : θl ∈ Rpl+1 ×pl , d = p0, m = pL+1 ,
+
+where p0 = d is the input dimension, pL+1 = m is the output dimension, pmax = max l∈{ 0,...,L −1}
+
+pl+1 is the maximum network width, ptotal = PLl=0 pl+1 pl is the total number of parameters, 7and L is the network depth. In our implementations, L = 4 or 5. The activation functions 
+
+fl : R → R are applied element-wise and are assumed to be 1-Lipschitz with fl(0) = 0. This is satisfied by many common activation functions such as ReLU, leaky ReLU, hyperbolic tangent, and sigmoid, and by incorporating bias terms into the weight matrices. We further introduce regularizations. Consider q ∈ [1 , 2], and for any matrix θl ∈
+
+Rpl+1 ×pl , we define the entry-wise ℓq norm as ∥θl∥q = ( Ppl+1 
+
+> i=1
+
+Ppl 
+
+> j=1
+
+|(θl)ij |q)1/q . The choice of 
+
+q ∈ [1 , 2] encompasses the ℓ1 norm with q = 1 that promotes element-wise sparsity, and the 
+
+ℓ2 norm with q = 2 that favors a smooth representation and stabilizes estimation. Besides, it helps maintain the theoretical tractability and Lipschitz control. This is because, for any 
+
+q ∈ [1 , 2], we have ∥θl∥op ≤ ∥ θl∥2 ≤ ∥ θl∥q ≤ ∥ θl∥1, where ∥θl∥op denotes the operator norm. As such, constraining ∥θl∥q ≤ 1 automatically bounds the operator norm by 1, which is critical for controlling the Lipschitz constant of the neural network: Lip( fθ) ≤ QLl=0 ∥θl∥op .Under regularization, we focus on the constrained parameter space, 
+
+Mq =
+
+
+
+Θ ∈ M : max  
+
+> l∈{ 0,...,L }
+
+∥θl∥q ≤ 1
+
+
+
+.
+
+The theoretical results derived later hold uniformly for all q ∈ [1 , 2], and can be easily extended to any parameter space with a bounded entry-wise ℓq norm. Before turning to semi-supervised and transfer learning, we first consider the baseline alignment method. For a given participant, suppose we observe n i.i.d. copies {(Xi, Y i), i =1, . . . , n } of ( X, Y ), where n denotes the number of natural images shown to this participant while the brain activity is recorded by fMRI. We consider 
+
+bΘbase = arg min 
+
+> Θ∈M q
+
+1
+
+n
+
+> n
+
+X
+
+> i=1
+
+∥Yi − fΘ(Xi)∥22 + λbase ∥θL∥qq, (3) where the regularization is placed on the last layer parameter θL ∈ RpL+1 ×pL . This for-mulation simplifies the subsequent theoretical analysis, while it can be extended straight-forwardly to regularizations involving all layers of parameters, such as λ PLl=0 ∥θl∥qq or 8λ QLl=0 ∥θl∥q, following similar analytical techniques of Lederer (2024). We have the follow-ing generalization bound. Let Θ ∗ = ( θ∗
+
+> L
+
+, . . . , θ ∗ 
+
+> 0
+
+) = arg min Θ∈M q E∥f ∗(X)−fΘ(X)∥22 denote the population risk minimizer. For two sequences a and b, we write a ≲ b if there exists a positive constant C such that a ≤ Cb , and write a ≍ b if a ≲ b and b ≲ a.
+
+Proposition 1. Suppose λbase ≍ v∞
+
+pL{log(2 mnp total )}3/n , where v∞ = pn−1 Pni=1 ∥Xi∥2
+
+> ∞
+
+.Then, with probability approaching 1 as n → ∞ , we have 
+
+E∥fbΘbase (X) − f ∗(X)∥22 ≲ inf 
+
+> Θ∈M q
+
+E∥fΘ(X) − f ∗(X)∥22
+
+| {z }
+
+> Ebase ,1
+
++ v∞
+
+rL{log(2 mnp total )}3
+
+n ∥θ∗
+
+> L
+
+∥qq
+
+| {z }
+
+> Ebase ,2
+
++ v2
+
+> ∞
+
+L{log(2 mnp total )}3
+
+n| {z }
+
+> Ebase ,3
+
+.
+
+Proposition 1 decomposes the generalization error of the baseline method into three components: the approximation error Ebase ,1 that measures how well the model class Mq
+
+approximates the true function f ∗, the statistical error Ebase ,2 that depends on the input scale v∞, the network complexity pL{log(2 mnp total )}3, and the model complexity measure 
+
+∥θ∗
+
+> L
+
+∥qq, and the higher-order term Ebase ,3.
+
+# 3 Semi-supervised Learning for Alignment 
+
+## 3.1 Methodology 
+
+We first consider semi-supervised learning. In a typical experiment, the number of available fMRI-image pairs n is limited, typically ranging around a few thousands. In our dataset, n is around 8 , 000. The main reason is that collecting fMRI data is costly, time-consuming, and constrained by practical considerations, for instance, each participant can only undergo a relatively small number of scanning sessions. In contrast, natural images are abundant and easily obtainable in virtually unlimited quantities. This severe imbalance between scarce 9neural data and plentiful visual data motivates us to develop a method that can effectively leverage the vast corpus of natural images to enhance encoding-decoding performance. This problem is related to semi-supervised learning, which aims to improve model per-formance by leveraging both labeled and unlabeled data (Deng et al., 2024; Cai et al., 2025). In classical semi-supervised learning settings, a large number of feature observa-tions X are available, but only a small subset have corresponding labels Y , and the goal is to use the structure of the abundant unlabeled X samples to guide the learning when labeled pairs ( X, Y ) are scarce. Our setting is similar in spirit, but significantly differs, in that the roles between features and responses are reversed . Specifically, the number of sam-ples of response Y , i.e., the latent features of natural images, is vast, whereas the number of samples of predictor X, i.e., the latent features of fMRI measurements, is limited. To address this challenge, we develop an inverse semi-supervised learning (ISL) ap-proach. In addition to the paired observations ( Xi, Y i) for i = 1 , . . . , n , suppose we have additional unpaired response features Yi for i = n + 1 , . . . , n + N , generated through the image encoder with N additional natural images that are not shown to the participant with no corresponding fMRI recording. Our goal is to learn the mapping f ∗ in (1) by leveraging both the paired data ( Xi, Y i), which are limited in quantity, and the unpaired data Yi,which are abundant. Our method consists of three main steps. In the first step, we regress Xi on Yi for i = 1 , . . . , n to learn an inverse mapping 
+
+bg : Rm → Rd, then construct the pseudo-predictors bg(Yi) for i = n + 1 , . . . , n + N based on the learnt inverse mapping bg. That is, we obtain bg = fbΘ1 by fitting an MLP, where 
+
+bΘinv = arg min 
+
+> Θ∈M q
+
+1
+
+n
+
+> n
+
+X
+
+> i=1
+
+∥Xi − fΘ(Yi)∥22 + λinv ∥θL∥qq (4) In the second step, we regress Yi on Xi for i = 1 , . . . , n and regression Yi on bg(Yi) for 
+
+i = n + 1 , . . . , n + N to learn an augmented model with both observed and pseudo-features, by fitting another MLP, 10 Algorithm 1 Inverse semi-supervised learning procedure.  
+
+> 1:
+
+Input : Observed paired data {(Xi, Y i), i = 1 , . . . , n }, and unpaired augmentation data 
+
+{Yi, i = n + 1 , . . . , n + N }. 
+
+> 2:
+
+Step 1 : Learn the inverse mapping bg via (4), by regressing Xi on Yi, i = 1 , . . . , n . 
+
+> 3:
+
+Step 2 : Learn the augmented model with both observed and pseudo-features via (5), by regressing Yi on Xi, i = 1 , . . . , n , and regressing Yi on bg(Yi), i = n + 1 , . . . , n + N . 
+
+> 4:
+
+Step 3 : Learn the residual via (6), by regressing {Yi − fbΘaug (Xi)} on Xi, i = 1 , . . . , n . 
+
+> 5:
+
+Output : bfISL (X) = fbΘaug (X) + fbΘres (X) as in (7). 
+
+bΘaug = arg min 
+
+> Θ∈M q
+
+1
+
+n + N
+
+( nX
+
+> i=1
+
+∥Yi − fΘ(Xi)∥22 +
+
+> n+N
+
+X
+
+> i=n+1
+
+∥Yi − fΘ(bg(Yi)) ∥22
+
+)
+
++ λaug ∥θL∥qq. (5) In the third step, we compute the residual {Yi − fbΘaug (Xi)} from the learnt augmented model fbΘaug , and regress the residual on Xi for i = 1 , . . . , n to learn a residual correction, 
+
+bΘres = arg min 
+
+> Θ∈M q
+
+1
+
+n
+
+> n
+
+X
+
+> i=1
+
+∥{ Yi − fbΘaug (Xi)} − fΘ(Xi)∥22 + λres ∥θL∥qq. (6) Finally, we obtain our estimated mapping, 
+
+bfISL (X) = fbΘaug (X) + fbΘres (X). (7) Algorithm 1 summarizes the above estimation procedure. We next make some remarks regarding our proposed ISL method. First, ISL is specif-ically designed to leverage the abundance of natural images while preserving robustness when the inverse mapping bg is imperfect. When the unpaired response features {Yi, i =
+
+n + 1 , . . . , n + N } are informative and bg provides a reasonable approximation of the inverse mapping, Step 2 effectively increases the sample size from n paired observations to n + N
+
+augmented observations. Even though the pseudo-predictors bg(Yi) may be noisy or biased, their inclusion still provides additional information about the forward mapping. Second, because the inverse mapping inevitably introduces bias, ISL incorporates a residual fitting step to explicitly correct this bias. The key idea is that the discrepancy 11 between the estimator fbΘaug (Xi) in Step 2 and the true mapping f ∗ reflects systematic error induced by imperfect pseudo-features. This bias manifests as the residual {Yi − fbΘaug (Xi)}
+
+that is learnable from the paired data. By regressing this residual on Xi, Step 3 captures a portion of f ∗ that Step 2 fails to learn due to noisy or biased pseudo-features. The final estimator fbΘaug (X) + fbΘres (X) then cancels the bias introduced by pseudo-predictors. This residual-based bias correction strategy has been used in semi-supervised learning (Deng et al., 2024; Cai et al., 2025) and in high-dimensional penalized regressions (Raskutti et al., 2009). In our setting, residual fitting ensures that even if bg is inaccurate, the final ISL estimator is never worse than the baseline estimator trained without any additional data. Third, ISL differs fundamentally from classical semi-supervised learning. Standard methods assume abundant unlabeled predictors and use their distributional structure to regularize the supervised task. In contrast, our setting reverses the roles: we have abun-dant responses and need to construct pseudo-predictors through an inverse mapping. This inversion changes the nature of the bias introduced by unlabeled data and requires bias correction to guarantee valid statistical behavior. Moreover, our approach is built around nonlinear MLP models, going beyond the linear or kernel-based models commonly consid-ered in classical theory of semi-supervised learning (Deng et al., 2024; Cai et al., 2025). Taken together, ISL offers a statistically principled and robust way to improve alignment estimation using abundant unpaired natural images. It enjoys performance enhancement when the inverse mapping is informative, and a built-in safeguard when the inverse mapping is noisy or uninformative. We next establish rigorous characterizations of these observations through formal theoretical analyses. 
+
+## 3.2 Theoretical analysis 
+
+We first derive the explicit upper bound on the generalization risk. We then show that the ISL method provably improves and never performs worse than the baseline method. 12 We begin with two regularity conditions on the local geometry of the loss landscape, and the quality of auxiliary information. 
+
+Assumption 1 (Local quadratic growth) . Suppose there exists μ > 0, such that, for all Θ
+
+in a neighborhood of the population risk minimizer Θ∗, E∥fΘ(X) − f ∗(X)∥22 − E∥fΘ∗ (X) −
+
+f ∗(X)∥22 ≥ μE∥fΘ(X) − fΘ∗ (X)∥22.
+
+This assumption characterizes the local geometry of the population risk near its mini-mizer. It states that the excess risk is lower bounded by the squared prediction difference, ensuring that the parameters close in risk are also close in prediction, with a larger μ im-plying a faster convergence. Unlike global strong convexity, it only requires the condition to hold in a neighborhood of Θ ∗, making it much weaker and more realistic in practice. It is satisfied for overparameterized neural networks under mild conditions, and is a standard condition in deep learning theory (Du et al., 2019; Allen-Zhu et al., 2019). It is impor-tant for converting generalization bounds on the excess risk into convergency rates for the prediction error, and in our context enables us to derive the rate for E∥fbΘ(X) − fΘ∗ (X)∥22.
+
+Assumption 2 (Inverse mapping quality) . For ISL, let g∗(Y ) = E(X|Y ) denote the true inverse mapping. Suppose the estimated inverse mapping bg from Step 1 of ISL satisfies that E∥bg(Y ) − g∗(Y )∥22 ≤ Cinv , for some constant Cinv > 0.
+
+This assumption states that the inverse mapping learned from paired data has bounded mean squared error. It is a mild condition, in that it only requires the inverse mapping error not to be arbitrarily inaccurate. Next, we establish a finite-sample generalization bound that explicitly quantifies how unlabeled data enhances learning through the inverse mapping mechanism. Let Θ ∗ 
+
+> aug
+
+=(θ∗
+
+> L, aug
+
+, . . . , θ ∗
+
+> 0,aug
+
+) = arg min Θ∈M q n(n + N )−1E∥f ∗(X) − fΘ(X)∥22 + N (n + N )−1E∥Y −
+
+fΘ(bg(Y )) ∥22, and Θ ∗ 
+
+> res
+
+= ( θ∗
+
+> L, res
+
+, . . . , θ ∗
+
+> 0,res
+
+) = arg min Θ∈M q E∥{ f ∗(X) − fΘ∗ 
+
+> aug
+
+(X)} − fΘ(X)∥22
+
+denote the population risk minimizer corresponding to Steps 2 and 3 of ISL, respectively. 13 Theorem 1 (Generalization bound for ISL) . Suppose Assumptions 1 and 2 hold. Suppose 
+
+q ∈ [1 , 2] , λinv ≍ vY, ∞
+
+pL{log( ndp total )}3/n , λaug ≍ v∞
+
+pL[log {(n + N )mp total }]3/(n + N ),and λres ≍ v∞
+
+pL{log( nmp total )}3/n , where vY, ∞ = pn−1 Pni=1 ∥Yi∥2
+
+> ∞
+
+. Then, with proba-bility approaching 1 as n → ∞ , we have 
+
+E∥ bfISL (X) − f ∗(X)∥22 ≲ inf 
+
+> Θ∈M q
+
+E∥fΘ(X) − { f ∗(X) − fΘ∗ 
+
+> aug
+
+(X)}∥ 22
+
+| {z }
+
+> EISL ,1: Residual space approximation error
+
++ v∞
+
+rL[log {(n + N )mp total }]3
+
+n + N ∥θ∗
+
+> L, aug
+
+∥qq
+
+| {z }
+
+> EISL ,2: Augmented learning statistical error
+
++ v∞
+
+rL{log( nmp total )}3
+
+n ∥θ∗
+
+> L, res
+
+∥qq
+
+| {z }
+
+> EISL ,3: Residual fitting statistical error
+
++ v2
+
+> ∞
+
+L{log( nmp total )}3
+
+n| {z }
+
+> EISL ,4: Higher-order term
+
+.
+
+Theorem 1 shows that ISL achieves a finite-sample bound where the total error de-composes into four terms: a residual space approximation error, two statistical errors cor-responding to the steps of augmented learning and residual fitting, and a higher-order term. Specifically, the first term, EISL ,1, represents the approximation error in the residual space, which measures how well the neural network class Mq approximates the residual 
+
+f ∗(X) − fΘ∗ 
+
+> aug
+
+(X). When the augmented learning step successfully captures information in 
+
+f ∗, this error term decreases. A key insight here is that the quality of the inverse mapping and the quantity of unlabeled data jointly determine the complexity of the residual space, which in turn affects the final accuracy. The second term, EISL ,2, quantifies the statistical error in the augmented learning step using the combination of n paired data and N unla-beled data. It reflects a direct benefit of utilizing unlabeled data, effectively increasing the sample size from n to n + N . The third term, EISL ,3, quantifies the statistical error in the residual fitting step, which uses only the n labeled samples. Unlike EISL, 2, it reflects the indirect benefit of using unlabeled data. That is, when the augmented learning captures sufficient information in f ∗, learning the residual leads to a smaller error than learning f ∗
+
+directly. The fourth term, EISL ,4, is a higher-order term that vanishes faster than the rest, 14 and becomes negligible when the sample size is sufficiently large. We give the proof of Theorem 1 and discuss its main challenge in Appendix Section S2.2. Finally, we establish the performance improvement and safeguard property of ISL. 
+
+Theorem 2 (Performance guarantee of ISL) . Suppose the conditions of Theorem 1 hold. (a) (Safety). When ∥θ∗
+
+> L, res
+
+∥qq ≲ ∥θ∗
+
+> L
+
+∥qq, ISL is never worse than the baseline method, in that 
+
+E∥ bfISL (X)−f ∗(X)∥22 ≲ E∥fbΘbase (X)−f ∗(X)∥22+v∞
+
+rL[log {(n + N )mp total }]3
+
+n + N ∥θ∗
+
+> L, aug
+
+∥qq.
+
+(b) (Enhancement). When (i) there is sufficient unlabeled data, in that exp( n) ≻ N ≳
+
+n ∥θ∗
+
+> L, aug
+
+∥qq
+
+2/(∥θ∗
+
+> L
+
+∥qq)2, and (ii) the inverse mapping is reasonably accurate, in that 
+
+E∥bg(Y ) − g∗(Y )∥22 ≲ n{(∥θ∗
+
+> L
+
+∥qq)2 − (∥θ∗
+
+> L, res
+
+∥qq)2}/{N (∥θ∗
+
+> L, aug
+
+∥qq)2}. then ISL achieves a strict improvement over the baseline method, in that, for some constant c > 0,
+
+E∥ bfISL (X) − f ∗(X)∥22 ≲ E∥fbΘbase (X) − f ∗(X)∥22
+
+− c v ∞
+
+rL{log( nmp total )}3
+
+n
+
+ ∥θ∗
+
+> L
+
+∥qq − ∥ θ∗
+
+> L, res
+
+∥qq
+
+ .
+
+Theorem 2 quantifies the performance enhancement that ISL achieves over the baseline method, and characterizes the precise conditions under which this enhancement occurs. The safety guarantee shows that, even when the augmented learning step fails to im-prove, ISL incurs only a controlled excess risk that diminishes as N increases. This property distinguishes ISL from many classical semi-supervised learning approaches that can per-form worse than the baseline method when some distributional assumptions are violated (Singh et al., 2008; Nadler et al., 2009). In ISL, the worst-case degradation is bounded by the statistical error in the augmented learning step, which vanishes at rate 1 /√n + N and becomes negligible when N ≫ n. The condition that ∥θ∗
+
+> L, res
+
+∥qq ≲ ∥θ∗
+
+> L
+
+∥qq to ensure such a safety essentially requires that the complexity of the residual learning does not exceed that of directly learning f ∗, which is a fairly mild and reasonable requirement. 15 The enhancement guarantee shows that, the improvement is proportional to the com-plexity decrease from ∥θ∗
+
+> L
+
+∥qq to ∥θ∗
+
+> L, res
+
+∥qq, scaled by the statistical rate pL{log( nmp total )}3/n .This decrease reflects the simplification of the learning problem achieved by the augmented learning step, i.e., when the augmented learning successfully captures information in f ∗, the residual learning is to become much simpler than directly learning f ∗ from scratch. More-over, this is done through a mechanism different from traditional semi-supervised learning (Deng et al., 2024; Cai et al., 2025). Rather than assuming that unlabeled predictors lie near the decision boundary or follow a specific distribution, ISL leverages unlabeled responses to increase the effective sample size, then simplifies the supervised learning problem in the residual space. Such an enhancement materializes when the quantity of unlabeled data N
+
+is large enough, and the inverse mapping estimation bg is reasonably accurate. 
+
+# 4 Transfer Learning for Alignment 
+
+## 4.1 Methodology 
+
+We next turn to transfer learning. In a typical encoding-decoding experiment, model training is often done for one participant at a time, mostly due to substantial inter-subject variability in cortical organization and neural response patterns. Nevertheless, there also exist meaningful similarities across subjects, especially in the functional architecture of visual and associative cortices. This suggests that information from models trained on previous participants can be transferred to benefit the training of a new subject’s model. By borrowing knowledge across subjects, it becomes possible to improve statistical efficiency and generalization, and can enable the new subject’s model to achieve comparable decoding accuracy while requiring substantially fewer training samples. Transfer learning aims to leverage information from source domains to improve learn-ing in a target domain. Existing approaches can be broadly divided into two categories, 16 parameter transfer and representation transfer (Zhu et al., 2025). Parameter transfer, or model-based methods, such as those developed by Cai and Wei (2021); Li et al. (2022); Cai et al. (2024), combine and regularize model parameters across domains, usually through sparse aggregation, debiasing, or adaptive weighting, to borrow information from multiple pretrained models. Representation transfer, or data-distribution-based methods, such as those by Xu and Qu (2025); Yuan et al. (2025), seek a shared low-dimensional latent struc-ture, usually by aligning or adapting feature representations, to capture commonalities and mitigate distributional shifts between source and target domains. We adopt the parameter transfer idea and propose a meta transfer learning (MTL) approach, with modifications to existing solutions. Specifically, for the target subject, i.e., the new subject for whom we aim to train a model, suppose we observe n i.i.d. copies 
+
+{(Xi, Y i), i = 1 , . . . , n } of ( X, Y ). Meanwhile, suppose there are K source subjects, i.e., the previous subjects with their alignment models already trained, and let eΘ1, . . . , eΘK denote the corresponding trained model parameters. Our goal is to learn the true mapping f ∗ in (1) given the target subject’s data, while leveraging the knowledge from the source subjects. Our new method consists of two main steps. In the first step, we feed Xi of the target subject into the learnt models to construct a set of pseudo-predictors feΘk (Xi), then regress Yi on feΘk (Xi), with a Lasso type sparsity regularization, to learn a set of weights γ = ( γ1, . . . , γ K )T ∈ RK ; i.e., 
+
+bγ = arg min 
+
+> γ∈RK
+
+1
+
+n
+
+> n
+
+X
+
+> i=1
+
+Yi −
+
+> K
+
+X
+
+> k=1
+
+γkfeΘk (Xi) 22
+
++ λ′
+
+> wts
+
+∥γ∥1. (8) In the second step, we compute the residual {Yi − PKk=1 bγkfeΘk (Xi)}, and regress the residual on Xi to learn a residual model; i.e., 
+
+eΘ = arg min 
+
+> Θ∈M q
+
+1
+
+n
+
+> n
+
+X
+
+> i=1
+
+n
+
+Yi −
+
+> K
+
+X
+
+> k=1
+
+bγkfeΘk (Xi)
+
+o
+
+− fΘ(Xi) 22
+
++ λ′
+
+> res
+
+∥θL∥qq. (9) Finally, we obtain our estimated mapping, 17 Algorithm 2 Meta transfer learning procedure.  
+
+> 1:
+
+Input : Target data {(Xi, Y i), i = 1 , . . . , n }, and the learnt source models eΘ1, . . . , eΘK . 
+
+> 2:
+
+Step 1 : Learn the sparse source information weights via (8), by regressing Yi on 
+
+feΘk (Xi), k = 1 , . . . , K , i = 1 , . . . , n . 
+
+> 3:
+
+Step 2 : Learn the residual on target data via (9), by regressing the residual {Yi −
+
+PKk=1 bγkfeΘk (Xi)} on Xi, i = 1 , . . . , n . 
+
+> 4:
+
+Output : bfMTL (X) = feΘ(X) + PKk=1 bγkfeΘk (X). 
+
+bfMTL (X) = feΘ(X) + 
+
+> K
+
+X
+
+> k=1
+
+bγkfeΘk (X). (10) Algorithm 2 summarizes the estimation procedure. We again make some remarks regarding our proposed MTL method. First, similar to ISL, MTL is also designed to exploit auxiliary information, in this case, pretrained models from other subjects, while ensuring robustness when such information is noisy or only partially relevant. When the source models carry useful information shared by the target subject, Step 1 functions as a sparse aggregation, which adaptively selects and weighs the most informative source subjects. Because this step is a low-dimensional Lasso regression, its statistical complexity is dramatically smaller than that of fitting a new high-dimensional MLP from scratch, allowing information to be borrowed across subjects while improving the stability of the alignment estimation when the target sample size is limited. Second, MTL also incorporates a residual fitting step to correct for systematic mis-matches between the aggregated predictions from source models and the true mapping for the target subject. Step 2 fits an MLP to map Xi to the residual {Yi − PKk=1 bγkfeΘk (Xi)},ensuring that the bias induced by irrelevant, inaccurate, or misspecified source models is accounted for. As a result, the final estimator feΘ(X) + PKk=1 bγkfeΘk (X) carries useful information from the source models while safeguarding against negative transfer. Third, our strategy differs significantly from existing transfer learning approaches via 18 parameter transfer or joint training (Cai and Wei, 2021; Li et al., 2022; Cai et al., 2024). In particular, our method operates entirely at the model-prediction level, without accessing the raw source data. This offers important practical advantages: it avoids privacy or data-sharing concerns, reduces computational burden, and allows the procedure to be applied even when pretrained source models are provided as blackboxes. Moreover, the sparse weighting mechanism adapts to the heterogeneity of source subjects, up-weighting similar subjects and down-weighting dissimilar ones, without requiring explicit similarity modeling. Taken together, MTL provides a statistically principled and flexible way to leverage information across participants, while remains robust by ensuring that the performance is never worse than training on the target subject alone. 
+
+## 4.2 Theoretical analysis 
+
+Parallel to ISL, we first derive the explicit upper bound on the generalization risk for the proposed MTL, then establish its safety guarantee and the performance enhancement. In addition to Assumption 1, we introduce two assumptions for MTL. 
+
+Assumption 3 (Source model quality) . Let γ∗ = ( γ∗ 
+
+> 1
+
+, . . . , γ ∗ 
+
+> K
+
+)T ∈ RK = arg min γ E∥f ∗(X)
+
+− PKk=1 γkfeΘk ∥2, and let fres (X) = f ∗(X) − PKk=1 γ∗ 
+
+> k
+
+feΘk (X). Suppose E∥fres (X)∥22 ≤ Caux 
+
+for some constant Caux > 0.
+
+This assumption posits that the target subject’s true function can be approximated by a linear combination of source models plus a bounded residual. In other words, the target subject shares similarities with the source subjects, plus idiosyncratic structure captured by fres . If the source models are highly informative, then E∥fres (X)∥22 is small. 
+
+Assumption 4 (Restricted eigenvalue) . Let S∗ = {k : γ∗
+
+> k
+
+̸ = 0 }, and s∗ = |S∗|. Let Fi =(feΘ1 (Xi), . . . , f eΘK (Xi)) T ∈ RK×m, and bΣ = n−1 Pni=1 FiF Ti . Suppose vT bΣv/ ∥vS∗ ∥22 ≥ κ,for some constant κ > 0, and all v ∈ RK with ∥vS∗c ∥1 ≤ 3∥vS∗ ∥1.
+
+19 This assumption requires that the source model predictions are not too collinear. It is a standard assumption in high-dimensional regressions that ensures consistent estimation and support recovery of Lasso (Bickel et al., 2009), and is known to hold with a high probability under sub-Gaussian random designs (Raskutti et al., 2010). Next, we establish a finite-sample generalization bound that explicitly quantifies how auxiliary source data enhances learning through the transfer learning mechanism. Let Θ′∗  
+
+> res
+
+= ( θ′∗ 
+
+> L, res
+
+, . . . , θ ′∗ 
+
+> 0,res
+
+) = arg min Θ∈M q E
+
+n
+
+f ∗(X) − PKk=1 γ∗ 
+
+> k
+
+feΘ(k) (X)
+
+o
+
+− fΘ(X) 22
+
+denote the population risk minimizer corresponding to Step 2 of MTL. 
+
+Theorem 3 (Generalization bound for MTL) . Suppose Assumptions 1, 3, and 4 hold. Suppose q ∈ [1 , 2] , λ′ 
+
+> wts
+
+≍ σplog K/n , λ′ 
+
+> res
+
+≍ v∞
+
+pL{log( nmp total )}3/n . Then, with probability approaching 1 as n → ∞ , we have 
+
+E bfMTL (X) − f ∗(X) 22
+
+≲ inf 
+
+> Θ∈M q
+
+E fΘ(X) −
+
+(
+
+f ∗(X) −
+
+> K
+
+X
+
+> k=1
+
+γ∗ 
+
+> k
+
+feΘ(k) (X)
+
+) 22
+
+| {z }
+
+> EMTL ,1: Residual space approximation error
+
++ σ2s∗ log Kκ2n| {z }
+
+> EMTL ,2: Sparse weights learning statistical error
+
++ v∞
+
+rL{log( nmp total )}3
+
+n ∥θ′∗ 
+
+> L, res
+
+∥qq
+
+| {z }
+
+> EMTL ,3: Residual learning statistical error
+
++ v2
+
+> ∞
+
+L{log( nmp total )}3
+
+n| {z }
+
+> EMTL ,4: Higher-order term
+
+.
+
+Theorem 3 shows that MTL achieves a finite-sample bound where the total error decom-poses into four terms: three estimation errors reflecting the quality of knowledge transfer from source tasks, the accuracy of identifying relevant source models, the complexity of learning the residual structure, plus a higher-order term. Specifically, the first term, EMTL ,1
+
+measures how well the neural network class Mq approximates the residual space after removing the contribution of source models. When source models capture substantial in-formation in the target function, this error term decreases. Unlike ISL, for MTL, the quality of source models and the optimal combination weights jointly determine the residual space approximation error through their ability to approximate the target function. The second 20 term, EM T L, 2, quantifies the error incurred in estimating the weights γ using Lasso. It scales with the number of truly relevant source models s∗, but only the logarithm of the total number of source models K, indicating that MTL can leverage a large number of source models. This error also depends on κ2 that reflects the difficulty of identifying the true support using Lasso, and σ2 that reflects the noise level in the target task. The third term, EM T L, 3, is the statistical error in learning the residual function, where the intrinsic complexity is governed by the norm ∥θ′∗  
+
+> L
+
+∥qq. Again, when source models are informative, learning the residual function leads to a smaller error than learning the target function directly. The fourth term, EM T L, 4, is a higher-order term that vanishes at the rate 1 /n . We give the proof of Theorem 3 and discuss its main challenge in Appendix Section S2.4. Finally, we establish the performance improvement and safeguard property of MTL. 
+
+Theorem 4 (Performance guarantee of MTL) . Suppose the conditions of Theorem 3 hold. (a) (Safety). When ∥θ′∗ 
+
+> L, res
+
+∥qq ≲ ∥θ∗
+
+> L
+
+∥qq, MTL is never worse than the baseline method, in that 
+
+E∥ bfMTL (X) − f ∗(X)∥22 ≲ E∥fbΘbase (X) − f ∗(X)∥22 + σ2s∗ log Kκ2n .
+
+(b) (Enhancement). When (i) s∗ log K ≪ n, and (ii) the source models are informative, in that ∥θ′∗ 
+
+> L, res
+
+∥qq < ∥θ∗
+
+> L
+
+∥qq − c√s∗ log K, for some constant c > 0, then MTL achieves a strict improvement over the baseline method, in that, for some constant c′ > 0,
+
+E∥ bfMTL (X) − f ∗(X)∥22 ≲ E∥fbΘbase (X) − f ∗(X)∥22
+
+− c′ v∞
+
+rL{log( nmp total )}3
+
+n
+
+ ∥θ∗
+
+> L
+
+∥qq − ∥ θ′∗ 
+
+> L, res
+
+∥qq
+
+ .
+
+Theorem 4 quantifies the performance enhancement that MTL achieves over the baseline method, and characterizes the precise conditions under which this enhancement occurs. The safety guarantee shows that MTL incurs only a controlled excess risk bounded by the Lasso estimation error σ2s∗ log K/ (κ2n) when the residual space learning maintains a 21 comparable intrinsic complexity to the original learning, in that ∥θ′∗ 
+
+> L, res
+
+∥qq ≲ ∥θ∗
+
+> L
+
+∥qq. When 
+
+s∗ is small, the Lasso error vanishes at the rate (log K)/n , implying that MTL can safely search over the exponentially large number of source models with only a logarithmic cost. This contrasts sharply with naive ensemble methods that would suffer linear dependence on K in the generalization bounds (Tsybakov, 2003). The enhancement guarantee quantifies the benefit of MTL, which is similar as that for ISL. Such an enhancement materializes when two conditions hold jointly. The first con-dition requires that the effective dimension of the transfer learning problem, measured by 
+
+s∗ log K, remains small relative to the sample size n. This ensures that the Lasso estimation error does not overwhelm the benefit of complexity reduction in the residual space. The second condition requires that source models provide sufficiently informative information, in that the intrinsic complexity of residual learning and that of direct learning, as mea-sured by ∥θ′∗ 
+
+> L, res
+
+∥qq and ∥θ∗
+
+> L
+
+∥qq, respectively, differs by a certain amount, so to ensure that the improvement from reduced complexity dominates the cost of estimating the combination weights. When both conditions hold, the gain scales with the square root of the sample size times the path norm reduction, revealing that the benefit of transfer learning compounds with the availability of labeled data in the target task. 
+
+# 5 Numerical Studies 
+
+## 5.1 Benchmark data and experiment setup 
+
+We carry out numerical experiments using the benchmark, the Natural Scenes Dataset (NSD), a large-scale 7T human fMRI data designed to bridge cognitive neuroscience and artificial intelligence (Allen et al., 2022). It contains fMRI responses from eight healthy adult participants. Four of them, S1, S2, S5, S7, completed the full protocol of 40 scan ses-sions over the course of one year, while the other four only completed part of scan sessions. 22 Each scanning session consisted of 12 runs, with each run containing 62 to 63 natural image stimulus trials. In total, each participant viewed approximately 10,000 distinct natural im-ages, with each image repeated three times to ensure reliable BOLD response estimation. All visual stimuli were drawn from the Microsoft Common Objects in Context (COCO) dataset (Lin et al., 2014), which provides a rich and diverse set of natural scenes. Fol-lowing the usual protocol in recent fMRI-to-image reconstruction literature (Scotti et al., 2023; Ozcelik and VanRullen, 2023; Huo et al., 2024), we focus our experiments on the four participants who completed all scan sessions. These subjects share a common testing set of 982 fMRI-image pairs, and a different training set out of 8,859 fMRI-image pairs. The dataset is publicly available at https://registry.opendata.aws/nsd/ .We follow the general encoder-alignment-decoder structure as described in Figure 1. We adopt the same type of encoder and decoder as those used in latent embedding alignment (LEA) of Qian et al. (2024), while we keep the pretrained encoder and decoder frozen 
+
+throughout our numerical experiments without any fine-tuning. More specifically, for the fMRI encoder, we adopt the architecture from NeuroPictor (Huo et al., 2024), which is based on a masked autoencoder similar to that used in LEA. Raw fMRI data are first projected onto 2D cortical flatmaps using the fMRI-PTE preprocessing pipeline (Chen et al., 2023a), producing a 256 × 256 single-channel activation map for each image-fMRI trial. The encoder partitions the flatmaps into patches, processes them with a vision transformer, and uses a dedicated guide token to aggregate global neural activity into a single 2048-dimensional latent representation. This encoder was pretrained on large-scale UK Biobank fMRI data from over 100,000 participants. For the natural image encoder, we use the ViT-H/14 model from the OpenCLIP library (Cherti et al., 2023). It employs a vision transformer with a 14 ×14 patch size and produces a 1024-dimensional embedding for each image. The encoder was pretrained on the LAION-5B dataset containing 5.85 billion image-text pairs. For the natural image decoder, we adopt a CLIP-conditioned MaskGIT 23 architecture built on a VQGAN tokenizer, which defines a discrete visual codebook. Given the predicted embedding, the frozen MaskGIT model autoregressively samples quantized visual tokens, which are then decoded into RGB images by the VQGAN decoder. 
+
+## 5.2 Methods for comparison and evaluation metrics 
+
+Since we focus on the alignment step, we compare our approach with several alternative alignment methods, including ridge regression as used in LEA (Qian et al., 2024), partial least squares (PLS), and contrastive learning (CL). For CL, we implement a standard CLIP-space contrastive framework in which a two-hidden-layer MLP, with 2048 nodes per layer, maps fMRI latent features to the CLIP image embedding space. The model is trained using a symmetric InfoNCE-style contrastive loss combined with a feature regression term, a common strategy for stabilizing multimodal representation alignment (van den Oord et al., 2018; Radford et al., 2021). We exclude canonical correlation analysis due to its instability and tendency to overfit in high-dimensional settings, and optimal transport because it aligns distributions rather than learning the explicit predictive mapping required for fMRI-to-image reconstruction. In addition, we compare with MindEye, a state-of-the-art fMRI-to-image reconstruction method that maps fMRI signals into the CLIP space, aligns the predicted embeddings with the CLIP image distribution via a diffusion prior, and reconstructs images using a CLIP-conditioned diffusion decoder (Scotti et al., 2023). We evaluate reconstruction quality using three numerical metrics, along with visual examination. The first metric is the CLIP distance, which quantifies semantic similarity between reconstructed and true images in the CLIP feature space. Specifically, for each image pair, features are extracted with a pretrained CLIP ViT-H/14 model, ℓ2-normalized, and compared using cosine similarity: CLIP Distance = 1
+
+ntest 
+
+> ntest
+
+X
+
+> i=1
+
+fCLIP (ˆ ri) · fCLIP (ri)
+
+|| fCLIP (ˆ ri)|| · || fCLIP (ri)|| 
+
+24 where fCLIP (·) denotes the CLIP feature extraction function, ˆ ri and ri are the reconstructed and true images, respectively. The second metric is the CLIP correlation, which evaluates whether a reconstructed image is most strongly associated with its corresponding true image. Specifically, for each reconstruction, we compute CLIP feature correlations with all test images and report the proportion of cases in which the correlation with the correct image exceeds that with all others, i.e., CLIP Correlation = 1
+
+ntest 
+
+> ntest
+
+X
+
+> i=1
+
+1
+
+ntest − 1
+
+X 
+
+> j̸=i
+
+Iρ(fCLIP (ˆ ri), f CLIP (ri)) > ρ (fCLIP (ˆ ri), f CLIP (rj )) ,
+
+where ρ(·, ·) denotes the Pearson correlation, and I[·] is the indicator function. The third metric is top-k classification accuracy, which evaluates whether the reconstructed image preserves the semantic category of the original image. Because NSD lacks explicit class labels, we assign labels to true images using a fixed pretrained ViT-H/14 classifier and augment them with randomly sampled distractor classes. Reconstructed images are labeled using the same classifier, and accuracy is defined as the fraction of cases in which the predicted label appears in the true top-k set. All three metrics are standard in natural image reconstruction studies (Gaziv et al., 2022; Chen et al., 2023b; Qian et al., 2024), and higher values indicate better reconstruction quality. We also report the number of trainable parameters for each method as a measure of computational complexity. 
+
+## 5.3 Semi-supervised learning 
+
+For semi-supervised learning, we use all 8,859 fMRI-image pairs in the training set as the labeled data, and randomly sample 10k or 50k images from the COCO dataset, excluding the ones overlapping with NSD to prevent data leakage, as the additional unpaired data. We employ an MLP model with three hidden layers of 512, 512 and 256 hidden nodes for the inverse mapping step, and an MLP with two hidden layers of 512 and 256 hidden nodes for the augmented learning and residual learning steps. We carry out the analysis for one 25 Method CLIP Dist CLIP Corr Top1 Acc Top3 Acc LEA 0.448 ±0.006 0.886 ±0.008 0.364 ±0.016 0.570 ±0.020 PLS 0.453 ±0.005 0.892 ±0.008 0.379 ±0.015 0.587 ±0.018 CL 0.471 ±0.008 0.897 ±0.010 0.427 ±0.021 0.618 ±0.024 MindEye 0.561 ±0.012 0.962 ±0.004 0.614 ±0.016 0.767 ±0.016 ISL (0) 0.468 ±0.008 0.885 ±0.011 0.416 ±0.020 0.599 ±0.023 ISL (10k) 0.485 ±0.007 0.898 ±0.008 0.454 ±0.019 0.639 ±0.021 ISL (50k) 0.486 ±0.008 0.900 ±0.009 0.459 ±0.023 0.642 ±0.025 Table 1: Average evaluation metrics across four subjects. subject at a time, then average the results across the four subjects with complete scan sessions. We evaluate the reconstruction using 982 fMRI-image pairs in the testing set. Table 1 reports the average evaluation metrics across four subjects, and Figure 2 reports the reconstructed images for subject S1 with various alignment methods. In the interest of space, we report the visual reconstruction results for the other three subjects in the Appendix Section S3.1. From the table, we see that incorporating additional unpaired images improves alignment performance. In addition, our method outperforms alternative alignment approaches including LEA, PLS, and CL. Although MindEye achieves higher quantitative accuracy, this difference is expected, as MindEye jointly fine-tunes the entire pipeline of encoding, alignment, and decoding, whereas our method focuses exclusively on alignment, with both the encoder and decoder fully frozen. Moreover, Figure 2 shows that, despite the lower numerical metrics, our method, when trained with 50k unpaired images, produces reconstructions that are visually comparable to those of MindEye. Finally, in terms of trainable parameters, LEA, PLS, CL, MindEye, and ISL involve 2.1M, 4.2M, 10.5M, 44M, and 4.3M parameters, respectively. Our method therefore uses roughly one-tenth the number of parameters of MindEye. Taken together, it highlights a clear trade-off: 26 Figure 2: Semi-supervised learning reconstruction of NSD Subject S1. modestly reduced accuracy in exchange for a substantially lighter, more computationally efficient, and theoretically grounded brain encoding decoding solution. 27 5.4 Transfer learning 
+
+For transfer learning, we randomly sample a subset of fMRI-image pairs of one subject as the target domain, and use all fMRI-image pairs of the other three subjects as the source domain. We employ an MLP model with two hidden layers of 512 and 256 hidden nodes for both the sparse source weight learning and the residual learning steps. Table 2 reports the average evaluation metrics across four subjects, and Figure 3 reports the reconstructed images for subject S1 with or without transfer learning. Again, we report the results for the other three subjects in the Appendix Section S3.2. From the table and figures, we see that, comparable reconstruction accuracy can be achieved using roughly half as many fMRI-image training pairs. For instance, using 3k pairs under transfer learning yields performance similar to using 5k to 6k pairs without transfer learning, while using 4k to 5k pairs with transfer learning are comparable to using all 8.8k pairs without transfer learning. Moreover, applying transfer learning with the full set of 8.8k training pairs further improves performance. Together, these findings demonstrate that our transfer learning approach effectively leverages information from other subjects to substantially reduce the training data requirements for a new subject, offering clear practical benefits. # Images & Method CLIP Dist CLIP Corr Top-1 Acc Top-3 Acc 3k (transfer) 0.456 ±0.006 0.869 ±0.009 0.388 ±0.018 0.569 ±0.021 5k (no transfer) 0.456 ±0.006 0.873 ±0.009 0.383 ±0.016 0.566 ±0.018 6k (no transfer) 0.459 ±0.007 0.876 ±0.010 0.389 ±0.018 0.570 ±0.021 4k (transfer) 0.468 ±0.007 0.881 ±0.009 0.412 ±0.020 0.596 ±0.024 5k (transfer) 0.473 ±0.006 0.884 ±0.008 0.419 ±0.015 0.603 ±0.018 8.8k (no transfer) 0.468 ±0.008 0.883 ±0.011 0.415 ±0.020 0.599 ±0.022 8.8k (transfer) 0.481 ±0.006 0.895 ±0.008 0.443 ±0.016 0.630 ±0.019 Table 2: Transfer learning and baseline performance averaged across 4 subjects. 28 Figure 3: Transfer learning reconstruction of NSD Subject S1. 
+
+# 6 Discussions 
+
+In this article, we have proposed two statistical approaches, inverse semi-supervised learning and meta transfer learning, for latent embedding alignment in brain encoding and decoding. Both methods achieve performance improvement through principled complexity reduction, 29 rather than architectural expansion or joint retraining, but differ in how auxiliary infor-mation is exploited. In both methods, performance gains arise from reducing the effective complexity of the learning problem through residual-space decomposition, as reflected by a smaller ℓq path norm governing statistical error. However, ISL achieves this reduction by increasing the effective sample size using unlabeled outputs, relying on inverse map-ping estimation and residual correction to control bias introduced by pseudo-predictors. In contrast, MTL reduces complexity by transferring information from related source tasks, using sparse aggregation of pretrained models to capture shared structure across subjects, followed by residual learning to account for subject-specific effects. As a result, ISL is most effective when unlabeled stimulus embeddings are abundant and the inverse mapping is reasonably accurate, whereas MTL is most effective when reliable source models from similar tasks or subjects are available but labeled data in the target task are limited. It is useful to extend the proposed framework to incorporate additional modalities, particularly text information associated with visual stimuli. Modern vision-language mod-els encode rich semantic structure through joint image-text embeddings, and textual de-scriptions may provide complementary information that further regularizes the alignment between neural and stimulus representations. Developing statistically principled methods that exploit such multimodal information, while preserving the safety guarantees, inter-pretability, and computational efficiency of the current framework, remains an open and promising direction for future research. 
+
+# References 
+
+Allen, E. J., St-Yves, G., Wu, Y., Breedlove, J. L., Prince, J. S., Dowdle, L. T., Nau, M., Caron, B., Pestilli, F., Charest, I., Hutchinson, J. B., and Naselaris, T. (2022). A massive 7t fMRI dataset to bridge cognitive neuroscience and artificial intelligence. 30 Nature Neuroscience , 25(1):116–126. Allen-Zhu, Z., Li, Y., and Song, Z. (2019). A convergence theory for deep learning via over-parameterization. In International conference on machine learning , pages 242–252. PMLR. Bickel, P. J., Ritov, Y., and Tsybakov, A. B. (2009). Simultaneous analysis of lasso and dantzig selector. The Annals of Statistics , 37(4):1705–1732. Cai, T., Li, M., and Liu, M. (2025). Semi-supervised triply robust inductive transfer learning. Journal of the American Statistical Association , 120(550):1037–1047. Cai, T. T., Kim, D., and Pu, H. (2024). Transfer learning for functional mean estimation: Phase transition and adaptive algorithms. The Annals of Statistics , 52(2):654–678. Cai, T. T. and Wei, H. (2021). Transfer learning for nonparametric classification. The Annals of Statistics , 49(1):100–128. Chen, X., Wang, Z., Liu, Y., Lin, R., Du, C., and Hu, Q. (2023a). fmri-pte: A large-scale data pre-training and tuning environment for fmri-based brain decoding. arXiv preprint arXiv:2311.00342 .Chen, Z., Qing, J., Xiang, T., Yue, W. L., and Zhou, J. H. (2023b). Seeing beyond the brain: Conditional diffusion model with sparse masked modeling for vision decoding. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 1–20. Cherti, M., Beaumont, R., Wightman, R., Wortsman, M., Ilharco, G., Gordon, C., Schuh-mann, C., Schmidt, L., and Jitsev, J. (2023). Reproducible scaling laws for contrastive language-image learning. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 2818–2829. 31 Deng, S., Ning, Y., Zhao, J., and Zhang, H. (2024). Optimal and safe estimation for high-dimensional semi-supervised learning. Journal of the American Statistical Association ,119(548):2748–2759. Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., Dehghani, M., Minderer, M., Heigold, G., Gelly, S., Uszkoreit, J., and Houlsby, N. (2021). An image is worth 16x16 words: Transformers for image recognition at scale. In 
+
+International Conference on Learning Representations .Du, S., Lee, J., Li, H., Wang, L., and Zhai, X. (2019). Gradient descent finds global minima of deep neural networks. In International conference on machine learning , pages 1675–1685. PMLR. Gaziv, G., Beliy, R., Granot, N., Hoogi, A., Strappini, F., Golan, T., and Irani, M. (2022). Self-supervised natural image reconstruction and large-scale semantic classification from brain activity. NeuroImage , 254:119121. Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., and Bengio, Y. (2014). Generative adversarial nets. In Advances in Neural Information Processing Systems (NeurIPS) , pages 2672–2680. Gu, Z., Jamison, K., Kuceyeski, A., and Sabuncu, M. R. (2024). Decoding natural image stimuli from fmri data with a surface-based convolutional network. In Medical Imaging with Deep Learning (MIDL) , volume 227 of Proceedings of Machine Learning Research ,pages 107–118. PMLR. Guo, W., Sun, G., He, J., Shao, T., Wang, S., Chen, Z., Hong, M., Sun, Y., and Xiong, H. (2025). A survey of fmri to image reconstruction. arXiv .Han, W., Qiu, J., Zhu, J., Xu, M., Weber, D., Li, B., and Zhao, D. (2022). An empirical exploration of cross-domain alignment between language and electroencephalogram. 32 He, K., Zhang, X., Ren, S., and Sun, J. (2016). Deep residual learning for image recognition. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pages 770–778. IEEE. Ho, J., Jain, A., and Abbeel, P. (2020). Denoising diffusion probabilistic models. In 
+
+Advances in Neural Information Processing Systems (NeurIPS) , pages 6840–6851. Huo, J., Wang, Y., Qian, X., Wang, Y., Li, C., Feng, J., and Fu, Y. (2024). Neuropictor: Refining fmri-to-image reconstruction via multi-individual pretraining and multi-level modulation. Kingma, D. P. and Welling, M. (2014). Auto-encoding variational bayes. In International Conference on Learning Representations (ICLR) .Lederer, J. (2024). Statistical guarantees for sparse deep learning. AStA Advances in Statistical Analysis , 108(2):231–258. Li, S., Cai, T. T., and Li, H. (2022). Transfer learning for high-dimensional linear regression: Prediction, estimation and minimax optimality. Journal of the Royal Statistical Society Series B: Statistical Methodology , 84(1):149–173. Lin, T.-Y., Maire, M., Belongie, S., Hays, J., Perona, P., Ramanan, D., Doll´ ar, P., and Zitnick, C. L. (2014). Microsoft COCO: Common objects in context. In European Conference on Computer Vision (ECCV) , pages 740–755. Springer. Liu, Y., Ma, Y., Zhou, W., Zhu, G., and Zheng, N. (2023). Brainclip: Bridging brain and visual-linguistic representation via clip for generic natural visual stimulus decoding. Nadler, B., Srebro, N., and Zhou, X. (2009). Statistical analysis of semi-supervised learning: The limit of infinite unlabelled data. Advances in neural information processing systems ,22. 33 Ozcelik, F. and VanRullen, R. (2023). Natural scene reconstruction from fmri signals using generative latent diffusion. Scientific Reports , 13(1):15666. Pre-print available at arXiv (2023 Mar 09) arXiv:2303.05334. Qian, X., Wang, Y., Sun, X., Fu, Y., Xue, X., and Feng, J. (2024). Lea: Learning latent embedding alignment model for fmri decoding and encoding. Transactions on Machine Learning Research .Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., Krueger, G., and Sutskever, I. (2021). Learning transferable visual models from natural language supervision. In Meila, M. and Zhang, T., editors, 
+
+Proceedings of the 38th International Conference on Machine Learning , volume 139 of 
+
+Proceedings of Machine Learning Research , pages 8748–8763. PMLR. Rakhimberdina, Z., Liu, H., and Murata, T. (2021). Natural image reconstruction from fmri using deep generative models: A review. Frontiers in Neuroscience , 15:795488. Raskutti, G., Wainwright, M. J., and Yu, B. (2009). Minimax rates of convergence for high-dimensional regression under L q-ball sparsity. In 2009 47th Annual Allerton Conference on Communication, Control, and Computing (Allerton) , pages 251–257. IEEE. Raskutti, G., Wainwright, M. J., and Yu, B. (2010). Restricted eigenvalue properties for correlated gaussian designs. The Journal of Machine Learning Research , 11:2241–2259. Rumelhart, D. E., Hinton, G. E., and Williams, R. J. (1986). Learning representations by back-propagating errors. nature , 323(6088):533–536. Scotti, P. S., Banerjee, A., Goode, J., Shabalin, S., Nguyen, A., Cohen, E., Dempster, A. J., Verlinde, N., Yundler, E., Weisberg, D., Norman, K. A., and Abraham, T. M. (2023). Reconstructing the mind’s eye: fMRI-to-image with contrastive learning and diffusion priors. Neural Information Processing Systems (NeurIPS) .34 Singh, A., Nowak, R., and Zhu, J. (2008). Unlabeled data: Now it helps, now it doesn’t. 
+
+Advances in neural information processing systems , 21. Takagi, Y. and Nishimoto, S. (2023). High-resolution image reconstruction with latent diffusion models from human brain activity. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 14453–14463. Tsybakov, A. B. (2003). Optimal rates of aggregation. In Learning Theory and Ker-nel Machines: 16th Annual Conference on Learning Theory and 7th Kernel Workshop, COLT/Kernel 2003, Washington, DC, USA, August 24-27, 2003. Proceedings , pages 303–313. Springer. van den Oord, A., Li, Y., and Vinyals, O. (2018). Representation learning with contrastive predictive coding. arXiv preprint arXiv:1807.03748 .Xu, Q. and Qu, A. (2025). Representation retrieval learning for heterogeneous data inte-gration. arXiv preprint arXiv:2503.09494 .Yuan, Y., Zhang, Y., Shahbaba, B., Fortin, N., Cooper, K., Nie, Q., and Qu, A. (2025). Optimal transport based cross-domain integration for heterogeneous data. Journal of the American Statistical Association , 120(551):1449–1462. Zhu, Z., Yan, Y., Li, G., and Zhang, R. (2025). Recent developments on statistical transfer learning. International Statistical Review .35
