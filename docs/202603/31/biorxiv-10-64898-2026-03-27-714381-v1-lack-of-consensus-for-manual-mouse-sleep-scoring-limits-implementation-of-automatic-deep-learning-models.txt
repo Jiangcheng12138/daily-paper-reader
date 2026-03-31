@@ -1,0 +1,1561 @@
+Title: Lack of Consensus for Manual Mouse Sleep Scoring Limits Implementation of Automatic Deep Learning Models
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.03.27.714381v1.full.pdf
+
+Number of Pages: 24
+
+Markdown Content:
+Title :
+
+# Lack of Consensus for Manual Mouse Sleep Scoring Limits 
+
+# Implementation  of  Automatic  Deep Learning Models 
+
+Authors :
+
+Laura Rose 1, Alexander Neergaard Zahid 2, Javier García Ciudad 1, Christine Egebjerg 1, Louise Piilgaard 1,
+
+Frederikke Lynge Sørensen 3, Mie Andersen 3, Tessa Radovanovic 3, Anastasia Tsopanidou 3, Maiken 
+
+Nedergaard 3, S é  bastien Arthaud 4, Renato Maciel 4, Christelle Peyron 4, Chiara Berteotti 5, Viviana Lo 
+
+Martire 5, Alessandro Silvani 5, Giovanna Zoccoli 5, Micaela Borsa 6,7 , Antoine Adamantidis 6,7 , Morten 
+
+Mørup 2 and Birgitte Rahbek Kornum 1
+
+1 Department of Neuroscience, University of Copenhagen, 
+
+2 Department of Applied Mathematics and Computer Science, Technical University of Denmark, 
+
+3 Center for Translational Neuroscience, University of Copenhagen 
+
+4 Lyon Neuroscience Research Center, 
+
+5 Department of Biomedical and Neuromotor Sciences,  Alma Mater Studiorum  - Università di Bologna 
+
+6 Zentrum für Experimentelle Neurologie, Department of Neurology, Inselspital University Hospital 
+
+Bern, Bern, Switzerland. 
+
+7 Department of Biomedical Research, University of Bern, Bern, Switzerland. 
+
+Corresponding author: Birgitte R. Kornum, kornum@sund.ku.dk 
+
+Author Contributions Statement: 
+
+L.R. and B.R.K. got the idea for the study. L.R., A.N.Z., M.M. and B.R.K. designed the study. L.R., 
+
+A.N.Z. and J.G.C. implemeted the deep learning models and performed data analysis. C.E., L.P., F.L.S., 
+
+M.A., T.R., A.T., M.N., S.A., R.M., C.P., C.B., V.L.M ., A.S., G.Z., M.B., and A.A. collected mouse sleep 
+
+data and performed data analysis. L.R. and B.R.K. wrote the manuscript. All authors reviewed and 
+
+approved the manuscript. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Keywords: 
+
+Sleep; a utomatic sleep stage classification ; deep learning ; electroencephalography;  EEG ;
+
+machine learning ; manual sleep scoring ; mice ; hypnodensity 
+
+# Abstract 
+
+Scientists have for decades attempted to automate the manual sleep staging problem not 
+
+only for human polysomnography data but also for rodent data. No model  has, however, 
+
+succeeded in fully replacing the manual procedure across  clinics and  laboratories. 
+
+We hypothesize that  this  is  due to the models’ limited ability to generalize to data from 
+
+unseen laboratories.  Our findings show that despite the high performance  of four state -of -
+
+the -art models  reported in initial publications, the published models struggle to generalize 
+
+to other laboratories. We  further show a  significant improve ment in  model performance 
+
+across labs by re -training them on a diverse dataset  from five different  sites . To assess the 
+
+contribution of variability in  manual scoring , ten  experts from five laboratories  all  labelled 
+
+the same  nine  mouse sleep  recordings . The result  revealed  substantial scoring variability, 
+
+particularly for rapid eye movement (REM) sleep, both within and bet ween labs. 
+
+In conclusion our study demonstrates that  key challenges in the generalizability of state -of -
+
+the -art sleep scoring models  are  signal variability and label noise. Our study highlights  the 
+
+need for a standardized set of  mouse sleep  scoring guidelines to enable consistency and 
+
+collaboration across the field. Until such  a consensus  is reached, we present four sufficiently 
+
+robust models trained on diverse datasets that can serve as standardized tools  across labs .
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+# Introduction 
+
+Mouse models are commonly used to study sleep due to the availability of tools that allow 
+
+for genetic manipulation and sophisticated phenotyping. Like in humans, 
+
+electroencephalogram (EEG) and electromyography (EMG) signals are used for classification 
+
+of d ifferent vigilance states, and in mice these are typically divided into three stages: 
+
+Wakefulness, NREM -sleep (NREMS), and REM -sleep (REMS). Although common sleep stage 
+
+characteristics of mouse sleep, such as high delta power  (0.5 -4 Hz ) in NREMS and high t heta 
+
+power  (6-10  Hz ) in REMS, are well established, inter -scorer variability still exists  [1 –3] . Unlike 
+
+human sleep scoring, which follows the standardized guidelines of the American Academy of 
+
+Sleep Medicine  [4] , there is no firm consensus for classifying wake and sleep stages in rodents 
+
+[2] .
+
+Manual sleep stage classification in mice is still the gold standard for sleep research, despite 
+
+it being highly time -consuming.  This has  prompted many scientists to explore automation of 
+
+sleep stage classification in mice. Using automatic sleep scoring algorithms would not only 
+
+accelerate sleep study evaluation but more importantly streamline the process across labs by 
+
+providing a standardi zed tool for sleep scoring, enabling direct comparisons of results across 
+
+different laboratories. 
+
+Variability in the EEG and EMG sleep signals presents a major challenge for automatic sleep 
+
+stage classification. This variability arises both from biological and technical  variation  but 
+
+likely also from label noise introduced by experts scoring sleep differently (subject bias). 
+
+Technical variability reflects the wide range of experimental conditions across laboratories, 
+
+as each lab typically uses unique hardware and recording setups ( e.g., different number of 
+
+electrodes,  varying  locations of the electrodes  and different references). Even within a single 
+
+lab, experiments vary due to biological factors in rodents such as genetic background, disease 
+
+models, sex, and age. The label noise adds another layer of complexity, as a model will learn 
+
+the specific scori ng patterns from the training data, which limits its generalizability across 
+
+datasets. 
+
+Researchers have applied v arious strategies to address this variability. Miladinovic et al. 
+
+published the first deep learning model, SPINDLE, for mouse sleep staging in 2019  [1] . They 
+
+argued that using a deep learning model would be a better way to approach the high 
+
+variability rather than relying on handcrafted feature extraction and application of simple 
+
+machine learning models as the high signal variability makes it challengin g to define robust 
+
+features that generalize well. They successfully achieved a generalization agreement of 
+
+97.39%, 93.21% and 97.47% in data cohorts of mutant mice generated from the same lab, of 
+
+mice from an external lab, and of rats from an external lab,  respectively. Later, Barger et al., 
+
+introduced the mixture z -scoring as a part of their sleep stage classification model (SS -ANN) 
+
+[5] . This approach aimed to preserve variability arising from experimental manipulations but 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+corrected for the variability that arises from the signal acquisition  [5] . As opposed to 
+
+Miladinovic et al., Barger et al. aimed to reduce the learnable parameters from 6.8M 
+
+parameters as in SPINDLE to 20K parameters in SS -ANN while maintaining generalizability. 
+
+However, although they reported a held -out performance of 95 -98%,  the held -out data partly 
+
+consisted of recordings from mice that also were a part of the training, which most likely 
+
+inflated the performance. 
+
+Both SPINDLE and SS -ANN treat the sleep stage classification problem as an image 
+
+classification task and use spectrograms for training the model. A different approach is to 
+
+train a model on time -series EEG and EMG signals. This was applied i n two  other model s
+
+generated by Grieger et al.  [3]  and Jha et al.  [6] . Griger et al.  further  used  data augmentation 
+
+(i.e., through amplitude variability, frequency variability, EEG montage variability and time 
+
+shift variability) to make their model robust to variations arising from data acquisition, 
+
+scoring, and other unrelated physiological processes  [3] . However, Grieger et al. found that 
+
+they achieved  better  performance by omitting the data augmentation when they tested the 
+
+model on a held -out in -house dataset. Jha et al. also used data augmentation in their model, 
+
+SlumberNet  based on the known ResNet model , and further attempted to obtain a robust 
+
+classifier, that could work well across various sleep conditions by training a model on mice 
+
+undergoing baseline sleep, sleep deprivation, and recovery sleep  [6] . They showed that the 
+
+model could perform well on an in -house mouse dataset across similar conditions. However, 
+
+the model was not  evaluated  on external data cohorts. 
+
+As all four models originally were trained on data from a single laboratory  which could limit 
+
+their generalizability to other labs. A lthough models trained and evaluated on the same in -
+
+house datasets often achieve higher performance, this comes at the cost of reduced 
+
+generalizabilit y. Additionally, it artificially raises the performance benchmark for new 
+
+publications. In contrast, models trained on diverse datasets are more resistant to overfitting 
+
+to a single lab. While this may lead to slightly lower performance on in -house data, it  is more 
+
+likely to improve generalizability to  external datasets and ultimately provide a more valuable 
+
+tool for the field. 
+
+While much focus has been on signal variability, relatively little attention has been given to 
+
+label noise stemming from variations in the manual labelling. Label noise introduces a ceiling 
+
+effect on the performance of automatic sleep stage classification  models, making it a crucial 
+
+factor to address  when  develop ing  robust and accurate sleep stage classification models. To 
+
+address  this,  we collected a unique dataset where 10 experts (two experts from each lab) 
+
+scored the same nine recordings, allowing us to  examine the within - and between -lab 
+
+variability . Our results highlight the need for a standardized set of mouse sleep scoring 
+
+guidelines. 
+
+In conclusion we here demonstrate that training on diverse data from multiple labs and 
+
+standardizing sleep scoring criteria across laboratories, rather than developing new models, 
+
+is a critical first step towards fully automating sleep stage classification  for mice. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+# Results 
+
+State -of -the -art sleep stage classification models do not generalize well when tested on 
+
+external datasets. 
+
+We first investigated to what extent state -of -the -art models generalized to unseen data from 
+
+different laboratories. For this we  chose the four state -of -the -art models described above 
+
+(i.e., SPINDLE  [1] [5] , SS -ANN  [5] , Grieger  [3]  and SlumberNet  [6] ). These four baseline models 
+
+were selected based on the three following criteria: 1) it is a deep learning -based model, 2) 
+
+the input to the model uses at least one EEG channel, and 3) the original data is available 
+
+online (allowing for reproduction of the  model).  Further, data from five different laboratories 
+
+(Cohort A  – E) were collected resulting in a total of 83 wild -type (WT) mice with some mice 
+
+having multiple recordings. Cohort A -E has previously been described in [1 2]. 
+
+Each  model  was  tested on cohort A -E to evaluate the robustness for classifying sleep stages 
+
+on data from various labs  (Figure 1) . Our results show that both SPINDLE (Wakefulness  -
+
+Recall: 98.8%, 93.7%, 97.1%, 96.7%, 95.1% across labs) and SS -ANN (Wakefulness  - Recall: 
+
+90.9%, 93.0%, 96.2%, 92.0%, 96.9% across labs) perform consistently well in detecting 
+
+Wakefulness across laboratori es compared to Grieger (Wakefulness  – Recall: 56.4%, 95.8%, 
+
+2.6%, 83.7%, 88.1%) and SlumberNet (Wakefulness  – Recall: 94.3%, 60. 3%, 83.7%, 36.7%, 
+
+12.12%). Both SPINDLE, SS -ANN and SlumberNet struggle in detecting REMS (REMS recall 
+
+SPINDLE: 84.1%, 60.9%, 55.8%, 66.9%, 50.3%; REMS recall SS -ANN: 76.9%, 62.2%, 33.4% 
+
+51.1% and 77.5%; REMS recall SlumberNet 54.3%, 82%, 32.2%, 55.4%, 54. 2%). The Grieger 
+
+model achieves a recall for REMS above 90% for 4/5 labs (Recall REMS: 92.0%, 66.0%, 94.8%, 
+
+96%, 92.2%). A common trend across all models was that the sleep stage with the highest 
+
+recall also  was the most likely stage to be classified , suggesting that the high recall likely 
+
+resulted from a tendency to classify the majority of the epochs into that particular stage. Our 
+
+analysis shows that state -of -the -art models that have been trained on data from a single lab 
+
+display highly variable  perform ance  on data from other laboratories. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Figure 1. State -of -the -art -models do not generalize to external dataset.  Confusion matrices of different state -
+
+of -the -art models tested across different laboratories (Lab 1 -5) with row -wise normalization (recall). X -axis 
+
+reflects the predictions and y -axis the manual labels. SPINDLE and SS -ANN are both trained on images, while 
+
+Grieger and SlumberNet are trained on sequences of time -series signals. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Figure 2: A flowchart illustrating three main experiments aimed at evaluating model performance across 
+
+various scenarios:  Testing whether state -of -the -art models can generalize to external datasets (Baseline). 
+
+Assessing the improvement in model performance when trained on a diverse (Fixed n) or a large  and  diverse 
+
+dataset (All n). 
+
+Models trained on a diverse dataset significantly improve performance when applied to 
+
+unseen data. 
+
+We aimed to address the generalization limitation of the state -of -the -art models by 
+
+introducing a diverse training set from multiple laboratories, allowing the models to learn a 
+
+broader range of scoring rules. We performed this in a leave -one -lab -out (LOLO ) approach 
+
+such that the models were trained on data from four labs and tested on the fifth lab in a cross -
+
+over fashion. 
+
+To evaluate the effect of this approach, we compared the results of three experiments: 1) 
+
+performance of the  baseline  models trained on the original data and tested on cohort A -E; 2) 
+
+performance of  fixed n  models trained on diverse data (identical in size to original data) from 
+
+four different labs and tested on data from the fifth lab ; and 3) performance of  all n  models 
+
+trained on all data from four labs and tested on data from the fifth lab  (Figure  2).
+
+To test the effect of a diverse and large sample, we used a linear model to correct for 
+
+confounding factors: lab and  model . Our results demonstrate that training the models on a 
+
+diverse dataset with a fixed sample size significantly improves overall performance when 
+
+models were tested on unseen data (Figure 3; p -value 1.59 · 10 -6). Similarly, training on a large, 
+
+diverse sample also showed improved performance (Figure 3; p -value 1.07 · 10 -6), with weight 
+
+initialization accounted for in both cases. Although training on the diverse and large sample 
+
+slightly improved model performance more than the diverse and fixed sample (Figure  3B; 
+
+mean difference 0.0562 vs. 0.0572), the improvement between the fixed n (experiment 2) 
+
+and all n (experiment 3) was not statistically significant . This demonstrates that  the diversity 
+
+of the training dat a matters more than the size of the training set  when the goal is to achieve 
+
+high generalizability of the model .
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Figure 3: Having a diverse training sample significantly improve the state -of -the -art classifiers.  (A) The macro 
+
+F1 -score (i.e., mean across sleep stages) for each experiment, lab and model. One sample represents the average 
+
+macro F1 -score across five repeated training runs and the error -bar reflects the standard deviation. (B) Mean 
+
+differences between  experimental groups, along with p -values and whether the null hypothesis could be 
+
+rejected. 
+
+Lack of consensus in manual sleep scoring within and between laboratories particularly for 
+
+REMS. 
+
+After observing the lack of generalizability of the state -of -the -art sleep scoring models, we 
+
+decided to assess the label noise in manual scoring. To do so, we asked 10 experts, two from 
+
+each lab, to manually annotate the same nine recordings.  An example of an annotated signal 
+
+is shown in Figure 4A  The within -lab agreement was high for  Wakefulness (Figure 4 B; Cohen's 
+
+kappa = 0.93, 0.95, 0.91, 0.94, 0.91) compared to NREMS that was slightly lower (Figure 4 B;
+
+Cohen's kappa = 0.88, 0.94, 0.91, 0.91, 0.86), and  to REMS (Figure 4 B; Cohen's kappa = 0.78, 
+
+0.93, 0.89, 0.90, 0.80), which showed the lowest agreement. The between -lab (i.e., experts 
+
+from one lab were compared to experts from all other labs) agreement showed a similar 
+
+pattern to the within -lab agreements (Figure 4 C; Wakefulness, Cohen's kappa = 0.90, 0.92, 
+
+0.91, 0.91, 0.90; NREMS, Cohen's kappa = 0.87, 0.89, 0.89, 0.89, 0.87; REMS, Cohen's kappa = 
+
+0.77, 0.87, 0.85, 0.86, 0.82).  While the between -lab agreement was slightly lower than the 
+
+within -lab agreeme nt in all stages, the within -lab agreement highlights inconsistencies in 
+
+scoring  even  between experts coming from the same lab. 
+
+We further investigated how much the scoring variability affected downstream sleep analysis. 
+
+Bout length analysis revealed that the average bout length varied more between experts than 
+
+did  the total time spent in each sleep stage (Figure 4D -E), suggesting that much of the 
+
+variability occurs at the start and end of each bout, which is supported by visual inspection of 
+
+the hypnogram ( example in  Figure 4A) . Variability was also found within delta power during 
+
+Wakefulness and within delta/theta power during REM S (Figure 4F). 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Figure 4. Lack of consensus in manual sleep scoring, both within and between labs, particularly for REM sleep. 
+
+(A) Hypnograms from 10 experts of a  three -minute  EEG / EMG sequence. (B) Within lab agreement (i.e.,  Cohen’s 
+
+kappa was calculated between two experts from the same lab) for each sleep stage and each mouse resulting in 
+
+nine samples per sleep stage. (C) Between lab agreement (i.e., experts from one lab  were  compared to all other 
+
+experts from other labs; 16 samples) for each sleep stage. Each sample r eflects an average across recordings 
+
+from five mice. Down -stream sleep analysis based on the manual labels from each of the 10 experts: (D) Average 
+
+bout  length [sec] and (E) Total time spent in each state [%]. Each point in graph D and E represents one expert. 
+
+(F) Power spectrums of the EEG for each sleep stage. Each line represents one expert. 
+
+Manual label -derived hypnodensities show comparable macro sleep characteristics to 
+
+those produced by the four fully trained deep learning models.  After training the four 
+
+models on all data from the five labs, we tested the models on data consisting of  the  nine 
+
+recordings manually  annotated  by the 10 experts. We found that the macro sleep structure 
+
+based on the hypnodensities from the manual sleep scores and the four sleep scoring models 
+
+was similar across most models in both the dark and light phases (Figure 5 ; Figure S1 -S4). 
+
+Certain areas of the manual hypnodensity indicate a clear wake stage, while the deep learning 
+
+models suggested brief wake -sleep mix ed  stages, which could be explained by the models 
+
+being more likely to predict sleep stages (i.e., NREMS and REMS) compared to Wakefulness. 
+
+This was further supported by calibration curves (Figure 5B: SPINDLE, SS -ANN, and Grieger), 
+
+which showed that  the models  correctly  predict wakefulness when the  manual experts  also 
+
+reached  a relatively high agreement on Wakefulness . In contrast, only a few experts  had to 
+
+agree  on NREMS or REMS before  the models  predict ed  these stages with high certainty 
+
+(Figure 5B: SPINDLE, SS -ANN, and Grieger). The calibration curve for the SlumberNet model 
+
+indicated that  this model, in contrast to the other three,  was rat her conservative in predicting 
+
+both NREM and REMS, despite high agreement among experts. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Figure 5: Hypnodensities derived from manual labels exhibit similar macro sleep characteristics to those 
+
+generated by three of the four fully trained deep learning models.  (A) The manual hypnodensities were derived 
+
+based on the  ten  experts ’ annotations for each mouse during dark phase and light phase. Hypnodensities based 
+
+on the probability outputs from the fully trained SPINDLE, SS -ANN, Grieger and SlumberNet model. (B) 
+
+Calibration  curves for SPINDLE, SS -ANN, Grieger and SlumberNet. The x -axis reflects an  aggregation of the 10 
+
+sets of manual labels (e.g., 2/10 experts agreed on NREM for a given epoch, 8/10 agreed on Wake, resulting in 
+
+a probability distribution of p(Wake) = 0.8, p(NREM) = 0.2, and p(REM) = 0) labelled as manual [%]. The y -axis 
+
+reflects the  average fraction of epochs belonging to the sleep stage out of all epochs in the corresponding x -
+
+label bin. The black dashed line shows the optimal calibration curve. 
+
+# Discussion 
+
+In this study, we show that state -of -the -art sleep scoring models ( when  trained on data from 
+
+a single lab) fail to generalize to data from other labs. However, we demonstrate that 
+
+retraining these models on a diverse dataset significantly enhances their performance on 
+
+unseen data. Finally, we highlight a lack of consensus in  manual sleep scoring, particularly for 
+
+REMS. 
+
+Although several automatic sleep stage classification models report high performance: 
+
+SPINDLE with 99±0.5% accuracy  [1] , SS -ANN at 96.8%  [5] , Grieger with an F1 -score of 0.95  [3] ,
+
+and SlumberNet at 97% accuracy  [6] , none of them perform consistently well across external 
+
+laboratories (Figure  1). This inconsistency could come from signal variability or label noise. 
+
+Furthermore, both SS -ANN and SlumberNet face the issue of information leakage (i.e., 
+
+training and testing on the same mice), which can compromise the model's generalizability 
+
+and arti ficially inflate performance metrics. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+When comparing the four models, SS -ANN is the only model that requires a few manually 
+
+labelled  epochs to calculate a standardized z -score, making it less flexible compared to 
+
+SPINDLE and Grieger. Unlike the other models, SlumberNet does not include  neighbouring 
+
+epochs in its sequences, preventing it from leveraging contextual information. This absence 
+
+of context could be one reason for its lower performance compared to the others, which use 
+
+sequences of 20, 44, and 30 seconds for SPINDLE, SS -ANN, and Griege r, respectively. SPINDLE 
+
+may offer more explainability, as it uses spectrograms instead of raw signal sequences as 
+
+input. This approach allows for easier post -hoc explainability techniques to identify sleep 
+
+markers and understand the rationale behind model  predictions. 
+
+This trend of inflated performance has substantial implications for the field, as new models 
+
+are typically expected to outperform established ones. Instead of focusing solely on 
+
+performance within a single dataset, it may be more meaningful to evaluate mod el 
+
+robustness across datasets, providing a better indication of real -world applicability.  Another 
+
+issue is that studies often report accuracy as the primary performance metric, which may not 
+
+adequately capture generalizability. A high accuracy can be achie ved by overclassifying the 
+
+majority class, obscuring the actual model performance. Metrics such as the F1 -score or 
+
+balanced accuracy could provide a more accurate picture. 
+
+In this study, we re -trained four state -of -the -art models on data from five different 
+
+laboratories, with the goal of creating more robust classifiers.  By training  all models on the 
+
+same data,  we  revealed  differences in how they classify sleep. For SPINDLE, SS -ANN, and 
+
+Grieger, a strong agreement across expert labels correspond ed  with high prediction certainty 
+
+from the models. In contrast, SlumberNet struggle d to achieve high certainty, as reflected in 
+
+the hypnodensities, which show more mixed -stage predicti ons compared to the other models 
+
+(Figure  5). SPINDLE, SS -ANN, and Grieger tend ed  to underestimate Wakefulness and 
+
+overestimate sleep stages, potentially due to how the weighted loss function penalizes less 
+
+frequent sleep stages more heavily, forcing the models to learn NREMS and REMS.  Our results 
+
+suggest that depending on the purpose of a given study , different models offer different 
+
+advantages. An ensemble approach utilizing several models could also be considered, as the 
+
+calibration curves indicate that s ome models overestimate NREMS while others overestimate 
+
+REMS. Combining models may lead to more robust predictions and improve overall 
+
+performance. 
+
+Our study raises the question of h ow we  can  expect the automatic sleep scoring models to 
+
+generalize well, when  manual  labelling  adds  label  noise  to  the data?  We here show that 
+
+training the models on a diverse dataset significantly improves the state -of -the -art model 
+
+performance (Figure 3). However, diversity in the dataset (i.e., data from different labs) also 
+
+means incorporating different sets of scoring rules , which may confuse the model. For 
+
+example, one lab might classify most NREMS to REMS sleep transition epochs as NREMS, 
+
+while another lab may  label them as REMS. Thus, the lack of consensus for manual sleep 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+scoring (Figure 4B -C), makes it difficult to develop a standardized tool that will be applicable 
+
+to every laboratory. 
+
+EEG and EMG signals alone hold a considerable amount of variability, making them inherently 
+
+challenging for models to learn. Adding label noise and lab -to -lab differences in data 
+
+acquisition only makes the sleep staging problem more difficult. Although sev eral labs report 
+
+similar scoring criteria ( Supplementary  Table  1), disagreements  persist  (Figure 4B -C). This 
+
+discrepancy may arise, in part, because experts not only rely on the signals but also frequently 
+
+use the video of the mouse during scoring.  In this study we focused on manual and automatic 
+
+sleep stage classification of the three main sleep stages (i.e., Wakefulness, NREMS and REMS). 
+
+Artifacts is another class that is handled very differently across laboratories.  To advance the 
+
+field, a discussion  is  needed on how to handle epochs where experts deviate from standa rd 
+
+scoring criteria. Thus, the initial steps in automating sleep scoring may lie not in model 
+
+development but in standardizing scoring criteria and hardware setups across laboratories to 
+
+reduce these sources of variability, particularly during REMS. 
+
+In manual sleep staging, each epoch is assigned a discrete sleep stage (Wakefulness, NREMS, 
+
+or REMS  for mice ). However, if a sleep stage is  a mix of two stages, such as during transitions 
+
+or in disease models like narcolepsy, it is not possible to represent this mixture without 
+
+introducing new classes such as intermediate classes. With automatic sleep stage 
+
+classification models, each epoch can  be assigned a probability of belonging to multiple 
+
+stages. However, model uncertainty is embedded within these pro babilities, making it 
+
+challenging to distinguish model uncertainty from biologically mixed stages.  The graphical 
+
+representation of sleep stage probabilities is called a hypnodensity  [7] . This visual depiction 
+
+of model uncertainties and mixed stages , which  should become standard in the sleep field , is 
+
+only possible with either a mix of  labels  from many experts or with automatic models, 
+
+highlighting the additional information gained from using automatic sleep stage classification 
+
+models. 
+
+Because we collected manual scores from 10 experts, we can examine whether areas of high 
+
+uncertainty in the manual hypnodensity align with the mixed stages predicted by the model .
+
+Such mixed stages could be due to technical  noise but  could also represent biological 
+
+meaningful mixed sleep stages.  Future experiments  sh ould explore ways to distinguish model 
+
+noise from biological mixed stages. This would potentially allow us to derive biomarkers from 
+
+the hypnodensities in disease models. 
+
+# Methods 
+
+Data collection overview 
+
+The work presented here is divided into three parts, each answering a different question: 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+1) Validation study: How well does the state -of -the -art sleep staging models generalize to 
+
+unseen data? 
+
+2) Optimization study: To what extent can we improve the generalizability of the state -of -the -
+
+art models by training on a (larger and) more diverse dataset? 
+
+3) Consensus study: How consistent are the manual scores among experts within and 
+
+between labs? 
+
+For the first two parts, data from five different laboratories (Cohort A -E) were collected 
+
+resulting in a total of 83 wild -type (WT) mice with some mice having multiple recordings. For 
+
+the third study, two EEG/EMG recordings were collected from five WT mice and scored by 10 
+
+experts from five different laboratories. An overview  of the data is presented in Table 1.                                            
+
+> Cohort Number of
+> mice
+> EEG EMG Number
+> of epochs
+> Scored by
+> n experts
+> A-lab 1 10 11619534 1
+> B-lab 2 17 41184500 1
+> C-lab 3 23 21885404 1
+> D-lab 4 28 1174546 1
+> E-lab 5 521194307 1
+> F52124300 10
+
+Table 1:  Data overview. 
+
+Cohort A -E has previously been described [1 2], while Cohort F is unique to this paper and 
+
+described below. All analyses were performed using either Python or MATLAB 2023b, 
+
+depending on the programming language of the original model. The specific environments, 
+
+including package versions, are detailed  in the supplementary materials for each model 
+
+(suppl. data S1 -S3). 
+
+All four fully trained models have been made available online https://github.com/laulaurose. 
+
+Data collected specifically for this study ( Cohort F )
+
+We acquired EEG/EMG recordings from five young adult female mice (nine weeks old, 
+
+C57BL/6JTac mice). EEG/EMG surgery was performed as described in Egebjerg et al.  [8]  with 
+
+a two -EEG and one -EMG channel head -mount (#8201; Pinnacle Tech. Inc., KS, USA). Three 
+
+days before the recordings, the mice were habituated to a 10” circular transparent recording 
+
+cage (#9000 -K20; Pinnacle Tech. Inc., KS, USA) with a video camera attached outside the cage. 
+
+Four of the five m ice had two EEG/EMG/video recordings each (one during the light phase 
+
+and one during the dark phase), each lasting three hours. Due to muscle artifacts disrupting 
+
+the EEG signal, the light phase recording was excluded for the fifth mouse, resulting in a to tal 
+
+of 9 recordings  (five dark phase and four light phase)  included for scoring. 
+
+This data was distributed to five laboratories, where two experts from each lab annotated the 
+
+recordings, resulting in 10 independent scorings per recording. Sleep stages: Wakefulness, 
+
+NREMS, and REMS were scored by the experts, following local scoring gui delines as 
+
+summarized in  Supplementary  Table  1. The  scoring guideline for our lab  are presented  in 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Table  2). Most laboratories scored standard sleep stages and artifacts, however, one 
+
+laboratory also classified intermediate states (epochs showing characteristics of two states 
+
+simultaneously). 
+
+Wake  Video  The mouse appears awake by displaying movement or other  activities .
+
+EMG  Mixed EMG signal with bursts of high amplitude. 
+
+EEG  Low amplitude, mix of faster frequencies (>6Hz). Low frequencies in EEG 
+
+can occur when feeding or other rhythmic activities (use video if in 
+
+doubt). 
+
+NREMS  Video  The mouse is usually in the  nest,  but NREMS can occur outside of nest. 
+
+EMG  Low EMG amplitude 
+
+EEG  High amplitude, low frequency EEG activity dominated by delta (0.5 -4
+
+Hz) in the spectrogram. 
+
+REMS  Video  In wild type mice, the mouse is most likely in the nest. Small ear 
+
+movements can be observed during  REMS but  can only be used when 
+
+scoring if in doubt of REMS. 
+
+EMG  Low EMG amplitude with occasional twitches 
+
+EEG  Theta dominated EEG activity (6 -10 Hz). Can contain slower frequencies 
+
+but to a lesser  extent  than theta. Continuous for more than three epochs 
+
+(12 sec). 
+
+Table 2 . Scoring guideline for sleep stages from our lab 
+
+Reproduction of d eep learning models and preprocessing pipelines 
+
+We reproduced four state -of -the -art deep learning models (i.e., baseline models; Figure 1) 
+
+and tested the model performance in cohort A -E. The models are briefly explained along with 
+
+the preprocessing pipeline below. We have used the same preprocessing pip eline and model 
+
+architecture as reported in the original papers, unless otherwise specified. 
+
+Each baseline model was reproduced by training the model on its original dataset 
+
+(Supplementary Table 2 ). To eliminate the effect of random weight initialization, the models 
+
+were each reproduced five times using different random initializations. If the model weights 
+
+were available online, we used it as the “baseline” model for testing. Otherwise, we selected 
+
+the model that most closely matched the performance reported in the paper. These models 
+
+were then used to test the performance on external data cohorts (cohort A -E). We chose the 
+
+same hyperparameters (i.e., learning rate, batch size, and number of epochs) a s originally 
+
+reported in the papers. 
+
+SPINDLE 
+
+The SPINDLE model  [1]  originally consists of two convolutional neural networks (CNN), one 
+
+for sleep staging and one for artifact detection. The framework further involves an integration 
+
+of a Hidden Markov Model (HMM) as a post -hoc analysis to the CNN for sleep staging. The 
+
+HMM  serves as a model that corrects for biological infeasible transitions such as Wakefulness 
+
+to REMS. Since most laboratories did not score artifacts, training a second CNN for artifact 
+
+detection was not feasible. Furthermore, as our goal is to evaluate the  performance of sleep 
+
+classification models without post hoc modifications that could artificially enhance results, 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+only the sleep staging CNN was relevant to our study. Thus, moving forward, the SPINDLE 
+
+model exclusively refers to the CNN classifier for sleep staging. 
+
+The SPINDLE model uses two EEG channels and one EMG channel. In cases where only one 
+
+EEG channel was available, the same EEG would be used twice. Both signals were resampled 
+
+to 128 Hz before applying the short -time Fourier transform to obtain spectrograms.  The EEG 
+
+spectrograms were bandpass filtered, log -scaled and standardized per frequency component. 
+
+For the EMG spectrogram the PSD was summed within 0.5 -30 Hz yielding a 1d array that was 
+
+replicated to fit the dimension of the EEG spectrograms. The multi -channel EEG and EMG 
+
+were concatenated and segmented into periods of five epochs, such that the epoch of interest 
+
+was  centred .
+
+SS -ANN 
+
+SS -ANN uses one EEG channel and one EMG channel. In cases where more than one EEG 
+
+channel was available, random sampling was used to choose an electrode. Both signals were 
+
+down -sampled to 128 Hz. The EEG signal was Fourier transformed to obtain spectrograms 
+
+that were further down -sampled by a factor of two between 20 -50 Hz for parameter 
+
+reduction purposes. The EMG signal was bandpass  filtered,  and the root mean square (rms) 
+
+was calculated for each epoch yielding a 1d array that was repeated nine times. The 
+
+spectrogram (176 x n) was concatenated with the rms of the EMG signal (9 x n) resulting in 
+
+185 features per epoch, with n representing seque nces of 9 epochs with the epoch of interest 
+
+centred . The features were further standardized with the mixture z -score, as reported in  [5] .
+
+Grieger model 
+
+In contrast to other models, the Grieger model aims to classify additional stages such as pre -
+
+REM sleep and artifacts based on a single EEG channel  [3] . Here, we refer to a modified 
+
+version of the Grieger model, which only classifies the three main stages: Wakefulness, 
+
+NREMS, and REMS. Additionally, we did not use the data augmentation approaches from the 
+
+original paper  as this was shown to decrease model performance . Finally, rather than 
+
+artificially rebalancing the training set, we rebalanced the training data through a weighted 
+
+loss function.  The data was low -pass filtered with a cutoff frequency of 25.6 Hz, down -
+
+sampled to 64 Hz, and z -scored per reco rding. The input to the model was a signal segment 
+
+of 30 seconds, with the epoch of interest at the  centre  of the segment. 
+
+SlumberNet 
+
+SlumberNet  [6]  uses one EEG and one EMG channel. The signals were first split into sequences 
+
+of one epoch. Each epoch was later down -sampled to 64 Hz and the EMG signal was 
+
+additionally high -pass filtered (cutoff frequency of 16 Hz) and further baseline -corrected as 
+
+noted in  [6] . A few modifications were added to the model. We identified a reshaping error 
+
+in the original paper, where the input was incorrectly formed by concatenating two sets of 2 -
+
+second EEG and 2 -second EMG signals, instead of the intended 4 -second EEG and 4 -seco nd 
+
+EMG signals as described. We have since corrected this mistake and implemented the 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+intended 4 -second input format. Additionally, we added a standardization step to the 
+
+preprocessing pipeline to address differences in signal acquisition across labs (e.g., variations 
+
+in electrode placement and hardware), which can impact the signal amplitu de. For each lab, 
+
+we computed the overall mean and standard deviation of all epochs. We then standardized 
+
+each epoch by subtracting the mean and dividing by the lab -specific standard deviation. 
+
+Training the models on a diverse dataset 
+
+By leveraging data from five different labs, the models were trained using a  leave -one -lab -out 
+
+(LOLO ) approach, resulting in five distinct models, with each left -out lab serving as the test 
+
+set ( Supplementary Table 2 ). We further investigated how much the models would benefit 
+
+from being trained on a diverse and large dataset (i.e., all n; Figure  2). As a final step we 
+
+trained all four sleep staging classifiers on all data and validated their performance using an 
+
+external dataset (Cohort F). 
+
+In  a fixed n experiment, the sample size was fixed to that of the original model, but the dataset 
+
+was replaced with a more diverse dataset (cohorts A –E). To ensure that each lab contributed 
+
+with an equal amount of data while keeping the original sample size  N0, the following 
+
+stratification was used. Data from each lab was first split into a training (i.e., 80%) and 
+
+validation set (i.e., 20%; Figure  2).  For the validation set: if  𝑁 𝑙𝑎𝑏 ,𝑣𝑎𝑙 ,𝑠𝑡𝑎𝑔𝑒  > 𝑁 0·0.8 
+
+> 4
+
+· 𝑠𝑡𝑎𝑔 𝑒 𝑟𝑎𝑡𝑖𝑜 
+
+(where  𝑠𝑡𝑎𝑔 𝑒 𝑟𝑎𝑡𝑖𝑜  = 𝑙𝑎 𝑏 𝑠𝑡𝑎𝑔𝑒  𝑠𝑖𝑧𝑒 
+
+> 𝑛 𝑙𝑎𝑏
+
+) the data would be downsampled by random sampling of 
+
+𝑁 𝑙𝑎𝑏 ,𝑣𝑎𝑙 ,𝑠𝑡𝑎𝑔𝑒 . For the training set:  if  𝑁 𝑙𝑎𝑏 ,𝑡𝑟𝑎𝑖𝑛 ,𝑠𝑡𝑎𝑔𝑒  > 𝑁 0·0.8 
+
+> 4
+
+· 𝑠𝑡𝑎𝑔 𝑒 𝑟𝑎𝑡𝑖𝑜 , the data would be random 
+
+sampled, else it would be upsampled.  The models were trained with a weighted loss function  to 
+
+balance classes. As for the baseline models, the LOLO training was repeated five times to take 
+
+different weight initializations into account. 
+
+Next , using the same LOLO framework,  we allowed the models to utilize all available training 
+
+data from each cohort. The data was split for each lab into a training and validation set in an 
+
+80% -20% ratio. We applied the same weighted loss function as in previous experiments. 
+
+However, given the  varying contributions of data from each lab, the weights further 
+
+accounted for both imbalanced cohort sizes and differences in sleep stage distributions. Each 
+
+model was trained five times per lab, resulting in a total  of 25 models (i.e., five runs per 
+
+model). 
+
+As a final step, we trained all four models (i.e., SPINDLE, SS -ANN, Grieger and SlumberNet) on 
+
+all data (cohort A -E)  without leaving any lab out , to obtain four final models. 
+
+Addressing  within and between lab variability 
+
+To assess the manual sleep scoring agreement both within and between labs, Cohen’s  𝜅  [9] 
+
+was used as a metric to reflect the agreement both within and between labs. Cohen’s  𝜅  is 
+
+based on true positives (TP), true negatives (TN), false negatives (FN) and false positives (FP): 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+𝜅  = 2 (𝑇𝑃 ×𝑇𝑁 −𝐹𝑁 ×𝐹𝑃 )
+
+> (𝑇𝑃 +𝐹𝑃 )(𝐹𝑃 +𝑇𝑁 )+(𝑇𝑃 +𝐹𝑁 )(𝐹𝑁 +𝑇𝑁 )
+
+.
+
+We calculated Cohen’s  𝜅  for each sleep stage and then averaged across stages for each 
+
+mouse. For the within -lab analysis, two experts were compared for each mouse. To assess 
+
+the between -lab agreement, we compared the agreement between lab i and the remaining 
+
+four labs. Thus, for  a single study, the sleep scoring from expert 1 from lab 1 was compared 
+
+with all experts excluding expert 2 from lab 1. This was repeated for expert 2 from lab 1 
+
+resulting in 16 comparisons. We then computed the average agreement across all mice 
+
+yielding  16 samples for comparison. To examine the effect of the sleep scoring variability on 
+
+downstream analysis, we calculated features such as EEG power, average bout length, and 
+
+the total time spent in each sleep stage for each set of sleep annotations. We used  Welch's 
+
+method with a window size of 4 seconds (SciPy 1.7.3  [10] ) to compute the power spectrums. 
+
+For the bout analysis, the total time spent in each stage was calculated as the total time spent 
+
+in that stage as a fraction of total time spent in all stages, and the average bout length was 
+
+calculated in seconds. 
+
+Comparing m anual  vs. automatic  sleep stage classification 
+
+For each mouse, we converted the 10 sets of expert labels into a probability matrix, such that 
+
+if 2/10 experts agreed on NREMS for a given epoch and 8/10 agreed on Wakefulness, the 
+
+resulting probability distribution would be  p(wakefulness) = 0.8,  p(NREMs) = 0.2, and  p(REM) 
+
+= 0). We used these probability matrices, along with the probability outputs from the four 
+
+fully trained deep learning models, to compute calibration curves for each model and each 
+
+sleep stage. The calibration curves were derived by count ing the number of epochs correctly 
+
+classified as the actual sleep stage within that manual probability bin and dividing it by the 
+
+total number of epochs in that bin. 
+
+Statistics 
+
+We have used the macro F1 -score to evaluate the performance of all automatic sleep stage 
+
+classifiers, where 
+
+𝐹 1𝑚𝑎𝑐𝑟𝑜  = 𝐹 1𝑊  + 𝐹 1𝑁𝑅𝐸𝑀  + 𝐹 1𝑅𝐸𝑀 
+
+3 ,
+
+𝐹 1 = 2 𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛  ⋅ 𝑅𝑒𝑐𝑎𝑙𝑙 
+
+𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛  + 𝑅𝑒𝑐𝑎𝑙𝑙  ,
+
+𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛  = 𝑇𝑃 
+
+𝑇𝑃  + 𝐹𝑃 ,
+
+𝑅𝑒𝑐𝑎𝑙𝑙  = 𝑇𝑃 
+
+𝑇𝑃  + 𝐹𝑁 .
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+As we ran all three experiments five times for each model, we obtained 15 sets of predictions 
+
+for each lab and model. To examine whether it helps the automatic sleep scoring models to 
+
+learn a more diverse set of scoring rules, we tested the null hypotheses 
+
+𝐻 0: 𝜇 𝑏𝑎𝑠𝑒𝑙𝑖𝑛𝑒  = 𝜇 𝑓𝑖𝑥𝑒𝑑  = 𝜇 𝑎𝑙𝑙 
+
+𝐻 1: 𝜇 𝑏𝑎𝑠𝑒𝑙𝑖𝑛𝑒  ≠ 𝜇 𝑓𝑖𝑥𝑒𝑑  ≠ 𝜇 𝑎𝑙𝑙 .
+
+We fitted a linear model to account for confounding factors (i.e., lab and model), 
+
+𝐹 1 = 𝜇  + 𝛼 𝑖  + 𝛽 𝑗  + 𝛾 𝑘  + 𝜀 𝑖𝑗𝑘 ,
+
+where  𝜇  represents the overall mean,  𝛼 𝑖  the effect of the model,  𝛽 𝑗  the effect of the lab, and 
+
+𝛾 𝑘  the effect of the experiment. We used the OLS function from statsmodel  [11]  to fit the 
+
+linear model. We also investigated a model with interaction terms, but did not observe any 
+
+statistical difference. 
+
+# Data availability statement 
+
+The datasets generated and/or analysed during the current study are available in the 
+
+Openneuro  repository,  https://openneuro.org/datasets/ds006366 
+
+# Funding 
+
+LR, CE and BRK was funded by the Lundbeck Foundation ( R344 -2020 -749 ).  ANZ was funded 
+
+by the Lundbeck Foundation (R347 -2020 -2439). 
+
+# References 
+
+1.  Miladinović et al. SPINDLE: End -to -end learning from EEG/EMG to extrapolate animal sleep 
+
+scoring across experimental settings, labs and species. PLoS Comput Biol (2019) 15:1 –30. 
+
+doi:10.1371/journal.pcbi.1006968 
+
+2.  Bastianini et al. Recent developments in automatic scoring of rodent sleep. Arch Ital Biol 
+
+(2015) 153: doi:10.12871/000398292015231 
+
+3.  Grieger et al. Automated scoring of pre -REM sleep in mice with deep learning. Sci Rep (2021) 
+
+11: doi:10.1038/S41598 -021 -91286 -0
+
+4.  Troester et al. The AASM manual for the scoring of sleep and associated events : rules, 
+
+terminology and technical specifications. (2023) 
+
+5.  Barger et al. Robust, automated sleep scoring by a compact neural network with distributional 
+
+shift correction. PLoS One (2019) 14: doi:10.1371/JOURNAL.PONE.0224642 
+
+6.  Jha et al. SlumberNet: deep learning classification of sleep stages using residual neural 
+
+networks. Sci Rep (2024) 14: doi:10.1038/S41598 -024 -54727 -0
+
+7.  Stephansen et al. Neural network analysis of sleep stages enables efficient diagnosis of 
+
+narcolepsy. Nat Commun (2018) 9:1 –15. doi:10.1038/s41467 -018 -07229 -3
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+8.  Egebjerg et al. Introduction of novel objects to the home cage of mice repeatedly disturbs 
+
+sleep for seven days with minimal stress induction. npj Biological Timing and Sleep 2025 2:1 
+
+(2025) 2:1 –10. doi:10.1038/s44323 -025 -00027 -3
+
+9.  McHugh. Interrater reliability: The kappa statistic. Biochem Med (Zagreb) (2012) 22:276 –282. 
+
+doi:10.11613/BM.2012.031/FULLARTICLE 
+
+10.  Virtanen et al. SciPy 1.0: fundamental algorithms for scientific computing in Python. Nature 
+
+Methods 2020 17:3 (2020) 17:261 –272. doi:10.1038/s41592 -019 -0686 -2
+
+11.  Seabold et al. Statsmodels: Econometric and Statistical Modeling with Python. scipy (2010)92 –
+
+96. doi:10.25080/MAJORA -92BF1922 -011 
+
+12. Rose, L.  et al.  Probability estimation of narcolepsy type 1 in DTA mice using 
+
+unlabeled EEG and EMG data ( Resubmitted ). Sleep Advances. 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Supplementary figures and information Rose et al. 
+
+List of supplementary materials 
+
+Figure S1 . Hypnodensity plots from 2 x 3 -hour recording of a single mouse, generated using manual 
+
+labels and predictions from the four fully trained models. 
+
+Figure S2 . Hypnodensity plots from 2 x 3 -hour recording of a single mouse, generated using manual 
+
+labels and predictions from the four fully trained models. 
+
+Figure S3 . Hypnodensity plot s from a 3 -hour recording of a single mouse, generated using manual 
+
+labels and predictions from the four fully trained models. 
+
+Figure S4 . Hypnodensity plots from 2 x 3 -hour recording of a single mouse, generated using manual 
+
+labels and predictions from the four fully trained models 
+
+Supplementary Table 1 : An overview of the scoring criteria of Wakefulness, NREMS, and REMS for 
+
+each lab. 
+
+Supplementary Table 2 : Overview of the different experiments that were conducted 
+
+Further provided 
+
+Environment.txt file for SPINDLE model 
+
+Environment.txt file for Griger model 
+
+Environment.txt file for SlumberNet model 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Figure S1 . Hypnodensity plots from 2 x 3 -hour recording of a single mouse, generated using manual 
+
+labels and predictions from the four fully trained models. 
+
+Figure S2 . Hypnodensity plots from 2 x 3 -hour recording of a single mouse, generated using manual 
+
+labels and predictions from the four fully trained models. 
+
+.CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint Figure S3 . Hypnodensity plots from 3 -hour recording of a single mouse, generated using manual labels 
+
+and predictions from the four fully trained models. 
+
+Figure S4 . Hypnodensity plots from 2 x 3 -hour recording of a single mouse, generated using manual 
+
+labels and predictions from the four fully trained models 
+
+.CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint Supplementary Table 1:  An overview of the scoring criteria of Wakefulness, NREMS, and REMS for 
+
+each lab. 
+
+Wakefulness  NREMS  REMS 
+
+EEG  EMG  EEG  EMG  EEG  EMG 
+
+Cohort A  Low voltage 
+
+with possible 
+
+delta (0.5 -4 Hz) 
+
+and theta (6 -9
+
+Hz) frequency 
+
+components 
+
+High EMG 
+
+tone 
+
+EEG at high 
+
+voltage with 
+
+prominent 
+
+delta (0.5 -4
+
+Hz) frequency 
+
+components 
+
+EMG tone 
+
+lower than in 
+
+wakefulness 
+
+EEG at low 
+
+voltage with 
+
+predominant 
+
+theta (6 -9 Hz) 
+
+frequency 
+
+components 
+
+EMG 
+
+indicating 
+
+muscle 
+
+atonia with 
+
+occasional 
+
+muscle 
+
+twitches 
+
+Cohort B  Periods with low 
+
+amplitude 
+
+desynchronized 
+
+EEG signals 
+
+High, tonic 
+
+EMG 
+
+activity 
+
+containing 
+
+phasic 
+
+bursts 
+
+Synchronized, 
+
+high 
+
+amplitude 
+
+oscillations in 
+
+the slow (<1 
+
+Hz) and delta 
+
+(1 -4 Hz) band 
+
+Low EMG 
+
+tone without 
+
+bursts 
+
+Pronounced 
+
+theta (5 -10 Hz) 
+
+oscillations or 
+
+an increased 
+
+amount of 
+
+desynchronized 
+
+and high -
+
+frequency 
+
+oscillation 
+
+Almost 
+
+complete 
+
+absence of 
+
+EMG tone 
+
+except short 
+
+twitches 
+
+Cohort C  Low voltage; 
+
+mixed 
+
+frequency θ (6 -
+
+10 Hz), alpha (8 -
+
+14Hz), beta (15 -
+
+30Hz) and 
+
+gamma (30 -
+
+120Hz) 
+
+High 
+
+amplitude 
+
+High 
+
+amplitude 
+
+low 
+
+frequency 
+
+EEG activity δ 
+
+(0.5 -4 Hz) 
+
+Low EMG 
+
+amplitude 
+
+Low voltage 
+
+fast EEG 
+
+activity; theta 
+
+dominated 
+
+activity θ (6 -10 
+
+Hz) 
+
+Low EMG 
+
+amplitude 
+
+with 
+
+occasional 
+
+muscle 
+
+twitches 
+
+Cohort D  Low EEG 
+
+amplitude. Low 
+
+Fast Fourier 
+
+Transform (FFT) 
+
+magnitude 
+
+across all 
+
+frequency bands 
+
+< 30 Hz 
+
+High EMG 
+
+amplitude 
+
+with phasic 
+
+events 
+
+High 
+
+amplitude 
+
+with high FFT 
+
+magnitude in 
+
+delta range 
+
+(0.5 -4 Hz) 
+
+relative to the 
+
+other 
+
+frequency 
+
+bands 
+
+Low 
+
+amplitude 
+
+relative to 
+
+that in 
+
+wakefulness 
+
+without 
+
+phasic 
+
+events 
+
+Low amplitude 
+
+with relatively 
+
+high FFT 
+
+magnitude in 
+
+theta range (4 -
+
+8 Hz) compared 
+
+to other bands 
+
+Low 
+
+amplitude 
+
+relative to 
+
+wakefulness 
+
+but with 
+
+muscle 
+
+twitches 
+
+Cohort E  Desynchronized 
+
+(activated) low -
+
+amplitude EEG 
+
+Tonic and 
+
+phasic EMG 
+
+activity 
+
+High -voltage 
+
+slow -waves 
+
+(0.5 -4Hz) 
+
+Loss of 
+
+phasic EMG 
+
+activity with 
+
+low EMG 
+
+tone 
+
+Regular and 
+
+pronounced 
+
+theta rhythm 
+
+(6 -9Hz) on 
+
+parietal EEG 
+
+Absence of 
+
+phasic and 
+
+tonic EMG 
+
+activity, 
+
+except short 
+
+twitches 
+
+> .CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint
+
+Supplementary Table 2:  Overview of the different experiments that were conducted with 
+
+specifications of the sample size and dataset that served as either training or test set. The table only 
+
+lists experiments for one model (SPINDLE). The same strategy was used for all four mode ls. 
+
+.CC-BY-NC-ND 4.0 International license perpetuity. It is made available under a preprint (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in The copyright holder for this this version posted March 30, 2026. ;https://doi.org/10.64898/2026.03.27.714381 doi: bioRxiv preprint

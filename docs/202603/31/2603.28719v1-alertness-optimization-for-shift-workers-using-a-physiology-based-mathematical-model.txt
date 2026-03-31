@@ -1,0 +1,1149 @@
+Title: Alertness Optimization for Shift Workers Using a Physiology-based Mathematical Model
+
+URL Source: https://arxiv.org/pdf/2603.28719v1
+
+Published Time: Tue, 31 Mar 2026 02:29:13 GMT
+
+Number of Pages: 35
+
+Markdown Content:
+# Alertness Optimization for Shift Workers Using a Physiology-based Mathematical Model 
+
+Zidi Tao 1,2* , A. Agung Julius 1,2 , John T. Wen 1,2 ,
+
+1 Dept. Electrical, Computer, and Systems Engineering, Rensselaer Polytechnic Institute, Troy, NY, USA 
+
+2 Lighting Enabled Systems and Applications (LESA) Engineering Research Center, Rensselaer Polytechnic Institute, Troy, NY, USA * Corresponding Author: taoz2@rpi.edu 
+
+# Abstract 
+
+Sleep is vital for maintaining cognitive function, facilitating metabolic waste removal, and supporting memory consolidation. However, modern societal demands, particularly shift work, often disrupt natural sleep patterns. This can induce excessive sleepiness among shift workers in critical sectors such as healthcare and transportation and increase the risk of accidents. The primary contributors to this issue are misalignments of circadian rhythms and enforced sleep-wake schedules. Regulating circadian rhythms that are tied to alertness can be regarded as a control problem with control inputs in the form of light and sleep schedules. In this paper, we address the problem of optimizing alertness by optimizing light and sleep schedules to improve the cognitive performance of shift workers. A key tool in our approach is a mathematical model that relates the control input variables (sleep and lighting schedules) to the dynamics of the circadian clock and sleep. In the sleep and circadian modeling literature, the newer physiology-based model shows better accuracy in predicting the alertness of shift workers than the phenomenology-based model, but the dynamics of physiological-based model have 1/35 
+
+> arXiv:2603.28719v1 [eess.SY] 30 Mar 2026
+
+differential equations with different time scales, which pose challenges in optimization. To overcome the challenge, we propose a hybrid version of the PR model by applying singular perturbation techniques to reduce the system to a non-stiff, differentiable hybrid system. This reformulation facilitates the application of the calculus of variation and the gradient descent method to find the optimal light and sleep schedules that maximize the subjective alertness of shift worker. Our approach is validated through numerical simulations, and the simulation results demonstrate improved alertness compared to other existing schedules. 
+
+# 1 Introduction 
+
+Sleep is an important routine of our daily life. During sleep, our brain removes metabolic waste [1, 2] and supports the formation of long-term memories [3]. In preindustrial society, human routines were mainly determined by the natural light-dark cycle. In modern society, our habits are changed by the availability of artificial lighting, and shift work has become an essential part of our society that requires 24-hour service. However, sleep deprivation leads to increased sleepiness among shift workers, which in turn results in accidents and work-related injuries [4, 5]. This can have detrimental consequences not only for the shift workers themselves but also for those around them, especially in fields such as healthcare, transportation, and public safety, where shift work is common. Therefore, there is a critical need to address sleepiness during shift work and increase alertness of shift workers. The misalignments of circadian rhythms and enforced sleep-wake schedules are the main sources of increased sleepiness during shift work [6, 7]. Adjusting circadian rhythms can be regarded as a control problem of a system with nonlinear dynamics [8]. The input of the system can be in the form of light, chemicals, and sleep schedules [9 –11]. Optimal control theory provides ways to find the control inputs for a dynamic system such that the alertness of shift workers is maximized [12, 13]. To find the optimal control input, we need mathematical models of circadian rhythms and sleep-wake cycles. Many sleep-wake cycle models are derived from the Borbely’s phenomenology-based two-process model [14]. The transition between sleep and wakefulness is regulated by two processes: homeostatic sleep pressure, which increases during wakefulness and 2/35 decreases during sleep, and circadian pacemaker, which is mainly affected by the light received by the retina. Achermann formulated a three-process model that combines the two-process model and sleep inertia [15, 16]. The three-process model was used to predict cognitive function and alertness [17, 18]. Yin et al. used the three-process model to calculate the light and sleep schedules as control input to optimize the alertness of workers [13]. However, as the physiology underlying sleep-wake dynamics is better understood, newer models that incorporate neuronal potential-level interactions are developed [6, 19, 20]. Although the three-process phenomenology-based model exhibits qualitative trends that match the data from the sleep deprivation study, this model lacks interpretation of physiological aspects. The Philips-Robinson (PR) model is a widely accepted physiology-based model [21]. It associates the phenomenological concepts of sleep deprivations with the physiological mechanisms of sleep using a model that involves the potentials of two brain stems: the VLPO group, which is sleep-active, and the MA group, which is wake-active. The inclusion of physiological mechanisms makes the model sufficiently flexible to describe a wide range of phenomena, including alertness. We perform numerical simulations of the three-process model and the PR model and compare the prediction of alertness with experimental data. We observe that the PR model can improve the prediction of subjective alertness over the three-process model. However, the original PR model contains stiff differential equations, which means that the processes change on very different time scales. As recognized by Philips et al. [6], changes in neuronal potentials occur much faster than sleep homeostasis or circadian rhythms. The stiff equations of system dynamics pose challenges in optimization problems. The first challenge is the computational cost. Numerical solvers for stiff systems often require small time steps to maintain stability and accuracy. However, on a large time scale of multiple days, the computational costs increase significantly. The second challenge is the calculation of the gradient. For optimization techniques relying on gradients (e.g. gradient descent), the stiff equations complicate the computation of accurate and smooth derivatives. A recent work by Papatsimpa and Linnartz seeks to find the optimal light schedule that minimizes the difference between natural wake time and target wake time with the PR model [22], but the optimality of the greedy algorithm in the paper has not been proven. Hong et al. applied the PR model to 3/35 analyze the sleep states of 21 shift workers and create a personalized plan designed to reduce the sleepiness of shift workers [23]. Song et al. incorporate the sleep schedule in [23] and propose a new schedule that aims to maximize the alertness of shift workers. However, these studies are based on empirical data rather than mathematical optimization. In order to use the PR model to find optimal control inputs that maximize the alertness of shift workers, we propose a hybrid version of the PR model that has a hybrid system. We apply singular perturbation techniques (see Chapter 11 in [24]). The system is reduced to a hybrid system that exhibits both continuous and discrete dynamic behaviors. The discrete sleep state determines the mode of the system and the reduced model has continuous dynamics. The proposed hybrid PR model is non-stiff and differentiable so that we can use calculus of variation techniques to obtain the optimal solution. In this paper, we use the PR model to study the problem of optimizing the alertness of a shift worker using light and sleep schedules. We also compare our optimal schedules with existing sleep schedule in [23] and demonstrate that our method can improve alertness in various scenarios. The main contributions of this paper are: 
+
+• We propose a hybrid PR model that is non-stiff and differentiable while keeping the accuracy of alertness prediction of shift workers. 
+
+• We extend the optimization method in [13] with the hybrid PR model to optimize the alertness of shift workers using light and sleep schedules as input. 
+
+• We compare our optimal schedules with other existing schedules that are based on empirical data and experimental studies. Through numerical simulations, we demonstrate that our schedules can further improve alertness during shift work or during the full optimization horizon. 4/35 2 Model Derivation and Validation 
+
+# 2.1 Existing Models 
+
+2.1.1 Three-Process Model 
+
+Achermann developed a widely recognized three-process sleep regulation model, comprising three key components: the circadian pacemaker (Process C), the sleep homeostasis (Process S), and sleep inertia (Process W) [15]. The newer model updates components of the three-process model to incorporate newer discoveries [13]. 
+
+Circadian pacemaker component: The circadian pacemaker is represented by the Jewett-Forger-Kronauer (JFK) model [25]. The states x(t) and xc(t) are states of the core body temperature oscillator. The state n(t) is the state of the light receptor in the retina. They follow the dynamics: 
+
+dx dt = π
+
+12 [xc + μ( 13 x + 43 x3 − 256 105 x7) + (1 − 0.4x)(1 − kcxc)u], (1) 
+
+dx c
+
+dt = π
+
+12 [−( 24 0.99729 τ )2x + ( qx c − kx )(1 − 0.4x)(1 − kcxc)u], (2) 
+
+u = Gα 0( II0
+
+)p(1 − β)(1 − n), (3) 
+
+dn dt = 60[ α0( II0
+
+)p(1 − β)(1 − n) − γn ], (4) where all the parameters are listed in Table 1. 
+
+Sleep Homeostasis component: The sleep homeostasis represents the accumulation of sleep pressure that forms the sleep drive [26]. The Process S has state H(t) and it follows the dynamics: 
+
+dH dt =
+
+
+
+−H/τ d, β(t) = 1 ,
+
+(1 − H)/τ r , β(t) = 0 ,
+
+(5) where β(t) = 1 represents the subject is asleep and β(t) = 0 represents the subject is awake and τd = 4 .2h, τ r = 18 .2h are time constants. 
+
+Sleep Inertia component: The sleep inertia represents a decrease in the level of 5/35 mental alertness immediately after awakening [15, 16]. The process W has dynamics: 
+
+dW dt = − 1 − βτW
+
+W, (6) where the time constant τW = 0 .662 h.The sleep wake transition is governed by sleep propensity defined as: Φ( t) = H(t) − Acx(t), (7) where Ac = 0 .1333 . When Φ reaches the lower threshold Lm, the subject wakes up spontaneously. Likewise, when Φ reaches the upper threshold Hm, the subject falls asleep spontaneously. Sleep state β(t) follows the discrete dynamics: 
+
+β(t) = Fβ (t, β (t−)) = 
+
+
+
+1, Φ( t) = Hm,
+
+0, Φ( t) = Lm,β(t−), otherwise ,
+
+(8) where β(t−) = lim τ −→t− β(τ ), t− represents the time just before t, and constants 
+
+Hm = 0 .67 , L m = 0 .17 . The alertness is defined as 
+
+AT P (t) = [1 − β(t)][1 + Acx(t) − H(t) − W (t)] , (9) and sleepiness level is defined as 
+
+B(t) = 1 − A(t). (10) 
+
+Table 1. Three-process models 
+
+Parameter Value Parameter Value 
+
+μ 0.13 h−1 kc 0.4hq 1/3 τx 24 .2hk 0.55 h−1 G 33 .75 
+
+α0 0.05 h−1 p 0.5
+
+I0 9500 lux γ 0.0075 h−1
+
+τd 4.2h τr 18 .2hτW 0.662 h Ac 0.1333 
+
+Hm 0.67 Lm 0.17 6/35 The states of the three-process model are denoted as 
+
+ξ(t) = [ x(t), x c(t), n (t), H (t), W (t), β (t)] T ∈ R6. (11) We consider a 24-hour periodic light schedule as: 
+
+Iref (t) = 
+
+
+
+150 lux , mod( t, 24) ∈ [0 , 16) ,
+
+0, mod( t, 24) ∈ [16 , 24) ,
+
+(12) which simulate the indoor environment like hospital. The initial time t = 0 corresponds to 6 AM when the light is turned on and t = 16 corresponds to 10 PM when the light is turned off. The subject goes to sleep and wakes up spontaneously. At steady state, ξ(t)forms a stable periodic solution, denoted as: 
+
+ξref (t) = [ xref (t), x c, ref (t), n ref (t), H ref (t), W ref (t), β ref (t)] T , (13) in Fig. 1. 
+
+Fig 1. Periodic solution of three-process model accommodates to the periodic light schedule of 16-hour light 8-hour dark. 48 hours of the state trajectories are plotted here. To simulate forced wakefulness, e.g., to study the effects of night shift work and sleep deprivation, we ignore the sleep-switching dynamics in Eq. 8 and force the sleep state β(t) = 0 during forced wakefulness. 7/35 2.1.2 Philips-Robinson (PR) Model 
+
+A widely used and more recently published sleep model is the Philips-Robinson (PR) model [21]. This model consists of three parts: a circadian pacemaker component, a physiological component that models two mutually inhibitory neuron cell potentials, and a sleep homeostasis component. 
+
+Circadian pacemaker component: The circadian pacemaker of the published PR model uses a circadian pacemaker model published in [27]. In this paper, we update the PR model with the circadian pacemaker in [25]. The circadian process has the same dynamics and parameters as Eq. 1-4 in three-process model. 
+
+Physiological component: The physiological components of the PR model are two mutually inhibitory neuron cell potentials. The monoaminergic (MA) potential that promotes wakefulness is represented by Vm and the ventrolateral preoptic (VLPO) potential that promotes sleep is represented by Vv . The dynamics are defined by: 
+
+dV m
+
+dt = 1
+
+τm
+
+[−Vm − vmv Qv + Am], (14) 
+
+dV v
+
+dt = 1
+
+τv
+
+[−Vv − vvm Qm + Dv ], (15) 
+
+Dv = −vvc C + vvh H + Av , (16) where the firing rates Qm and Qv are sigmoidal functions of Vm and Vv :
+
+Qm = Qmax 
+
+1 + exp( − Vm−θσ ) , Q v = Qmax 
+
+1 + exp( − Vv −θσ ) .
+
+The term Dv is the sleep drive and 
+
+C = 12 (1 + cxx + cxc xc)represents the circadian components. Vm(t) is at a low level and Vv (t) is at a high level during the sleep state, and vice versa during the wake state. 
+
+Sleep homeostasis component: The sleep homeostasis in PR model has different 8/35 dynamics than the three-process model: 
+
+dH dt = 1
+
+χ (−H + μH Qm). (17) Sleep inertia is omitted in the PR model for two reasons: the effect is short-lived and the model is directly based on physiology, so the introduction of sleep inertia may lead to arbitrary fitting that degenerates the model. All parameters of the PR model are listed in Table 2. In [28], Postnova et al. used a linear fitting procedure to align C and H with various cognitive performance metrics, using a distinct set of parameters for each metric. To avoid overfitting to a single metric, we use the definition of alertness in [29]: 
+
+A(t) = [1 − β(t)][ H+(t) − H]. (18) All the states of PR model can be denoted as 
+
+ζ(t) = [ x(t), x c(t), n (t), V m(t), V v (t), H (t)] T ∈ R6 (19) Similar to three-process model, we apply the same periodic light schedule in Eq. 12. The resulting periodic solution after entrainment are denoted as 
+
+ζref (t) = [ xref (t), x c, ref (t), n ref (t), V m, ref (t), V v, ref (t), H ref (t)] T ∈ R6 (20) In the PR model, whether the subject is asleep or awake is determined by Vm. If Vm
+
+is higher than a threshold Vm, th = −3.785 mV that corresponds to Qm > 1s−1, the subject is awake. Since the time constants of the MA and VLPO dynamics in Eq. 14-15 are much faster than the circadian clock and sleep homeostasis, we can use a quasi-static analysis and assume Dv converges to the steady state equilibrium. The equilibrium point of Vm as a function of Dv can be obtained by setting the left-hand 9/35 (a) Circadian part (b) MA,VLPO and sleep homeostasis 
+
+Fig 2. Periodic solution of PR model accommodates to the periodic light schedule in Eq.12. Fig. 2(a) includes the circadian states x, x c, n and Fig. 2(b) includes the neuron potentials Vm, V v and sleep homeostasis H.side of Eq. 14 and Eq. 15 to 0. The analytical form of Vm as a function of Dv is: 
+
+Vm = −Vmv ·
+
+
+
+Qmax 
+
+1 + exp      
+
+> Vvm Qmax
+> 1+exp( Vm −θσ)−Dv−θσ
+
+! + Am (21) By analyzing the equilibrium points of Vm for different Dv in Eq. 14-15, we have the bifurcation curves in Fig. 3. Detailed analysis can be found in [30]. If Dv > 2.46, there is a unique equilibrium with low Vm and therefore the subject is asleep. If Dv < 1.45, there is a unique equilibrium with high Vm and the subject is awake. If 1.45 ≤ Dv ≤ 2.46, there are two equilibria. The subject can be awake or asleep. This region is known as the bistable region. From the definition of Dv in Eq. 16, the sleep and wake threshold of H can be derived: 
+
+H+ = 2.46 − Av + vvc Cvvh 
+
+, (22) 
+
+H− = 1.45 − Av + vvc Cvvh 
+
+. (23) To simulate forced wakefulness in the PR model, a drive to Vm is needed to maintain the wake state, known as wake effort in [30–32]. Wake effort is an external stimulus that can take the form of a pharmacological agent or sensory input. With an additional wake effort to Vm, the subject will stay in the wake ghost due to the characteristics of the system dynamics, keeping the subject awake. Vm will be set to the maximum of 10/35 Vm, ref during periodic solution during forcedwakefulness. If H < H +, no wake effort is needed to make the subject stay awake. If H ≥ H+ and the subject is required to maintain wake state, we keep Vm at a fixed value, as the yelllow curve in Fig. 3. Forced sleep is also reported in [23, 29]. However, it is generally difficult to induce immediate sleep in an individual. Therefore, we do not consider the case of forced sleep. 
+
+Fig 3. Bifurcation curves of PR model. The x-axis shows the sleep drive Dv and y-axis shows the corresponding Vm at equilibrium. In the wake and sleep region, the wake and sleep branch overlap because there is only one stable equilibrium. In the bistable branch, there are two stable equilibrium points for each Dv . When simulating sleep deprivation, we keep Vm = 1 .04 mV .The main differences between the three-process model and the PR model are summarized in Table 4 in the next subsection. 
+
+Table 2. PR models 
+
+Parameter Value Parameter Value 
+
+μ 0.13 h−1 kc 0.4hq 1/3 τx 24 .2hk 0.55 h−1 G 33 .75 
+
+α0 0.05 h−1 p 0.5
+
+I0 9500 lux γ 0.0075 h−1
+
+τm 1/360 h vmv 1.8mV s Am 1.3mV τv 1/360 hvvm 2.1mV s vvc 3.37 mV s vvh 1.01 mV nM −1 Av −10 .2mV Qmax 100 s−1 θ 10 mV Vm, th −3.785 mV σ 3mV cx 0.8 cxc −0.16 
+
+μH 4.2nM s χ 45 h
+
+11/35 2.2 Proposed Model 
+
+To address the issues with the PR model, we propose a new version of the PR model that has hybrid behavior. To distinguish the difference between these two models, we refer to the original PR model as full PR model and the hybrid version as hybrid PR model . We use singular perturbation to reduce the model. The slow timescale components, i.e. circadian rhythms and sleep homeostasis, are still modeled by the continuous dynamics in the JFK model. The fast timescale components, such as Vm and 
+
+Vv , are assumed to reach steady states. The value of Vm is derived from Eq. 21 as a function of sleep drive Dv : Vm = F (Dv ) and Vv is neglected. Similar to the three-process model, the sleep state β(t) is discrete and change state spontaneously with the following dynamics: 
+
+β(t) = Fβ (t, β (t−)) = 
+
+
+
+1, H (t) = H+,
+
+0, H (t) = H−,β(t−), otherwise ,
+
+(24) Depending on which of the three regions Dv falls in, Vm can be determined using the bifurcation analysis in the previous subsection. For the sleep or wake region, Vm can be uniquely determined by Eq. 21. For the bistable region, Vm is the larger root of Eq. 21 if the subject is awake and the smaller root of Eq. 21 if the subject is asleep. When the subject is in sleep deprivation, then Vm = max( Vm, ref ). We can combine the wake region, the bistable region of the wake branch, and the wake ghost to the forced wake branch, shown in Fig. 4 a. The subject will always be awake on the forced wake branch. With the sleep branch and the forced wake branch, we can determine the values of Vm
+
+using Dv .In order to apply gradient-based optimization methods, such as the calculus of variation, the gradient of the optimization objective needs to be differentiable. We use two differentiable functions to model the sleep branch and the forced wake branch. We use the sum of a sigmoid function and a fifth-order polynomial to fit the sleep branch in 12/35 Fig. 4 b. 
+
+Vm = V1(Dv ) = 3 .5702 exp( −40( Dv − 1.45)) − exp(40( Dv − 1.45)) exp( −40( Dv − 1.45)) + exp(40( Dv − 1.45)) +
+
+> 5
+
+X
+
+> i=0
+
+aiDiv (25) Here ai are the coefficients of the polynomials and are listed in Table 3. The coefficient values are obtained using the polyfit function in Matlab. The forced wake branch is discontinuous at Dv = 2 .46 . To make it smooth, we convolve the forced wake branch with a function in Fig. 4.c defined as follows: 
+
+g(Dv ) = 
+
+
+
+0, Dv ≤ 0,
+
+468750 Dv (0 .2 − Dv )4, 0 < D v < 0.2,
+
+0, Dv ≥ 0.2.
+
+(26) The filter is continuous and the integration R ∞−∞ g(Dv ) = 1 After the convolution, the forced wake branch is approximated as 
+
+Vm = V2(Dv ) = 
+
+P5 
+
+> i=0
+
+biDiv , Dv ≤ 2.46 ,
+
+P11  
+
+> i=0
+
+ciDiv , 2.46 < D v ≤ 2.66 ,
+
+1.04 , Dv > 2.66 .
+
+(27) Here bi and ci are all coefficients and are listed in Table 3. 
+
+Table 3. Parameters for Sleep branch model and Forced Wake Branch Model 
+
+Parameter Value Parameter Value 
+
+a0 −3.2369 a1 −3.9232 
+
+a2 9.2384 a3 −7.3438 
+
+a4 2.0482 a5 −0.1964 
+
+b0 1.1236 b1 −0.3960 
+
+b2 0.8783 b3 −1.0640 
+
+b4 0.5328 b5 −0.0982 
+
+c0 1.2155 · 10 7 c1 −2.5973 · 10 7
+
+c2 2.2560 · 10 7 c3 −1.0007 · 10 7
+
+c4 2.2781 · 10 6 c5 −2.0589 · 10 5
+
+c6 −1.0268 · 10 4 c7 6.7223 · 10 3
+
+c8 −3.4379 · 10 3 c9 1.2007 · 10 3
+
+c10 −217 .0005 c11 16 .6128 13/35 (a) Forced Wake Branch (b) Sleep Branch Fitting 
+
+(c) Filter g(Dv ) (d) Forced Wake Branch Fitting 
+
+Fig 4. (a) Forced wake branch. (b) Comparison of the real sleep branch (blue) and the fitted sleep branch in hybrid PR model (red) (c) The filter function g(Dv ) between 0 ≤ Dv ≤ 0.2. (d) Comparison of the real forced wake branch (red) and the fitted forced wake branch in hybrid PR model(blue). 14/35 The new hybrid system follows the dynamics: 
+
+dx dt = π
+
+12 [xc + μ( 13 x + 43 x3 − 256 105 x7) + (1 − 0.4x)(1 − kcxc)u], (28) 
+
+dx c
+
+dt = π
+
+12 [−( 24 0.99729 τ )2x + ( qx c − kx )(1 − 0.4x)(1 − kcxc)u], (29) 
+
+u = Gα 0( II0
+
+)p(1 − β)(1 − n), (30) 
+
+dn dt = 60[ α0( II0
+
+)p(1 − β)(1 − n) − γn ], (31) 
+
+dH dt = 1
+
+χ −H + μH
+
+Qmax 
+
+1 + exp( − Vm−θσ )
+
+!
+
+, (32) 
+
+Vm =
+
+
+
+V1(Dv ), if β = 1 ,V2(Dv ), if β = 0 ,
+
+(33) 
+
+Dv = −vvc C + vvh H + Av . (34) The model parameters in Eq. 28-32 and Eq. 34 are same as the parameters in full PR model. The alertness of hybrid PR model can also be defined as: 
+
+A(t) = [1 − β(t)][ H+(t) − H]. (35) The states of the hybrid PR models are denoted as 
+
+X(t) = [ x(t), x c(t), n (t), H (t), β (t)] T ∈ R5. (36) When the light schedule is the same as Eq. 12, and the sleep state β(t) in the hybrid PR model follows Eq. 24, we obtain the periodic solution 
+
+Xref (t) = [ xref (t), x cref (t), n ref (t), H ref (t), β ref (t)] T . (37) To demonstrate the accuracy of our approximation using the proposed hybrid PR model, we compare the state trajectories of the hybrid PR model to the full PR model. The periodic solutions of circadian rhythm xref , x cref and nref are plotted in Fig. 5(a) and the sleep and wake-up time are plotted in Fig. 5(b). The phase of circadian rhythm is defined as − tan( xc 
+
+> x
+
+) and the average phase difference between the hybrid PR model and full PR model is 0.0126 radians, which is equivalent to 2.89 minutes. The hybrid 15/35 (a) Comparison of Circadian Rhythms (b) Comparison of Sleep Time 
+
+(c) Comparison of H (d) Comparison of Vm
+
+Fig 5. These are the comparisons of three models. The x axes show the time in hours. The starting times are 6 AM and the durations are 48 hours. (A) Circadian rhythm Process C which includes states x, x c and n. These three states have the identical dynamics in the full PR model and hybrid PR model. (b) Sleep state β(t). 0 means the subject is awake and 1 means the subject is asleep. For the full PR model, the subject wakes up at 6:33 AM and sleeps at 10:25 PM. For the hybrid PR model, the subject wakes up at 6:27 AM and sleeps at 10:17 PM. (c) Comparison of the sleep homeostasis between the full PR model and hybrid PR model (d) Comparison of the Vm between the full PR model and hybrid PR model. model wakes up 6 minutes earlier and goes to sleep 8 minutes earlier than the full hybrid model. The states H and Vm are plotted in Fig. 5(c) and Fig. 5(d). We can see that the hybrid PR model is a good approximation of the full PR model. 
+
+# 2.3 Validation 
+
+To validate the precision of cognitive performance prediction, we perform two simulations for all three models discussed and fit the predicted alertness data to the experimental data in [33, 34]. In constant routine experiment protocol [33], subjects were instructed to remain awake for an extended duration of 60 hours under continuous light conditions (150 lux). Subjects access their subjective alertness by indicating their level 16/35 Table 4. Comparison of Three-Process Model, PR Model and Hybrid PR model 
+
+Three-process Model PR model Hybrid PR Model Number of States 6 6 5System Dynamics Hybrid Continuous Hybrid Stiffness Non-stiff Stiff Non-stiff of alertness on a linear 100-mm visual-analog scale (VAS) [35]. The experimental data have the subjective alertness measurement at n different time steps and the mean and covariance are denoted as 
+
+MV AS = [ μV AS 1, · · · , μ V ASn ]T (38) and ΣV AS =
+
+
+
+σ2 
+
+> V AS 1
+
+0 · · · 00 σ2 
+
+> V AS 2
+
+· · · 0... ... . . . ...0 0 · · · σ2
+
+> V ASn
+
+
+
+. (39) We use linear fitting to find the parameters θV AS = [ θV AS 1, θ V AS 2] that minimizes the normalized mean square error (NMSE): 
+
+N M SE V AS = ( MV AS −(θV AS 1A+θV AS 21)) T Σ−1 
+
+> V AS
+
+(MV AS −(θV AS 1A+θV AS 21)) (40) where A = [ A1, A 2, · · · , A n]T represents the predicted alertness at time step 1 to n and 
+
+1 ∈ Rn is a vector of ones. The parameters and NMSEs for each model are listed in Table 5. In photoperiod experiment [34], subjects were instructed to stay in 16 h daylight in one week and then stay in dim light less than 1 lux for 24 hours. The Stanford Sleepiness Scale [36] are recorded during the dim light period. Similarly, the experimental data have mean 
+
+MSSS = [ μSSS 1, μ SSS 2, · · · , μ SSSn ]T (41) 17/35 and ΣSSS =
+
+
+
+σ2 
+
+> SSS 1
+
+0 · · · 00 σ2 
+
+> SSS 2
+
+· · · 0... ... . . . ...0 0 · · · σ2
+
+> SSSn
+
+
+
+. (42) We also find the parameters θSSS = [ θSSS 1, θ SSS 2] that minimizes the NMSE for SSS: 
+
+N M SE SSS = ( MSSS − (θSSS 1A + θSSS 21)) T Σ−1 
+
+> SSS
+
+(MSSS − (θSSS 1A + θSSS 21)) (43) The parameters for all three models are listed in Table 6. 
+
+Table 5. Alertness Linear Fitting Parameters 
+
+Three-process Model PR model Hybrid PR Model 
+
+θV AS 1 72.92 9.17 9.52 
+
+θV AS 2 22.19 53.25 55.19 
+
+N M SE V AS 32.99 29.24 25.37 
+
+Table 6. Sleepiness Linear Fitting Parameters 
+
+Three-process Model PR model Hybrid PR Model 
+
+θSSS 1 -0.656 3.99 -0.656 
+
+θSSS 2 2.72 0.057 2.78 
+
+N M SE SSS 29.22 8.61 9.55 We plot the fitted subjective alertness and sleepiness in Fig. 6. The hybrid PR model has the lowest N M SE V AS among three models. The N M SE SSS of PR model is also very close to the full PR model and significantly lower than the three-process model. The alertness A predicted by the hybrid PR model shows close agreement with the empirical data in [33, 34]. 
+
+# 3 Optimal Light and Sleep Schedule For Improving Alertness 
+
+Extensive research has aimed to enhance the alertness of shift workers by implementing structured sleep schedules [29, 37, 38]. For shift workers, the subject must remain awake during scheduled night shifts. In [13], Yin et al. proposed the problem of optimizing alertness with light and sleep schedules together with the three-process model. Inspired 18/35 (a) Alertness Fitting Comparison (b) Sleepiness Fitting Comparison. 
+
+Fig 6. Alertness and Sleepiness Fitting Comparison. The x-axis shows the time that subject stays awake since wake up time. The y-axis shows the subjective alertness or sleepiness. The empirical data shows the mean and plus minus standard deviation of the experimental data. by [13], we discuss two problems for optimizing alertness with the hybrid PR model because the PR model can predict alertness more accurately than the three-process model. For the first problem, we find the optimal light and sleep schedules during the optimization horizon to maximize the cumulative alertness only during the shift work. For the second problem, we find the optimal light and sleep schedules during the optimization horizon that maximize the cumulative alertness during the full horizon. We optimize not only alertness during shift work but also during the time the subject is resting. The details of these problems will be defined in the following subsections. In both problems, light is subject to the constraint: 0 ≤ I(t) ≤ 150 lux . (44) We adopt the ‘tunable sleep schedule’ in [39]. The subject can stay awake when 
+
+H+ ≤ H(t) ≤ H+ 
+
+> max
+
+where H+ 
+
+> max
+
+= 3.43 −Av +vvc Cvvh corresponds to H staying awake for 2 hours after reaching the sleep threshold. The introduction of this upper limit prevents excessive sleep deprivation. The subject can also wake up earlier than the spontaneous wake time when H− ≤ H(t) ≤ H− 
+
+> max
+
+where H− 
+
+> max
+
+= 2.11 −Av +vvc Cvvh corresponds to the value of H 2 hours before reaching the wake threshold. We assume that the subject is always awake ( β(0) = 0) at the beginning of optimization. The sleep state during 19/35 tunable sleep schedule can be expressed as 
+
+β(t) = F ′ 
+
+> β
+
+(t, β (t−)) = 
+
+
+
+1, t ∈ { t1
+
+> sleep
+
+, · · · , t Nf
+
+> sleep
+
+},
+
+0, t ∈ { t1
+
+> wake
+
+, · · · , t Mf
+
+> wake
+
+},β(t−), otherwise ,
+
+(45) with the comfort constraints 
+
+H− ≤ H(tisleep ) ≤ H−
+
+> max
+
+, H + ≤ H(tjwake ) ≤ H+ 
+
+> max
+
+(46) where tisleep and tjwake represent the i-th sleeping time and j-th wake-up time. Here, Nf
+
+and Mf denote the number of times the subject falls asleep and wakes up, respectively, during the optimization period. I(t), t 1
+
+> sleep
+
+, · · · , t Nf
+
+> sleep
+
+, t1
+
+> wake
+
+, · · · , t Mf 
+
+> wake
+
+are all optimization variables. Note that the shift work are predetermined by user’s demand, so the sleep state during shift work will always be awake and does not need to satisfy the comfort constraints. 
+
+# 3.1 Shift Work Alertness Optimization 
+
+In this subsection, we solve the shift work alertness optimization problem. The states of the subject X follow the hybrid dynamics that is piecewise continuous and the dynamics switch between asleep mode ( β(t) = 1) and awake mode ( β(t) = 0). Assume that the dynamics for the i-th mode is described by the following dynamics: ˙X = Di(X, I ), t ∈ [ti−1, t i), ∀i ∈ { 1, 2, · · · , N }, (47) where N is the total number of modes during the optimization time horizon. All switching times ti are subject to the inequality constraints in the tunable schedule in Eq. 46, except during shift work. The shift work alertness optimization problem is: Given the initial conditions X(0) = X0, the dynamics of the hybrid model represented as ˙X = Di(X, I, β ) for i = 1 , · · · , N , the light constraint in Eq. 44 and tunable sleep schedule, we maximize the cumulative alertness of a subject during shift 20/35 work over multiple days: max 
+
+Z
+
+> t∈twork
+
+(1 − β(t))[ H+(t) − H(t)] dt, (48) where twork represents the set of shift work intervals. We apply the variational calculus method in [13] to solve the alertness optimization problem. An objective function is formulated as 
+
+J =
+
+Z tf
+
+> 0
+
+L(t, X, I )dt, (49) and L = −1work [H+(t) − H(t)], where 
+
+1work (t) = 
+
+
+
+1, if t ∈ twork ,
+
+0, if t̸ ∈ twork ,
+
+(50) is an indicator function. We use the standard constrained optimization approach by introducing Lagrange multipliers λ(t) ∈ R4. The augmented objective function is: 
+
+Ja =
+
+Z tf
+
+> 0
+
+L(τ, X, I )dτ +
+
+> N
+
+X
+
+> i=1
+
+Z ti
+
+> ti−1
+
+λ(τ )[ Di(X, I ) − ˙X(τ )] dτ. (51) The selection of λ does not affect the value of Ja. By selecting the Lagrange multiplier 
+
+λ(t) as: 
+
+λ(tN ) = 0 , (52) ˙λ(t) = − δL (t, X, I )
+
+δX −
+
+ δD i(X, I )
+
+δX 
+
+T
+
+λ(t), when t ∈ [ti−1, t i), (53) 
+
+λ(t− 
+
+> i
+
+) = λ(t+ 
+
+> i
+
+), (54) the first variation of augmented cost δJ a simplify to: 
+
+δJ a =
+
+> N
+
+X
+
+> i=1
+
+Z ti
+
+> ti−1
+
+∇I(t)JδIdτ + 
+
+> N−1
+
+X
+
+> i=1
+
+∇ti Jδt i, (55) 
+
+∇I(t)J = ∂L (t, X, I )
+
+∂I + λT (t) ∂D i(X, I )
+
+∂I , (56) 21/35 ∇ti J =L(t− 
+
+> i
+
+, X (t− 
+
+> i
+
+), I (t− 
+
+> i
+
+)) − L(t+ 
+
+> i
+
+, X (t+ 
+
+> i
+
+), I (t+ 
+
+> i
+
+)) + λ(t− 
+
+> i
+
+)Di(X(t− 
+
+> i
+
+), I (t− 
+
+> i
+
+)) 
+
+− λT (t+ 
+
+> i
+
+)Di+1 (X(t+ 
+
+> i
+
+), I (t+ 
+
+> i
+
+)) (57) where ∇I(t)J and ∇ti J are the gradient of J with respect to I and ti and δI, δt i are perturbations in I and ti. The details of λ and gradient formulations are in the Appendix. Applying gradient descent method, at the j-th iteration, the light input Ij (t) and i-th swtiching time tji can be updated by: 
+
+Ij+1 (t) = min(max(0 , I j (t) − ηI ∇I(t)J), I max ), (58) 
+
+tj+1  
+
+> i
+
+= tji − ηt∇tji
+
+J ∈ Ωti , (59) where ηI and ηt are the step size for update and Ω ti represents the set of feasible ti that satisfy the constraint Eq. 46. The steps of the gradient descent algorithm can be summarized as follows. Gradient Descent Algorithm 
+
+Step 1: Start with an initial guess of light I0(t) and sleep schedule t0 
+
+> i
+
+, i ∈{1, 2, · · · , N − 1} iteration j = 0; 
+
+Step 2: Integrate the state dynamics with Eq. 47 forward in time to obtain state trajectory Xj (t) and the objective function Jj ;
+
+Step 3: Integrate the Lagrange multiplier with Eq. 52 - 54 backward in time to obtain λj (t), t ∈ [t0, t f ]; 
+
+Step 4: Calculate the gradients ∇I(t)j J and ∇jti with Eq. 56 and Eq. 57, then perform updates to Ij+1 and tj+1  
+
+> i
+
+with Eq. 58, 59; 
+
+Step 5: Repeat Step 2 to 4 until light and sleep schedules reach convergence. In Step 1 of the gradient descent algorithm, different initial guesses can lead to different local minima. We construct an initial guess based on periodic solution in Eq. 37 with the following steps: 22/35 Initial Guess Based On Periodic Solution 
+
+Step 1: Start with light and sleep schedules that follow the periodic solution in Eq. 37; 
+
+Step 2: Change all sleep states during shift work to awake; 
+
+Step 3: Simulate the system forward with the updated sleep schedule and obtain 
+
+N episodes of sleep so that the i-th episode {ti|tisleep ≤ ti < t iwake } satisfies 
+
+β(ti) = 1, sleep state during shift work will remain awake; 
+
+Step 4: Calculate the updated H(t) with updated sleep in Step 3, adjust the begin and end time of sleep episode i, tisleep and tiwake so that tisleep =min {β(ti) == 1 ∧ H+ ≤ H(ti) ≤ H+
+
+> max
+
+}, and tisleep = max {β(ti) == 1 ∧ H− ≤ H(ti) ≤ H−
+
+> max
+
+}, where ∧ represents logic ‘and’; 
+
+Step 5: Increase i by 1; 
+
+Step 6: Repeat Step 3 to 5 until i > N , the number of sleep episodes. 
+
+This initial guess will provide a sleep schedule that satisfies the comfort constraints in Eq. 46. Note that in [13], Yin et al. assume that sleep is only a single continuous every day. This excludes napping, a short period of sleep in addition to the usual long sleep at night. However, multiple studies have shown that taking a late nap before the night work can improve the alertness during work [40, 41]. We extend the methods in [13] assuming that late nap begins when H(t) = H+ and ends when H(t) = H− or work time is reached. Our simulations also demonstrate the same phenomenon for late naps. We consider three consecutive night shifts that begin at 11 PM and end at 7 AM of the next morning, and the optimization objective is to maximize alertness during three shifts. The optimization horizon begins at 8 AM on the first day and ends at 7 AM on the fourth day. One optimization uses the initial guess based on the periodic solution as we discussed and is optimized using the gradient descent algorithm. The subject will nap for 0.7 hours, 2.35 hours and 2.3 hours before the shift work, respectively. Another optimization uses the initial guess also based on periodic solution, but excludes the naps before the night shift. The optimal light and sleep schedules are plotted in Fig. 7. 23/35 When the optimal light is 0 lux, the subject needs to wear blocking goggles to block part of the blue spectrum [42]. We compare the optimized schedule of these two optimizations using average alertness Aavg = J 
+
+> 24
+
+. The first schedule that has naps before the shift work has an average of Aavg = −1.368 during the shift work, and the second schedule that does not have naps before the shift work has an average of 
+
+Aavg = −1.4533 during the work shift. The improvement in alertness with naps before shifts can be explained by the decrease in H during late napping. However, in different scenarios, the optimal schedules will be different. If we can adjust the circadian rhythm ahead of the mission by adapting to different light and sleep schedules, alertness during shift work will be higher [12]. We run a series of simulations that start the optimization 1 to 13 days ahead of the first day of the shift work. The optimal schedules with 6 and 13 days of preparation are plotted in Fig. 7(c) and (d), respectively. As the preparation time increases, the average alertness during shift work also increases, as shown in Fig. 7(e). Average alertness reaches a plateau after 13 days as the circadian rhythms of the subject are fully adjusted to align with the shift work at night. Adjusting circadian rhythms provides a more significant increase in alertness, and late napping is not required in this scenario. In summary, if the subject cannot adjust the light and sleep schedules multiple days in advance, late napping before shift work can increase average alertness during shift work. But if adjusting light and sleep schedules before shift work, the gradient descent algorithm can find better schedules that change the circadian rhythms of the subject to increase the average alertness during shift work. 
+
+# 3.2 Cumulative Alertness Optimization 
+
+In this subsection, we solve the cumulative alertness optimization problem: Given the initial conditions X(0) = X0, and the dynamics of the hybrid model represented as ˙X = Di(X, I, β ) for i = 1 , · · · , N , light constraint Eq. 44 and tunable schedule, we maximize the cumulative alertness of a person during certain period: max 
+
+Z tf
+
+> t0
+
+(1 − β(t))[ H+(t) − H(t)] dt, (60) where t0 is the starting time and tf is the end time of the optimization horizon. 24/35 (a) Optimal Schedules With Naps (b) Optimal Schedules Without Naps 
+
+(c) Optimal Schedules With 6 Days Preparation (d) Optimal Schedules With 13 Days Preparation 
+
+(e) Average Alertness During Shift Work 
+
+Fig 7. Optimal schedules for 3 consecutive night shifts. The shift work time is indicated by the blue curve. The alertness A is represented by the red curve. The green region indicates sleep time, and red region indicates when the light is turned on. (a) and (b) represent the light and sleep schedules which the optimization begins on the first day of shift work. (c) represents the light and sleep schedules that start 6 days ahead of the shift work. (d) represents the light and sleep schedules that start 13 days ahead of the shift work. (e) represents the number of hours the optimization begins before the first shift work versus the average alertness during the work shift. 25/35 The gradient descent algorithm in Section 3.1 applies to this problem with the only exception of L in Eq. 49 is replaced by 
+
+L = −(1 − β(t))[ H+(t) − H(t)] . (61) Here, we study two cases of cumulative alertness optimization. Both cases start at 12 PM and end at 12 AM on the fifth night. In the first case, we optimize the cumulative alertness of a subject that accommodates the periodic light in Eq. 12 and spontaneous sleep schedule. We find that the cumulative alertness increases from 89.28 to 89.56 after optimization. The alertness comparison is plotted in Fig. 8(a). The difference is less than 0.3%. This shows that the periodic light schedule and spontaneous sleep schedule are very close to the light and sleep schedules that maximize the cumulative alertness during the optimization horizon if there is no shift work. The second case has night shifts that start at 10 PM and end at 6 AM in the first three nights. After night shifts, the subject falls asleep spontaneously. We start with the initial guess based on periodic solution. The cumulative alertness is −2.3247 before optimization. After optimizing the light and sleep schedules, cumulative alertness increases to 27 .631. The alertness comparison is plotted in Fig. 8(b). In Fig. 8(c), the circadian phase on day 4 is delayed 3.1 hours compared to day 1. This shows that optimal light and sleep schedules delay the circadian phase to align with activities at night. In [23], Hong et al. use the PR model to formulate circadian necessary sleep(CNS), which is the minimum sleep duration that sleep homeostasis H decreases below the sleep threshold H+. Natural wake time interval (NWTI) is defined as the time such that {t|H(t) ≤ H+(t)} so that the subject is naturally awake. If the subject’s sleep time is less than CNS, then the sleep is circadian insufficient sleep (CIS) and the subject will experience more sleepiness during the wake-up time. The subject following CNS shows more NWTI than the subject following CIS. We hypothesize that optimizing cumulative alertness will not reduce NWTI. We run simulations with our hybrid PR model and compare NWTI with the CNS schedule. Fig. 9 shows a comparison of NWTI between the subject following the CNS schedule and the subject following the optimal cumulative alertness schedule obtained from the gradient 26/35 (a) Subject follows periodic schedule 
+
+(b) Subject follows 3 night shifts 
+
+(c) Phase Comparison of the Subject follows 3 night shifts 
+
+Fig 8. Alertness comparisons of the subject before and after optimization. (a) represents the case of a subject accommodates to the periodic light and (b) represents the case that has 10 PM to 6 AM night shifts. Aref (t) represents the alertness of the subject before optimization. A(t) represents the alertness of the subject after the optimization. The green region indicate sleep time and red region indicates when the light is turned on. (c) Circadian phase comparison of the reference schedule before optimization in red and the schedule after optimization in blue. descent algorithm. The NWTI increases from 31 .91 hours to 32 .81 hours. We randomly sampled 3-night consecutive schedules in which every shift work begins between 3 PM 27/35 and 11:00 PM and the shift duration is randomly sampled between 4 and 12 hours. The beginning and ending time of the optimization horizon is 12 PM on the first day and 12 Am on the fifth day. In 50 simulations, the average increase in cumulative alertness is 29.97. In 42 cases, the natural wake time interval was longer under the optimal cumulative alertness schedule than under the CNS schedule. The average percentage NWTI increase is 1.24% with a standard deviation of 1.61%. Therefore, the optimal schedules obtained from gradient descent algorithm can increase alertness during the full optimization horizon and not sacrifice NWTI. 
+
+(a) Subject follows CNS schedule 
+
+(b) Subject follows optimal cumulative alertness schedule 
+
+Fig 9. Natural wake time interval comparisons of the subject following CNS schedule and optimal cumulative alertness schedule. This shows the plot of alertness of the subject before and after the optimization. Aref (t) represents the alertness of the subject before optimization. A(t) represents the alertness of the subject after the optimization. Green regions indicate the natural wake time interval and red regions indicate the shift work. 28/35 4 Conclusion 
+
+This paper proposes the hybrid PR model that consists of the physiology underlying sleep-wake dynamics and can accurately predict cognitive abilities better than the three-process model. The hybrid model does not have stiff equations in the full PR model and has continuous gradients. We apply the calculus of variation to find the light and sleep schedule that maximizes cumulative alertness during shift work and the full optimization horizon. We find that if we can adjust the circadian rhythms before shift work, alertness during shift will be higher than not adjusting the circadian rhythm. If we cannot adjust the circadian rhythms beforehand, taking a late nap before the shift will increase alertness during shift work. We also compare the optimal cumulative alertness schedule with the CNS schedule and demonstrate that maximizing cumulative alertness during the full optimization horizon does not sacrifice the natural wake time interval. 
+
+# 5 Appendix 
+
+# 5.1 Calculus of Variation Derivation 
+
+Suppose the dynamics for the i-th mode is described by the following dynamics: ˙X = Di(X, I ), t ∈ [ti−1, t i), ∀i ∈ { 1, 2, · · · , N }, (62) where N is the total number of modes during the optimization time horizon. t0 = 0 and 
+
+tN = tf are fixed. All the switching time ti are subject to the inequality constraints in tunable schedule in Eq. 46. An objective function is formulated as 
+
+J =
+
+Z tf
+
+> 0
+
+L(t, X, I )dt. (63) We introduce Lagrange multipliers λ(t) ∈ R4. The augmented objective function is: 
+
+Ja =
+
+Z tf
+
+> 0
+
+L(τ, X, I )dτ +
+
+> N
+
+X
+
+> i=1
+
+Z ti
+
+> ti−1
+
+λ(τ )[ Di(X, I ) − ˙X(τ )] dτ. (64) 29/35 We introduce a small scalar α and add perturbations to the inputs αδI and αδt i. The perturbed augmented objective function becomes: 
+
+Ja + αδJ a + o(α) = 
+
+Z tf
+
+> 0
+
+L(τ, X + αδX + o(α), I + αδI )dτ 
+
++
+
+> N
+
+X
+
+> i=1
+
+Z ti+αδt i
+
+> ti−1+αδt i−1
+
+λT (τ )[ Di(X + αδX + o(α), I + αδI − ˙X − αδ ˙X − o(α)] dτ, 
+
+(65) where δX, δJ a are the first order perturbation in states and augmented cost, and o(α)represents the terms that has higher order than first order of α. Formally, 
+
+δX = lim 
+
+> α→0
+
+X(I(t) + αδI (t), t i + αδt i) − X(I(t), t i)
+
+α , (66) 
+
+δJ a = lim 
+
+> α→0
+
+Ja(I(t) + αδI (t), t i + αδt i) − Ja(I(t), t i)
+
+α . (67) The first variation of the augmented cost is calculated by subtracting the perturbed objective function Eq. 65 by Eq. 64 and taking the limit α → 0. 
+
+δJ a =
+
+Z tN
+
+> t0
+
+( δL (τ, X, I )
+
+δX 
+
+T
+
+δX + δL (τ, X, I )
+
+δI δI 
+
+)
+
+dτ 
+
++
+
+> N
+
+X
+
+> i=0
+
+Z ti
+
+> ti−1
+
+(
+
+˙λT δX + λT (τ )
+
+" δD i(X, i )
+
+δX 
+
+T
+
+δX + δD i(X, I )
+
+δI δI 
+
+#) 
+
+dτ 
+
+−
+
+> N
+
+X
+
+> i=1
+
+λT (t− 
+
+> i
+
+)δX (t− 
+
+> i
+
+) − λT (t+
+
+> i−1
+
+)δX (t+
+
+> i−1
+
+)
+
++ 
+
+> N−1
+
+X
+
+> i=1
+
+λT (t− 
+
+> i
+
+)Di(X(t− 
+
+> i
+
+, I (t− 
+
+> i
+
+))) − λT (t+ 
+
+> i
+
+)Fi+1 (X(t+ 
+
+> i
+
+), I (t+ 
+
+> i
+
+))  δτ i
+
++ 
+
+> N−1
+
+X
+
+> i=1
+
+L(t− 
+
+> i
+
+, X (t− 
+
+> i
+
+), I (t− 
+
+> i
+
+)) − L(t+ 
+
+> i
+
+, X (t+ 
+
+> i
+
+), I (t+ 
+
+> i
+
+))  δτ i
+
+(68) By selecting the Lagrange multiplier λ(t) as: 
+
+λ(tN ) = 0 , (69) ˙λ(t) = − δL (t, X, I )
+
+δX −
+
+ δD i(X, I )
+
+δX 
+
+T
+
+λ(t), when t ∈ [ti−1, t i), (70) 
+
+λ(t− 
+
+> i
+
+) = λ(t+ 
+
+> i
+
+), (71) 30/35 δJ a can be simplified to 
+
+δJ a =
+
+> N
+
+X
+
+> i=1
+
+Z ti
+
+> ti−1
+
+ δL (τ, X, I )
+
+δI + λT (τ ) δD i(X, I )
+
+δI 
+
+T
+
+δIdτ 
+
++ 
+
+> N−1
+
+X
+
+> i=1
+
+[L(t− 
+
+> i
+
+, X (t− 
+
+> i
+
+), I (t− 
+
+> i
+
+)) − L(t+ 
+
+> i
+
+, X (t+ 
+
+> i
+
+), I (t+ 
+
+> i
+
+)) + λ(t− 
+
+> i
+
+)Di(X(t− 
+
+> i
+
+), I (t− 
+
+> i
+
+)) 
+
+−λT (t+ 
+
+> i
+
+)Di+1 (X(t+ 
+
+> i
+
+), I (t+ 
+
+> i
+
+))] δt i.
+
+(72) From Eq. 72, the gradient of J with respect to I and ti are given as 
+
+∇I(t)J = ∂L (t, X, I )
+
+∂I + λT (t) ∂D i(X, I )
+
+∂I , (73) 
+
+∇ti J =L(t− 
+
+> i
+
+, X (t− 
+
+> i
+
+), I (t− 
+
+> i
+
+)) − L(t+ 
+
+> i
+
+, X (t+ 
+
+> i
+
+), I (t+ 
+
+> i
+
+)) + λ(t− 
+
+> i
+
+)Di(X(t− 
+
+> i
+
+), I (t− 
+
+> i
+
+)) 
+
+− λT (t+ 
+
+> i
+
+)Di+1 (X(t+ 
+
+> i
+
+), I (t+ 
+
+> i
+
+)) (74) 
+
+# References 
+
+1. Iliff JJ, Wang M, Liao Y, Plogg BA, Peng W, Gundersen GA, et al. A paravascular pathway facilitates CSF flow through the brain parenchyma and the clearance of interstitial solutes, including amyloid β. Science translational medicine. 2012;4(147):147ra111–147ra111. 2. Iliff JJ, Lee H, Yu M, Feng T, Logan J, Nedergaard M, et al. Brain-wide pathway for waste clearance captured by contrast-enhanced MRI. The Journal of clinical investigation. 2013;123(3):1299–1309. 3. Born J, Wilhelm I. System consolidation of memory during sleep. Psychological research. 2012;76:192–203. 4. Slater G, Steier J. Excessive daytime sleepiness in sleep disorders. Journal of thoracic disease. 2012;4(6):608. 5. James SM, Honn KA, Gaddameedhi S, Van Dongen HP. Shift work: disrupted circadian rhythms and sleep—implications for health and well-being. Current sleep medicine reports. 2017;3:104–112. 31/35 6. Phillips A, Robinson PA. A quantitative model of sleep-wake dynamics based on the physiology of the brainstem ascending arousal system. Journal of biological rhythms. 2007;22(2):167–179. 7. Boivin DB, Tremblay GM, James FO. Working on atypical schedules. Sleep medicine. 2007;8(6):578–589. 8. Doyle III FJ, Gunawan R, Bagheri N, Mirsky H, To TL. Circadian rhythm: A natural, robust, multi-scale control system. Computers & chemical engineering. 2006;30(10-12):1700–1711. 9. Serkh K, Forger DB. Optimal schedules of light exposure for rapidly correcting circadian misalignment. PLoS computational biology. 2014;10(4):e1003523. 10. Abel JH, Chakrabarty A, Doyle FJ. Controlling biological time: Nonlinear model predictive control for populations of circadian oscillators. Emerging Applications of Control and Systems Theory: A Festschrift in Honor of Mathukumalli Vidyasagar. 2018; p. 123–138. 11. Booth V, Xique I, Diniz Behn CG. One-dimensional map for the circadian modulation of sleep in a sleep-wake regulatory network model for human sleep. SIAM Journal on Applied Dynamical Systems. 2017;16(2):1089–1112. 12. Zhang J, Wen JT, Julius A. Optimal circadian rhythm control with light input for rapid entrainment and improved vigilance. In: 2012 IEEE 51st IEEE Conference on Decision and Control (CDC). IEEE; 2012. p. 3007–3012. 13. Yin J, Julius A, Wen JT, Wang Z, He C, Kou L. Human Alertness Optimization with a Three-Process Dynamic Model. Mathematics. 2022;10(11):1916. 14. Borb´ ely AA, et al. A two process model of sleep regulation. Hum neurobiol. 1982;1(3):195–204. 15. Achermann P, Borb´ ely AA. Simulation of daytime vigilance by the additive interaction of a homeostatic and a circadian process. Biological cybernetics. 1994;71(2):115–121. 32/35 16. Achermann P, Werth E, Dijk DJ, Borbely A. Time course of sleep inertia after nighttime and daytime sleep episodes. Archives italiennes de biologie. 1996;134(1):109–119. 17. Reifman J, Gander P. Commentary on the three-process model of alertness and broader modeling issues. Aviation, space, and environmental medicine. 2004;75(3):A84–A88. 18. Pettersson K, M¨ uller K, Tiet¨ av¨ ainen A, Gould K, Hæggstr¨ om E. Saccadic eye movements estimate prolonged time awake. Journal of Sleep Research. 2019;28(2):e12755. 19. Diniz Behn C, Kopell N, Brown EN, Mochizuki T, Scammell TE. Delayed orexin signaling consolidates wakefulness and sleep: physiology and modeling. Journal of neurophysiology. 2008;99(6):3090–3103. 20. Rempe MJ, Best J, Terman D. A mathematical model of the sleep/wake cycle. Journal of mathematical biology. 2010;60(5):615–644. 21. Phillips AJ, Chen P, Robinson P. Probing the mechanisms of chronotype using quantitative modeling. Journal of Biological Rhythms. 2010;25(3):217–227. 22. Papatsimpa C, Linnartz JP. Personalized office lighting for circadian health and improved sleep. Sensors. 2020;20(16):4569. 23. Hong J, Choi SJ, Park SH, Hong H, Booth V, Joo EY, et al. Personalized sleep-wake patterns aligned with circadian rhythm relieve daytime sleepiness. Iscience. 2021;24(10). 24. Khalil HK, Grizzle JW. Nonlinear systems. vol. 3. Prentice hall Upper Saddle River, NJ; 2002. 25. Jewett ME, Forger DB, Kronauer RE. Revised limit cycle oscillator model of human circadian pacemaker. Journal of biological rhythms. 1999;14(6):493–500. 26. Borb AA, Achermann P. Sleep homeostasis and models of sleep regulation. Journal of biological rhythms. 1999;14(6):559–570. 33/35 27. Forger DB, Jewett ME, Kronauer RE. A simpler model of the human circadian pacemaker. Journal of biological rhythms. 1999;14(6):533–538. 28. Postnova S, Lockley SW, Robinson PA. Prediction of cognitive performance and subjective sleepiness using a model of arousal dynamics. Journal of biological rhythms. 2018;33(2):203–218. 29. Song YM, Choi SJ, Park SH, Lee SJ, Joo EY, Kim JK. A real-time, personalized sleep intervention using mathematical modeling and wearable devices. Sleep. 2023;46(9):zsad179. 30. Fulcher B, Phillips AJ, Robinson PA. Modeling the impact of impulsive stimuli on sleep-wake dynamics. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics. 2008;78(5):051920. 31. Fulcher B, Phillips AJ, Robinson PA. Quantitative physiologically based modeling of subjective fatigue during sleep deprivation. Journal of theoretical biology. 2010;264(2):407–419. 32. Postnova S, Postnov DD, Seneviratne M, Robinson PA. Effects of rotation interval on sleepiness and circadian dynamics on forward rotating 3-shift systems. Journal of biological rhythms. 2014;29(1):60–70. 33. Johnson M, Duffy J, Dijk D, Ronda J, Dyal C, Czeisler C. Short-term memory, alertness and performance: a reappraisal of their relationship to body temperature. Journal of sleep research. 1992;1(1):24–29. 34. Wehr TA. In short photoperiods, human sleep is biphasic. Journal of Sleep Research. 1992;1(2):103–107. 35. Monk TH. Subjective ratings of sleepiness—the underlying circadian mechanisms. Sleep. 1987;10(4):343–353. 36. Shahid A, Wilkinson K, Marcu S, Shapiro CM. Stanford sleepiness scale (SSS). In: STOP, THAT and one hundred other sleep scales. Springer; 2011. p. 369–370. 37. ˚ Akerstedt T. Is there an optimal sleep-wake pattern in shift work? Scandinavian Journal of Work, Environment & Health. 1998; p. 18–27. 34/35 38. Vital-Lopez FG, Doty TJ, Reifman J. Optimal sleep and work schedules to maximize alertness. Sleep. 2021;44(11):zsab144. 39. Yin J, Julius AA, Wen JT. Optimization of light exposure and sleep schedule for circadian rhythm entrainment. Plos one. 2021;16(6):e0251478. 40. Driskell JE, Mullen B. The efficacy of naps as a fatigue countermeasure: a meta-analytic integration. Human Factors. 2005;47(2):360–377. 41. Schweitzer PK, Randazzo AC, Stone K, Erman M, Walsh JK. Laboratory and field studies of naps and caffeine as practical countermeasures for sleep-wake problems associated with night work. Sleep. 2006;29(1):39–50. 42. Rahman SA, Marcu S, Shapiro CM, Brown TJ, Casper RF. Spectral modulation attenuates molecular, endocrine, and neurobehavioral disruption induced by nocturnal light exposure. American Journal of Physiology-Endocrinology and Metabolism. 2011;300(3):E518–E527. 35/35
