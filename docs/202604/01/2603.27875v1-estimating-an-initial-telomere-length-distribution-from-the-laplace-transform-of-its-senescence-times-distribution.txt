@@ -1,0 +1,4696 @@
+Title: Estimating an initial telomere length distribution from the Laplace transform of its senescence times distribution
+
+URL Source: https://arxiv.org/pdf/2603.27875v1
+
+Published Time: Tue, 31 Mar 2026 13:27:13 GMT
+
+Number of Pages: 37
+
+Markdown Content:
+# Estimating an initial telomere length distribution from the Laplace transform of its senescence times distribution 
+
+Jules Olayé †
+
+Abstract 
+
+This work follows from a previous study on the estimation of an initial distribution of telomere length from a senescence times distribution done in [27]. In this previous study, we have presented an estimation method based on the fact that our telomere shortening model can be approximated by a transport equation. This method has encouraging results, but fails to provide a good estimation when the variability of the initial telomere length distribution is too small. We improve here this method by approximating our model with an advection-diffusion equation, which allows us to better take into account the randomness of the shortening values. We show that under this approximation, there exists a simple link between the Laplace transform of the initial telomere length distribution and that of the senescence times distribution. Then, by using a numerical method for inverting Laplace transforms called Gaver-Stehfest algorithm , we exploit this link to construct a new estimator. 
+
+Keywords: Inverse problem, advection-diffusion equation, Laplace transform, Gaver-Stehfest algorithm, telomeres 
+
+## 1 Introduction 
+
+Motivation and presentation of the problem. Telomeres are DNA sequences located at the end of chromosomes that shorten during cell divisions. When one of the telomeres of a cell becomes critically short, which is around 27 base pairs for the yeast [32], this cell enters in a state called senescence , where it stops to divide [2, 9, 24, 42]. The study of this phenomenon has gained in interest over the last few years, due to its link with the apparition of cancer [33]. This has led to the development of mathematical models representing the phenomenon, studied with both theoretical and numerical approaches [3, 6, 7, 9, 30, 32]. Due to the fact that a cell becomes senescent when it has a too short telomere, the initial distribution of telomere lengths and the distribution of senescence times are deeply linked. We are interested here in better understanding this link, by solving the inverse problem which consists in estimating the initial telomere length distribution from a senescence times distribution in a single-telomere model. 
+
+Context of the study and previous results. This work is the direct continuation of the article [27]. In this previous study, we have developed a telomere shortening model representing cells with one telomere. This model corresponds to a system of integro-differential equations representing the evolution of the telomere length distribution and the senescence times distri-bution, and is given here in (2.1). Then, we have proposed a first method to solve the inverse problem presented in the previous paragraph, based on a model approximation by a transport  
+
+> †CMAP, INRIA, École polytechnique, Institut Polytechnique de Paris, 91120 Palaiseau, France. Mail: jules.olaye@polytechnique.edu
+
+1
+
+> arXiv:2603.27875v1 [math.AP] 26 Mar 2026
+
+equation, see [27, Eq. 3.5]. The interest of this model approximation is that it allows us to re-trieve a well-posed inverse problem, see [27, Remark 2.2]. The main limitation of the estimation method presented in this previous article is that it does not work very well when the initial telomere length distribution has a small variability, see [27, Section 5.1.2]. In the current work, our aim is to improve our estimation results on such initial distributions. The estimation strategy presented in [27] is inspired by the following works in protein de-polymerisation [4, 15]. In these two articles, the context is similar: a trait progressively degrades to 0, and the authors aim to retrieve the initial distribution from the density of the trait at 0.In [4], the inverse problem has been solved thanks to a model approximation by a transport equation, obtained through a scaling limit. This type of approximation is called first-order approximation , and is the type of approximation used in [27]. In order to obtain better esti-mation results, this approximation has been refined in [15] by approximating their model by a transport-diffusion equation. This type of approximation is called second-order approximation ,and its main idea is to add a diffusion term to take into account the fluctuations around the scaling limit related to the central limit theorem. After having obtained this model approxi-mation, the authors used an estimation method based on a Kalman observer to retrieve the initial distribution. 
+
+Estimation strategy. The main reason that the estimator developed in [27] does not work when the initial distribution has a small variability is that the approximated model used to construct it does not take into account well the variability of the shortening values at each division. To manage this issue, in the current work, we develop an estimation strategy that better takes into account this variability. This strategy is inspired by the one followed in [27], and consists in the three following steps. First, we refine the first-order model approximation obtained in [27], by obtaining a second-order model approximation, as done in [15]. Then, we show that there exists a simple link between the Laplace transform of the senescence times distribution and that of the initial telomere length distribution. Finally, we use a numerical method for inverting Laplace transforms called Gaver-Stehfest algorithm [18, 36, 37] to retrieve the initial distribution of telomere length. 
+
+Contributions. Our first contribution is to provide precise bounds for the second-order ap-proximation. As mentioned before, the first-order and second-order approximations are obtained by a scaling limit of our model. In [15], the authors proved on a similar discrete model that, de-noting by N > 0 the scaling parameter used to obtain the approximation, the error in L2-norm between their model and a transport-diffusion model is at most of order 1/N 3/2. They also obtained a bound that increases linearly with time. We improve here this result by obtaining, on more restrictive assumptions, a bound of order 1/N 2 for the pointwise approximation error, that can be extended to all the Lp-norm, where p > 0. We also prove that the bound on the error decreases exponentially fast after a certain time. The bounds we have obtained on the second-order approximation error allow us to provide a first theoretical justification that telomere shortening models can be approximated by transport-diffusion equations. Indeed, such approximations have already been studied and justified from a modelling perspective in previous works [31, 39], but no theoretical results related to it has been obtained. Our second contribution is to present and rigorously analyse on simulations a new method for solving our inverse problem based on a Laplace transform inversion. This new method improves the estimation results presented in [27] when the initial distribution has a small coefficient of variation. By presenting this new method, we also complete what is done in [15] by providing an alternative method for estimating the initial distribution of advection-diffusion equations on R+ from the observation of its value at the boundary of the space. Compared to [15], the 2advantage of our new method is that it is based on a simple link between the initial distribution and the trait density at the boundary. As a result, our new method is easier to understand and better highlights the fact that there is a deep link between the initial distribution and the distribution of the trait at the boundary of the space on such models. 
+
+Difficulty for the model approximation. The main difficulty in obtaining a bound of order 1/N 2 is that the third derivative in space of the density of telomere lengths in the ap-proximated model explodes when N → +∞. This derivative is the main term that describes the error between the original model and the approximated model due to a Taylor expansion, see (2.5). Thus, it is necessary to control carefully the explosion of this derivative as N → +∞
+
+to obtain a qualitative bound on the approximation error. Compared to [15], we take into ac-count here the evolution of the impact of the third-derivative with the time. This allows us to improve the bound on the model approximation. To do this, we first rewrite the approximation error as the integral of several sub-errors, as done in [27]. Then, we show that these sub-errors dissipate over time by using a maximum principle. What changes compared to [27] is that we cannot use the method of characteristics to obtain our bounds when we prove the dissipation of the sub-errors. We use here instead that the second derivative in space of our approximated model can be explicitly written thanks to the heat kernel. This explicit representation allows us to simplify the use of a maximum principle to bound the derivatives in space of the telomere length density by the eigenfunctions of the operator associated to their equations, and to exploit classical heat kernel estimates, see Sections 3.2 and 3.3. 
+
+Plan of the article. The paper is organised as follows. First, we present the model, its approximation, and the main results of the paper in Section 2. Then, we prove that our model can be approximated by an advection-diffusion equation in Section 3. Thereafter, we present our estimation method based on the Gaver-Stehfest algorithm in Section 4. Finally, in Section 5, we discuss our results and the perspectives of this work. The appendices A-D are devoted to the proofs of certain statements given during the paper, and to additional informations about the way we have done our simulations. 
+
+## 2 The model, its approximation, and the main results 
+
+This section is devoted to the presentation of the notations and of the results of this work. First, in Section 2.1, we present our model for telomere shortening and its scaled version. Then, in Section 2.2, we present the second-order approximation of this model. Finally, in Section 2.3, we present the assumptions and the main results of the paper. 
+
+2.1 The model 
+
+The model we use in this work is the same as the one presented in [27, Eq. 2.1]. It represents the evolution of the telomere length density n and the senescence times density n∂ when several cell lineages with a single telomere are tracked. We assume that cells divide at a rate ˜b > 0,and that at each cell division, the telomere of the dividing cell is shortened by a random value. The distribution of the shortening values is represented by a density ˜g : [0 , ˜δ] → R, where ˜δ > 0
+
+is the maximum shortening value, which has a finite third moment. We also assume that cells go to senescence when their telomere length go below a critical value 0. Then, our model is given by the following system of integro-differential equations (see [27, Section 2.1] for more information) 3
+
+∂tn(t, x ) = ˜b ∫ ˜δ 
+
+> 0
+
+n (t, x + v) ˜ g(v)d v − ˜bn (t, x ), ∀t ≥ 0, x ≥ 0,n∂ (t) = ˜b ∫ ˜δ 
+
+> 0
+
+n(t, y )(1 − ˜G(y))d y, ∀t ≥ 0,n(0 , x ) = n0(x), ∀x ≥ 0,
+
+(2.1) where n0 ∈ L1 (R+) is the initial distribution of telomere lengths, and ˜G(y) := ∫ y 
+
+> 0
+
+˜g(s)d s for all y ∈ [0 , ˜δ]. In all this work, we assume that n0 is non-negative and verifies ∫ 
+
+> x∈R
+
+n0(x)d x = 1 .Our aim here is to estimate n0 from the senescence times distribution n∂ .As in [27], we need to consider the scaled version of this model to obtain a model approxi-mation. To do so, we introduce a scaling parameter N > 0, and assume that there exists δ > 0,
+
+g : [0 , δ ] → R+ a probability density function and b > 0 such that 
+
+˜δ = δN , ∀x ∈ [0 , ˜δ] : ˜ g(x) = N g (N x ), and ˜b = bN. 
+
+This assumption means that the telomere shortening value is small at each division, and that the cell division rate is large. It is biologically relevant, and we refer to [27, Section 2.3] for more information. Then, by proceeding as in [27, Section 3.1], we obtain the following scaled version of the model (2.1), depending on the scaling parameter N > 0,
+
+
+
+∂tn(N )(t, x ) = bN ∫ δ
+
+> 0
+
+în(N )  t, x + vN
+
+ − n(N )(t, x )ó g (v) d v, ∀t ≥ 0, x ≥ 0,n(N ) 
+
+> ∂
+
+(t) = b ∫ δ 
+
+> 0
+
+n(N )  t, vN
+
+ (1 − G(v)) d v, ∀t ≥ 0,n(N )(0 , x ) = n0 (x) , ∀x ≥ 0,
+
+(2.2) where G(y) := ∫ y 
+
+> 0
+
+g(s)d s for all y ∈ [0 , δ ]. The above model is the one for which we find an approximation, and on which we solve the inverse problem. Specifically, we do these by studying the behaviour of n(N ) and n(N ) 
+
+> ∂
+
+when N → ∞ .We conclude this section by giving the following result, which deals with the uniqueness of a solution to the equation verified by n(N ) in (2.2), where N > 0. Its proof relies on a classical fixed point argument, and is provided here [28, Section 3.A.1]. 
+
+Proposition 2.1 (Well-posedness of (2.2)) . There exists a unique non-negative solution in C  R+; L1 (R+) to 
+
+(∂tn(N )(t, x ) = bN ∫ δ
+
+> 0
+
+în(N )  t, x + vN
+
+ − n(N )(t, x )ó g (v) d v, ∀t ≥ 0, x ≥ 0,n(N )(0 , x ) = n0 (x) . (2.3) 
+
+Remark 2.2. The uniqueness of a solution to the full system given in (2.2) is a question that remains open actually. The reason is that we are not able to prove that the second line of (2.2) 
+
+has a unique solution in L∞ (R+) or L1 (R+).
+
+Remark 2.3. In view of [27, Proposition A. 1] and [27, Remark 2.1], n(N ) and n(N ) 
+
+> ∂
+
+are non-negative for all N > 0, and verify for all t ≥ 0 
+
+> ∫∞
+> 0
+
+n(N )(t, x )d x + 
+
+> ∫t
+> 0
+
+n(N ) 
+
+> ∂
+
+(s)d s = 1 .
+
+2.2 The approximated model 
+
+We now provide the model approximation that allows us to solve this inverse problem. To do so, let us first introduce the following notation 
+
+∀i ∈ { 1, 2, 3} : mi :=  
+
+> ∫δ
+> 0
+
+vig(v)d v. (2.4) 4It has been proved in [27, Proposition 3.2] that the limit of (2.2) when N → +∞ is a transport equation with an absorbing state at x = 0 , and that the rate of convergence towards this approximation is of order 1 
+
+> N
+
+. Then, to obtain a better estimation, we need to take into account in our new approximated model the telomere length variation of order 1 
+
+> N
+
+at each division. By doing a second-order Taylor expansion in the first line of (2.2), one can easily obtain that for all N > 0, t ≥ 0, x ≥ 0,
+
+∂tn(N )(t, x ) ≈  
+
+> N→+∞
+
+bN  
+
+> ∫δ
+> 0
+
+ï vN ∂xn(N )(t, x ) + v2
+
+2N 2 ∂2
+
+> x
+
+n(1) (t, x )
+
+ò
+
+g(v) d v
+
+= bm 1∂xn(N )(t, x ) + bm 2
+
+2N ∂2
+
+> x
+
+n(N )(t, x ).
+
+(2.5) In addition, by doing now a Taylor expansion in the second line of (2.2) and using the following equalities ∫ δ 
+
+> 0
+
+(1 − G(v)) d v = m1 and ∫ δ 
+
+> 0
+
+v(1 − G(v))d v = m2 
+
+> 2
+
+(obtained by integration by part), one can easily get that for all N > 0, t ≥ 0,
+
+n(N ) 
+
+> ∂
+
+(t) ≈  
+
+> N→+∞
+> ∫δ
+> 0
+
+h
+
+n(N )(t, 0) + vN ∂xn(N )(t, 0) 
+
+i
+
+(1 − G(v)) d v
+
+= bm 1n(N ) (t, 0) + bm 2
+
+2N ∂xn(N ) (t, 0) .
+
+(2.6) Then, in view of (2.5) and (2.6), we have the conjecture that for all N > 0, the system (2.2) can be approximated by the following 
+
+
+
+∂tu(N )(t, x ) = bm 1∂xu(N )(t, x ) + bm 2 
+
+> 2N
+
+∂2
+
+> x
+
+u(N )(t, x ), ∀t ≥ 0, x ≥ 0,∂tu(N )(t, 0) = bm 1∂xu(N )(t, 0) , ∀t ≥ 0,u(N ) 
+
+> ∂
+
+(t) = bm 1u(N )(t, 0) + bm 2 
+
+> 2N
+
+∂xu(N )(t, 0) , ∀t ≥ 0,u(N )(0 , x ) = n0(x), ∀x ≥ 0.
+
+(2.7) We refer to [15, Proposition 2.2] for a proof of the well-posedness of (2.7) in the space 
+
+C0  R+, H 2 (R+) ∩ C 1  R+, L 2 (R+)
+
+when n0 ∈ H2 (R+). The boundary condition we take in our approximated model, see the second line of (2.7), is the same as in [15]. In view of the first line of (2.7), this boundary condition is equivalent to having bm 2 
+
+> 2N
+
+∂2
+
+> x
+
+u(N )(t, 0) = 0 for all t ≥ 0, so to having a second derivative of 0
+
+at the boundary. We use this condition because a Dirichlet or a Neumann boundary condition do not allow to control the third derivative of u(N ) (see Lemma 3.13), which is crucial here to control the remainder of the Taylor expansion (see (2.5)). Qualitatively, this is because having a second derivative of 0 allows us to control the too abrupt variations of u(N ) near 0 that can result in a bad approximation. 
+
+2.3 Notations and main theoretical results 
+
+In this work, we have two main theoretical results. The first one corresponds to the qualita-tive bounds we have obtained on the model approximation. The second one is the link between the Laplace transforms of n0 and u(N ) 
+
+> ∂
+
+we have established, for all N > 0, that allows us to construct estimators of n0. To present these results, we need to introduce some notations. 5Notations. First, we denote for all f : R+ → R and p ∈ C such that the integral below converges 
+
+L(f )( p) := 
+
+∫ ∞
+
+> 0
+
+e−px f (x)d x, (2.8) which corresponds to the Laplace transform of f . Then, we denote for all f : R+ → R
+
+R(f ) := inf 
+
+Åß 
+
+r ∈ R |
+
+∫ ∞
+
+> 0
+
+e−rx |f (x)| dx < +∞
+
+™ã 
+
+, (2.9) which corresponds to the abscissa of convergence of L(f ). Notably, for all p ∈ C such that Re (p) > R(f ), the integral presented in (2.8) converges. Thereafter, for all N > 0, we define the three following constants 
+
+λN := λ
+
+Å
+
+1 − λm 2
+
+2m1N
+
+ã
+
+, CN = b
+
+2
+
+ï
+
+1 − L (g)
+
+Å 2m1λN
+
+m2λ
+
+ãò 
+
+, βN =
+
+(N C N , when N ≤ bm 1λN 
+
+> CN
+
+,bm 1λN , when N > bm 1λN 
+
+> CN
+
+.
+
+(2.10) Finally, we consider for all N > 0 the function qN : C → C defined for all p ∈ C as 
+
+qN (p) := bm 1p + bm 2
+
+2N p2, (2.11) and the set 
+
+PN := 
+
+ß
+
+p ∈ C | Re (p) > R(n0), Re (qN (p)) > max 
+
+Å
+
+R Äu(N )
+
+> ∂
+
+ä , −(bm 1)2 2Nbm 2
+
+ã™ 
+
+. (2.12) 
+
+Main theoretical results. The first main theoretical result of the paper is the following. It allows us to justify that we can approximate (2.1) by (2.7), and is proved in Section 3. 
+
+Theorem 2.4 (Bounds on approximation errors) . Assume that n0 ∈ H3 (R+) with n′′  
+
+> 0
+
+(0) = 0 ,and that there exist Cλ > 0, Dλ > 0, λ > 0 and λ′ ∈ î0, 2N m 1 
+
+> m2
+
+− 2λä, such that for all x ≥ 0:
+
+n′′′  
+
+> 0
+
+(x) ≤ Cλ exp ( −λx ) , and n′′  
+
+> 0
+
+(x) ≤ Dλ exp ( −λx )  1 − exp  −λ′x . (2.13) 
+
+Then, there exist c1 > 0, c2 > 0, c3 > 0 and c4 > 0 such that the following statements hold. (a) For all N > 0, t ≥ 0, x ≥ 0, we have 
+
+n(N )(t, x ) − u(N )(t, x ) ≤ c1tN 2 exp [ −bm 1λN t − λx ]+ 1
+
+CN
+
+ c2
+
+N 3 + c3
+
+N 2
+
+
+
+exp 
+
+ï
+
+−βN t − 2N m 1
+
+m2
+
+λN
+
+λ x
+
+ò
+
+.
+
+(2.14) 
+
+(b) For all N > 0, t ≥ 0, we have 
+
+n(N ) 
+
+> ∂
+
+(t) − u(N ) 
+
+> ∂
+
+(t) ≤ bm 1c1t + c4
+
+N 2 exp [ −bm 1λN t] + bm 1
+
+CN
+
+ c2
+
+N 3 + c3
+
+N 2
+
+
+
+exp [ −βN t] . (2.15) This theorem is very similar to [27, Proposition 3.2]. The assumptions are also on the derivatives of n0, but this time, the orders of the derivatives are greater. We have an error that first increases with the time, and then decreases exponentially fast. This is related to the fact that we take into account the accumulation of the errors, and the fact that they dissipate. We also have that the error decreases exponentially fast with the telomere length. This is related to the exponential dissipation of the distribution of telomere lengths at each time. 6The second statement we present corresponds to the link between the Laplace transform of n0 and u(N ) 
+
+> ∂
+
+we have obtained, for all N > 0. This statement is very important in our work, because this is from this link that we construct our estimators. Its proof is however not very long, and does not require any specific argument that we would like to emphasize in this work. Hence, we postpone it to Appendix A. 
+
+Proposition 2.5 (Link between the Laplace transforms) . Assume that the assumptions of The-orem 2.4 hold and that n0(0) = 0 . Then, the following equality holds for all N > 0, p ∈ P N
+
+L (n0) ( p) = 
+
+Ç
+
+1 + p bm 1
+
+(bm 1)2 2 Nbm 2 + qN (p)
+
+å
+
+L Äu(N )
+
+> ∂
+
+ä (qN (p)) , (2.16) 
+
+where qN is defined in (2.11) .
+
+What is interesting to observe is that we have obtained a link between the Laplace transforms in the sets (PN )N > 0, but not in the whole set {p ∈ C | Re (p) > R (n0)} on which L (n0) is defined. The latter plays an important role in the method for inverting Laplace transforms we choose to estimate n0 in Section 4.1.1, since methods using information of the Laplace transform on the complex plane will be more difficult to use. 
+
+## 3 Proof of the model approximation 
+
+This section is devoted to the proof of Theorem 2.4. Since the proof of this theorem is inspired by the one of [27, Proposition 3.2], we first present in Section 3.1 the auxiliary results obtained in this previous paper, slightly readapted to work in our setting. Then, in Section 3.2, we give the new auxiliary statements we need, that are related to the second and third derivatives of the functions Äu(N )ä
+
+> N > 0
+
+. Thereafter, we prove these auxiliary statements in Section 3.3. Finally, in Section 3.4, we prove Theorem 2.4. 
+
+3.1 Adaptation of old auxiliary statements 
+
+The statements we present here are mainly useful for proving Theorem 2.4-(a). The reason is that the proof of Theorem 2.4-(b) is quite short once Theorem 2.4-(a) has been obtained. In the same way as in the proof of [27, Proposition 3.2-(a)], the first argument to obtain Theorem 2.4-(a) is to prove that there exists F ∈ L1 (R+) such that u(N ) := n(N ) − u(N ) verifies an equation of the form 
+
+(∂tu(N )(t, x ) = bN ∫
+
+> v∈Rd
+> +
+
+îu(N )  t, x + vN
+
+ − u(N )(t, x )ó g (d v) + F (t, x ), ∀t ≥ 0, x ≥ 0,u(N )(0 , . ) ≡ 0.
+
+(3.1) Then, the second argument is to bound the solution of this equation. Statements allowing to bound equations of the form given in (3.1) are given in [27, Eq. 3.19 ], [27, Corollary A. 2]and [27, Proposition A. 4]. Specifically, these statements have been combined in [27, Section 3.3]to prove [27, Lemma 3.5], which is the key lemma of [27]. These statements have been written in a framework in which the approximated models are transport equations, and cannot be directly reused in this work. Hence, we present here slight adaptations of these statements, in order to apply them to our framework. The first statement we present is the following. It provides a representation for the solutions to (3.1), by writing them as the sum of the evolutions of all the source terms. It corresponds to a slightly modified version of [27, Eq. 3.19 ], for a more general function HN . Proving it 7requires to do the same steps as those done to obtain [27, Eq. 3.19 ]. Hence, we do not give its proof here. 
+
+Lemma 3.1 (Alternative representation of a solution to (2.7)) . Let N > 0. Assume that there exists F ∈ L1  R2+
+
+ such that (3.1) holds, and C, α, β > 0 such that for all (t, x ) ∈ R2+
+
+|F (t, x )| ≤ C exp ( −αt − βx ) . (3.2) 
+
+Then, denoting ΦN : L1 (R+) 7 → C  R+, L 1 (R+), the operator such that for all f0 ∈ L1 (R),
+
+ΦN (f0) is a solution to (2.3) with n0 = f0, we have for all (t, x ) ∈ R2+
+
+u(N )(t, x ) =  
+
+> ∫t
+> 0
+
+ΦN (F (s, . )) ( t − s, x ) d s. 
+
+The second statement we provide corresponds to a bound we have on the operator ΦN . It is a consequence of the two statements [27, Corollary A. 2] and [27, Proposition A. 4]. 
+
+Lemma 3.2 (Maximum principle) . Let us consider f0 ∈ L1 (R+). Assume that there exist four constants C1, C 2, C 3, C 4 ≥ 0 and w1, w 2 ≥ 0 such that for all y ≥ 0
+
+|f0(y)| ≤ C1 exp ( −ω1y) + C2 exp ( −ω2y) . (3.3) 
+
+Then, it holds for all (t, x ) ∈ R2+
+
+|ΦN (f0)( t, x )| ≤ C1 exp 
+
+ï
+
+−
+
+Å
+
+bm 1ω1 − bm 2
+
+2N (ω1)2
+
+ã
+
+t − ω1x
+
+ò
+
++ C2 exp 
+
+h
+
+−bN 
+
+
+
+1 − L (g)
+
+ ω2
+
+N
+
+ 
+
+t − ω2x
+
+i
+
+.
+
+(3.4) 
+
+Proof. We begin by obtaining an intermediate inequality. First, we apply [27, Corollary A. 2]for v0 = f0 and w0 = C1 exp ( −ω1Id ) + C2 exp ( −ω2Id ). Then, we use [27, Proposition A. 4]to compute the values of the function w stated in [27, Corollary A. 2]. We obtain that for all (t, x ) ∈ R2+
+
+|ΦN (f0)( t, x )| ≤ C1 exp 
+
+h
+
+−bN 
+
+
+
+1 − L (g)
+
+ ω1
+
+N
+
+ 
+
+t − ω1x
+
+i
+
++ C2 exp 
+
+h
+
+−bN 
+
+
+
+1 − L (g)
+
+ ω2
+
+N
+
+ 
+
+t − ω2x
+
+i
+
+.
+
+(3.5) Then, as by the inequality 1 − e−x ≥ x − x2 
+
+> 2
+
+for all x ≥ 0 and the definition of m1 and m2 given in (2.4) it holds 
+
+1 − L (g)
+
+ ω1
+
+N
+
+
+
+= 
+
+> ∫+∞
+> 0
+
+î1 − e− ω1 
+
+> Nu
+
+ó g(u)d u ≥ m1ω1
+
+N − m2 (ω1)2
+
+2N 2 , (3.6) we can conclude the proof by plugging (3.6) in (3.5). 
+
+3.2 Auxiliary statements related to the derivatives of u(N ), where N > 0
+
+In the same way as in [27], we need exponential bounds on the derivatives of our approx-imated model to apply the statements presented in the previous section. These exponential estimates allow us for instance to verify (3.2) and (3.3) when we use Lemmas 3.1 and 3.2, and are also used in the proof of Theorem 2.4-(b), see Section 3.4.2. In [27], the bounds obtained are on the first and second derivatives of the approximated model. Here, we do an approximation on a higher order, so we need bounds on the second and third derivatives of u(N ), for all N > 0.8The method used in [27] to obtain the bounds is mainly based on the method of charac-teristics. We cannot proceed in the same way here because (2.7) does not correspond to a transport equation. Therefore, we use a different approach based on the explicit representation of the second spatial derivative of u(N ) through the heat kernel. This representation allows us to simplify the use of a maximum principle to bound ∂2
+
+> x
+
+u(N ) by the eigenfunctions of the operator bm 1∂x + bm 2 
+
+> 2N
+
+∂2 
+
+> x
+
+on H2 (R+) with Dirichlet boundary conditions, which is the operator associated to the equation verified by ∂2
+
+> x
+
+u(N ). It also allows us to use classical heat kernel esti-mates. We first present statements that provide the expression of ∂2
+
+> x
+
+u(N ) for all N > 0. Then, we present statements providing exponential bounds on the derivatives of u(N ), for all N > 0.
+
+Expression of the second derivative. We denote for all N > 0 the function v(N ) := ∂2
+
+> x
+
+u(N ).To find an explicit representation of this function, we need to find the partial differential equation verified by this function. To obtain it, first notice that the first and second lines of (2.7) imply that bm 2 
+
+> 2N
+
+∂2
+
+> x
+
+u(N )(t, 0) = 0 . Then, by (2.7), we have that v(N ) is a solution of the following equation 
+
+∂tv(N )(t, x ) = bm 1∂xv(N )(t, x ) + bm 2 
+
+> 2N
+
+∂2
+
+> x
+
+v(N )(t, x ), ∀t ≥ 0, x ≥ 0,v(N )(t, 0) = 0 , ∀t ≥ 0,v(N )(0 , x ) = n′′  
+
+> 0
+
+(x), ∀x ≥ 0.
+
+(3.7) This equation has a unique solution in C0  R+, H 10 (R+) by the following proposition, proved in Appendix B. We also refer to [14, 15, 19] for the proofs of the well-posedness of very simi-lar systems. 
+
+Proposition 3.3 (Existence and uniqueness of (3.7)) . Assume that n′′  
+
+> 0
+
+∈ H10 (R+). Then, there exists a unique mild solution to (3.7) in the space C0  R+, H 10 (R+). In addition, if 
+
+n′′  
+
+> 0
+
+∈ H10 (R+) ∩ H2 (R+), then there exists a unique strict solution to (3.7) in the space 
+
+C0  R+, H 10 (R+) ∩ H2 (R+) ∩ C1  R+, H 10 (R+) .
+
+Therefore, we only have to find an explicit solution to (3.7), and we will have an explicit representation for v(N ). The following proposition provides this explicit solution, and thus the expression of v(N ). It is proved in Section 3.3.1. 
+
+Proposition 3.4 (Explicit solution to (3.7)) . Assume that n′′  
+
+> 0
+
+∈ H10 (R+). We denote for all 
+
+N > 0, (t, x ) ∈ R∗ 
+
+> +
+
+× R+,
+
+ΨN (t, x ) := 
+
+Å Nbm 2
+
+12πt 
+
+ã 12
+
+exp 
+
+ñ
+
+− Nbm 2
+
+(x + bm 1t)2
+
+2t
+
+ô
+
+. (3.8) 
+
+Then, for all N > 0, (t, x ) ∈ R2+, we have 
+
+v(N )(t, x ) = 
+
+(n′′  
+
+> 0
+
+(x), if t = 0 ,
+
+(n′′  
+
+> 0
+
+∗ ΨN (t, . )) ( x) − exp î− 2N m 1 
+
+> m2
+
+xó (n′′  
+
+> 0
+
+∗ ΨN (t, . )) ( −x), otherwise, where for all (f, g ) ∈ L1 (R+) × L1 (R), z ∈ R, we write 
+
+(f ∗ g) ( z) := 
+
+∫ +∞
+
+> 0
+
+f (y)g(z − y)d y =
+
+∫ z
+
+> −∞
+
+f (z − y′)g(y′)d y′. (3.9) 
+
+Remark 3.5. As for all (f, g ) ∈ L1 (R+) × L1 (R) we have 
+
+∫
+
+> z∈R
+
+|(f ∗ g) ( z)| dz ≤
+
+∫
+
+> y∈R+
+
+∫
+
+> z∈R
+
+|f (y)| | g(z − y)| dzdy = || f || L1(R+) || g|| L1(R) < +∞,
+
+the convolution product (f ∗ g) ( z) is finite for almost all z ∈ R, and there is no problem of divergence of the integral in (3.9) .
+
+9Bounds on the derivatives. Now that we have the explicit representation of v(N ), we can obtain the bounds on the second and third derivatives of u(N ), for all N > 0. The first statement we present provides bounds on the second derivative. Its proof, given in Section 3.3.2, is based on the fact that the operator bm 1∂x + bm 2 
+
+> 2N
+
+∂2 
+
+> x
+
+on H2 (R+) with Dirichlet boundary condition has explicit eigenfunctions. 
+
+Lemma 3.6 (Bound on the second derivative) . Assume that (2.13) holds. Then, we have for all N ≥ λ m2 
+
+> m1
+
+and (t, x ) ∈ R2+
+
+∂2
+
+> x
+
+u(N )(t, x ) ≤ Dλ exp [ −bm 1λN t]
+
+ï
+
+exp ( −λx ) − exp 
+
+Å
+
+− 2N m 1
+
+m2
+
+λN
+
+λ x
+
+ãò 
+
+. (3.10) The second statement we present provides bounds for the third derivative. Its proof is presented in Section 3.3.3, and relies on classical heat kernel estimates. 
+
+Lemma 3.7 (Bound on the third derivative) . Assume that (2.13) holds. Then, we have for all N ≥ λ m2 
+
+> m1
+
+and (t, x ) ∈ R2+
+
+∂3
+
+> x
+
+u(N )(t, x ) ≤ Cλ exp [ −bm 1λN t − λx ] + 
+
+Å
+
+Cλ + Dλ
+
+2N m 1
+
+m2
+
+ã
+
+exp 
+
+ï
+
+−bm 1λN t − 2N m 1
+
+m2
+
+λN
+
+λ x
+
+ò
+
+.
+
+(3.11) 
+
+3.3 Proof of the auxiliary statements 
+
+We provide here the proofs of the statements presented in Section 3.2, except the one of Proposition 3.3 which is given Appendix B. In all this section, to simplify notations, we write 
+
+μ := bm 1, and σ2 
+
+> N
+
+:= bm 2
+
+N . (3.12) In particular, we have by (2.10) that 
+
+λN = λ
+
+Å
+
+1 − λσ 2
+
+> N
+
+2μ
+
+ã
+
+. (3.13) 
+
+3.3.1 Proof of Proposition 3.4 
+
+Let us fix N > 0. We consider for all (t, x ) ∈ R2+
+
+˜v(N )(t, x ) = 
+
+(n′′  
+
+> 0
+
+(x), if t = 0 ,
+
+(n′′  
+
+> 0
+
+∗ ΨN (t, . )) ( x) − exp 
+
+h
+
+− 2μσ2
+
+> N
+
+x
+
+i
+
+(n′′  
+
+> 0
+
+∗ ΨN (t, . )) ( −x), otherwise. (3.14) In view of Proposition 3.3, our aim is to prove that ˜v(N ) is a mild solution of (3.7) in the space C0  R+, H 10 (R+). To do so, first notice that as for any (f, h ) ∈ L1 (R+) × W 1,1 (R) it holds (f ∗ h)′ = f ∗ h′, we have for all (t, x ) ∈ R∗ 
+
+> +
+
+× R+ that 
+
+∂x ˜v(N )(t, x ) =  n′′  
+
+> 0
+
+∗ ∂xΨN (t, . ) (x) + exp 
+
+ï
+
+− 2μσ2
+
+> N
+
+x
+
+ò ï  n′′  
+
+> 0
+
+∗ ∂xΨN (t, . ) (−x)+ 2μσ2
+
+> N
+
+ n′′  
+
+> 0
+
+∗ ΨN (t, . ) (−x)
+
+ò
+
+,∂2 
+
+> x
+
+˜v(N )(t, x ) =  n′′  
+
+> 0
+
+∗ ∂2
+
+> x
+
+ΨN (t, . ) (x) − exp 
+
+ï
+
+− 2μσ2
+
+> N
+
+x
+
+ò ï  n′′  
+
+> 0
+
+∗ ∂2
+
+> x
+
+ΨN (t, . ) (−x)+ 4μσ2
+
+> N
+
+ n′′  
+
+> 0
+
+∗ ∂xΨN (t, . ) (−x) + 
+
+Å 2μσ2
+
+> N
+
+ã2  n′′  
+
+> 0
+
+∗ ΨN (t, . ) (−x)
+
+ò
+
+.
+
+10 Then, by doing a linear combination of the two above terms, we obtain for all (t, x ) ∈ R∗ 
+
+> +
+
+× R+
+
+μ∂ x ˜v(N )(t, x ) + σ2
+
+> N
+
+2 ∂2 
+
+> x
+
+˜v(N )(t, x ) = 
+
+Å
+
+n′′  
+
+> 0
+
+∗
+
+ï
+
+μ∂ xΨN (t, . ) + σ2
+
+> N
+
+2 ∂2
+
+> x
+
+ΨN (t, . )
+
+òã 
+
+(x)
+
+− exp 
+
+ï
+
+− 2μσ2
+
+> N
+
+x
+
+ò Å 
+
+n′′  
+
+> 0
+
+∗
+
+ï
+
+μ∂ xΨN (t, . ) + σ2
+
+> N
+
+2 ∂2
+
+> x
+
+ΨN (t, . )
+
+òã 
+
+(−x).
+
+(3.15) On the other hand, we have by (3.14) that the following holds, for all (t, x ) ∈ R∗ 
+
+> +
+
+× R+,
+
+∂t ˜v(N )(t, x ) =  n′′  
+
+> 0
+
+∗ ∂tΨN (t, . ) (x) − exp 
+
+ï
+
+− 2μσ2
+
+> N
+
+x
+
+ò  n′′  
+
+> 0
+
+∗ ∂tΨN (t, . ) (−x). (3.16) We also have since φ(s, y ) 7 → 1√4πs exp Ä− y2
+
+> 4s
+
+ä is the fundamental solution to the heat equation, and since ΨN (s, y ) = φ
+
+ σ2 
+
+> N
+> 2
+
+s, y + μs 
+
+
+
+for all (s, y ) ∈ R∗ 
+
+> +
+
+× R (see (3.8) and (3.12)), that ΨN
+
+verifies the following, for all (t, x ) ∈ R∗ 
+
+> +
+
+× R,
+
+∂tΨN (t, x ) = μ∂ xΨN (t, x ) + σ2
+
+> N
+
+2 ∂2
+
+> x
+
+ΨN (t, x ). (3.17) Then, by plugging (3.17) in (3.16), we obtain that the left-hand sides of (3.15) and (3.16) are equals, so that ˜v(N )(t, . ) verifies the first line of (3.7) when t > 0. It thus only remains to prove that v(N )(t, . ) is continuous at t = 0 with respect to the topology of H10 (R+), and we will have that v(N ) is a mild solution to (3.7) in C0  R+, H 10 (R+). To do so, notice that as ΨN (t, x ) = φ
+
+ σ2 
+
+> N
+> 2
+
+t, x + μt 
+
+
+
+for all (t, x ) ∈ R+ × R, and as φ is a classical mollifier kernel on R, we have (h ∗ ΨN (t, . )) ( y) → 
+
+> t→0+
+
+h(y) for all h ∈ C c (R), y ∈ R. This yields that for all f ∈ C c (R+), x ≥ 0, it holds (we take h = f 1R+ )
+
+lim 
+
+> t→0+
+
+ï
+
+(f ∗ ΨN (t, . )) ( x) − exp 
+
+ï
+
+− 2μσ2
+
+> N
+
+x
+
+ò
+
+(f ∗ ΨN (t, . )) ( −x)
+
+ò
+
+= f (x).
+
+Thanks to the dominated convergence theorem, one can obtain that the above convergence results also holds in the norm || .|| H1(R+). Then, as the space H10 (R+) is the closure of Cc (R+)
+
+in the space H1 (R+), we obtain from this last result and a density argument that v(N )(t, . ) is continuous at t = 0 , so that v(N ) is a mild solution to (3.7) in C0  R+, H 10 (R+).
+
+3.3.2 Proof of Lemma 3.6 
+
+Let N > 0. We consider the functions E(N ) and v(N ), defined for all (t, x ) ∈ R2+ as 
+
+E(N )(t, x ) = Dλ exp [ −μλ N t]
+
+ï
+
+exp ( −λx ) − exp 
+
+Å
+
+− 2μσ2
+
+> N
+
+λN
+
+λ x
+
+ãò 
+
+,v(N )(t, x ) = E(N )(t, x ) − v(N )(t, x ).
+
+Our aim is to prove that v(N ) is non-negative. Then, (3.10) will directly come from this last property. It is well-known that the solutions to the differential equation σ2 
+
+> N
+> 2
+
+y′′ + μy ′ + μλ N y = 0 are the functions of the form 
+
+y(x) = Ae r1x + Be r2x, ∀x ∈ R, (3.18) 11 where (A, B ) ∈ R2, and (r1, r 2) ∈ R2 are the roots of the polynomial P := σ2 
+
+> N
+> 2
+
+Id 2 + μId + μλ N .In addition, one can easily check in view of (3.13) that it holds 
+
+σ2
+
+> N
+
+2 (Id + λ)
+
+Å
+
+Id + 2μσ2
+
+> N
+
+λN
+
+λ
+
+ã
+
+= σ2
+
+> N
+
+2 Id 2 +
+
+Å
+
+μ λN
+
+λ + σ2
+
+> N
+
+2 λ
+
+ã
+
+Id + μλ N = σ2
+
+> N
+
+2 Id 2 + μId + μλ N = P, 
+
+so that r1 = −λ and r2 = − 2μσ2 
+
+> N
+> λN
+> λ
+
+. Therefore, by combining these equalities with the fact that x 7 → E(N )(t, x ) is of the form presented in (3.18) for all t ≥ 0, we obtain that E(N ) verifies 
+
+μ∂ xE(N ) + σ2
+
+> N
+
+2 ∂2
+
+> x
+
+E(N ) = −μλ N E(N ) = ∂tE(N ),
+
+so that this is an eigenfunction of the operator μ∂ x + σ2 
+
+> N
+> 2
+
+∂2
+
+> x
+
+. This yields, in view of (3.7), that v(N ) is a solution of 
+
+
+
+∂tv(N )(t, x ) = μ∂ xv(N )(t, x ) + σ2 
+
+> N
+> 2
+
+∂2
+
+> x
+
+v(N )(t, x ), ∀t ≥ 0, x ≥ 0,v(N )(t, 0) = 0 , ∀t ≥ 0,v(N )(0 , x ) = Dλ
+
+h
+
+exp ( −λx ) − exp 
+
+
+
+− 2μσ2 
+
+> N
+> λN
+> λ
+
+x
+
+i 
+
+− n′′  
+
+> 0
+
+(x), ∀x ≥ 0.
+
+(3.19) We thus only have to prove that a solution of (3.19) is non-negative and our lemma will be proved. The fact that v(0 , . ) is non-negative is trivial from the right-hand side of (2.13) and the following inequality, consequence of the fact that λ′ ≤ 2μσ2
+
+> N
+
+− 2λ and (3.13), 
+
+∀x ≥ 0 : − exp  −(λ + λ′)x ≤ exp 
+
+ï
+
+−
+
+Å 2μσ2
+
+> N
+
+− λ
+
+ã
+
+x
+
+ò
+
+= exp 
+
+ï
+
+− 2μσ2
+
+> N
+
+λN
+
+λ x
+
+ò
+
+.
+
+Hence, we focus on proving that v(t, . ) is non-negative for all t > 0. Notice that by adapting the proof of Proposition 3.4 to v(N ) instead of v(N ), we have for all (t, x ) ∈ R∗ 
+
+> +
+
+× R
+
+v(N )(t, x ) = Äv(N )(0 , . ) ∗ ΨN (t, . )ä (x) − exp 
+
+ï
+
+− 2μσ2
+
+> N
+
+x
+
+ò Äv(N )(0 , . ) ∗ ΨN (t, . )ä (−x)= 1
+
+σN
+
+√2πt 
+
+∫ +∞
+
+> 0
+
+Ç
+
+exp 
+
+ñ
+
+− (x − y + μt )2
+
+2σ2 
+
+> N
+
+t
+
+ô
+
+− exp 
+
+ñ
+
+− (−x − y + μt )2 + 4 μtx 
+
+2σ2 
+
+> N
+
+t
+
+ôå 
+
+v(N )(0 , y )d y. 
+
+(3.20) Notice also that for all (t, x, y ) ∈ R3+, it holds 
+
+(−x − y + μt )2+4 μtx = x2+y2+( μt )2+2 xy +2 μtx −2μty = ( x − y + μt )2+4 xy ≥ (x − y + μt )2 .
+
+By combining the above and the fact that v(0 , . ) is non-negative with (3.20), we have that v(N )(t, . ) is the integral of a non-negative function for all t > 0. Hence, v(N )(t, . ) is non-negative for all t > 0, and so (3.10) is true. 
+
+3.3.3 Proof of Lemma 3.7 
+
+The fact that (3.11) is true when t = 0 is trivial from the left-hand side of (2.13). Hence, we focus in this proof in proving (3.11) when t > 0. Notice that as n′′  
+
+> 0
+
+∈ H10 (R+) ∩ W 1,1 (R+)
+
+by (2.13), we have by using Proposition 3.4 (we recall that v(N ) = ∂2
+
+> x
+
+u(N )) and the fact that (f ∗ h)′ = f ′ ∗ h when (f, h ) ∈ W 1,1 (R+)×L1 (R) and f (0) = 0 that for all (t, x ) ∈ R∗ 
+
+> +
+
+×R+
+
+∂3
+
+> x
+
+u(N )(t, x ) =  n′′′  
+
+> 0
+
+∗ ΨN (t, . ) (x)+ exp 
+
+Å
+
+− 2μσ2
+
+> N
+
+x
+
+ã ï  n′′′  
+
+> 0
+
+∗ ΨN (t, . ) (−x) + 2μσ2
+
+> N
+
+ n′′  
+
+> 0
+
+∗ ΨN (t, . ) (−x)
+
+ò
+
+. (3.21) 12 Thus, to obtain (3.11), we only have to bound from above each of the three above convolutions, and then to combine these bounds. Let us do it. We begin by bounding the first term of (3.21). First, we develop the convolution by using the first equality in (3.9), and apply the left-hand side of (2.13) to bound n′′′  
+
+> 0
+
+. Thereafter, we develop the integrand in view of the equality − 12 (c − a)2 − ad = − 12 (c − a − d)2 + 12 d2 − cd 
+
+for c = x+μt σN 
+
+> √t
+
+, a = yσN 
+
+> √t
+
+and d = λσ N
+
+√t. Finally, we apply the following inequality, for all z ∈ R,
+
+1
+
+σN
+
+√2πt  
+
+> ∫+∞
+> 0
+
+exp 
+
+ñ
+
+− 12
+
+Å z − yσN
+
+√t
+
+ã2ô
+
+dy ≤ 1
+
+σN
+
+√2πt 
+
+> ∫
+> R
+
+exp 
+
+ñ
+
+− 12
+
+Å z − yσN
+
+√t
+
+ã2ô
+
+dy = 1 ,
+
+and use (3.13) to make appear λN . We obtain that for all (t, x ) ∈ R∗ 
+
+> +
+
+× R+
+
+ n′′′  
+
+> 0
+
+∗ ΨN (t, . ) (x) ≤ Cλ
+
+σN
+
+√2πt  
+
+> ∫+∞
+> 0
+
+exp 
+
+ñ
+
+− 12
+
+Å x − y + μt σN
+
+√t
+
+ã2
+
+− λy 
+
+ô
+
+dy
+
+= Cλ
+
+σN
+
+√2πt  
+
+> ∫+∞
+> 0
+
+exp 
+
+ñ
+
+− 12
+
+Å x − y + μt − λσ 2 
+
+> N
+
+tσN
+
+√t
+
+ã2
+
++ λ2σ2 
+
+> N
+
+t
+
+2 − λ (μt + x)
+
+ô
+
+dy
+
+≤ Cλ exp 
+
+ï λ2σ2 
+
+> N
+
+t
+
+2 − λ (μt + x)
+
+ò
+
+= Cλ exp [ −μλ N t − λx ] .
+
+(3.22) We now bound from above the two other convolutions in (3.21). To do so, we only have to do the same steps as those done to obtain (3.22), replacing μt + x with μt − x, and using the right-hand side of (2.13) for the last convolution instead of the left-hand side. We obtain that for all (t, x ) ∈ R∗ 
+
+> +
+
+× R+
+
+ n′′′  
+
+> 0
+
+∗ ΨN (t, . ) (−x) ≤ Cλ exp 
+
+ï λ2σ2 
+
+> N
+
+t
+
+2 − λ (μt − x)
+
+ò
+
+= Cλ exp [ −μλ N t + λx ] ,
+
+ n′′  
+
+> 0
+
+∗ ΨN (t, . ) (−x) ≤ Dλ exp [ −μλ N t + λx ] .
+
+(3.23) It thus only remains to combine the three bounds obtained in (3.22) and (3.23), and the lemma will be proved. To do this, we first use the triangular inequality, and then the following equality, that comes from (3.13), to simplify the two last terms, for all (t, x ) ∈ R2+,
+
+exp 
+
+Å
+
+− 2μσ2
+
+> N
+
+x
+
+ã
+
+exp [ −μλ N t + λx ] = exp 
+
+ï
+
+−μλ N t − 2μσ2
+
+> N
+
+λN
+
+λ x
+
+ò
+
+.
+
+We obtain the following inequality, which concludes the proof, for all (t, x ) ∈ R∗ 
+
+> +
+
+× R,
+
+∂3
+
+> x
+
+u(N )(t, x ) ≤ Cλ exp [ −μλ N t − λx ] + 
+
+Å
+
+Cλ + Dλ
+
+2μσ2
+
+> N
+
+ã
+
+exp 
+
+ï
+
+−μλ N t − 2μσ2
+
+> N
+
+λN
+
+λ x
+
+ò
+
+.
+
+3.4 Proof of Theorem 2.4 
+
+In this section, we present the proof of Theorem 2.4. First, we present the proof of the first statement of the theorem in Section 3.4.1. Then, we prove the second statement in Section 3.4.2. 
+
+3.4.1 Proof of Theorem 2.4-(a) 
+
+This proof is inspired by the proof of [27, Proposition 3.2-(a)]. Let us fix N > 0, and let us write to simplify notations g(d v) = g (v) d v. Our aim is to control the absolute value 13 of u(N ) := n(N ) − u(N ). We thus need to find the equation verified by u(N ) to obtain this bound. To do so, we first take the difference between the first lines of (2.2) and (2.7). Then, we use that n(N ) = u(N ) + u(N ) to develop the term n(N ) in the integral. Finally, we use the two following equalities to put the terms with derivatives in the integral, for all (t, x ) ∈ R2+,
+
+bm 1∂xu(N )(t, x ) = bN 
+
+∫ δ
+
+> 0
+
+vN g(v)d v∂ xu(N )(t, x ),bm 2
+
+2N ∂2
+
+> x
+
+u(N )(t, x ) = bN 
+
+∫ δ
+
+> 0
+
+v2
+
+2N 2 g(v)d v∂ 2
+
+> x
+
+u(N )(t, x ).
+
+We obtain that u(N ) verifies for all (t, x ) ∈ R2+
+
+∂tu(N )(t, x ) = bN 
+
+∫ δ
+
+> 0
+
+h
+
+n(N ) 
+
+t, x + vN
+
+
+
+− n(N )(t, x )
+
+i
+
+g (d v) −bm 1∂xu(N )(t, x ) − bm 2
+
+2N ∂2
+
+> x
+
+u(N )(t, x )= bN 
+
+∫ δ
+
+> 0
+
+h
+
+u(N ) 
+
+t, x + vN
+
+
+
+− u(N )(t, x )
+
+i
+
+g (d v) + bN 
+
+∫ δ
+
+> 0
+
+h
+
+u(N ) 
+
+t, x + vN
+
+
+
+− u(N )(t, x ) − vN ∂xu(N )(t, x ) − v2
+
+2N 2 ∂2
+
+> x
+
+u(N )(t, x )
+
+i
+
+g (d v) . (3.24) Thanks to this equation, we are now able to obtain an analytical expression for u(N ). In order to write this expression, we consider for all (s, y ) ∈ R2+
+
+HN (s, y ) := bN 
+
+∫ δ
+
+> 0
+
+h
+
+u(N ) 
+
+s, y + vN
+
+
+
+− u(N )(s, y ) − vN ∂xu(N )(s, y ) − v2
+
+2N 2 ∂2
+
+> x
+
+u(N )(s, y )
+
+i
+
+g (d v)= b
+
+2N 2
+
+∫ δ
+
+> 0
+
+ï∫ 10
+
+(1 − w)2∂3
+
+> x
+
+u(N ) 
+
+s, y + w vN
+
+
+
+dw
+
+ò
+
+v3g (d v) , (3.25) where the last equality comes from a Taylor expansion with remainder in integral form. By Lemma 3.7, we have for all (s, y ) ∈ R2+ that 
+
+HN (s, y ) ≤ b
+
+2N 2
+
+∫ δ
+
+> 0
+
+ï∫ 10
+
+(1 − w)2
+
+Å
+
+Cλ exp [ −bm 1λN s − λy ] + 
+
+ï
+
+Cλ + Dλ
+
+2N m 1
+
+m2
+
+ò
+
+× exp 
+
+ï
+
+−bm 1λN s − 2N m 1
+
+m2
+
+λN
+
+λ y
+
+ò ã 
+
+dw
+
+ò
+
+v3g (d v)= bm 3
+
+6N 2 exp [ −bm 1λN s]
+
+Å
+
+Cλ exp ( −λy ) + 
+
+ï
+
+Cλ + 2N m 1
+
+m2
+
+Dλ
+
+ò
+
+exp 
+
+ï
+
+− 2N m 1
+
+m2
+
+λN
+
+λ y
+
+òã 
+
+.
+
+(3.26) Therefore, by plugging (3.25) in (3.24) to obtain an equation of the form given in (3.1), and then applying Lemma 3.1 for the equation we have obtained, we get that for all (t, x ) ∈ R2+
+
+u(N )(t, x ) = 
+
+∫ t
+
+> 0
+
+ΦN (HN (s, . )) ( t − s, x ) d s. (3.27) Our aim is to use the above analytical expression to bound u(N ). By applying Lemma 3.2 to bound (3.27) in view of (3.26), and then using the left-hand side of (2.10) to make ap-pear −bm 1λN (t − s) in the first exponential, we have for all (t, x ) ∈ R2+ that 
+
+u(N )(t, x ) ≤ bm 3
+
+6N 2
+
+∫ t
+
+> 0
+
+exp [ −bm 1λN s]
+
+Å
+
+Cλ exp [ −bm 1λN (t − s) − λx ] + 
+
+ï
+
+Cλ + 2N m 1
+
+m2
+
+Dλ
+
+ò
+
+× exp 
+
+ï
+
+−bN 
+
+ï
+
+1 − L (g)
+
+Å 2m1λN
+
+m2λ
+
+ãò 
+
+(t − s) − 2N m 1
+
+m2
+
+λN
+
+λ x
+
+ò ã 
+
+ds. (3.28) 14 Then, as it holds for all t ≥ 0
+
+∫ t
+
+> 0
+
+exp [ −bm 1λN s − bm 1λN (t − s) − λx ] d s = t exp [ −bm 1λN t − λx ] , (3.29) we only have to bound the second term in the sum in the right-hand side of (3.28) to prove (2.14). To obtain this bound, notice that for all (t, a, d ) ∈ R2+, it holds when d 
+
+> 2
+
+≤ a
+
+∫ t
+
+> 0
+
+exp [ −as − d(t − s)] d s ≤
+
+∫ t
+
+> 0
+
+exp 
+
+ï
+
+− d
+
+2 s − d(t − s)
+
+ò
+
+ds = e− d  
+
+> 2t
+
+− e−dt d
+
+> 2
+
+≤ 2e− d 
+
+> 2t
+
+d , (3.30) and it holds when d 
+
+> 2
+
+> a 
+
+∫ t
+
+> 0
+
+exp [ −as − d(t − s)] d s = e−at − e−dt 
+
+d − a ≤ e−at − e−dt 
+
+d − d
+
+> 2
+
+≤ 2e−at 
+
+d . (3.31) Then, by applying (3.30) and (3.31) for a = bm 1λN and d = bN î1 − L (g) Ä 2m1λN
+
+> m2λ
+
+äó , and thereafter plugging what we get and (3.29) in (3.28), we obtain that (2.14) is true for the constants c1 = c2 = Cλbm 3 
+
+> 6
+
+and c3 = Dλbm 1m3 
+
+> 3m2
+
+.
+
+3.4.2 Proof of Theorem 2.4-(b) 
+
+Let N > 0. In view of the second line of (2.2), the third line of (2.7), and the triangular inequality, we have for all t ≥ 0 that 
+
+n(N ) 
+
+> ∂
+
+(t) − u(N ) 
+
+> ∂
+
+(t) ≤ b
+
+∫ δ
+
+> 0
+
+h
+
+n(N ) 
+
+t, vN
+
+
+
+− u(N ) 
+
+t, vN
+
+i 
+
+(1 − G(v)) d v
+
++ b
+
+∫ δ
+
+> 0
+
+u(N ) 
+
+t, vN
+
+
+
+(1 − G(v)) d v − bm 1u(N )(t, 0) − bm 2
+
+2N ∂xu(N )(t, 0) .
+
+(3.32) Our aim is to bound each of the two terms that compose the right-hand side of (3.32). To do this, our first step is to bound the first of these terms, and obtaining a better expression for the second one. To control the first term, we first apply Theorem 2.4-(a), and then use the fact that ∫ δ 
+
+> 0
+
+(1 − G(v))d v = m1 (obtained by integration by part) to simplify the bound. To develop the second one, we first put u(N )(t, 0) and ∂xu(N )(t, 0) in the integral, by using that ∫ δ 
+
+> 0
+
+(1 − G(v))d v = m1 and ∫ δ 
+
+> 0
+
+v(1 − G(v))d v = m2 
+
+> 2
+
+, and then use a Taylor expansion to develop u(N )  s, vN
+
+ − u(N )(t, 0) − vN ∂xu(N )(t, 0) . We obtain that for all t ≥ 0
+
+n(N ) 
+
+> ∂
+
+(t) − u(N ) 
+
+> ∂
+
+(t) ≤ b
+
+Å c1tN 2 exp [ −bm 1λN t] + 1
+
+CN
+
+ c2
+
+N 3 + c3
+
+N 2
+
+
+
+exp [ −βN t]
+
+ã ∫ δ
+
+> 0
+
+(1 − G(v))d v
+
++ b
+
+∫ δ
+
+> 0
+
+h
+
+u(N ) 
+
+s, vN
+
+
+
+− u(N )(t, 0) − vN ∂xu(N )(t, 0) 
+
+i
+
+(1 − G(v)) d v
+
+= bm 1c1tN 2 exp [ −bm 1λN t] + bm 1
+
+CN
+
+ c2
+
+N 3 + c3
+
+N 2
+
+
+
+exp [ −βN t] (3.33) 
+
++ b
+
+∫ δ
+
+> 0
+
+ï∫ 10
+
+(1 − w) ∂2
+
+> x
+
+u(N ) 
+
+t, w vN
+
+ v2
+
+N 2 dw
+
+ò
+
+(1 − G(v)) d v .
+
+It thus only remains to bound the last term of (3.33), and Theorem 2.4-(b) will be proved. To do so, we first apply Lemma 3.6 to bound ∂2
+
+> x
+
+u(N )  t, w vN
+
+ by Dλ exp [ −bm 1λN t]. Then, we use the equalities ∫ 10 (1 − w) d w = 12 and ∫ δ 
+
+> 0
+
+v2(1 − G(v))d v = m3 
+
+> 3
+
+. We obtain that (2.15) is true for the constants c1, c2 and c3 defined at the end of Section 3.4.1, and c4 = Dλbm 3 
+
+> 6
+
+.15 4 Estimation with the Gaver-Stehfest algorithm 
+
+In this section, we use the theoretical results presented in Section 2.3 to solve our inverse problem. First, in Section 4.1, we present the estimator we have constructed in the case where we have noise-free data, and check its quality of estimation on simulated data. Then, in Section 4.2, we do the same in the case where there is noise related to sampling in our data. 
+
+4.1 Estimation on noise-free data 
+
+In this section, we assume that we observe perfectly the cemetery n(N ) 
+
+> ∂
+
+, where N > 0. Our aim is to retrieve n0 from this observation. This setting is not realistic, since in practice, there is always noise on n(N ) 
+
+> ∂
+
+. However, this study has an interest since it allows us to present the best estimation of n0 we can have with our inference method. First, in Section 4.1.1, we construct an estimator of n0 from n(N ) 
+
+> ∂
+
+based on Proposition 2.5. Then, in Section 4.1.2, we show estimations results with this estimator. Finally, in Section 4.1.3, we study the limitations of this estimator. 
+
+4.1.1 Estimator of n0 on noise-free data 
+
+The fact that n(N ) 
+
+> ∂
+
+can be approximated by u(N ) 
+
+> ∂
+
+for all N > 0 (see (2.15)), and that the Laplace transform of n0 can be computed thanks to the Laplace transform of u(N ) 
+
+> ∂
+
+(see Proposition 2.5), gives us the intuition that we can estimate n0 from n(N ) 
+
+> ∂
+
+by doing a Laplace transform inversion. Precisely, in view of (2.16), our aim is to invert the Laplace transform of the following function to estimate n0
+
+p ∈ P N 7 →
+
+ñ
+
+1 + p bm 1
+
+(bm 1)2 2 Nbm 2 + qN (p)
+
+ô
+
+L Än(N )
+
+> ∂
+
+ä (qN (p)) .
+
+Different numerical methods exist to invert Laplace transforms [12]. A large part of them are inspired by either the Bromwich integral formula (see Fourier series method [1], Talbot’s method [38]), or the Post–Widder formula (see Gaver-Stehfest algorithm [18, 36, 37], Jagerman’s method [21]). To recall, in view of [41, Theorem 7.3, p.66], the Bromwich integral formula states that for all f ∈ L1 
+
+> loc
+
+(R+) continuous with local bounded variations, it holds for all γ > R(f )
+
+and x > 0
+
+f (x) = 12πi  
+
+> ∫η+i∞
+> η−i∞
+
+L(f )( p)epx dp. (4.1) The Post-Widder formula, given in [41, Theorem 6.a , p.288], states for its part that for all 
+
+f ∈ L1 (R+) continuous and x > 0, it holds 
+
+f (x) = lim 
+
+> n→+∞
+
+(−1) n
+
+n!
+
+ nx
+
+n+1 
+
+L(n)(f )
+
+ nx
+
+
+
+. (4.2) Due to the fact that it is required to compute or approximate the n-th derivative of L(f )
+
+to use a method based on the Post-Widder formula, these methods are often less stable nu-merically. In our case, we have a link between the Laplace transform on the sets (PN )N > 0
+
+instead of the full complex plane, see Proposition 2.5. These sets do not have an interval of the form [γ − i∞, γ + i∞], where γ ∈ R, as illustrated in Figure 1. Thus, in view of (4.1), methods based on the Bromwich integral formula are more difficult to apply in our context. As a result, we use a method based on the Post-Widder formula, even if it is less stable. 16 50 0 50 100 150 200 250 300     
+
+> Re(p)
+> 300
+> 200
+> 100
+> 0
+> 100
+> 200
+> 300
+> Im(p)
+> N(1, 3)
+> x = 30 x = 135 x = 240
+
+(a) Representation when (α, β ) = ( −1, −3) .50 0 50 100 150 200 250 300      
+
+> Re(p)
+> 300
+> 200
+> 100
+> 0
+> 100
+> 200
+> 300
+> Im(p)
+> N(2, 1)
+> x = 30 x = 135 x = 240
+
+(b) Representation when (α, β ) = ( −2, −1) .
+
+Figure 1: Representation of the set QN (α, β ) = {p ∈ C | Re (p) > α, Re (qN (p)) > β } (in red) for different values of (α, β ) ∈ (R−)2, and comparison with vertical lines (in blue), when b = 1 ,
+
+g = 1 [0 ,1] and N = 40 . We see that as the sets (QN (α, β )) (α,β )∈(R−)2 have a conical shape, they do not contain vertical lines. Since the set PN defined in (2.12) has the same form as the sets (QN (α, β )) (α,β )∈(R−)2 , this figure illustrates that PN does not contain an interval of the form [γ − i∞, γ + i∞], where γ ∈ R.
+
+The most famous numerical method to invert Laplace transforms based on the Post-Widder formula is the Gaver-Stehfest algorithm [18, 36, 37]. This algorithm has the advantage of being easy to implement, and very accurate when the Laplace transform is explicit. In addition, theoretical results exist to justify the quality of this method [22, 23]. This method states that for all f ∈ L1 (R+) continuous with local bounded variations, we can invert L(f ) by using the following formula (see [22, Theorem 1]) 
+
+lim 
+
+> K→+∞
+
+log(2) 
+
+x
+
+> 2K
+
+∑
+
+> n=1
+
+(−1) n+K
+
+K!
+
+> min( n,K )
+
+∑
+
+> j=
+
+⌊ n+1 2 ⌋
+
+jK+1 
+
+ÇKj
+
+åÇ 2jj
+
+åÇ jn − j
+
+å
+
+L(f )
+
+Å
+
+n log(2) 
+
+x
+
+ã
+
+= f (x). (4.3) The main idea behind this algorithm is to compute finite differences instead of the derivatives stated in (4.2), and to use a convergence acceleration method to speed up the inversion. We refer to [22] for more information. In the current article, we propose to use this algorithm to estimate n0. Specifically, in view of (2.16) and (4.3), we would like to use the following estimator to estimate n0 from n(N ) 
+
+> ∂
+
+, where N > 0, that depends on a parameter K ∈ N∗ (chosen as large as numerical stability allows, see Appendix D), 
+
+∀x > 0 : bn(N,K )0 (x) = log(2) 
+
+x
+
+> 2K
+
+∑
+
+> n=1
+
+(−1) n+K
+
+K!
+
+> min( n,K )
+
+∑
+
+> j=
+
+⌊ n+1 2 ⌋
+
+jK+1 
+
+ÇKj
+
+åÇ 2jj
+
+åÇ jn − j
+
+å
+
+×
+
+1 + n log(2) 
+
+xbm 1
+
+(bm 1)2 2 Nbm 2 + qN
+
+Än log(2) 
+
+> x
+
+ä
+
+ L Än(N )
+
+> ∂
+
+ä Å
+
+qN
+
+Å
+
+n log(2) 
+
+x
+
+ãã 
+
+.
+
+(4.4) No theoretical result providing a bound on the error between bn(N,K )0 and n0 has been obtained for the moment. This corresponds to a work actually in progress. However, we can still check on simulations if this estimator has good estimation results or not. This is what we do in the next sections. 17 4.1.2 Estimation results on noise-free data 
+
+We begin by introducing for which functions n0 we check the quality of our estimator. We define for all (ℓ, β ) ∈  R∗
+
+> +
+
+2 the following function, for all x ≥ 0,
+
+hℓ,β (x) := βℓ
+
+Γ( ℓ) xℓ−1 exp ( −βx ) . (4.5) This function corresponds to the probability density function of a Gamma distribution with parameter (ℓ, β ). In the estimations presented here, we choose n0 belonging to the set hℓ,β | (ℓ, β ) ∈ N∗ × R∗
+
+> +
+
+, ℓ ≥ 4 for three reasons. The first reason is that the following proposition holds for such initial distribution. It allows us to compute (4.4) without having to do a numerical approximation of the Laplace transform and it is proved in Appendix C. 
+
+Proposition 4.1. Assume that there exists (ℓ, β ) ∈ N∗ × R∗ 
+
+> +
+
+such that n0 = hℓ,β . Then, for all N > 0, there exist (a0,N , . . . , a ℓ−1,N ) ∈  R∗
+
+> +
+
+ℓ and ˜βN > 0, such that for all p ∈ C
+
+verifying Re (p) > −bm 1 ˜βN
+
+L Än(N )
+
+> ∂
+
+ä (p) = 
+
+> ℓ−1
+
+∑
+
+> i=0
+
+ai,N 
+
+i!
+
+ p + bm 1 ˜βN
+
+i+1 . (4.6) 
+
+Moreover, (a0,N , . . . , a ℓ−1,N ) and βN can be explicitly computed thanks to b, N , and the sets of functions  L(g)Id i 
+
+> j∈J0,ℓ −1K
+
+and  L  (1 − G) Id i  
+
+> j∈J0,ℓ −1K
+
+restricted on R∗
+
+> +
+
+.
+
+Remark 4.2. When g = 1 
+
+> δ
+
+1[0 ,δ ], we can obtain an explicit form for the functions in the sets  L  gId j   
+
+> j∈J0,ℓ −1K
+
+and  L  (1 − G) Id j  
+
+> j∈J0,ℓ −1K
+
+. For example, in view of [20, p. 137 ], one has that for all j ∈ J0, ℓ − 1K, β > 0,
+
+L  gId j  (β) = 1
+
+δ
+
+∫ δ
+
+> 0
+
+xj exp ( −βx ) d x = j!
+
+βj+1 
+
+"
+
+1 −
+
+> j
+
+∑
+
+> i=0
+
+(βx )i
+
+i! exp ( −βx )
+
+#
+
+.
+
+For  L  (1 − G) Id j  
+
+> j∈J0,ℓ −1K
+
+, a similar argument can be done since G = 1 
+
+> δ
+
+Id 1[0 ,δ ]. However, the formula is slightly more complicated. 
+
+The second reason we use the functions in the set hℓ,β | (ℓ, β ) ∈ N∗ × R∗
+
+> +
+
+, ℓ ≥ 4 is that they are unimodal, so biologically relevant, see [42]. The last reason is that the assumptions of Theorem 2.4 and Proposition 2.5 are verified for n0 = hℓ,β when ℓ ≥ 4, β > 0. This can be easily obtained from the fact that by the Leibniz’s formula and the change of variable j′ = ℓ − 1 − j,it holds for all n ∈ J1, ℓ − 1K, and x ≥ 0dn
+
+dxn hℓ,β (x) = βℓ
+
+(ℓ − 1)! 
+
+> n
+
+∑
+
+> j=0
+
+Çnj
+
+å ï (ℓ − 1)! (ℓ − 1 − j)! xℓ−1−j
+
+ò î(−β)n−j exp ( −βx )ó
+
+=
+
+> ℓ−1
+
+∑
+
+> j′=ℓ−1−n
+
+(−1) n−(ℓ−1)+ j′
+
+Ç nℓ − 1 − j′
+
+å (β)n+j′+1 
+
+j′! xj′
+
+exp ( −βx ) .
+
+(4.7) and from the fact that for all j′ ≥ 1, λ ∈ (0 , β ) and λ′ > 0, there exists Cj′,λ,λ ′ > 0 such that 
+
+∀x ≥ 0 : xj′
+
+exp( −βx ) ≤ Cj′,λ,λ ′ exp( −λx )  1 − exp( −λ′x) .
+
+Remark 4.3. To recall, in view of (4.5) and [17, p. 109 ], the coefficient of variation of the distribution associated to n0 = hℓ,β , where (ℓ, β ) ∈ N∗ × R∗
+
+> +
+
+, is equal to ℓ− 12 .
+
+18 We now proceed to the estimations. First, we fix for model parameters N = 40 , b = 1 
+
+and g = 1 [0 ,1] , which are the parameters we used in [27]. The scaling parameter has been chosen to be N = 40 because this is the more realistic value for the budding yeast, see [27, Section 2.3]. This species is the one that motivates our study. Then, for n0 ∈ { h9,12 , h 16 ,16 , h 25 ,30 , h 49 ,50 }, we compute the Laplace transform of n(N )
+
+∂ thanks to (4.6), and use it to retrieve n0 by using bn(1 ,N )0
+
+defined in (4.4), for K = 250 . We plot in Figure 2 the estimated curves of n0 (in red), and com-pare them with their associated theoretical curve (in black), and the estimator of n0 constructed in [27] (in blue). To recall, this estimator is defined for all x ≥ 0 as bn(old ,N )0 (x) := 1
+
+bm 1 n(N )
+
+∂
+
+Ä xbm 1
+
+ä.We observe in Figure 2 that the estimations obtained with bn(N,K )0 are much more satisfactory than the ones with bn(old ,N )0 . In particular, the diffusivity of n0 is each time well-estimated with bn(N,K )0 , which is not the case for the estimator bn(old ,N )0 (we refer to [27, Section 5.1.2] to know why). Our new estimator seems thus to improve the estimation obtained with bn(old ,N )0 .0 1 2 3 4 5      
+
+> Telomere length
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> 1.25
+> 1.50
+> 1.75
+> Density
+> Estimation with n(old, N)0
+> Estimation with n(1, N,K)0
+> Curve of n0
+
+(a) Estimation for n0 = h9,12 .0.0 0.5 1.0 1.5 2.0 2.5 3.0 3.5        
+
+> Telomere length
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> 1.25
+> 1.50
+> Density
+> Estimation with n(old, N)0
+> Estimation with n(1, N,K)0
+> Curve of n0
+
+(b) Estimation for n0 = h16 ,16 .0 1 2 3 4      
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> Density
+> Estimation with n(old, N)0
+> Estimation with n(1, N,K)0
+> Curve of n0
+
+(c) Estimation for n0 = h25 ,30 .0 1 2 3 4 5       
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> 3.0
+> Density
+> Estimation with n(old, N)0
+> Estimation with n(1, N,K)0
+> Curve of n0
+
+(d) Estimation for n0 = h49 ,50 .
+
+Figure 2: Estimation results with the estimator bn(N,K )0 defined in (4.4) when b = 1 , g = 1 [0 ,1] ,
+
+N = 40 , K = 250 and n0 ∈ { h9,12 , h 16 ,16 , h 25 ,30 , h 49 ,50 }. Comparison with the results obtained with the estimator bn(old ,N )0 (x) = 1
+
+bm 1 n(N )
+
+∂
+
+Ä xbm 1
+
+ä for all x ≥ 0, constructed in [27]. For plotting the curves, the numerical precision of the computations was set to 200 digits. 
+
+To illustrate that the improvement observed in Figure 2 is related to the fact that we have constructed our new estimator with a finer model approximation, we now fix for initial distribution n0 = h16 ,16 . Then, we proceed to estimations with both bn(old ,N )0 and bn(N,K )0 for the same parameters b, g and K as before, and for N ∈ { 1 + 4 ℓ | ℓ ∈ J0, 25 K}. We plot in Figure 3 the estimation errors in L1-norm we have obtained as a function of N , at the logarithm scale, in blue and red respectively. We observe that the estimation error of bn(N,K )0 goes more quickly to 0 when N → +∞. In particular, we show in this figure that there exists C1 > 0,estimated with a constrained least-squares regression on the last error points, such that the 19 curve of bn(old ,N )0 − n0 L1(R+) as a function of N decreases to 0 at a speed similar to the one of the function N ∈ R∗ 
+
+> +
+
+7 → C1 
+
+> N
+
+. Similarly, there exists C2 > 0 estimated with the same method, such that the curve of bn(1 ,N,K )0 − n0 L1(R+) as a function of N decreases to 0 at a speed similar to the curve of the function N ∈ R∗ 
+
+> +
+
+7 → C2  
+
+> N2
+
+. This is coherent with the fact that the model approximation used to bn(old ,N )0 decreases to 0 at a speed of the order 1 
+
+> N
+
+(see [27, Proposition 3.2]), and that the one to construct bn(1 ,N,K )0 decreases to 0 at a speed 1  
+
+> N2
+
+(see Theorem 2.4). For the estimator bn(old ,N )0 , we have been able to obtain a theoretical result that bn(old ,N )0 and n0 decreases at a speed 1 
+
+> N
+
+in [27, Theorem 2.7]. As said in Section 4.1.1, obtaining a theoretical result on the error between bn(old ,N )0 and n0 corresponds to a work in progress. We can however already conjecture from Figure 3 that this error decreases at a speed 1  
+
+> N2
+
+.10 0 10 1 10 2           
+
+> Scaling parameter
+> 10 3
+> 10 2
+> 10 1
+> 10 0
+> 10 1
+> Error L 1-norm
+> Errors for n(old, N)0
+> Errors for n(N,K)0
+> y=C1/N
+> y=C2/N2
+
+Figure 3: Evolutions of the estimation errors in L1-norm of bn(N,K )0 and bn(old ,N )0 as a function of N ∈ { 1 + 4 ℓ | ℓ ∈ J0, 25 K}, when b = 1 , g = 1 [0 ,1] , N = 40 , K = 250 and n0 = h9,12 .Comparison with the curves of the functions N ∈ R∗ 
+
+> +
+
+7 → C1 
+
+> N
+
+and N ∈ R∗ 
+
+> +
+
+7 → C2  
+
+> N2
+
+, where C1 > 0
+
+and C2 > 0 are estimated thanks to a constrained least-squares regression on the last error points. For plotting the curves, the numerical precision of the computations was set to 200 digits. 
+
+4.1.3 Difficulties of estimation for a very small initial variability 
+
+In [27, Section 5.1.2], we have shown that the estimation with bn(old ,N )0 does not work well when n0 corresponds to the density function of a distribution with a small variability and N = 40 . What we called small variability in this article was when n0 is associated to a coefficient of variation of the order of 0.15 − 0.2. Then, in the current work, we have shown in Figures 2c and 2d that when n0 has a coefficient of variation of this order, see Remark 4.3, our new estimator bn(N,K )0 allows us to manage this issue when K ∈ N∗ is large. It thus remains to check how the quality of estimation evolves when n0 has a coefficient of variation of a smaller order than the one studied in [27, Section 5.1.2], notably to study the limitations of our esti-mator. To check this, we have done exactly the same protocol as in Section 4.1.2, this time for the initial distribution n0 ∈ { h100 ,120 , h 225 ,200 , h 324 ,330 , h 400 ,500 }. In view of Remark 4.3, these cases corresponds to initial distribution with coefficient of variation 1/10 = 0 .1, 1/15 ≈ 0.067 ,
+
+1/18 ≈ 0.056 and 1/20 = 0 .05 , so are of the order of 0.05 − 0.1. The estimation results we have obtained with this protocol are plotted in Figure 4. What we observe is that the estimation obtained with bn(N,K )0 are less satisfactory than in Figure 2, specially in Figures 4c and 4d. Specifically, we observe in Figure 4 that the smaller the coefficient of variation of the initial distribution is, the poorer the estimation of the position of the mode and the asymmetry of the curve becomes. In addition, a part of the estimated curve is negative for the estimations 20 with bn(N,K )0 in Figure 4, and the negative part of increases when the coefficient of variation of the distribution associated to n0 decreases. In Figures 4a and 4b, the error on the estimation of the mode of the curve is not dramatically poor, the negative part of bn(N,K )0 is very small, and the estimations with bn(N,K )0 clearly improve the estimations obtained with bn(old ,N )0 . Our estimator stays therefore useful in this context (coefficients of variation of 0.1 and 0.067 ), even it is not perfect. In Figures 4c and 4d, which corresponds to estimation of initial distribution with coefficients of variation 0.056 and 0.05 , the estimation of the mode of the curve is not satis-factory at all, and the negative part quite large. Our new estimator seems thus not very reliable when the coefficient of variation of the initial distribution is very small. We however mention that this limitation of our estimator is not critical. Indeed, having such a small coefficient of variation for the initial distribution is not biologically relevant, see [42]. 0.0 0.5 1.0 1.5 2.0 2.5       
+
+> Telomere length
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> Density
+> Estimation with n(old, N)0
+> Estimation with n(1, N,K)0
+> Curve of n0
+
+(a) Estimation for n0 = h100 ,120 .0.0 0.5 1.0 1.5 2.0 2.5 3.0 3.5        
+
+> Telomere length
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> Density
+> Estimation with n(old, N)0
+> Estimation with n(1, N,K)0
+> Curve of n0
+
+(b) Estimation for n0 = h225 ,200 .0.0 0.5 1.0 1.5 2.0 2.5 3.0       
+
+> Telomere length
+> 1
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> 7
+> Density
+> Estimation with n(old, N)0
+> Estimation with n(1, N,K)0
+> Curve of n0
+
+(c) Estimation for n0 = h324 ,330 .0.0 0.5 1.0 1.5 2.0 2.5        
+
+> Telomere length
+> 2
+> 0
+> 2
+> 4
+> 6
+> 8
+> 10
+> Density
+> Estimation with n(old, N)0
+> Estimation with n(1, N,K)0
+> Curve of n0
+
+(d) Estimation for n0 = h400 ,500 .
+
+Figure 4: Estimation results with the estimator bn(N,K )0 defined in (4.4) when b = 1 , g = 1 [0 ,1] ,
+
+N = 40 , K = 250 and n0 ∈ { h100 ,120 , h 225 ,200 , h 324 ,330 , h 400 ,500 }. Comparison with the results obtained with the estimator bn(old ,N )0 (x) = 1
+
+bm 1 n(N )
+
+∂
+
+Ä xbm 1
+
+ä for all x ≥ 0, constructed in [27]. For plotting the curves, the numerical precision of the computations was set to 200 digits. 
+
+4.2 Estimation when random variables are observed 
+
+In practice, we never observe n(N )
+
+∂ (where N > 0). Instead, we observe a sequence of random variables ÄT (N )
+
+i
+
+ä
+
+1≤i≤nd
+
+, where nd ∈ N∗, distributed according to n(N )
+
+∂ with possibly noise related to measurement errors. In this section, we check if the estimator defined in (4.4) can be adapted to this setting, and do not take into account noise related to measurements for simplicity. First, in Section 4.2.1, we present the equivalent of (4.4) in the case where random variables distributed according to n(N )
+
+∂ are observed. Then, in Section 4.2.2, we present how we propose to choose the smoothing parameter of this new estimator. Finally, in Section 4.2.3, we 21 present estimation results. 
+
+4.2.1 Estimator of n0 when random variables are observed 
+
+Let N > 0, nd ∈ N∗ and ÄT (N )
+
+> i
+
+ä
+
+> 1≤i≤nd
+
+a sequence of random variables distributed according to n(N ) 
+
+> ∂
+
+. To find an equivalent to bn(1 ,N )0 defined in (4.4) with ÄT (N )
+
+> i
+
+ä
+
+> 1≤i≤nd
+
+, we proceed in two steps. First, we consider an estimator n(N ) 
+
+> ∂
+
+from ÄT (N )
+
+> i
+
+ä
+
+> 1≤i≤nd
+
+, for which we can compute its Laplace transform easily. Then, the second step is to replace n(N ) 
+
+> ∂
+
+with its estimator in (4.4), to obtain a new estimator of n0.Following what is done in [27, Section 5.2.1], the method we use to estimate n(N )
+
+> ∂
+
+from ÄT (N )
+
+> i
+
+ä
+
+> 1≤i≤nd
+
+is to use a smoothed version of 1
+
+> nd
+
+∑nd 
+
+> i=1
+
+δT (N )
+
+> i
+
+, which corresponds to the empirical estimator of n(N ) 
+
+> ∂
+
+. In [27], the empirical estimator was smoothed by using the fact that for all i ∈ J1, n dK and α > 0, the measure 1 
+
+> x
+
+ρ Ä 1 
+
+> α
+
+log Ä xTi
+
+ää dx, where ρ is the density of a standard Gaussian, is a smoothed approximation of δTi (dx ). In particular, we have proved in [27, Eq. 5.3] that for all f ∈ C c (R+), x > 0, it holds 
+
+lim 
+
+> α→0
+
+∫
+
+> t∈R∗
+> +
+
+1
+
+tα ρ
+
+Å 1
+
+α log 
+
+Å tx
+
+ãã 
+
+f (t)d t = δx(f ).
+
+Thus, the following estimator, that depends on a smoothing parameter α > 0, was what we used to estimate n(N )
+
+> ∂
+
+∀t ≥ 0 : ˜n(N,α ) 
+
+> ∂
+
+(t) := 1
+
+ndnd∑
+
+> i=1
+
+1
+
+tα ρ
+
+Ç 1
+
+α log 
+
+Ç tT (N )
+
+> i
+
+åå 
+
+. (4.8) This estimator is called log-transform kernel density estimator of n(N ) 
+
+> ∂
+
+[10, 26]. 
+
+Remark 4.4. Since ρ is the density of a standard Gaussian, we have for all α > 0 and i ∈ J1, n dK
+
+that 
+
+1
+
+tα ρ
+
+Ç 1
+
+tα log 
+
+Ç tT (N )
+
+> i
+
+åå 
+
+dt = 1
+
+√2πtα exp 
+
+−
+
+Älog( t) − log ÄT (N )
+
+> i
+
+ää 2
+
+2α
+
+ dt. (4.9) 
+
+As the right-hand side corresponds to the density of a log-normal distribution with parameters Älog ÄT (N )
+
+> i
+
+ä , α ä, (4.9) means that to construct n(N,α ) 
+
+> ∂
+
+, we have approximated Dirac measures in 1
+
+> nd
+
+∑nd  
+
+> i=1 1
+> tα
+
+δT (N )
+
+> i
+
+with the densities of log-normal distributions. 
+
+In this work, we do not use ˜n(N,α ) 
+
+> ∂
+
+to estimate n(N,α ) 
+
+> ∂
+
+. The first reason is that since n(N,α ) 
+
+> ∂
+
+is a linear combination of the densities of log-normal distributions (see Remark 4.4), its Laplace transform is difficult to compute analytically [5, 25]. The second one is that we need the existence of f ∈ L1 (R+) such that L Äbn(N )
+
+> ∂
+
+ä (qN (p)) = L (f ) ( p) to have the convergence of the Gaver-Stehfest algorithm, see [22, Theorem 1], and we do not know if this is the case for n(N,α ) 
+
+> ∂
+
+.To solve these issues, our idea here is to use the density of Gamma distributions (see (4.5)) to approximate the Dirac measures in 1
+
+> nd
+
+∑nd  
+
+> i=1 1
+> tα
+
+δT (N )
+
+> i
+
+. Indeed, the Laplace transform of the density of a Gamma distribution is explicit in function of its parameters (ℓ, β ), and is equal to p ∈ (−β, +∞) 7 → Ä1 + pβ
+
+ä−k in view of [17, p. 109 ]. In addition, the composition this Laplace transform with the polynomial qN defined in (2.11) corresponds to the inverse of a polynomial, 22 so admits an inverse Laplace transform, see [12, Section 5.1]. The parameters we take for the Gamma distributions to approximate the Dirac measures are on the form described below, for all a > 0 and σ ∈ Ä0, ln(2) 12
+
+ä,
+
+(ℓ∗(σ), β ∗(a, σ )) := 
+
+ÅÄeσ2
+
+− 1ä−1
+
+, e −a− σ22
+
+Äeσ2
+
+− 1ä−1ã
+
+. (4.10) The reason is that the Laplace transform of a Gamma distribution with such parameters is very close to the one of a log-normal distribution with parameters (a, σ ), as illustrated in Figure 5. Intuitively, this comes from the fact that these distributions are unimodal, and have the same mean and coefficient of variation (see [17, p.109 and p.131]). By replacing the densities of log-normal distributions in (4.8) with the densities of Gamma distributions in view of (4.5), we obtain the following estimator of n(N )
+
+> ∂
+
+∀t ≥ 0 : n(N,α ) 
+
+> ∂
+
+(t) := 1
+
+ndnd∑
+
+> i=1
+
+hℓ∗Älog ÄT (N )  
+
+> i
+> ä,α ä,β ∗Älog ÄT(N)
+> i
+> ä,α ä
+
+(t)= tℓ∗(α)−1
+
+Γ ( ℓ∗(α)) 1
+
+ndnd∑
+
+> i=1
+
+ ℓ∗(α)e− α22
+
+Ti
+
+
+
+> ℓ∗(α)
+
+exp 
+
+− ℓ∗(α)e− α22
+
+Ti
+
+t
+
+ .
+
+(4.11) 
+
+Remark 4.5. The restriction σ ∈ Ä0, ln(2) 12
+
+ä in (4.10) is important because if we extend the definition of ℓ∗(σ) for σ ≥ ln(2) 12 , then we will have ℓ∗(σ) ≥ 1 for these values. This is a problem because a Gamma distribution with parameters (ℓ, β ) ∈ (0 , 1] × R∗ 
+
+> +
+
+is not unimodal (see [17, p. 109 ]), which is important to be a smooth approximation of a Dirac measure. 
+
+We mention that for all a > 0 and σ ∈ Ä0, ln(2) 12
+
+ä, this is also possible to use a Gamma distribution with parameters 
+
+(ℓ∗∗ (σ), β ∗∗ (a, σ )) :=  ℓ∗(σ), e −aℓ∗(σ) or (ℓ∗∗∗ (σ), β ∗∗∗ (a, σ )) :=  ℓ∗(σ), e −a (ℓ∗(σ) − 1) 
+
+(4.12) to approximate the Dirac measures in 1
+
+> nd
+
+∑nd  
+
+> i=1 1
+> tα
+
+δT (N )
+
+> i
+
+. Indeed, in view of [17, p.109 and p.131], a Gamma distribution with these parameters has the same coefficient of variation as the one of a Log-normal distribution with parameters (a, σ ). In addition, as the Gamma distribution with parameters (ℓ∗∗ (σ), β ∗∗ (a, σ )) has a mean of ea, and the one with parameters (ℓ∗∗∗ (σ), β ∗∗∗ (a, σ )) 
+
+has a mode of ea, taking one of these two parameters for a = log( T (N ) 
+
+> i
+
+) and i ∈ J1, n dK will give a Gamma distribution concentrated around T (N ) 
+
+> i
+
+(see Figure 7). We prefer to use the parameters (ℓ∗(σ), β ∗(a, σ )) because it seems that the Laplace transform of the Gamma distri-bution is closer to the one of the log-normal distribution with these parameters, as illustrated in Figures 5 and 6. This is important that the density of the Gamma distribution is close to the Laplace transform of a log-normal distribution because our way to choose α in practice is partially based on this, see Section 4.2.2. Now, we replace n(N ) 
+
+> ∂
+
+with n(N,α ) 
+
+> ∂
+
+in (4.4). We obtain that the equivalent of (4.4) when random variables are observed is the following 
+
+∀x > 0 : n(N,K,α )0 (x) = log(2) 
+
+x
+
+> 2K
+
+∑
+
+> n=1
+
+(−1) n+K
+
+K!
+
+> min( n,K )
+
+∑
+
+> j=
+
+⌊ n+1 2 ⌋
+
+jK+1 
+
+ÇKj
+
+åÇ 2jj
+
+åÇ jn − j
+
+å
+
+×
+
+1 + n log(2) 
+
+xbm 1
+
+(bm 1)2 2 Nbm 2 + qN
+
+Än log(2) 
+
+> x
+
+ä
+
+ L Än(N,α )
+
+> ∂
+
+ä Å
+
+qN
+
+Å
+
+n log(2) 
+
+x
+
+ãã 
+
+.
+
+(4.13) 23 As before, the parameter K must be as large as the numerical stability allows (see Appendix D). The choice of the smoothing parameter, for its part, is discussed in the next section. 0 2 4 6 8 10             
+
+> Point Laplace
+> 0.000
+> 0.001
+> 0.002
+> 0.003
+> 0.004
+> 0.005
+> 0.006
+> 0.007
+> Absolute error Laplace
+> Gamma (*(0.2), *(log(2), 0.2) )
+> Gamma (* * (0.2), * * (log(2), 0.2) )
+> Gamma (* * * (0.2), * * * (log(2), 0.2) )
+
+(a) Absolute errors when α = 0 .2.0 2 4 6 8 10              
+
+> Point Laplace
+> 0.000
+> 0.005
+> 0.010
+> 0.015
+> 0.020
+> 0.025
+> 0.030
+> Absolute error Laplace
+> Gamma (*(0.4), *(log(2), 0.4) )
+> Gamma (* * (0.4), * * (log(2), 0.4) )
+> Gamma (* * * (0.4), * * * (log(2), 0.4) )
+
+(b) Absolute errors when α = 0 .4.
+
+Figure 5: Comparison of the absolute errors between the Laplace transform of a Log-normal distribution with parameters (log(2) , α ) and the Laplace transform of Gamma distributions with parameters (ℓ∗(α), β ∗(log(2) , α )) , (ℓ∗∗ (α), β ∗∗ (log(2) , α )) and (ℓ∗∗∗ (α), β ∗∗∗ (log(2) , α )) 
+
+(see (4.10) and (4.12)), when α ∈ { 0.2, 0.4}.0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8                        
+
+> 10 5
+> 10 4
+> 10 3
+> 10 2
+> 10 1
+> 10 0
+> Relative L1-error Laplace
+> Gamma (*(), *(log(2), ))
+> Gamma (* * (), * * (log(2), ))
+> Gamma (* * * (), * * * (log(2), ))
+
+(a) Relative error in L1-norm versus α.0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8                         
+
+> 10 5
+> 10 4
+> 10 3
+> 10 2
+> 10 1
+> 10 0
+> Relative L2-error Laplace
+> Gamma (*(), *(log(2), ))
+> Gamma (* * (), * * (log(2), ))
+> Gamma (* * * (), * * * (log(2), ))
+
+(b) Relative error in L2-norm versus α.0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8                         
+
+> 10 6
+> 10 5
+> 10 4
+> 10 3
+> 10 2
+> 10 1
+> 10 0
+> Relative Linf-error Laplace
+> Gamma (*(), *(log(2), ))
+> Gamma (* * (), * * (log(2), ))
+> Gamma (* * * (), * * * (log(2), ))
+
+(c) Relative error in L∞-norm versus α.
+
+Figure 6: Relative error between the Laplace transform of a Log-normal distribution with parameters (log(2) , α ) and the Laplace transform of Gamma distributions with param-eters (ℓ∗(α), β ∗(log(2) , α )) , (ℓ∗∗ (α), β ∗∗ (log(2) , α )) and (ℓ∗∗∗ (α), β ∗∗∗ (log(2) , α )) (see (4.10) and (4.12)), for α ∈ Ä0, ln(2) 12
+
+ä.24 0 2 4 6 8 10             
+
+> Telomere length
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> Density
+> Log-normal(log(2), 0.2)
+> Gamma (*(0.2), *(log(2), 0.2) )
+> Gamma (* * (0.2), * * (log(2), 0.2) )
+> Gamma (* * * (0.2), * * * (log(2), 0.2) )
+> x = 2
+
+(a) Densities when α = 0 .2.0 2 4 6 8 10              
+
+> Telomere length
+> 0.0
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> Density
+> Log-normal(log(2), 0.4)
+> Gamma (*(0.4), *(log(2), 0.4) )
+> Gamma (* * (0.4), * * (log(2), 0.4) )
+> Gamma (* * * (0.4), * * * (log(2), 0.4) )
+> x = 2
+
+(b) Densities when α = 0 .4.
+
+Figure 7: Comparison of the density of a Log-normal distribution with parameters 
+
+(log(2) , α ) with the densities of Gamma distributions with parameters (ℓ∗(α), β ∗(log(2) , α )) ,
+
+(ℓ∗∗ (α), β ∗∗ (log(2) , α )) and (ℓ∗∗∗ (α), β ∗∗∗ (log(2) , α )) (see (4.10) and (4.12)), for α ∈ { 0.2, 0.4}.
+
+4.2.2 Choice of the smoothing parameter 
+
+To chose the smoothing parameter α, we would like to take a parameter that minimises the error between L Än(N )
+
+∂
+
+ä and L Än(N )
+
+∂
+
+ä. In view of the following inequality 
+
+∀x ∈ R+ : L Än(N )
+
+∂
+
+ä (x) − L Än(N )
+
+∂
+
+ä (x) ≤
+
+∫ ∞
+
+0
+
+în(N )
+
+∂ (s) − n(N )
+
+∂ (s)ó e−xs ds
+
+≤ n(N )
+
+∂ − n(N )
+
+∂ L1(R+) ,
+
+choosing a parameter which minimises the error in L1-norm between n(N )
+
+∂ and n(N )
+
+∂ seems a good idea to control the error between L Än(N )
+
+∂
+
+ä and L Än(N )
+
+∂
+
+ä. However, for the moment, we are only able to control Id în(N )
+
+∂ − n(N )
+
+∂
+
+ó
+
+L∞(R+) (by proceeding as in the proof of [27, Proposition 5.2]), which is not sufficient to obtain a sharp bound on n(N )
+
+∂ − n(N )
+
+∂ L1(R+). In addition, even if we are able to obtain a result similar to [27, Proposition 5.2] which provides parameters allowing to control n(N )
+
+∂ − n(N )
+
+∂ L1(R+), we have a problem because these parameters will certainly depends on n(N )
+
+∂ , that we do not know in practice when we want to proceed to the estimation (we only have random variables distributed according to it). We thus need to chose α in another way. The estimator of n∂ defined in (4.11) has been chosen in order to have a Laplace transform very close to the one of the one defined in (4.8) (see Figures 5 and 6), which corresponds to the log-transform density estimator [10, 26]. Thus, we have the intuition that choosing α > 0
+
+such that the log-transform estimator ˜n(N,α )
+
+∂ in (4.11) estimates well n∂ will allow us to have a good estimation of L (n∂ ) from L Än(N,α )
+
+∂
+
+ä. This is what to do in Section 4.2.3 to chose α.In each estimation, we choose one of the method available in the package R logKDE [26] to estimate the smoothing parameter for the log-transform kernel density estimator ˜n(N,α )
+
+∂ . The method of this package we take depends on the number of observed data, and is specified at each estimation. Then, we use the smoothing estimator estimated to compute n(N,α )
+
+∂ and after n(N,K,α )0 (see (4.13)). The estimation results presented in Section 4.2.3 are good, so this way to chose α seems accurate. However, in a future work, a more rigorous study must be done to develop a more robust method to choose α.25 4.2.3 Estimation results when random variables are observed 
+
+We now check that the estimator defined in (4.13) has good estimation results for the choice of smoothing parameter explained in Section 4.2.2. To do so, we fix for model parame-ters N = 40 , b = 1 and g = 1 [0 ,1] , as in Section 4.1. Then, for n0 ∈ { h9,12 , h 16 ,16 , h 25 ,30 , h 49 ,50 },we simulate a sequence of random variables (Ti)1≤i≤nd for nd = 300 by simulating a probabilistic telomere shortening model, see [28, Section 3.C]. Thereafter, we use these random variables to compute L Äbn(N,α )
+
+> ∂
+
+ä for α chosen with the method SJ-ste of the package logKDE of R, which provides a good bandwidth selection for a moderate or large number of data (see [34] for an ex-planation of the method). Finally, we estimate n0 with the estimator n(N,K,α )0 defined in (4.13). The parameter K has been chosen manually, by taking the largest possible value of K for which we do not observe round-off errors. We refer to Appendix D to see why these round-off errors can lead to bad estimation. We plot in Figure 8 the estimated curves (in red), and compare them with their associated theoretical distribution (in black). We also plot on these figures the estimations obtained with the estimator constructed in [27, Section 5.2.1] (in blue), defined for all α > 0 and x > 0 as 
+
+n(old ,N,α )0 (x) := 1
+
+bm 1
+
+˜n(N,α )
+
+> ∂
+
+Å xbm 1
+
+ã
+
+= 1
+
+ndnd∑
+
+> i=1
+
+1
+
+x ρα
+
+Å
+
+log 
+
+Å xbm 1Ti
+
+ãã 
+
+. (4.14) The smoothing parameter in the above is chosen with the same method as the one for n(N,K,α )0 .We observe in Figure 8 that the estimations done with n(N,K,α )0 are better than the ones with n(old ,N,α )0 . Specifically, the diffusivity of the curve of n0, which is not well-estimated with n(old ,N,α )0 , is now better estimated with n(N,K,α )0 . We have thus improved our estimation method. We however mention that despite this improvement, the estimations with n(N,K,α )0 are not as satisfying as the estimations of Figure 2, which were perfect. It thus seems that the noise affects the quality of estimation. The estimation results presented in Figure 8 are done with nd = 300 , which corresponds to a moderate number of data. In practice, we do not have necessarily a moderate number of data, so this is interesting to study how our estimator acts when we have a small or high number of data. To do this, we apply the same protocol as in the previous paragraph in the case where nd ∈ { 30 , 3000 } , and for only n0 ∈ { h9,12 , h 25 ,30 , h 49 ,50 }. The only difference is that we use the method nrd of the package logKDE of R to chose α when nd = 30 (corresponds to the method presented in [35, Eq. (3 .28) ]), instead of the method SJ-ste . The reason is that the 
+
+nrd method is based on simple statistics, so is more robust when the number of observations is limited. We plot in Figure 9 the estimations we have obtained. We observe in Figures 9e and 9f that when nd = 30 , the estimations obtained with n(N,K,α )0 are slightly better than the ones obtained with n(old ,N,α )0 . The improvement is far from exceptional, but this is expected since we have a very small number of data when nd = 30 . Hence, our new estimator remains useful for a small number of data, but has no incredible results. When nd = 3000 , which corresponds the estimations presented in the second line of Figure 9, the estimations done with n(N,K,α )0 are better than in Figure 8. Notably, the red and blue curves are almost superposed in Figures 9d and 9e. However, one can observe in Figure 9f that even with a large number of data, the estimation obtained with n(N,K,α )0 is not totally perfect, in comparison to the one in Figure 2. Our estimation method can therefore still be improved, despite the good estimation results we have obtained for moderate or large amounts of data. 26 0.0 0.5 1.0 1.5 2.0 2.5 3.0 3.5        
+
+> Telomere length
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> 1.25
+> 1.50
+> 1.75
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(a) Estimation for n0 = h9,12 and K = 16 .0 1 2 3 4 5        
+
+> Telomere length
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> 1.25
+> 1.50
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(b) Estimation for n0 = h16 ,16 and K = 22 .0 1 2 3 4       
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(c) Estimation for n0 = h25 ,30 and K = 22 .0 1 2 3 4 5        
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> 3.0
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(d) Estimation for n0 = h49 ,50 and K = 22 .
+
+Figure 8: Estimation results with the estimator n(N,K,α )0 defined in (4.13) when b = 1 , g = 1 [0 ,1] ,
+
+N = 40 , nd = 300 , for α chosen with the method SJ-ste of the package logKDE of R, and for initial Gamma distributions. Comparison with the results obtained with the estimator bn(old ,N,α )0
+
+defined in (4.14) and constructed in [27], for the same value of α. For plotting the curves, the numerical precision of the computations was set to 200 digits. 
+
+We finally conclude this numerical study by testing our estimation method to estimate initial distributions different from Gamma distributions. To do this, we apply the same protocol as the one used for the estimations in Figure 8. The only thing that change is that we will consider the following three initial distributions to do our estimation, for all x ≥ 0:
+
+n0,1(x) = 11 2
+
+ x
+
+2
+
+10 
+
+exp 
+
+ï
+
+−
+
+ x
+
+2
+
+11 ò
+
+, n0,2(x) = 2 36
+
+5! x11 exp 
+
+Å
+
+− 3x2
+
+2
+
+ã
+
+,n0,3(x) = 12 [h8,8(x) + h11 ,3(x)] .
+
+(4.15) In the above, n0,1 corresponds to the density of a Weibull distribution with parameters (11 , 2) ,and n0,2 corresponds to the density of a Nakagami distribution with parameters (6 , 2) . These distributions are interesting to consider since they verify (2.13), and since they are unimodal, which is biologically relevant. In addition, n0,3 corresponds to the density of a mixture of Gamma distribution with parameters (8 , 8) with another Gamma distribution with parameters (11 , 3) ,so is the density of a bimodal distribution. This type of distribution is not biologically relevant, but interesting to consider to know if our method can be adapted to other contexts. We plot in Figure 10 the estimation results we have obtained with the distributions defined in (4.15). We observe in Figures 10a and 10b that the estimations obtained with n(N,K,α )0 are better than the ones obtained with bn(old ,N,α )0 , since the diffusivity of the curve is now better captured. We also observe in Figure 10c that the red curve follows the black curve more precisely than the blue curve, particularly in the modes of the distribution. We thus conclude that the estimator 27 we have constructed in this work improves the estimations done with the estimator constructed in [27], even in a general context. 0.0 0.5 1.0 1.5 2.0 2.5 3.0 3.5        
+
+> Telomere length
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> 1.25
+> 1.50
+> 1.75
+> 2.00
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(a) Estimation for nd = 30 , n0 =
+
+h9,12 and K = 16 .0 1 2 3 4       
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(b) Estimation for nd = 30 , n0 =
+
+h25 ,30 and K = 20 .0 1 2 3 4 5       
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> 3.0
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(c) Estimation for nd = 30 , n0 =
+
+h49 ,50 and K = 24 .0.0 0.5 1.0 1.5 2.0 2.5 3.0 3.5        
+
+> Telomere length
+> 0.00
+> 0.25
+> 0.50
+> 0.75
+> 1.00
+> 1.25
+> 1.50
+> 1.75
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(d) Estimation for nd = 3000 ,
+
+n0 = h9,12 and K = 16 .0 1 2 3 4       
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(e) Estimation for nd = 3000 ,
+
+n0 = h25 ,30 and K = 24 .0 1 2 3 4 5       
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> 3.0
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(f) Estimation for nd = 3000 ,
+
+n0 = h49 ,50 and K = 32 .
+
+Figure 9: Estimation results with the estimator n(N,K,α )0 defined in (4.13) when b = 1 , g = 1 [0 ,1] ,
+
+N = 40 , nd ∈ { 30 , 3000 }, for α chosen with the method nrd (at the top) or SJ-ste (at the bottom) of the package logKDE of R, and for initial Gamma distributions. Comparison with the results obtained with bn(old ,N,α )0 defined in (4.14) and constructed in [27], for the same value of α. For plotting the curves, the numerical precision of the computations was set to 200 digits. 0 1 2 3 4 5       
+
+> Telomere length
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(a) Estimation for n0 = n0,1 and 
+
+K = 36 .0.0 0.5 1.0 1.5 2.0 2.5 3.0 3.5 4.0        
+
+> Telomere length
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> 1.2
+> 1.4
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(b) Estimation for n0 = n0,2 and 
+
+K = 24 .0 2 4 6 8       
+
+> Telomere length
+> 0.0
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(c) Estimation for n0 = n0,3 and 
+
+K = 16 .
+
+Figure 10: Estimation results with the estimator n(N,K,α )0 defined in (4.13) when b = 1 , g =1[0 ,1] , N = 40 , nd = 300 , for α chosen with the method SJ-ste of the package logKDE of R, for the initial distributions defined in (4.15). Comparison with the results obtained with the estimator bn(old ,N,α )0 defined in (4.14) and constructed in [27], for the same value of α. For plotting the curves, the numerical precision of the computations was set to 200 digits. 
+
+28 5 Conclusion and perspectives 
+
+The objective of this work was to improve the estimation method presented in [27]. To do this, we first proved that the error between (2.2) and (2.7) tends to zero when N → +∞,with a higher speed than the one of the error between (2.2) and the approximated model in [27] (see Theorem 2.4 and [27, Proposition 3.2]). The latter and the fact that the Laplace transform of n0 can be computed using the Laplace transform of u(N ) 
+
+> ∂
+
+for any N > 0 sug-gested that it is possible to perform a Laplace transform inversion to improve our estimation method. Our estimations done in Figure 2 showed that, when we observe n(N ) 
+
+> ∂
+
+without noise, this Laplace transform inversion works perfectly well on most biologically relevant initial dis-tribution. The estimations done in Figures 8, 9 and 10 have also shown that when there is noise on n(N ) 
+
+> ∂
+
+related to sampling, the Laplace transform inversion still improves the estimation obtained with the estimator constructed in [27]. We thus have several satisfactions with this new estimation method. Despite these encouraging results, our estimation method have also several limitations. The first one is that when the initial distribution is too much concentrated, the estimation seems to completely fail, as shown in Figures 4c and 4d. The second one is that when there is noise on n(N ) 
+
+> ∂
+
+related to sampling, the improvement obtained with the Laplace transform inversion is not as satisfying as the one we have when we observe noise-free data, see Figures 8, 9a-9c and 10. However, the type of initial distribution studied in Figures 4c and 4d is not biologically relevant, since the variability of the initial distribution is too much small. In addition, the second limitation is not critical in practice, since this is unavoidable that the estimation loses in quality when there is noise on the observation of n(N ) 
+
+> ∂
+
+. The estimation method developed in this work is therefore already useful in practice, despite these limitations. The main results we still need to achieve now is to obtain theoretical results providing bounds on the error between bn(N,K )0 and n0 for all N > 0 and K ∈ N∗, and providing bounds on the error between bn(N,K,α )0 and n0 for all N > 0, K ∈ N∗ and α > 0. Precisely, we would like to prove that these errors converges to 0 when N → +∞, K → +∞ and when nd → +∞
+
+and α → 0 for the error between bn(N,K,α )0 and n0. It has been proved in [27, Theorem 2.7-(a)
+
+and Proposition 5.2] that the estimation errors converges to 0 at a rate 1 
+
+> N
+
+for the estimators constructed in [27]. We would like to prove that the estimation errors for the estimators defined in (4.4) and (4.13) converge to 0 at a rate 1  
+
+> N2
+
+, as shown in Figure 3, to justify rigorously that the Laplace transform inversion improve the estimation obtained with the estimator constructed in [27]. Obtaining these bounds corresponds to a work in progress. Other perspectives emerge from this work. The first would be to know whether it is possi-ble to obtain approximations of models that are even more precise than those obtained here, in order to develop estimators of better quality. This perspective would be very interesting, in par-ticular in order to improve the estimation results presented in Figure 4. The second perspective would be to know if this is possible to develop a method to estimate the smoothing parameter specific to our problem, rather than using the R package logKDE . Developing such a method could perhaps improve the estimation results when observing variables distributed according to n(N ) 
+
+> ∂
+
+(where N > 0), see Figures 8, 9, and 10. Finally, it would be interesting to see how the estimation methods developed in this work and in [27] can be adapted to age-structured models such as those in [30, 7], which are more biologically relevant. All these perspectives correspond to future works. 29 A Proof of Proposition 2.5 
+
+Let N > 0. We denote the set 
+
+P′ 
+
+> N
+
+:= 
+
+ß
+
+p ∈ C | Re (p) > 0 and Re (qN (p)) > max 
+
+Å
+
+0, R Äu(N )
+
+> ∂
+
+ä , −(bm 1)2 2Nbm 2
+
+ã™ 
+
+.
+
+The proof of Proposition 2.5 is done in three steps. First, in Step 1, we prove the following auxiliary result, necessary to obtain (2.16), for all t ≥ 0 and p ∈ P ′ 
+
+> N
+
+,
+
+ddt
+
+ÄL(u(N )(t, . ))( p)ä = qN (p)L(u(N )(t, . ))( p) − u(N ) 
+
+> ∂
+
+(t)
+
+− bm 1p
+
+∫ t
+
+> 0
+
+exp 
+
+Å
+
+(bm 1)2 2Nbm 2
+
+(s − t)
+
+ã
+
+u(N ) 
+
+> ∂
+
+(s)d s. 
+
+(A.1) Then, in Step 2, we prove that (2.16) is true for all p ∈ P ′ 
+
+> N
+
+. Finally, in Step 3, we extend this result to the complex numbers p ∈ P N thanks to the analytic continuation theorem. 
+
+Step 1: Let us fix t ≥ 0 and p ∈ P ′ 
+
+> N
+
+. By multiplying the first line of (2.7) with exp ( −px ),and then integrating in dx, we have 
+
+ddt
+
+ÄL(u(N )(t, . ))( p)ä = bm 1L Ä∂xu(N )(t, . )ä (p) + bm 2
+
+2N L Ä∂2
+
+> x
+
+u(N )(t, . )ä (p). (A.2) Therefore, by first using that for all f ∈ H2 (R+), it holds L(f ′)( p) = pL(f )( p) − f (0) 
+
+and L(f ′′ )( p) = p2L(f )( p) − pf (0) − f ′(0) , see [16, p. 264 ], and then applying (2.11) and the third line of (2.7), we obtain 
+
+ddt
+
+ÄL Äu(N )(t, . )ä (p)ä =
+
+Å
+
+bm 1p + bm 2
+
+2N p2
+
+ã
+
+L Äu(N )(t, . )ä (p) − bm 1u(N )(t, 0) 
+
+− bm 2p
+
+2N u(N )(t, 0) − bm 2
+
+2N ∂xu(N )(t, 0) = qN (p)L Äu(N )(t, . )ä (p) − u(N ) 
+
+> ∂
+
+(t) − bm 2p
+
+2N u(N )(t, 0) .
+
+(A.3) Observe that by plugging the second line of (2.7) in its third line, and multipyling everything by bm 1 2Nbm 2 , we have 
+
+bm 1
+
+2Nbm 2
+
+u(N ) 
+
+> ∂
+
+(t) = ( bm 1)2 2Nbm 2
+
+u(N )(t, 0) + ∂tu(N )(t, 0) .
+
+This is a classical first order linear differential equation. We can solve it using the usual formula for this type of equation, see for example [11, Theorem 2, p. 41 ], to obtain that (we recall that u(N )(0 , 0) = n0(0) = 0 )
+
+u(N )(t, 0) = bm 1
+
+2Nbm 2
+
+∫ t
+
+> 0
+
+exp 
+
+Å
+
+(bm 1)2 2Nbm 2
+
+(s − t)
+
+ã
+
+u(N ) 
+
+> ∂
+
+(s)d s. 
+
+Then, by plugging the latter in (A.3), we obtain (A.1). 30 Step 2: To prove (2.16) for all p ∈ P ′ 
+
+> N
+
+, we begin by obtaining the equation verified by the function (t, p ) 7 → exp ( −qN (p)t) L(u(N )(t, . ))( p), which is equal to p 7 → L (n0)( p) when t = 0 .First, we multiply both sides of (A.1) by exp ( −qN (p)t). Then, we put the first term of the right-hand side to the left-hand side, in view of the following equality, for all t ≥ 0, p ∈ P ′ 
+
+> N
+
+,and f ∈ L1 (R+),
+
+ddt (exp ( −qN (p)t) f (t)) = exp ( −qN (p)t) ddt f (t) − qN (p) exp ( −qN (p)t) f (t).
+
+We obtain that for all t ≥ 0 and p ∈ P ′
+
+> N
+
+ddt
+
+îexp ( −qN (p)t) L Äu(N )(t, . )ä (p)ó = − exp ( −qN (p)t) u(N ) 
+
+> ∂
+
+(t)
+
+− bm 1p exp ( −qN (p)t)
+
+ï∫ t
+
+> 0
+
+exp 
+
+Å
+
+(bm 1)2 2Nbm 2
+
+(s − t)
+
+ã
+
+u(N ) 
+
+> ∂
+
+(s)d s
+
+ò
+
+.
+
+From the above equality, we conclude the step. To do so, we first integrate in dt, in view of the fact that for all p ∈ C such that Re (p) > 0 and Re (qN (p)) > 0, it holds by Theorem 2.4-(a) and Remark 2.3 
+
+lim sup 
+
+> t→+∞
+
+exp ( −qN (p)t) L Äu(N )(t, . )ä (p) ≤ lim sup 
+
+> t→+∞
+
+ï
+
+exp ( −qN (p)t) Äu(N ) − n(N )ä (t, . ) L1(R+)
+
+ò
+
++ lim sup 
+
+> t→+∞
+
+ï
+
+exp ( −qN (p)t) n(N )(t, . ) L1(R+)
+
+ò
+
+= 0 .
+
+We obtain that for all p ∈ P ′
+
+> N
+
+−L (n0) ( p) = −L Äu(N )
+
+> ∂
+
+ä (qN (p)) 
+
+− bm 1p
+
+∫ +∞
+
+> 0
+
+exp ( −qN (p)t)
+
+ï∫ t
+
+> 0
+
+exp 
+
+Å
+
+(bm 1)2 2Nbm 2
+
+(s − t)
+
+ã
+
+u(N ) 
+
+> ∂
+
+(s)d s
+
+ò
+
+dt. (A.4) Then, we observe that by changing the bound of the integral below, we have for all p ∈ P ′
+
+> N
+
+∫ +∞
+
+> 0
+
+exp ( −qN (p)t)
+
+ï∫ t
+
+> 0
+
+exp 
+
+Å
+
+(bm 1)2 2Nbm 2
+
+(s − t)
+
+ã
+
+u(N ) 
+
+> ∂
+
+(s)d s
+
+ò
+
+dt
+
+=
+
+∫ +∞
+
+> 0
+
+exp 
+
+Å
+
+(bm 1)2 2Nbm 2
+
+s
+
+ã ï ∫ +∞
+
+> s
+
+exp 
+
+ï
+
+−
+
+Å
+
+(bm 1)2 2Nbm 2
+
++ qN (p)
+
+ã
+
+t
+
+ò
+
+dt
+
+ò
+
+u(N ) 
+
+> ∂
+
+(s)d s
+
+= 1(bm 1)2 2 Nbm 2 + qN (p)
+
+∫ +∞
+
+> 0
+
+exp ( −qN (p)s) u(N ) 
+
+> ∂
+
+(s)d s = L Äu(N )
+
+> ∂
+
+ä (qN (p)) (bm 1)2 2 Nbm 2 + qN (p) .
+
+(A.5) Finally, we combine (A.4) and (A.5). We obtain that (2.16) is true for all p ∈ P ′ 
+
+> N
+
+.
+
+Step 3: Now, we aim to extend this equality for the largest possible set, namely the set PN
+
+defined in (2.12). First, notice that L(n0) and φ : p 7 →
+
+Å
+
+1 + p bm 1   
+
+> (bm 1)22Nbm 2+qN(p)
+
+ã
+
+L Äu(N )
+
+> ∂
+
+ä (qN (p)) 
+
+are both analytic on PN . Then, notice that z ∈ P N 7 → L (n0)( z) is an analytic continuation of 
+
+z ∈ P ′ 
+
+> N
+
+7 → L (n0)( z),
+
+and that z ∈ P N 7 → φ(z) is an analytic continuation of 
+
+z ∈ P ′ 
+
+> N
+
+7 → φ(z) = L(n0)( z).
+
+By uniqueness of the analytic continuation, z ∈ P N 7 → L (n0)( z) and z ∈ P N 7 → φ(z) are equals. Then, from this last result, we have that (2.16) holds for all p ∈ P N .31 B Proof of Proposition 3.3 
+
+This proof is inspired by what is done in the proof of [15, Proposition 2.2], and its main argument is the Lumer-Phillips theorem, see [8, Theorem 2.6, p. 106 ]. Let us denote the opera-tor A : H10 (R+) ∩ H2 (R+) → L2 (R+), defined for all u ∈ H10 (R+) ∩ H2 (R+) as 
+
+A (u) = bm 1u′ + bm 2
+
+2N u′′ .
+
+For all u ∈ H10 (R+) ∩ H2 (R+), as (u′u)′ = u′′ u + ( u′)2 ≥ u′′ u, and as u(0) = 0 , we have that 
+
+⟨A (u) , u ⟩L2(R+) = bm 1
+
+∫ +∞
+
+> 0
+
+u′(x)u(x)d x + bm 2
+
+2N
+
+∫ +∞
+
+> 0
+
+u′′ (x)u(x)d x
+
+≤ bm 1
+
+2
+
+∫ +∞
+
+> 0
+
+ u2′ (x)d x + bm 2
+
+2N
+
+∫ +∞
+
+> 0
+
+ u′u′ (x)d x = 0 .
+
+Then, A is a diffusive operator. We thus only have to prove that A is maximal, and the assumptions of the Lumer-Phillips theorem will be verified. To prove this, we introduce for all λ > 0 the bilinear form aλ :  H10 (R+)2 → R, defined for all (u, v ) ∈  H10 (R+)2 as 
+
+aλ(u, v ) = λ⟨u, v ⟩L2(R+) − bm 1⟨u′, v ⟩L2(R+) + bm 2
+
+2N ⟨u′, v ′⟩L2(R+).
+
+We have that aλ(u, u ) = λ || u|| 2 
+
+> L2(R+)
+
++ bm 2 
+
+> 2N
+
+|| u′|| 2 
+
+> L2(R+)
+
+for all λ > 0 and u ∈ H10 (R+), so that aλ
+
+is coercive. This yields by the Lax-Milgram theorem that for all λ > 0, f ∈ L2 (R+), there exists a unique uλ,f ∈ H10 (R+) such that aλ(uλ,f , v ) = ⟨f, v ⟩L2(R+) for all v ∈ H10 (R+). In addition, this function uλ,f belongs to H2 (R+), as it holds for all h ∈ C c
+
+ R∗
+
+> +
+
+
+
+bm 2
+
+2N ⟨u′′  
+
+> λ,f
+
+, h ⟩L2(R+) = λ⟨uλ,f , h ⟩L2(R+) − bm 1⟨u′ 
+
+> λ,f
+
+, h ⟩L2(R+) − ⟨ f, h ⟩L2(R+),
+
+with λu λ,f − bm 1u′ 
+
+> λ,f
+
+− f ∈ L2 (R+). Then, from these two points, we have that for all λ > 0
+
+and f ∈ L2 (R+), there exists uλ,f ∈ H10 (R+) ∩ H2 (R+) such that λu f,λ − A (uf,λ ) = f , so that A is maximal. As A is both maximal and dissipative, and as H10 (R+) ∩ H2 (R+) is dense in H10 (R+), we have by the Lumer-Phillips theorem that the proposition is proved. 
+
+## C Proof of Proposition 4.1 
+
+In all this proof, we denote for all n ∈ N, k ∈ J0, n K, x ∈ Rn−k+1 , the polynomial 
+
+Bn,k (x1, . . . , x n−k+1 ) = ∑
+
+> j1,...,j n−k+1 ≥0
+> j1+j2+··· +jn−k+1 =kj1+2 j2+... +( n−k+1) jn−k+1 =n
+
+n!
+
+j1! . . . j n−k+1 !
+
+> n−k+1
+
+∏
+
+> i=1
+
+ xi
+
+i!
+
+ji
+
+, (C.1) which is called in the literature partial Bell polynomial of weight n and degree k, see [13, p. 134 ,Eq. 3d]. We also denote the following polynomial, for all n ∈ N, x ∈ Rn,
+
+Bn(x1, . . . , x n) = 
+
+> n
+
+∑
+
+> k=0
+
+Bn,k (x1, . . . , x n−k+1 ), (C.2) 32 which is called complete Bell polynomial of weight n, see [13, p. 134 , Eq. 3c]. We finally define the following function and constant, that allow us to simplify notations, 
+
+∀ (t, x ) ∈ R+ × R+ : φℓ (x, t ) := Bℓ−1
+
+ï
+
+− bL (gId )
+
+Å βN
+
+ã
+
+t − x, (−1) 2 bN L  gId 2 Å βN
+
+ã
+
+t, . . . , 
+
+(−1) ℓ−1 bN ℓ−2 L ÄgId ℓ−1ä Å βN
+
+ã
+
+t
+
+ò
+
+,
+
+˜βN := Nm1
+
+ï
+
+1 − L (g)
+
+Å βN
+
+ãò 
+
+.
+
+By combining [27, Proposition A. 9] with the fact that dn 
+
+> dαn
+
+(L(g)) = ( −1) n L (gId n) for all n ∈ N,see [16, p. 264 , 8.], we have for all N > 0, (t, x ) ∈ R+ × R+ that 
+
+n(N )(t, x ) = ( −1) ℓ−1 βℓ
+
+(ℓ − 1)! φℓ (x, t ) exp  −bm 1 ˜βN t − βx  . (C.3) In addition, in view of [40, Theorem 2-(i)], (C.2) and [13, p. 135 ], the two following equalities hold, for all (y, z ) ∈  Rℓ−12, γ ∈ R, ω ∈ R,
+
+Bℓ−1
+
+îy1 + γωz 1, . . . , y ℓ−1 + γω ℓ−1zℓ−1
+
+ó =
+
+> ℓ−1
+
+∑
+
+> j=0
+
+Çℓ − 1
+
+j
+
+å
+
+Bℓ−1−j [y1, . . . , y ℓ−1−j ]
+
+× Bj
+
+γωz 1, . . . , γω j zj
+
+ ,
+
+∀j ∈ J1, ℓ − 1K : Bj
+
+γωz 1, . . . , γω j zj
+
+ = ωjj∑
+
+> i=0
+
+γiBj,i [z1, . . . , z i] .
+
+(C.4) Then, by using (C.4) for y = ( −x, 0, . . . , 0) , z = ÄbL (gId ) Ä βN
+
+ä , . . . , bN ℓ−2 L ÄgId ℓ−1ä Ä βN
+
+ää , γ = t
+
+and ω = −1 to develop the function φℓ in (C.3), we obtain that for all N > 0, (t, x ) ∈ R+ × R+,
+
+n(N )(t, x ) = ( −1) ℓ−1 βℓ
+
+(ℓ − 1)! 
+
+> ℓ−1
+
+∑
+
+> j=0
+> j
+
+∑
+
+> i=0
+
+Çℓ − 1
+
+j
+
+å
+
+Bℓ−1−j [−x, 0, . . . , 0] ( −1) j ti
+
+× Bj,i 
+
+ï
+
+bL (gId )
+
+Å βN
+
+ã
+
+, . . . , bN j−1 L  gId j  Å βN
+
+ãò 
+
+exp  −bm 1 ˜βN t − βx  .
+
+(C.5) In view of [13, p. 136 , Eq. 3n′] and (C.2), we have that Bℓ−1−j [−x, 0, . . . , 0] = ( −1) ℓ−1−j xℓ−1−j
+
+for all x ∈ R+, j ∈ J0, ℓ − 1K. Therefore, by plugging this last equality in (C.5), and then using the second line of (2.2) to compute n(N ) 
+
+> ∂
+
+, we obtain that for all N > 0, t > 0,
+
+n(N ) 
+
+> ∂
+
+(t) = b βℓ
+
+(ℓ − 1)! 
+
+> ℓ−1
+
+∑
+
+> j=0
+> j
+
+∑
+
+> i=0
+
+Çℓ − 1
+
+j
+
+å 1
+
+N ℓ−1−j L Ä(1 − G)Id ℓ−1−j ä Å βN
+
+ã
+
+× Bj,i 
+
+ï
+
+bL (gId )
+
+Å βN
+
+ã
+
+, . . . , bN j−1 L  gId j  Å βN
+
+ãò 
+
+ti exp  −bm 1 ˜βN t .
+
+The proposition is thus proved by switching the two sums in the above, and then using the fact that in view of [16, p. 264 , 12 .], it holds for all i ∈ J0, ℓ −1K and p ∈ C verifying Re (p) > −bm 1 ˜βN
+
+L  Id i exp  −bm 1 ˜βN Id  (p) = i!
+
+ p + bm 1 ˜βN
+
+i+1 .
+
+33 D Why we do not take K very large in Section 4.2.3? 
+
+When we use (4.13) to estimate n0 in Figures 8 and 9, we do not take K very large. This may seem contradictory with (4.3) at first sight, which states that the Gaver-Stehfest algorithm converges as K → +∞. In fact, it has been proved in [23, Theorem 1] that the Gaver-Stehfest algorithm converges exponentially fast as K → +∞ when the inverse Laplace transform is regular enough, so that the speed of convergence is very quick. Hence, taking K ≈ 20 in Figures 8 and 9 seems sufficient to obtain a good approximation. Taking a larger parameter K for the estimations in Figures 8 and 9 can even create big estimation errors related to numerical instability. That is why, we do not take it larger in the estimations presented in Figures 8 and 9. To illustrate the issues related to taking K very large, we have represented in Figure 11 exactly the same estimations than the one done in Figures 8a and 8c, except that we now take K = 36 in both estimations. We observe in Figure 11 that for K = 36 , both estimations are now very poor. Specifically, oscillations with large amplitude appears at the estimated curve. These oscillations correspond in fact to numerical errors. Indeed, as the Gaver-Stehfest algorithm corresponds to the sum of large terms with alternating sign (see (4.3)), round-off errors appear when we use this algorithm. The absolute value of the terms we sum in the Gaver-Stehfest algorithm increases when its parameter K increases. Hence, increasing K also increases the impact of the round-off errors on the estimation, and that is why we do not take it larger in Figures 8 and 9. 0.0 0.5 1.0 1.5 2.0 2.5 3.0 3.5        
+
+> Telomere length
+> 2
+> 1
+> 0
+> 1
+> 2
+> 3
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(a) Estimation for n0 = h9,12 and K = 36 .0 1 2 3 4        
+
+> Telomere length
+> 2
+> 1
+> 0
+> 1
+> 2
+> Density
+> Estimation with n(old, N,)0
+> Estimation with n(N,K,)0
+> Curve of n0
+
+(b) Estimation for n0 = h25 ,30 and K = 36 .
+
+Figure 11: Estimation results in the same setting as in Figures 8a and 8b, except that K = 36 .
+
+For plotting the curves, the numerical precision of the computations was set to 200 digits. 
+
+The problem of round-off errors is in fact very common when working with the Gaver-Stehfest algorithm. The main way to manage this issue is to increase the numerical precision of the computations. In our case, we have set the precision to 200 decimal digits. We do not use a higher precision because it would be too computationally expensive. One can notice that in Figures 2 and 4, we have succeeded to take a large parameter K. In the following work of the author [29] in which the Gaver-Stehfest algorithm is used (see [29, Section 6.1.2]), we have also succeeded in taking a large parameter K. The reason is that the function n(N,α ) 
+
+> ∂
+
+(where 
+
+N, α > 0) in (4.13) and defined in (4.11) corresponds to the sum of the smoothed approximation of Dirac measures, see Section 4.2.1. Thus, even if its curve is smooth, its Laplace transform has a more sophisticated form than the ones of the functions in Figures 2 and 4, or in [29, Section 6.1.2]. The issues of round-of errors for the Gaver-Stehfest algorithm thus strongly depend on the function for which we apply this algorithm. 34 Acknowledgement. This work was partially funded by the Fondation Mathématique Jacques Hadamard and by the European Union ERC-2024-COG MUSEUM-101170884. Additional sup-port was provided by the France 2030 program, administered by the French National Research Agency (ANR), under grant ANR-23-EXMA-0005. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Research Council Executive Agency (ERCEA). Neither the European Union nor the granting authority can be held responsible for them. The author warmly thanks Marie Doumic for her valuable guidance during the realisation of this work. 
+
+## References 
+
+[1] Joseph Abate and Ward Whitt. “Numerical inversion of probability generating functions”. In: Operations Research Letters 12.4 (1992), pp. 245–251. doi : 10.1016/0167-6377(92) 90050-D .[2] Pauline Abdallah, Pierre Luciano, Kurt W. Runge, Michael Lisby, Vincent Géli, Eric Gilson, and Maria Teresa Teixeira. “A two step model for senescence triggered by a single critically short telomere”. In: Nature cell biology 11.8 (2009), pp. 988–993. doi : 10.1038/ ncb1911 .[3] Ovide Arino, Marek Kimmel, and Glenn F. Webb. “Mathematical modeling of the loss of telomere sequences”. In: Journal of Theoretical Biology 177.1 (1995), pp. 45–57. doi :
+
+10.1006/jtbi.1995.0223 .[4] Aurora Armiento, Marie Doumic, Philippe Moireau, and H. Rezaei. “Estimation from moments measurements for amyloid depolymerisation”. In: Journal of Theoretical Biology 
+
+397 (2016), pp. 68–88. doi : 10.1016/j.jtbi.2016.02.037 .[5] Søren Asmussen, Jens Ledet Jensen, and Leonardo Rojas-Nandayapa. “On the Laplace Transform of the Lognormal Distribution”. In: Methodology and Computing in Applied Probability 18.2 (2016). doi : 10.1007/s11009-014-9430-7 .[6] Athanase Benetos, Coralie Fritsch, Emma Horton, Lionel Lenotre, Simon Toupance, and Denis Villemonais. “Stochastic branching models for the telomeres dynamics in a model including telomerase activity”. In: Journal of Mathematical Biology 91.1 (2025). doi :
+
+10.1007/s00285-025-02230-z .[7] Athanasios Benetos, Olivier Coudray, Anne Gégout-Petit, Lionel Lenôtre, Simon Toupance, and Denis Villemonais. “A branching model for intergenerational telom-ere length dynamics”. In: Journal of Mathematical Biology 90.2 (2025). doi : 10.1007/ s00285-025-02185-1 .[8] Alain Bensoussan, Giuseppe Da Prato, Michel C. Delfour, and Sanjoy K. Mitter. Repre-sentation and Control of Infinite Dimensional Systems . Systems & Control: Foundations & Applications. 2007. doi : 10.1007/978-0-8176-4581-6 .[9] Thibault Bourgeron, Zhou Xu, Marie Doumic, and Maria Teresa Teixeira. “The asym-metry of telomere replication contributes to replicative senescence heterogeneity”. In: 
+
+Scientific Reports 5.1 (2015). doi : 10.1038/srep15326 .[10] Arthur Charpentier and Emmanuel Flachaire. “Log-transform kernel density estimation of income distribution”. In: L’Actualité économique 91.1 (2015), pp. 141–159. doi : 10. 7202/1036917ar .[11] Earl A. Coddington. An Introduction to Ordinary Differential Equations . 1st ed. Dover Publications, 1989. 35 [12] Alan M. Cohen. Numerical Methods for Laplace Transform Inversion . 1st ed. Vol. 5. Numerical Methods and Algorithms. 2007. doi : 10.1007/978-0-387-68855-8 .[13] Louis Comtet. Advanced Combinatorics . 1st ed. Springer Dordrecht, 1974. doi : 10.1007/ 978-94-010-2196-8 .[14] Pierre Cornilleau and Sergio Guerrero. “Controllability and observability of an artifi-cial advection–diffusion problem”. In: Mathematics of Control, Signals, and Systems 24.3 (2012), pp. 265–294. doi : 10.1007/s00498-012-0076-0 .[15] Marie Doumic and Philippe Moireau. “Asymptotic approaches in inverse problems for depolymerization estimation”. In: Inverse Problems and Imaging (2025). doi : 10.3934/ ipi.2025020 .[16] Gerald B. Folland. Fourier Analysis and Its Applications . 1st ed. Wadsworth and Brooks/Cole Mathematics Series. 2009. [17] Catherine Forbes, Merran G.A. Evans, Nicholas A. Hastings, and Brian Peacock. Statis-tical Distributions . John Wiley & Sons, 2011. doi : 10.1002/9780470627242 .[18] Donald. P. Gaver. “Observing Stochastic Processes, and Approximate Transform Inver-sion”. In: Operations Research 14.3 (1966), pp. 444–459. doi : 10.1287/opre.14.3.444 .[19] Mamadou Gueye and Pierre Lissy. “Singular optimal control of a 1-D parabolic-hyperbolic degenerate equation”. In: ESAIM: Control, Optimisation and Calculus of Variations 22.4 (2016), pp. 1184–1203. doi : 10.1051/cocv/2016036 .[20] Oliver C. Ibe. Fundamentals of applied probability and random processes . 2nd ed. Academic Press, 2014. doi : 10.1016/C2013-0-19171-4 .[21] David L. Jagerman. “An Inversion Technique for the Laplace Transform”. In: Bell System Technical Journal 61.8 (1982), pp. 1995–2002. doi : 10 . 1002 / j . 1538 - 7305 . 1982 . tb03096.x .[22] Alexey Kuznetsov. “On the Convergence of the Gaver–Stehfest Algorithm”. In: SIAM Journal on Numerical Analysis 51.6 (2013), pp. 2984–2998. doi : 10.1137/13091974X .[23] Alexey Kuznetsov and Justin Miles. “On the rate of convergence of the Gaver–Stehfest algorithm”. In: IMA Journal of Numerical Analysis 42.2 (2021), pp. 1645–1664. doi :
+
+10.1093/imanum/drab015 .[24] Hugo Martin, Marie Doumic, Maria Teresa Teixeira, and Zhou Xu. “Telomere shorten-ing causes distinct cell division regimes during replicative senescence in Saccharomyces cerevisiae”. In: Cell & Bioscience 11.180 (2021). doi : 10.1186/s13578-021-00693-3 .[25] Justin Miles. “On the Laplace transform of the lognormal distribution: Analytic continu-ation and series approximations”. In: Journal of Computational and Applied Mathematics 
+
+404 (2022). doi : 10.1016/j.cam.2021.113904 .[26] Hien D. Nguyen, Andrew T. Jones, and Geoffrey J. McLachlan. “Positive data kernel density estimation via the logKDE package for R”. In: Data Mining . 2019, pp. 269–280. 
+
+doi : 10.1007/978-981-13-6661-1_21 .[27] Jules Olayé. “An inverse problem in cell dynamics: Recovering an initial distribution of telomere lengths from measurements of senescence times”. To appear in ESAIM: Mathe-matical Modelling and Numerical Analysis (2026). doi : 10.1051/m2an/2026022 .[28] Jules Olayé. “Stochastic and deterministic approaches for studying telomere shortening and other cell dynamics”. PhD thesis. École Polytechnique, 2025. 36 [29] Jules Olayé, Hala Bouzidi, Andrey Aristov, Antoine Barizien, Salomé Gutiérrez Ramos, Charles Baroud, and Vincent Bansaye. “Estimation of the lifetime distribution from fluc-tuations in Bellman–Harris processes”. In: Journal of Mathematical Biology 90.6 (2025). 
+
+doi : 10.1007/s00285-025-02219-8 .[30] Jules Olayé and Milica Tomasevic. “Long-time behaviour of a multidimensional age-dependent branching process with a singular jump kernel modelling telomere shortening”. In: Electronic Journal of Probability 31 (2026). doi : 10.1214/25-EJP1469 .[31] Ana M. Portillo, Elisa Varela, and Juan A. García-Velasco. “Influence of telomerase ac-tivity and initial distribution on human follicular aging: Moving from a discrete to a continuum model”. In: Mathematical Biosciences 358 (2023). doi : 10.1016/j.mbs.2023. 108985 .[32] Anaïs Rat, Veronica Martinez Fernandez, Marie Doumic, M. Teresa Teixeira, and Zhou Xu. “Mathematical model linking telomeres to senescence in Saccharomyces cerevisiae reveals cell lineage versus population dynamics”. In: Nature Communications 16.1 (2025). 
+
+doi : 10.1038/s41467-025-56196-z .[33] Nathaniel J. Robinson and William P. Schiemann. “Telomerase in Cancer: Func-tion, Regulation, and Clinical Translation”. In: Cancers 14.3 (2022). doi : 10 . 3390 / cancers14030808 .[34] Simon J. Sheather and M. Chris Jones. “A reliable data-based bandwidth selection method for kernel density estimation”. In: The Journal of the Royal Statistical Society, Series B (Statistical Methodology) 53.3 (1991), pp. 683–690. doi : 10.1111/j.2517-6161.1991. tb01857.x .[35] Bernard W. Silverman. Density Estimation for Statistics and Data Analysis . Routledge, 2018. doi : 10.1201/9781315140919 .[36] Harald Stehfest. “Algorithm 368: Numerical inversion of Laplace transforms [D5]”. In: 
+
+Communications of the ACM 13.1 (1970), pp. 47–49. doi : 10.1145/361953.361969 .[37] Harald Stehfest. “Remark on algorithm 368: Numerical inversion of Laplace transforms”. In: Communications of the ACM 13.10 (1970), p. 624. doi : 10.1145/355598.362787 .[38] Alan Talbot. “The Accurate Numerical Inversion of Laplace Transforms”. In: IMA Journal of Applied Mathematics 23.1 (1979), pp. 97–120. doi : 10.1093/imamat/23.1.97 .[39] Jonathan A. D. Wattis, Qi Qi, and Helen M Byrne. “Mathematical modelling of telomere length dynamics”. In: Journal of Mathematical Biology 80.4 (2020), pp. 1039–1076. doi :
+
+10.1007/s00285-019-01448-y .[40] Ferrell S. Wheeler. “Bell polynomials”. In: ACM SIGSAM Bulletin 21.3 (1987), pp. 44–53. 
+
+doi : 10.1145/29309.29317 .[41] David V. Widder. The Laplace Transform . 2nd ed. Princeton Mathematical Series. 1946. [42] Zhou Xu, Khanh Dao Duc, David Holcman, and Maria Teresa Teixeira. “The Length of the Shortest Telomere as the Major Determinant of the Onset of Replicative Senescence”. In: Genetics 194.4 (2013), pp. 847–857. doi : 10.1534/genetics.113.152322 .37
