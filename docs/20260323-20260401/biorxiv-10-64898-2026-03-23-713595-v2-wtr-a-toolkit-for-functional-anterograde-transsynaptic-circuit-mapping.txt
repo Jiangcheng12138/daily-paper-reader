@@ -1,0 +1,486 @@
+Title: WTR: A Toolkit for Functional Anterograde Transsynaptic Circuit Mapping
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.03.23.713595v2.full.pdf
+
+Number of Pages: 51
+
+Markdown Content:
+> 1 / 51
+
+WTR: A Toolkit for Functional Anterograde Transsynaptic Circuit Mapping 
+
+Chao Chen 3,9 , Ruogu Liu 1,2,4,8,9 , Aijia Yi-Luo 1,2,4,8,9,10 , Xiaoyan Cao 1,2,8 , Jitao Hu 5 , Shikang Guan 1,2,8 , Si-yuan Chang 5 , Xiaoli Cui 1,2,8 , Wei Zhou 6 , Fei Zhao 1,2,8 , Chun-Teng Huang 7 ,Xin Duan 3,5, ✉, Lily Y. Jan 3✉, Tongfei A. Wang 1,2,8 ✉ 
+
+> 1
+
+Beijing Institute for Brain Research, Chinese Academy of Medical Sciences & Peking Union Medical College, Beijing, 102206, China 2 Chinese Institute for Brain Research, Beijing, 102206, China 3 Department of Physiology, University of California, San Francisco, CA, 94158, U.S.A. 4 College of Biological Sciences, China Agricultural University, Beijing, 100083, China 5 Department of Ophthalmology, University of California, San Francisco, CA, 94158, U.S.A. 6 Department of Anesthesia and Perioperative Care, University of California, San Francisco, CA, 94158, U.S.A. 7 Sanford Burnham Prebys Medical Discovery Institute, La Jolla, CA, 92037, U.S.A. 8 Beijing Key Laboratory of Brain Science and Brain-Machine Interface 9 These authors contributed equally: Chao Chen, Ruogu Liu, Aijia Yi-Luo. 10 Present Address: National Institute on Drug Dependence, Peking University, Beijing, 100191, China Email: wangtongfei@cibr.ac.cn (T.A.W); lily.jan@ucsf.edu (L.Y.J); xin.duan@ucsf.edu (X.D); 
+
+KEYWORDS: 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 2 / 51
+
+anterograde transsynaptic tracer, hypothalamic circuits, functional circuit mapping 
+
+ABSTRACT 
+
+The brain coordinates animal physiology and behavior via neuronal circuits. To understand and simulate brain functions, it is essential to delineate the synaptic connectivity between neurons. Transsynaptic tracers serve as powerful tools for such purposes. In response to the demand for anterograde tracers for circuit mapping and functional interrogation, we developed WTR, a fusion protein of mammalian codon-optimized WGA, TEV-protease cleavage sequence, and Recombinase. WTR expressed via AAV vectors in cell-type-specific starter neurons reaches their postsynaptic neurons and releases Cre/Flpo upon exposure to TEV-protease expressed in downstream neurons. Accompanied by Cre/Flpo-dependent expression of EGFP, GCaMP7s, or ChR2, the toolkit enables labeling, recording, or manipulation of downstream neurons. We utilized WTR to characterize downstream neurons of either glutamatergic or GABAergic neurons in the preoptic area of anterior hypothalamus for their differential actions in thermoregulation or stress responses, respectively. These results establish WTR as a versatile platform for functional anterograde circuit mapping. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 3 / 51
+
+MAIN 
+
+Neurons are building blocks of the nervous system. They communicate through synaptic connections, processing information by integrating signals from various sources and producing responses that are sent to different downstream targets. Understanding the wiring diagrams of neural circuits and decoding the functional roles of inter-connected neurons will provide essential insights into brain function. Such an effort starts by tracing and visualizing the detailed morphology and connectivity of neurons. Labeling axons with genetically encoded fluorescent proteins allows the detection of neuronal synaptic projections throughout the brain 1 . When combined with sparse labeling 2-4 , tissue clearing 5 ,and whole-brain optical imaging 6 , this approach enables high-resolution, three-dimensional reconstructions of single-neuron projection patterns, while providing little information about the downstream neurons. As an orthogonal approach for intrinsic neuronal labeling per se , transsynaptic tracers may reveal neuronal connectivity by labeling pre-synaptic (retrograde) or post-synaptic (anterograde) neurons. Identification of neurons that provide synaptic inputs to a brain region or to a specific neuronal type can be achieved by using retrograde transsynaptic tracers, such as rabies virus (RV) 7-10 and pseudorabies virus (PRV) 11 . One pioneer example is the application of the RV SAD-B19 strain for retrograde tracing 8 . Genetically modified SAD-B19 is compatible with transgenic mouse lines that express Cre or Flpo recombinase in specific neuronal types, enabling cell-type-specific targeting and tracing 12 .By integrating GCaMP or ChR2 into the Rabies payload, upstream neurons can be functionally characterized based on their neuronal activity or functional outputs 8,12,13 . As a 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 4 / 51
+
+status quo, anterograde transsynaptic tracing tools at the same level of resolution and versatility are still largely missing 14 .Anterograde transsynaptic tracers aim to label postsynaptic neurons specifically and efficiently. For example, existing viral approaches for anterograde circuit mapping, including VSV-, HSV-, and YFV-based systems, enable tracing from starter neurons to downstream targets 15-18 . However, these systems can present practical challenges, including neurotoxicity, large viral genomes, and the complexity of viral engineering. ATLAS 19 was recently established as a nanobody-based targeting agent against the extracellular N-terminus of the AMPA receptor subunit GluA1 for anterograde monosynaptic labeling. However, its application is limited to fluorescent labeling of GluA1-expressing excitatory neurons, restricting its utility for high-throughput functional circuit interrogation. The most widely-used anterograde tracer is high-titer AAV1 carrying Cre or Flpo recombinase, which can transfer from infected neurons to their downstream targets to enable manipulation of connected circuits 20,21 . However, AAV1 lacks cell-type specificity in targeting starter neurons at the injection site. We adopted a different strategy to generate a genetically encoded anterograde trans-synaptic tracing toolkit derived from wheat germ agglutinin (WGA), a lectin derived from Triticum vulgaris that is widely used in cell biology and neuroscience 22,23 . Native WGA exhibits both anterograde and retrograde tracing capability 24,25 . Gradinaru and colleagues have linked the wildtype WGA to Cre recombinase and expressed the fusion protein using AAV viral vectors 26 . In combination with Cre-dependent expression of the optogenetic opsin ChR2 in downstream neurons, WGA-Cre enables not only labeling but also perturbation of downstream neurons. Our recent effort established an anterograde 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 5 / 51
+
+transsynaptic tracer mWGA-mCherry (mWmC) that fused a mammalian codon-optimized WGA (mWGA) with mCherry 27 . The fusion protein enabled fluorescent labeling in postsynaptic neurons. AAV-encoding made it compatible with widely available transgenic tools, such as existing Cre driver lines for different neuronal cell types, while also addressing cytotoxicity issues and enabling labeling over weeks or months. However, such a single-component AAV-encoded tracer relied on the unique lysosomal enrichment properties of mCherry within the fusion protein to transport to postsynaptic cells and subsequently label the somata of postsynaptic neurons. The mWmC fusion protein , per se, is not adaptable to secondary payloads, such as GCaMP or ChR2, preventing functional perturbations in postsynaptic cells. Building on mWmC, we integrated an anterograde transsynaptic functional circuit-mapping toolkit, termed WTR, which includes a mammalian codon-optimized WGA (mWGA2.0), a tobacco etch virus protease (TEVp) cleavage sequence (TEVcs) 28,29 , and Cre or Flpo recombinase as a single fusion protein. This re-engineered WTR enables efficient anterograde transsynaptic transfer of the fusion protein, mainly restricted to first-order downstream neurons while minimizing retrograde spread. The second part of the toolkit involves TEVp, which is delivered into postsynaptic target regions. Consequently, the recombinase (Cre or Flpo) is released from the fusion protein upon TEV protease cleavage and then enters the nuclei of the postsynaptic cells. This cleavage step is designed to increase recombination efficiency by separating Cre or Flpo from the WGA carrier, thereby potentially improving nuclear access and site-specific recombination. By uncoupling recombinase activity from continued carrier spread, TEVp can also help restrict recombinase-dependent labeling to the initially transduced postsynaptic neurons. In addition, expression of TEVp in Cre-negative local neurons 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 6 / 51
+
+(using a Cre-off design) at the injection site provides a further safeguard against low-level vector leakage or local off-target spread, thereby improving starter-cell specificity. Thus, the TEVp module not only expands the functional utility of WTR but also provides an additional layer of control over both recombination efficiency and labeling specificity. Meanwhile, a third AAV component encoding Cre- or Flpo-dependent EGFP, GCaMP7s, or ChR2 is also introduced into the same area, enabling post-synaptic neuron-specific labeling, recording, or functional perturbation. In addition to various validations within the visual circuits, we primarily focused on mapping the anterograde transsynaptic targets of the mouse preoptic area of the anterior hypothalamus (POA). Previous studies implicated POA in regulating various physiological processes, such as thermoregulation, feeding, drinking, sleep, and innate behaviors 30 . Yet a detailed wiring diagram linking POA neuronal subtypes to specific functions remains undefined. Previous studies indicated multiple candidate target regions, including potential direct innervation onto the dorsomedial hypothalamus (DMH) 31-33 and periaqueductal gray (PAG) 34 . We first delineated the differential circuits downstream of either glutamatergic POA (POA Vglut2 ) or GABAergic POA (POA VGat ) neurons using the WTR toolkit. In combination with ChR2 or DREADDs, we demonstrated that DMH neurons innervated by POA Vglut2 are involved in thermoregulation. In contrast, PAG neurons innervated by POA Vglut2 promote anxiety-like behavior. In these studies, we showed that the WTR toolkit is highly adaptable to existing genetic-based approaches throughout the CNS. By combining circuit tracing and functional interrogation into one integrated toolkit, this experimental design provides an efficient platform for decoding neural circuits at both anatomical and functional levels. With improved anterograde efficiency, reduced retrograde and higher-order spread, enhanced recombinase output, 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 7 / 51
+
+and TEVp-assisted control of specificity, WTR represents a major technical advancement over previous technologies for anterograde transsynaptic functional circuit mapping. 
+
+RESULTS Anterograde but not retrograde spread of WTR 
+
+Building on the mWmC design, we generated WTR, a codon-optimized fusion protein in which mWGA2.0 is linked to a TEV protease cleavage site (TEVcs) followed by either Cre or Flpo recombinase. We also generated Cre- or Flpo-dependent WTR vectors for genetically restricted induction in defined starter populations (Fig. 1a ). A technical concern is the bidirectional transsynaptic transfer properties of purified WGA proteins, especially when high concentrations of proteins exist at the axonal terminals 24,25 .AAV-encoded mWmC restricts protein production within a given cell, and demonstrates minimal retrograde spread 27 . WTR was built on the same framework, we first tested whether it likewise preserves strongly anterograde transfer with minimal retrograde labeling. We examined the WTR spread in both anterograde and retrograde manner. The AAV2/8.EF1 α-mWGA2.0-TEVcs-Flpo was injected into the superior colliculus (SC) of Rosa26-CAG-fDIO-tdTomato (Ai65F) mice 35 , so that cells expressing or uptaking Flpo recombinase would express tdTomato ( Fig. 1c ). SC receives primary visual inputs from retinal ganglion cells (RGCs) and sends downstream projections to the lateral posterior thalamic nucleus (LP) 36,37 (Fig. 1b ). 4 weeks after injection (wpi), WTR exhibited robust anterograde transfer from SC to the LP ( Fig. 1f,g ), while minimal retrograde transfer from the SC back to RGCs was detected ( Fig. 1d,e ). Quantification of the RGC-SC-LP pathway showed that the ratio of retrograde to anterograde labeling was near zero ( Fig. 1m ), confirming the highly anterograde-specific transfer of WTR. Similarly, we examined the striatum, which receives massive excitatory inputs from the motor cortex (M1) and 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 8 / 51
+
+provides major inhibitory outputs to the substantia nigra pars reticulata (SNr) 38 (Fig. 1b ). We injected AAV2/8.EF1 α-mWGA2.0-TEVcs-Flpo into the striatum of Ai65F mice ( Fig. 1h ). We detected robust anterograde labeling in the SNr ( Fig. 1k,l ), whereas retrograde labeling in M1 was absent ( Fig. 1i,j ). These results support the conclusion that WTR preferentially undergoes anterograde transmission with minimal retrograde transfer. 
+
+WTR traces predominantly first-order anterograde targets 
+
+We next tested whether the anterograde transmission of WTR is restricted to monosynaptic targets. We injected AAV2/8.EF1 α-mWGA2.0-TEVcs-Flpo into the primary visual cortex (V1) of Ai65F mice (Fig. 1n,o ). At 2 months after injection (mpi), tdTomato-expressing cell bodies were found interspersed within the terminal fields of tdTomato-labeled axons across all regions known to receive direct projections from V1, but have no projections to the V1 region 39-41 , including SC, ventral lateral geniculate nucleus (LGNv), striatum, and pontine nucleus (PN) ( Fig. 1p,q ). To determine whether the WTR labeling extends beyond first-order targets, we performed a screen of second-order regions downstream of the superficial superior colliculus (SCs) or the striatum 37,38,42 . While dense axonal terminals were observed in the parabigeminal nucleus (PBG), which includes neurons downstream of SC neurons, we found no labeled cell bodies ( Fig. 1r,s ), suggesting no transsynaptic spread beyond first-order neurons. To quantify this, we divided the number of labeled neuronal soma in second-order regions downstream of V1 neurons by the number of labeled neuronal soma in first-order regions downstream of V1 neurons. Across all examined pathways, the second-order/first-order ratio remained zero ( Fig. 1t ), confirming that WTR-mediated labeling is restricted to first-order downstream targets and does not undergo further poly-synaptic spread. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 9 / 51
+
+WTR exhibits higher anterograde transsynaptic tracing efficiency 
+
+In the presence of TEVp, the fusion protein is cleaved at TEVcs, releasing the recombinase, which then enters the nuclei of downstream neurons to activate Cre/Flpo-dependent expressions of payloads. TEVp delivery onto the target neurons prevented recombinases from further spreading (Fig. 2a ). Having established the directionality and first-order restriction of WTR transfer, we next compared its tracing efficiency with existing anterograde tools. We compared WTR against the original wildtype WGA-Cre 26 , mWmC 27 , and AAV2/1-Cre 20 (Fig. 2b ). There are a total of four conditions: First, we injected AAV2/9.EF1 α-mWGA2.0-TEVcs-Cre plus a Cre-dependent reporter (AAV2/9.EF1 α-DIO-mGreenLantern) into POA, paired with injection of another Cre-dependent reporter (AAV2/9.EF1 α-DIO-mScarlet) plus AAV2/9.EF1 α-TEVp into DMH of the wild-type (WT) mice. DMH is a region known to receive direct projections from POA 31-33 . The second and third ones were AAV2/9.CAG-WGA-Cre and AAV2/1.EF1 α-Cre, plus the Cre-dependent reporter AAV2/9.EF1 α-DIO-mGreenLantern, into POA, paired with injection of the Cre-dependent reporter AAV2/9.EF1 α-DIO-mScarlet into the DMH of WT mice. Last, we also injected AAV2/9.EF1 α-mWGA-mCherry into the POA of WT mice (Fig. 2b ). At 3 wpi, Cre-dependent mScarlet (or mCherry for mWmC in the last set)-expressing neurons were detected in DMH ( Fig. 2c ), indicating anterograde transsynaptic transfer of WTR or other anterograde tracers from POA neurons onto the postsynaptic targets. As stationary markers, the mGreenLantern-labeled neurons in the POA indicated the transfection efficiency of the viral vectors. The number of mScarlet (or mCherry for mWmC)-expressing neurons in DMH, normalized by the number of mGreenLantern (or mCherry for mWmC)-expressing neurons in POA, was used to evaluate anterograde 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 10  / 51
+
+tracing efficiency. Given that mCherry is less bright than mScarlet, we applied an anti-RFP antibody to amplify the mCherry signals. Among all the anterograde tracers tested, WTR showed the highest tracing efficiency from POA to DMH ( Fig. 2d-f , n=3, p<0.05, one-way ANOVA followed by Tukey’s post-hoc test). 
+
+TEVp-mediated cleavage enhances functional recombinase activity 
+
+WTR differs from earlier tools not only by its mWGA2.0 backbone but also by the incorporation of a TEV protease cleavage module. We thus asked whether TEVp-mediated cleavage contributes to WTR performance by enhancing recombinase activity. For this purpose, we performed an established dual-luciferase assay 43 , that measures the Cre-driven luciferase expression in HEK cells expressing WTR with or without TEVp ( Extended Data Fig. 1a ). We found that the Cre recombinase cleaved from WTR produced significantly higher level of Gaussia luciferase luminescence, indicating enhanced catalytic efficiency, as compared with that of WTR without TEVp ( Extended Data Fig. 1b , n=3, Interaction (F (9, 40) =3.880, p=0.0013), Plasmid (F (1, 40) =40.95, p<0.0001), Time (F (9, 40)=166.9, p<0.0001), Two-way ANOVA on log-transformed data with Šídák's multiple comparisons test). These data indicate that TEVp-mediated cleavage enhances functional recombinase activity by releasing the Cre recombinase in free form to act in the nucleus. We next tested whether TEVp can efficiently cleave WTR in vivo . To do so, we injected AAV2/9.EF1 α-TEVp into the upstream region (POA) either two weeks before or concurrently with an injection of AAV2/9.EF1 α-mWGA2.0-TEVcs-Cre and AAV2/9.EF1 α-DIO-mScarlet into the POA, which was performed at the same time as the injection of AAV2/9.EF1 α-DIO-mGreenLantern and AAV2/9.EF1 α-TEVp into DMH 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 11  / 51
+
+(Extended Data Fig. 1c ). Brain tissue was harvested, sectioned, and imaged three weeks after the DMH injection ( Extended Data Fig. 1d ). Samples from mice with an injection of TEVp viral constructs two weeks prior to injection of WTR showed diminished anterograde tracing (as indicated by mGreenLantern expression in DMH) compared to samples from mice with the delivery of WTR without TEVp or with concurrent delivery of both to POA ( Extended Data Fig. 1e , n=3-4, p<0.05, one-way ANOVA followed by Tukey’s post-hoc test). This result indicates that TEVp derived from viral delivery two weeks before the appearance of WTR provides sufficient TEVp catalytic activity to efficiently cleave the TEVcs site within WTR, thereby preventing Cre/Flpo transfer from those neurons with TEVp expression in the mouse brain. 
+
+Cell-type-specific downstream labeling and functional readout with WTR 
+
+We have found WTR to be a high-efficiency anterograde tracer that delivers arecombinase payload, thereby making downstream neurons accessible for recording or manipulating their neuronal activity. In contrast to AAV1-Cre, which lacks intrinsic starter-cell specificity at the injection site, WTR can be combined with Cre- or Flpo-based strategies to initiate tracing from cell-type-specific neuronal populations. We therefore applied WTR to label neurons innervated by genetically defined starter neurons. For cell-type-specific anterograde tracing with WTR, we crossed mouse lines expressing Cre recombinase in glutamatergic (Vglut2-Cre) or GABAergic neurons (Vgat-Cre) with a reporter line that expresses tdTomato in an Flpo-dependent manner (Ai65F). By injecting AAV2/9.EF1 α -DIO-mWGA2.0-TEVcs-Flpo into POA two weeks after AAV2/9.EF1 α
+
+-DO-TEVp injection into POA, the downstream neurons of POA Vglut2 or POA Vgat neurons could be labeled with tdTomato upon receiving WTR for Flpo delivery ( Extended Data 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 12  / 51
+
+Fig. 2 ). We found that POA Vglut2 neurons and POA Vgat neurons share some common projection regions, such as the DMH and periaqueductal gray (PAG) ( Extended Data Fig. 2b,c ). In addition, there are regions exclusively targeted by POA Vglut2 neurons, such as the ventromedial nucleus of the hypothalamus (VMH) ( Extended Data Fig. 2d ). We summarized the labeled downstream regions of the POA Vglut2 neurons or POA Vgat neurons in Extended Data Fig. 2e .Several technical concerns warrant attention to further improve our circuit tracing design. DIO plasmids, which are designed for precise gene expression in Cre-expressing cells, often exhibit unintended leakage, resulting in low-level expression even in the absence of Cre recombinase 44 . Moreover, the dense and complex network of local neuronal connections within a brain region may facilitate unintended WTR dissemination beyond the Cre-expressing cells, thereby compromising circuit tracing. To mitigate both leakage from DIO-WTR vectors and local spread, we designed DO-TEVp, which is expressed in Cre-negative neurons in the same brain region that contains the starter neurons, to cleave WTR fusion protein and minimize the contamination from leaky vector or WTR transfer via local synaptic connection ( Fig. 3a ). In the Cre-positive starter neurons, DO-TEVp is not expressed, allowing the intact WTR to deliver recombinase to postsynaptic neurons. In downstream, TEVp cleavage releases Cre/Flpo from WTR to drive recombinase-dependent expression of reporters, sensors, or effectors, while limiting recombinase relay to other neurons. Because genetically restricted starter paradigms are particularly sensitive to low-level DIO leakage and local spread, we next tested whether DO-TEVp improves the specificity of downstream functional access. We injected AAV2/9.EF1 α-DO-TEVp into the POA two 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 13  / 51
+
+weeks before delivering AAV2/9.EF1 α-DIO-mWGA2.0-TEVcs-Flpo to the POA, together with AAV2/9.EF1 α-fDIO-ChrimsonR-mScarlet for Flpo-dependent optogenetic activation via ChrimsonR. In the downstream DMH, we co-injected the Flpo-dependent Ca 2+ sensor AAV2/9.EF1 α-fDIO-GCaMP7s and AAV2/9.EF1 α-TEVp in Vgat-Cre or Vglut2-Cre mice. Three weeks after injection, ex vivo Ca 2+ imaging was performed using freshly prepared DMH brain slices ( Fig. 3b ). In response to red laser stimulation of ChrimsonR-expressing axon terminals (635 nm, 10 ms pulses, 20 Hz, 120s duration, 5 mW), intracellular Ca 2+ increases or decreases were detected in DMH neurons receiving synaptic projections from POA (Fig. 3c, d). Neuronal responses were classified based on deviations exceeding three standard deviations (3 σ) from baseline activity during laser stimulation. Cells showing increases above +3 σ were defined as activated, while those showing decreases below −3 σ were defined as inhibited. In Vglut2-Cre mice, laser-stimulation of POA axon terminals produced predominantly excitatory responses in WTR-labelled DMH neurons (88/361 activated, 16/361 inhibited, 257/361 unchanged, Fig. 3c, f ). By contrast, in Vgat-Cre mice, responses were largely inhibitory (14/282 activated, 81/282 inhibited, 187/282 unchanged, Fig. 3d, f ). These opposing response profiles are consistent with the expected sign of Vglut2 vs. Vgat neuronal inputs and support the notion that WTR enables cell-type-specific anterograde targeting of downstream neurons for functional readout. To assess whether DO-TEVp injection into the upstream brain region contributes to this specificity, we repeated the Vgat-Cre experiment without DO-TEVp. We injected AAV2/9.EF1 α-DIO-mWGA2.0-TEVcs-Flpo into the POA, paired with injection of Flpo-dependent AAV2/9.EF1 α-fDIO-ChrimsonR-mScarlet plus AAV2/9.EF1 α-fDIO-GCaMP7s into DMH of Vgat-Cre mice. These mice lacking TEVp in 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 14  / 51
+
+upstream Cre-negative cells showed 39/339 activated and 212/339 unchanged DMH neurons, compared with 14/282 activated and 187/282 unchanged DMH neurons in Vgat-Cre mice with DO-TEVp injection. In contrast, the number of inhibited neurons was comparable (88/339 versus 81/282) ( Fig. 3d, e, g). Accordingly, the proportion of activated neurons was significantly higher without TEVp (39/339 versus 14/282; p=0.014, chi-square test). These data indicate that application of Cre-off TEVp to the upstream brain region with starter neurons suppresses off-target recombinase transfer and/or local network-associated spread during anterograde tracing, thus enhances cell-type-specificity of the anterograde transsynaptic tracing of WTR. 
+
+Synaptic Specificity of Anterograde Spread of WTR 
+
+It is important to determine whether WTR spreads exclusively to synaptically connected target neurons, rather than being released from axons and then picked up by nearby cells. Electrophysiological recordings of post-synaptic currents, elicited by either electrical or optogenetic stimulation of presynaptic axon terminals, are considered the gold standard for confirming mono-synaptic transmission 45 . We applied ChR2-assisted circuit mapping (CRACM) experiments to verify that WTR-labeled downstream neurons in DMH receive direct synaptic inputs from POA neurons. We first injected AAV2/9.EF1 α-DO-TEVp into the POA of Vgat-Cre mice. Two weeks later, we injected Cre-driven AAV2/9.EF1 α-DIO-mWGA2.0-TEVcs-Flpo plus AAV2/9.EF1 α-fDIO-ChR2-EGFP into POA, paired with injection of the Flpo-dependent reporter AAV2/9.EF1 α-fDIO-mScarlet and AAV2/9.EF1 α-TEVp into DMH ( Fig. 4a ). Three weeks after the second injection, brain slices of DMH were prepared, and whole-cell patch-clamp recordings were performed on DMH neurons labeled with or without mScarlet. We performed 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 15  / 51
+
+voltage-clamp recordings of inhibitory post-synaptic currents (IPSCs), which were elicited by laser stimulation of ChR2-expressing axon terminals in DMH (460 nm, 5 ms pulses, 1 Hz). Blocking action potentials with tetrodotoxin (TTX, 1 μM) abolished the opto-evoked IPSCs, whereas enhancing neuronal excitability with 4-aminopyridine (4-AP, 1 mM) in the presence of TTX rescued only monosynaptic transmission. Representative sample traces classified as monosynaptic, polysynaptic, or no detectable synaptic transmission are shown in Fig. 4b . The amplitude of IPSC, especially after 4-AP treatment, provided an assessment of the monosynaptic tracing by WTR. The amplitudes of IPSCs across ACSF, ACSF+TTX, and ACSF+TTX+4-AP conditions were quantified separately in mScarlet+ and mScarlet− DMH neurons ( Fig. 4c,d ; n = 14–15 cells per group; Friedman tests). We determined that all the recorded mScarlet-positive neurons exhibited monosynaptic IPSCs (n=14, median amplitude 275 pA, 100% reversible after 4-AP treatment), whereas only 4 of 15 mScarlet-negative neurons displayed monosynaptic IPSCs (median amplitude 97 pA, 100% reversible after 4-AP treatment); the remaining mScarlet-negative neurons exhibited either polysynaptic IPSCs (2 of 15, median amplitude 482 pA, irreversible after 4-AP treatment) or non-synaptic responses (9 of 14, amplitude too low to distinguish from noise) ( Fig. 4e,f ; n=14-15 cells per group; p=0.0003, Chi square test). This result suggests that WTR preferentially labels downstream DMH neurons that receive direct monosynaptic projections from POA Vgat neurons. 
+
+Perturbations of downstream neurons by WTR in vivo 
+
+Previous studies have shown that POA glutamatergic neurons drive hypothermic regulation of mouse physiology and behavior 46 . To extend WTR from circuit mapping to functional interrogation in vivo , we asked whether WTR could enable projection-defined, 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 16  / 51
+
+cell-type-specific manipulation of downstream neurons in behavioral experiments. Given that thermoregulation is a physiological process with a relatively long time course (a few hours), we first employed chemogenetic manipulation to investigate the POA-DMH pathway. We injected AAV2/9.EF1 α-DO-TEVp into the POA two weeks before injection of AAV2/9.EF1 α-DIO-mWGA2.0-TEVcs-Flpo into the POA, paired with injection of AAV2/9.EF1 α-fDIO-hM3Dq-mGreenLantern (Flpo-dependent DREADD receptor) plus AAV2/9.EF1 α-TEVp into DMH of Vglut2-Cre mice ( Fig. 5a ). The body temperature of these mice was monitored using implantable temperature probes (Fig. 5b ). Intraperitoneal (IP) administration of the DREADD agonist, deschloroclozapine (DCZ, 1 mg/kg), induced a significant decrease in the core body temperature ( Fig. 5c , n=7, Interaction (F (240, 1446) =3.079, p<0.0001), drug (F (1, 1446) =340.4, p<0.0001), time (F (240, 1446) =0.7253, p=0.9991). Repeated measure two-way ANOVA with Ší dák's multiple comparisons test). In contrast, using exactly the same strategy to activate the downstream DMH neurons of POA Vgat neurons did not affect thermoregulation ( Fig. 5d ,n=7, Interaction (F (240, 1446) =0.6256, p>0.9999), drug (F (1, 1446) =90.60, p<0.0001), time (F (240, 1446) =2.295, p<0.0001). Repeated measure two-way ANOVA with Ší dák's multiple comparisons test). While chemogenetics is ideal for studying slow physiological processes such as thermoregulation, we further expanded WTR to include optogenetic modalities in vivo .We targeted the POA to PAG pathway, which is reported to modulate rapid behavioral shifts such as negative valence and anxiety-like behaviors 34 . We injected AAV2/9.EF1 α-DO-TEVp into the POA two weeks before injection of AAV2/9.EF1 α-DIO-mWGA2.0-TEVcs-Flpo and AAV2/9.EF1 α-fDIO-EGFP into the POA, 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 17  / 51
+
+paired with injection of AAV2/5.EF1 α-fDIO-ChrimsonR-tdTomato plus AAV2/9.EF1 α-TEVp into the PAG of WT mice, Vglut2-Cre mice, or Vgat-Cre mice ( Fig. 5e ). In the place preference test, LED stimulation was applied whenever the animal entered the designated stimulation (LED-ON) chamber ( Fig. 5f ). The animals with ChrimsonR-expressing PAG neurons that receive POA Vglut2 innervation spent less time in the LED-ON chamber as compared with WT animals ( Fig. 5g , n=6-7, p<0.05, one-way ANOVA followed by Tukey’s post-hoc test). In contrast, similar experiments with the Vgat-Cre mice show no significant difference ( Fig. 5g ). In the open field test, optogenetic stimulation of ChrimsonR-expressing PAG neurons that receive projections from POA Vglut2 neurons spent significantly less time in the center zone compared to WT animals that were also exposed to light ( Fig. 5h, i , n=6, p<0.05, one-way ANOVA followed by Tukey’s post-hoc test). In contrast, similar experiments with Vgat-Cre mice showed no significant difference in time spent in the center zone ( Fig. 5i ). A schematic summary of these projection-defined functional effects is shown in Fig. 5j . Together, these results demonstrate that WTR can be used to functionally manipulate neurons in downstream target regions that receive projections from specific types of neurons in the upstream brain regions. 
+
+DISCUSSION 
+
+In this study, we re-engineered WTR, an anterograde transsynaptic system for functional circuit mapping. Across multiple CNS circuits, WTR demonstrated efficient, strongly biased anterograde spread, minimal retrograde labeling, and limited second-order transmission. WTR tracing can be initiated from genetically defined starter neurons and combined with recombinase-dependent functional payloads, such as Ca 2+ indicators, 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 18  / 51
+
+chemogenetics, or optogenetic effectors. This complementary toolbox enabled high-throughput circuit discovery and rapid functional validation within a single cohort of animals, thereby efficiently and comprehensively establishing links among synaptic connectivity, neuronal physiology, and animal behavior. The original WGA protein exhibited both anterograde and retrograde spread 22,23 . This concern will mitigate the findings, especially as retrograde transfer may occur via axonal uptake of WGA protein at the injection site rather than via retrograde transport of WGA from starter cells 25 . Similar to the mWmC design, AAV-encoded WTR in starter cells, as a genetically encoded fusion protein, bypassed such retrograde spread and predominantly spread anterogradely ( Fig. 1). Another important feature of anterograde tracers is monosynaptic specificity, which ensures that labeling remains restricted to direct postsynaptic targets without further relays. While we have demonstrated the potential application of WTR for labeling downstream neurons, its design does not preclude further relay beyond first-order targets. Theoretically, if WTR can spread across the synapse to first-order downstream neurons, it can also spread to second-order downstream neurons. To directly assess this possibility, we screened second-order targets downstream of V1 output pathways and found minimal labeling. This result indicates that WTR-mediated anterograde transmission is largely confined to first-order postsynaptic targets ( Fig. 1 ). 
+
+A third key question is whether WTR transfer reflects true synaptic connectivity rather than local, nonspecific tracer uptake. Our electrophysiological validation provides direct evidence that WTR-labelled postsynaptic neurons are synaptically connected downstream targets ( Fig. 4 ). In all WTR-labelled (mScarlet + ) DMH neurons tested (14/14; 100%), monosynaptic IPSCs were observed. Therefore, WTR labeling marks 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 19  / 51
+
+monosynaptically connected postsynaptic neurons, supporting synapse-dependent anterograde transfer. Regarding the transsynaptic efficiency, though it is hard to define the “ground truth”, we demonstrated that the WTR system exhibited higher transsynaptic transfer efficiency as compared to existing tools such as WGA-Cre in a defined circuit (POA →DMH) ( Fig. 2 ). The likely explanation is that the Cre/Flpo cleaved from WTR exhibited enhanced activity in catalyzing site-specific recombination compared to the WTR fusion proteins ( Extended Data Fig. 1 ), therefore offering greater ability of free recombinase, compared with fusion protein, to enter the nucleus for the catalytic actions. We recognize that the tracing efficiency of WTR does not reach 100%, as we detected a small percentage of DMH neurons that are not labeled by WTR from the POA but are nonetheless monosynaptic downstream neurons of POA neurons ( Fig. 4f ). To our knowledge, available tools remain incapable to label upstream or downstream neurons with 100% efficiency. In contrast to AAV1-Cre, which lacks intrinsic starter-cell specificity at the injection site and therefore cannot initiate tracing from genetically defined populations, the Cre-dependent mWGA2.0-TEVcs-Flpo AAV vector enables tracing from cell-type-specific starter neurons in mouse lines with a Cre driver ( Fig. 3 ). This application was further enhanced with TEVp expression in Cre-negative neurons (DO-TEVp, Cre-Off version) two weeks prior to the WTR expression at the injection site. This procedure is designed to minimize the impact of local spread of WTR from Cre-positive neurons to Cre-negative neurons, possibly due to DIO-vector leakage or the presence of local synaptic projections from Cre-positive neurons to Cre-negative neurons ( Fig. 3a ). Using cell-type-specific Ca 2+ imaging ex vivo , we demonstrated that the WTR-labeled downstream neurons 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 20  / 51
+
+exhibit physiological responses highly aligned with the neurotransmitter identity of the upstream starter cells. Specifically, optogenetic activation of POA Vglut2 nerve terminals elicited predominantly excitatory Ca 2+ transients in labeled DMH neurons, whereas optogenetic activation of POA Vgat nerve terminals evoked largely inhibitory responses (Fig. 3f ). The WTR-based system enables anterograde transsynaptic functional interrogation of downstream neurons that are difficult to accomplish with other systems like HSV, mainly due to viral toxicity that often limits experiments. This marks a significant technical advancement over many existing tools, such as mWmC, which only enables fluorescent labeling without functional testing. Using this WTR design paired with chemogenetics and optogenetic tools, we identified the downstream neurons of POA glutamatergic or GABAergic neurons in DMH or PAG. We performed patch-clamp recordings or Ca 2+ imaging to validate the monosynaptic projection from starter neurons in the POA to these downstream neurons ( Figs. 3, 4 ). We also manipulated these neurons' activity and linked it to animals’ physiology and behavior ( Fig. 5 ). Finally, modular design of AAV-based WTR promotes rapid iteration for tool development: the vectors can be easily re-engineered and readily packaged into different AAV serotypes to suit diverse experimental scenarios. This engineering flexibility is superior to other viral tracers (HSV, VSV and YFV), where changes often require substantial genome re-engineering and re-optimization of toxicity. Such modularity should facilitate adaptation of WTR to a variety of circuits and potentially to peripheral nervous system applications. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 21  / 51
+
+In summary, the WTR is an effective tool when combined with prior anatomical knowledge to design WTR injections into the brain region containing upstream neurons and TEVp viral construct injections into the brain region containing putative downstream neurons, for anterograde tracing from specific neuronal types. Future applications of this toolkit include characterizing the transcriptome of these neurons using single-cell RNA-seq or spatial transcriptomics to identify their genetic markers, or perturbing their gene expression using CRISPR. This strategy can be applied to dissect neural circuits across a variety of brain regions involved in diverse physiological and pathological processes, making the potential applications of WTR and its derived tools broad and promising. 
+
+ACKNOWLEDGEMENTS 
+
+We thank Drs. Dong Li, Wendy Yue, Kenichi Toma, and Xuaner Xiang for their constructive suggestions, and Ms. Xiaoqing Hao for assistance with stereotactic injections. We also thank the CIBR facilities for their support, including the Vector Core for virus packaging, the Laboratory Animal Resource Center for mouse husbandry, and the Optical Imaging Facility for technical assistance with imaging. We acknowledge support from the National Science and Technology Major Project (2025YFA1804600 to T.A.W.) and NIH (U01NS136405 and R01EY030138 to X.D; R01NS116588 to L.Y.J.). We also acknowledge support from the Beijing Key Laboratory of Brain Science and Brain-Machine Interface 。
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 22  / 51
+
+AUTHOR CONTRIBUTIONS 
+
+Conceptualization, Formal Analysis, and Writing of Original Draft: C.C. and T.A.W.; Investigation: C.C., R.L., A.Y.L., X.C., J.H., S.G., S.C., and X.C.; Resources: W.Z., F.Z., and C.H.; Review & Editing of Manuscript, Supervision, and Funding Acquisition: X.D., L.Y.J., and T.A.W. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 23  / 51
+
+REFERENCES 
+
+1 Luo, L., Callaway, E. M. & Svoboda, K. Genetic Dissection of Neural Circuits: A Decade of Progress. Neuron 98 , 256-281 (2018). https://doi.org/10.1016/j.neuron.2018.03.040 2 Kitamura, K., Judkewitz, B., Kano, M., Denk, W. & Hausser, M. Targeted patch-clamp recordings and single-cell electroporation of unlabeled neurons in vivo. Nat Methods 5,61-67 (2008). https://doi.org/10.1038/nmeth1150 3 Lin, R. et al. Cell-type-specific and projection-specific brain-wide reconstruction of single neurons. Nat Methods 15 , 1033-1036 (2018). https://doi.org/10.1038/s41592-018-0184-y 4 Veldman, M. B. et al. Brainwide Genetic Sparse Cell Labeling to Illuminate the Morphology of Neurons and Glia with Cre-Dependent MORF Mice. Neuron 108 , 111-127 e116 (2020). https://doi.org/10.1016/j.neuron.2020.07.019 5 Ueda, H. R. et al. Tissue clearing and its applications in neuroscience. Nat Rev Neurosci 21 , 61-79 (2020). https://doi.org/10.1038/s41583-019-0250-1 6 Jiang, T., Gong, H. & Yuan, J. Whole-brain Optical Imaging: A Powerful Tool for Precise Brain Mapping at the Mesoscopic Level. Neurosci Bull 39 , 1840-1858 (2023). https://doi.org/10.1007/s12264-023-01112-y 7 Wickersham, I. R. et al. Monosynaptic restriction of transsynaptic tracing from single, genetically targeted neurons. Neuron 53 , 639-647 (2007). https://doi.org/10.1016/j.neuron.2007.01.033 8 Wickersham, I. R., Finke, S., Conzelmann, K. K. & Callaway, E. M. Retrograde neuronal tracing with a deletion-mutant rabies virus. Nat Methods 4, 47-49 (2007). https://doi.org/10.1038/nmeth999 9 Reardon, T. R. et al. Rabies Virus CVS-N2c(DeltaG) Strain Enhances Retrograde Synaptic Transfer and Neuronal Viability. Neuron 89 , 711-724 (2016). https://doi.org/10.1016/j.neuron.2016.01.004 10 Sumser, A., Joesch, M., Jonas, P. & Ben-Simon, Y. Fast, high-throughput production of improved rabies viral vectors for specific, efficient and versatile transsynaptic retrograde labeling. Elife 11 (2022). https://doi.org/10.7554/eLife.79848 11 DeFalco, J. et al. Virus-assisted mapping of neural inputs to a feeding center in the hypothalamus. Science 291 , 2608-2613 (2001). https://doi.org/10.1126/science.1056602 12 Schwarz, L. A. et al. Viral-genetic tracing of the input-output organization of a central noradrenaline circuit. Nature 524 , 88-92 (2015). https://doi.org/10.1038/nature14600 13 Beier, K. T. et al. Circuit Architecture of VTA Dopamine Neurons Revealed by Systematic Input-Output Mapping. Cell 162 , 622-634 (2015). https://doi.org/10.1016/j.cell.2015.07.015 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 24  / 51
+
+14 Xu, X. et al. Viral Vectors for Neural Circuit Mapping and Recent Advances in Trans-synaptic Anterograde Tracers. Neuron 107 , 1029-1047 (2020). https://doi.org/10.1016/j.neuron.2020.07.010 15 Lo, L. & Anderson, D. J. A Cre-dependent, anterograde transsynaptic viral tracer for mapping output pathways of genetically marked neurons. Neuron 72 , 938-950 (2011). https://doi.org/10.1016/j.neuron.2011.12.002 16 Zeng, W. B. et al. Anterograde monosynaptic transneuronal tracers derived from herpes simplex virus 1 strain H129. Mol Neurodegener 12 , 38 (2017). https://doi.org/10.1186/s13024-017-0179-7 17 Beier, K. T. et al. Anterograde or retrograde transsynaptic labeling of CNS neurons with vesicular stomatitis virus vectors. Proc Natl Acad Sci U S A 108 , 15414-15419 (2011). https://doi.org/10.1073/pnas.1110854108 18 Li, E. et al. Anterograde transneuronal tracing and genetic control with engineered yellow fever vaccine YFV-17D. Nat Methods 18 , 1542-1551 (2021). https://doi.org/10.1038/s41592-021-01319-9 19 Rivera, J. F. et al. ATLAS: a rationally designed anterograde transsynaptic tracer. Nat Methods 22 , 1101-1111 (2025). https://doi.org/10.1038/s41592-025-02670-x 20 Zingg, B. et al. AAV-Mediated Anterograde Transsynaptic Tagging: Mapping Corticocollicular Input-Defined Neural Pathways for Defense Behaviors. Neuron 93 ,33-47 (2017). https://doi.org/10.1016/j.neuron.2016.11.045 21 Zingg, B., Peng, B., Huang, J., Tao, H. W. & Zhang, L. I. Synaptic Specificity and Application of Anterograde Transsynaptic AAV for Probing Neural Circuitry. J Neurosci 40 ,3250-3267 (2020). https://doi.org/10.1523/JNEUROSCI.2158-19.2020 22 Crossland, W. J. Anterograde and retrograde axonal transport of native and derivatized wheat germ agglutinin in the visual system of the chicken. Brain Res 347 ,11-27 (1985). https://doi.org/10.1016/0006-8993(85)90884-4 23 Naus, C., Flumerfelt, B. A. & Hrycyshyn, A. W. An anterograde HRP-WGA study of aberrant corticorubral projections following neonatal lesions of the rat sensorimotor cortex. Exp Brain Res 59 , 365-371 (1985). https://doi.org/10.1007/BF00230916 24 Basbaum, A. I. & Menetrey, D. Wheat germ agglutinin-apoHRP gold: a new retrograde tracer for light- and electron-microscopic single- and double-label studies. JComp Neurol 261 , 306-318 (1987). https://doi.org/10.1002/cne.902610211 25 Yoshihara, Y. et al. A genetic approach to visualization of multisynaptic neural pathways using plant lectin transgene. Neuron 22 , 33-41 (1999). https://doi.org/10.1016/s0896-6273(00)80676-5 26 Gradinaru, V. et al. Molecular and cellular approaches for diversifying and extending optogenetics. Cell 141 , 154-165 (2010). https://doi.org/10.1016/j.cell.2010.02.037 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 25  / 51
+
+27 Tsai, N. Y. et al. Trans-Seq maps a selective mammalian retinotectal synapse instructed by Nephronectin. Nat Neurosci 25 , 659-674 (2022). https://doi.org/10.1038/s41593-022-01068-8 28 Parks, T. D., Leuther, K. K., Howard, E. D., Johnston, S. A. & Dougherty, W. G. Release of proteins and peptides from fusion proteins using a recombinant plant virus proteinase. Anal Biochem 216 , 413-417 (1994). https://doi.org/10.1006/abio.1994.1060 29 Kim, M. W. et al. Time-gated detection of protein-protein interactions with transcriptional readout. Elife 6 (2017). https://doi.org/10.7554/eLife.30233 30 Fong, H., Zheng, J. & Kurrasch, D. The structural and functional complexity of the integrative hypothalamus. Science 382 , 388-394 (2023). https://doi.org/10.1126/science.adh8488 31 Tan, C. L. et al. Warm-Sensitive Neurons that Control Body Temperature. Cell 167 ,47-59 e15 (2016). https://doi.org/10.1016/j.cell.2016.08.028 32 Zhao, Z. D. et al. A hypothalamic circuit that controls body temperature. Proc Natl Acad Sci U S A 114 , 2042-2047 (2017). https://doi.org/10.1073/pnas.1616255114 33 Morrison, S. F. & Nakamura, K. Central Mechanisms for Thermoregulation. Annu Rev Physiol 81 , 285-308 (2019). https://doi.org/10.1146/annurev-physiol-020518-114546 34 Zhang, G. W. et al. Medial preoptic area antagonistically mediates stress-induced anxiety and parental behavior. Nat Neurosci 24 , 516-528 (2021). https://doi.org/10.1038/s41593-020-00784-3 35 Daigle, T. L. et al. A Suite of Transgenic Driver and Reporter Mouse Lines with Enhanced Brain-Cell-Type Targeting and Functionality. Cell 174 , 465-480 e422 (2018). https://doi.org/10.1016/j.cell.2018.06.035 36 Ellis, E. M., Gauvain, G., Sivyer, B. & Murphy, G. J. Shared and distinct retinal input to the mouse superior colliculus and dorsal lateral geniculate nucleus. J Neurophysiol 116 ,602-610 (2016). https://doi.org/10.1152/jn.00227.2016 37 Huerta, M. F. & Harting, J. K. Connectional Organization of the Superior Colliculus. 
+
+Trends in Neurosciences 7, 286-289 (1984). https://doi.org/Doi 10.1016/S0166-2236(84)80197-6 38 Albin, R. L., Young, A. B. & Penney, J. B. The functional anatomy of basal ganglia disorders. Trends Neurosci 12 , 366-375 (1989). https://doi.org/10.1016/0166-2236(89)90074-x 39 Simmons, P. A., Lemmon, V. & Pearlman, A. L. Afferent and efferent connections of the striate and extrastriate visual cortex of the normal and reeler mouse. J Comp Neurol 
+
+211 , 295-308 (1982). https://doi.org/10.1002/cne.902110308 40 Zingg, B. et al. Neural networks of the mouse neocortex. Cell 156 , 1096-1111 (2014). https://doi.org/10.1016/j.cell.2014.02.023 41 Oh, S. W. et al. A mesoscale connectome of the mouse brain. Nature 508 , 207-214 (2014). https://doi.org/10.1038/nature13186 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 26  / 51
+
+42 Shang, C. et al. BRAIN CIRCUITS. A parvalbumin-positive excitatory visual pathway to trigger fear responses in mice. Science 348 , 1472-1477 (2015). https://doi.org/10.1126/science.aaa8694 43 Ozcan, A. et al. Programmable RNA targeting with the single-protein CRISPR effector Cas7-11. Nature 597 , 720-725 (2021). https://doi.org/10.1038/s41586-021-03886-5 44 Botterill, J. J. et al. Off-Target Expression of Cre-Dependent Adeno-Associated Viruses in Wild-Type C57BL/6J Mice. eNeuro 8 (2021). https://doi.org/10.1523/ENEURO.0363-21.2021 45 Petreanu, L., Huber, D., Sobczyk, A. & Svoboda, K. Channelrhodopsin-2-assisted circuit mapping of long-range callosal projections. Nat Neurosci 10 , 663-668 (2007). https://doi.org/10.1038/nn1891 46 Abbott, S. B. G. & Saper, C. B. Median preoptic glutamatergic neurons promote thermoregulatory heat loss and water consumption in mice. J Physiol 595 , 6569-6583 (2017). https://doi.org/10.1113/JP274667 47 Pachitariu, M. & Stringer, C. Cellpose 2.0: how to train your own model. Nat Methods 
+
+19 , 1634-1641 (2022). https://doi.org/10.1038/s41592-022-01663-4 48 Bello-Arroyo, E. et al. MouBeAT: A New and Open Toolbox for Guided Analysis of Behavioral Tests in Mice. Front Behav Neurosci 12 , 201 (2018). https://doi.org/10.3389/fnbeh.2018.00201 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 27  / 51
+
+RESOURCE AVAILABILITY Lead contact 
+
+All reagents mentioned in this manuscript are freely accessible for academic purposes. Additional information or resource requests should be associated with lead contact Tongfei A. Wang (wangtongfei@cibr.ac.cn). 
+
+Materials availability 
+
+The DNA constructs and viruses generated by the authors will be made available to other researchers upon request. DNA constructs published in this study have been deposited to Addgene (#85333). 
+
+Data and code availability 
+
+The data and raw images supporting the findings of this study are available from the lead contact, Tongfei A. Wang (wangtongfei@cibr.ac.cn), upon request. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 28  / 51
+
+METHODS and MATERIALS REAGENT or RESOURCE SOURCE IDENTIFIER 
+
+Antibodies 
+
+goat anti-WGA Vector Labs AS-2024-1 rabbit anti-mCherry Abcam ab167453 
+
+Bacterial and Virus Strains 
+
+Adeno-associated virus-various CIBR Vector Core and Duan Lab @UCSF N/A 
+
+Chemicals, Peptides, and Recombinant Proteins 
+
+Tetrodotoxin citrate Tocris 1069 4-Aminopyridine MCE HY-B0604 Deschloroclozapine MCE HY-42110A 
+
+Critical Commercial Assays 
+
+ClonExpress Ultra One Step Cloning Kit Vazyme C115 Cypridina Luciferase Glow Assay Kit Thermo Scientific 16170 Gaussia Luciferase Glow Assay Kit Thermo Scientific 16160 
+
+Recombinant DNA 
+
+pAAV-EF1 α-mWGA2.0 -TEVcs -Cre This paper 
+
+pAAV -EF1 α-mWGA2.0 -TEVcs -Flpo This paper 
+
+pAAV -EF1 α-DIO -mWGA2.0 -TEVcs -Flpo This paper 
+
+pAAV -EF1 α-TEVp This paper 
+
+pAAV -DO -EF1 α-TEVp This paper 
+
+pAAV -EF1 α-TEVp -P2A -EGFP This paper 
+
+pAAV -EF1 α-EGFP This paper 
+
+pBR322 -EF1 α-DIO -hGLuc -CMV -CLuc This paper 
+
+pAAV -CAG -WGA -Cre Duan Lab @ UCSF 
+
+pAAV -EF1 α-mWGA -mCherry Duan Lab @ UCSF 
+
+pAAV -EF1 α-DIO -mScarlet CIBR Vector Core 
+
+pAAV -EF1 α-DIO -mGreenLantern CIBR Vector Core 
+
+pAAV -EF1 α-mScarlet CIBR Vector Core 
+
+pAAV -EF1 α-DIO -GcaMP7s CIBR Vector Core 
+
+pAAV -EF1 α-DIO -ChrimsonR -mScarlet CIBR Vector Core 
+
+pAAV -EF1 α-fDIO -hM3Dq -mGreenLantern CIBR Vector Core 
+
+pAAV -EF1 α-DIO -ChR2 -EGFP CIBR Vector Core 
+
+pAAV -EF1 α-DIO -mTagBFP2 CIBR Vector Core 
+
+pAAV -EF1 α-fDIO -Chrimson -tdTomato Addgene 171027 
+
+pAAV -EF1 α-DIO -EYFP Addgene 27056 
+
+Experimental Models: Organisms/Strains 
+
+Mouse: C57BL/6J The Jackson Laboratory Stock#: 000664; RRID: 
+
+IMSR_JAX:000664 Mouse: Vglut2-Cre The Jackson Laboratory Stock#: 016963; RRID: IMSR_JAX:016963 Mouse: Vgat-Cre The Jackson Laboratory Stock#: 028862; RRID: IMSR_JAX:028862 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 29  / 51
+
+Mouse: Rosa -LSL -H2B -GFP The Jackson Laboratory Stock#: 036761 ; RRID: 
+
+IMSR_JAX:036761 
+
+Software and Algorithms 
+
+Prism 10.1.1 Graphpad VitalView Starr Life Sciences MouBeAT Github Fiji (ImageJ) NIH Illustrator 2024 Adobe Cellpose 2.0 Carsen Stringer, Marius Pachitariu https://www.cellpose.org/ RWD Fiber Photometry System RWD Life Science 
+
+Animals 
+
+All procedures involving mice were approved by the Institutional Animal Care and Use Committee (IACUC) at the Chinese Institute for Brain Research in Beijing and at the University of California, San Francisco. Mice were maintained on a 12/12-hour light/dark cycle with regular chow and water provided ad libitum . The Vglut2-Cre, Vgat-Cre, and Ai65F transgenic mice were originally obtained from The Jackson Laboratory (stock numbers: 016963, 028862, and 032864, respectively) and were further bred at CIBR or UCSF animal facilities. 
+
+Viral vectors 
+
+All plasmids were constructed using the ClonExpress Ultra One-Step Cloning Kit (Vazyme, Nanjing, China). The TEVp fragment was obtained from plasmid pAAV-flex-taCasp3-TEVp (Addgene, #45580) and used to replace Flpo in pAAV-EF1 α-Flpo (Addgene, #55637), resulting in pAAV-EF1 α-TEVp. In the Cre-dependent cassette (Flex-switch), TEVp was inserted in the 5' to 3' orientation to create pAAV-EF1 α-DO-TEVp, enabling CreOFF-dependent control. 
+
+EF1 α-DIO-hGluc-CMV-CLuc was made from pC0037 (Addgene, #181934). 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 30  / 51
+
+The codon-optimized WGA (mWGA) sequence was synthesized by Genewiz Inc. (South Plainfield, NJ) and fused with a TEVp cleavage site (GAGAACCTGTACTTCCAGGGC), along with either Cre or Flpo recombinase. The mWGA2.0-TEVcs-Flpo sequence was inserted in the 3' to 5' orientation to generate pAAV-EF1 α-DIO-mWGA2.0-TEVcs-Flpo. The reference sequence for mWGA2.0-TEVcs-Flpo and mWGA2.0-TEVcs-Cre were as follows: mWGA2.0-TEVcs-Flpo: ATGGAGACAGACACACTCCTGCTATGGGTACTGCTGCTCTGGGTTCCAGGTTCCAC TGGTGACTATCCATATGATGTTCCAGATTATGCGTCCGGCTATCCCTATGACGTCCCG GACTATGCAGGATCCTATCCATATGACGTTCCAGATTACGCAGGACCGGTCATGACA GCACAAGCCCAGAGGTGCGGCGAACAAGGCAGCAATATGGAATGTCCAAACAACCT CTGCTGCTCTCAGTATGGCTACTGCGGTATGGGAGGAGATTACTGTGGCAAGGGGT GCCAGAATGGTGCATGCTGGACATCCAAGCGATGCGGATCTCAGGCTGGGGGAGC AACCTGTCCTAACAACCATTGTTGTTCACAGTACGGACACTGTGGGTTTGGCGCAG AATACTGTGGTGCCGGATGCCAGGGCGGACCATGTAGAGCTGACATTAAGTGTGGC TCACAGTCTGGGGGTAAACTCTGCCCCAACAATCTTTGTTGTAGTCAGTGGGGCTT CTGTGGCCTCGGCTCCGAGTTTTGCGGCGGTGGATGCCAGTCCGGTGCATGCAGT ACAGACAAGCCATGCGGGAAAGACGCAGGGGGCAGGGTGTGTACCAACAACTACT GTTGCTCCAAGTGGGGGTCATGTGGGATCGGCCCTGGCTATTGTGGGGCCGGATG TCAGTCAGGTGGATGTGATGCCGCCCGGGATCCACCGGTAGCATCCGCCACCGAG AACCTGTACTTCCAGGGCATGAGCCAGTTCGACATCCTGTGCAAGACCCCCCCCAA GGTGCTGGTGCGGCAGTTCGTGGAGAGATTCGAGAGGCCCAGCGGCGAGAAGAT CGCCAGCTGTGCCGCCGAGCTGACCTACCTGTGCTGGATGATCACCCACAACGGC ACCGCCATCAAGAGGGCCACCTTCATGAGCTACAACACCATCATCAGCAACAGCCT 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 31  / 51
+
+GAGCTTCGACATCGTGAACAAGAGCCTGCAGTTCAAGTACAAGACCCAGAAGGCCA CCATCCTGGAGGCCAGCCTGAAGAAGCTGATCCCCGCCTGGGAGTTCACCATCATC CCTTACAACGGCCAGAAGCACCAGAGCGACATCACCGACATCGTGTCCAGCCTGCA GCTGCAGTTCGAGAGCAGCGAGGAGGCCGACAAGGGCAACAGCCACAGCAAGAA GATGCTGAAGGCCCTGCTGTCCGAGGGCGAGAGCATCTGGGAGATCACCGAGAAG ATCCTGAACAGCTTCGAGTACACCAGCAGGTTCACCAAGACCAAGACCCTGTACCA GTTCCTGTTCCTGGCCACATTCATCAACTGCGGCAGGTTCAGCGACATCAAGAACG TGGACCCCAAGAGCTTCAAGCTGGTGCAGAACAAGTACCTGGGCGTGATCATTCAG TGCCTGGTGACCGAGACCAAGACAAGCGTGTCCAGGCACATCTACTTTTTCAGCGC CAGAGGCAGGATCGACCCCCTGGTGTACCTGGACGAGTTCCTGAGGAACAGCGAG CCCGTGCTGAAGAGAGTGAACAGGACCGGCAACAGCAGCAGCAACAAGCAGGAGT ACCAGCTGCTGAAGGACAACCTGGTGCGCAGCTACAACAAGGCCCTGAAGAAGAA CGCCCCCTACCCCATCTTCGCTATCAAGAACGGCCCTAAGAGCCACATCGGCAGGC ACCTGATGACCAGCTTTCTGAGCATGAAGGGCCTGACCGAGCTGACAAACGTGGTG GGCAACTGGAGCGACAAGAGGGCCTCCGCCGTGGCCAGGACCACCTACACCCAC CAGATCACCGCCATCCCCGACCACTACTTCGCCCTGGTGTCCAGGTACTACGCCTA CGACCCCATCAGCAAGGAGATGATCGCCCTGAAGGACGAGACCAACCCCATCGAG GAGTGGCAGCACATCGAGCAGCTGAAGGGCAGCGCCGAGGGCAGCATCAGATACC CCGCCTGGAACGGCATCATCAGCCAGGAGGTGCTGGACTACCTGAGCAGCTACATC AACAGGCGGATCTGA mWGA2.0-TEVcs-Cre: ATGGAGACAGACACACTCCTGCTATGGGTACTGCTGCTCTGGGTTCCAGGTTCCAC TGGTGACTATCCATATGATGTTCCAGATTATGCGTCCGGCTATCCCTATGACGTCCCG GACTATGCAGGATCCTATCCATATGACGTTCCAGATTACGCAGGACCGGTCATGACA GCACAAGCCCAGAGGTGCGGCGAACAAGGCAGCAATATGGAATGTCCAAACAACCT 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 32  / 51
+
+CTGCTGCTCTCAGTATGGCTACTGCGGTATGGGAGGAGATTACTGTGGCAAGGGGT GCCAGAATGGTGCATGCTGGACATCCAAGCGATGCGGATCTCAGGCTGGGGGAGC AACCTGTCCTAACAACCATTGTTGTTCACAGTACGGACACTGTGGGTTTGGCGCAG AATACTGTGGTGCCGGATGCCAGGGCGGACCATGTAGAGCTGACATTAAGTGTGGC TCACAGTCTGGGGGTAAACTCTGCCCCAACAATCTTTGTTGTAGTCAGTGGGGCTT CTGTGGCCTCGGCTCCGAGTTTTGCGGCGGTGGATGCCAGTCCGGTGCATGCAGT ACAGACAAGCCATGCGGGAAAGACGCAGGGGGCAGGGTGTGTACCAACAACTACT GTTGCTCCAAGTGGGGGTCATGTGGGATCGGCCCTGGCTATTGTGGGGCCGGATG TCAGTCAGGTGGATGTGATGCCGCCCGGGATCCACCGGTAGCATCCGCCACCGAG AACCTGTACTTCCAGGGCTCCAATCTCCTGACTGTTCACCAGAACCTCCCTGCGCT GCCAGTAGATGCCACTAGCGATGAGGTCAGGAAAAATCTCATGGATATGTTTAGGGA TAGACAGGCGTTTTCTGAACACACCTGGAAAATGCTGCTTAGCGTGTGCCGATCCT GGGCAGCCTGGTGTAAGCTGAACAATCGCAAATGGTTCCCCGCCGAGCCGGAGGA CGTGCGCGATTACCTGCTGTATCTCCAGGCAAGAGGGCTGGCTGTCAAGACTATCC AGCAGCACTTGGGCCAACTGAATATGCTGCATCGACGCAGCGGGCTCCCCCGGCC TAGCGATTCAAACGCAGTCTCCCTTGTTATGAGGAGAATTAGAAAGGAAAACGTAGA TGCGGGTGAGAGGGCTAAGCAGGCTCTCGCTTTTGAGCGGACTGATTTCGACCAG GTCAGATCCCTGATGGAGAACAGCGATCGGTGCCAGGACATCAGGAACCTCGCATT TCTGGGAATTGCATATAACACACTTCTGCGCATAGCTGAGATCGCCCGGATCAGAGT GAAAGACATCAGTCGAACGGACGGCGGCCGGATGCTTATTCATATTGGACGCACAA AGACATTGGTCAGCACCGCTGGCGTTGAAAAGGCCTTGTCCCTGGGCGTAACGAA GCTGGTGGAAAGATGGATCTCAGTGTCCGGCGTGGCTGACGACCCTAATAATTACTT GTTCTGTCGAGTGAGAAAAAACGGAGTCGCCGCGCCCTCTGCCACCAGCCAATTG AGTACACGGGCCCTTGAAGGGATCTTTGAGGCAACCCACCGACTCATATACGGAGC CAAGGATGACAGTGGCCAGAGGTATCTCGCCTGGTCAGGTCATTCTGCTAGGGTGG 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 33  / 51
+
+GGGCCGCACGAGACATGGCGCGGGCAGGAGTCTCCATACCAGAGATTATGCAAGC TGGAGGTTGGACAAATGTGAACATCGTTATGAACTATATCCGCAATCTTGACTCTGAA ACCGGGGCCATGGTGAGACTGCTCGAAGATGGTGACTGA 
+
+Luciferase assay 
+
+In a 48-well plate, 250 ng of either the pAAV-EF1 α-TEVp-P2A-EGFP expression vector or a control pAAV-EF1 α-EGFP vector was transfected into HEK293T cells. After 24 hours, 125 ng of the pAAV-EF1 α-mWGA2.0-TevCS-Cre expression plasmid and 125 ng of the dual luciferase reporter pBR322-EF1 α-DIO-hGLuc-CMV-CLuc were co-transfected into the cells. Cell lysates were collected at various time points post-transfection, and activity was measured using the Cypridina Luciferase Glow Assay Kit (Thermo Scientific™, 16170) and the Gaussia Luciferase Glow Assay Kit (Thermo Scientific™, 16160). All assays were conducted in white 96-well plates using a plate reader (Biotek Synergy H1). Gaussia luciferase measurements were normalized by CLuc values to account for well-to-well transfection variability. 
+
+Virus injection and stereotactic surgery 
+
+Eight-week-old wildtype mice were injected with AAVs (30 nl, titer > 10^12) at specific brain regions, including POA (AP 0.2 mm, ML 0.3 mm, DV -5.2 mm), DMH (AP -1.9 mm, ML 0.2 mm, DV -5.3 mm), PAG (AP -4.0 mm, ML 0.5 mm, DV -2.5 mm), Striatum (AP 1.2 mm, ML 2.5 mm, DV -3.5 mm), SC (AP -3.6 mm, ML 0.6 mm, DV -1.2 mm), and V1 (AP -3.5 mm, ML 2.5 mm, DV -1.2 mm), depending on the experimental objectives and the mouse strain. For optogenetic manipulation, an optic cannula (200 μm, RWD, Shenzhen, China) was stereotactically implanted following virus injection. The optic cannula was 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 34  / 51
+
+secured with dental cement (C & B Metabond Quick Adhesive Cement System, Parkell, Edgewood, NY). After each experiment, brains were sectioned and imaged using an epifluorescence microscope (Olympus, Tokyo, Japan) to confirm viral expression and the location of the implanted cannula. 
+
+Immunostaining, imaging, and quantification 
+
+Mice were anesthetized with 1–2% isoflurane and then perfused with phosphate-buffered saline (PBS, containing 137.0 mM NaCl, 2.7 mM KCl, 8.0 mM Na 2 HPO 4 , 1.8 mM KH 2 PO 4 ,pH 7.4), followed by 4% paraformaldehyde (PFA). The brains were post-fixed in 4% PFA overnight at 4°C and then sectioned into 50-μm slices in PBS using a vibrating blade microtome (Leica VT1200S, Wetzlar, Germany). For immunostaining, brain slices were blocked in blocking buffer (TBS with 0.3% Triton X-100, 10% normal donkey serum, and 2% bovine serum albumin) at room temperature for 2 hours, then incubated overnight at 4°C with primary antibodies against mCherry (rabbit anti-mCherry, 1:1000, Abcam, Cambridge, UK). This was followed by a 2-hour incubation with secondary antibodies (donkey anti-rabbit IgG conjugated with Alexa RRX, 1:1000, Jackson, West Grove, PA) at room temperature. Tissue samples were mounted with Fluoromount G (Thermo-Fisher, Waltham, MA), and specimens were imaged using a confocal microscope (Leica SP8, Wetzlar, Germany) with a 40x objective after drying. Fluorescent-positive neurons were counted using 
+
+Cellpose 47 , a deep-learning-based algorithm for cell segmentation. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 35  / 51
+
+Fresh brain slice preparation 
+
+For patch-clamp recordings or Ca 2+ imaging, coronal brain slices containing the DMH were prepared in chilled slicing solution (92.0 mM NMDG-Cl, 10.0 mM NaCl, 2.5 mM KCl, 0.5 mM CaCl 2 , 10.0 mM MgSO 4 , 20.0 mM HEPES, 1.25 mM NaH 2 PO 4 , 26.0 mM NaHCO 3 , 25.0 mM glucose, saturated with 95% O 2 + 5% CO 2 ). The 300-μm-thick brain slices were cut using a vibrating blade microtome (Leica VT1200S, Wetzlar, Germany). Non-targeted brain regions were trimmed away, and the slices were allowed to recover in the slicing solution at 35°C for 10 minutes. The slices were then transferred to a holding chamber containing artificial cerebrospinal fluid (ACSF: 116.0 mM NaCl, 2.5 mM KCl, 2.0 mM CaCl 2 , 1.0 mM MgSO 4 , 1.25 mM NaH 2 PO 4 , 26.0 mM NaHCO 3 , 25.0 mM glucose, saturated with 95% O 2 + 5% CO 2 ). The brain slices were incubated at room temperature for at least 1.5 hours before electrophysiological recordings or Ca 2+ imaging. 
+
+Electrophysiology 
+
+Whole-cell patch-clamp recordings were performed in a submerged chamber superfused (2–3 ml/min) with oxygenated ACSF at room temperature. Neurons were visually identified using an upright microscope (Olympus BX51WI, Tokyo, Japan) equipped with DIC optics; filter sets for GFP or tdTomato visualization, and a CCD camera (FLIR, Wilsonville, OR). Slices were visualized with a 60× objective under infrared illumination. Both mScarlet-labeled and unlabeled neurons surrounded by ChR2-expressing axon terminals were selected for recordings. Recordings were made using an Axon 700B amplifier, digitized with a Digidata 1550B, and recorded/analyzed using pClamp 11 software (Molecular Devices, San Jose, CA). Patch pipettes with resistances of 5–8 M Ω (Sutter, Novato, CA) were filled with internal 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 36  / 51
+
+solution containing 135.0 mM CsMeSO 4 , 1.0 mM EGTA, 10.0 mM HEPES, 3.8 MgCl 2 , 4.0 mM Na 2 -ATP, 0.4 mM Na 2 -GTP, and 10.0 mM Na 2 -phosphocreatine (adjusted to pH 7.3 with CsOH). The membrane potential was held at 0 mV to record outward inhibitory postsynaptic currents (IPSCs). Photostimulation was performed using a 460 nm LED (Mshot, Guangzhou, China) controlled by pClamp 11 software. Light intensity was set to 100% (66.24mW ) with a pulse duration of 5 ms at 1 Hz. Tetrodotoxin (TTX, 1 μM, Tocris, Bristol, UK) was bath-applied, followed by a combination of TTX and 4-aminopyridine (4-AP, 1 mM, MCE, Monmouth Junction, NJ). Access resistance was 15–30 M Ω and monitored throughout the experiment. Typically, only one neuron per slice was recorded. Data were filtered at 10 kHz and digitized at 20 kHz. 
+
+Calcium imaging 
+
+Fresh brain slices were prepared as described above. After the recovery period, slices were mounted on a microscope stage perfused with ACSF. Confocal laser-scanning microscopy was performed using the Nikon A1R system equipped with a 40× 1.2 N.A. water-immersion objective (Nikon, Tokyo, Japan). The excitation wavelength was set to 470 nm, with emission detected between 500–550 nm. Imaging was performed at depths up to 60 μm from the tissue surface. Frame-scanning was conducted for 560 frames (600s total). A 635 nm laser (CNI, Changchun, China) was used for stimulation at 20 Hz for 120 seconds, followed by a bath application of high K + (20 mM) in ACSF as a positive control. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 37  / 51
+
+Regions of interest (ROIs) corresponding to individual neurons were manually selected. 
+
+> Δ
+
+F/F0 values were calculated as (F - F0) / F0, and the data were normalized to Z-scores using Matlab, which were subsequently used to create heatmaps. 
+
+Chemogenetics 
+
+Following recovery from virus injection, a temperature probe (G2 E-Mitter, Starr Life Sciences, Oakmont, PA) was implanted into the mouse's abdominal cavity. After an additional week of recovery, the mouse was single-housed in a temperature-controlled incubator (JNYQ, Ningbo, China) with a normal light schedule and an ambient temperature of 22°C for at least overnight to acclimate to the environment. Food and water were provided ad libitum . The cage was placed on an ER4000 Energizer/Receiver (Starr Life Sciences, Oakmont, PA), which powered the E-Mitter and recorded data. 
+
+On the experimental day, the mouse was injected intraperitoneally with deschloroclozapine (1 mg/kg body weight, MCE, Monmouth Junction, NJ) or vehicle (sterile saline). Body temperature and locomotor activity were continuously monitored using VitalView software (Starr Life Sciences, Oakmont, PA) at a sampling rate of one measurement per minute. 
+
+Optogenetics 
+
+Animals that underwent virus injection and optic fiber implantation were subjected to both the open field test and the place preference test, with a 72-hour interval between the two behavioral sessions. The open field test was conducted in a white box (60 cm × 60 cm × 40 cm, length × width × height), which was virtually divided into a central area (35 cm × 35 cm) and a peripheral 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 38  / 51
+
+area. For each test, the mouse was placed in the peripheral area, and a video camera recorded its locomotion for 20 minutes to measure the time spent in the central and peripheral areas. LED stimulation (635 nm, 10 Hz, 20 ms pulse duration) was applied continuously during the test. Mouse movement tracking and analysis were done using MouBeAT 48 .For the place preference test, a white behavioral box (40 cm × 20 cm × 20 cm) was divided into two chambers. During each trial, the mouse was initially placed in the non-stimulation chamber. LED stimulation (635nm, 10Hz, 20ms pulse duration) was delivered continuously once the animal entered the stimulation chamber and ceased when the animal exited. Each test session lasted 20 minutes, and behavioral data were recorded using a camera. The LED stimulation was automatically controlled in aclosed-loop manner by the RWD Fiber Photometry System, which detected the animal's location in real-time. 
+
+QUANTIFICATION AND STATISTICAL ANALYSIS 
+
+Statistics 
+
+Statistical analyses were performed using Prism 10.1.1. Sample sizes were determined based on similar experiments in the field: 3–4 replicates for immunostaining, 10–20 replicates for electrophysiology, 4 replicates for Ca 2+ imaging, 3 replicates for luciferase assay, and 6-7 replicates for animal behavior tests. All data are expressed as mean ± standard error of the mean (SEM). Statistical details, including the sample size (n) and p-values, are provided in the text or figure legends. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 39  / 51
+
+FIGURES Fig. 1 Directionality and first-order restriction of WTR transfer. a, Schematic illustration of WTR constructs, including constitutive and Cre/Flpo-dependent designs. 
+
+b, Schematic illustration of the RGC–SC–LP and M1–striatum–SNr circuits used to assess anterograde vs. regrograde transfer following WTR injection into SC or striatum. 
+
+c–g, Injection of AAV2/8.EF1 α-mWGA2.0-TEVcs-Flpo into the superior colliculus (SC of Ai65F mice and analysis of labeling in the RGC–SC–LP pathway. retinal flat-mount ( d)and high-magnification image (e) show the absence of retrograde labeled retinal ganglion cells (RGCs), while anterograde labeling was detected inthe lateral posterior thalamic nucleus (LP), a downstream target of SC ( f,g ). 
+
+h–l, Injection of AAV2/8.EF1 α-mWGA2.0-TEVcs-Flpo into the striatum and analysis of labeling in the M1–striatum–SNr pathway. M1 ( i), and high-magnification image ( j) shows the absence of retrograde labeled neurons, while anterograde labeling were detected in the substantia nigra pars reticulata (SNr) ( k,l ). 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 40  / 51
+
+m, Retrograde/anterograde labeling ratios for the RGC–SC–LP and M1–striatum–SNr pathways (n = 3). 
+
+n, Schematic illustration of the V1 anterograde tracing assay. Following AAV2/8.EF1 α-mWGA2.0-TEVcs-Flpo injection in V1, first-order projection targets were assessed in superficial superior colliculus (SCs), pontine nucleus (PN), ventral lateral geniculate nucleus (LGNv), and striatum (Str) (solid red arrows), and potential second-order labeling was screened in downstream regions (dashed grey arrows), including parabigeminal nucleus (PBG) and deep superior colliculus (SCd) downstream of SCs, and SNr downstream of Str. 
+
+o, Injection site of AAV2/8.EF1 α-mWGA2.0-TEVcs-Flpo in the (V1) of Ai65F mice. 
+
+p,q, Anterograde labeling in first-order target regions, including SCs, LGNv, Str, and PN. Low-magnification views are shown in p and corresponding high-magnification images in q. 
+
+r,s, Labeled axonal terminals were present, but no tdTomato-positive somata were detected in the PBG, a second-order region downstream of SCs. Low- and high-magnification views are shown in r and s, respectively. 
+
+t, Second-order/first-order labeling ratios calculated for the SCs →PBG, SCs →SCd, and Str →SNr pathways. Red, tdTomato; blue, DAPI. Scale bars: 250 μm (c,d,f,h, i,k,o,p,r; bars shown in p apply to the corresponding low-magnification panels), 25 μm (l,q,s; bar shown in l applies to e, g, j; and bar in q applies to the corresponding high-magnification panels). 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 41  / 51
+
+Fig 2: WTR exhibits higher anterograde tracing efficiency from POA to DMH, as compared to other viral tools a, Schematic illustration of the TEVp strategy. WTR is cleaved by TEVp in postsynaptic neurons to release the recombinase, enabling recombinase-dependent expression while restricting recombinase relay beyond first-order targets. 
+
+b, Viral injection setup for different anterograde tracing tools: 
+
+WTR: POA, AAV2/9.EF1 α-mWGA2.0-TEVcs-Cre + AAV2/9.EF1 α-DIO-mGreenLantern; DMH, AAV2/9.EF1 α-DIO-mScarlet + AAV2/9.EF1 α-TEVp; 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 42  / 51
+
+WGA-Cre: POA, AAV2/9.CAG-WGA-Cre + AAV2/9.EF1 α-DIO-mGreenLantern; DMH, AAV2/9.EF1 α-DIO-mScarlet; 
+
+AAV1: POA, AAV2/1.EF1 α-Cre + AAV2/9.EF1 α-DIO-mGreenLantern; DMH, AAV2/9.EF1 α-DIO-mScarlet; 
+
+mWmC: POA, AAV2/9.EF1 α-mWGA-mCherry; 
+
+mWmC + Ab: POA, AAV2/9.EF1 α-mWGA-mCherry, stained with anti-mCherry antibody. 
+
+c, Representative images showing fluorescent cells in POA and DMH. Scale bar: 100 
+
+> μ
+
+m. 
+
+d-f , Quantification of labeled neurons in the POA ( d) and downstream target DMH ( e) for different groups, and corresponding anterograde tracing efficiency ( f; DMH labeled cells / POA labeled cells, %). n=3; * p<0.05, ** p<0.01, *** p<0.001, one-way ANOVA followed by Tukey's post-hoc test. Data are represented as mean ± SEM. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 43  / 51
+
+Fig 3. WTR enables recordings with downstream neurons of cell-type-specific starter neurons a, Schematic illustration of the DO-TEVp strategy. In Cre-positive starter neurons, DO-TEVp is not expressed, allowing anterograde transfer of WTR. In Cre-negative neurons at the injection site, DO-TEVp cleaves leaked or locally transferred WTR to 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 44  / 51
+
+reduce off-target spread. In postsynaptic neurons, TEVp cleavage releases Cre/Flpo to drive recombinase-dependent expression while limiting further recombinase relay. 
+
+b, Viral injection and experimental setup for Ca 2+ imaging in DMH neurons. 
+
+c-e, Heatmaps of normalized z-scores showing the activity of DMH GCaMP7s-positive neurons (activated, inhibited, or no change) in response to red light stimulation (10 ms pulse, 20 Hz, 120 s duration, 5 mW) in Vglut2-Cre mice with TEVp injection ( c), Vgat-Cre mice with TEVp injection ( d), and Vgat-Cre mice without TEVp injection ( e). 
+
+f, Pie chart showing the proportions of activated, inhibited, and unchanged responses across Vglut2-Cre mice and Vgat-Cre mice. 
+
+g, Cell counts of activated, inhibited, and unchanged DMH neurons in Vgat-Cre mice with or without TEVp Injection. n=3 mice per group. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 45  / 51
+
+Fig 4. WTR labels downstream neurons that are monosynaptically connected with starter neurons a, Viral injection strategy and experimental setup for whole-cell patch-clamp recordings from DMH neurons. 
+
+b, Representative traces showing monosynaptic, polysynaptic, or no evoked inhibitory postsynaptic currents (IPSCs) in DMH neurons during blue-light stimulation (460 nm, 5 ms pulses, 1 Hz, 5 mW) under ACSF, ACSF+TTX (1 μM), and ACSF+TTX (1 μM)+4-AP (1 mM) conditions. 
+
+c,d, IPSC amplitudes in mScarlet+ ( c) and mScarlet− ( d) DMH neurons under ACSF, ACSF+TTX, and ACSF+TTX+4-AP conditions. 
+
+e,f, Fraction of recorded mScarlet+ ( e) and mScarlet− ( f) DMH neurons exhibiting monosynaptic, polysynaptic, or no optogenetically evoked postsynaptic currents. n = 14–15 cells for panels c–f. Amplitudes were compared using Friedman tests; proportions were compared using chi-square tests. **P < 0.01, ***P < 0.001, ****P < 0.0001. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 46  / 51
+
+Fig 5: WTR enables functional manipulation of neurons downstream of cell-type-specific starter neurons a-b, Schematic illustration of viral injections for chemogenetic manipulation of POA-innervated DMH neurons. T core was measured using an implanted temperature probe. 
+
+c-d, DCZ (1 mg/kg; red and orange) or vehicle (saline; black) was injected intraperitoneally into Vglut2-Cre ( c) or Vgat-Cre ( d) mice expressing hM3Dq. Dashed lines indicate the time of injection. Vglut2-Cre: n=7, Interaction (F (240, 1446)=3.079, P<0.0001), drug (F (1, 1446)=340.4, p<0.0001), time (F (240, 1446)=0.7253, p=0.9991 ；
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 47  / 51
+
+Repeated measure two-way ANOVA with Ší dák's multiple comparisons test. Drug effect during 9-10, 37-39 min (P<0.05), 10–14, 33-36 min (P<0.01), 15-16, 27-32 min (P<0.001), and 17–26 min (P<0.0001) was significantly different.; Vgat-Cre: n=7, Interaction (F (240, 1446)=0.6256, p>0.9999), drug (F (1, 1446)=90.60, p<0.0001), time (F (240, 1446)=2.295, p<0.0001); Repeated measure two-way ANOVA with Ší dák's multiple comparisons test. Data are represented as mean ± SEM. 
+
+e, Schematic illustration of viral injection and stimulation setup (635nm, 10 Hz, 20 ms). 
+
+f, Representative locomotion traces for wildtype (gray), Vglut2-Cre (dark red), and Vgat-Cre (orange) animal groups in the two-chamber place preference test (PPT). 
+
+g, Quantification of the percentage of time spent in the LED-on chamber. n=6-7 animals per group, males only; *p<0.05, one-way ANOVA followed by Tukey's post-hoc test. Data are represented as mean ± SEM. 
+
+h, Traces of locomotion for representative wildtype (gray), Vglut2-Cre (dark red), and Vgat-Cre (orange) animal groups during red light laser stimulation. Light blue squares indicate the designated center zone. 
+
+i, Quantification of the percentage of time spent in the center zone during the open field test (OFT). n=6 animals per group, males only; *p<0.05, one-way ANOVA followed by Tukey's post-hoc test. Data are represented as mean ± SEM. 
+
+j, Summary schematic of projection-defined functional effects revealed by WTR. Manipulation of downstream neurons innervated by POA Vglut2 inputs decreased core body temperature via DMH targets and increased anxiety-like behaviors via PAG targets, whereas similar manipulations initiated from POA Vgat inputs produced no significant effects. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 48  / 51
+
+Extended Data Fig 1: TEVp cleavage to release recombinase from the fusion protein enhances recombinase activity and prevents transfer of released recombinase 
+
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 49  / 51 
+
+a, Schematic illustration of the dual-luciferase assay. HEK293T cells were transfected with the EF1 α-DIO-hGluc-CMV-CLuc and mWGA2.0-Tcs-Cre plasmids, along with TEVp-P2A-EGFP or control EGFP plasmids. 
+
+b, Luciferase activity was measured at multiple time points post-transfection. n=3, Interaction (F (9, 40) =3.880, p=0.0013), Plasmid (F (1, 40) =40.95, p<0.0001), Time (F (9, 40)=166.9, p<0.0001). Plasmid effect at 6 hrs (p=0.0004), 8 hrs (p=0.019), and 10 hrs post-transfection (p=0.001) was significantly different, as assessed by two-way ANOVA on log-transformed data with Ší dák's multiple comparisons test. 
+
+c, Viral injection setup for anterograde tracing groups with or without TEVp in the POA: 
+
+No TEVp : POA, AAV2/9.EF1 α-mWGA2.0-TEVcs-Cre + AAV2/9.EF1 α-DIO-mScarlet ;TEVp : POA, AAV2/9.EF1 α-mWGA2.0-TEVcs-Cre + AAV2/9.EF1 α-DIO-mScarlet + AAV2/9.EF1 α-DO-TEVp; 
+
+TEVp in Advance : POA, AAV2/9.EF1 α-DO-TEVp was injected 2 weeks prior to AAV2/9.EF1 α-mWGA2.0-Tcs-Cre + AAV2/9.EF1 α-DIO mScarlet; For all groups: DMH, AAV2/9.EF1 α-DIO-mGreenLantern + AAV2/9.EF1 α-TEVp. 
+
+d. Representative images showing fluorescent cells in the POA and DMH. Scale bar: 100 
+
+> μ
+
+m. 
+
+e. Quantification of total labeled cells and the percentage of anterograde labeling in the POA and DMH for the different groups. n=3–4; *p<0.05, **p<0.01, one-way ANOVA followed by Tukey's post-hoc test. Data are presented as mean ± SEM. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 50  / 51
+
+Extended Figure 2: Mapping POA neuronal projections via WTR a, Schematic illustration of viral tracer injections for anterograde tracing using AAV2/9.DIO-mWGA2.0-TEVcs-Flpo, with AAV2/9.DO-TEVp injection 2 weeks prior, injected into the POA of Vglut2-Cre::Ai65F or Vgat-Cre::Ai65F mice. 
+
+b-d, Representative images of tdTomato-positive cells (indicated by white arrowheads) detected in the DMH ( b) and PAG ( c) in both Vglut2-Cre::Ai65F and Vgat-Cre::Ai65F mice, and in the VMH ( d) only in the Vglut2-Cre::Ai65F mouse. Scale bars: 200 μm (left panel), 50 μm (right panel). 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted March 26, 2026. ;https://doi.org/10.64898/2026.03.23.713595 doi: bioRxiv preprint 51  / 51
+
+e, Summary of downstream regions labeled across the brain and their density rank, including lateral amygdala (LA), lateral hypothalamus (LH), anterodorsal thalamic nucleus (AD), paraventricular hypothalamic nucleus (PVH), dorsomedial hypothalamus (DMH), ventromedial hypothalamic nucleus (VMH), premammillary ventral nucleus (PMV), nucleus retroambiguus (RMX), periaqueductal gray (PAG), superior cerebellar peduncle (SCP), reticulotegmental nucleus (RtTg), lateral parabrachial nucleus (LPB), pontine nuclei (PnC), and medial vestibular nucleus(MVeMC).

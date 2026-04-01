@@ -1,0 +1,1086 @@
+Title: MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data
+
+URL Source: https://arxiv.org/pdf/2603.22564v1
+
+Published Time: Wed, 25 Mar 2026 00:22:23 GMT
+
+Number of Pages: 27
+
+Markdown Content:
+# MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 
+
+## XINGZHI SUN ∗, Yale University, USA 
+
+## JOÃO FELIPE ROCHA ∗, Yale University, USA 
+
+## BRETT PHELAN ∗, Yale University, USA 
+
+## DHANANJAY BHASKAR ∗, University of Wisconsin-Madison, USA 
+
+## GUILLAUME HUGUET, Université de Montréal; Mila - Quebec AI Institute, Canada 
+
+## YANLEI ZHANG, Université de Montréal; Mila - Quebec AI Institute, Canada 
+
+## D.S. MAGRUDER, Yale University, USA 
+
+## ALEXANDER TONG, Université de Montréal; Mila - Quebec AI Institute, Canada 
+
+## KE XU, Yale University, USA 
+
+## OLUWADAMILOLA FASINA, Yale University, USA 
+
+## MARK GERSTEIN, Yale University, USA 
+
+## GUY WOLF, Université de Montréal; Mila - Quebec AI Institute, Canada 
+
+## NATALIA IVANOVA, University of Georgia, USA 
+
+## CHRISTINE L. CHAFFER, Garvan Institute of Medical Research, Australia 
+
+## SMITA KRISHNASWAMY †, Yale University, USA 
+
+Understanding cellular dynamics through time-resolved single-cell transcriptomics is essential for elucidating mechanisms of develop-ment, regeneration, and disease progression. A fundamental challenge in this field is inferring continuous cellular trajectories from discrete snapshots, where biological complexity arises from stochasticity in cell fate decisions, temporal changes in cell proliferation and death, and environmental influences from the spatial tissue context. Current trajectory inference methods often rely on deterministic, mass-conserving interpolations that treat cells in isolation, thereby failing to capture the probabilistic branching, population shifts, and niche-dependent signaling that drive real-world biological processes. We introduce Manifold Interpolating Optimal-Transport Flow (MIOFlow) 2.0, a unified framework that learns biologically informed cellular dynamics by integrating manifold learning, optimal transport theory, and neural differential equations. MIOFlow 2.0 represents a significant advancement over previous generative models by explicitly modeling three core biological processes: (1) stochasticity and branching through Neural Stochastic Differential Equations; (2) non-conservative population dynamics via a learned growth-rate model initialized with unbalanced optimal transport; and (3) environmental influence through the construction of a joint latent space that unifies gene expression with spatial features such as neighborhood cell type composition and ligand-receptor signaling from spatial transcriptomics data. 
+
+> ∗
+
+Equal contribution. 
+
+> †
+
+Corresponding author: smita.krishnaswamy@yale.edu Authors’ Contact Information: Xingzhi Sun, Yale University, USA; João Felipe Rocha, Yale University, USA; Brett Phelan, Yale University, USA; Dhananjay Bhaskar, University of Wisconsin-Madison, USA; Guillaume Huguet, Université de Montréal; Mila - Quebec AI Institute, Canada; Yanlei Zhang, Université de Montréal; Mila - Quebec AI Institute, Canada; D.S. Magruder, Yale University, USA; Alexander Tong, Université de Montréal; Mila - Quebec AI Institute, Canada; Ke Xu, Yale University, USA; Oluwadamilola Fasina, Yale University, USA; Mark Gerstein, Yale University, USA; Guy Wolf, Université de Montréal; Mila - Quebec AI Institute, Canada; Natalia Ivanova, University of Georgia, USA; Christine L. Chaffer, Garvan Institute of Medical Research, Australia; Smita Krishnaswamy, Yale University, USA. 
+
+1
+
+> arXiv:2603.22564v1 [cs.LG] 23 Mar 2026
+
+2 Sun et al.         
+
+> By operating in the informative latent space of a PHATE-distance matching autoencoder, MIOFlow 2.0 ensures that trajectories respect the intrinsic geometry of the data manifold. As we show via empirical comparisons, despite the popularity of simulation-free flow matching, expressive dynamics learning via neural differential equations outperforms existing generative models in matching complex biological trajectories. We validate MIOFlow 2.0 on synthetic datasets and diverse biological applications, including embryoid body differentiation and spatially-resolved axolotl brain regeneration. Our results demonstrate that MIOFlow 2.0 not only improves trajectory accuracy but also reveals previously hidden drivers of cellular transitions, such as specific signaling niches regulating regenerative development. MIOFlow 2.0 thus bridges single-cell and spatial transcriptomics, opening new avenues for understanding tissue-scale cellular dynamics. CCS Concepts: •Computing methodologies →Machine learning ;•Applied computing →Computational biology .Additional Key Words and Phrases: Trajectory Inference, Optimal Transport, Neural Stochastic Differential Equations, Spatial Transcriptomics, Manifold Learning, Single-cell Analysis, Computational Biology.
+
+1 Introduction 
+
+Single-cell RNA sequencing (scRNA-seq) has revolutionized our ability to profile gene expression at unprecedented resolution, enabling the study of cellular heterogeneity and dynamics in complex biological processes [ 27 , 29 , 30 , 46 ]. When collected across multiple timepoints, these data capture snapshots of critical developmental programs, regenerative responses, and disease progressions. However, a fundamental limitation of scRNA-seq technology is its destructive nature: individual cells cannot be continuously tracked over time. Instead, researchers obtain population-level measurements at discrete intervals, where each timepoint consists of transcriptional profiles from different cells at varying stages of the underlying biological process. This experimental constraint presents a significant computational challenge: how can we infer continuous, cell-level trajectories from these static population snapshots when no ground-truth correspondence exists between cells across timepoints? The problem is further complicated by fundamental biological realities. First, cellular transitions exhibit stochasticity driven by noisy gene expression and probabilistic fate decisions characteristic of differentiation hierarchies [ 16 , 35 , 63 ]. Second, cell populations undergo continuous size changes due to proliferation and death that dramatically reshape population distributions, particularly in contexts such as cancer treatment response [ 20 , 21 , 36 , 52 ]. Third—and often overlooked by existing methods—cellular behavior is heavily influenced by spatial context: the local microenvironment of neighboring cells, signaling molecules, and tissue architecture. This spatial dependence is especially critical in processes such as embryonic development, immune responses, and tissue regeneration, where cell-cell communication and positional information guide cellular transitions [3, 17, 25, 45, 55]. The emergence of spatial transcriptomics technologies has created new opportunities to study how cellular trajectories depend on tissue context. These platforms provide spatially-resolved gene expression, capturing not only what genes cells express but also where cells are located and who their neighbors are. A cell’s transcriptional state evolves not in isolation but in response to its changing neighborhood—the cell types surrounding it, the ligand-receptor interactions it participates in, and the local tissue architecture. However, existing trajectory inference methods are not designed to exploit this spatial information. They treat cellular dynamics as functions of gene expression alone, missing critical environmental drivers of transitions and failing to capture how the same cell state can follow different developmental paths depending on spatial context. Beyond spatial considerations, technical challenges compound the difficulty of trajectory inference. Single-cell transcriptomic data are high-dimensional (thousands of genes) and exhibit substantial noise. However, strong gene-gene correlations driven by coordinated regulatory programs mean that meaningful biological variation typically resides MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 3on a low-dimensional manifold embedded within the high-dimensional gene expression space [ 4, 12 , 15 , 38 – 40 , 54 ]. Effective methods must therefore recover this manifold structure and learn continuous paths that respect the data’s intrinsic geometry rather than imposing Euclidean assumptions. Existing approaches to trajectory inference fall short in addressing these combined challenges. A substantial body of work focuses on generative modeling tasks, such as flowing from noise distributions to data, and is not designed for temporal interpolation [ 23 , 26 , 49 ]. Methods that do tackle trajectory inference, including TrajectoryNet [ 56 ] and Waddington-OT [ 48 ], often make restrictive assumptions such as Gaussian distributed populations. More recently, Flow Matching [ 34 , 57 ] has been applied to single-cell trajectory problems but relies on prescribed velocity fields that enforce straight-line interpolations in ambient space, ignoring curved manifold geometry. While Riemannian extensions [ 9]attempt to address geometric constraints, they are limited to simple, analytically-known manifolds. Critically, none of these methods can incorporate spatial information to make trajectories conditional on cellular neighborhoods, nor do they explicitly model the triumvirate of biological processes essential for realistic cellular dynamics: stochasticity, proliferation/death, and environmental conditioning. To address these limitations, we present Manifold Interpolating Optimal Transport Flows (MIOFlow) 2.0, a com-prehensive framework that unifies manifold learning, optimal transport, and neural differential equations to learn spatially-conditioned cellular dynamics from temporal snapshots. MIOFlow 2.0 learns continuous flows between cell populations by training neural differential equations guided by optimal transport costs computed over geodesic distances on a learned data manifold. By operating in the latent space of a geometry-aware autoencoder, MIOFlow 2.0 ensures that inferred trajectories inherently respect both local and global structure of the cellular state space. A key innovation of MIOFlow 2.0 is its spatial conditioning mechanism that extends trajectory inference to leverage spatial transcriptomics data. MIOFlow 2.0 extracts rich spatial features from cellular neighborhoods, including: (1) cell type composition—the frequencies of different cell types surrounding each cell; (2) ligand-receptor signaling—the potential for specific molecular interactions based on ligand expression in neighbors and receptor expression in the target cell; (3) spatial density patterns—local crowding and tissue organization; and (4) averaged gene expression embeddings across neighborhoods. These spatial features are then used to condition the neural differential equation, allowing the learned vector field to depend on both the cell’s transcriptional state and its spatial context. This enables MIOFlow 2.0 to model a fundamental biological reality: cells with identical gene expression profiles can follow different developmental trajectories depending on their microenvironment. Beyond spatial conditioning, MIOFlow 2.0 incorporates two additional biological priors to ensure realistic modeling. First, to capture stochasticity in cell fate decisions—a hallmark of differentiation processes—MIOFlow 2.0 employs Neural Stochastic Differential Equations (Neural SDEs) that model both deterministic drift and diffusive noise. Second, to handle non-uniform population dynamics, MIOFlow 2.0 includes a learned proliferation rate model that estimates cell growth and death, initialized via unbalanced optimal transport to account for mass creation and destruction between timepoints. Our main contributions are: 
+
+• The first trajectory inference framework that integrates spatial transcriptomics data by embedding cellular neighborhoods and gene expression into a joint latent space on which the dynamics is learned. This enables the discovery of environmental drivers of cellular transitions including cell-cell signaling, spatial organization, and microenvironmental composition. 4 Sun et al. 
+
+• The MIOFlow 2.0 framework for learning continuous cellular dynamics through manifold-constrained optimal transport, with theoretical guarantees connecting learned trajectories to geodesic transport on the data manifold. 
+
+• A unified modeling framework that explicitly incorporates three essential biological processes: stochasticity through Neural SDEs, cell proliferation and death through learned growth rates, and environmental influence through spatial feature conditioning from neighborhood composition, signaling patterns, and neighborhood gene expression. 
+
+• Comprehensive validation demonstrating superior performance over state-of-the-art methods, with application to spatially-resolved axolotl brain regeneration revealing medium spiny neuron neighborhoods as key regulators of regene rative trajectories, an insight only accessible through spatial conditioning. Our application to axolotl brain regeneration demonstrates the power of spatial conditioning: by analyzing how trajectories vary with cellular neighborhoods, MIOFlow 2.0 reveals that the local abundance of medium spiny neurons (MSNs) influences regenerative cell fate decisions. This type of insight—linking environmental spatial features to developmental outcomes—is fundamentally inaccessible to methods that model trajectories based on gene expression alone. By bridging single-cell and spatial transcriptomics, MIOFlow 2.0 enables a new class of analysis that connects molecular states, cellular trajectories, and tissue-scale organization. The remainder of this paper is organized as follows. Section 2 provides background on optimal transport and establishes our problem formulation. Section 3 details the MIOFlow 2.0 framework, including the manifold embedding approach, trajectory inference methodology, biological modeling components, and the spatial feature extraction and conditioning mechanism. Section 4 presents comprehensive experimental validation on synthetic and real biological datasets, with emphasis on spatially-resolved applications. Section 5 concludes with discussion and future directions. 
+
+2 Background 2.1 Biological Motivation: From Snapshots to Dynamics 
+
+The study of cellular identity has undergone a paradigm shift from static classification to the search for continuous developmental rules. Historically, single-cell analysis focused on "snapshots" of transcriptional states to define discrete cell types and clusters [ 43 , 66 ]. However, as researchers began to sample tissues across time, it became clear that cell states are not fixed categories but points along a continuous manifold of differentiation and maturation. This shift necessitated the development of trajectory inference methods, which aim to reconstruct the continuous paths cells follow between measured timepoints. Early methods focused on the concept of "pseudotime," ordering cells along one-dimensional paths based on tran-scriptional similarity [ 24 , 51 , 58 ]. While these models revealed the general sequence of gene expression changes, they were fundamentally non-directional and descriptive rather than predictive. Crucially, pseudotime lacks single-cell resolution in a dynamical sense; because it treats snapshots as a static continuum, it cannot track the specific lineage path of an individual cell or predict how it would evolve across branching points under different conditions. The introduction of RNA velocity [ 6, 32 ] attempted to add directionality by leveraging the ratio of unspliced to spliced mRNA to predict short-term future states. While RNA velocity provided a mechanistic leap by estimating the "velocity" of individual cells, it remains limited to short-range predictions and is highly sensitive to noise and splicing-rate assumptions. This makes it difficult for velocity-based methods to reconstruct long-range trajectories across distant developmental timepoints or to capture global population-level shifts. MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 5Despite the progress made by pseudotime and velocity-based methods, a fundamental gap remains: the ability to reconstruct global, continuous, single-cell trajectories . Pseudotime provides an ordering but no physical path; RNA velocity provides a local vector but no long-term destination. To truly understand developmental "destiny," we require a framework that treats cellular change as a continuous flow in a high-dimensional state space. Such a framework must be "global" in that it connects distant timepoints across the entire manifold, and it must operate at "single-cell resolution" to allow us to track the hypothetical history of any individual cell. However, simply interpolating between points is insufficient for biological systems. If we treat cellular movement as a purely mathematical problem, we risk learning "shortcuts" that ignore the complex constraints of life. To move from a purely geometric interpolation to a biologically plausible dynamical model, we must explicitly incorporate the fundamental principles that govern cellular evolution: stochasticity, non-conservative population mass, and environmental context. To move from these descriptive or short-range models to a predictive dynamical framework, we must account for the specific forces that govern cellular life. First, biological differentiation is inherently governed by stochasticity and branching . Transcriptional noise and probabilistic fate decisions mean that two cells starting in an identical state may diverge into distinct lineages [16, 35]. Second, cellular populations are subject to non-conservative dynamics . Unlike mechanical systems where the num-ber of particles is constant, biological tissues are sites of continuous proliferation and apoptosis. In rapid developmental stages or in response to cancer treatments, certain lineages may expand exponentially while others vanish [ 21 , 52 ]. Standard interpolation methods that enforce a conservation of mass fail to capture these density shifts, often leading to biologically nonsensical trajectories. Finally, and perhaps most critically, a cell’s journey is shaped by its environmental context . The local tissue microenvironment—composed of neighboring cell types, signaling molecules, and the gene expression of the neighboring cells—acts as a conditional input to the cell’s internal program [ 25 , 45 ]. With the advent of spatial transcriptomics, we can now observe that cells at the same stage of differentiation may follow entirely different trajectories if they reside in different spatial niches. The challenge for modern computational biology is to move beyond mere interpolation and develop a mathematical framework that unifies these principles—stochasticity, mass flux, and spatial context—into a coherent model of cellular evolution. 
+
+2.2 Optimal Transport: The Geometry of Distributional Change 
+
+Because cellular snapshots are population-level observations, we require a framework that can interpolate between entire distributions while respecting the physical cost of biological transitions. Optimal Transport (OT) provides the rigorous mathematical foundation for this task by defining the "least effort" path between cell populations [ 42 , 62 ]. In the dynamic formulation of OT, we move beyond simple static correspondences to recover continuous, global trajectories at the single-cell level. The problem can be framed as finding the most efficient way to transform a source distribution 
+
+𝜇 into a target 𝜈 through time. Let 𝜇 and 𝜈 be two probability measures representing cell populations at consecutive timepoints. The Kantorovich formulation of OT seeks a transport plan 𝜋 that minimizes the total cost of moving mass from 𝜇 to 𝜈 :
+
+𝑊 𝑝 (𝜇, 𝜈 )𝑝 := inf    
+
+> 𝜋 ∈Π(𝜇,𝜈 )
+
+∫
+
+> X×X
+
+𝑑 (𝑥, 𝑦 )𝑝 𝜋 (𝑑𝑥, 𝑑𝑦 ), (1) 6 Sun et al. where Π(𝜇, 𝜈 ) is the set of all joint distributions with marginals 𝜇 and 𝜈 , and 𝑑 (𝑥, 𝑦 ) represents the cost function, typically the Euclidean distance. While the static formulation in Eq. 1 identifies correspondences between cells, it does not describe the path taken between them. To recover continuous dynamics, we look to the dynamic formulation of Benamou and Brenier [ 5]. They showed that for 𝑝 = 2, the Wasserstein distance is equivalent to the minimum kinetic energy required to flow the density 𝜌 𝑡 from 𝜇 to 𝜈 over the time interval [0, 1]:
+
+𝑊 2 (𝜇, 𝜈 )2 = inf  
+
+> (𝜌 𝑡 ,𝑣 )
+
+∫ 10
+
+∫
+
+> R𝑑
+
+∥𝑣 (𝑥, 𝑡 )∥ 22𝜌 𝑡 (𝑑𝑥 )𝑑𝑡, (2) subject to the continuity equation 𝜕 𝑡 𝜌 𝑡 + ∇ · ( 𝜌 𝑡 𝑣 ) = 0. This continuity equation is a fundamental law of physics that ensures mass is neither created nor destroyed as it flows along the vector field 𝑣 (𝑥, 𝑡 ).However, as discussed in the biological motivation, the assumption of mass conservation is often violated in cellular systems. To resolve this, Unbalanced Optimal Transport (UOT) relaxes the strict marginal constraints [ 11 ]. By introducing divergence penalties, such as the Kullback-Leibler (KL) divergence, UOT allows for the "source" and "sink" of mass: UOT (𝜇, 𝜈 ) = inf  
+
+> 𝜋 ≥0
+
+∫
+
+𝑑 (𝑥, 𝑦 )2𝑑𝜋 (𝑥, 𝑦 ) + 𝜆 1𝐷 𝐾𝐿 (𝜋 1 ∥𝜇 ) + 𝜆 2𝐷 𝐾𝐿 (𝜋 2 ∥𝜈 ). (3) This mathematical relaxation is what enables MIOFlow 2.0 to handle the proliferation and death of cell lineages without distorting the inferred transport paths. 
+
+2.3 Neural Differential Equations: The Physics of Continuous Flows 
+
+While Optimal Transport provides the target endpoints and the energy functional, we require a flexible parameterization to learn the underlying vector field 𝑣 (𝑧, 𝑡 ). Neural Ordinary Differential Equations provide a powerful framework for this by modeling the derivative of the state 𝑍 𝑢,𝑡 as a neural network 𝑓 𝜃 [10 ]. In this view, the transformation of a cell state is not a single discrete jump but a continuous integration. 
+
+𝑍 𝑢,𝑡 = 𝑍 𝑢, 0 +
+
+∫ 𝑡 
+
+> 0
+
+𝑓 𝜃 (𝑍 𝑢,𝜏 , 𝜏 )𝑑𝜏 . (4) This continuous formulation allows us to evaluate the state of a cell at any arbitrary timepoint. It provides a bridge between the sparse snapshots collected in the lab. To account for the inherent stochasticity of differentiation, we must move beyond deterministic ODEs. Neural Stochastic Differential Equations extend this by adding a diffusion term 𝜎 (𝑍 𝑢,𝑡 , 𝑡 )𝑑𝑊 𝑡 , where 𝑊 𝑡 represents Brownian motion [ 59 ]. The resulting Ito SDE allows a single initial state to evolve into a distribution of outcomes, naturally modeling branching events and transcriptional noise. By combining the energy-minimizing principles of OT with the continuous expressive power of Neural SDEs, we can learn cellular trajectories that are both physically efficient and biologically realistic. 
+
+2.4 Related Work: The Methodological Landscape 
+
+The intersection of Optimal Transport and Differential Equations has sparked a surge of interest in trajectory inference. Early discrete methods, such as Waddington-OT (WOT) [ 48 ], used static OT to connect snapshots but lacked a continuous time model. TrajectoryNet [56] was the first to bridge this gap by regularizing a Continuous Normalizing Flow (CNF) with an OT-based kinetic energy penalty. However, TrajectoryNet assumed strict mass conservation and was primarily tested on deterministic, non-spatial systems. MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 7More recently, Flow Matching (FM) has emerged as a faster alternative to NDEs by regressing a vector field directly without full ODE integration during training [ 34 , 57 ]. Despite its efficiency, standard FM often assumes straight-line "conditional" probability paths in the ambient space. This is a significant limitation for biological data, where trajectories must follow the high-curvature paths of a low-dimensional manifold. Furthermore, while Riemannian Flow Matching [ 9 ]attempts to address geometry, it requires the manifold to be analytically defined, which is not feasible for the complex, empirical graphs generated from single-cell data. Importantly, none of the current state-of-the-art methods—including FM, WOT, or the original MIOFlow—explicitly account for the spatial context of cellular dynamics. They treat cells as isolated points in gene expression space, ignoring the tissue-scale signaling and neighborhood interactions that guide differentiation. MIOFlow 2.0 fills this critical void by being the first framework to integrate manifold-constrained OT, stochastic dynamics, and spatial conditioning into a single unified model. 
+
+3 Methods 
+
+We propose MIOFlow 2.0, a unified framework for learning biologically plausible cellular trajectories. Our method operates in a latent space of a manifold-regularized autoencoder and learns a continuous time evolution 𝑋 𝑢,𝑡 that transports samples from an initial distribution 𝜇 𝑡 to a target 𝜇 𝑡 +1. The framework consists of four components: (1) Manifold-Regularized Autoencoder to encode single-cell transcriptomics and spatial information (2) dynamic optimal transport, (3) The derivative network with auxiliary Population dynamics via learned growth/death rates, and (4) ODE/SDE integration. Compared to the original MIOFlow, MIOFlow 2.0 has added the growth rate models, stochastic differential equations, and spatial information. 
+
+3.1 The manifold-regularized autoencoder 
+
+Single-cell transcriptomic data and spatial features reside in a high-dimensional ambient space X ⊂ R𝐷 (where 𝐷 is the number of genes), yet biological constraints restrict valid cell states to a lower-dimensional manifold M ⊂ X . Standard trajectory inference methods often operate in the ambient space or use linear projections (e.g., PCA), which distort non-linear biological relationships. To respect the data’s intrinsic geometry, we first map the raw gene expression 
+
+𝑥 ∈ X to a lower-dimensional latent space 𝑧 ∈ Z ⊂ R𝑑 using a geometry-aware autoencoder. We employ the GAGA framework [ 54 ], which is specifically designed to preserve the diffusion geometry of the data. Unlike standard autoencoders that minimize only reconstruction error, our encoder 𝐸 𝜙 : X → Z is trained with a geometric loss that enforces isometry between the latent Euclidean distances and the manifold geodesic distances. We approximate these geodesic distances using PHATE [ 40 ], an information-theoretic distance metric that captures both local neighborhood structures and global non-linear trajectories via potential distances on a diffusion operator. Formally, given a pair of cells 𝑥 𝑖 , 𝑥 𝑗 , we minimize the difference between their Euclidean distance in the latent space ∥𝐸 𝜙 (𝑥 𝑖 ) − 𝐸 𝜙 (𝑥 𝑗 )∥ 2 and their PHATE distance 𝐷 PHATE (𝑥 𝑖 , 𝑥 𝑗 ). By performing trajectory inference in this biologically informative latent space Z,MIOFlow 2.0 ensures that the inferred transport costs correspond to true developmental distances rather than artifacts of high-dimensional noise. 
+
+3.2 Inferring Trajectories with Dynamic OT 
+
+Standard optimal transport finds the cheapest way to map cells from a starting distribution to a target distribution. Dynamic optimal transport extends this by finding the continuous path that moves the mass over time while minimizing 8 Sun et al. the total kinetic energy. We model this continuous evolution of cell states in the latent space Z. Given a sequence of 𝑇 observed latent distributions {𝜇 𝑖 }𝑇 −1 
+
+> 𝑖 =0
+
+corresponding to fixed timepoints 𝑡 ∈ { 0, . . . ,𝑇 − 1}, our goal is to learn a time-varying vector field 𝑓 𝜃 (𝑧, 𝑡 ) parametrized by a neural network. This vector field defines the instantaneous rate of change for a cell 𝑢 in the latent space, represented by the differential equation: 
+
+𝑑𝑍 𝑢,𝑡 
+
+𝑑𝑡 = 𝑓 𝜃 (𝑍 𝑢,𝑡 , 𝑡 ).
+
+To find the latent state of cell 𝑢 at any time 𝑡 , we integrate this vector field forward in time using a Neural ODE: 
+
+𝑍 𝑢,𝑡 = 𝑍 𝑢, 0 +
+
+∫ 𝑡 
+
+> 0
+
+𝑓 𝜃 (𝑍 𝑢,𝜏 , 𝜏 )𝑑𝜏 . (5) This integration is subject to the condition that the transported latent cells match the observed latent data distributions, meaning 𝑍 𝑢,𝑖 ∼ 𝜇 𝑖 for all 𝑖 .
+
+3.2.1 Theoretical Foundations. Solving classic dynamic optimal transport is computationally difficult because it requires solving complex equations over entire distributions. We adapt a theorem from Tong et al . [56] to demonstrate that we can solve this problem efficiently using a neural network. This theorem proves that we can replace strict matching constraints with a soft penalty in our training loss. 
+
+Theorem 1. Consider a time-varying vector field 𝑓 (𝑧, 𝑡 ) defining latent cellular trajectories 𝑑𝑍 𝑢,𝑡 = 𝑓 (𝑍 𝑢,𝑡 , 𝑡 )𝑑𝑡 with instantaneous density 𝜌 𝑡 , and a dissimilarity metric 𝐷 (𝜇, 𝜈 ) such that 𝐷 (𝜇, 𝜈 ) = 0 iff 𝜇 = 𝜈 . Given these assumptions, there exists a sufficiently large regularization parameter 𝜆 > 0 such that the optimal transport problem satisfies: 
+
+𝑊 2 (𝜇, 𝜈 )2 = inf 
+
+> 𝑍 𝑢,𝑡
+
+E
+
+ ∫ 10
+
+∥𝑓 (𝑍 𝑢,𝑡 , 𝑡 )∥ 22𝑑𝑡 
+
+
+
++ 𝜆𝐷 (𝜌 1, 𝜈 ), s.t. 𝑍 𝑢, 0 ∼ 𝜇. (6) 
+
+Moreover, because the process 𝑍 𝑢,𝑡 is defined on the embedded manifold space Z learned by our geometry-aware autoencoder, the Euclidean Wasserstein distance in latent space approximates the geodesic Wasserstein distance on the ambient manifold: 𝑊 2 (𝜇, 𝜈 ) ≃ 𝑊 𝑑 M (𝜇, 𝜈 ).
+
+For proof, see Section A. This theorem is the theoretical justification for using a neural network to perform dynamic optimal transport. The first term in Equation 6 minimizes the energy of the latent trajectories generated by the network. The second term acts as a soft penalty to ensure the final predicted latent cells match the target data distribution. By optimizing this relaxed function, the neural network learns the optimal continuous paths between latent cell states. Because we operate directly in the latent space Z, these inferred trajectories naturally follow the geometry of the data manifold. 
+
+3.2.2 Training Procedure. In practice, we observe discrete empirical distributions ˆ𝜇 𝑖 := (1/𝑛 𝑖 ) Í𝑛 𝑖  
+
+> 𝑘 =1
+
+𝛿 𝑧 𝑘 for samples 
+
+𝑧 𝑘 ∈ Z 𝑖 . We approximate the integral in equation 5 using a Neural ODE [ 10 ], which is a neural network denoted by 𝜓 𝜃 : R𝑑 × T → R𝑑 | T | . The derivatives output by the network are then integrated via an ODE solver to forecast cellular trajectory values over time for each cell. Given an initial set of points Z0, the solver predicts their future states 
+
+ˆZ1, . . . , ˆZ𝑇 −1 = 𝜓 𝜃 (Z 0, {1, . . . ,𝑇 − 1}) . We employ two training strategies to enforce the marginal constraints. (1) Local Training: We integrate sequentially between adjacent timepoints. Given observed data Z𝑡 at time 𝑡 , we predict ˆZ𝑡 +1 = 𝜓 𝜃 (Z 𝑡 , 𝑡 + 1). This focuses on matching the immediate transition. (2) Global Training: We integrate the entire trajectory starting from the initial distribution Z0 to predict all subsequent timepoints. MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 9The overall training objective combines three loss terms described as follows. 
+
+𝐿 = 𝜆 𝑚 𝐿 𝑚 + 𝜆 𝑒 𝐿 𝑒 + 𝜆 𝑑 𝐿 𝑑 . (7) 1. Marginal Matching Loss ( 𝐿 𝑚 ): This term corresponds to the relaxation in equation 6, enforcing that transported cells match the observed population at the target timepoint. We use the Wasserstein-2 distance between the predicted distribution ˆ𝜇 𝑖 (from ˆZ𝑖 ) and the observed empirical distribution 𝜇 𝑖 .
+
+𝐿 𝑚 := 
+
+> 𝑇 −1
+
+∑︁ 
+
+> 𝑖 =1
+
+𝑊 2 ( ˆ𝜇 𝑖 , 𝜇 𝑖 ). (8) We compute 𝑊 2 using the POT library [ 18 ]. This offers a significant computational advantage over Continuous Normalizing Flows (CNF), which rely on maximum likelihood estimation and require computing the trace of the Jacobian at a cost of 𝑂 (𝑑 2) per function evaluation [10]. 2. Transport Energy Regularization ( 𝐿 𝑒 ): This term minimizes the kinetic energy of the flow, ensuring that cells follow the most direct paths (straight lines in the latent space Z, which correspond to geodesics on the manifold). This loss facilitates the dynamic optimal transport solution. We approximate the integral using the solver evaluations. 
+
+𝐿 𝑒 := 
+
+> 𝑇 −1
+
+∑︁ 
+
+> 𝑖 =1
+
+∫ 𝑖 𝑖 −1
+
+∥𝑓 𝜃 (𝑍 𝑢,𝑡 , 𝑡 )∥ 22𝑑𝑡 . (9) 3. Manifold Density Loss ( 𝐿 𝑑 ): Inspired by Tong et al . [56] , we add a density regularization to encourage cellular trajectories to stay within high-density regions of the manifold, preventing shortcuts through empty space. For a predicted point 𝑧 ∈ ˆZ𝑡 , we penalize deviations from the 𝑘 -nearest neighbors in the observed data Z𝑡 .
+
+𝐿 𝑑 := 𝜆 𝑑 𝑇 −1∑︁ 
+
+> 𝑡 =1
+
+∑︁ 𝑧 ∈ ˆZ𝑡 
+
+ℓ𝑑 (𝑧, 𝑡 ), where ℓ𝑑 (𝑧, 𝑡 ) :=
+
+> 𝑘
+
+∑︁ 
+
+> 𝑖 =1
+
+max (0, min-k ({∥ 𝑧 − 𝑦 ∥ : 𝑦 ∈ Z 𝑡 }) − ℎ). (10) where ℎ > 0 is a margin parameter. 
+
+3.3 Modeling Stochastic Dynamics with Neural SDEs 
+
+While Neural ODEs effectively model deterministic trends, cellular trajectories are inherently stochastic. They are often driven by noisy gene expression and probabilistic fate decisions [ 16 , 35 ]. In such systems, a cellular state may stochastically branch into multiple distinct lineages. Deterministic flows cannot naturally represent this phenomenon because they tend to draw straight paths across empty state space. As illustrated in Figure 4, a deterministic baseline struggles to capture the complex geometry of a branching dataset. To capture this intrinsic variability and follow the diverging manifold structure, we extend our framework from deterministic ODEs to Neural Stochastic Differential Equations. 
+
+3.3.1 Neural Stochastic Differential Equations Formulation. The mathematical formulation of Neural SDEs treats the deterministic ODE as a special case where the diffusion term is zero [ 10 , 44 , 59 ]. We represent the latent state evolution as a 𝑑 -dimensional diffusion process 𝑍 = {𝑍 𝑡 }𝑡 ∈ [ 0,𝑇 ] given by the solution of the Ito SDE. 
+
+𝑑𝑍 𝑡 = 𝑏 (𝑍 𝑡 , 𝑡 ; 𝜃 )𝑑𝑡 + 𝜎 (𝑍 𝑡 , 𝑡 ; 𝜙 )𝑑𝑊 𝑡 , (11) where 𝑊 𝑡 is a standard 𝑑 -dimensional Wiener process. Biologically, the drift term 𝑏 models the deterministic devel-opmental program driving the cell forward. The diffusion term 𝜎 models the transcriptional noise and uncertainty at 10 Sun et al. developmental branching points. In this framework, the drift 𝑏 and the diffusion coefficient 𝜎 are parameterized as neural networks with weights 𝜃 and 𝜙 , respectively [ 59 ]. As established by Tzen and Raginsky [60] , for a target density 
+
+𝑞 (𝑧 ) = 𝑓 (𝑧 )𝜙 𝑑 (𝑧 ), this formulation can obtain an information-optimal exact sample of the target distribution at 𝑡 = 1.Furthermore, when the networks 𝑏 and 𝜎 are Lipschitz-continuous in 𝑧 uniformly in 𝑡 , there exists a progressively mea-surable mapping between the Wiener process and the latent state 𝑍 [ 7, 59 ]. This ensures the existence and uniqueness of the learned cellular trajectories. 
+
+3.3.2 Momentum-Based Trajectory Refinement. To account for the global dynamics of the biological process and preserve the manifold structure in sparse regions, we guide the trajectories with a momentum term. We refine the drift term 𝑏 (𝑍 𝑡 , 𝑡 ) by incorporating historical velocity: 
+
+𝑑𝑍 𝑡 = [( 1 − 𝛽 )𝑓 𝜃 (𝑍 𝑡 , 𝑡 ) + 𝛽𝑣 (𝑍 𝑡 , 𝑡 )] 𝑑𝑡 + 𝜎 (𝑍 𝑡 , 𝑡 ; 𝜙 )𝑑𝑊 𝑡 , (12) where 𝑣 (𝑍 𝑡 , 𝑡 ) is the momentum term representing an average of the previous drift: 
+
+𝑣 (𝑍 𝑡 , 𝑡 ) :=
+
+∫ 𝑡 
+
+> 0
+
+𝑤 (𝜉 )𝑓 𝜃 (𝑍 𝑡 −𝜉 , 𝑡 − 𝜉 )𝑑𝜉, (13) and 𝑤 (·) : R+ → [ 0, 1] is a weight function. This momentum term acts as a stabilizer, smoothing the gradients and ensuring that the inferred trajectories maintain a consistent direction that respects the global structure of the data manifold. In other words, instead of taking sharp turns to match existing populations, momentum creates more gradual curved trajectories that account for mising populations. 
+
+3.4 Modeling Cell Proliferation and Death 
+
+Biological populations are non-conservative, as processes such as cell proliferation and apoptosis continuously reshape the distribution of cell states over time. Classical optimal transport enforces a strict conservation of mass, which can lead to biased trajectories when trying to match snapshots with non-uniform growth or death. To account for these non-conservative dynamics, we introduce a proliferation neural network ℎ𝜓 (𝑧, 𝑡 ) that estimates the local growth or death rate for a cell in the latent state 𝑧 at time 𝑡 . For a cell at state 𝑧 , ℎ𝜓 (𝑧, 𝑡 ) estimates the expected relative mass or number of descendants at a subsequent timepoint. Values of ℎ𝜓 (𝑧, 𝑡 ) < 1 indicate cell death or exit from the population, while values ℎ𝜓 (𝑧, 𝑡 ) > 1 indicate proliferation. This modifies the predicted marginal distribution ˆ𝜇 by weighting the transported samples: 
+
+ˆ𝜇 (·) =
+
+Í𝑗 ℎ𝜓 (𝑧 𝑗 , 𝑡 )𝛿 𝑧 𝑗 (·) 
+
+Í𝑗 𝑔 𝜓 (𝑧 𝑗 , 𝑡 ) . (14) The resulting weighted distribution is utilized in the marginal matching loss 𝐿 𝑚 :
+
+𝐿 𝑚 := 
+
+> 𝑇 −1
+
+∑︁ 
+
+> 𝑖 =1
+
+𝑊 2 ( ˆ𝜇 𝑖 , 𝜇 𝑖 ), (15) where 𝜇 𝑖 is the ground-truth discrete distribution at time 𝑖 with uniform weights. By incorporating ℎ𝜓 , MIOFlow 2.0 can effectively model systems with drastic population shifts, such as those found in cancer treatment response or rapid embryonic expansion. 
+
+3.4.1 Initialization via Unbalanced Optimal Transport. To ensure the proliferation network is biologically grounded, we initialize its weights using the marginals of static unbalanced optimal transport (UOT). UOT relaxes the marginal matching constraints, allowing for mass creation and destruction between distributions. For each pair of adjacent MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 11       
+
+> Fig. 1. Overview of the MIOFlow model. A. We initialize with scRNA-seq data and spatial transcriptomics, then concatenate both feature sets into a jointly embedded latent space. Each data point in this latent space represents a cell embedding informed by its neighbors. B. The embedding serves as input to three networks: a proliferation network predicting the proliferation rate, and drift and diffusion networks comprising the SDE/ODE model. C. The resulting trajectories can be visualized over the latent space.
+
+timepoints 𝑡 and 𝑡 + 1, we solve for the optimal non-negative coupling 𝜋 ∗:
+
+𝜋 ∗ := arg min  
+
+> 𝜋 ≥0
+
+∫ 
+
+∥𝑧 𝑡 − 𝑧 𝑡 +1 ∥2 𝑑𝜋 (𝑧 𝑡 , 𝑧 𝑡 +1) + 𝜆 1𝐷 KL (𝜋 1 ∥𝜇 𝑡 ) + 𝜆 2𝐷 KL (𝜋 2 ∥𝜇 𝑡 +1)
+
+
+
+, (16) where 𝜋 1 and 𝜋 2 are the first and second marginals of the transport plan 𝜋 . We choose a small relaxation parameter 
+
+𝜆 1 and a large 𝜆 2 to allow for significant mass changes at time 𝑡 while encouraging strong alignment with the target distribution at time 𝑡 + 1.The initial growth function is then estimated using the source marginal of the optimal coupling: 
+
+𝑔 𝜓 (𝑧 𝑡 , 𝑡 ) ≈ 𝜋 ∗ 
+
+> 1
+
+(𝑧 𝑡 ) :=
+
+∫
+
+𝜋 ∗ (𝑧 𝑡 , 𝑧 𝑡 +1) d𝑧 𝑡 +1. (17) This initialization provides a "warm-start" for the proliferation network, which is then refined during the joint training of the continuous vector field and the growth rate model. 
+
+3.5 Spatially-Aware Dynamics via Joint Embeddings 
+
+A key innovation of MIOFlow 2.0 is the integration of cellular microenvironment and tissue organization into the definition of the cell state. We posit that the vector field governing cell state evolution depends not only on the intrinsic transcriptional state of a cell but also on its local microenvironment and the signals it receives from its neighbors. This dependency is a fundamental principle across biological systems: stem cell niches direct differentiation fate [ 33 , 47 ], while in oncology, the tumor microenvironment drives cancer cell plasticity, metastasis, and therapy resistance [ 25 , 45 ]. Similarly, immune cell states are heavily modulated by tissue context, where local signaling networks can induce polarization or exhaustion distinct from lineage-intrinsic programs [8, 19]. To capture these dual drivers of dynamics, we construct a joint feature space that unifies the intrinsic gene expression profile with the extrinsic spatial context. 
+
+3.5.1 Joint Feature Construction and Embedding. We define the state of cell 𝑖 as a pair of vectors (𝑥 (𝑖 ) 
+
+> 𝑔
+
+, 𝑥 (𝑖 ) 
+
+> 𝑠
+
+). Here, 
+
+𝑥 (𝑖 ) 
+
+> 𝑔
+
+∈ R𝐷 𝑔 represents the intrinsic gene expression profile. The vector 𝑥 (𝑖 ) 
+
+> 𝑠
+
+∈ R𝐷 𝑠 encodes the spatial context and is 12 Sun et al.           
+
+> Fig. 2. features Extraction for MIOFlow 2.0. A. Build the neighborhood graph using knn graph or Voronoi polygons B. Compute local cell type frequency from neighborhood. Colors indicate cell types. C. Compute ligand-receptors signalling strength from neighbors to target cell. D. Local Expression Niche: The mean PCA embedding vector of neighboring cells E. Concatenate cell features with their spatial neighbors information
+
+computed directly by aggregating features from the cell’s local neighbors, N ( 𝑖 ). The spatial vector 𝑥 (𝑖 ) 
+
+> 𝑠
+
+is computed from three features: 1. Neighborhood Composition: A vector containing the frequency of each cell type within N ( 𝑖 ). 2. Interaction Potential: For known ligand-receptor pairs, the product of the receptor expression in cell 𝑖 and the sum of ligand expression in N ( 𝑖 ). 3. Local Expression Niche: The mean PCA embedding vector of N ( 𝑖 ). These spatial modalities are concatenated and dimensionality-reduced by PCA to obtain a single spatial feature vector, 𝑥 (𝑖 ) 
+
+> 𝑠
+
+.We then construct a low-dimensional joint gene-spatial embedding by projecting each of 𝑥 (𝑖 ) 
+
+> 𝑠
+
+and 𝑥 (𝑖 ) 
+
+> 𝑔
+
+through their own Geometry-aware autoencoders 𝐸 𝜙 and 𝐸 𝜃 respectively, yielding 𝑧 (𝑖 ) =
+
+h
+
+𝐸 𝜙 (𝑥 (𝑖 ) 
+
+> 𝑠
+
+), 𝑠 · 𝐸 𝜃 (𝑥 (𝑖 ) 
+
+> 𝑔
+
+)
+
+i
+
+. Here, 𝑠 is a hyperparameter which controls the contribution of the spatial embedding to the overall trajectory. The Neural SDE is trained to learn the trajectory 𝑍 𝑡 directly on this joint manifold: 
+
+𝑑𝑍 𝑡 = 𝑓 𝜃 (𝑍 𝑡 , 𝑡 )𝑑𝑡 + 𝜎 (𝑍 𝑡 , 𝑡 )𝑑𝑊 𝑡 . (18) This approach ensures that the inferred dynamics are driven by the complete cellular state, allowing the model to distinguish between cells with identical expression but distinct environmental histories. Below, we explain in detail the construction of the spatial features. 
+
+3.5.2 Spatial Feature Extraction. We extract spatial features through a structured graph-based methodology that summarizes the neighborhood of each cell represented on Figure 2. First, we construct a cell-cell graph based on the spatial coordinates provided by spatial transcriptomics data, typically using k-nearest neighbors or Voronoi polygons, which is extended to include edges between all points within some MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 13 distance 𝑑 on the initial graph. We then apply message passing on this graph to obtain aggregated node features that describe the neighborhoods of each cell, which we refer to as spatial features. 
+
+3.5.3 Neighborhood Composition and Signaling. We characterize the local environment through several distinct spatial descriptors. For categorical features such as cell types, we convert the categories into one-hot vector encodings and sum over all neighbors to compute local cell type frequencies. To explicitly model cell-cell communication, we calculate ligand-receptor interaction potentials for known signaling pairs [ 28 ]. For each such pair, we sum the product of the receptor expression in the target cell by the ligand expression of each of its spatial neighbors. This aggregate feature quantifies the "input signal" that cell experiences from local cell signalling. 
+
+3.5.4 Local Expression Niche. We compute a local expression niche feature to capture the broader transcriptional state of the microenvironment. We first project the raw gene expression data into a lower dimensional space using principal component analysis. We then calculate the mean of these principal component embeddings across the spatial neighbors of each cell. This step yields a concise summary of the gene expression profile surrounding the target cell. To form the final spatial feature representation, we concatenate the neighborhood composition, signaling potentials, and the local expression niche. We apply a secondary principal component analysis to this concatenated vector to reduce its dimensionality. As detailed in Algorithm 1, these enriched spatial features are used to condition the neural differential equation. This allows the learned vector field to vary with the microenvironment. 
+
+3.6 MIOFlow 2.0 Framework 
+
+We integrate the manifold-constrained optimal transport, stochastic differential dynamics, proliferation modeling, and spatial conditioning into a unified framework. This integration allows MIOFlow 2.0 to learn trajectories that are both geometrically faithful to the data manifold and biologically plausible. An overview of the complete learning procedure for MIOFlow 2.0 is detailed in Algorithm 2. A full detailed description is provided on Appendix B. As shown in the algorithm, the framework is flexible and can operate in different modes depending on the availability of spatial data or the specific solver required for the biological system. 
+
+3.6.1 Unified Training Objective. The final objective function is a combination of the transport, manifold, and bio-logical priors described in the previous sections. During each training iteration, we sample batches of cells and their corresponding spatial conditions across timepoints. The model parameters for the drift 𝑏 𝜃 , diffusion 𝜎 𝜙 , and growth rate 𝑔 𝜓 are updated simultaneously to minimize the total loss. The use of the PHATE-distance matching autoencoder ensures that all differential equations are solved within a latent space where Euclidean distances approximate biological geodesic distances. 
+
+3.6.2 Trajectory Inference and Prediction. Once trained, MIOFlow 2.0 can be used to predict the continuous-time evolution of any cell state. By providing an initial transcriptional state and an optional sequence of spatial environments, the model integrates the learned SDE to generate a distribution of likely future states. This capability allows for the discovery of critical branching points and the identification of environmental drivers that steer cells toward specific fates. The spatial conditioning mechanism, in particular, enables the simulation of "what-if" scenarios, such as predicting how a regenerative trajectory might change if the surrounding cell type composition were altered. 14 Sun et al. 
+
+Algorithm 1 Computing Spatial Features  
+
+> 1:
+
+Input: 
+
+• Cell-by-gene expression matrix 𝑋 = (𝑥 𝑐𝑔 )𝑐 ∈ C , 𝑔 ∈ G 
+
+• Cell-by-location matrix 𝑌 = (( 𝑦 𝑐 1, 𝑦 𝑐 2)) 𝑐 ∈ C 
+
+• Cell type assignments 𝜏 = (𝜏 𝑐 )𝑐 ∈ C with 𝜏 𝑐 ∈ { 1, . . . , 𝑀 }• Ligand-Receptor pairs P = {( 𝑙, 𝑟 ) : 𝑙, 𝑟 ∈ G , 𝑙 is a ligand , 𝑟 is a receptor, and 𝑙 → 𝑟 is a known pair } 
+
+> 2:
+
+Output: Spatial features 𝑆  
+
+> 3:
+
+𝐺 ← MakeGraph (𝑌 ) ⊲ Construct cell-cell graph from locations  
+
+> 4:
+
+𝐸 ← PCA (𝑋 ) ⊲ Compute gene expression embeddings  
+
+> 5:
+
+for each cell 𝑐 ∈ C do  
+
+> 6:
+
+N ( 𝑐 ) ← Neighbors (𝐺, 𝑐 ) 
+
+> 7:
+
+𝑚 𝑐 ← 1 
+
+> | N ( 𝑐 ) |
+
+Í𝑐 ′ ∈ N ( 𝑐 ) 𝐸 𝑐 ′ ⊲ Local expression niche  
+
+> 8:
+
+ℎ𝑐 ← CellTypeFrequencies (N ( 𝑐 )) ⊲ ℎ𝑐 ∈ R𝑀 : frequency vector  
+
+> 9:
+
+𝑎 𝑐 ← 0 ∈ R| P | ⊲ Initialize ligand-receptor vector  
+
+> 10:
+
+for each pair (𝑙, 𝑟 ) ∈ P with index 𝑘 do  
+
+> 11:
+
+for 𝑐 ′ ∈ N ( 𝑐 ) do  
+
+> 12:
+
+𝑎 𝑐 [𝑘 ] ← 𝑎 𝑐 [𝑘 ] + 𝑥 𝑐 ′𝑙 · 𝑥 𝑐𝑟 ⊲ Accumulate interaction potential  
+
+> 13:
+
+end for  
+
+> 14:
+
+𝑎 𝑐 [𝑘 ] ← 𝑎 𝑐 [𝑘 ]| N ( 𝑐 ) |  
+
+> 15:
+
+end for  
+
+> 16:
+
+end for  
+
+> 17:
+
+𝑀 𝑝𝑐𝑎 ← ( 𝑚 𝑐 )𝑐 ∈ C  
+
+> 18:
+
+𝐻 ← ( ℎ𝑐 )𝑐 ∈ C  
+
+> 19:
+
+𝐴 ← ( 𝑎 𝑐 )𝑐 ∈ C  
+
+> 20:
+
+𝑆 𝑟𝑎𝑤 ← NormalizeAndConcatenate (𝐻, 𝑀 𝑝𝑐𝑎 , 𝐴 ) 
+
+> 21:
+
+𝑆 ← PCA (𝑆 𝑟𝑎𝑤 ) ⊲ Dimensionality reduction of joint spatial features  
+
+> 22:
+
+return 𝑆 
+
+Algorithm 2 MIOFlow 2.0  
+
+> 1:
+
+Input: Time-series gene expression data {𝑋 1, . . . , 𝑋 𝑇 }, optional spatial features {𝑆 1, . . . , 𝑆 𝑇 } 
+
+> 2:
+
+Output: Trained trajectory model parameters 𝜃, 𝜙,𝜓  
+
+> 3: 4:
+
+{𝑍 1, . . . , 𝑍 𝑇 } ← GAGA ({ 𝑋 1, . . . , 𝑋 𝑇 , 𝑆 1, . . . , 𝑆 𝑇 }) ⊲ Co-Embed in low-dimensional space  
+
+> 5: 6:
+
+for each training iteration do  
+
+> 7:
+
+Sample mini-batches {z𝑡 }𝑇 𝑡 =1 and {s𝑡 }𝑇 𝑡 =1 (if spatial features provided)  
+
+> 8:
+
+if local mode then  
+
+> 9:
+
+Integrate from 𝑡 to 𝑡 + 1 using dynamics 𝑓 𝜃 , 𝑔 𝜙 (informed by s𝑡 if available)  
+
+> 10:
+
+else ⊲ global mode  
+
+> 11:
+
+Integrate from the first timepoint 𝑡 = 1 to the entire trajectory (informed by s𝑡 if available)  
+
+> 12:
+
+end if  
+
+> 13:
+
+Predict cell masses using learned growth model ℎ𝜓  
+
+> 14:
+
+𝐿𝑜𝑠𝑠 ← 𝐿 𝑚 , 𝐿 𝑒 , 𝐿 𝑑  
+
+> 15:
+
+Update dynamics parameters 𝜃, 𝜙 and growth model parameters 𝜓 via gradient descent  
+
+> 16:
+
+end for  
+
+> 17:
+
+return trained parameters MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 15 
+
+4 Results 
+
+In order to validate MIOFlow 2.0 we used problems of increasing difficulty. We started using the SERGIO simulator to obtain a synthetic but biologically relevant baseline. Then we did an ablation study on sythetic data to show the effectiveness of our biologically plausible designs. Lastly we conducted a case study running our algorithm in a real-world axolotl spatial transcriptomics [64]. 
+
+4.1 Synthetic single-cell data generation with SERGIO 
+
+We use SERGIO [ 14 ], a stochastic gene regulatory network (GRN) simulator, to generate synthetic single-cell gene expression data with known ground-truth regulatory structure, differentiation trajectories, and temporal dynamics. SERGIO begins by constructing a directed gene regulatory network consisting of 𝐺 genes, where edges represent regulatory interactions. A subset of genes are designated as master regulators, which have no incoming edges and act as external drivers of cellular programs. The remaining genes are regulated by one or more upstream transcription factors according to the specified GRN topology. Each regulatory edge ( 𝑗 → 𝑖 ) is associated with a signed interaction strength 𝑤 𝑖 𝑗 , indicating activation or repression. Cell type specific expression programs are defined by prescribing target expression levels for the master regulators, which serve as boundary conditions for different cellular states or fates. Gene expression dynamics are simulated by integrating a system of stochastic differential equations forward in time. For each gene 𝑖 , the expression level 𝑥 𝑖 (𝑡 ) evolves according to 
+
+𝑑𝑥 𝑖 (𝑡 )
+
+𝑑𝑡 = 𝑏 𝑖 +∑︁   
+
+> 𝑗 ∈reg (𝑖 )
+
+𝑤 𝑖 𝑗 
+
+𝑥 𝑗 (𝑡 )𝑛 𝑖 𝑗 
+
+𝐾 𝑛 𝑖 𝑗  
+
+> 𝑖 𝑗
+
++ 𝑥 𝑗 (𝑡 )𝑛 𝑖 𝑗 
+
+− 𝜆 𝑖 𝑥 𝑖 (𝑡 ) + 𝜂 𝑖 (𝑡 )
+
+where 𝑏 𝑖 is the basal transcription rate, reg (𝑖 ) denotes the set of regulators of gene 𝑖 , 𝐾 𝑖 𝑗 and 𝑛 𝑖 𝑗 are the Hill constant and cooperativity coefficient, respectively, 𝜆 𝑖 is a gene-specific degradation rate, and 𝜂 𝑖 (𝑡 ) is a stochastic noise term modeling intrinsic transcriptional variability. The noise is typically modeled as Gaussian with variance proportional to expression level, generating realistic cell-to-cell heterogeneity. To simulate differentiation and lineage branching, SERGIO defines a directed graph over discrete cell states and integrates the stochastic dynamics along each transition. Continuous gene expression trajectories are generated by gradually interpolating master regulator expression programs between connected states. Single cells are then obtained by sampling expression profiles along these trajectories, producing populations that capture progenitor states, intermediate transitions, and terminal fates. To emulate experimental single-cell RNA sequencing data, SERGIO applies a technical noise model to the simulated expression values, including library size effects, dropout events, and sampling noise, resulting in sparse count matrices. Optionally, SERGIO further decomposes expression levels into spliced and unspliced mRNA counts by simulating tran-scription, splicing, and degradation processes, enabling downstream RNA velocity analyses. We generated two synthetic datasets representing trajectory topologies commonly observed in single-cell studies: a trifurcating differentiation process and a curved, S-shaped trajectory. 
+
+4.1.1 Trifurcation trajectories. The trifurcation dataset simulates a differentiation process in which a single progenitor cell state gives rise to three distinct terminal cell fates. We simulated 100 genes across 500 cells, organized according to a differentiation graph with one initial cell type and three downstream cell types. This was achieved by defining a differentiation graph in which one initial cell type has outgoing transitions to three downstream cell types, each 16 Sun et al. associated with a distinct master regulator expression program. Cells were sampled along all three trajectories, producing a continuous branching structure with a shared progenitor region and three diverging lineages. 
+
+4.1.2 S-shaped trajectory. The S-shaped dataset models a more complex trajectory involving cell-cycle dynamics coupled with fate specification. We simulated a cell-cycle driven differentiation process consisting of 1000 genes and 990 cells. In this setting, cells first undergo a cyclic progression corresponding to cell-cycle dynamics. From a specific point along the cycle, the trajectory bifurcates into two terminal fates. The final S-shaped dataset was obtained by subsampling 315 cells along the combined cycle and bifurcation trajectories, resulting in a curved differentiation path. 
+
+4.1.3 Synthetic Results. We compared MIOFlow 2.0 against several baseline trajectory inference methods on both the trifurcation and S-shaped SERGIO datasets. The baseline methods includes Schrodinger Bridges [ 13 , 41 ] (using an ODE and SDE solvers) and Conditional Flow Matching [ 10 , 22 ]. These methods represent diverse approaches to modeling cellular trajectories, including stochastic bridge processes and continuous normalizing flows implemented via neural ODEs. In order to evaluate each method we follow the same procedure. First, we obtained the latent space of the simulation using PHATE [40]. Then in order to evaluate each method we used a hold-out strategy at each timepoint. Let D = {( 𝑧 𝑖 , 𝑡 𝑖 )} 𝑁 𝑖 =1 denote the dataset where 𝑧 𝑖 ∈ R𝑑 represents the latent coordinates and 𝑡 𝑖 ∈ { 0, 1, . . . ,𝑇 − 1}
+
+denotes the discrete timepoint. For each timepoint 𝑡 , we randomly partition the samples into a training set D (𝑡 ) 
+
+> 𝑡𝑟𝑎𝑖𝑛
+
+and a test set D (𝑡 ) 
+
+> 𝑡𝑒𝑠𝑡
+
+, withholding a fraction 𝛼 of samples for testing. This stratified splitting ensures that test samples are available at every timepoint to assess reconstruction quality across the full temporal range. Each trajectory inference method is trained exclusively on D𝑡𝑟𝑎𝑖𝑛 to learn a velocity field 𝑣 𝜃 (𝑧, 𝑡 ) that captures the underlying cellular trajectories. The learned vector fields can be integrated as either an ordinary differential equation (ODE) or, for methods that model stochasticity, a stochastic differential equation (SDE). 
+
+Trajectory Generation. Starting from training samples at 𝑡 = 0, we generate trajectories by integrating the learned vector field over the time interval [0,𝑇 − 1].
+
+𝑑𝑧 𝑑𝑡 = 𝑣 𝜃 (𝑧, 𝑡 ), 𝑧 (0) ∼ D (0) 
+
+> 𝑡𝑟𝑎𝑖𝑛
+
+(19) The resulting trajectories are clustered into 𝐾 branches using 𝑘 -means clustering on their endpoints, and a mean trajectory 𝝁 𝑘 (𝑡 ) is computed for each branch 𝑘 ∈ { 1, . . . , 𝐾 }. 𝐾 is determined depending on the number of endpoint in the simulation, for the trifurcation 𝑘 = 3 and S-shaped 𝑘 = 1 (same as a simple average). 
+
+Evaluation Metric. For each test sample x ∈ D test , we compute the minimum Euclidean distance to the nearest point on any mean branch trajectory: 
+
+𝑑 (x) = min    
+
+> 𝑘 ∈ { 1,...,𝐾 }
+
+min    
+
+> 𝑡 ∈ [ 0,𝑇 −1]
+
+∥x − 𝝁 𝑘 (𝑡 )∥ 2 (20) We report the mean and standard deviation of 𝑑 (x) across all test samples as the trajectory reconstruction error. This metric quantifies how well the learned trajectories cover the held-out data distribution at each timepoint. The quantitative results for the SERGIO datasets are summarized in Table 1. MIOFlow 2.0 achieved the lowest reconstruction error on both topologies. Moreover, we can observe on Figure 3 the results of each method on the PHATE [ 40 ] latent space. On the trifurcation datasets, the other methods adhere somewhat to the manifold, but their trajectories fail to capture curved details and tend to traverse regions where no points are sampled. The S-shaped MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 17 
+
+> Fig. 3. Comparison of trajectory inference methods on synthetic SERGIO datasets. (Top) Trifurcation dataset with three terminal fates. (Bottom) S-shaped dataset with cyclic progression and bifurcation. Cells are colored by ground truth timepoint. Predicted mean branch trajectories for each method are shown as colored curves. MIOFlow 2.0 maintains close adherence to the data manifold, while baseline methods deviate into unpopulated regions or fail to capture fine-scale curvature.
+
+dataset demonstrates how accounting for the latent space in a geometrical manner makes a difference when computing trajectories. While these methods can more or less follow the shape of the data, sampling from their trajectories would generate substantial measurement errors, since they largely fall outside the manifold. MIOFlow 2.0, by contrast, adheres faithfully to the data manifold.   
+
+> Table 1. Trajectory reconstruction error (mean ±std) from held-out test samples to the nearest point on predicted trajectories.
+
+Dataset Method S-shaped Trifurcation MIOFlow 0.082 ± 0.070 0.243 ± 0.202 
+
+SF2M (ODE) 0.134 ± 0.122 0.278 ± 0.240 
+
+SF2M (SDE) 0.115 ± 0.091 0.320 ± 0.285 
+
+OT-CFM 0.118 ± 0.095 0.298 ± 0.250 
+
+4.2 Ablation Study 
+
+To evaluate the individual effectiveness of the stochastic dynamics modeling and the growth/death rate model, we conducted an ablation study using three synthetic datasets. These datasets were specifically designed to isolate and simulate three fundamental biological behaviors: (1) branching dynamics, representing cell fate decisions; (2) population proliferation, simulating rapid growth; 18 Sun et al. (3) population attrition, simulating cell death. These scenarios represent common pitfalls for standard flow-based models, which typically assume a constant population density and deterministic paths. We compared a baseline version of MIOFlow 2.0 consisting only of the manifold-constrained optimal transport against versions incrementally incorporating our biological priors. As shown in Figure 4, the baseline model is capable of interpolating between snapshots but introduces spurious trajectories between branches (left: there are trajectories between branches that do not overlap with the cells), across populations (middle: there are ), and fails to match the growing population (right). In contrast, adding the growth rate model does not induce the trajectories that Furthermode, the Furthermore, the deterministic baseline struggles to capture the complex geometry of the branching dataset. In contrast, the integration of Neural Stochastic Differential Equations allows the model to capture the probabilistic nature of the branching event, producing trajectories that more faithfully follow the diverging manifold structure. These results demonstrate that while manifold-constrained OT provides a strong geometric foundation, the explicit modeling of stochasticity and proliferation is essential for capturing the nuances of realistic biological processes. 
+
+> Fig. 4. We evaluate MIOFlow 2.0 across three simulated datasets designed to mimic key biological characteristics: branching, population decline (dying), and proliferation (growing). By comparing the base MIOFlow 2.0 framework with variants incorporating the growth-rate model and Neural SDEs, we visualize the resulting trajectories. The results demonstrate that these integrated biological priors more accurately capture the geometry of the data manifold and the underlying dynamics compared to the base interpolation.
+
+4.3 Biological Case Study: Spatial-transcriptomics on axolotl data 
+
+In order to validate the performance of the spatial-variant of MIOFlow 2.0 on real data, we applied it to a spatial transcriptomics dataset of axalotl brain samples. The dataset records spatial gene expresssion over seven timepoints of axolotl brain regeneration [ 64 ]. The authors describe a regenerative trajectory traversing four sequential cell types -MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 19 reaEGCs, rIPCs, IMNs, and nptxEXs, so we sought to interrogate spatial features involved in this particular developmental pathway. Spatial features for cell type neighborhood, ligand-receptor expression, and local expression niche where computed as described above. The resulting concatenated spatial features were dimensionality reduced by PCA, and the dataset was subset to include only the cell types of interest. The resulting spatial feature vectors where used as input in the PHATE-regularized autoencoder to generate a spatial-feature embedding. This embedding was scaled by a factor of 
+
+𝑠 = 0.2 relative to the gene embedding, which together give a 4-dimensional embedding of the data, shown in Figure 5 A-C. Details pertaining to preprocessing and feature extraction are provided in Appendix C. The resulting trajectories are shown in Figure 5 D. These trajectories exhibit continuity in both the gene and spatial-feature embeddings, capturing smooth transitions between cell types occupying similar spatial niches. We are able to decode these trajectories to recover gene trends over time, shown in Figure 5 G, as well as dynamics in spatial features. Among these spatial trends, we observe an increase in NCAN:SDC3 signalling, (Figure 5 E-F), a lingand-receptor pair whose signalling activity has been implicated in promoting neurite outgrowth and regulating cell adhesion [ 1]. The distribution of this spatial feature within the joint embedding space is shown in Figure 5 C. Only a certain subpopulation of terminal cell states experience high NCAN:SDC3 signalling, and MIOFlow 2.0 is able to distinguish which initial cell states putatively develop into this subpopulation Figure 5 D. Altogether, the capacity of MIOFlow 2.0 to incorporate and recover trends in spatial features enables a much richer analysis of spatail scRNA-seq data. 
+
+5 Discussion 
+
+In this study, we developed MIOFlow 2.0, a comprehensive framework motivated by the the need for inferring biologically plausibile cellular trajectories from static snapshot single cell data. Unlike existing methods that rely on simple Euclidean interpolations assume constant population densities [ 34 , 57 ], MIOFlow 2.0 unifies manifold learning, dynamic optimal transport, and neural differential equations to model the complex realities of living systems. The strength of our approach lies in the simultaneous integration of three essential biological priors: stochasticity, non-uniform proliferation, and spatial micro-environmental conditioning. The first pillar of our framework, the integration of Neural Stochastic Differential Equations (Neural SDEs), allows the model to capture the inherent noise of gene expression and the probabilistic nature of cell fate decisions, which non-stochastic methods like flow matching do not allow. As shown in our synthetic trifurcation experiments, the diffusion term in our SDE formulation enables the recovery of divergent lineages that deterministic ODE-based flows cannot naturally represent. By learning the diffusion coefficient alongside the drift, MIOFlow 2.0 identifies regions of the manifold where fate commitment is unresolved, providing a more accurate representation of differentiation hierarchies. The second pillar addresses the non-conservative nature of biological populations through a learned growth and death rate model. With this technique, we solve a critical bottleneck in trajectory inference: the incorrect "mass-shifting" that occurs when traditional OT forces unnatural correspondence between differing celltypes. This allows the framework to faithfully model biological scenarios such as cancer treatment response or rapid embryonic expansion, where the expansion and attrition of specific sub-populations are central to the underlying dynamics. Indeed, we have recently applied a simplified version of this framework to capture tumorsphere development [ 53 ], where the model successfully reconstructed trajectories leading to either tumorsphere formation or apoptosis, delineating a novel CD44 ℎ𝑖 EPCAM +CAV1 + cancer stem cell profile. 20 Sun et al. 
+
+Fig. 5. Gene and spatial feature embeddings colored by (A) cell type annotation, (B) pseudotime point. (C) NCAN:SDC3 ligand-receptor signalling spatial feature. (D) Trajectories traced on top of gene embedding (left) and joint projection of gene and spatial embeddings (right) colored by decoded NCAN:SDC3 signalling feature. (E) Spatial organization of cells in Stereo-seq dataset colored by NCAN:SDC3 signalling feature. Note that not all cells shown are included in the trajectories, but all are used for computing spatial features. (F) Decoded NCAN:SDC3 signalling feature over time, averaged across trajectories with +/- one standard deviation. (G) Decoded gene trajectories for a selection of highly variable genes. 
+
+The third pillar is the spatial integration strategy, which enables trajectory inference to leverage the rich contextual information provided by spatial transcriptomics. By embedding the microenvironmental cues directly into the latent state space, we allow the model to learn dynamics that are a function of the total cellular state. Our results on axolotl brain regeneration demonstrate that this joint modeling captures dependencies that gene expression alone cannot. The finding that medium spiny neuron (MSN) abundance correlates with specific regenerative paths provides evidence that environmental features are essential components of the developmental manifold. This bridges the gap between MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 21 single-cell profiling and tissue-scale organization, allowing us to identify signaling niches that drive development and disease. From a computational perspective, MIOFlow 2.0 demonstrates that expressive dynamics learning via NSDEs outper-forms popular generative models like flow matching in matching biological trajectories. By operating in a latent space of a PHATE-regularized autoencoder, we ensure that the transport energy is minimized along the data’s intrinsic manifold geometry. The stabilization provided by our momentum-based refinement further ensures that trajectories remain consistent even when temporal data is sparse. In conclusion, MIOFlow 2.0 provides a robust, biologically-aware founda-tion for understanding how cells navigate complex developmental, regenerative, and pathological landscapes.Future work will focus on scaling these solvers to handle larger multi-modal datasets and incorporating higher-order graph topologies to further refine the spatial context. Finally, we distinguish our computational approach from experimental lineage tracing [ 2, 37 , 50 ]. While lineage tracing technologies are developing, they remain relatively crude for mapping dynamics: most protocols accumulate only a small number of noisy barcodes, yielding discrete snapshots of clonal ancestry rather than continuous trajectories. These methods can identify clonal endpoints, but they cannot resolve the continuous, state-specific transitions that drive these outcomes. MIOFlow 2.0 fills this gap by inferring the dense, continuous vector fields that sparse lineage data cannot capture. 
+
+References 
+
+[1] Kaoru Akita, Munetoyo Toda, Yuki Hosoki, Mizue Inoue, Shinji Fushiki, Atsuhiko Oohira, Minoru Okayama, Ikuo Yamashina, and Hiroshi Nakada. 2004. Heparan sulphate proteoglycans interact with neurocan and promote neurite outgrowth from cerebellar granule cells. Biochemical Journal 
+
+383, 1 (Sept. 2004), 129–138. doi:10.1042/bj20040585 [2] Anna Alemany, Maria Florescu, Chloé S Baron, Josi Peterson-Maduro, and Alexander Van Oudenaarden. 2018. Whole-organism clone tracing using single-cell sequencing. Nature 556, 7699 (2018), 108–112. [3] Frances Balkwill and Alberto Mantovani. 2001. Inflammation and cancer: back to Virchow? The Lancet 357, 9255 (2001), 539–545. doi:10.1016/S0140-6736(00)04046-0 [4] Mikhail Belkin and Partha Niyogi. 2004. Semi-Supervised Learning on Riemannian Manifolds. Machine Learning 56, 1-3 (2004), 209–239. [5] Jean-David Benamou and Yann Brenier. 2000. A computational fluid mechanics solution to the Monge-Kantorovich mass transfer problem. Numer. Math. 84, 3 (2000), 375–393. [6] Volker Bergen, Ruslan A Soldatov, Peter V Kharchenko, and Fabian J Theis. 2021. RNA velocity—current challenges and future perspectives. 
+
+Molecular systems biology 17, 8 (2021), e10282. [7] Klaus Bichteler. 2002. Stochastic Integration with Jumps. Stochastic Integration with Jumps (5 2002). doi:10.1017/CBO9780511549878 [8] Mikhail Binnewies, Edward W Roberts, Kelly Kersten, Vincent Chan, Douglas F Fearon, Miriam Merad, Lisa M Coussens, Dmitry I Gabrilovich, Suzanne Ostrand-Rosenberg, Catherine C Hedrick, et al . 2018. Understanding the tumor immune microenvironment (TIME) for effective therapy. 
+
+Nature medicine 24, 5 (2018), 541–550. [9] Ricky TQ Chen and Yaron Lipman. 2023. Flow matching on general geometries. arXiv preprint arXiv:2302.03660 (2023). [10] Ricky TQ Chen, Yulia Rubanova, Jesse Bettencourt, and David K Duvenaud. 2018. Neural ordinary differential equations. Advances in Neural Information Processing Systems 31 (2018). [11] Lénaïc Chizat, Gabriel Peyré, Bernhard Schmitzer, and François-Xavier Vialard. 2015. Unbalanced optimal transport: Dynamic and Kantorovich formulations. Journal of Functional Analysis (2015). https://api.semanticscholar.org/CorpusID:85454196 [12] Ronald R. Coifman and Stéphane Lafon. 2006. Diffusion maps. Applied and Computational Harmonic Analysis 21, 1 (2006), 5–30. [13] Valentin De Bortoli, James Thornton, Jeremy Heng, and Arnaud Doucet. 2021. Diffusion Schrödinger bridge with applications to score-based generative modeling. Advances in Neural Information Processing Systems 34 (2021). [14] Payam Dibaeinia and Saurabh Sinha. 2020. SERGIO: a single-cell expression simulator guided by gene regulatory networks. Cell systems 11, 3 (2020), 252–271. [15] Andrés F Duque, Sacha Morin, Guy Wolf, and Kevin Moon. 2020. Extendable and invertible manifold learning with geometry regularized autoencoders. In 2020 IEEE International Conference on Big Data (Big Data) . IEEE, 5027–5036. [16] Michael B Elowitz, Arnold J Levine, Eric D Siggia, and Peter S Swain. 2002. Stochastic gene expression in a single cell. Science 297, 5584 (2002), 1183–1186. doi:10.1126/science.1070919 22 Sun et al. 
+
+[17] Napoleone Ferrara and Anthony P Adamis. 2016. Ten years of anti-vascular endothelial growth factor therapy. Nature Reviews Drug Discovery 15, 6 (2016), 385–403. doi:10.1038/nrd.2015.17 [18] Rémi Flamary, Nicolas Courty, Alexandre Gramfort, Mokhtar Z. Alaya, Aurélie Boisbunon, Stanislas Chambon, Laetitia Chapel, Adrien Corenflos, Kilian Fatras, Nemo Fournier, Léo Gautheron, Nathalie T.H. Gayraud, Hicham Janati, Alain Rakotomamonjy, Ievgen Redko, Antoine Rolet, Antony Schutz, Vivien Seguy, Danica J. Sutherland, Romain Tavenard, Alexander Tong, and Titouan Vayer. 2021. POT: Python Optimal Transport. Journal of Machine Learning Research 22, 78 (2021), 1–8. [19] Thomas F Gajewski, Seng-Ryong Woo, Yuanyuan Zha, Robbert Spaapen, Yan Zheng, Leticia Corrales, and Stefani Spranger. 2013. Cancer immunotherapy strategies based on overcoming barriers within the tumor microenvironment. Current opinion in immunology 25, 2 (2013), 268–276. [20] Robert A Gatenby and Joel S Brown. 2017. Integrating evolutionary dynamics into cancer therapy. Nature Reviews Clinical Oncology 14, 11 (2017), 671–681. doi:10.1038/nrclinonc.2017.160 [21] Marco Gerlinger, Andrew J Rowan, Stuart Horswell, James Larkin, David Endesfelder, et al . 2012. Intratumor heterogeneity and branched evolution revealed by multiregion sequencing. New England Journal of Medicine 366, 10 (2012), 883–892. doi:10.1056/NEJMoa1113205 [22] Will Grathwohl, Ricky TQ Chen, Jesse Bettencourt, Ilya Sutskever, and David Duvenaud. 2018. Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367 (2018). [23] Will Grathwohl, Ricky T. Q. Chen, Jesse Bettencourt, Ilya Sutskever, and David Duvenaud. 2019. FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models. In 7th International Conference on Learning Representations . arXiv:1810.01367 [24] Laleh Haghverdi, Maren Büttner, F Alexander Wolf, Florian Buettner, and Fabian J Theis. 2016. Diffusion pseudotime robustly reconstructs lineage branching. Nature methods 13, 10 (2016), 845–848. [25] Douglas Hanahan and Robert A Weinberg. 2011. Hallmarks of cancer: the next generation. Cell 144, 5 (2011), 646–674. doi:10.1016/j.cell.2011.02.013 [26] Jonathan Ho, Ajay Jain, and Pieter Abbeel. 2020. Denoising Diffusion Probabilistic Models. Advances in Neural Information Processing Systems 33 (2020), 6840–6851. arXiv:2006.11239 [27] Byungjin Hwang, Ji Hyun Lee, and Duhee Bang. 2018. Single-cell RNA sequencing technologies and bioinformatics pipelines. Experimental & molecular medicine 50, 8 (2018), 1–14. [28] Suoqin Jin, Christian F Guerrero-Juarez, Lihua Zhang, Ivan Chang, Raul Ramos, Chen-Hsiang Kuan, Peggy Myung, Maksim V Plikus, and Qing Nie. 2021. Inference and analysis of cell-cell communication using CellChat. Nat. Commun. 12, 1 (Feb. 2021), 1088. [29] Dragomirka Jovic, Xue Liang, Hua Zeng, Lin Lin, Fengping Xu, and Yonglun Luo. 2022. Single-cell RNA sequencing technologies and applications: A brief overview. Clinical and translational medicine 12, 3 (2022), e694. [30] Aleksandra A Kolodziejczyk, Jong Kyoung Kim, Valentine Svensson, John C Marioni, and Sarah A Teichmann. 2015. The technology and biology of single-cell RNA sequencing. Molecular cell 58, 4 (2015), 610–620. [31] Ilya Korsunsky, Nghia Millard, Jean Fan, Kamil Slowikowski, Fan Zhang, Kevin Wei, Yuriy Baglaenko, Michael Brenner, Po-ru Loh, and Soumya Raychaudhuri. 2019. Fast, sensitive and accurate integration of single-cell data with Harmony. Nature Methods 16, 12 (Nov 2019), 1289–1296. doi:10.1038/s41592-019-0619-0 [32] Gioele La Manno, Ruslan Soldatov, Amit Zeisel, Emelie Braun, Hannah Hochgerner, Viktor Petukhov, Katja Lidschreiber, Maria E Kastriti, Peter Lönnerberg, Alessandro Furlan, et al. 2018. RNA velocity of single cells. Nature 560, 7719 (2018), 494–498. [33] Arthur D Lander. 2011. Pattern, growth, and control. Cell 144, 6 (2011), 955–969. [34] Yaron Lipman, Ricky T. Q. Chen, Heli Ben-Hamu, Maximilian Nickel, and Matt Le. 2023. Flow Matching for Generative Modeling. arXiv:2210.02747 [35] Richard Losick and Claude Desplan. 2008. Stochasticity and cell fate. Science 320, 5872 (2008), 65–68. doi:10.1126/science.1147888 [36] Andriy Marusyk and Kornelia Polyak. 2012. Intra-tumour heterogeneity: a looking glass for cancer? Nature Reviews Cancer 12, 5 (2012), 323–334. doi:10.1038/nrc3261 [37] Aaron McKenna, Gregory M Findlay, James A Gagnon, Marshall S Horwitz, Alexander F Schier, and Jay Shendure. 2016. Whole-organism lineage tracing by combinatorial and cumulative genome editing. Science 353, 6298 (2016), aaf7907. [38] Gal Mishne, Uri Shaham, Alexander Cloninger, and Israel Cohen. 2019. Diffusion nets. Applied and Computational Harmonic Analysis 47, 2 (2019), 259–285. [39] Kevin R. Moon, Jay S. Stanley, Daniel Burkhardt, David van Dijk, Guy Wolf, and Smita Krishnaswamy. 2018. Manifold Learning-Based Methods for Analyzing Single-Cell RNA-sequencing Data. Current Opinion in Systems Biology 7 (2018), 36–46. [40] Kevin R. Moon, David van Dijk, Zheng Wang, Scott Gigante, Daniel B. Burkhardt, William S. Chen, Kristina Yim, Antonia van den Elzen, Matthew J. Hirn, Ronald R. Coifman, Natalia B. Ivanova, Guy Wolf, and Smita Krishnaswamy. 2019. Visualizing structure and transitions in high-dimensional biological data. Nat Biotechnol 37, 12 (2019), 1482–1492. [41] Michele Pavon, Giulio Trigila, and Esteban G Tabak. 2021. The Data-Driven Schrödinger Bridge. Communications on Pure and Applied Mathematics 
+
+74, 7 (2021), 1545–1573. [42] Gabriel Peyré and Marco Cuturi. 2020. Computational Optimal Transport. arXiv (2020). [43] Alex A Pollen, Tomasz J Nowakowski, Joe Shuga, Xiaohui Wang, Anne A Leyrat, Jan H Lui, Nianzhen Li, Lukasz Szpankowski, Brian Fowler, Peilin Chen, et al . 2014. Low-coverage single-cell mRNA sequencing reveals cellular heterogeneity and activated signaling pathways in developing cerebral cortex. Nature biotechnology 32, 10 (2014), 1053–1058. [44] Philip E. Protter. 2005. Stochastic Integration and Differential Equations. Springer 21 (2005). doi:10.1007/978-3-662-10061-5 MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 23 
+
+[45] Daniela F Quail and Johanna A Joyce. 2013. Microenvironmental regulation of tumor progression and metastasis. Nature Medicine 19, 11 (2013), 1423–1437. doi:10.1038/nm.3394 [46] Antoine-Emmanuel Saliba, Alexander J Westermann, Stanislaw A Gorski, and Jörg Vogel. 2014. Single-cell RNA-seq: advances and future challenges. 
+
+Nucleic acids research 42, 14 (2014), 8845–8860. [47] David T Scadden. 2006. The stem-cell niche as an entity of action. nature 441, 7097 (2006), 1075–1079. [48] Geoffrey Schiebinger, Jian Shu, Marcin Tabaka, Brian Cleary, Vidya Subramanian, Aryeh Solomon, Siyan Liu, Stacie Lin, Peter Berube, Lia Lee, Jenny Chen, Justin Brumbaugh, Philippe Rigollet, Konrad Hochedlinger, Rudolf Jaenisch, Aviv Regev, and Eric S. Lander. 2019. Reconstruction of developmental landscapes by optimal-transport analysis of single-cell gene expression sheds light on cellular reprogramming. Cell (2019). [49] Yang Song and Stefano Ermon. 2019. Generative Modeling by Estimating Gradients of the Data Distribution. Advances in Neural Information Processing Systems (2019), 11918–11930. arXiv:1907.05600 [50] Bastiaan Spanjaard, Bo Hu, Nina Mitic, Pedro Olivares-Chauvet, Sharan Janjuha, Nikolay Ninov, and Jan Philipp Junker. 2018. Simultaneous lineage tracing and cell-type identification using CRISPR–Cas9-induced genetic scars. Nature biotechnology 36, 5 (2018), 469–473. [51] Kelly Street, Davide Risso, Russell B Fletcher, Diya Das, John Ngai, Nir Yosef, Elizabeth Purdom, and Sandrine Dudoit. 2018. Slingshot: cell lineage and pseudotime inference for single-cell transcriptomics. BMC genomics 19, 1 (2018), 1–16. [52] Xingzhi Sun, Shabarni Gupta, Alexander Tong, Manik Kuchroo, Dhananjay Bhaskar, Chen Liu, Aarthi Venkat, Beatriz P. San Juan, Laura Rangel, Vanina Rodriguez, Brandon Zhu, John G. Lock, Christine L. Chaffer, and Smita Krishnaswamy. 2025. Revealing dynamic temporal trajectories and underlying regulatory networks with Cflows. bioRxiv (2025), 2023–03. [53] Xingzhi Sun, Shabarni Gupta, Alexander Tong, Manik Kuchroo, Chen Liu, Aarthi Venkat, Beatriz P San Juan, Laura Rangel, Vanina Rodriguez, Brandon Zhu, John G Lock, Christine L Chaffer, and Smita Krishnaswamy. 2023. Revealing dynamic temporal trajectories and underlying regulatory networks with Cflows. bioRxiv (2023), 2023–03. [54] Xingzhi Sun, Danqi Liao, Kincaid MacDonald, Yanlei Zhang, Guillaume Huguet, Guy Wolf, Ian Adelstein, Tim GJ Rudner, and Smita Krishnaswamy. 2024. Geometry-Aware Generative Autoencoders for Metric Learning and Generative Modeling on Data Manifolds. In ICML 2024 Workshop on Geometry-grounded Representation Learning and Generative Modeling .[55] Xingzhi Sun, Charles Xu, João F Rocha, Chen Liu, Benjamin Hollander-Bodie, Laney Goldman, Marcello DiStasio, Michael Perlmutter, and Smita Krishnaswamy. 2025. Hyperedge representations with hypergraph wavelets: applications to spatial transcriptomics. In ICASSP 2025-2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) . IEEE, 1–5. [56] Alexander Tong, Jessie Huang, Guy Wolf, David Van Dijk, and Smita Krishnaswamy. 2020. TrajectoryNet: A Dynamic Optimal Transport Network for Modeling Cellular Dynamics. In Proceedings of the 37th International Conference on Machine Learning . PMLR, 9526–9536. [57] Alexander Tong, Nikolay Malkin, Guillaume Huguet, Yanlei Zhang, Jarrid Rector-Brooks, Kilian Fatras, Guy Wolf, and Yoshua Bengio. 2023. Improving and generalizing flow-based generative models with minibatch optimal transport. arXiv:2302.00482 [58] Cole Trapnell, Davide Cacchiarelli, Jonna Grimsby, Prapti Pokharel, Shuqiang Li, Michael Morse, Niall J Lennon, Kenneth J Livak, Tarjei S Mikkelsen, and John L Rinn. 2014. Pseudo-temporal ordering of individual cells reveals dynamics and regulators of cell fate decisions. Nature biotechnology 32, 4 (2014), 381. [59] Belinda Tzen and Maxim Raginsky. 2019. Neural Stochastic Differential Equations: Deep Latent Gaussian Models in the Diffusion Limit. (5 2019). https://arxiv.org/abs/1905.09883v2 [60] Belinda Tzen and Maxim Raginsky. 2019. Theoretical guarantees for sampling and inference in generative models with latent diffusions. Proceedings of Machine Learning Research 99 (3 2019), 3084–3114. https://arxiv.org/abs/1903.01608v2 [61] David van Dijk, Roshan Sharma, Juozas Nainys, Kristina Yim, Pooja Kathail, Ambrose J Carr, Cassandra Burdziak, Kevin R Moon, Christine L Chaffer, Diwakar Pattabiraman, Brian Bierie, Linas Mazutis, Guy Wolf, Smita Krishnaswamy, and Dana Pe’er. 2018. Recovering gene interactions from single-cell data using data diffusion. Cell 174, 3 (July 2018), 716–729.e27. [62] Cédric Villani. 2009. Optimal transport: old and new . Vol. 338. Springer. [63] Jin Wang, Kun Zhang, Li Xu, and Erkang Wang. 2011. Quantifying the Waddington landscape and biological paths for development and differentiation. 
+
+Proceedings of the National Academy of Sciences 108, 20 (2011), 8257–8262. doi:10.1073/pnas.1017017108 [64] Xiaoyu Wei, Sulei Fu, Hanbo Li, Yang Liu, Shuai Wang, Weimin Feng, Yunzhi Yang, Xiawei Liu, Yan-Yun Zeng, Mengnan Cheng, Yiwei Lai, Xiaojie Qiu, Liang Wu, Nannan Zhang, Yujia Jiang, Jiangshan Xu, Xiaoshan Su, Cheng Peng, Lei Han, Wilson Pak-Kin Lou, Chuanyu Liu, Yue Yuan, Kailong Ma, Tao Yang, Xiangyu Pan, Shang Gao, Ao Chen, Miguel A. Esteban, Huanming Yang, Jian Wang, Guangyi Fan, Longqi Liu, Liang Chen, Xun Xu, Ji-Feng Fei, and Ying Gu. 2022. Single-cell Stereo-seq reveals induced progenitor cells involved in axolotl brain regeneration. Science 377, 6610 (2022), eabp9444. arXiv:https://www.science.org/doi/pdf/10.1126/science.abp9444 doi:10.1126/science.abp9444 [65] F. Alexander Wolf, Philipp Angerer, and Fabian J. Theis. 2018. SCANPY: large-scale single-cell gene expression data analysis. Genome Biology 19, 1 (Feb. 2018). doi:10.1186/s13059-017-1382-0 [66] Amit Zeisel, Ana B Muñoz-Manchado, Simone Codeluppi, Peter Lönnerberg, Gioele La Manno, Anna Juréus, Sueli Marques, Hermany Munguba, Liqun He, Christer Betsholtz, et al . 2015. Cell types in the mouse cortex and hippocampus revealed by single-cell RNA-seq. Science 347, 6226 (2015), 1138–1142. 24 Sun et al. 
+
+A Proof of Theorem 1 
+
+Theorem 1. Consider a time-varying vector field 𝑓 (𝑧, 𝑡 ) defining latent cellular trajectories 𝑑𝑍 𝑢,𝑡 = 𝑓 (𝑍 𝑢,𝑡 , 𝑡 )𝑑𝑡 with instantaneous density 𝜌 𝑡 , and a dissimilarity metric 𝐷 (𝜇, 𝜈 ) such that 𝐷 (𝜇, 𝜈 ) = 0 iff 𝜇 = 𝜈 . Given these assumptions, there exists a sufficiently large regularization parameter 𝜆 > 0 such that the optimal transport problem satisfies: 
+
+𝑊 2 (𝜇, 𝜈 )2 = inf 
+
+> 𝑍 𝑢,𝑡
+
+E
+
+ ∫ 10
+
+∥𝑓 (𝑍 𝑢,𝑡 , 𝑡 )∥ 22𝑑𝑡 
+
+
+
++ 𝜆𝐷 (𝜌 1, 𝜈 ), s.t. 𝑍 𝑢, 0 ∼ 𝜇. 
+
+Moreover, because the process 𝑍 𝑢,𝑡 is defined on the embedded manifold space Z learned by our geometry-aware autoencoder, the Euclidean Wasserstein distance in latent space approximates the geodesic Wasserstein distance on the ambient manifold: 𝑊 2 (𝜇, 𝜈 ) ≃ 𝑊 𝑑 M (𝜇, 𝜈 ).
+
+Proof. We recall that the exact dynamic formulation 
+
+𝑊 2 (𝜇, 𝜈 )2 = inf 
+
+> 𝑍 𝑢,𝑡
+
+E
+
+ ∫ 10
+
+∥𝑓 (𝑍 𝑢,𝑡 , 𝑡 )∥ 22𝑑𝑡 
+
+
+
+s.t. 𝑑𝑍 𝑢,𝑡 = 𝑓 (𝑍 𝑢,𝑡 , 𝑡 )𝑑𝑡, 𝑍 𝑢, 0 ∼ 𝜇, 𝑍 𝑢, 1 ∼ 𝜈, 
+
+is equivalent to the Eulerian representation 
+
+𝑊 2 (𝜇, 𝜈 )2 = inf  
+
+> (𝜌 𝑡 ,𝑣 )
+
+∫ 10
+
+∫
+
+> R𝑑
+
+∥𝑣 (𝑧, 𝑡 )∥ 2𝜌 𝑡 (𝑑𝑧 )𝑑𝑡, 
+
+with the three constraints a) 𝜕 𝑡 𝜌 𝑡 + ∇ · ( 𝜌 𝑡 𝑣 ) = 0, b) 𝜌 0 = 𝜇 , and c) 𝜌 1 = 𝜈 . Tong et al . [56] showed that for a large 𝜆 > 0
+
+and 𝜌 𝑡 satisfying constraint a, this minimization problem is equivalent to the relaxed form 
+
+𝑊 2 (𝜇, 𝜈 )2 = inf  
+
+> (𝜌 𝑡 ,𝑣 )
+
+∫ 10
+
+∫
+
+> R𝑑
+
+∥𝑣 (𝑧, 𝑡 )∥ 2𝜌 𝑡 (𝑑𝑧 )𝑑𝑡 + 𝜆𝐾𝐿 (𝜌 1 || 𝜈 ).
+
+We note that their proof is valid for any dissimilarity metric 𝐷 (𝜌 1, 𝜈 ) respecting the identity of indiscernibles. Using the path formulation, by writing the integral as an expectation and taking the infimum over all absolutely continuous paths, we have 
+
+𝑊 2 (𝜇, 𝜈 )2 = inf 
+
+> 𝑍 𝑢,𝑡
+
+E
+
+ ∫ 10
+
+∥𝑓 (𝑍 𝑢,𝑡 , 𝑡 )∥ 22𝑑𝑡 
+
+
+
++ 𝜆𝐷 (𝜌 1, 𝜈 ) s.t. 𝑑𝑍 𝑢,𝑡 = 𝑓 (𝑍 𝑢,𝑡 , 𝑡 )𝑑𝑡, 𝑍 𝑢, 0 ∼ 𝜇. 
+
+Assuming the geometry-aware encoder 𝐸 𝜙 achieves a perfect mapping, the Euclidean distance in the latent space approximates the geodesic distance on the ambient manifold. This means ∥𝐸 𝜙 (𝑥 𝑖 ) − 𝐸 𝜙 (𝑥 𝑗 )∥ 2 ≃ 𝑑 M (𝑥 𝑖 , 𝑥 𝑗 ) for all 
+
+𝑥 𝑖 , 𝑥 𝑗 ∈ X ⊆ M . Therefore, there exist constants 𝑐, 𝐶 > 0 such that 𝑐 𝑑 M (𝑥 𝑖 , 𝑥 𝑗 ) ≤ ∥ 𝐸 𝜙 (𝑥 𝑖 ) − 𝐸 𝜙 (𝑥 𝑗 )∥ 2 ≤ 𝐶𝑑 M (𝑥 𝑖 , 𝑥 𝑗 )
+
+for all 𝑥 𝑖 , 𝑥 𝑗 ∈ X. Then, for all joint distributions 𝜋 ∈ Π(𝜇 𝑎𝑚𝑏𝑖𝑒𝑛𝑡 , 𝜈 𝑎𝑚𝑏𝑖𝑒𝑛𝑡 ), we have 
+
+𝑐 2
+
+∫
+
+> X×X
+
+𝑑 M (𝑥, 𝑦 )2𝜋 (𝑑𝑥, 𝑑𝑦 ) ≤ 
+
+∫
+
+> X×X
+
+∥𝐸 𝜙 (𝑥 ) − 𝐸 𝜙 (𝑦 )∥ 22𝜋 (𝑑𝑥, 𝑑𝑦 ) ≤ 𝐶 2
+
+∫
+
+> X×X
+
+𝑑 M (𝑥, 𝑦 )2𝜋 (𝑑𝑥, 𝑑𝑦 ).
+
+Taking the infimum with respect to 𝜋 yields the desired result 𝑊 2 (𝜇, 𝜈 ) ≃ 𝑊 𝑑 M (𝜇 𝑎𝑚𝑏𝑖𝑒𝑛𝑡 , 𝜈 𝑎𝑚𝑏𝑖𝑒𝑛𝑡 ). □
+
+B Full MIOFlow 2.0 Algorithm MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 25 
+
+Algorithm 3 MIOFlow (Global training)  
+
+> 1:
+
+Input: 
+
+• Time-resolved cell-by-gene expression matrices 𝑋 𝑡 = (𝑥 𝑐𝑔𝑡 )𝑐 ∈ C 𝑡 , 𝑔 ∈ G , 𝑡 = 1, . . . ,𝑇 
+
+• (Optional) spatial features 𝑆 𝑡 = (𝑠 𝑐𝑖𝑡 )𝑐 ∈ C 𝑡 , 𝑖 =1,...,𝑝 , 𝑡 = 1, . . . ,𝑇 
+
+• Solver: solver ∈ { ODE , SDE }• Momentum parameter: 𝛽 
+
+• Loss weights 𝜆 𝑚 , 𝜆 𝑒 , 𝜆 𝑑  
+
+> 2:
+
+Output: Trained neural network weights 𝜃, 𝜙,𝜓  
+
+> 3:
+
+for 𝑡 = 1 to 𝑇 do  
+
+> 4:
+
+if spatial features provided then  
+
+> 5:
+
+𝑋 𝑗𝑜𝑖𝑛𝑡,𝑡 ← Concat (Normalize (𝑋 𝑡 ), Normalize (𝑆 𝑡 ))  
+
+> 6:
+
+else  
+
+> 7:
+
+𝑋 𝑗𝑜𝑖𝑛𝑡,𝑡 ← 𝑋 𝑡  
+
+> 8:
+
+end if  
+
+> 9:
+
+𝑍 𝑡 ← GAGA_Encoder (𝑋 𝑗𝑜𝑖𝑛𝑡,𝑡 ) ⊲ Embed using PHATE-regularized autoencoder  
+
+> 10:
+
+end for  
+
+> 11:
+
+for 𝑖 = 1 to max_iter do  
+
+> 12:
+
+for 𝑡 = 1 to 𝑇 do  
+
+> 13:
+
+𝑧 𝑡 ← Sample (𝑍 𝑡 , batch_size ) 
+
+> 14:
+
+end for  
+
+> 15:
+
+if solver = ODE then  
+
+> 16:
+
+Set 𝑔 𝜙 (·) ← 0 ⊲ ODE: diffusion term not used  
+
+> 17:
+
+end if  
+
+> 18:
+
+⊲ Global training: Integrate from the first time point to the rest.  
+
+> 19:
+
+ˆ𝑧 2 ← DiffEqSolve 
+
+ ˜𝑓 𝜃 (· , 𝛽 ), ˜𝑔 𝜙 (·) , 𝑧 1, Δ𝑡 = 1
+
+ 
+
+> 20:
+
+ˆ𝑚 2 ← Normalize 
+
+
+
+ℎ𝜓 ( ˆ𝑧 2, 2)
+
+ 
+
+> 21:
+
+𝑚 2 ← Normalize (( 1, . . . , 1)𝑇 ) 
+
+> 22:
+
+for 𝑡 = 2 to 𝑇 − 1 do  
+
+> 23:
+
+ˆ𝑧 𝑡 +1 ← DiffEqSolve 
+
+ ˜𝑓 𝜃 (· , 𝛽 ), ˜𝑔 𝜙 (·) , ˆ𝑧 𝑡 , Δ𝑡 = 1
+
+ 
+
+> 24:
+
+ˆ𝑚 𝑡 +1 ← Normalize 
+
+
+
+ℎ𝜓 ( ˆ𝑧 𝑡 +1, 𝑡 + 1)
+
+ 
+
+> 25:
+
+𝑚 𝑡 +1 ← Normalize (( 1, . . . , 1)𝑇 ) 
+
+> 26:
+
+end for  
+
+> 27:
+
+𝐿 ← Í𝑇 −1
+
+> 𝑡 =1
+
+h
+
+𝜆 𝑚 𝐿 𝑚 
+
+  ˆ𝑧 𝑡 +1, 𝑧 𝑡 +1, ˆ𝑚 𝑡 +1, 𝑚 𝑡 +1
+
+ + 𝜆 𝑒 𝐿 𝑒 
+
+  ˆ𝑧 𝑡 +1, 𝑧 𝑡 +1
+
+ + 𝜆 𝑑 𝐿 𝑑 
+
+  ˆ𝑧 𝑡 +1, 𝑧 𝑡 +1
+
+i 
+
+> 28:
+
+(𝜃, 𝜙,𝜓 ) ← GradientDescent (𝐿, 𝜃, 𝜙,𝜓 ) 
+
+> 29:
+
+end for  
+
+> 30:
+
+return 𝜃, 𝜙,𝜓 26 Sun et al. 
+
+Algorithm 4 MIOFlow (Local training)  
+
+> 1:
+
+Input: 
+
+• Time-resolved cell-by-gene expression matrices 𝑋 𝑡 = (𝑥 𝑐𝑔𝑡 )𝑐 ∈ C 𝑡 , 𝑔 ∈ G , 𝑡 = 1, . . . ,𝑇 
+
+• (Optional) spatial features 𝑆 𝑡 = (𝑠 𝑐𝑖𝑡 )𝑐 ∈ C 𝑡 , 𝑖 =1,...,𝑝 , 𝑡 = 1, . . . ,𝑇 
+
+• Solver: solver ∈ { ODE , SDE }• Momentum parameter: 𝛽 
+
+• Loss weights 𝜆 𝑚 , 𝜆 𝑒 , 𝜆 𝑑  
+
+> 2:
+
+Output: Trained neural network weights 𝜃, 𝜙,𝜓  
+
+> 3:
+
+for 𝑡 = 1 to 𝑇 do  
+
+> 4:
+
+if spatial features provided then  
+
+> 5:
+
+𝑋 𝑗𝑜𝑖𝑛𝑡,𝑡 ← Concat (Normalize (𝑋 𝑡 ), Normalize (𝑆 𝑡 ))  
+
+> 6:
+
+else  
+
+> 7:
+
+𝑋 𝑗𝑜𝑖𝑛𝑡,𝑡 ← 𝑋 𝑡  
+
+> 8:
+
+end if  
+
+> 9:
+
+𝑍 𝑡 ← GAGA_Encoder (𝑋 𝑗𝑜𝑖𝑛𝑡,𝑡 ) ⊲ Embed using PHATE-regularized autoencoder  
+
+> 10:
+
+end for  
+
+> 11:
+
+for 𝑖 = 1 to max_iter do  
+
+> 12:
+
+for 𝑡 = 1 to 𝑇 do  
+
+> 13:
+
+𝑧 𝑡 ← Sample (𝑍 𝑡 , batch_size ) 
+
+> 14:
+
+end for  
+
+> 15:
+
+if solver = ODE then  
+
+> 16:
+
+Set 𝑔 𝜙 (·) ← 0 ⊲ ODE: diffusion term not used  
+
+> 17:
+
+end if  
+
+> 18:
+
+⊲ Local training: Integrate from each time point to the next.  
+
+> 19:
+
+for 𝑡 = 1 to 𝑇 − 1 do  
+
+> 20:
+
+ˆ𝑧 𝑡 +1 ← DiffEqSolve 
+
+ ˜𝑓 𝜃 (· , 𝛽 ), ˜𝑔 𝜙 (·) , 𝑧 𝑡 , Δ𝑡 = 1
+
+ 
+
+> 21:
+
+ˆ𝑚 𝑡 +1 ← Normalize 
+
+
+
+ℎ𝜓 ( ˆ𝑧 𝑡 +1, 𝑡 + 1)
+
+ 
+
+> 22:
+
+𝑚 𝑡 +1 ← Normalize (( 1, . . . , 1)𝑇 ) 
+
+> 23:
+
+end for  
+
+> 24:
+
+𝐿 ← Í𝑇 −1
+
+> 𝑡 =1
+
+h
+
+𝜆 𝑚 𝐿 𝑚 
+
+  ˆ𝑧 𝑡 +1, 𝑧 𝑡 +1, ˆ𝑚 𝑡 +1, 𝑚 𝑡 +1
+
+ + 𝜆 𝑒 𝐿 𝑒 
+
+  ˆ𝑧 𝑡 +1, 𝑧 𝑡 +1
+
+ + 𝜆 𝑑 𝐿 𝑑 
+
+  ˆ𝑧 𝑡 +1, 𝑧 𝑡 +1
+
+i 
+
+> 25:
+
+(𝜃, 𝜙,𝜓 ) ← GradientDescent (𝐿, 𝜃, 𝜙,𝜓 ) 
+
+> 26:
+
+end for  
+
+> 27:
+
+return 𝜃, 𝜙,𝜓 MIOFlow 2.0: A unified framework for inferring cellular stochastic dynamics from single cell and spatial transcriptomics data 27 
+
+C Axolotl Data Processing 
+
+For preprocessing, we applied Harmony batch integration to remove some strong batch effects between timepoints [ 31 ]. To compute spatial features, we used a 3-hop 5-nearest-neighbor graph to define each cell’s neighborhood, excluding any nearest-neighbors with a distance greater than 250 𝜇𝑚 . The cell type neighborhood feature quantified the local frequency of 28 annotated cell types. For the ligand-receptor features, we found 640 pairs of ligand-receptor interactors documented in the human CellChat database which had orthologues expressed in the axolotl data [ 28 ]. Prior to computing the ligand-receptor features, we imputed the expression of all relevant genes using MAGIC [ 61 ]. The local expression niche was computed as the local average of the first 200 principal components of the gene expression matrix. The concatenated 828-dimensional spatial feature vector was then dimensionality reduced to 100-d by PCA. These features, subset to the four cell types of interest, were dimensionality reduced by PHATE and used as input to the PHATE regularized autoencoder. On the other hand, the gene embedding was obtained by computing a PHATE embedding of the full dataset’s gene expression matrix, which was then subset to the cell types of interest and used as input to a separate PHATE regularized autoencoder, along with the 200-d PCA projection of the gene expression matrix. To obtain the final joint embedding, the gene and spatail embeddings were scaled to have standard deviations of 1.0 and 0.2 respectively and concatenated. To define the time bins for MIOFlow 2.0, we used scanpy’s implementation of diffusion pseudotime, averageing pseudotime values computed from multiple root cells of the final cell type, inverting, and binning into four levels [65].

@@ -1,0 +1,3743 @@
+Title: 24677176
+
+URL Source: https://www.biorxiv.org/content/10.1101/2025.06.10.658920v2.full.pdf
+
+Number of Pages: 76
+
+Markdown Content:
+Systematic characterization of the ovarian landscape across mouse menopause models 1
+
+Systematic comparison of mouse menopause models 2
+
+> 3
+
+Minhoo Kim 1, Rajyk Bhala 1, Justin Wang 1,2,3 , Xucheng Liang 1,2 , Mingfei Chen 1, Ryan J. Lu 1, Evelyn H. 4
+
+Lee 1, Julio L. Alvarenga 1, Rapheal G. Williams 1, and Bérénice A. Benayoun 1,4,5,6 *5
+
+1. Leonard Davis School of Gerontology, University of Southern California, Los Angeles, CA 90089, USA. 6
+
+2. Department of Quantitative and Computational Biology, University of Southern California, Los Angeles, 7
+
+CA 90089, USA. 8
+
+3. Department of Chemistry, University of Southern California, Los Angeles, CA 90089, USA. 9
+
+4. Cancer Biology Department, USC Keck School of Medicine, Los Angeles, CA 90033, USA., 10 
+
+5. Pharmacology and Pharmaceutical Sciences Department, USC Mann School of Pharmacy, Los 11 
+
+Angeles, CA 90033, USA. 12 
+
+6. USC Norris Comprehensive Cancer Center, Epigenetics and Gene Regulation, Los Angeles, CA 90033, 13 
+
+USA. 14 
+
+> 15
+
+*Correspondence: berenice.benayoun@usc.edu 16 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Abstract 17 
+
+Menopause affects not only fertility but also systemic health. Yet mechanisms underlying this 18 
+
+coupling are still poorly understood, partly due to the absence of robust, age-relevant preclinical models 19 
+
+with comprehensive molecular and phenotypic characterization. To address this, we systematically 20 
+
+compared three candidate mouse models of menopause: (1) intact aging, (2) chemical ovarian follicle 21 
+
+depletion using 4-vinylcyclohexene diepoxide (VCD) administered at multiple ages, and (3) Foxl2 22 
+
+haploinsufficiency, a genetic model based on a gene linked to human premature ovarian failure. Through 23 
+
+histology, serum hormone profiling, single-cell transcriptomics and machine-learning approaches, we 24 
+
+identify both shared and model-specific features of follicle loss, endocrine disruption, and transcriptional 25 
+
+remodeling. Our comparative framework enables informed selection of context-appropriate preclinical 26 
+
+rodent models to study menopause and the broader physiological consequences of ovarian aging. 27 
+
+> 28
+
+Teaser 29 
+
+This systematic characterization of mouse menopause models lays the groundwork for future 30 
+
+preclinical work on the systemic impacts of menopause. 31 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+MAIN TEXT 32 
+
+Introduction 33 
+
+Women are born with a finite oocyte reserve, and its progressive depletion with age leads to the 34 
+
+irreversible loss of ovarian function, known as menopause ( 1-3 ). Epidemiological studies link later age-at-35 
+
+menopause with increased lifespan and reduced risk of age-related diseases ( e.g . cardiovascular disease, 36 
+
+osteoporosis, and neurodegeneration) ( 4-6 ). Conversely, menopause is accompanied by a sharp rise in 37 
+
+age-associated pathologies, underscoring widespread consequences of ovarian aging ( 7). Despite its 38 
+
+public health relevance, how ovarian decline contributes to systemic aging is still poorly understood, in 39 
+
+part due to the dearth of well-characterized, aging-relevant preclinical models. 40 
+
+Menopause is characterized by endocrine reprogramming that extends beyond the reproductive 41 
+
+system ( 8). As follicular reserves decline, reduced steroidogenic activity disrupts feedback regulation of 42 
+
+the hypothalamic-pituitary-gonadal (HPG) axis, leading to sustained hormonal shifts ( 8). Circulating 43 
+
+estrogen and anti-Müllerian hormone (AMH) fall to near-undetectable levels, while follicle-stimulating 44 
+
+hormone (FSH) and inhibin A (INHBA) rise ( 9-11 ). These changes influence multiple somatic systems, 45 
+
+including metabolic, skeletal, and central nervous systems ( 12, 13 ). However, dissecting the mechanisms 46 
+
+linking ovarian dysfunction to systemic physiology requires robust preclinical models recapitulating key 47 
+
+biological features of menopause. 48 
+
+The most frequently used rodent models capture menopausal physiology only imperfectly ( 14 ). 49 
+
+Although intact aging mice are widely used, they do not undergo true menopause; instead, they enter a 50 
+
+state of “estropause,” retaining low but detectable estrogen levels and lacking the postmenopausal 51 
+
+endocrine milieu observed in postmenopausal women ( 15, 16 ). Although ovariectomy (OVX) achieves 52 
+
+rapid estrogen depletion, it lack a gradual endocrine transition, and it depletes residual post-reproductive 53 
+
+ovarian tissue, which is known to exert androgenic and paracrine effects ( 17 ). Thus, while OVX models 54 
+
+acute hormone loss, it incompletely models the progressive ovarian decline characteristic of menopause. 55 
+
+Repeated injections with 4-vinylcyclohexene diepoxide (VCD) leads to dramatic follicle depletion through 56 
+
+selective targeting of small, pre-antral follicles, inducing progressive ovarian failure while preserving a 57 
+
+post-reproductive ovarian tissue ( 15 ). This approach produces estrous acyclicity, estrogen deficiency, and 58 
+
+compensatory FSH elevation, resembling several endocrine features of human menopause ( 18, 19 ). 59 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+However, prior studies have primarily applied VCD to young adult mice (~2-3 months), limiting insight into 60 
+
+how the timing of ovarian failure intersects with organismal aging ( 20, 21 ). Because aging alters 61 
+
+metabolic, immune, and endocrine states in profound ways ( 22-25 ), understanding menopausal biology 62 
+
+requires evaluating ovarian decline in the context of middle-aged biology. 63 
+
+Genetic models informed by human physiology can also provide useful tools to understand 64 
+
+ovarian decline and its systemic impacts. Haploinsufficiency of Foxl2 , a gene encoding a transcription 65 
+
+factor essential for granulosa cell identity and ovarian maintenance (26-29 ), is causally linked to 66 
+
+premature ovarian insufficiency in humans ( 30-32 ). In adult mice, Foxl2 expression is primarily restricted 67 
+
+to ovarian granulosa cells and pituitary gonadotroph-lineage cells ( 33 ). While complete Foxl2 knockout 68 
+
+leads to severe developmental defects and perinatal lethality, heterozygous carriers have been 69 
+
+incidentally reported to be subfertile, suggestive of milder ovarian dysfunction that may better recapitulate 70 
+
+menopausal transition ( 28, 29 ). Unlike surgical or chemical models, Foxl2 haploinsufficiency represents a 71 
+
+physiologically relevant genetic perturbation that enables investigation of early and potentially subclinical 72 
+
+features of ovarian decline without exogenous insult. Rather than modeling overt menopausal hormone 73 
+
+depletion alone, this model may provide insight into early trajectories of ovarian dysfunction that precede 74 
+
+systemic endocrine collapse. 75 
+
+Collectively, these models could help recapitulate distinct mechanisms of ovarian decline in a 76 
+
+preclinical setting. However, differential impact of VCD with age-at-exposure and Foxl2 haploinsufficiency 77 
+
+have not been systematically characterized and benchmarked within a unified framework. Such 78 
+
+comparative characterization is essential for interpreting prior literature and for selecting appropriate 79 
+
+models tailored to understanding systemic impacts of menopause-like ovarian failure. 80 
+
+Here, we present a comprehensive resource evaluating three complementary mouse models of 81 
+
+ovarian aging: (1) intact aging, (2) VCD-induced follicle depletion initiated at multiple adult ages, and (3) 82 
+
+Foxl2 haploinsufficiency. Our objective is to systematically benchmark shared and divergent features 83 
+
+across multiple biological scales. We integrate histological profiling, endocrine measurements, and single-84 
+
+cell transcriptomics to characterize ovarian structural, functional, and molecular trajectories. Additionally, 85 
+
+we develop hormone-based and transcriptome-based ovarian aging clocks to provide quantitative 86 
+
+measures of reproductive aging across models. This comparative framework establishes a foundational 87 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+resource to guide selection and interpretation of menopause models and to support future studies 88 
+
+investigating how ovarian dysfunction influences systemic aging trajectories. 89 
+
+> 90
+
+Results 91 
+
+A systematic framework for modeling menopause in mice 92 
+
+To systematically assess and compare physiologically relevant menopause models, we 93 
+
+characterized three rodent models that represent distinct mechanisms of ovarian dysfunction: (1) the 94 
+
+intact aging model (“Aging model”), (2) a chemically-induced model using repeated intraperitoneal 95 
+
+injections of 4-vinylcyclohexene diepoxide (VCD, “VCD model”) at various age-of-exposure ( 15, 34 ), and 96 
+
+(3) a genetic model of Foxl2 haploinsufficiency (“ Foxl2 +/- model”) ( 26 ). Our aim was to establish a 97 
+
+comparative framework to evaluate these models in terms of histological, hormonal, and integrated 98 
+
+ovarian health outcomes to evaluate their suitability for modeling key aspects of ovarian aging (Fig. 1A). 99 
+
+The Aging model involved comparison of young adult (4 months) and old (20 months) female 100 
+
+C57BL/6JNia mice. We selected these timepoints to capture the transition from reproductive to firmly 101 
+
+post-estropausal states, as C57BL/6 females typically enter estropause ~12 months of age and show 102 
+
+pronounced ovarian aging phenotypes by 20 months ( 35, 36 ). The VCD model included C57BL/6J female 103 
+
+mice injected with vehicle control (safflower oil, hereafter referred to as “CTL”) or VCD starting at 3, 6, 8, 104 
+
+or 10 months of age. This scheme allowed us to examine how the timing of ovarian insult (potentially 105 
+
+modeling varying “age-at-menopause”) could impact ovarian physiology, particularly when VCD exposure 106 
+
+occurs closer to natural estropause ( 35 ). Importantly, incorporating multiple age-at-injection paradigms 107 
+
+should help disentangle ovarian-intrinsic failure mechanisms and how it interacts with the aging milieu. 108 
+
+The Foxl2 haploinsufficiency model compared Foxl2 +/+ and Foxl2 +/- female littermate mice from our 109 
+
+transgenic colony at young (3-4 months), early middle-age (8-10 months) and later middle-age (12-13 110 
+
+months) to test whether partial loss of Foxl2 leads to anticipated occurrence of age-associated ovarian 111 
+
+phenotypes compared to wild-type control mice. We selected the heterozygous model because complete 112 
+
+Foxl2 loss is associated with severe developmental defects and high perinatal lethality (28) , and 113 
+
+heterozygous mutations of FOXL2 are sufficient to drive both syndromic and isolate premature ovarian 114 
+
+failure in humans patients. 115 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+To evaluate the impact of Foxl2 haploinsufficiency on ovarian aging phenotypes, we generated a 116 
+
+knock-out Foxl2 allele using mice carrying a regenerated floxed Foxl2 locus ( 26 ), which allowed us to 117 
+
+generate mice carrying a constitutive deletion of Foxl2 ’s single exon (fig. S1A; see Materials and 118 
+
+Methods). Importantly, RT-qPCR analysis confirmed that Foxl2 expression was significantly reduced in 119 
+
+Foxl2 +/- ovaries compared to Foxl2 +/+ controls (genotype effect, p-value ~0.0206; fig. S1B). Additionally, 120 
+
+fertility outcomes for Foxl2 +/+ and Foxl2 +/- females from our breeding colony confirmed previous reports of 121 
+
+decreased fertility of Foxl2 haploinsufficient mice (figs. S1C,D and table S1; see Materials and Methods). 122 
+
+Specifically, adult Foxl2 +/- females showed significantly smaller first litters (p-value ~0.0161; fig. S1C), and 123 
+
+increased latency to first time to delivery after male pairing compared to matched Foxl2 +/+ female controls 124 
+
+(p-value ~0.0260; fig. S1D), suggesting impaired reproductive potential consistent with ovarian 125 
+
+dysfunction or premature ovarian aging. 126 
+
+> 127
+
+Histological and tissue-level remodeling across mouse menopause models 128 
+
+A decline in ovarian follicle numbers is a well-established hallmark of ovarian aging and 129 
+
+menopause (37 ). Thus, we performed histological analysis of ovarian follicle populations using 130 
+
+hematoxylin and eosin (H&E) staining (Figs. 1B-G and fig. S2A). As expected, the Aging model showed a 131 
+
+significant reduction in follicles at all developmental stages in old females, including primordial, primary, 132 
+
+secondary, and antral follicles, as well as corpora lutea (Figs. 1B,E and fig. S2B), consistent with the 133 
+
+established progressive follicular depletion that accompanies natural ovarian aging ( 38, 39 ). At 5 months 134 
+
+post-injections, VCD-treated animals also showed significant depletion of follicle numbers, regardless of 135 
+
+age-at-injection (Figs. 1C,F and fig. S2C). To note, due to the terminal nature of histological analysis, 136 
+
+ovaries were collected for H&E staining at a single 5 months post-injection time point. This endpoint was 137 
+
+selected to align with the conclusion of longitudinal serum hormone profiling (see below). In contrast, we 138 
+
+did not observe any significant consistent differences in combined follicle counts between Foxl2 +/+ and 139 
+
+Foxl2 +/- ovaries (Figs. 1D,G and fig. S2D). 140 
+
+Next, we leveraged Picrosirius Red and Sudan Black B staining of ovarian tissue to quantify 141 
+
+fibrosis and lipofuscin accumulation, respectively (Fig. 2A). Previous studies have demonstrated 142 
+
+increased fibrosis and lipofuscin deposition in aged ovaries, reflecting progressive remodeling with 143 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+ovarian aging ( 40-42 ). Consistently, ovaries from the Aging model exhibited significant increases in both 144 
+
+fibrosis and lipofuscin accumulation in old females compared to young controls (p ~0.0190 and p 145 
+
+~0.00433, respectively; Figs. 2B,E,H,K). VCD-treated animals similarly showed significant increases in 146 
+
+both fibrosis and lipofuscin staining relative to vehicle-treated controls, indicating that chemical follicle 147 
+
+depletion is accompanied by stromal remodeling and accumulation in a way consistent with accelerated 148 
+
+ovarian aging (treatment effect, p ~0.0242 and p ~0.00776, respectively; Figs. 2C,F,I,L). In the Foxl2 149 
+
+haploinsufficiency model, despite the absence of overt follicle depletion, genotype was significantly 150 
+
+associated with increased fibrosis and lipofuscin accumulation (genotype effect, p ~0.00279 and p 151 
+
+~0.0213, respectively; Figs. 2D,G,J,M), consistent with premature aging of the ovarian stroma. These 152 
+
+findings indicate that structural remodeling features can emerge independently of substantial reductions 153 
+
+in follicle number, highlighting both shared and model-specific aspects of ovarian aging phenotypes. 154 
+
+> 155
+
+Comparative endocrine alterations across mouse menopause models 156 
+
+To evaluate how each model perturbs endocrine regulation, we measured serum levels of AMH, 157 
+
+FSH and INHBA, key markers of ovarian reserve and HPG axis regulation ( 43, 44 ) (Fig. 3A and table S2). 158 
+
+Estradiol was not quantified due to known technical limitations affecting assay reliability in rodent samples 159 
+
+(see Discussion). To note, due to a change of FSH quantitation assays offered at the UVA ligand core 160 
+
+over the course of our study, FSH measurements were harmonized across methods using a polynomial 161 
+
+correction model (fig. S3A; see Materials and Methods). 162 
+
+In the Aging model, old females showed expected decreases in circulating AMH and INHBA and 163 
+
+increased circulating FSH compared to young females, consistent with diminished ovarian reserve ( 44, 45 )164 
+
+(Figs. 3B,E,H). A similar pattern was observed in the VCD model, whereby AMH and INHBA were 165 
+
+decreased and FSH was increased compared to the vehicle control groups at 5 months post-injection 166 
+
+timepoint, regardless of age-at-injection (Figs. 3C,F,I). To enable a comprehensive analysis of endocrine 167 
+
+responses across reproductive life stages, we also performed longitudinal hormone profiling over a five-168 
+
+month period following VCD exposure at various ages (3, 6, 8 and 10 months; figs. S3B-D). Interestingly, 169 
+
+VCD injections at older ages resulted in attenuated hormonal shifts compared to younger counterparts, 170 
+
+suggesting that ovarian or systemic factors at midlife modulate sensitivity to VCD-induced insult to 171 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+ovarian reserve. In the Foxl2 +/- mice, we observed conflicting hormonal trends: AMH levels were 172 
+
+increased (consistent with younger follicle pools), whereas FSH levels were elevated and INHBA levels 173 
+
+were reduced (consistent with older follicle pools) compared to wild-type controls (Figs. 3D,G,J and fig. 174 
+
+S3A). To note, FOXL2 has been shown to interact with AMH to modulate follicle recruitment in humans 175 
+
+(46 ). Thus, the elevated AMH levels in the Foxl2 +/- animals likely reflect altered gene regulatory networks 176 
+
+driven by Foxl2 deficiency, rather than preservation or rejuvenation of ovarian reserve (see Discussion). 177 
+
+Next, we applied our previously described composite ovarian health index, which integrates 178 
+
+information from follicle counts and serum hormone levels to yield a holistic measure of ovarian health ( 36 )179 
+
+(Figs. 3K-M). As expected, the index was significantly lower in old vs . young animals and VCD-treated 180 
+
+animals vs. CTL (regardless of age-at-injection), reflecting impaired ovarian health (Figs. 3K,L). In 181 
+
+contrast, Foxl2 +/- mice did not differ significantly from wild-type animals (Fig. 3M), likely due to elevated 182 
+
+AMH levels. 183 
+
+Together, these results provide a comprehensive characterization of histological and endocrine 184 
+
+features of three mechanistically distinct mouse menopause models. Both the Aging and VCD models 185 
+
+exhibit robust phenotypic hallmarks of ovarian decline, including depletion of follicular reserves, tissue 186 
+
+remodeling, and disrupted endocrine profiles. In contrast, the Foxl2 haploinsufficiency model displays a 187 
+
+distinct phenotype characterized by preserved follicle counts and elevated AMH levels, but with 188 
+
+anticipated aged-like stromal remodeling and reproductive impairment. These findings indicate that the 189 
+
+three models capture overlapping yet non-identical dimensions of ovarian aging biology, underscoring the 190 
+
+importance of selecting models based on specific structural, endocrine, or regulatory processes under 191 
+
+investigation. 192 
+
+> 193
+
+A hormone-based clock, “OvAge”, for non-terminal prediction of ovarian aging 194 
+
+Although the ovarian health index is a useful metric of ovarian health, its partial reliance on post-195 
+
+mortem histological measurements limits its applicability in longitudinal studies. Thus, we aimed at 196 
+
+developing a complementary, non-terminal metric of ovarian aging, using a hormone-based predictive 197 
+
+machine-learning model, which we termed “OvAge” (Fig. 4A). By integrating information on AMH, FSH, 198 
+
+and INHBA levels, we sought to develop a model that provides a more comprehensive assessment of 199 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+endocrine function rather than evaluating each hormone individually. To increase the generalizability of 200 
+
+the clock, we trained a random forest regression model using serum hormone data (AMH, FSH, and 201 
+
+INHBA) from animals with intact ovarian function and no experimental perturbation, including animals 202 
+
+from the Aging model, vehicle control (CTL) groups from the VCD model, Foxl2 +/+ animals from the Foxl2 203 
+
+haploinsufficiency model. In addition, to further increase statistical power, we also took advantage of 204 
+
+similar data from Fshr +/+ animals derived from our previously published study of Fshr haploinsufficient 205 
+
+mice ( 47 ). This hormone level data was then randomly partitioned into distinct training (n = 212) and 206 
+
+testing (n = 68) sets to enable robust evaluation of model performance. 207 
+
+Model performance evaluation showed strong agreement between predicted OvAge and 208 
+
+chronological age (Spearman’s Rho ~0.795; p-value ~5.5 × 10 -16 ), confirming successful model 209 
+
+construction (Fig. 4B). Additionally, feature importance analysis revealed that AMH contributed most 210 
+
+strongly to age prediction, followed by INHBA and FSH (Fig. 4C). We then calculated OvAge using 211 
+
+hormonal measurements from VCD-injected and Foxl2 +/- animals (Figs. 4D,E). In the VCD model, 212 
+
+predicted ovarian age was consistently higher than chronological age across all age-at-injection groups 213 
+
+(Fig. 4D), suggestive of accelerated endocrine aging. In contrast, predicted ages of Foxl2 +/- animals did 214 
+
+not substantially differ from their wild-type counterparts (Fig. 4E), likely due to the importance of AMH 215 
+
+levels in OvAge calculation. 216 
+
+To quantify the degree of divergence between predicted and chronological age, we computed 217 
+
+hormonal age acceleration, defined as the difference between OvAge-predicted and chronological age 218 
+
+(Figs. 4F-I). For the VCD model, we analyzed animals at 30-, 90-, and 150-days post-injection. In the 219 
+
+VCD model, predicted ovarian age exceeded chronological age following VCD exposure (Figs. 4F-H). 220 
+
+Analysis revealed significant treatment effects on age acceleration at 30, 90, and 150 days post-injection. 221 
+
+Post hoc analyses confirmed significant increases in age acceleration at most timepoints; however, 222 
+
+animals injected at 10 months of age did not exhibit a significant difference at 150 days post-injection 223 
+
+(adjusted p-value ~0.142; table S3). This pattern may reflect convergence of ovarian aging trajectories 224 
+
+between control and VCD-treated animals as they approach estropausal onset (~12-15 months in 225 
+
+C57BL/6 mice ( 35 )). In contrast, Foxl2 haploinsufficient animals did not show a consistent increase in 226 
+
+OvAge or age acceleration (genotype effect, p-value ~0.401; Fig. 4I). This lack of hormonal age 227 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+acceleration, despite evidence of stromal remodeling and reproductive impairment, suggests that Foxl2 228 
+
+haploinsufficiency does not recapitulate the endocrine aging trajectory captured by OvAge, but instead 229 
+
+may reflect a distinct regulatory perturbation of ovarian physiology. 230 
+
+Together, our OvAge analysis captures divergent ovarian aging trajectories in response to distinct 231 
+
+biological perturbations. The clock recapitulates expected aging patterns in naturally aged animals, 232 
+
+detects accelerated ovarian aging following VCD exposure, and reveals a distinct endocrine trajectory in 233 
+
+the Foxl2 haploinsufficiency model. These findings support the utility of OvAge as a non-terminal 234 
+
+framework for assessing ovarian aging and highlight model-specific differences that may inform the study 235 
+
+of reproductive senescence. To facilitate broader use of this framework, we developed an interactive 236 
+
+online R Shiny application that enables researchers to estimate ovarian age using serum hormone 237 
+
+measurements (https://minhooki.shinyapps.io/OvAge_Predictor/). 238 
+
+Importantly, although the Foxl2 haploinsufficiency model did not exhibit overt ovarian dysfunction 239 
+
+based on ovarian health index or OvAge (Figs. 3M, 4I), the absence of endocrine age acceleration does 240 
+
+not exclude underlying molecular perturbations. Indeed, Foxl2 +/- animals displayed significant 241 
+
+accumulation of ovarian fibrosis and lipofuscin (Figs. 2D,G,J,M), histological hallmarks associated with 242 
+
+tissue aging and cell stress. Together with the established role of FOXL2 in granulosa cell identity and 243 
+
+ovarian maintenance, its association with premature menopause in humans ( 30, 31, 48 ), and the 244 
+
+reproductive impairment phenotypes observed in our cohort (Fig. S1C, D), our findings suggest that Foxl2 245 
+
+haploinsufficiency likely disrupts ovarian tissue homeostasis prior to overt depletion of follicular pools, 246 
+
+deserving further investigation of the accompanying transcriptional landscape across ovarian cell types. 247 
+
+> 248
+
+Single-cell transcriptomic profiling of ovarian cell types across menopause models 249 
+
+To characterize the ovarian transcriptional landscapes across candidate mouse menopause 250 
+
+models, we performed single-cell RNA-sequencing (scRNA-seq) on ovaries collected from the Aging, 251 
+
+VCD, and Foxl2 haploinsufficiency models (Fig. 5A). For the Aging model, samples were collected from 252 
+
+young (4 months) and old, estropausal (20 months) animals to capture transcriptional changes associated 253 
+
+with intact aging (Fig. 5B). For the VCD model, we focused on two age-at-injection groups, 3 and 10 254 
+
+months, to capture the extremes of VCD responsiveness observed in prior analyses, as well as two post-255 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+injection time points, 30 and 90 days, based on differential effects on age acceleration at these stages 256 
+
+(Fig. 5B). For the Foxl2 haploinsufficiency model, ovaries were collected from young adult (4 months), 257 
+
+middle-age (9 months) and old (17 months) Foxl2 +/+ and Foxl2 +/- animals, enabling the assessment of 258 
+
+gene expression changes driven by partial loss of Foxl2 function across adulthood (Fig. 5B). Indeed, we 259 
+
+reasoned that inclusion of a later time point for the Foxl2 haploinsufficiency model should help amplify 260 
+
+regulatory impact and thus help reveal clearer trends in transcriptional remodeling. The resulting datasets 261 
+
+yielded 15,800, 47,386, and 39,110 high-quality single cells from the Aging, VCD, and Foxl2 262 
+
+haploinsufficiency models, respectively (table S4). Ovarian cell populations were defined through 263 
+
+dimensionality reduction, unsupervised clustering, and annotation using both established marker genes 264 
+
+and automated reference mapping to publicly available single-cell datasets (Figs. 5C-H and table S5; see 265 
+
+Materials and Methods). 266 
+
+Importantly, we identified all major ovarian cell types in our datasets across all models (Figs. 5C-267 
+
+H). Among the abundant non-immune populations, granulosa cells ( Amh, Fshr, Cyp19a1 ), theca cells 268 
+
+(Cyp17a1, Cyp11a1 ), stromal cells ( Pdgfra, Col1a1 ), smooth muscle cells (SMCs; Acta2 ), pericytes 269 
+
+(Notch3 , Rgs5 ), blood endothelial cells (BECs; Flt1 ), lymphatic endothelial cells (LECs; Prox1 ), and 270 
+
+epithelial cells (Upk1b ) were identified. The immune compartment included neutrophils (S100a8 ), 271 
+
+monocytes ( Adgre1 ), macrophages ( C1qa ), dendritic cells ( Flt3 ), innate lymphoid cells (ILCs; Il2ra ), 272 
+
+natural killer (NK) cells ( Klrb1c, Gzma, Nkg7 ), NKT cells ( Cd3e, Klrb1c, Gzma, Nkg7 ), CD8 + NKT cells 273 
+
+(Cd3e, Klrb1c, Gzma, Nkg7, Cd8b1 ), CD8 + T cells ( Cd3e , Cd8b1 ), CD4 + T cells ( Cd3e, Cd4 ), double-274 
+
+negative T (DNT) cells ( Cd3e ), double-positive T (DPT) cells ( Cd3e, Cd8b1, Cd4 ), and B cells ( Cd19 )275 
+
+(Figs. 5F-H). 276 
+
+As an important control, given known ovotoxic effects of VCD and the absence of follicles 150 277 
+
+days post treatment (Figs. 1C,F and fig. S2C), we performed additional histological analyses on 278 
+
+condition-matched ovaries (matched for age-at-injection and time post-injection) to confirm the presence 279 
+
+of follicular structures in animals processed for scRNA-seq (fig. S4). H&E staining of condition-matched 280 
+
+samples revealed that, despite extensive follicle depletion, residual follicles were still present in most 281 
+
+VCD-treated animals at these time points, consistent with the presence of follicle-associated cell types in 282 
+
+our scRNA-seq data (Figs. 5D,G). We also performed Picrosirius Red and Sudan Black B staining to 283 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+quantify fibrosis and lipofuscin accumulation, respectively (fig. S5). Broadly, VCD-treated ovaries 284 
+
+exhibited increased fibrosis and lipofuscin deposition relative to matched control samples at the 30- and 285 
+
+90-day time points (fig. S5), consistent with our previous observations at 150 days (Figs. 2C,F,I,L). 286 
+
+> 287
+
+RNAscope validation of ovarian cell type identities 288 
+
+To validate cell type assignments, we performed RNAscope, a high-sensitivity in situ hybridization 289 
+
+assay for both well-characterized and less frequently profiled ovarian cell populations (Fig. 5I and figs. 290 
+
+S6A-C). Granulosa cells ( Fshr ), theca cells ( Cyp11a1 ), stromal cells ( Pdgfra ) and SMCs ( Acta2 ) were 291 
+
+validated using established marker probes, confirming their presence in the dataset (fig. S6A). Epithelial 292 
+
+cells ( Upk1b ), BECs ( Flt1 ) and LECs ( Prox1 ) were similarly detected, supporting the robustness of 293 
+
+annotations (fig. S6B). Importantly, we validated the presence of various immune cell subsets, including 294 
+
+NK ( Klrb1c ), NKT ( Klrb1c , Cd3e ), CD8 + T ( Cd3e , Cd8b1 ), CD4 + T cells ( Cd3e, Cd4 ), DNT ( Cd3e, with no 295 
+
+Cd8b1/Cd4 signal) and B ( Cd19 ) cells (fig. S6C). We also confirmed presence of less commonly reported 296 
+
+ovarian cell types, including CD8+ NKT ( Klrb1c, Cd3e, Cd8b1 ) and DPT ( Cd3e, Cd8b1, Cd4 ) cells (Fig. 297 
+
+5I). These results further support the accuracy of the single-cell transcriptomic annotations and highlight 298 
+
+the diverse somatic and immune microenvironments present across the aging models. 299 
+
+Together, a total of 19 cell types, 8 non-immune and 11 immune types, were shared across all 300 
+
+three models (fig. S6D). Some cell types were not shared across models, potentially due to technical 301 
+
+factors (e.g., capture efficiency and sequencing depth), or underlying biological variation inherent to each 302 
+
+mouse model. To assist researchers in navigating the data efficiently, we developed an interactive R shiny 303 
+
+app that makes the annotated datasets directly accessible and explorable through a graphical interface: 304 
+
+https://minhooki.shinyapps.io/shinyappmulti/. 305 
+
+> 306
+
+scRNA-seq analysis reveals shifts in ovarian cell composition in menopause models 307 
+
+Next, we examined changes in cell type proportions across our datasets (Fig. 6A and table S6). 308 
+
+We first assessed whether the proportion of immune cells shifted with ovarian aging by analyzing the 309 
+
+expression of Ptprc , which encodes Cd45, a pan-immune marker (Figs. 6B-D). In the Aging model, we 310 
+
+observed a significant increase in Ptprc + cells, indicating an expansion of the immune cell population with 311 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+age (Fig. 6B). This is consistent with previously published scRNA-seq studies in intactly aged mouse 312 
+
+ovaries, which reported an increase in immune cell abundance at even younger ages (9-15.5 months) ( 41, 313 
+
+49 ). 314 
+
+VCD-treated mice exhibited a drastic reduction in Ptprc + cells across all conditions, indicative of a 315 
+
+depletion of immune cells in ovarian tissue (Fig. 6C). This reduction may result from the loss of follicular 316 
+
+structures, alterations in immune recruitment, or uncharacterized systemic effects of VCD on immune 317 
+
+homeostasis. Additionally, broader tissue remodeling, including fibrosis, may contribute to the altered 318 
+
+immune cell landscape observed in VCD-treated ovaries. Thus, the VCD model does not recapitulate 319 
+
+immune features of intact aging ovaries in mice, regardless of age-at-injection. In contrast, we detected a 320 
+
+significant increase in Ptprc + cells in Foxl2 +/- animals, regardless of age (Fig. 6D). These findings were 321 
+
+further validated by flow cytometric quantification of CD45 + cells (Figs. 6E-G and fig. S7A). Intriguingly, 322 
+
+this suggests that the Foxl2 haploinsufficiency model better recapitulates age-related shifts in ovarian 323 
+
+immune cells compared to the VCD model. 324 
+
+Then, we conducted a comprehensive analysis of all ovarian cell populations detected in the 325 
+
+datasets to identify shifts in cellular composition in response to intact aging, VCD exposure, and Foxl2 326 
+
+haploinsufficiency (Figs. 6H-J and figs. S7B-D). In the Aging model, nearly all non-immune cell 327 
+
+populations showed a decline in proportion with age, except for stromal cells and SMCs, which remained 328 
+
+stable (Fig. 6H). In contrast, several immune cell populations increased with age, including neutrophils, 329 
+
+ILCs, CD8 + NKT, CD4 + T, DNT, and DPT cells (fig. S7B). Notably, DNT cells have been reported to 330 
+
+increase in aging mouse ovaries, and a potential role for these cells in regulating ovarian aging has been 331 
+
+proposed ( 41, 50 ). Conversely, monocytes, NK, NKT, CD8 + T, and B cells exhibited a significant decrease 332 
+
+with age (fig. S7B). 333 
+
+In the VCD model, cell proportion shifts were largely consistent within the treatment group, 334 
+
+regardless of age-at-injection or time post-injection (Fig. 6I and fig. S7C). The VCD-treated group showed 335 
+
+an increasing trend in stromal cells, BECs, LECs, epithelial cells, and CD4 + T cells. In contrast, granulosa 336 
+
+cells, theca cells, SMC, and pericytes were significantly reduced in proportion (Fig. 6I). Among immune 337 
+
+cells, neutrophils, monocytes, macrophages, DCs, NKT, DPT, and B cells were all decreased following 338 
+
+VCD treatment (fig. S7C). 339 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+In the Foxl2 haploinsufficiency model, granulosa cell proportions were consistently reduced in 340 
+
+Foxl2 +/- animals across all ages (Fig. 6J). In the Foxl2 haploinsufficiency model, granulosa cell proportions 341 
+
+were consistently reduced in Foxl2 +/- animals across all ages (Fig. 6J). Notably, this reduction in 342 
+
+granulosa cell representation was not accompanied by a significant decrease in total follicle number at 343 
+
+the histological level (Fig. 1G and fig. S2D), suggesting that Foxl2 haploinsufficiency may alter follicular 344 
+
+composition ( e.g . promoting more immature states, that hold lower granulosa cell number) or granulosa 345 
+
+cell state ( e.g. altered differentiation status, impaired maturation, or partial loss of canonical granulosa cell 346 
+
+identity) rather than simply causing overt follicle loss. Given the established role of FOXL2 in granulosa 347 
+
+cell differentiation, maintenance ( 51 ), and AMH-associated regulation of follicle recruitment ( 46 ), one 348 
+
+possible explanation is that partial Foxl2 loss shifts follicles toward altered maturation states or changes 349 
+
+granulosa cell transcriptional identity, thereby reducing their representation in scRNA-seq without 350 
+
+necessarily reducing total follicle counts. Theca and SMCs also showed an overall decrease, whereas 351 
+
+other non-immune populations showed relatively mild shifts (Fig. 6J). In contrast, immune cell populations 352 
+
+generally increased in Foxl2 +/- ovaries, although macrophages, dendritic cells, and DNT cells showed less 353 
+
+consistent trends across ages (fig. S7D). Together, these results indicate reduced representation of key 354 
+
+somatic ovarian cell types alongside a relative enrichment of immune populations. 355 
+
+To validate the cell abundance patterns identified by scRNA-seq, we performed RNAscope in situ 356 
+
+hybridization for representative non-immune and immune populations (Figs. 6K-P and figs. S8, S9). We 357 
+
+examined granulosa cells, theca cells, stromal cells, SMCs, BECs, LECs, and epithelial cells, along with 358 
+
+NK, NKT, CD8 ⁺ NKT, CD8 ⁺ T, CD4 ⁺ T, DNT, DPT, and B cells. In the Aging model, RNAscope confirmed 359 
+
+decreases in granulosa and theca cells with age (Figs. 6K,N). In old animals, residual granulosa signals 360 
+
+were largely non-specific and did not colocalize with DAPI (Fig. 6K, right panel). BECs also showed a 361 
+
+significant decline (fig. S8A). In contrast, stromal cells, SMCs, LECs, and epithelial cells did not show 362 
+
+significant changes in abundance (fig. S8A). Thus, RNAscope validated several of the major somatic 363 
+
+shifts detected by scRNA-seq while showing more limited changes for some populations. For immune 364 
+
+populations, RNAscope largely recapitulated the scRNA-seq trends, showing decreases in NK, NKT, and 365 
+
+B cells and increases in CD8 ⁺ NKT, CD4 ⁺ T, DNT, and DPT cells (figs. S7B, S9A). CD8 ⁺ T cells did not 366 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+show a significant change by RNAscope despite a decrease with age in scRNA-seq, potentially reflecting 367 
+
+differences in detection sensitivity or spatial distribution. 368 
+
+In the VCD model, we focused RNAscope analysis on the 3-month age-at-injection and 30-day 369 
+
+post-injection condition, given consistent trends across groups (Figs. 6I,L,O and figs. S7C, S8B, S9B). 370 
+
+RNAscope confirmed a reduction in granulosa cells and an increase in stromal cells following VCD 371 
+
+exposure. Theca cells showed a decreasing trend but did not reach significance. Other non-immune 372 
+
+populations did not show significant differences, in contrast to scRNA-seq findings, likely reflecting probe 373 
+
+sensitivity or marker expression limitations. Among immune populations, RNAscope detected decreases 374 
+
+in NK, NKT, CD8 ⁺ NKT, CD8 ⁺ T, and DNT cells, broadly consistent with the scRNA-seq results (fig. S9B). 375 
+
+CD4 ⁺ T, DPT and B cells did not reach statistical significance. 376 
+
+For the Foxl2 haploinsufficiency model, we focused RNAscope analysis on young and middle-age 377 
+
+groups (Fig. 6J,M,P). Our analysis confirmed reduced granulosa cell proportions in Foxl2 +/- animals 378 
+
+across both age groups (Fig. 6J,M,P). Other somatic populations showed modest or variable changes. 379 
+
+Immune populations showed patterns broadly consistent with the scRNA-seq analysis, including 380 
+
+increased NK, NKT cells and CD8 ⁺ NKT cells (fig. S9C). Although some populations did not reach 381 
+
+statistical significance, likely due to lower detection sensitivity, the overall trends supported immune 382 
+
+expansion in Foxl2 +/- ovaries. Together, these results validate the major cell composition shifts detected 383 
+
+by scRNA-seq and support model-specific remodeling of ovarian somatic and immune populations. 384 
+
+> 385
+
+Global transcriptional perturbations of ovarian cell types across menopause models 386 
+
+To systematically evaluate how different menopause models influence global transcriptional 387 
+
+responses in the ovary, we applied “Augur” ( 52 ), a computational framework that quantifies cell type-388 
+
+specific separability across experimental conditions based on single-cell level gene expression profiles 389 
+
+(fig. S10A). Augur scores (derived from underlying machine-learning algorithm performance, reported as 390 
+
+Area Under the Curve [AUC] values) represent the ability within each cell type to distinguish between 391 
+
+biological groups within a given model based on overall transcriptional landscapes ( 52 ). In the Aging 392 
+
+model, granulosa cells exhibited the highest AUC score (AUC ~0.721) among non-immune cells, 393 
+
+reinforcing their role as key transcriptional responders to chronological aging (figs. S10B,C). In the 394 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+immune compartment, NKT and ILCs ranked highest (fig. S10C). Interestingly, DNT cells, despite their 395 
+
+expansion in the aging ovary, showed the lowest AUC score (AUC ~0.519), indicating limited 396 
+
+transcriptional remodeling with age (fig. S10C). 397 
+
+In the VCD model, we observed marked transcriptional perturbations in theca, stromal, BEC, and 398 
+
+LEC cells, especially at 90 days post-injection, with these effects largely consistent across both 3-month 399 
+
+and 10-month age-at-injection groups (figs. S10D-G). However, epithelial and granulosa cells displayed 400 
+
+more pronounced age-at-injection-dependent differences: epithelial cells were more responsive in 401 
+
+younger animals, while granulosa cells were notably absent in the 10-month cohort, likely reflecting more 402 
+
+severe follicular depletion (fig. S10G, left panel). Among immune cell types, NK, DNT, and CD8 + NKT 403 
+
+cells showed higher transcriptional sensitivity in younger animals (fig. S10G, right panel). At 30 days post-404 
+
+injection, transcriptional divergence was generally more divergent in the VCD model compared to its 90-405 
+
+day counterpart (figs. S10D,E). For example, LECs in the 10-month group displayed strong divergence 406 
+
+(AUC ~0.81), suggesting age-related vascular remodeling may emerge early after VCD exposure. 407 
+
+In the Foxl2 haploinsufficiency model, transcriptional divergence was more pronounced in old 408 
+
+animals, suggesting that the effects of Foxl2 loss may not fully manifest in the younger ovaries (fig. S11). 409 
+
+Among non-immune populations, granulosa, theca and epithelial cells showed the highest AUC scores in 410 
+
+older age groups (figs. S11C,E, left panels). In immune populations ILC, NK and monocytes exhibited the 411 
+
+strongest divergence, with all showing elevated AUC scores in the older age groups, indicating potential 412 
+
+immune activation or heightened sensitivity of specific immune compartments to Foxl2 insufficiency (figs. 413 
+
+S11C,E, right panels). 414 
+
+Together, these results reveal both common and model-specific overall transcriptional trajectories 415 
+
+across ovarian aging paradigms. Granulosa cells consistently emerge as sensitive indicators of ovarian 416 
+
+dysfunction across all three models. Immune cells show particularly pronounced divergence in Foxl2 +/-
+
+> 417
+
+animals, suggesting that immune alterations may precede, accompany, or even drive ovarian changes in 418 
+
+this model. Notably, because Foxl2 expression in adults is largely restricted to granulosa cells in the ovary 419 
+
+and gonadotroph-lineage cells in the pituitary and it is not expressed at meaningful levels in ovarian 420 
+
+immune cells ( 33 ), the immune-related phenotypes observed here are unlikely to be a cell autonomous 421 
+
+results of decreased Foxl2 expression within immune cell types. These comparisons underscore the 422 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+importance of contextualizing cell type-specific transcriptional changes within each model's mechanistic 423 
+
+framework and highlight how distinct perturbations, such as chronological aging, chemical ablation, or 424 
+
+genetic loss, can produce divergent molecular responses across ovarian cell types. 425 
+
+> 426
+
+Transcriptional and pathway-level signatures across menopause models 427 
+
+To investigate transcriptional remodeling across menopause models, we performed differential 428 
+
+expression and pathway enrichment analyses across cell types and models (Fig. 7A and table S7). 429 
+
+Importantly, we used a robust pseudobulking approach per annotated cell type in each individual scRNA-430 
+
+seq library, via “muscat” ( 53 ), so as to limit false positive rate. Six cell types, granulosa, theca, stromal, 431 
+
+BEC, epithelial, and DNT cells, were consistently detected across all three models and thus included in 432 
+
+downstream analyses (fig. S12A). “DESeq2” ( 54 ) was used to identify differentially expressed genes 433 
+
+(DEGs) for each model: young vs. old in the Aging model; CTL vs. VCD in the VCD model (using age-at-434 
+
+injection and time post-injection as modeling covariates); and Foxl2 +/+ vs. Foxl2 +/- in the Foxl2 435 
+
+haploinsufficiency model (using age as a modeling covariate). As expected, we confirmed reduced Foxl2 436 
+
+expression in Foxl2 +/- animals in our scRNAseq dataset (fig. S12B). 437 
+
+Using an FDR cutoff of 0.05, we observed substantial transcriptional remodeling across models 438 
+
+and cell types (Figs. 7B-D). Importantly, we asked such transcriptional changes may be unduly influenced 439 
+
+by underlying differences in estrous cyclicity of mice. For this purpose, we took advantage of a publicly 440 
+
+available scRNA-seq dataset profiling ovaries from young adult mice across the four stages of the estrous 441 
+
+cycle (fig. S13A) ( 55 ). After processing the data using our standardized pseudobulk workflow, we focused 442 
+
+on granulosa cells, which were among the most strongly perturbed populations across estrous cycle 443 
+
+stages ( 55 ). We first compared multidimensional scaling (MDS) structures across the estrous-cycle 444 
+
+dataset and our Aging, VCD, and Foxl2 haploinsufficiency datasets (fig. S13B). Whereas our datasets 445 
+
+showed sample separation according to the primary biological variables of interest ( i.e . age, treatment, 446 
+
+genotype), samples from the estrous-cycle dataset revealed substantial overlap in MDS space, 447 
+
+suggesting smaller or less consistent transcriptional remodeling. Consistently, differential expression 448 
+
+analysis identified only modest transcriptional differences between estrous stages, even in the proestrus-449 
+
+versus-estrus comparison, which has previously been reported to show the strongest stage-dependent 450 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+effects (fig. S13C) ( 55 ). These findings indicate that the transcriptional changes observed across our 451 
+
+menopause models are substantially larger than those attributable to estrous cycle-effects and are 452 
+
+therefore unlikely to be driven primarily by stage differences. 453 
+
+Next, we performed gene set enrichment analysis (GSEA) to identify gene ontology (GO) 454 
+
+biological process terms recurrently enriched across models (Fig. 7E and table S8). Mitochondrial-related 455 
+
+gene sets were consistently downregulated across models and cell types, including “Respiratory electron 456 
+
+transport chain,” “Oxidative phosphorylation” and “ATP synthesis coupled electron transport” (FDR < 0.1; 457 
+
+Fig. 7F). Immune-related processes, such as “Antigen processing and presentation of endogenous 458 
+
+peptide antigen,” were also frequently identified as downregulated. Using independent gene sets from 459 
+
+Reactome ( 56 ) revealed consistent trends of mitochondria-related gene sets being downregulated (FDR < 460 
+
+0.1; Fig. 7F), suggesting convergent dysregulation of metabolic function during ovarian aging and in 461 
+
+menopause models. Notably, immune-related gene sets were more prominently altered in the Aging and 462 
+
+Foxl2 haploinsufficiency models compared to the VCD model, consistent with the immune cell shifts 463 
+
+observed in these datasets and suggesting that the Foxl2 haploinsufficiency model could be particularly 464 
+
+informative for investigating immune dysregulation associated with ovarian aging. 465 
+
+> 466
+
+Convergent and divergent aging-associated features are observed across menopause models 467 
+
+To identify transcriptional features shared or divergent across menopause models, we derived 468 
+
+age-associated gene signatures from the Aging model and used them as reference cell type-specific 469 
+
+“aging” gene sets (fig. S14A). The VCD model showed broad concordance, with consistent upregulation 470 
+
+of aging-associated genes across cell types. In contrast, the Foxl2 haploinsufficiency model displayed 471 
+
+partial divergence. Granulosa and stromal cells showed reduced expression of genes typically 472 
+
+upregulated with age, while BECs exhibited inverse trends for both age-associated up- and 473 
+
+downregulated gene sets (fig. S14A). These cell type-specific deviations suggest that partial Foxl2 loss 474 
+
+may engage distinct molecular programs relative to physiological aging. We also evaluated enrichment of 475 
+
+the published, validated SenMayo senescence-associated gene set ( 57 ) as a proxy for senescence 476 
+
+burden (fig. S14B). As expected, most cell types in the Aging model showed increased SenMayo 477 
+
+expression. The VCD model partially recapitulated this pattern, whereas the Foxl2 haploinsufficiency 478 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+model showed mixed, cell type-dependent effects, with several non-immune cell populations exhibiting 479 
+
+inverse trends. These differences indicate that VCD and Foxl2 haploinsufficiency models capture distinct 480 
+
+cell-specific aspects of accelerated ovarian aging. 481 
+
+Increased transcriptional variability is a characteristic of aging and has been observed across 482 
+
+multiple tissues, including the ovary ( 49 ) and hypothalamus ( 58 ) in mice, and is thought to reflect a loss of 483 
+
+transcriptional regulation/precision with aging. Thus, we next evaluated gene expression variability in 484 
+
+each cell type and condition using the coefficient of variation (CV) (fig. S14C). As expected, transcriptional 485 
+
+variability broadly increased with aging across cell types (fig. S14C). The VCD model showed elevated 486 
+
+variability primarily in theca cells, while other populations exhibited heterogeneous responses. In the 487 
+
+Foxl2 haploinsufficiency model, variability increased predominantly at middle-age, although inconsistently 488 
+
+across cell types. These mixed patterns suggest that intervention models may involve compensatory or 489 
+
+cell type-specific adaptations rather than uniform aging-like deregulation. 490 
+
+Finally, we examined transposable element (TE) transcription using “scTE” ( 59 ) (fig. S14D). TE 491 
+
+transcription is known to be derepressed with aging across tissues, driven in part by age-associated 492 
+
+chromatin remodeling, reduced heterochromatin integrity and impaired epigenetic repression ( 60, 61 ). 493 
+
+While aging was associated with increased TE expression in several somatic and immune populations, 494 
+
+intervention models showed more heterogeneous responses. VCD exposure led to increased TE 495 
+
+expression in stromal and vascular compartments but reductions in steroidogenic cells, whereas Foxl2 496 
+
+haploinsufficiency showed cell type-specific increases and decreases across ovarian lineages. These 497 
+
+findings indicate that TE regulation varies depending on the mechanism of ovarian perturbation rather 498 
+
+than uniformly mirroring chronological aging. 499 
+
+> 500
+
+Age-associated gene expression trajectories reveal model-specific amplification patterns 501 
+
+To better characterize how VCD exposure and Foxl2 haploinsufficiency modulate age-associated 502 
+
+transcriptional trajectories, we performed likelihood ratio test (LRT) analysis for the VCD and Foxl2 503 
+
+haploinsufficiency models (Fig. 8A). Significant genes were subsequently grouped by unsupervised 504 
+
+clustering to identify coherent gene expression patterns. Due to their relevance to ovarian function as key 505 
+
+steroidogenic cells, we focused our analyses on granulosa and theca cells. 506 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+To interpret cluster behavior relative to physiological aging, we first examined expression patterns 507 
+
+in corresponding control groups (CTL for the VCD model; Foxl2 +/+ for the Foxl2 haploinsufficiency model) 508 
+
+to establish baseline age-associated trajectories. Clusters were then classified based on how the 509 
+
+perturbation modified these trajectories. When perturbations exaggerated age-associated increases or 510 
+
+decreases, we termed these “enhanced increase” (EI) or “enhanced decrease” (ED) patterns, 511 
+
+respectively (Fig. 8A). 512 
+
+In granulosa cells, both VCD exposure and Foxl2 haploinsufficiency modified age-associated 513 
+
+transcriptional trajectories in distinct, but partially overlapping ways (Figs. 8B-E). In the VCD model, EI 514 
+
+genes were enriched for hormone metabolism pathways, whereas ED genes were associated with 515 
+
+mitochondrial respiration (Figs. 8B,C). In the Foxl2 haploinsufficiency model, EI genes were enriched for 516 
+
+respiration-related pathways, while ED genes were linked to housekeeping processes, including cell cycle 517 
+
+regulation, DNA replication, and recombination (Figs. 8D,E). Notably, mitochondrial and respiration-518 
+
+related pathways came up in both models, appearing in VCD ED clusters and Foxl2 haploinsufficiency EI 519 
+
+clusters, indicating that mitochondrial programs are broadly perturbed across models, albeit in opposite 520 
+
+directions. Although additional significant gene regulatory patterns were also observed (fig. S15), these 521 
+
+did not show consistent aging-associated trajectories and we did not perform further analyses on them. 522 
+
+In theca cells, we also observed broadly similar amplification patterns (figs. S16, S17). VCD-523 
+
+associated EI genes were enriched for metabolic pathways, whereas ED genes were enriched for 524 
+
+processes linked to actin organization and cell signaling (figs. S16A-C). In the Foxl2 haploinsufficiency 525 
+
+model, ED genes were enriched for extracellular matrix and cell signaling pathways, suggesting altered 526 
+
+stromal and intercellular communication (fig. S16D). Similar to the granulosa analysis, we also detected 527 
+
+additional significant trajectory patterns in Foxl2 haploinsufficient theca cells, but since these did not 528 
+
+demonstrate clear aging-related behavior or significant functional enrichment, suggestive of model-529 
+
+specific effects (fig. S17), they were not explored further. 530 
+
+Together, these trajectory analyses reveal that both VCD exposure and Foxl2 haploinsufficiency 531 
+
+modulate age-associated transcriptional programs but do so in distinct ways. VCD primarily amplifies 532 
+
+metabolic and mitochondrial changes in steroidogenic cells, whereas Foxl2 haploinsufficiency 533 
+
+preferentially affects pathways related to respiration, cell cycle regulation, and extracellular matrix 534 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+organization. These results highlight how different menopause models reshape age-dependent 535 
+
+transcriptional trajectories across ovarian cell types. 536 
+
+> 537
+
+Gene co-expression network and transcription factor activity across menopause models 538 
+
+To identify gene regulatory programs associated with ovarian aging, we performed weighted gene 539 
+
+co-expression network analysis (WGCNA) ( 62 ) and transcription factor (TF) activity inference using 540 
+
+“decoupleR” ( 63 ) (fig. S18A). As a reference framework, WGCNA was first applied to pseudobulked gene 541 
+
+expression data from the Aging model, which captures physiological ovarian decline. Gene modules 542 
+
+significantly correlated with age (FDR < 0.1) were retained for comparative analyses (figs. S18B, S19). As 543 
+
+expected, these modules showed strong enrichment within the Aging dataset, providing a benchmark for 544 
+
+assessing transcriptional convergence and divergence across intervention models (fig. S20A). 545 
+
+Module behavior in the VCD model largely paralleled that of the Aging model, indicating that 546 
+
+VCD-induced ovarian failure recapitulates major regulatory programs associated with chronological aging 547 
+
+(fig. S20A). In contrast, the Foxl2 haploinsufficiency model displayed more divergent module dynamics. 548 
+
+Notably, stromal cell modules frequently showed opposite expression patterns relative to the Aging model, 549 
+
+suggesting that partial Foxl2 loss alters regulatory programs governing stromal remodeling and tissue 550 
+
+organization (fig. S20A). These comparisons highlight both shared aging-related regulatory circuits and 551 
+
+model-specific deviations shaped by the underlying mechanism of ovarian dysfunction. 552 
+
+To investigate the functional basis of these modules, we performed Gene Ontology over-553 
+
+representation analysis (ORA; figs. S20B-D). In granulosa cells, modules were enriched for pathways 554 
+
+related to mitochondrial metabolism and ribosomal function, consistent with high energetic and 555 
+
+translational demands in steroidogenic cells (fig. S20B) ( 64, 65 ). Stromal cell modules were enriched for 556 
+
+mitochondrial processes as well as mitotic machinery and chromosome segregation pathways, 557 
+
+suggesting coordinated changes in cellular proliferation and tissue remodeling during aging (fig. S20C) 558 
+
+(41, 66 ). In BECs, enriched terms included immune-related pathways, chromosome segregation, and 559 
+
+cytoskeletal organization, pointing to coupled regulation of vascular integrity, immune interactions, and 560 
+
+structural dynamics (fig. S20D) ( 67 ). 561 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+To complement co-expression network-based analyses, we also inferred transcription factor (TF) 562 
+
+activity across cell types using decoupleR (fig. S21A and table S10). Across datasets, we detected 563 
+
+shared changed TF activity signatures in multiple cell types (fig. S21B). Across datasets, shared TF 564 
+
+activity changes were observed in multiple cell types (fig. S21B). In granulosa cells, we consistently 565 
+
+detected reduced predicted activity of cell cycle-associated regulators (E2f1, E2f2, E2f3, E2f4, and Myc; 566 
+
+fig. S21C) ( 68, 69 ). In contrast, predicted activity increased for steroidogenic regulators (Nr5a1, Nr5a2) 567 
+
+(70, 71 ), metabolic regulators (Srebf1) ( 72 ), and stress- and hormone-responsive factors (Crem, Foxo1, 568 
+
+Jun, and Sp1) ( 73-76 ), suggesting coordinated remodeling of endocrine function, metabolic homeostasis, 569 
+
+and stress-adaptive programs in granulosa cells (fig. S21C). 570 
+
+Beyond granulosa cells, TF activity changes revealed distinct cell type-specific regulatory 571 
+
+patterns (fig. S21C). Theca cells showed reduced activity of Ar, Foxo3, Nr3c1, and Stat3, consistent with 572 
+
+attenuated steroidogenic signaling and stress-response pathways ( 77, 78 ). Stromal cells exhibited broad 573 
+
+decreases in TFs associated with developmental signaling, tissue remodeling, and cellular plasticity, 574 
+
+alongside increased immune function-linked regulatory activity, suggesting altered stromal homeostasis 575 
+
+with enhanced immune involvement ( 79-81 ). Among vascular endothelial populations, BECs displayed 576 
+
+reduced cell cycle-related TF activity ( 82 ), whereas LECs showed increased activity of immune and 577 
+
+inflammatory regulators (83, 84 ), indicating divergent adaptations between blood and lymphatic 578 
+
+vasculature. Epithelial cells exhibited reduced Sp1 activity, suggesting dampened transcriptional 579 
+
+programs linked to cellular maintenance and metabolic regulation ( 85 ). 580 
+
+Collectively, these findings reveal both conserved and model-specific regulatory programs 581 
+
+underlying ovarian aging, with coordinated transcription factor activity changes highlighting cell type-582 
+
+specific shifts in endocrine function, metabolic regulation, tissue remodeling, and immune adaptation. 583 
+
+> 584
+
+Transcriptome-based aging clocks capture evidence of accelerated ovarian aging across models 585 
+
+Finally, to obtain an integrative view of ovarian aging, we developed transcriptome-based clocks 586 
+
+that predict ovarian age from gene expression profiles (Fig. 9A and fig. S22A), similar to approaches used 587 
+
+in other tissues ( 86, 87 ). Given the central role of granulosa cells in ovarian function, we first trained a 588 
+
+lasso regression model using granulosa cell transcriptomes (Fig. 9A). In parallel, a comparable model 589 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+was constructed using theca cell transcriptomes to assess the fidelity of our menopause models in 590 
+
+another key steroidogenic population (fig. S22A). 591 
+
+Performance evaluation on held-out data demonstrated strong predictive accuracy for the 592 
+
+granulosa-based model (Spearman’s Rho ~0.82, p-value ~1.3 × 10 -585 ; Fig. 9B). The theca-based model 593 
+
+also performed well (Spearman’s Rho ~0.76, p-value ~3.6 × 10 -447 ; fig. S22B), although accuracy declined 594 
+
+more sharply at older ages. Notably, prediction accuracy decreased in samples derived from mice aged 595 
+
+> ≥
+
+12 months, coinciding with the reported onset of estropause in C57BL/6 mice ( 35 ) (fig. S22B ; expected 596 
+
+age-at-estropause highlighted in gray). 597 
+
+We next applied the granulosa-based clock to VCD and Foxl2 haploinsufficiency datasets (Figs. 598 
+
+9C,D). VCD-treated animals exhibited consistently elevated predicted transcriptomic ages relative to 599 
+
+chronological age, indicating molecular acceleration of ovarian aging. Foxl2 +/- animals similarly showed 600 
+
+increased predicted ages compared to wild-type controls. To further quantify these differences, we next 601 
+
+calculated transcriptomic age acceleration (predicted minus chronological age; Figs. 9E,F). In the VCD 602 
+
+model, transcriptional age acceleration decreased with increasing age at exposure, mirroring trends 603 
+
+observed in the hormone-based OvAge model, consistent with reduced responsiveness of older ovaries 604 
+
+to chemical insult (Figs. 4F-H, 9E). In contrast, Foxl2 +/- granulosa cells showed increased transcriptional 605 
+
+age acceleration relative to controls, consistent with acceleration of ovarian aging and contrasting with 606 
+
+our previous OvAge predictions (Figs. 4I, 9F). This discrepancy suggests that transcriptome-based clocks 607 
+
+may capture earlier, distinct physiological alterations preceding systemic hormonal changes. 608 
+
+In parallel, we also applied the theca cell-based clock to the VCD and Foxl2 haploinsufficiency 609 
+
+models (figs. S22C,D). Despite its nominally lower accuracy, the theca clock recapitulated key aging 610 
+
+patterns observed in granulosa cells. VCD-treated animals again showed elevated predicted 611 
+
+transcriptomic ages. In the Foxl2 haploinsufficiency model, genotype-dependent effects varied with age: 612 
+
+Foxl2 +/- animals exhibited increased predicted ages at young and middle-age but reduced age 613 
+
+acceleration in the older cohort relative to wild-type animals. Age acceleration patterns were broadly 614 
+
+consistent with results from granulosa-based clock in the VCD model, while Foxl2 haploinsufficiency 615 
+
+showed age-dependent genotype effects (figs. S22E,F). Analysis confirmed a significant overall genotype 616 
+
+effect on age acceleration, supporting the sensitivity of the theca-based clock in detecting molecular 617 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+ovarian aging across models. Together, these results demonstrate that transcriptome-based aging clocks 618 
+
+capture molecular features of accelerated ovarian aging and reveal both convergent and cell type-specific 619 
+
+responses to chemical and genetic perturbations. 620 
+
+Finally, to identify transcriptional features driving age prediction, genes with non-zero β621 
+
+coefficients from the trained lasso model were extracted and their expression trajectories examined 622 
+
+across age in the pseudobulked granulosa cells (Fig. 9G). These genes displayed heterogeneous 623 
+
+temporal patterns, indicating involvement in diverse age-associated regulatory programs. To further 624 
+
+assess biological relevance, the top 500 genes based on absolute β coefficient were subjected to ORA 625 
+
+(Fig. 9H). Enriched terms were predominantly related to extracellular matrix organization, cell signaling, 626 
+
+and immune function, including “extracellular matrix,” “signaling receptor regulator activity,” and 627 
+
+“leukocyte chemotaxis.” These results suggest that early alterations in tissue remodeling, intercellular 628 
+
+communication, and immune regulation contribute substantially to ovarian transcriptomic aging and 629 
+
+underscore the sensitivity of the transcriptome-based clock in detecting early molecular changes. 630 
+
+A similar approach was applied to the theca cell-based model (figs. S22G,H). Genes with non-631 
+
+zero β coefficients also exhibited heterogeneous age-dependent expression patterns, suggesting 632 
+
+involvement in diverse regulatory programs during theca cell aging (fig. S22G). To evaluate their 633 
+
+biological relevance, the top 500 genes based on absolute β coefficient were subjected to ORA (fig. 634 
+
+S22H). Enriched terms were predominantly associated with reproductive and developmental processes, 635 
+
+including “sex differentiation” and “gonad development.” Additional enrichment was observed for 636 
+
+structural and translational processes such as “actin cytoskeleton reorganization” and components of the 637 
+
+cytosolic ribosome, including “small ribosomal subunit.” These findings suggest that transcriptional aging 638 
+
+in theca cells is characterized by coordinated remodeling of reproductive developmental programs 639 
+
+alongside with shifts in cytoskeletal organization and protein synthesis capacity. 640 
+
+Together, these data demonstrate the utility of transcriptome-based models for detecting 641 
+
+molecular aging trajectories in the mouse ovary. These predictive tools offer a valuable framework for 642 
+
+assessing molecular age across experimental models and for uncovering early transcriptomic alterations 643 
+
+that precede overt phenotypic decline. 644 
+
+> 645
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint 646
+
+.CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint Discussion 647 
+
+Understanding how ovarian decline contributes to systemic aging requires robust experimental 648 
+
+models that accurately recapitulate the physiological features of menopause. In this study, we 649 
+
+systematically evaluated three mechanistically distinct mouse models of menopause: an intact aging 650 
+
+model, a chemical follicle depletion model using VCD exposure, and a genetic model of Foxl2 651 
+
+haploinsufficiency. By integrating histological, hormonal, and transcriptomic profiling across these models, 652 
+
+we provide a comparative framework for understanding shared and model-specific trajectories of ovarian 653 
+
+aging. Findings from our study provide a critical comparative resource for identifying conserved and 654 
+
+divergent features of ovarian aging and evaluating the suitability of each model, with the goal of 655 
+
+advancing both mechanistic insights and translational strategies in menopause research. 656 
+
+The intact Aging model showed expected hallmarks of physiological ovarian decline, including 657 
+
+depletion of follicles across developmental stages, endocrine disruption, increased fibrosis and lipofuscin 658 
+
+accumulation, and broad transcriptomic remodeling. At the cellular level, aging was associated with 659 
+
+expansion of the immune compartment, reduction of most non-immune populations, and strong 660 
+
+transcriptional perturbation in granulosa cells. These findings are consistent with prior scRNA-seq studies 661 
+
+of mouse ovarian aging and reinforce the view that granulosa cells are among the most transcriptionally 662 
+
+responsive somatic populations during ovarian decline (41, 49 ). Aging was also accompanied by 663 
+
+increased transcriptional variability, altered TE expression, and coordinated pathway-level changes 664 
+
+involving mitochondrial dysfunction and immune remodeling, indicating loss of tissue homeostasis across 665 
+
+multiple biological scales. 666 
+
+The VCD model led to the appearance of several key features of accelerated ovarian failure. 667 
+
+VCD-treated animals exhibited marked follicle depletion, endocrine disruption, increased fibrosis and 668 
+
+lipofuscin accumulation, and elevated ovarian age as measured by both OvAge and transcriptome-based 669 
+
+clocks. Importantly, by varying the age at VCD exposure, we demonstrate that ovarian failure can be 670 
+
+induced across different stages of the reproductive lifespan, including near the estropausal transition. 671 
+
+This establishes the VCD paradigm as a flexible system for modeling age-at-menopause, enabling the 672 
+
+generation of ovarian failure within an age-relevant systemic context. Additionally, we observed that the 673 
+
+magnitude of endocrine and transcriptomic acceleration was greater when VCD exposure occurred at 674 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+younger ages and attenuated in animals treated closer to the estropausal transition. This finding indicates 675 
+
+that the physiological consequences of follicle depletion are shaped by the baseline ovarian and systemic 676 
+
+state at the time of insult. At the transcriptional level, VCD broadly recapitulated many features of the 677 
+
+Aging model, including module behavior, age-associated gene signature enrichment, and transcriptome-678 
+
+based age acceleration. However, it also diverged from intact aging in important ways. Most notably, 679 
+
+VCD-treated ovaries showed reduced immune cell proportions, in contrast to the immune expansion 680 
+
+observed in naturally aged ovaries. This suggests that chemically induced follicle depletion captures 681 
+
+aspects of ovarian failure and accelerated endocrine aging, but does not fully model the immune 682 
+
+remodeling that accompanies physiological ovarian aging. Thus, the VCD model appears particularly 683 
+
+useful for studying acute follicular depletion and endocrine collapse, but less suitable for interrogating 684 
+
+immune-related features of intact ovarian aging. 685 
+
+The Foxl2 haploinsufficiency model showed a more nuanced phenotype. Unlike the Aging and 686 
+
+VCD models, Foxl2 +/- animals did not exhibit overt reductions in combined follicle counts or consistent 687 
+
+endocrine age acceleration by ovarian health index or OvAge. Nonetheless, this model displayed 688 
+
+significant fibrosis and lipofuscin accumulation, impaired fertility, increased immune cell abundance, and 689 
+
+marked transcriptional perturbation across several ovarian compartments. Granulosa cell proportions 690 
+
+were consistently reduced, and transcriptome-based clocks detected elevated molecular age in granulosa 691 
+
+cells despite the absence of a clear endocrine aging phenotype. Together, these findings indicate that 692 
+
+Foxl2 haploinsufficiency does not simply phenocopy overt menopause, but instead captures an 693 
+
+alternative trajectory of ovarian dysfunction in which structural and molecular perturbations emerge before 694 
+
+strong endocrine collapse. FOXL2 interacts with AMH to regulate follicle recruitment in humans ( 46 ), 695 
+
+raising the possibility that the observed histological, endocrine, and transcriptional features reflect 696 
+
+enhanced AMH-mediated preservation of ovarian reserve in Foxl2 +/- animals. Despite relatively preserved 697 
+
+endocrine output, the heightened transcriptional sensitivity of steroidogenic and immune compartments 698 
+
+positions this model as a valuable system for studying early or subclinical stages of ovarian aging. 699 
+
+This distinction is further supported by the transcriptomic analyses. Compared to the Aging and 700 
+
+VCD models, Foxl2 haploinsufficiency showed more divergent behavior in aging-associated gene 701 
+
+signatures, senescence-associated programs, and co-expression modules, particularly in stromal cells. At 702 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+the same time, immune-related signals were more prominent in Foxl2 +/- ovaries, consistent with the 703 
+
+increase in Ptprc + cells and the stronger transcriptional responsiveness of several immune populations. 704 
+
+These findings suggest that partial loss of Foxl2 may create an immune-primed ovarian environment and 705 
+
+reshape transcriptional programs in ways that only partially overlap with chronological aging. Accordingly, 706 
+
+the Foxl2 haploinsufficiency model may be particularly informative for studying early or subclinical stages 707 
+
+of ovarian dysfunction, especially those involving altered granulosa identity, tissue remodeling, and 708 
+
+immune dysregulation. 709 
+
+We want to acknowledge that our Foxl2 haploinsufficiency model uses a constitutive null allele 710 
+
+rather than an ovary/granulosa-specific one (see Materials and Methods). However, this is not really a 711 
+
+concern in the effort to model reproductive senescence due to the known adult expression pattern of 712 
+
+Foxl2 . Indeed, adult expression of Foxl2 is largely restricted to ovarian granulosa cells and pituitary 713 
+
+gonadotroph-lineage cells, with no evidence of expression in (ovarian) immune cell populations or other 714 
+
+tissues ( 33 ). Thus, the immune phenotypes observed in Foxl2 +/- ovaries are unlikely to arise from cell-715 
+
+autonomous Foxl2 deficiency within immune cells, and instead more likely reflect secondary 716 
+
+consequences of altered ovarian or neuroendocrine homeostasis. At the same time, because decreased 717 
+
+Foxl2 pituitary expression is likely to contribute to aspects of the reproductive phenotype (as they likely do 718 
+
+in human FOXL2 mutation carriers with premature ovarian failure), future studies could also evaluate how 719 
+
+the hypothalamus/pituitary axis is impacted in the context of reproductive aging models, with relevance to 720 
+
+human health. Notably, FOXL2 has been shown to directly regulate expression of the common 721 
+
+glycoprotein hormone α-subunit (Cga), a shared component of both FSH and LH, in pituitary 722 
+
+gonadotrophs. Given that reproductive aging and menopause are characterized by elevated circulating 723 
+
+FSH levels, and that this feature is recapitulated across our three models, partial Foxl2 loss may 724 
+
+contribute to dysregulation of gonadotropin production, thereby influencing ovarian function in a non-cell-725 
+
+autonomous manner ( 88 ). 726 
+
+Across models, several shared molecular themes emerged. Mitochondrial and respiration-related 727 
+
+pathways were consistently altered at the pseudobulk level, and trajectory analyses in granulosa cells 728 
+
+further highlighted mitochondrial programs as recurrent targets of remodeling in both VCD and Foxl2 729 
+
+haploinsufficiency, albeit in opposite transcriptional directions. Gene regulatory network analyses also 730 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+converged on processes related to mitochondrial metabolism, ribosomal function, cell cycle control, 731 
+
+extracellular matrix organization, and immune adaptation. Transcriptome-based aging clocks reinforced 732 
+
+these observations by identifying predictive features linked to extracellular matrix remodeling, signaling, 733 
+
+immune regulation, and developmental programs. Together, these analyses point to common axes of 734 
+
+ovarian aging biology while also showing that the direction, magnitude, and cellular context of these 735 
+
+changes differ by model. 736 
+
+Our study also highlights the importance of cell type-specific readouts in evaluating ovarian aging. 737 
+
+Granulosa cells consistently emerged as sensitive indicators across models, showing strong perturbation 738 
+
+in Augur analyses, high DEG burden, and robust performance in transcriptome-based aging clocks. 739 
+
+Theca cells similarly supported molecular age prediction and revealed complementary trajectory patterns, 740 
+
+although the Foxl2 model showed age-dependent divergence between granulosa- and theca-based 741 
+
+clocks. These findings emphasize that ovarian aging is not uniform across cell types and that distinct 742 
+
+compartments encode partially overlapping aspects of functional decline. 743 
+
+We would like to discuss several potential limitations of this work. First, this study was designed 744 
+
+as a comparative resource and not to directly resolve how ovarian aging drives systemic aging 745 
+
+phenotypes. Second, circulating estradiol was not quantified because technical constraints limit reliable 746 
+
+measurement in mouse blood samples, including assay cross-reactivity with dietary phytoestrogens 747 
+
+(including equol), extensive protein binding requiring complex extraction procedures, and limited sample 748 
+
+volumes ( 14 ). Third, although the VCD age-at-injection paradigm enabled examination of age-dependent 749 
+
+responsiveness to chemical follicle depletion, it does not directly model the aged systemic milieu. Finally, 750 
+
+although cross-species parallels support the relevance of several pathways identified here, further work is 751 
+
+needed to determine which model most faithfully captures specific aspects of human menopause biology. 752 
+
+In summary, our comparative analysis demonstrates that ovarian aging comprises both shared 753 
+
+and model-specific structural, endocrine, and molecular features. The intact Aging model captures 754 
+
+gradual physiological decline and immune remodeling; the VCD model induces robust follicle depletion 755 
+
+and accelerated endocrine aging; and the Foxl2 haploinsufficiency model reveals early molecular and 756 
+
+tissue perturbations that may precede overt functional decline. By integrating histological, hormonal, and 757 
+
+single-cell transcriptomic data, we provide a multidimensional framework for selecting and interpreting 758 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+preclinical models of ovarian aging. This resource should support future studies aimed at identifying 759 
+
+mechanisms, biomarkers, and interventions relevant to reproductive senescence and menopause-760 
+
+associated health decline. 761 
+
+.CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint Materials and methods 762 
+
+Experimental Design 763 
+
+This study was designed as a comparative resource to systematically evaluate mouse models of 764 
+
+menopause and ovarian aging. Our objective was to determine how distinct mechanisms of ovarian 765 
+
+dysfunction (physiological aging, chemically induced follicle depletion, and genetic disruption of granulosa 766 
+
+cell identity), shape structural, endocrine, and molecular features of ovarian aging. To this end, we 767 
+
+performed integrated histological, hormonal, and single-cell transcriptomic profiling across three models: 768 
+
+intact aging, VCD-induced ovarian failure, and Foxl2 haploinsufficiency. 769 
+
+Prespecified components included standardized histological assessment of follicle abundance 770 
+
+and tissue remodeling, endocrine profiling of ovarian reserve markers, single-cell RNA sequencing to 771 
+
+characterize cellular composition and transcriptional states, and integrative computational analyses to 772 
+
+quantify molecular aging trajectories and regulatory programs. Harmonized preprocessing and analytical 773 
+
+pipelines were applied across models to enable direct comparisons. 774 
+
+> 775
+
+Mouse husbandry 776 
+
+All animals were treated and housed in accordance with the Guide for Care and Use of 777 
+
+Laboratory Animals. All experimental procedures were approved by the USC’s Institutional Animal Care 778 
+
+and Use Committee (IACUC) and are in accordance with institutional and national guidelines. Samples 779 
+
+were derived from animals on approved IACUC protocol numbers 21155 and 21454. All animals were 780 
+
+acclimated in the specific-pathogen-free animal facility at USC for two weeks prior to any experimental 781 
+
+procedures. Mice were provided PicoLab Rodent Diet 20 (LabDiet, 5053) ad libitum . The facility was 782 
+
+maintained on a 12-hour light/dark cycle, with housing rooms set to 72°F and 30% humidity. 783 
+
+For the Aging model, female C57BL/6JNia mice (4- and 20-month-old) were obtained from the 784 
+
+National Institute on Aging (NIA) colony at Charles River Laboratories. 785 
+
+For the VCD model, female C57BL/6J mice (2.5-, 5.5-, 7.5-, and 9.5-month-old) were purchased 786 
+
+from Jackson Laboratory. Animals (strain # 000664) received daily intraperitoneal injections of either 787 
+
+vehicle (safflower oil; Sigma S8281) or VCD (160 mg/kg/day; Sigma 94956) for 15 consecutive days. All 788 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+injections were administered between 8:00 and 10:00 AM to minimize variability due to circadian 789 
+
+influences. 790 
+
+Foxl2 floxed ( Foxl2 lox/lox ) mice were generated by Cyagen Biosciences Inc. using a previously 791 
+
+described targeting strategy ( 28 ). Briefly, a targeting construct was designed to replace a 2.177 kb 792 
+
+fragment containing the entire Foxl2 coding region with a 1.157 kb Neo gene cassette (fig. S1A). The 793 
+
+construct was linearized and introduced into C57BL/6NTac embryonic stem (ES) cells via electroporation. 794 
+
+Candidate clones were assessed via PCR and Southern blot analysis. A targeted ES cell clone was 795 
+
+selected and injected into C57BL/6NTac albino embryos, which were then implanted into pseudo-796 
+
+pregnant CD-1 females. Founder animals were identified based on coat color, and germline transmission 797 
+
+was confirmed through breeding with C57BL/6J females followed by genotyping of the offspring. Mice 798 
+
+carrying the desired floxed Foxl2 allele were sent to USC for experiments and downstream phenotyping. 799 
+
+Foxl2 haploinsufficiency mice ( Foxl2 +/-) were generated by crossing homozygous Foxl2 lox/lox 
+
+> 800
+
+C57BL/6NTac mice with heterozygous B6.C-Tg(CMV-cre)1Cgn/J (JAX, stock #006054) mice. Offspring 801 
+
+were genotyped for both the Foxl2 alleles and the CMV-Cre transgene. To eliminate the CMV-Cre 802 
+
+transgene, Foxl2 +/- mice then were backcrossed to wild-type C57BL/6J mice. Progeny were selected to 803 
+
+carry the deleted Foxl2 allele ( Foxl2 +/-), but not the CMV-Cre transgene. Afterwards, Foxl2 +/- mice were 804 
+
+maintained as a stable heterozygous knock-out colony using allele transmission through parents of either 805 
+
+sex with Foxl2 +/+ by Foxl2 +/- crossing to avoid generating full knockout animals. Routine genotyping was 806 
+
+performed using genomic DNA extracted from tail biopsies using specific PCR primers, as listed in table 807 
+
+S11A. 808 
+
+> 809
+
+RT-qPCR analysis of Foxl2 expression in Foxl2 haploinsufficiency model mouse ovaries 810 
+
+Flash-frozen ovaries collected from mice were used for RNA extraction, cDNA synthesis and 811 
+
+quantitative RT-PCR. Ovaries were resuspended in 600 μL of TRIzol reagent (Thermo-Fisher, 15596018) 812 
+
+and lysed using the BeadBug Homogenizer (Benchmark Scientific, D1036). Homogenization was 813 
+
+performed at 3,500 rpm in 30-second intervals, repeated for a total of nine cycles. Total RNA was then 814 
+
+purified using the Direct-Zol RNA Miniprep kit (Zymo Research, R2052), following the manufacturer’s 815 
+
+protocol. RNA was eluted in nuclease-free water and immediately quantified using the NanoDrop 816 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+spectrophotometer (Thermo Scientific). The purity of the RNA was assessed by measuring the 817 
+
+260/280nm and 260/230nm absorbance ratios. Samples with ratios close to ~2.0 were considered 818 
+
+suitable for downstream applications. 819 
+
+Total RNA was reverse transcribed into cDNA, using the Thermo Scientific™ Maxima H Minus 820 
+
+First Strand cDNA Synthesis Kit (Thermo Scientific, K1682), following the manufacturer’s protocol. 821 
+
+Quantitative PCR was performed using SensiFAST SYBR no-ROX kit (Bioline, BIO-98020) and the MIC 822 
+
+Tubes and Caps kit (Bio Molecular Systems, 71e101) on the Magnetic Induction Cycler (MIC) machine 823 
+
+(Bio Molecular Systems, MIC-2). micPCR v2.12.6 was used to capture and quantify Ct values. Gene 824 
+
+expression levels were calculated using the ΔΔ Ct method, normalized to the geometric mean of two 825 
+
+housekeeping genes: Ubc and Hprt . Primers and sequences used for RT-qPCR reactions can be found in 826 
+
+table S11B. 827 
+
+> 828
+
+Fertility assessment of Foxl2 haploinsufficiency model mice 829 
+
+Fertility data were obtained from our ongoing breeding colony, where Foxl2 +/+ and Foxl2 +/-
+
+> 830
+
+females were paired with Foxl2 +/- and Foxl2 +/+ males of our colony, respectively. Importantly, data was 831 
+
+included in the fertility assessment only if (i) Foxl2 +/+ and Foxl2 +/- female pairings were initiated on the 832 
+
+same day, to avoid confounds from potential housing-related or handling-related stress events, and (ii) 833 
+
+females were aged 2.5 and 3.5 months at the time of pairing, to avoid biases related to hyperfertility of 834 
+
+younger females and to allow sufficient time for Foxl2 haploinsufficiency–associated phenotypes to 835 
+
+emerge. 836 
+
+Fertility was assessed based on the pup count of the first litter and the latency to the first litter ( i.e .837 
+
+the time between pairing and birth of the first litter). Differences in litter size between Foxl2 +/+ and Foxl2 +/-
+
+> 838
+
+females were assessed using the aligned rank transform ANOVA to test effects. One outlier from the 839 
+
+Foxl2 +/+ group was removed based on a significant Grubbs' test (p-value < 0.05), using the “outliers” 840 
+
+package (v.0.15) ( 89 ) in R (v. 4.1.2). Latency to the first litter was analyzed using a log-rank test to 841 
+
+compare survival curves, using the “survival” package (v. 3.6-4) ( 90 ) in R. Raw fertility data can be found 842 
+
+in table S1A. 843 
+
+> 844
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Hematoxylin-eosin staining of mouse ovarian tissues 845 
+
+Ovaries were fixed in Bouin’s solution (Sigma, HT10132) for 24 hours at room temperature before 846 
+
+being transferred to 70% ethanol for storage. Paraffin embedding, tissue sectioning, and hematoxylin and 847 
+
+eosin (H&E) staining were carried out by the USC Norris Comprehensive Cancer Center Translational 848 
+
+Pathology Core Facility and Immunohistochemistry Laboratory at USC Labs. H&E-stained slides were 849 
+
+imaged using the Keyence BZ-X All-in-One Fluorescence Microscope platform using 20X objective and 850 
+
+automated stitching using default parameters. 851 
+
+> 852
+
+Ovarian follicle counts 853 
+
+Follicle counts, including primordial, primary, secondary, and antral follicles, and corpus luteum, 854 
+
+were performed on three sections per ovary by three blinded observers (fig. S2A). Median values from 855 
+
+the three observers were used for data analysis. Statistical significance was assessed using the Wilcoxon 856 
+
+test for the Aging model and aligned rank transform ANOVA to test effects for the VCD and Foxl2 857 
+
+haploinsufficiency models. 858 
+
+> 859
+
+Ovarian fibrosis and lipofuscin histological staining and analysis 860 
+
+Ovaries were fixed in Bouin’s solution (Sigma, HT10132) for 24 h at room temperature and 861 
+
+transferred to 70% ethanol for storage. Paraffin embedding, tissue sectioning, and hematoxylin and eosin 862 
+
+(H&E) staining were performed by the USC Immunohistochemistry Laboratory. Histological staining was 863 
+
+conducted using the following kits according to the manufacturers’ instructions: Picrosirius Red Stain Kit 864 
+
+(Abcam, ab150681) for fibrosis detection and Sudan Black B Histochemical Stain Kit (StatLab, KTSBB) 865 
+
+for lipofuscin detection. Stained slides were imaged using a Keyence BZ-X All-in-One Fluorescence 866 
+
+Microscope with a 20x objective and automated stitching under default settings. For each ovary, three 8-867 
+
+μm sections were imaged and analyzed. Mean values across sections were used for downstream 868 
+
+analysis. 869 
+
+Image quantification was performed using “ImageJ2” (v. 2.14.0/1.54f). Non-ovarian regions were 870 
+
+manually traced and excluded from analysis. Color deconvolution was performed using the Colour 871 
+
+Deconvolution 2 plugin with the FastRed FastBlue DAB vector. For Picrosirius Red images, the Colour_1 872 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+channel was used to quantify fibrotic signal and the Colour_2 channel to define total ovarian area. For 873 
+
+Sudan Black B images, the Colour_2 channel was used to quantify lipofuscin signal and the Colour_1 874 
+
+channel to define total ovarian area. Deconvoluted grayscale images were thresholded to identify positive 875 
+
+signal. Background thresholds (entire ovary) were set between 210–230, and positive signal thresholds 876 
+
+were set between 150–170 depending on staining batch. Threshold parameters were determined 877 
+
+separately for each batch based on positive and negative control sections. Signal intensity was calculated 878 
+
+as the percentage of positive area relative to total ovarian area. All measurements were performed in a 879 
+
+blinded manner. 880 
+
+Statistical significance was assessed using the non-parametric Wilcoxon rank-sum test for the 881 
+
+Aging model. For the VCD and Foxl2 haploinsufficiency models, factorial effects were evaluated using 882 
+
+aligned rank transform ANOVA. 883 
+
+> 884
+
+Quantification of serum AMH, FSH and INHBA concentrations 885 
+
+Blood was collected either immediately following euthanasia via cardiac puncture or from live 886 
+
+animals via a facial vein blood draw. Blood was allowed to clot at room temperature for one hour. Serum 887 
+
+was then separated using the MiniCollect® Serum Tube (Greiner, 450472) and stored at -80°C until 888 
+
+further analysis. The University of Virginia Center for Research in Reproduction Ligand Assay and 889 
+
+Analysis Core quantified serum levels of AMH (Rat and Mouse Anti-Müllerian Hormone (AMH) ELISA kit, 890 
+
+Ansh Labs, AL-113), FSH (Millipore Pituitary Panel Multiplex kit, RPT86K or Ultra-Sensitive Mouse & Rat 891 
+
+FSH, UVA Ligand Core, in-house ( 91 )), and INHBA (Inhibin A ELISA kit, Ansh Labs, AL-161), providing 892 
+
+standardized normalized values. Statistical significance was assessed using the Wilcoxon test for the 893 
+
+Aging model and aligned rank transform ANOVA to test effects for the VCD and Foxl2 haploinsufficiency 894 
+
+models. Raw serum hormone quantification data can be found in table S2. 895 
+
+Two different FSH assay kits were used due to changes in offered FSH quantitation assays at the 896 
+
+UVA core during the time of our study. To ensure compatibility between measurements made using the 897 
+
+different kits, we applied a correction procedure as previously described ( 36 ). Briefly, matched serum 898 
+
+samples were analyzed using both kits, and a polynomial regression model was trained to capture the 899 
+
+relationship between the two outputs. This model was then applied to adjust FSH values obtained using 900 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+the ultra-sensitive assay, enabling direct computation of ovarian health index across datasets. The scripts 901 
+
+used for ovarian health index calculation are available on the Benayoun lab GitHub repository: 902 
+
+https://github.com/BenayounLaboratory/Ovarian_Aging_Microbiome/tree/main/1_Ovarian_health_index_c 903 
+
+alculation. 904 
+
+> 905
+
+Ovarian health index calculation 906 
+
+The ovarian health index was calculated as previously described ( 36 ). The scoring framework 907 
+
+and reference thresholds were derived from the original cohort reported in that study. The index 908 
+
+integrates two components: ovarian hormone levels (AMH, FSH, and INHBA) and follicle counts, which 909 
+
+included the combined counts of primordial, primary, secondary, and antral follicles, as well as corpora 910 
+
+lutea. Each parameter was assigned a score based on a three-tier system. Values exceeding the median 911 
+
+of the young female group were assigned a score of 3, values positioned between the medians of the 912 
+
+young and old groups were assigned a score of 2, and values below the median of the old group were 913 
+
+assigned a score of 1. The hormone score was calculated as the mean of the individual scores for AMH, 914 
+
+FSH, and INHBA. This hormone score was then combined with the follicle score in a 1:1 ratio to generate 915 
+
+the overall ovarian health index, which was subsequently scaled to a 0-100 range for standardization. 916 
+
+Statistical significance was assessed using the Wilcoxon test for the Aging model and aligned rank 917 
+
+transform ANOVA to test effects for the VCD and Foxl2 haploinsufficiency models. 918 
+
+> 919
+
+OvAge clock model training 920 
+
+The OvAge clock was trained using serum hormone quantification data from multiple model and 921 
+
+cohorts, including animals from aging model, vehicle control animals from VCD model, wild-type animals 922 
+
+from Foxl2 haploinsufficiency model ( Foxl2 +/+ ) and wild-type animals from a previously published Fshr 923 
+
+haploinsufficiency model ( Fshr +/+ ) ( 47 ). To enhance the applicability of the model across different genetic 924 
+
+and experimental backgrounds, animals from multiple models were included in the training dataset. 925 
+
+Hormone data included serum levels of AMH, FSH, and INHBA, with corresponding age at blood 926 
+
+collection recorded in weeks. 927 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+The dataset was partitioned into training (75%) and testing (25%) subsets using stratified 928 
+
+sampling based on age, using the createDataPartition function from R package “caret” (v. 6.0-91) ( 92 ). A 929 
+
+random forest (RF) regression model was trained using the training set, with out-of-bag (OOB) error 930 
+
+correction applied for internal validation, using caret (v. 6.0-91) ( 92 ) and “randomForest” packages (v. 931 
+
+4.7-1) ( 93 ). The model was optimized by tuning the mtry parameter (best-performing value = 3), yielding 932 
+
+an OOB root mean square error (RMSE) of 13.13 weeks and an OOB R² of 0.65. A total of 500 trees 933 
+
+were used in the final model. Model performance was evaluated using Spearman correlation between 934 
+
+chronological and predicted ages in the test dataset. The RF model achieved a Spearman correlation 935 
+
+coefficient of 0.795 with a p-value of 5.5 × 10 -16 . Age acceleration was calculated as difference between 936 
+
+predicted and chronological age. The final OvAge clock R object containing the trained RF model is 937 
+
+available on the Benayoun lab GitHub repository: 938 
+
+https://github.com/BenayounLaboratory/Mouse_Menopause_Models. We have also developed an 939 
+
+interactive R shiny app to enable users to input hormone values and estimate predicted ovarian age using 940 
+
+the OvAge clock: https://minhooki.shinyapps.io/OvAge_Predictor/. 941 
+
+> 942
+
+Single-cell RNAseq sample and library preparation 943 
+
+Ovaries from two animals (four ovaries total) were used for most single-cell RNA sequencing 944 
+
+(scRNA-seq) sample and library preparations to optimize cellular viability and yield. In one instance 945 
+
+(Foxl2 +/+ and Foxl +/- old group pair), a single animal (two ovaries) was used due to sample availability. 946 
+
+Single-cell suspensions were generated using Miltenyi’s Multi Tissue Dissociation Kit (Miltenyi 947 
+
+Biotec, 130-110-201) with the gentleMACS Octo Dissociator with Heaters (Miltenyi Biotec, 130-096-427), 948 
+
+running the 37_m_LDK1 program. To maximize the recovery of viable single cells, the program was 949 
+
+deliberately aborted 10 sec after start of the highspeed phase, approximately 20 sec before program 950 
+
+completion. After dissociation, red blood cells were removed using Red Blood Cell Lysis Buffer (Miltenyi 951 
+
+Biotec, 130-094-183) according to the manufacturer’s instructions. Dead cells were subsequently 952 
+
+eliminated using the EasySep Dead Cell Removal (Annexin V) Kit (STEMCELL Technologies, 17899). 953 
+
+Cell count and viability were assessed via Viobility™ 405/452 Fixable Dye (Miltenyi Biotec, 954 
+
+J66584-AB) staining and flow cytometry using a MACSQuant Analyzer 10 (Miltenyi Biotec, 130-130-420). 955 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Flow cytometry data were analyzed with FlowLogic v8 (Inivai Technologies). Cells were gated based on 956 
+
+forward scatter area (FSC-A) vs. side scatter area (SSC-A), and singlets were identified by evaluating the 957 
+
+linear grouping of cells in FSC-A vs. FSC-H plots (fig. S8A). 958 
+
+Single-cell libraries were prepared using the Chromium Next GEM Single Cell 3  GEM, Library & 959 
+
+Gel Bead Kit v3.1 (10X Genomics, PN-1000121) according to the manufacturer’s instructions. Based on 960 
+
+flow cytometry estimates, cell suspensions were loaded to achieve a targeted recovery of 6,000 cells per 961 
+
+sample. Samples were processed on a Chromium Next GEM Chip G (10X Genomics, 2000177) as per 962 
+
+the manufacturer’s protocol. 963 
+
+Completed single-cell libraries were assessed for quality using the 4200 TapeStation system 964 
+
+(Agilent Technologies, G2991A) with High Sensitivity D1000 DNA ScreenTape (Agilent Technologies, 965 
+
+50675584). Libraries were sequenced on an Illumina NovaSeq 6000, generating 150 bp paired-end reads 966 
+
+at Novogene USA. Raw FASTQ reads have been deposited in the Sequence Read Archive under 967 
+
+accession PRJNA863443. 968 
+
+> 969
+
+Single-cell RNAseq data analysis 970 
+
+Data processing 971 
+
+Raw sequencing reads were processed using “Cell Ranger” (v. 7.1.0) ( 94 ) from 10x Genomics 972 
+
+(table S4). Reads were aligned to the mm10 reference genome. To remove contamination from ambient 973 
+
+RNA, decontamination was performed using DecontX from the “celda” (v. 1.14.2) ( 95 ) package. Raw and 974 
+
+filtered feature-barcode matrices were used to estimate ambient RNA levels, and corrected expression 975 
+
+matrices were generated for each sample. Doublet removal was performed using a two-step approach. 976 
+
+First, “DoubletFinder” (v. 2.0.3) ( 96 ) was applied to each sample independently, estimating doublet rates 977 
+
+based on the expected multiplet rates from 10x Genomics. The optimal pK parameter was determined 978 
+
+using a parameter sweep, and predicted doublets were labeled. In parallel, a second doublet detection 979 
+
+method, “scds” (v. 1.10.0) ( 97 ), was applied using the cxds_bcds_hybrid function. Cells identified as 980 
+
+doublets by either method were excluded from further analysis. 981 
+
+The filtered single-cell expression matrices were loaded into “Seurat” (v. 4.3.0) ( 98 ), and initial 982 
+
+quality control (QC) steps were applied. Cells with fewer than 500 detected features, a total RNA count 983 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+outside the range of 500-100,000, mitochondrial RNA content exceeding 15%, or a DecontX 984 
+
+contamination score above 0.25 were removed. Following QC, datasets were normalized using 985 
+
+SCTransform, regressing out the number of detected features, mitochondrial content, DecontX 986 
+
+contamination score and batch effects. 987 
+
+> 988
+
+Data integration 989 
+
+To correct for batch effects, integration was performed using “Harmony” (v. 1.0) ( 99 ). First, 990 
+
+datasets were processed separately by normalizing gene expression using SCTransform, regressing out 991 
+
+number of detected features (nFeature_RNA), mitochondrial percentage (percent.mito), ambient RNA 992 
+
+contamination (decontX_contamination), and sequencing library (Library). Highly variable genes were 993 
+
+selected using vst (nfeatures=2000 genes). The preprocessed datasets were merged using Seurat (v. 994 
+
+4.3.0) ( 98 ), ensuring shared variable features were maintained. Principal component analysis (PCA) was 995 
+
+performed on the merged dataset, and batch effects were assessed by visualizing PCA embeddings 996 
+
+colored by batch identity. Batch correction was applied using Harmony, where batch information was 997 
+
+explicitly modeled as a covariate. The corrected embeddings were used for downstream analysis, 998 
+
+including UMAP visualization, clustering, and differential expression analysis. 999 
+
+> 1000
+
+Cell type annotation 1001 
+
+Cell type annotation was conducted using a multi-step approach that combined automated 1002 
+
+reference-based methods with manual marker-based annotation. First, Ptprc ⁺ and Ptprc ⁻ cell populations 1003 
+
+were identified using “scGate” (v. 1.0.1) ( 100 ). Cells expressing Ptprc (Cd45) were classified as immune 1004 
+
+cells, while those lacking Ptprc expression were designated as non-immune cells. The two subsets were 1005 
+
+then processed separately for further annotation. Each subset underwent independent cell type 1006 
+
+annotation using three complementary computational methods: “SingleR” (v. 1.8.1) ( 101 ), “scSorter” (v. 1007 
+
+0.0.2) ( 102 ), and “scType” (v. 1.0) ( 103 ). The ImmGen dataset ( 104 ) was used as a reference for Ptprc ⁺1008 
+
+cells, while two publicly available ovarian single-cell RNA-seq datasets (Open Science Framework ID 1009 
+
+924fz ( 55 ) and NCBI GEO accession no. GSE232309 ( 41 )) were used for Ptprc ⁻ cells. To supplement 1010 
+
+these automated methods, manual annotation was conducted based on the expression of canonical 1011 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+marker genes specific to ovarian cell types (table S5). The final annotation was determined using a 1012 
+
+majority voting approach - cell type labels from SingleR, scSorter, scType, and manual annotation were 1013 
+
+compared, and the most frequently assigned label was selected as the final classification. All analyses 1014 
+
+were performed using Seurat (v. 4.3.0) ( 98 ) within R. 1015 
+
+> 1016
+
+Cell type proportion and Augur analysis 1017 
+
+Cell type proportions were quantified using “scProportionTest” (v. 0.0.0.9000) ( 105 ) within R. This 1018 
+
+method performs a permutation-based test to compare cell-type abundances between two groups, 1019 
+
+estimating the relative change in proportions along with a confidence interval for each cell type. The 1020 
+
+analysis was conducted at two levels: the broader classification of Ptprc ⁺ vs. Ptprc ⁻ populations and the 1021 
+
+more detailed sub-cell type level within each category. Relative proportion of detected cell types can be 1022 
+
+found in table S6. 1023 
+
+We used “Augur” (v. 1.0.3) ( 52 ) to identify cell types that exhibited the most transcriptional 1024 
+
+changes associated with aging. Pairwise comparisons were conducted for each experimental condition, 1025 
+
+assessing differences between (1) young and old females, (2) vehicle control (CTL) and VCD-treated 1026 
+
+groups, and (3) Foxl2 +/+ and Foxl2 +/- genotypes. 1027 
+
+> 1028
+
+Pseudobulk analysis for differential gene expression 1029 
+
+Pseudobulk differential gene expression analysis was conducted separately for three datasets: 1030 
+
+the Aging, VCD, and Foxl2 haploinsufficiency models. Single-cell transcriptomic data were aggregated at 1031 
+
+the cell type level using “muscat” (v. 1.18.0) ( 53 ) to generate pseudobulk expression profiles. To ensure 1032 
+
+robust analysis, cell types were filtered based on dataset-specific criteria. In the Aging model, cell types 1033 
+
+with at least 25 cells per sample across all samples were retained. For the VCD model, cell types were 1034 
+
+included if they contained at least 25 cells in at least 12 samples, representing 75% of the dataset. In the 1035 
+
+Foxl2 haploinsufficiency model, the threshold was set at a minimum of 25 cells in at least 8 samples, or 1036 
+
+80% of the dataset. 1037 
+
+Differential gene expression analysis was performed using “DESeq2” (v. 1.44.0) ( 54 ), with 1038 
+
+comparisons made between young and old females in the Aging model, vehicle control (CTL) and VCD-1039 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+treated samples in the VCD model, and Foxl2 +/+ and Foxl2 +/- samples in the Foxl2 haploinsufficiency 1040 
+
+model. Batch effects in the VCD and Foxl2 haploinsufficiency models were assessed using “sva” (v. 1041 
+
+3.52.0) ( 106 ) to determine the number of surrogate variables (SVs), and batch correction was applied 1042 
+
+using the removeBatchEffect() function from “limma” (v. 3.60.6) (107 ). The adjusted counts were 1043 
+
+subsequently used for DESeq2 analysis, incorporating age-at-injection and time post-injection as 1044 
+
+covariates for the VCD model and age as a covariate for the Foxl2 haploinsufficiency model. Variance-1045 
+
+stabilized transformed counts were computed using getVarianceStabilizedData(), and differentially 1046 
+
+expressed genes (FDR < 0.05) were visualized using strip plots. The complete pseudobulk DESeq2 1047 
+
+output, including log fold changes, adjusted p-values, and base mean expression values for each dataset 1048 
+
+and cell type, can be found in table S7. 1049 
+
+> 1050
+
+GO analysis for differential gene expression 1051 
+
+Gene set enrichment analysis (GSEA) was performed to identify Gene Ontology Biological 1052 
+
+Process (GO BP) and Reactome terms enriched in differentially expressed genes across cell types in the 1053 
+
+Aging, VCD, and Foxl2 haploinsufficiency models. The analysis was conducted using the “clusterProfiler” 1054 
+
+package (v. 4.2.2) ( 108 ) and the Molecular Signatures Database (MSigDB) gene sets retrieved via 1055 
+
+“msigdbr” (v. 7.4.1) ( 109 ). Differential expression results from pseudobulk DESeq2 analysis were ranked 1056 
+
+by t-statistic and used as input for GSEA. Enrichment analysis was performed separately for each cell 1057 
+
+type in each dataset, with an FDR cutoff of 0.1 applied to identify significant terms. To identify recurrent 1058 
+
+biological processes across datasets, GO-BP terms enriched in at least four cell types within each 1059 
+
+dataset were extracted. The list of significantly enriched GO-BP terms (FDR < 0.1) for all datasets can be 1060 
+
+found in table S8. 1061 
+
+> 1062
+
+Estrous cycle transcriptomic variability analysis 1063 
+
+To evaluate potential confounding effects of estrous stage, we reanalyzed a publicly available 1064 
+
+mouse ovary scRNA-seq dataset spanning the four estrous stages ( 55 ). Count matrices were obtained 1065 
+
+from Open Science Framework (accession 924fz), and stage annotations were incorporated as metadata. 1066 
+
+Granulosa cells were aggregated into pseudobulk profiles using muscat (v. 1.18.0) ( 53 ) and analyzed 1067 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+using DESeq2 (v. 1.44.0) ( 54 ) following the same pipeline described above. Variance-stabilized counts 1068 
+
+were used for principal component analysis (PCA; prcomp) and multidimensional scaling (MDS; 1069 
+
+Spearman distance, cmdscale). Differential expression analysis was performed in DESeq2, focusing on 1070 
+
+the proestrus versus estrus contrast. 1071 
+
+> 1072
+
+GSEA of aging-associated transcriptional signatures across models 1073 
+
+GSEA was performed using differentially expressed genes (DEGs) from the Aging model dataset 1074 
+
+as input gene sets with the clusterProfiler (v4.12.6) ( 108 ) package. Upregulated and downregulated gene 1075 
+
+sets (FDR < 0.05) were extracted from the Aging model dataset and tested for enrichment in the Aging, 1076 
+
+VCD and Foxl2 haploinsufficiency model datasets. Genes were ranked based on the DESeq2-derived t-1077 
+
+statistic for analysis. Additionally, GSEA was conducted to assess the enrichment of the SenMayo ( 57 )1078 
+
+gene set within the dataset. Differential expression results from the Aging, VCD, and Foxl2 1079 
+
+haploinsufficiency datasets were used for GSEA, with genes ranked using the DESeq2-derived t-statistic. 1080 
+
+> 1081
+
+Coefficient of variation analysis 1082 
+
+Gene expression variability across cell types was assessed by calculating the coefficient of 1083 
+
+variation (CV) for each gene in the Aging, VCD, and Foxl2 haploinsufficiency models. CV was computed 1084 
+
+as the ratio of the standard deviation to the mean expression level per gene within each condition (young 1085 
+
+vs. old for Aging, CTL vs. VCD for VCD, and Foxl2 +/+ vs. Foxl2 +/- for Foxl2 haploinsufficiency model) using 1086 
+
+variance-stabilized transformed counts obtained from DESeq2 (v1.44.0) ( 54 ) pseudobulk analysis. For 1087 
+
+the Foxl2 haploinsufficiency model, the old-age group was excluded from CV analysis due to insufficient 1088 
+
+biological replicates. Statistical differences in CV between groups were evaluated using the Wilcoxon 1089 
+
+rank-sum test. 1090 
+
+> 1091
+
+Transposable element (TE) analysis 1092 
+
+Transposable element (TE) expression was quantified using “scTE” (v1.0) ( 59 ) with default 1093 
+
+parameters. BAM files generated from Cell Ranger (v. 7.1.0) ( 94 ) outputs were processed using the 1094 
+
+mm10 genome index provided by scTE. Features detected by scTE but absent in the single-cell gene 1095 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+expression data were extracted and merged, generating a Seurat object containing both gene and TE 1096 
+
+expression profiles. 1097 
+
+Cells were aggregated at the cell type level using muscat (v1.18.0) (53 ), and differential 1098 
+
+expression analysis was performed using DESeq2 (v1.44.0) ( 54 ), following the same approach as 1099 
+
+described above. 1100 
+
+To assess functional enrichment of TE families, GSEA was conducted on ranked gene lists 1101 
+
+derived from DESeq2 results. TE annotations were obtained from the UCSC database for mm10, the 1102 
+
+same reference used by scTE. TE subfamilies were stratified to broader categories, including LINE, SINE, 1103 
+
+LTR, and DNA transposons. TE family annotations were obtained from the rmsk.txt file downloaded from 1104 
+
+the UCSC genome annotation database for the mm10 reference genome. For each cell type, genes were 1105 
+
+ranked by t-statistic from differential expression analysis, and enrichment of TE families was assessed 1106 
+
+using clusterProfiler (v4.12.6) ( 108 ). Significant TE families (FDR < 0.1) were reported for visualization. 1107 
+
+> 1108
+
+Likelihood ratio test–based trajectory analysis 1109 
+
+Pseudobulk counts of granulosa and theca cells from each dataset were analyzed using 1110 
+
+likelihood ratio tests (LRTs) implemented in DESeq2 (v1.44.0) (54 ) to identify genes exhibiting 1111 
+
+perturbation-dependent age-associated transcriptional trajectories in the VCD and Foxl2 1112 
+
+haploinsufficiency models. Resulting p-values were adjusted using the Benjamini-Hochberg method, and 1113 
+
+genes with FDR < × 10 -5 were retained. Variance-stabilized expression values of significant genes were 1114 
+
+subjected to unsupervised clustering using the degPatterns function from “DEGreport” (v 1.40.1) ( 110 ). 1115 
+
+Baseline age-associated trends were defined from control groups, and clusters were classified according 1116 
+
+to whether perturbations amplified or attenuated age-related transcriptional changes. 1117 
+
+> 1118
+
+WGCNA and ORA enrichment analysis 1119 
+
+Weighted gene co-expression network analysis (WGCNA) ( 62 ) was performed on the Aging 1120 
+
+model dataset to identify gene co-expression modules. Variance-stabilized transformed counts from 1121 
+
+DESeq2 (v1.44.0) ( 54 ) were used as input, with analyses conducted separately for each cell type. For 1122 
+
+each cell type, an optimal soft-thresholding power was determined using pickSoftThreshold, followed by 1123 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+the construction of an adjacency matrix and topological overlap matrix (TOM). Hierarchical clustering was 1124 
+
+performed to identify gene modules, which were assigned colors using cutreeDynamic, and eigengenes 1125 
+
+were computed to summarize module expression patterns. Gene sets from each module were classified 1126 
+
+into upregulated and downregulated groups based on eigengene expression differences between young 1127 
+
+and old samples. These gene sets were then subjected to GSEA via clusterProfiler (v. 4.2.2) ( 108 ), using 1128 
+
+differential expression results from the VCD and Foxl2 haploinsufficiency model datasets to assess 1129 
+
+whether the identified modules were significantly enriched in these datasets. Modules significantly 1130 
+
+associated with aging (FDR < 0.1) were further analyzed through over-representation analysis using 1131 
+
+clusterProfiler (v. 4.2.2) ( 108 ) and the org.Mm.eg.db annotation package. 1132 
+
+> 1133
+
+Transcription factor activity inference using decoupleR 1134 
+
+Transcription factor (TF) activity inference was performed using “decoupleR” (v2.10.0) ( 63 ) with 1135 
+
+the CollecTRI transcriptional regulatory network for mouse. Differential expression results from the Aging, 1136 
+
+VCD, and Foxl2 haploinsufficiency models were used as input. For each dataset, fgsea scoring was 1137 
+
+applied to rank TF activity based on DESeq2-derived t-statistics, and significant TFs were identified at a 1138 
+
+threshold of FDR < 0.05. To compare TF activity across datasets, TFs were filtered to retain those with 1139 
+
+consistent activity direction (positive or negative) in at least two datasets. 1140 
+
+> 1141
+
+R shiny application generation 1142 
+
+An interactive R shiny application of Aging, VCD and Foxl2 haploinsufficiency scRNA-seq 1143 
+
+datasets was generated using “ShinyCell” (v.2.1.0) (111 ), and made available at 1144 
+
+https://minhooki.shinyapps.io/shinyappmulti/. 1145 
+
+> 1146
+
+RNAscope sample preparation, imaging and data analysis 1147 
+
+In situ Hybridization Protocol 1148 
+
+Frozen ovaries were mounted in Tissue-Tek O.C.T Compound (Sakura, 4583) and sliced into 8 1149 
+
+> μ
+
+m slices from the same ovarian region using PTFE-coated microtome blades (Duraedge, 7223) at 1150 
+
+−20°C on a Cryostat CM1860 (Leica, 14-0491-46884). 3 ovarian sections from the same region were 1151 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+mounted in succession on VWR Premium Superfrost Plus Microscope slides (VWR, 48311-703). All 1152 
+
+batches of sample processing were prepared using the fresh-frozen sample preparation protocol along 1153 
+
+with negative and positive controls (Advanced Cell Diagnostics, UM 323100-USM). 12 probes were 1154 
+
+tested in 3 sets, with Set 1 containing markers for theca ( Cyp11a1 ; C1), granulosa ( Fshr ; C2), smooth 1155 
+
+muscle ( Acta2 ; C3), and stromal ( Pdgfra ; C4) cells. Set 2 had markers for epithelial cells ( Upk1b ; C1), 1156 
+
+lymphatic endothelial cells ( Prox1 ; C2), blood endothelial cells ( Flt1 ; C3), and B cells ( Cd19 ; C4). Set 3 1157 
+
+contained probes for T ( Cd3e ; C1), natural killer ( Klr1b1c ; C2), CD8+ ( Cd8b1 ; C3), and CD4+ ( Cd4 ; C4) 1158 
+
+cells. Per the protocol, the RNAscope TM Multiplex Fluorescent Reagent Kit v2 (Advanced Cell Diagnostics, 1159 
+
+323100) was used. The fluorescent signals TSA Vivid Fluorophore 520 (Advanced Cell Diagnostics, 1160 
+
+323271), TSA Vivid Fluorophore 570 (Advanced Cell Diagnostics, 323272), TSA Vivid Fluorophore 650 1161 
+
+(Advanced Cell Diagnostics, 323273), and Opal 690 (Akoya Biosciences, FP1497001KT) were used to 1162 
+
+stain the probes in each set. The slides were preserved in ProLong Gold Antifade Mountant (Thermo 1163 
+
+Fisher Scientific, P36930). 1164 
+
+> 1165
+
+Imaging 1166 
+
+Imaging was performed using a Leica Stellaris 5 confocal microscope (Leica Microsystems) 1167 
+
+equipped with a HC PL APO 20x/0.75 IMM CORR CS2 objective (Leica, 11506343) and Leica 1168 
+
+Microsystems Type F Immersion liquid oil (Leica Microsystems, 11513859). Images were acquired using 1169 
+
+Leica Application Suite X software (LAS X v4.4.0). 1170 
+
+> 1171
+
+Imaging analysis 1172 
+
+To quantify probe expression, the images were analyzed using the “QuPath” program (v0.5.1). 1173 
+
+Cell boundaries based on DAPI signal were calculated using the following settings modified from the 1174 
+
+default parameters – Requested pixel size: 0 μm, Nucleus background radius: 10 μm, Maximum area: 1175 
+
+400 μm 2, Threshold: 0.5, and Cell expansion: 2. Sets 1 and 2 were analyzed using subcellular detection 1176 
+
+to determine their expression levels relative to the number of cells. All thresholding values were uniform 1177 
+
+across the date of processing of each ovarian tissue. For Set 3, single measurement classifiers were 1178 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+created for each probe to generate colocalization data. Cells below the detection threshold were not 1179 
+
+counted for analysis. 1180 
+
+> 1181
+
+Cell-type proportion analysis using flow cytometry 1182 
+
+Single-cell suspensions of ovarian cells were prepared following the same protocol used for 1183 
+
+single-cell RNA sequencing sample preparation, as described above. Cells were stained for APC-CD45 1184 
+
+antibody (Miltenyi, 130-123-784) according to the manufacturer’s recommendations. Flow cytometry data 1185 
+
+were acquired using the MACSQuant10 flow cytometer (Miltenyi Biotec, 130-096-343) and analyzed 1186 
+
+using FlowLogic v.8 (Inivai Technologies). The raw flow cytometry dataset was deposited to Figshare 1187 
+
+(DOI: 10.6084/m9.figshare.28733222). 1188 
+
+> 1189
+
+Granulosa and theca transcriptional clock model training and feature assessment 1190 
+
+Granulosa and theca cells were independently subsetted from scRNA-seq datasets 1191 
+
+encompassing multiple experimental models, including natural aging, VCD, and Foxl2 haploinsufficiency. 1192 
+
+Additionally, an independent middle-aged female dataset (13, 76, and 86 weeks) was included to ensure 1193 
+
+age coverage for intermediate ages not well represented in the datasets. 1194 
+
+To develop the cell transcriptional clocks, cells from aging model, middle-aged females, vehicle 1195 
+
+controls from the VCD model, and Foxl2+/+ animals from the Foxl2 haploinsufficiency model were 1196 
+
+extracted from the dataset. These cells were used to train and evaluate the model. Data were partitioned 1197 
+
+into training (75%) and testing (25%) sets using stratified sampling, using the createDataPartition function 1198 
+
+from the “caret” package (v. 6.0-91). Training data were used for model optimization, while the test set 1199 
+
+served as an independent validation dataset. 1200 
+
+Predictive models were trained using L1-regularized lasso regression with the “glmnet” package 1201 
+
+(v. 4.1-7) to estimate transcriptional age (in weeks) based on gene expression profiles. Five-fold nested 1202 
+
+cross-validation was performed on the training dataset, and the optimal regularization parameter 1203 
+
+(lambda.min) was determined based on cross-validation results. Spearman correlation analysis was 1204 
+
+performed to assess the correlation between predicted and chronological age. 1205 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Transcriptional clocks were applied to experimental test groups, including VCD-treated and 1206 
+
+Foxl2 +/- animals. Model predictions for test groups were compared to those of control samples to assess 1207 
+
+differences in predicted age patterns. Additionally, age acceleration was calculated as the difference 1208 
+
+between predicted and chronological age. Statistical significance of group differences in predicted age 1209 
+
+and age acceleration was assessed using the Wilcoxon rank-sum test. 1210 
+
+To examine the age-associated expression dynamics of lasso features selected by the models, 1211 
+
+we performed pseudobulk analysis using control samples. For each cell type, raw counts were 1212 
+
+aggregated per sample using muscat (v. 1.18.0) ( 53 ), and DESeq2 (v. 1.44.0) ( 54 ) was used to compute 1213 
+
+variance-stabilized transformed expression values. Batch effects were corrected using removeBatchEffect, 1214 
+
+and expression heatmaps of lasso-selected features were generated to visualize age-dependent 1215 
+
+expression trends. 1216 
+
+The top 500 lasso features were selected based on the absolute values of their coefficients. 1217 
+
+Over-representation analysis was performed using clusterProfiler (v. 4.2.2) and “org.Mm.eg.db” (v. 3.14.0), 1218 
+
+analyzing “ALL” Gene Ontology terms. A p-value cutoff of 0.05 was applied to identify significantly 1219 
+
+enriched pathways. 1220 
+
+> 1221
+
+Statistical Analysis 1222 
+
+All statistical analysis was performed using the R software, version 4.1.2. For all boxplots, the 1223 
+
+data is shown with the median, the 25th and 75th percentile of the data, and the whiskers represent 1.5 ∗1224 
+
+the inter-quartile range (IQR). Individual datapoints are overlayed, when possible, for transparency and 1225 
+
+rigor. Specific statistical tests, number of biological replicates and animals used are indicated in the 1226 
+
+corresponding figure legends and associated methods. 1227 
+
+> 1228
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+References 1229 
+
+> 1230
+
+## 1. S. R. Davis et al. , Menopause. Nat Rev Dis Primers 1, 15004 (2015). 1231 
+
+## 2. F. J. Broekmans, M. R. Soules, B. C. Fauser, Ovarian aging: mechanisms and clinical 1232 
+
+## consequences. Endocr Rev 30 , 465-493 (2009). 1233 
+
+## 3. M. J. Faddy, R. G. Gosden, A model conforming the decline in follicle numbers to the age 1234 
+
+## of menopause in women. Hum Reprod 11 , 1484-1486 (1996). 1235 
+
+## 4. M. E. Ossewaarde et al. , Age at menopause, cause-specific mortality and total life 1236 
+
+## expectancy. Epidemiology 16 , 556-562 (2005). 1237 
+
+## 5. J. S. Hong et al. , Age at menopause and cause-specific mortality in South Korean women: 1238 
+
+## Kangwha Cohort Study. Maturitas 56 , 411-419 (2007). 1239 
+
+## 6. A. H. Shadyab et al. , Association of Accelerometer-Measured Physical Activity With 1240 
+
+## Leukocyte Telomere Length Among Older Women. J Gerontol A Biol Sci Med Sci 72 ,1241 
+
+## 1532-1537 (2017). 1242 
+
+## 7. M. R. Gubbels Bupp, Sex, the aging immune system, and chronic disease. Cell Immunol 1243 
+
+## 294 , 102-110 (2015). 1244 
+
+## 8. N. Santoro, C. Roeca, B. A. Peters, G. Neal-Perry, The Menopause Transition: Signs, 1245 
+
+## Symptoms, and Management Options. J Clin Endocrinol Metab 106 , 1-15 (2021). 1246 
+
+## 9. J. F. Randolph, Jr. et al. , Change in follicle-stimulating hormone and estradiol across the 1247 
+
+## menopausal transition: effect of age at the final menstrual period. J Clin Endocrinol 1248 
+
+## Metab 96 , 746-754 (2011). 1249 
+
+## 10. T. W. Kelsey, P. Wright, S. M. Nelson, R. A. Anderson, W. H. Wallace, A validated model 1250 
+
+## of serum anti-mullerian hormone from conception to menopause. PLoS One 6, e22024 1251 
+
+## (2011). 1252 
+
+## 11. G. Weiss, J. H. Skurnick, L. T. Goldsmith, N. F. Santoro, S. J. Park, Menopause and 1253 
+
+## hypothalamic-pituitary sensitivity to estrogen. JAMA 292 , 2991-2996 (2004). 1254 
+
+## 12. J. Xiong et al. , FSH blockade improves cognition in mice with Alzheimer's disease. 1255 
+
+## Nature 603 , 470-476 (2022). 1256 
+
+## 13. L. Mao, L. Wang, S. Bennett, J. Xu, J. Zou, Effects of follicle-stimulating hormone on fat 1257 
+
+## metabolism and cognitive impairment in women during menopause. Front Physiol 13 ,1258 
+
+## 1043237 (2022). 1259 
+
+## 14. B. A. Benayoun, A. Kochersberger, J. L. Garrison, Studying ovarian aging and its health 1260 
+
+## impacts: modern tools and approaches. Genes Dev 39 , 975-990 (2025). 1261 
+
+## 15. T. A. Van Kempen, T. A. Milner, E. M. Waters, Accelerated ovarian failure: a novel, 1262 
+
+## chemically induced animal model of menopause. Brain Res 1379 , 176-187 (2011). 1263 
+
+## 16. C. L. Blenck, P. A. Harvey, J. F. Reckelhoff, L. A. Leinwand, The Importance of 1264 
+
+## Biological Sex and Estrogen in Rodent Models of Cardiovascular Health and Disease. 1265 
+
+## Circ Res 118 , 1294-1312 (2016). 1266 
+
+## 17. M. Laszczynska, A. Brodowska, A. Starczewski, M. Masiuk, J. Brodowski, Human 1267 
+
+## postmenopausal ovary--hormonally inactive fibrous connective tissue or more? Histol 1268 
+
+## Histopathol 23 , 219-226 (2008). 1269 
+
+## 18. J. Grub, H. Suss, J. Willi, U. Ehlert, Steroid Hormone Secretion Over the Course of the 1270 
+
+## Perimenopause: Findings From the Swiss Perimenopause Study. Front Glob Womens 1271 
+
+## Health 2, 774308 (2021). 1272 
+
+## 19. H. G. Burger, E. C. Dudley, D. M. Robertson, L. Dennerstein, Hormonal changes in the 1273 
+
+## menopause transition. Recent Prog Horm Res 57 , 257-275 (2002). 1274 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+## 20. A. A. Mangoni, S. H. Jackson, Age-related changes in pharmacokinetics and 1275 
+
+## pharmacodynamics: basic principles and practical applications. Br J Clin Pharmacol 57 ,1276 
+
+## 6-14 (2004). 1277 
+
+## 21. I. M. Conboy, T. A. Rando, Heterochronic parabiosis for the study of the effects of aging 1278 
+
+## on stem cells and their niches. Cell Cycle 11 , 2260-2267 (2012). 1279 
+
+## 22. H. S. Chahal, W. M. Drake, The endocrine system and ageing. J Pathol 211 , 173-180 1280 
+
+## (2007). 1281 
+
+## 23. A. W. van den Beld et al. , The physiology of endocrine systems with ageing. Lancet 1282 
+
+## Diabetes Endocrinol 6, 647-658 (2018). 1283 
+
+## 24. T. A. Rando, D. L. Jones, Regeneration, Rejuvenation, and Replacement: Turning Back 1284 
+
+## the Clock on Tissue Aging. Cold Spring Harb Perspect Biol 13 , (2021). 1285 
+
+## 25. S. A. Villeda et al. , The ageing systemic milieu negatively regulates neurogenesis and 1286 
+
+## cognitive function. Nature 477 , 90-94 (2011). 1287 
+
+## 26. N. H. Uhlenhaut et al. , Somatic sex reprogramming of adult ovaries to testes by FOXL2 1288 
+
+## ablation. Cell 139 , 1130-1142 (2009). 1289 
+
+## 27. B. A. Benayoun, A. Dipietromaria, C. Bazin, R. A. Veitia, FOXL2: at the crossroads of 1290 
+
+## female sex determination and ovarian function. Adv Exp Med Biol 665 , 207-226 (2009). 1291 
+
+## 28. M. Uda et al. , Foxl2 disruption causes mouse ovarian failure by pervasive blockage of 1292 
+
+## follicle development. Hum Mol Genet 13 , 1171-1181 (2004). 1293 
+
+## 29. D. Schmidt et al. , The murine winged-helix transcription factor Foxl2 is required for 1294 
+
+## granulosa cell differentiation and ovary maintenance. Development 131 , 933-942 (2004). 1295 
+
+## 30. K. Gersak, S. E. Harris, W. J. Smale, A. N. Shelling, A novel 30 bp deletion in the 1296 
+
+## FOXL2 gene in a phenotypically normal woman with primary amenorrhoea: case report. 1297 
+
+## Hum Reprod 19 , 2767-2770 (2004). 1298 
+
+## 31. S. E. Harris et al. , Identification of novel mutations in FOXL2 associated with premature 1299 
+
+## ovarian failure. Mol Hum Reprod 8, 729-733 (2002). 1300 
+
+## 32. P. Laissue et al. , Functional evidence implicating FOXL2 in non-syndromic premature 1301 
+
+## ovarian failure and in the regulation of the transcription factor OSR2. J Med Genet 46 ,1302 
+
+## 455-457 (2009). 1303 
+
+## 33. L. M. Bilezikjian, W. W. Vale, The Local Control of the Pituitary by Activin Signaling 1304 
+
+## and Modulation. Open Neuroendocrinol J 4, 90-101 (2011). 1305 
+
+## 34. S. M. Borman, P. J. Christian, I. G. Sipes, P. B. Hoyer, Ovotoxicity in female Fischer rats 1306 
+
+## and B6 mice induced by low-dose exposure to three polycyclic aromatic hydrocarbons: 1307 
+
+## comparison through calculation of an ovotoxic index. Toxicol Appl Pharmacol 167 , 191-1308 
+
+## 198 (2000). 1309 
+
+## 35. C. E. Finch, The menopause and aging, a comparative perspective. J Steroid Biochem 1310 
+
+## Mol Biol 142 , 132-141 (2014). 1311 
+
+## 36. M. Kim et al. , Estropausal gut microbiota transplant improves measures of ovarian 1312 
+
+## function in adult mice. Nat Aging , (2026). 1313 
+
+## 37. R. G. Gosden, M. J. Faddy, Ovarian aging, follicular depletion, and steroidogenesis. Exp 1314 
+
+## Gerontol 29 , 265-274 (1994). 1315 
+
+## 38. C. Lliberos et al. , Evaluation of inflammation and follicle depletion during ovarian 1316 
+
+## ageing in mice. Sci Rep 11 , 278 (2021). 1317 
+
+## 39. A. Sokalska, L. Valentin, Changes in ultrasound morphology of the uterus and ovaries 1318 
+
+## during the menopausal transition and early postmenopause: a 4-year longitudinal study. 1319 
+
+## Ultrasound Obstet Gynecol 31 , 210-217 (2008). 1320 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+## 40. S. M. Briley et al. , Reproductive age-associated fibrosis in the stroma of the mammalian 1321 
+
+## ovary. Reproduction 152 , 245-260 (2016). 1322 
+
+## 41. J. V. V. Isola et al. , A single-cell atlas of the aging mouse ovary. Nat Aging 4, 145-162 1323 
+
+## (2024). 1324 
+
+## 42. A. Converse et al. , Multinucleated giant cells are hallmarks of ovarian aging with unique 1325 
+
+## immune and degradation-associated molecular signatures. PLoS Biol 23 , e3003204 1326 
+
+## (2025). 1327 
+
+## 43. X. Jiao et al. , Ovarian Reserve Markers in Premature Ovarian Insufficiency: Within 1328 
+
+## Different Clinical Stages and Different Etiologies. Front Endocrinol (Lausanne) 12 ,1329 
+
+## 601752 (2021). 1330 
+
+## 44. D. R. Danforth et al. , Dimeric inhibin: a direct marker of ovarian aging. Fertil Steril 70 ,1331 
+
+## 119-123 (1998). 1332 
+
+## 45. M. E. Kevenaar et al. , Serum anti-mullerian hormone levels reflect the size of the 1333 
+
+## primordial follicle pool in mice. Endocrinology 147 , 3228-3234 (2006). 1334 
+
+## 46. M. Park, D. S. Suh, K. Lee, J. Bae, Positive cross talk between FOXL2 and antimullerian 1335 
+
+## hormone regulates ovarian reserve. Fertil Steril 102 , 847-855 e841 (2014). 1336 
+
+## 47. K. Mehalko et al. , Lack of accelerated ovarian aging in a follicle-stimulating hormone 1337 
+
+## receptor haploinsufficiency model. Transl Med Aging 7, 1-8 (2023). 1338 
+
+## 48. L. Crisponi et al. , The putative forkhead transcription factor FOXL2 is mutated in 1339 
+
+## blepharophimosis/ptosis/epicanthus inversus syndrome. Nat Genet 27 , 159-166 (2001). 1340 
+
+## 49. X. Wang et al. , Transcriptomic signatures of mouse ovarian aging and estropausal 1341 
+
+## transition at single cell resolution. bioRxiv , 2024.2008.2012.607592 (2024). 1342 
+
+## 50. T. Ben Yaakov, T. Wasserman, E. Aknin, Y. Savir, Single-cell analysis of the aged ovarian 1343 
+
+## immune system reveals a shift towards adaptive immunity and attenuated cell function. 1344 
+
+## Elife 12 , (2023). 1345 
+
+## 51. M. D. Pisarska, G. Barlow, F. T. Kuo, Minireview: roles of the forkhead transcription 1346 
+
+## factor FOXL2 in granulosa cell biology and pathology. Endocrinology 152 , 1199-1208 1347 
+
+## (2011). 1348 
+
+## 52. J. W. Squair, M. A. Skinnider, M. Gautier, L. J. Foster, G. Courtine, Prioritization of cell 1349 
+
+## types responsive to biological perturbations in single-cell data with Augur. Nat Protoc 16 ,1350 
+
+## 3836-3873 (2021). 1351 
+
+## 53. H. L. Crowell et al. , muscat detects subpopulation-specific state transitions from multi-1352 
+
+## sample multi-condition single-cell transcriptomics data. Nat Commun 11 , 6077 (2020). 1353 
+
+## 54. M. I. Love, W. Huber, S. Anders, Moderated estimation of fold change and dispersion for 1354 
+
+## RNA-seq data with DESeq2. Genome Biol 15 , 550 (2014). 1355 
+
+## 55. M. E. Morris et al. , A single-cell atlas of the cycling murine ovary. Elife 11 , (2022). 1356 
+
+## 56. M. Gillespie et al. , The reactome pathway knowledgebase 2022. Nucleic Acids Res 50 ,1357 
+
+## D687-D692 (2022). 1358 
+
+## 57. D. Saul et al. , A new gene set identifies senescent cells and predicts senescence-1359 
+
+## associated pathways across tissues. Nat Commun 13 , 4827 (2022). 1360 
+
+## 58. K. H. Hajdarovic et al. , Single-cell analysis of the aging female mouse hypothalamus. 1361 
+
+## Nat Aging 2, 662-678 (2022). 1362 
+
+## 59. J. He et al. , Identifying transposable element expression dynamics and heterogeneity 1363 
+
+## during development at the single-cell level with a processing pipeline scTE. Nat Commun 1364 
+
+## 12 , 1456 (2021). 1365 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+## 60. J. I. Bravo, S. Nozownik, P. S. Danthi, B. A. Benayoun, Transposable elements, circular 1366 
+
+## RNAs and mitochondrial transcription in age-related genomic regulation. Development 1367 
+
+## 147 , (2020). 1368 
+
+## 61. M. De Cecco et al. , Transposable elements become active and mobile in the genomes of 1369 
+
+## aging mammalian somatic tissues. Aging (Albany NY) 5, 867-883 (2013). 1370 
+
+## 62. P. Langfelder, S. Horvath, WGCNA: an R package for weighted correlation network 1371 
+
+## analysis. BMC Bioinformatics 9, 559 (2008). 1372 
+
+## 63. I. M. P. Badia et al. , decoupleR: ensemble of computational methods to infer biological 1373 
+
+## activities from omics data. Bioinform Adv 2, vbac016 (2022). 1374 
+
+## 64. X. Zhang et al. , Enhanced glycolysis in granulosa cells promotes the activation of 1375 
+
+## primordial follicles through mTOR signaling. Cell Death Dis 13 , 87 (2022). 1376 
+
+## 65. Q. Zhang et al. , Mitochondrial and glucose metabolic dysfunctions in granulosa cells 1377 
+
+## induce impaired oocytes of polycystic ovary syndrome through Sirtuin 3. Free Radic Biol 1378 
+
+## Med 187 , 1-16 (2022). 1379 
+
+## 66. J. N. Mara et al. , Ovulation and ovarian wound healing are impaired with advanced 1380 
+
+## reproductive age. Aging (Albany NY) 12 , 9686-9713 (2020). 1381 
+
+## 67. W. Tang et al. , Exploration of the mechanism and therapy of ovarian aging by targeting 1382 
+
+## cellular senescence. Life Med 4, lnaf004 (2025). 1383 
+
+## 68. D. K. Dimova, N. J. Dyson, The E2F transcriptional network: old acquaintances with 1384 
+
+## new faces. Oncogene 24 , 2810-2826 (2005). 1385 
+
+## 69. J. Kim et al. , Knockdown of E2F4 suppresses the growth of ovarian cancer cells through 1386 
+
+## the cell cycle pathway. Int J Clin Exp Pathol 14 , 866-874 (2021). 1387 
+
+## 70. M. C. Meinsohn et al. , A role for orphan nuclear receptor liver receptor homolog-1 1388 
+
+## (LRH-1, NR5A2) in primordial follicle activation. Sci Rep 11 , 1079 (2021). 1389 
+
+## 71. C. H. K. Hughes et al. , Steroidogenic factor 1 (SF-1; Nr5a1) regulates the formation of 1390 
+
+## the ovarian reserve. Proc Natl Acad Sci U S A 120 , e2220849120 (2023). 1391 
+
+## 72. Y. X. Li, X. Guo, T. Gulappa, B. Menon, K. M. J. Menon, SREBP Plays a Regulatory 1392 
+
+## Role in LH/hCG Receptor mRNA Expression in Human Granulosa-Lutein Cells. J Clin 1393 
+
+## Endocrinol Metab 104 , 4783-4792 (2019). 1394 
+
+## 73. T. Kameda, T. Mizutani, T. Minegishi, Y. Ibuki, K. Miyamoto, Regulation of cAMP 1395 
+
+## responsive element binding modulator isoforms in cultured rat ovarian granulosa cells. 1396 
+
+## Biochim Biophys Acta 1445 , 31-38 (1999). 1397 
+
+## 74. M. Shen et al. , Involvement of FoxO1 in the effects of follicle-stimulating hormone on 1398 
+
+## inhibition of apoptosis in mouse granulosa cells. Cell Death Dis 5, e1475 (2014). 1399 
+
+## 75. S. C. Sharma, J. S. Richards, Regulation of AP1 (Jun/Fos) factor expression and 1400 
+
+## activation in ovarian granulosa cells. Relation of JunD and Fra2 to terminal 1401 
+
+## differentiation. J Biol Chem 275 , 33718-33728 (2000). 1402 
+
+## 76. J. Zhou et al. , SP1 impacts the primordial to primary follicle transition by regulating 1403 
+
+## cholesterol metabolism in granulosa cells. FASEB J 37 , e22767 (2023). 1404 
+
+## 77. Y. Ma et al. , Androgen Receptor in the Ovary Theca Cells Plays a Critical Role in 1405 
+
+## Androgen-Induced Reproductive Dysfunction. Endocrinology 158 , 98-108 (2017). 1406 
+
+## 78. E. Pelosi et al. , Constitutively active Foxo3 in oocytes preserves ovarian reserve in mice. 1407 
+
+## Nat Commun 4, 1843 (2013). 1408 
+
+## 79. E. Havis, D. Duprez, EGR1 Transcription Factor is a Multifaceted Regulator of Matrix 1409 
+
+## Production in Tendons and Other Connective Tissues. Int J Mol Sci 21 , (2020). 1410 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+## 80. Z. Yang et al. , Reprogramming of stromal fibroblasts by SNAI2 contributes to tumor 1411 
+
+## desmoplasia and ovarian cancer progression. Mol Cancer 16 , 163 (2017). 1412 
+
+## 81. S. Avraham et al. , ATF3 and JDP2 deficiency in cancer associated fibroblasts promotes 1413 
+
+## tumor growth via SDF-1 transcription. Oncogene 38 , 3812-3823 (2019). 1414 
+
+## 82. J. Hsu, J. Sage, Novel functions for the transcription factor E2F4 in development and 1415 
+
+## disease. Cell Cycle 15 , 3183-3190 (2016). 1416 
+
+## 83. M. Mussbacher et al. , Cell Type-Specific Roles of NF-kappaB Linking Inflammation and 1417 
+
+## Thrombosis. Front Immunol 10 , 85 (2019). 1418 
+
+## 84. E. D. Lucas et al. , Type 1 IFN and PD-L1 Coordinate Lymphatic Endothelial Cell 1419 
+
+## Expansion and Contraction during an Inflammatory Immune Response. J Immunol 201 ,1420 
+
+## 1735-1747 (2018). 1421 
+
+## 85. X. Sun et al. , Role of post-translational modifications of Sp1 in cancer: state of the art. 1422 
+
+## Front Cell Dev Biol 12 , 1412461 (2024). 1423 
+
+## 86. M. T. Buckley et al. , Cell-type-specific aging clocks to quantify aging and rejuvenation in 1424 
+
+## neurogenic regions of the brain. Nat Aging 3, 121-137 (2023). 1425 
+
+## 87. M. J. Peters et al. , The transcriptional landscape of age in human peripheral blood. Nat 1426 
+
+## Commun 6, 8570 (2015). 1427 
+
+## 88. B. S. Ellsworth et al. , FOXL2 in the pituitary: molecular, genetic, and developmental 1428 
+
+## analysis. Mol Endocrinol 20 , 2796-2805 (2006). 1429 
+
+## 89. L. Komsta. (2022). 1430 
+
+## 90. T. Therneau. (2022). 1431 
+
+## 91. L. Ongaro et al. , Development of a Highly Sensitive ELISA for Measurement of FSH in 1432 
+
+## Serum, Plasma, and Whole Blood in Mice. Endocrinology 162 , (2021). 1433 
+
+## 92. M. Kuhn, caret: Classification and Regression Training. (2022). 1434 
+
+## 93. L. Breiman, A. Cutler, A. Liaw, M. Wiener. 1435 
+
+## 94. G. X. Zheng et al. , Massively parallel digital transcriptional profiling of single cells. Nat 1436 
+
+## Commun 8, 14049 (2017). 1437 
+
+## 95. J. Campbell, S. Yang, Z. Wang, S. Corbett, Y. Koga. (2023). 1438 
+
+## 96. . (2022). 1439 
+
+## 97. A. Bais, D. Kostkam, scds: Computational Annotation of Doublets in Single Cell RNA 1440 
+
+## Sequending Data. (2019). 1441 
+
+## 98. Y. Hao et al. , Integrated analysis of multimodal single-cell data. Cell 184 , 3573-3587 1442 
+
+## e3529 (2021). 1443 
+
+## 99. I. Korsunsky et al. , Fast, sensitive and accurate integration of single-cell data with 1444 
+
+## Harmony. Nat Methods 16 , 1289-1296 (2019). 1445 
+
+## 100. M. Andreatta, A. J. Berenstein, S. J. Carmona, scGate: marker-based purification of cell 1446 
+
+## types from heterogeneous single-cell RNA-seq datasets. Bioinformatics 38 , 2642-2644 1447 
+
+## (2022). 1448 
+
+## 101. D. Aran et al. , Reference-based analysis of lung single-cell sequencing reveals a 1449 
+
+## transitional profibrotic macrophage. Nat Immunol 20 , 163-172 (2019). 1450 
+
+## 102. H. Guo, J. Li, scSorter: assigning cells to known cell types according to marker genes. 1451 
+
+## Genome Biol 22 , 69 (2021). 1452 
+
+## 103. K. Nader et al. , ScType enables fast and accurate cell type identification from spatial 1453 
+
+## transcriptomics data. Bioinformatics 40 , (2024). 1454 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+## 104. T. S. Heng, M. W. Painter, C. Immunological Genome Project, The Immunological 1455 
+
+## Genome Project: networks of gene expression in immune cells. Nat Immunol 9, 1091-1456 
+
+## 1094 (2008). 1457 
+
+## 105. S. A. Miller et al. , LSD1 and Aberrant DNA Methylation Mediate Persistence of 1458 
+
+## Enteroendocrine Progenitors That Support BRAF-Mutant Colorectal Cancer. Cancer Res 1459 
+
+## 81 , 3791-3805 (2021). 1460 
+
+## 106. J. Leek et al. 1461 
+
+## 107. M. E. Ritchie et al. , limma powers differential expression analyses for RNA-sequencing 1462 
+
+## and microarray studies. Nucleic Acids Res 43 , e47 (2015). 1463 
+
+## 108. T. Wu et al. , clusterProfiler 4.0: A universal enrichment tool for interpreting omics data. 1464 
+
+## Innovation (Camb) 2, 100141 (2021). 1465 
+
+## 109. I. Dolgalev. (2021). 1466 
+
+## 110. L. Pantano. (2024). 1467 
+
+## 111. J. F. Ouyang, U. S. Kamaraj, E. Y. Cao, O. J. L. Rackham, ShinyCell: simple and sharable 1468 
+
+## visualization of single-cell gene expression data. Bioinformatics 37 , 3374-3376 (2021). 1469 
+
+> 1470
+> 1471
+> 1472
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Acknowledgements 1473 
+
+We thank Dr. Gilbert Garcia for guidance and feedback on confocal imaging. We are grateful to 1474 
+
+Dr. Lynae M. Brayboy for providing the ovarian single-cell dissociation protocol and for valuable advice on 1475 
+
+protocol optimization. We thank Kristen Mehalko for maintaining the Foxl2 haploinsufficiency mouse 1476 
+
+colony and assisting with tissue collection. We acknowledge Younggyun Kim, Kelly Koh, and Sanjana 1477 
+
+Paye for assistance with follicle quantification from hematoxylin and eosin-stained ovarian sections. We 1478 
+
+thank Dr. Victor Ansere, Clayton Baker, and Aaron J.J. Lemus for constructive feedback on the 1479 
+
+manuscript. 1480 
+
+Ovarian histological processing was performed by the Translational Pathology Core at the USC 1481 
+
+Norris Comprehensive Cancer Center and Immunohistochemistry Laboratory at USC Labs, and serum 1482 
+
+hormone measurements were conducted by the University of Virginia Center for Research in 1483 
+
+Reproduction Ligand Assay and Analysis Core. Some schematic panels were generated using the 1484 
+
+Generic Diagramming Platform. 1485 
+
+> 1486
+
+Funding 1487 
+
+Global Consortium for Reproductive Longevity and Equality Postdoctoral Fellowship GCRLE-2020 1488 
+
+supported by the Bia-Echo Foundation (MK) 1489 
+
+USC Provost's Undergraduate Research Fellowship (JW) 1490 
+
+Global Consortium for Reproductive Longevity and Equality Junior Scholar Award GCRLE-0520 1491 
+
+supported by the Bia-Echo Foundation (BAB) 1492 
+
+Pew Biomedical Scholar Award #00034120 from The Pew Charitable Trusts (BAB) 1493 
+
+Generous gifts from Kathleen Gilmore and Dr. Eric Hennigan (BAB) 1494 
+
+National Cancer Institute Cancer Center Support Grant P30 CA014089 supporting the Translational 1495 
+
+Pathology Core at the USC Norris Comprehensive Cancer Center 1496 
+
+Eunice Kennedy Shriver National Institute of Child Health and Human Development grant R24HD102061 1497 
+
+supporting the University of Virginia Center for Research in Reproduction Ligand Assay and Analysis 1498 
+
+Core 1499 
+
+> 1500
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Author contribution 1501 
+
+Conceptualization: MK, BAB 1502 
+
+Investigation: MK, RB, JW, XL, MC, RJL, EHL, JLA, RGW, BAB 1503 
+
+Formal analysis: MK, RB, JW, EHL, BAB 1504 
+
+Visualization: MK, JW, BAB 1505 
+
+Supervision: BAB 1506 
+
+Writing - original draft: MK, BAB 1507 
+
+Writing - review & editing: MK, RB, JW, XL, RJL, EHL, JLA, RGW, BAB 1508 
+
+> 1509
+
+Competing interest 1510 
+
+Authors declare that they have no competing interests. 1511 
+
+> 1512
+
+Data availability 1513 
+
+The raw FASTQ files have been deposited in the Sequence Read Archive under accession 1514 
+
+number PRJNA863443. Raw microscopy images of ovarian hematoxylin and eosin (H&E), Picrosirius 1515 
+
+Red and Sudan Black B staining, compressed RNAscope images (due to file size constraints), and raw 1516 
+
+flow cytometry datasets are available on Figshare (DOIs: 10.6084/m9.figshare.28745765, 1517 
+
+10.6084/m9.figshare.28745792, 10.6084/m9.figshare.28745813, 10.6084/m9.figshare.29260391 and 1518 
+
+10.6084/m9.figshare.28733222). Any additional information required to reproduce or reanalyze the data 1519 
+
+presented in this study is available from the corresponding author upon reasonable request. 1520 
+
+All new scripts used to analyze the datasets are available on the Benayoun lab GitHub at 1521 
+
+https://github.com/BenayounLaboratory/Mouse_Menopause_Models. 1522 
+
+> 1523
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+List of Supplementary Materials 1524 
+
+> 1525
+
+Figs. S1 to S22 1526 
+
+Tables S1 to S11 1527 
+
+> 1528
+
+.CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint Figures 1529 
+
+> 1530
+
+Fig. 1. Ovarian follicle count quantification of animals from Aging, VCD and Foxl2 1531 
+
+haploinsufficiency models. (A) Schematic of the experimental design. (B-D) Representative 1532 
+
+hematoxylin-eosin staining images of ovarian tissues from Aging, VCD, and Foxl2 haploinsufficiency 1533 
+
+model mice. For the VCD model, ovarian tissues were analyzed 5 months post-injection. Scale bar: 250 1534 
+
+μm. (E-G) Combined follicle counts (primordial, primary, secondary and antral follicles, and corpus luteum) 1535 
+
+from Aging (n = 25 per group), VCD (n = 5-10 per group), and Foxl2 haploinsufficiency (n = 11-24 per 1536 
+
+group) model mice. Statistical significance was assessed using Wilcoxon test for the Aging model and 1537 
+
+aligned rank transform ANOVA to test effects for the VCD and Foxl2 haploinsufficiency models; p-values 1538 
+
+are shown. Open data points indicate data used for ovarian health index calculation. 1539 
+
+> 1540
+
+Fig. 2. Quantification of ovarian fibrosis and lipofuscin accumulation across Aging, VCD, and 1541 
+
+Foxl2 haploinsufficiency models. (A) Schematic of the experimental design. Picrosirius Red and Sudan 1542 
+
+Black B staining were performed and quantified to assess fibrosis and lipofuscin accumulation in the 1543 
+
+ovaries. (B-D) Representative Picrosirius Red staining images of ovarian tissues from Aging, VCD, and 1544 
+
+Foxl2 haploinsufficiency model mice. Original and processed image are shown. (E-G) Quantification of 1545 
+
+percent fibrotic area across Aging (n = 6 and 4 for Young and Old, respectively), VCD (n = 4-5 per group), 1546 
+
+and Foxl2 haploinsufficiency (n = 4-7 per group) model mice. (H-J) Representative Sudan Black B 1547 
+
+staining images showing lipofuscin accumulation in ovarian tissues from Aging, VCD, and Foxl2 1548 
+
+haploinsufficiency model mice. Original and processed image are shown. (K-M) Quantification of percent 1549 
+
+lipofuscin-positive area across Aging (n = 5 and 6 for Young and Old, respectively), VCD (n=4-5 per 1550 
+
+group), and Foxl2 haploinsufficiency (n = 4-7 per group) model mice. For the VCD model, ovarian tissues 1551 
+
+were analyzed 5 months post-injection. Scale bar: 200 μm. For ( E-G and K-M ), statistical significance 1552 
+
+was assessed using the Wilcoxon test for the Aging model and aligned rank transform ANOVA to test 1553 
+
+effects for the VCD and Foxl2 haploinsufficiency models; p-values are shown. 1554 
+
+> 1555
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Fig. 3. Ovarian hormone marker quantification of animals from Aging, VCD and Foxl2 1556 
+
+haploinsufficiency models. (A) Schematic of the experimental design. Serum levels of AMH, FSH and 1557 
+
+INHBA were quantified via ELISA. Serum hormone levels and combined follicle counts were integrated to 1558 
+
+calculate the ovarian health index. (B-D) Serum AMH level quantification from Aging (n = 10 per group), 1559 
+
+VCD (n = 5 per group), and Foxl2 haploinsufficiency (n = 10-21 per group) model mice. (E-G) Serum FSH 1560 
+
+level quantification from Aging (n = 10 per group), VCD (n = 5 per group), and Foxl2 haploinsufficiency (n 1561 
+
+= 10-21 per group) model mice. (H-J) Serum INHBA level quantification from Aging (n = 10 per group), 1562 
+
+VCD (n = 5 per group), and Foxl2 haploinsufficiency (n = 10-21 per group) model mice. (K-M) Ovarian 1563 
+
+health index from Aging (n = 5 per group), VCD (n = 4-5 per group), and Foxl2 haploinsufficiency (n = 4-1564 
+
+10 per group) model mice. Statistical significance was assessed using Wilcoxon test for the Aging model 1565 
+
+and aligned rank transform ANOVA to test effects for the VCD and Foxl2 haploinsufficiency models; p-1566 
+
+values are shown. Open data points indicate data used for ovarian health index calculation. 1567 
+
+> 1568
+
+Fig. 4. Development and application of OvAge, a hormone-based ovarian aging clock. (A) 1569 
+
+Schematic representation of the OvAge clock development pipeline. Data from all animals from the Aging 1570 
+
+model, vehicle control (CTL) from the VCD model, Foxl2 +/+ from the Foxl2 haploinsufficiency model, and 1571 
+
+Fshr +/+ from the Fshr haploinsufficiency model mice were used to train and test OvAge. (B) Scatter plot 1572 
+
+comparing OvAge-predicted and chronological ages, reported in weeks, in the test dataset (n = 68). (C) 1573 
+
+Bar plot of scaled feature importance for OvAge model. (D,E) Scatter plots comparing OvAge-predicted 1574 
+
+and chronological ages for VCD (n = 147) and Foxl2 haploinsufficiency (n = 62) model mice. (F-H) Age 1575 
+
+acceleration analysis for VCD model animals at 30-, 90- and 150-days post-injection (n = 4-5 per group). 1576 
+
+(I) Age acceleration analysis for Foxl2 haploinsufficiency animals (n = 10-21 per group). Age acceleration 1577 
+
+was measured as the difference between predicted OvAge and chronological age. Open data points 1578 
+
+indicate data from out-of-bag predictions. For (F-I) , statistical significance was assessed using Wilcoxon 1579 
+
+test for the Aging model and aligned rank transform ANOVA to test effects for the VCD and Foxl2 1580 
+
+haploinsufficiency models; p-values are shown. 1581 
+
+> 1582
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Fig 5. scRNA-seq profiling of ovaries from Aging, VCD, and Foxl2 haploinsufficiency model mice. 1583 
+
+(A) Schematic of the experimental design. (B) Schematic of sample collection timepoints. (C-E) UMAP 1584 
+
+plots of scRNA-seq datasets from Aging, VCD and Foxl2 haploinsufficiency models. (F-H) Dotplot 1585 
+
+representation of expression of marker genes of cell types detected in scRNA-seq datasets from Aging, 1586 
+
+VCD and Foxl2 haploinsufficiency models. (I) Representative RNAscope images of DAPI, Klrb1c , Cd3e ,1587 
+
+Cd8b1 and Cd4 probes. Images were enhanced for visualization. The shown image is from a middle-aged 1588 
+
+Foxl2 +/+ animal. 1589 
+
+> 1590
+
+Fig 6. Characterization of cell type proportions in Aging, VCD, and Foxl2 haploinsufficiency model 1591 
+
+scRNA-seq datasets. (A) Schematic of the experimental design. (B-D) Proportion differences of Ptprc -
+
+> 1592
+
+and Ptprc + cells between young vs. old in Aging model, CTL (vehicle control) vs. VCD in VCD model, and 1593 
+
+Foxl2 +/+ vs. Foxl2 +/- in the Foxl2 haploinsufficiency model datasets. Colored points indicate statistically 1594 
+
+significant differences (p-value < 0.05) assessed using scProportionTest, whereas gray points denote 1595 
+
+non-significant comparisons. (E-G) Flow cytometry analysis of CD45 + cell proportions in ovaries of Aging, 1596 
+
+VCD, and Foxl2 haploinsufficiency model mice. (H-J) Proportion differences of non-immune cell types 1597 
+
+detected in Aging, VCD, and Foxl2 haploinsufficiency model scRNA-seq datasets. Color coding as in 1598 
+
+panels ( B-D) . (K-M) Representative RNAscope images of Fshr (granulosa) and Cyp11a1 (theca) probes 1599 
+
+from Aging, VCD, and Foxl2 haploinsufficiency model mice. Scale bar: 100μm. (N-P) Cell abundance 1600 
+
+quantification data from RNAscope image analysis of Fshr + and Cyp11a1 + cells from Aging, VCD, and 1601 
+
+Foxl2 haploinsufficiency model mice. For panels (E-G) and (N-P) , statistical significance was assessed 1602 
+
+using Wilcoxon test for the Aging model and aligned rank transform ANOVA to test effects for the VCD 1603 
+
+and Foxl2 haploinsufficiency models; p-values are shown. 1604 
+
+> 1605
+
+Fig 7. Pseudobulk analysis of differential gene expression and gene ontology analysis across 1606 
+
+Aging, VCD, and Foxl2 haploinsufficiency models. (A) Schematic of pseudobulk analysis pipeline. (B-1607 
+
+D) Strip plots of differentially expressed genes (DEGs) from Aging, VCD and Foxl2 haploinsufficiency 1608 
+
+models. DEGs were identified using DESeq2, comparing young vs. old (Aging model), CTL vs. VCD 1609 
+
+(VCD model), and Foxl2 +/+ vs. Foxl2 +/- (Foxl2 haploinsufficiency model). Genes that passed the FDR < 1610 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+0.05 threshold are colored and the numbers in parentheses following each cell type indicate the total 1611 
+
+number of DEGs that met the significance threshold. (E-F) Frequent Gene Set Enrichment Analysis 1612 
+
+(GSEA) term enrichment for GO Biological Process (GO BP, FDR < 0.1) and Reactome (FDR < 0.1) 1613 
+
+pathways across Aging, VCD, and Foxl2 haploinsufficiency models. 1614 
+
+> 1615
+
+Fig. 8. Age-associated gene expression trajectory analysis reveals model-specific amplification 1616 
+
+patterns in granulosa cells. (A) Schematic illustrating analytical workflow. Likelihood ratio tests (LRT) 1617 
+
+and unsupervised clustering of genes were performed using DESeq2 and degPatterns, respectively, to 1618 
+
+identify genes with significant expression changes across experimental groups in the VCD and Foxl2 1619 
+
+haploinsufficiency models. Clusters were designated as enhanced increase (EI) or enhanced decrease 1620 
+
+(ED) when perturbations amplified age-associated expression changes. Over-representation analysis 1621 
+
+(ORA) was performed for each cluster via clusterProfiler. (B,C) Boxplots showing normalized gene 1622 
+
+expression patterns of genes from granulosa EI and ED clusters in the VCD model. Bubble plots display 1623 
+
+ORA results for enriched pathways for each cluster. (D,E) Boxplots showing normalized gene expression 1624 
+
+patterns of representative genes from granulosa EI and ED clusters in the Foxl2 haploinsufficiency model. 1625 
+
+Bubble plots show ORA enrichment results. 1626 
+
+> 1627
+
+Fig 9. Development of a transcriptome-based aging clock for granulosa cells . (A) Schematic of 1628 
+
+analysis and training workflow for the lasso regression-based clock. (B) Scatter plot of predicted age vs .1629 
+
+chronological age for the test set, with Spearman’s correlation and p-value displayed. (C,D) Age 1630 
+
+prediction for VCD and Foxl2 haploinsufficiency datasets, comparing predicted age to chronological age 1631 
+
+in weeks. Offsets were added to improve visualization. (E,F) Age acceleration analysis for VCD and Foxl2 1632 
+
+haploinsufficiency datasets, calculated as the difference between predicted and chronological age. 1633 
+
+Statistical significance was assessed using aligned rank transform ANOVA to test effects. (G) Heatmap of 1634 
+
+expression lasso features from pseudobulked expression data. (H) Over-representation analysis of GO 1635 
+
+ALL terms of the top 500 lasso features. 1636 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Supplementary figures 1637 
+
+> 1638
+
+Fig. S1. Characterization of the Foxl2 haploinsufficiency model. (A) Schematic representation of 1639 
+
+constructs for Foxl2 haploinsufficiency mouse line generation. (B) Foxl2 expression levels in Foxl2 +/+ and 1640 
+
+Foxl2 +/- mice ovaries from young and mid-age groups, measured by RT-qPCR (n = 5 per group). P-values 1641 
+
+were calculated using aligned rank transform ANOVA to test effects of genotype and age. (C,D) Fertility 1642 
+
+assessment of Foxl2 haploinsufficiency females, comparing first litter pup counts and latency to first 1643 
+
+pregnancy (n = 11 and 15 for Foxl2 +/+ and Foxl2 +/-, respectively). P-values were calculated using the 1644 
+
+Wilcoxon and log-rank tests, respectively. 1645 
+
+> 1646
+
+Fig. S2. Follicle counts across Aging, VCD and Foxl2 haploinsufficiency models. (A) Follicle 1647 
+
+counting scheme. Pr: primordial follicle; P: primary follicle; S: secondary follicle; A: antral follicle; CL: 1648 
+
+corpus luteum. (B-D) Follicle counts for primordial, primary, secondary and antral follicles, and corpus 1649 
+
+luteum, from Aging (n = 25 per group), VCD (n = 5-10 per group), and Foxl2 haploinsufficiency (n = 11-24 1650 
+
+per group) model mice. For panels (B-D) , statistical significance was assessed using Wilcoxon test for the 1651 
+
+Aging model and aligned rank transform ANOVA to test effects for the VCD and Foxl2 haploinsufficiency 1652 
+
+models; p-values are shown. 1653 
+
+> 1654
+
+Fig. S3. Harmonization of FSH results for the Foxl2 haploinsufficiency model and longitudinal 1655 
+
+analysis of serum AMH, FSH, and Inhibin A levels in the VCD model. (A) Polynomial regression-1656 
+
+based correction model used to harmonize FSH measurements obtained from two different assay kits (n 1657 
+
+= 6 and 9 for Foxl2 +/+ and Foxl2 +/-, respectively). (B-D) Serum levels of AMH, FSH, and INHBA measured 1658 
+
+from 0 to 5 months post-injection in VCD model mice (n = 5 per group). 1659 
+
+> 1660
+
+Fig. S4. Histological characterization of the VCD model mice. (A) Representative hematoxylin and 1661 
+
+eosin staining images of ovarian tissues from condition-matched animals used in the VCD model scRNA-1662 
+
+seq analysis. Scale bar: 250μm. (B,C) Follicle counts for the condition-matched animals used in the VCD 1663 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+model scRNA-seq analysis (n = 4-5 per group). Statistical significance was assessed using aligned rank 1664 
+
+transform ANOVA; p-values are shown. 1665 
+
+> 1666
+
+Fig. S5. Condition-matched analysis of ovarian fibrosis and lipofuscin accumulation following 1667 
+
+VCD exposure. (A,B) Representative Picrosirius Red staining images of ovarian tissues collected at 30 1668 
+
+days and 90 days post-VCD injection. (C,D) Quantification of percent fibrotic area at 30 and 90 days post-1669 
+
+injection (n = 5 per group). (E,F) Representative Sudan Black B staining images showing lipofuscin 1670 
+
+accumulation in ovarian tissues at 30 and 90 days post-injection. (G,H) Quantification of percent 1671 
+
+lipofuscin-positive area at 30 and 90 days post-injection (n = 4-5 per group). Scale bar: 200 μm. For 1672 
+
+(C,D,G,H) , statistical significance was assessed using aligned rank transform ANOVA; p-values are 1673 
+
+shown. 1674 
+
+> 1675
+
+Fig. S6. Validation of detected ovarian cell types by in situ hybridization. (A) Representative 1676 
+
+RNAscope images for Fshr, Cyp11a1, Pdgfra and Acta2 probes. (B) Representative RNAscope images 1677 
+
+for Upk1b, Cd19, Flt1 and Prox1 probes. (C) Representative RNAscope images for Klrb1c, Cd3e, Cd8b2 1678 
+
+and Cd4 . Images were enhanced for visualization. (D) Heatmap of detected cell types in the Aging, VCD 1679 
+
+and Foxl2 haploinsufficiency scRNA-seq datasets. For panels (A-D) , shown images are from a middle-1680 
+
+aged Foxl2 +/+ animal. 1681 
+
+> 1682
+
+Fig. S7. Cell type proportion analysis of ovarian cells via flow cytometry and scRNA-seq analysis. 1683 
+
+(A) Gating strategy of CD45 + cells in flow cytometry analysis. (B-D) Proportion differences of Ptprc + cell 1684 
+
+types detected in Aging, VCD and Foxl2 haploinsufficiency model scRNA-seq datasets. Colored points 1685 
+
+indicate statistically significant differences (p-value < 0.05) assessed using scProportionTest, whereas 1686 
+
+gray points denote non-significant comparisons. Asterisks (*) indicate comparisons in which the observed 1687 
+
+log 2 fold change is infinite due to complete absence of the cell type in one of the groups. 1688 
+
+> 1689
+
+Fig. S8. Cell type proportion analysis of non-immune ovarian cells via in situ hybridization assays. 1690 
+
+(A-C) Cell type abundance analysis of stromal, SMC, BEC, LEC and epithelial cells via RNAscope in situ 1691 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+hybridization assays from Aging, VCD and Foxl2 haploinsufficiency model mice (n = 4-5 per group across 1692 
+
+models). Statistical significance was assessed using Wilcoxon test for the Aging and VCD models, and 1693 
+
+aligned rank transform ANOVA for the Foxl2 haploinsufficiency model; p-values are shown. 1694 
+
+> 1695
+
+Fig. S9. Cell type proportion analysis of immune ovarian cells via in situ hybridization assays. (A-1696 
+
+C) Cell type abundance analysis of NK, NKT, CD8 + NKT, CD8 + T, CD4 + T, DNT, DPT and B cells via 1697 
+
+RNAscope in situ hybridization assays from Aging, VCD and Foxl2 haploinsufficiency model mice (n = 4-5 1698 
+
+per group across models). Statistical significance was assessed using Wilcoxon test for the Aging and 1699 
+
+VCD models, and aligned rank transform ANOVA for the Foxl2 haploinsufficiency model; p-values are 1700 
+
+shown. 1701 
+
+> 1702
+
+Fig. S10. Comparative analysis of global gene expression in the Aging and VCD models via Augur. 1703 
+
+(A) Schematic of global gene expression analysis comparisons using Augur. (B,C) UMAP visualization of 1704 
+
+AUC scores and lollipop plot of AUC quantification from the Aging model. (D-G) UMAP visualization of 1705 
+
+AUC scores and scatter plot of AUC quantification from the VCD model, comparing CTL vs. VCD at 3m 1706 
+
+and 10m age-at-injection and 30 days vs. 90 days post-injection. For the scatter plot, Ptprc- and Ptprc+ 1707 
+
+cells were separately plotted to improve visualization. For (E,G) , data points with NA AUC scores (due to 1708 
+
+low cell count or QC filtering) were assigned an AUC of 0.5 and colored gray to improve visualization. 1709 
+
+> 1710
+
+Fig. S11. Comparative analysis of global gene expression in the Foxl2 haploinsufficiency model 1711 
+
+via Augur. (A-E) UMAP visualization of AUC scores and scatter plot of AUC quantification from the Foxl2 1712 
+
+haploinsufficiency model comparing Foxl2 +/+ vs. Foxl2 +/- at young, mid-age and old. For the scatter plot, 1713 
+
+Ptprc - and Ptprc + cells were separately plotted to improve visualization. For (C,E) , data points with NA 1714 
+
+AUC scores (due to low cell count or QC filtering) were assigned an AUC of 0.5 and colored gray to 1715 
+
+improve visualization. 1716 
+
+> 1717
+
+Fig. S12. Cell type representation across pseudobulked scRNA-seq datasets and validation of 1718 
+
+Foxl2 expression in Foxl2 haploinsufficiency mice. (A) Heatmap of cell types detected in 1719 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+pseudobulked scRNA-seq datasets. (B) DESeq2 normalized log 2 counts of Foxl2 from young, mid-age 1720 
+
+and old Foxl2 +/+ and Foxl2 +/- mice. 1721 
+
+> 1722
+
+Fig. S13. Assessment of estrous cycle effects on ovarian transcriptional profiles. (A) Overview of a 1723 
+
+publicly available single-cell RNA-seq dataset profiling mouse ovaries across the four estrous cycle 1724 
+
+stages. Granulosa cell transcriptomes were pseudobulked for downstream analyses. (B) Multidimensional 1725 
+
+scaling plots of pseudobulked granulosa cell transcriptomes from Cycling, Aging, VCD and Foxl2 1726 
+
+haploinsufficiency model data. (C) Differential expression analysis (FDR < 0.05) between estrous cycle 1727 
+
+dataset (estrus vs. proestrus) and menopause model dataset. 1728 
+
+> 1729
+
+Fig. S14. Aging-associated signatures and transposable element enrichment analysis across 1730 
+
+Aging, VCD and Foxl2 haploinsufficiency models. (A,B) GSEA enrichment analysis of differentially 1731 
+
+expressed genes dentified in the Aging model (FDR < 0.05) and SenMayo gene list. (C) Dot plot showing 1732 
+
+the coefficient of variation analysis results. (D) GSEA enrichment analysis of transposable element (TE) 1733 
+
+families across Aging, VCD and Foxl2 haploinsufficiency models. 1734 
+
+> 1735
+
+Fig. S15. Classification of age-associated transcriptional trajectory patterns in granulosa cells. (A) 1736 
+
+Boxplot showing normalized gene expression patterns of genes from granulosa cluster 1 in the VCD 1737 
+
+model (VG Cluster 1). Bubble plot displays ORA results for enriched pathways for the cluster. (C) Boxplot 1738 
+
+showing normalized gene expression patterns of genes from granulosa cluster 2 in the Foxl2 1739 
+
+haploinsufficiency model (FG Cluster 2). Bubble plot shows ORA enrichment results. 1740 
+
+> 1741
+
+Fig. S16. Age-associated transcriptional trajectory patterns and pathway enrichment in theca cells. 1742 
+
+(A-C) Boxplots showing normalized gene expression patterns of genes from theca EI, ED 1 and ED 2 1743 
+
+clusters in the VCD model. Bubble plots display ORA results for enriched pathways for each cluster. (D) 1744 
+
+Boxplot showing normalized gene expression patterns of genes from theca ED cluster in the Foxl2 1745 
+
+haploinsufficiency model. Bubble plot shows ORA enrichment results. 1746 
+
+> 1747
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Fig. S17. Age-associated transcriptional trajectories in Foxl2 haploinsufficient theca cells. (A,B) 1748 
+
+Boxplots showing normalized gene expression patterns of genes from theca clusters 1 and 2 in the Foxl2 1749 
+
+haploinsufficiency model. No enrichment was identified via ORA. 1750 
+
+> 1751
+
+Fig. S18. Module trees of WGCNA analysis. (A) Schematic of Weighted Gene Co-expression Network 1752 
+
+Analysis (WGCNA) and transcription factor inference analysis. (B) WGCNA module trees identified in the 1753 
+
+Aging model for granulosa, theca, stromal, BEC, LEC, epithelial, and DNT cells. 1754 
+
+> 1755
+
+Fig. S19. Association analysis of WGCNA modules and ovarian aging traits from the Aging model. 1756 
+
+(A) Heatmap of trait significance for WGCNA modules in the Aging model. Modules that passed the FDR 1757 
+
+< 0.1 threshold are shown in bold. 1758 
+
+> 1759
+
+Fig. S20. Preservation of co-expression modules in Aging, VCD, and Foxl2 haploinsufficiency 1760 
+
+models. (A) GSEA enrichment of WGCNA module genes associated with aging traits across Aging, VCD 1761 
+
+and Foxl2 haploinsufficiency models. (B-D) Bubble plots of over-representation analysis (ORA) results of 1762 
+
+GO ALL terms for WGCNA module genes (FDR < 0.1). 1763 
+
+> 1764
+
+Fig. S21. Analysis of recurrent transcription factor activity inferred by decoupleR. (A) Heatmap of 1765 
+
+transcription factor (TF) activity for factors detected in at least three cell types within each model with an 1766 
+
+FDR < 0.05. (B) (C) (B) UpSet plot of decoupleR-inferred TF activity, showing the number of TF overlap 1767 
+
+across datasets and the corresponding cell types. (C) Heatmap of TF activity scores of common 1768 
+
+decoupleR-inferred TFs for each cell type. 1769 
+
+> 1770
+
+Fig. S22. Development of a transcriptome-based aging clock for theca cells . (A) Schematic of 1771 
+
+analysis and training workflow for the lasso regression-based clock. (B) Scatter plot of predicted age vs .1772 
+
+chronological age for the test set, with Spearman’s correlation and p-value displayed. (C,D) Age 1773 
+
+prediction for VCD and Foxl2 haploinsufficiency datasets, comparing predicted age to chronological age 1774 
+
+in weeks. Offsets were added for visualization purposes. (E,F) Age acceleration analysis for VCD and 1775 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+Foxl2 haploinsufficiency datasets, calculated as the difference between predicted and chronological age. 1776 
+
+Statistical significance was assessed using aligned rank transform ANOVA to test effects. (G) Heatmap of 1777 
+
+expression lasso features from pseudobulked expression data. (H) Over-representation analysis of GO 1778 
+
+ALL terms of the top 500 lasso features. 1779 
+
+.CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint Supplementary tables 1780 
+
+> 1781
+
+Supplementary table 1. Raw fertility data from Foxl2 haploinsufficiency model mice. 1782 
+
+Supplementary table 2. Raw serum AMH, FSH and INHBA quantification data. Raw data from (A) 1783 
+
+Aging, (B) VCD and (C) Foxl2 haploinsufficiency models. 1784 
+
+Supplementary table 3. BH-adjusted post hoc p-values for OvAge age acceleration in VCD and 1785 
+
+Foxl2 models. 1786 
+
+Supplementary table 4. 10xGenomics CellRanger QC metrix. 1787 
+
+Supplementary table 5. List of canonical marker genes used to annotate cell types in scRNA-seq 1788 
+
+datasets. 1789 
+
+Supplementary table 6. Relative proportion of detected cell types from scRNA-seq datasets. 1790 
+
+Proportion data from (A) Aging, (B) VCD and (C) Foxl2 haploinsufficiency models. 1791 
+
+Supplementary table 7. DESeq2 output from pseudobulk analysis. DESeq2 output from (A) Aging, (B) 1792 
+
+VCD and (C) Foxl2 haploinsufficiency model datasets. 1793 
+
+Supplementary table 8. Significant GSEA enrichment terms (FDR < 10%) for GO Biological 1794 
+
+Process and Reactome terms. GSEA enrichment terms for Biological Process from (A) Aging, (B) VCD 1795 
+
+and (C) Foxl2 haploinsufficiency model datasets. GSEA enrichment terms for Reactome from (D) Aging, 1796 
+
+(E) VCD and (F) Foxl2 haploinsufficiency model datasets. 1797 
+
+Supplementary table 9. LRT DESeq2 output with cluster information. LRT DESeq2 output with 1798 
+
+degPatterns cluster information from (A) VCD model granulosa cells, (B) Foxl2 haploinsufficiency model 1799 
+
+granulosa cells, (C) VCD model theca cells and (D) Foxl2 haploinsufficiency model theca cells. 1800 
+
+Supplementary table 10. List of decoupleR TF activity scores (FDR < 5%) for each cell type. 1801 
+
+Supplementary table 11. Primers used in the study. a, Primers used for genotyping Foxl2 1802 
+
+haploinsufficiency model animals. b, Primers used for Foxl2 expression quantification in Foxl2 1803 
+
+haploinsufficiency model animals via RT-qPCR. 1804 
+
+> .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
+
+.CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint .CC-BY-NC-ND 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted March 25, 2026. ;https://doi.org/10.1101/2025.06.10.658920 doi: bioRxiv preprint
