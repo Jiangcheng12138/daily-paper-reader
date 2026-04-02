@@ -1,0 +1,330 @@
+Title: Resolving the Deep Sleep Dual Indeterminacy Problem: Context-Dependent Slow-Wave Activity Modeling Predicts Neurobehavioral Fatigue Where Clinical Sleep Modeling Fails
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.03.25.714331v1.full.pdf
+
+Number of Pages: 18
+
+Markdown Content:
+Resolving the Deep Sleep Dual Indeterminacy Problem: Context-1
+
+Dependent Slow-Wave Activity Modeling Predicts Neurobehavioral 2
+
+Fatigue Where Clinical Sleep Modeling Fails 3
+
+Shashaank Vattikuti¹*, Hua Xie¹, Carson C Chow², Thomas J Balkin³, John D Hughes³ 4¹ TrekMH, Reston, VA 5² Laboratory of Biological Modeling, NIDDK, NIH, Bethesda, MD 6³ Walter Reed Army Institute of Research, Silver Spring, MD 7*Corresponding author: shashaank@trekmh.com 8
+
+Abstract 9
+
+Deep sleep is widely considered to be the most recuperative component of sleep restoration. 10 Accordingly, a positive relationship between naturally occurring deep sleep and function (e.g., 11 cognitive performance) is often assumed. However, this assumption warrants closer 12 examination—particularly given the rise of sleep tracking that emphasizes traditional sleep 13 metrics and their implied predictive value. We present evidence that while clinical deep sleep 14 scoring provides no predictive value, slow-wave activity (SWA) exhibits a paradoxical 15 association with both improved and worsened neurobehavioral fatigue following sleep 16 deprivation. Specifically, we found that SWA-based models account for approximately 50–60% 17 of the inter-individual variance in recovery from sleep deprivation. Remarkably, when regressed 18 against recovery from sleep deprivation, SWA during the baseline sleep night showed a negative 19 association (normalized β = (–)0.5, p = 0.001) while in the same model SWA during the 20 subsequent wakefulness period showed an opposite positive association (normalized β = 0.5, p = 21 0.001). Furthermore, although the group-averaged SWA while behaviorally awake increased 22 with impairment across the sleep deprivation period, individual-level data revealed an inverse 23 relationship: individuals more resilient to sleep deprivation exhibited greater SWA in-between 24 mental test sessions and less corresponding impairment during wakefulness suggestive of a 25 protective effect. These findings identify a Deep Sleep Dual Indeterminacy Problem — 26 simultaneous measurement and causal indeterminacy — that explains why clinical sleep staging 27 fails as a functional biomarker across a wide range of outcomes, and provide a principled 28 framework for next-generation sleep metrics grounded in continuous electrophysiology and 29 temporal modeling. 30 
+
+31 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+Introduction 32 
+
+Deep sleep is a critical component of cognitive restoration¹⁻³. As a result, a positive relationship 33 between measured duration of deep sleep — specifically as codified by clinical scoring (AASM 34 N3) — and functional outcomes is often assumed. This assumption merits renewed scrutiny, 35 particularly in light of the recent proliferation of consumer sleep trackers that target clinical sleep 36 metrics. Their widespread adoption has conferred unwarranted social credibility on these 37 measures, further amplified by large-scale population studies that, by virtue of enormous sample 38 sizes, lend statistical weight to weak effects while obscuring fundamental interpretation issues⁴. 39 While an obvious concern among specialists has been the accuracy of devices and algorithms 40 against the clinical gold-standard polysomnography (PSG)⁵, these efforts have largely ignored a 41 more fundamental issue: the construct validity of the AASM scoring model itself. Consumer 42 sleep trackers have nonetheless popularized clinical sleep scores as accurate and interpretable 43 biomarkers of brain restoration or, more generally, health⁴⁻⁷. This uncritical acceptance has 44 already moved these metrics into actionable tools — directly, and more consequentially, as 45 unsupported composite ‘functional’ scores⁶ and AI health coaching pipelines built on weak 46 evidence and expert opinion⁷. 47 Indeed, when subjective sleep quality is predicted from the gold-standard PSG, findings are 48 inconsistent across studies and notably, N3 does not emerge as a reliable contributor in any of 49 them⁸⁻¹¹. Some evidence even suggests N2 — labeled by consumer trackers as ‘light sleep’ and 50 implicitly poor sleep — may in fact be a positive correlate of subjective sleep quality, while N1, 51 lumped together with it, shows the opposite relationship⁹. In one study, N3 was even associated 52 with the lightest subjective sleep experience¹². While these studies used subjective outcomes, this 53 lack of robust and consistent associations between sleep scoring and functional outcomes extends 54 to objective performance measures as well. For example, the neurobehavioral gold-standard for 55 fatigue is the Psychomotor Vigilance Test (PVT) — a test uniquely sensitive to acute and 56 chronic homeostatic effects and circadian modulation¹³ʹ¹⁴. No studies have demonstrated a clear 57 positive association between clinical sleep stages including N3 and subsequent PVT 58 performance. In a prior study from our group, Vattikuti et al. demonstrated this lack of 59 correlation with conventional sleep scoring but found that when focusing on sleep 60 microarchitecture, a strong functional signal emerged — specifically in REM neural activity¹⁵. 61 The findings supported the hypothesis that clinical sleep scoring is a highly lossy compression of 62 the underlying electrophysiology — the functionally relevant information resides in the raw 63 signal but is discarded by the staging process. Here we test whether a parallel signal exists in 64 deep sleep, and whether the resulting framework can explain why clinical staging fails as a 65 functional biomarker — with implications for the development of next-generation sleep metrics 66 grounded in continuous electrophysiology and temporal modeling. 67 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+We argue that operationalizing deep sleep as a predictor is more complex than a simple 68 measurement problem — it is simultaneously a measurement and a causal modeling problem. 69 We term this the Deep Sleep Dual Measurement and Causal Indeterminacy Problem — the 70 former reflecting the measurement indeterminacy introduced by discrete sleep staging, which 71 discards the continuous electrophysiological signal, and the latter capturing the reverse causation 72 inherent in a variable that conflates recovery with the homeostatic drive for recovery. This 73 duality stems directly from the foundational work of Borbély and colleagues. Borbély’s 74 pioneering two-process model established that deep sleep increases following sleep deprivation, 75 reflecting a homeostatic rebound — meaning elevated deep sleep may index the drive for 76 recovery as much as recovery itself. Thus, elevated deep sleep may represent better recovery, a 77 response to greater neurophysiological demand (sleep debt), or both. Borbély himself further 78 cautioned against over-reliance on sleep staging, arguing that NREM stages represent a crude 79 and arbitrary subdivision of a continuous process¹. 80 Addressing this gap, the present study uses data from a controlled sleep manipulation paradigm. 81 We leverage clinical-grade PSG with expert scoring from a professional sleep laboratory unit 82 along with the PVT to investigate the nuanced relationships between deep sleep physiology and 83 objective fatigue, investigating standard manual polysomnographic scoring but also slow-wave 84 activity (SWA). SWA is a key feature of deep sleep regarded as the primary restorative 85 component³. By comparing the predictive value of standard sleep staging vs. quantitative SWA 86 measures, our goal is to explicate the extent to which these measures relate to functional 87 outcomes – a comparison that has implications for the interpretation of sleep “scores”, and that 88 informs improved quantitative assessments. 89 We conducted secondary analyses on data originally collected for a non-invasive slow oscillation 90 (SO) (closely related to SWA) stimulation study. This dataset was well-suited for our purposes, 91 as it included ~45 hours of sleep deprivation recordings across several healthy young adult 92 sleepers, along with baseline and recovery physiology and performance measures. Although 93 neural stimulation was part of the original design, we treated its effects as noise for the current 94 analysis. There are three possible effects: 1) increased induced-SO, 2) reduced SO due to sleep 95 disruption, or 3) no effect. This can be treated as noise, a random variable, potentially reducing 96 the effect size of our observed variables (predictors). 97 In addition to clinical sleep scores, we examined the full continuum of SWA throughout 98 behavioral sleep (agnostic to sleep scores) and throughout behavioral wake periods. “Behavioral” 99 in this context refers to whether the subject is outwardly engaged or disengaged from its 100 environment. In contrast, neurophysiological sleep processes are now recognized to occur, at 101 least in part, across both behavioral sleep and wake and represent local processes¹⁶ʹ¹⁷. For 102 example, prior human studies have also shown an increase in SWA during prolonged 103 wakefulness, though occasionally at higher spectral frequencies¹⁸⁻²⁰. 104 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+First, we confirmed that the key clinical and research standard variables changed as expected 105 with the experimentally manipulated sleep conditions. Then, as a benchmark, we investigated the 106 relationship between clinically scored deep sleep (N3) and subsequent vigor (inverse of fatigue) 107 as measured using the PVT. This was evaluated under several sleep-wake conditions. Having 108 failed to find any relationship with sleep parameters based on clinical sleep scoring, we 109 performed more detailed investigations of SWA and vigor and consistently found both strong 110 positive and negative associations. 111 
+
+Results 112 
+
+Clinically-Scored Deep Sleep: A Null Result Across All Operationalizations 113 
+
+We first examined whether clinically-scored N3 sleep predicted neurobehavioral vigor, 114 establishing a benchmark against the current standard. Regression models revealed no significant 115 association between N3 and PVT-based vigor across all conditions tested. Specifically, four sets 116 of regressions — comparing N3 fraction during the baseline sleep satiation night (SLEEPSAT3) 117 with performance during baseline, resilience, and recovery wakefulness periods, and N3 during 118 the first recovery sleep night (SLEEPR1) with next-day recovery performance — all yielded 119 non-significant results (p = 0.4–1.0). Repeating these analyses using total N3 duration yielded 120 equivalent null results, as did a normalized measure of recovery night N3 relative to satiation 121 night N3. To confirm the null results were not attributable to failed experimental manipulation, 122 we verified that N3, sleep onset latency, sleep efficiency, and PVT-based vigor all changed as 123 expected across sleep pressure conditions (Figures S1, S2). Across multiple operationalizations 124 of the deep sleep variable and multiple sleep pressure conditions, clinically-scored N3 carried no 125 detectable functional signal for neurobehavioral resilience to, or recovery from, extreme sleep 126 loss. 127 
+
+Sleep Satiation SWA-Based Deep Sleep Negatively Predicts Vigor — Evidence for 128 
+
+Residual Sleep Debt 129 
+
+Based on the hypothesis that clinical staging discards functionally relevant signal, we examined 130 whether SWA power (1–4 Hz) during sleep provided greater predictive resolution than N3 131 scoring. Sleep-satiation baseline SWA (SLEEPSAT3) showed a consistent negative association 132 with subsequent vigor — trending for resilience (p = 0.08) and reaching significance for 133 recovery (p = 0.03) (Figure 1). We additionally examined an adjusted SLEEPSAT3 SWA — 134 normalized by dividing by SLEEPR1 (recovery sleep night) SWA to account for inter-individual 135 differences in baseline SWA amplitude — which showed a consistent negative correlation with 136 recovery at a comparable effect size, providing convergent evidence for the unadjusted result. 137 SLEEPR1 alone failed to show a significant relationship. We revisit this later. Together these 138 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+findings are consistent with the interpretation that sleep-saturated SWA reflects residual sleep 139 debt rather than enhanced recovery — higher SWA at baseline indexing greater homeostatic 140 pressure, and thus predicting poorer subsequent vigor. 141 142 
+
+Figure 1. Inter-individual differences in resilience and recovery vs SWA during the third satiation 143 
+
+sleep period. N=23. 144 
+
+Wakefulness SWA During Sleep Deprivation Positively Predicts Vigor — Evidence 145 
+
+for Active Recovery 146 
+
+Having established that sleep-satiation SWA negatively predicts vigor, consistent with residual 147 debt, and that recovery sleep SWA carried little independent signal, we next asked whether SWA 148 measured during the sleep deprivation wakefulness period (WAKESD) carried additional 149 information. Unadjusted WAKESD SWA showed a significant positive association with 150 recovery (r = 0.40, p = 0.046) but fell short of significance for resilience (r = 0.30, p = 0.1). The 151 consistent positive direction across both outcomes was suggestive of a genuine recovery effect. 152 Recognizing that the normalization denominator may confound interpretation, we examined 153 whether normalizing for inter-individual differences in SWA amplitude clarified the signal. An 154 adjusted WAKESD SWA — normalized by dividing by SLEEPSAT3 SWA — substantially 155 strengthened both associations: explaining 38% of variance in resilience (r = 0.62, p = 0.001) and 156 61% in recovery (r = 0.78, p = 7×10⁻⁶) (Figures 2a, 2b). Critically, this association was positive 157 — the opposite sign from the sleep satiation result — consistent with the interpretation that 158 wakefulness SWA under sleep pressure reflects active neural recovery rather than residual debt. 159 In the following section, we provide strong evidence that this is an independent sleep-like 160 recovery effect. 161 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+Furthermore, EEG data were collected during Maintenance of Wakefulness Trials (MWTs) and 162 performance testing outside of these, with individuals under strict observation controlling for 163 frank sleep. We confirmed that these effects survived re-analysis with sleep scoring and removal 164 of any scored-sleep epochs (see Supplementary Materials). The staggered EEG and performance 165 testing also motivated the hypothesis that individuals with higher wakefulness SWA are more 166 resilient in performance, for which we provide preliminary supporting evidence in the 167 Supplementary Materials. 168 169 
+
+Figure 2. Inter-individual differences in resilience and recovery vs adjusted SWA during the sleep 170 
+
+deprivation period. A) Resilience vs sleep deprivation period wake SWA (r=0.62, p=0.001, N=23). B) 171 
+
+Recovery vs sleep deprivation period wake SWA (r=0.78, p=7×10⁻⁶, N=23). 172 
+
+Deep Sleep Effects Are Context-Dependent: Resolving the SWA Paradox 173 
+
+Thus far, univariate models have revealed context-dependent associations — sleep satiation 174 SWA negatively predicting vigor and wakefulness SWA positively predicting vigor — that 175 together constitute the Deep Sleep Dual Measurement and Causal Indeterminacy Problem. To 176 test whether these opposing signals reflect independent sources of variance, we entered SWA 177 from multiple time periods simultaneously into multivariate regression models (Figure 3). Both 178 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+effects survived: sleep satiation SWA retained its negative association, indexing residual debt, 179 while wakefulness SWA retained its positive association, indexing active recovery. The strongest 180 and simplest model regressed recovery on SLEEPSAT3 and WAKESD SWA simultaneously (R² 181 = 0.54, standardized betas of -0.5 and +0.5 respectively, p = 0.001 for both). Furthermore, the 182 interpretation of recovery night SWA depended entirely on model specification — when sleep 183 satiation SWA was included, recovery night SWA carried a positive association; when excluded, 184 it absorbed the debt signal and turned negative. The same measure, same recording period, 185 opposite interpretation depending on temporal context. This is direct empirical confirmation of 186 the Deep Sleep Dual Measurement and Causal Indeterminacy Problem. 187 188 
+
+Figure 3. Multivariate resilience and recovery models. N=23. 189 
+
+Discussion 190 
+
+In this study, we demonstrate that deep sleep measures reflect both ongoing recovery from 191 neurobehavioral fatigue and accumulated sleep debt — a duality that is precisely what the Deep 192 Sleep Dual Measurement and Causal Indeterminacy Problem predicts. Without proper 193 contextualization, endogenous changes in these physiological markers cannot reliably be used to 194 infer functional states or outcomes. While SWA measures showed strong associations with 195 fatigue, clinical scoring of N3 provided no predictive value — a finding anticipated by Borbély 196 himself, who characterized NREM staging as ‘a crude and rather arbitrary subdivision of a 197 continuous process’¹. 198 The discrepancy between SWA and clinically scored deep sleep may seem at odds with large 199 population studies like All of Us, which report significant correlations between consumer-200 derived sleep staging and chronic illness traits⁴. However, these associations warrant careful 201 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+interpretation. Large sample sizes alone cannot disambiguate causal indeterminacy — they 202 simply render detectable whatever directional bias happens to dominate in that particular dataset. 203 This problem is compounded by consumer devices, which do not directly measure 204 neurophysiology — their algorithms infer sleep architecture from peripheral correlates that are 205 nonspecific to the underlying electrophysiology and unpredictably confounded by the very 206 conditions being predicted, and their fidelity degrades when applied to the clinical populations 207 whose outcomes are being predicted²⁶ -²⁸. These interpretation issues extend to direct SWA 208 measurement as well — della Monica et al.¹¹ found that SWA% reversed sign as a predictor of 209 subjective sleep quality across age groups, the same problem of sample composition determining 210 the direction of association. 211 Our results also shed light on resilience to sleep loss. Many practices — mindfulness, meditation, 212 rest breaks, stress reduction — are explored as ways to mitigate cognitive load during 213 wakefulness, yet their neurophysiological mechanisms remain poorly understood. Our findings 214 suggest that covert sleep-like neural activity during wakefulness, indexed by wake SWA, may 215 represent one such mechanism — and that individual differences in resilience may reflect the 216 degree to which the brain engages sleep-like processes while behaviorally awake. This reframes 217 a foundational assumption of the two-process model: Process S may not accumulate 218 monotonically as a function of time awake but may be partially discharged in real time through 219 covert neural activity. Put simply, the brain does not wait passively for behavioral sleep to repay 220 its debt; it steals rest where it can. This also resolves a puzzle in prior resilience modeling work. 221 Counterintuitively, Subramaniyan et al. (2024)²⁵ found that higher baseline sleep SWA — 222 ostensibly a marker of deeper, more restorative sleep — predicted greater vulnerability to sleep 223 deprivation rather than greater resilience. Yet extracting this signal required substantial 224 methodological scaffolding and still yielded only moderate performance (AUC = 0.68, 225 sensitivity = 0.50). Both the counterintuitive direction and the methodological difficulty are 226 explained by the same thing: baseline sleep SWA indexes homeostatic debt rather than recovery 227 capacity, and trying to build a classifier on one half of a constitutively context-dependent signal 228 is precisely as hard as the results suggest. The Dual Measurement and Causal Indeterminacy 229 Problem provides the first unified account of these contradictions. 230 These findings call for a fundamental reappraisal of how deep sleep is measured, modeled, and 231 interpreted. Clinical staging should be treated as descriptive architecture rather than a functional 232 biomarker. Consumer sleep scores and the AI coaching pipelines built on them lack the temporal 233 modeling and physiological grounding necessary for valid functional inference — and the 234 compounding layers of measurement, causal, and device-level indeterminacy make them 235 particularly unreliable. Statistical power alone is not a substitute for construct validity, and these 236 limitations should be confronted before clinical adoption and, more urgently, before millions of 237 users act on them. The Dual Indeterminacy framework provides a principled basis for next-238 generation clinical sleep metrics — physiologically grounded, temporally contextualized, and 239 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+validated against functional outcomes rather than against staging categories that themselves lack 240 predictive validity²⁹. 241 
+
+Methods 242 
+
+Data 243 
+
+Participants were 23 healthy young adults screened for sleep disorders and health problems. To 244 help ensure that participants entered the laboratory with minimal sleep debt, participants were 245 asked to maintain an 8-hour sleep schedule while at-home for at least 7 days. This was followed 246 by three baseline nights in the sleep laboratory with 10-hour time-in-bed (TIB) each night. 247 Fatigue was assessed using objective and subjective scores. The former was assessed using the 248 neurobehavioral gold-standard, reaction time on visual computer-based 10-minute psychomotor 249 vigilance task (PVT)²¹. Testing was conducted at regular 75-minute intervals (interstimulus 250 interval [ISI]: 2-10 seconds, with a uniform distribution). 251 
+
+Study Protocol 252 
+
+In brief, the sleep protocol consisted of establishing a sleep satiated (rested) state; then, after a 253 full normal wake period, a short sleep opportunity with or without SO stimulation; followed by 254 sleep deprivation; and, finally, recovery sleep periods. We used five time periods defined by the 255 study protocol (see Figure M1) for predictor and outcome measures: 1) the sleep satiation night 256 prior to sleep deprivation (SLEEPSAT3), 2) the wake period immediately following sleep 257 satiation (WAKESAT3)(aka baseline), 3) the sleep deprivation wake period (SD), 4) the first 258 sleep recovery night (SLEEPR1), and 5) the wake period after the first recovery night 259 (WAKER1). Our SWA power measures were intentionally agnostic to sleep-wake behavior and 260 sleep-scoring. We visually confirmed that these putative SWA predictive signals were likely due 261 to DOWN-state events (the critical component of SWA)²²ʹ²³. 262 263 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+Figure M1. Sleep study protocol, measures, and regressions. Illustration of the experimental protocol 264 
+
+(blue=scheduled sleep, green=scheduled wake). Starts with 8-hour scheduled sleep at home (not shown), 265 
+
+followed by laboratory study days beginning with three sleep satiation nights. This was followed by a 17-266 
+
+hour wake period (WAKESAT3), a brief sleep opportunity, sleep deprivation (45 hours), and two 267 
+
+nighttime recovery periods. 268 
+
+Polysomnography Preprocessing 269 
+
+To obtain high-quality artifact free samples, including removal of eye-blinks and movement that 270 can confound slow wave activity detection (during wake), we performed several preprocessing 271 steps focused on 30-second EEG epochs. This workflow is illustrated below: 272 273 
+
+PVT Processing 274 
+
+Our main outcomes were defined by two measures of vigor (inverse of fatigue) across 275 individuals - resilience to and recovery from extreme sleep loss. Vigor (fatigue) was defined 276 using objective PVT performance. For both sleep predictors and vigor (or fatigue) outcomes, we 277 used time-weighted average estimates for given time periods, a form of interpolation. This was 278 derived by taking the discrete integral across the period and computing the weighted average, 279 with weights determined by the duration between samples. This is a commonly-used method for 280 interpolating irregularly sampled data. It is intended to give equal weight to all samples. For 281 example, this was important for the wakefulness metrics derived from the MWTs because the 282 samples become more widely distributed as sleep debt accrues across individuals; less wake data 283 with sleep deprivation. We also had irregular sampling due to quality control measures that 284 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+eliminated some epochs, including during continuous recordings. For consistency, time-weighted 285 averaging was applied to all measures. 286 We defined resilience as the ratio between time-weighted average PVT-reaction time (PVT-RT) 287 during WAKESAT3 over its counterpart during SD. Thus, a larger value means a more rested 288 state for that individual – with a value of one being equivalent to their post-sleep satiation 289 (baseline) state and a value higher than one being superior. (In one analysis, we provide the 290 inverse of this measure to reflect vulnerability, with one still indicating equivalence but greater 291 than one indicating increased fatigue.) Recovery from extreme sleep loss was calculated as the 292 ratio of the time-weighted average WAKESAT3 PVT-RT over WAKER1 PVT-RT, so higher 293 values indicated greater recovery. 294 
+
+Glossary 295 
+
+Neurobehavioral Fatigue: Objective fatigue measured using the Psychomotor Vigilance Test 296 (PVT). 297 
+
+PVT (Psychomotor Vigilance Test): A neurobehavioral measure used to assess objective 298 fatigue. 299 
+
+Recovery (from extreme sleep loss): A measure of vigor, calculated as the ratio of the time-300 weighted average PVT-RT during WAKESAT3 over the PVT-RT during WAKER1. Higher 301 values indicate greater recovery. 302 
+
+Resilience (to sleep loss): A measure of vigor, calculated as the ratio of the time-weighted 303 average PVT-RT during WAKESAT3 over its counterpart during SD. A larger value indicates a 304 more rested state. 305 
+
+SWA (Slow-Wave Activity): Power in the slow-wave activity band (1-4Hz), regarded as the 306 primary restorative component of deep sleep. 307 
+
+Vigor: The inverse of fatigue, defined using objective performance on the PVT through the 308 measures of Resilience and Recovery. 309 
+
+SLEEPSAT3 (Sleep Satiation Night 3): The third night of 10-hour scheduled sleep, used for 310 baseline physiological measures. 311 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+SLEEPR1 (Sleep Recovery Night 1): The first 8-hour recovery sleep period following the 45-312 hour sleep deprivation period. 313 
+
+WAKESAT3 (Sleep Satiation Wake Period): The 17-hour wake period immediately following 314 sleep satiation, used as the baseline performance period. 315 
+
+WAKESD (Sleep Deprivation Wake Period): The 45-hour period of continuous wakefulness. 316 
+
+WAKER1 (Recovery Wake Period): The wake period after the first recovery night. 317 
+
+References 318 
+
+1. Borbély, A. A. A Two Process Model of Sleep Regulation. Human Neurobiology 1, 195–204 (1982). 319 
+
+2. Mignot, E. Why We Sleep: The Temporal Organization of Recovery. PLOS Biology 6, e106 (2008). 320 
+
+3. Bellesi, M., Riedner, B. A., Garcia-Molina, G. N., Cirelli, C. & Tononi, G. Enhancement of sleep slow 321 
+
+waves: underlying mechanisms and practical consequences. Frontiers in Systems Neuroscience 8, 208 322 
+
+(2014). 323 
+
+4. Zheng, N. S. et al. Sleep patterns and risk of chronic disease as measured by long-term monitoring with 324 
+
+commercial wearable devices in the All of Us Research Program. Nat Med 30, 2648–2656 (2024). 325 
+
+5. De Zambotti, M. et al. State of the science and recommendations for using wearable technology in 326 
+
+sleep and circadian research. SLEEP 47, zsad325 (2024). 327 
+
+6. Doherty, C., Baldwin, M., Lambe, R., Burke, D. & Altini, M. Readiness, recovery, and strain: an 328 
+
+evaluation of composite health scores in consumer wearables. Translational Exercise Biomedicine 2, 329 
+
+128–144 (2025). 330 
+
+7. Khasentino, J. et al. A personal health large language model for sleep and fitness coaching. Nat Med 331 
+
+31, 3394–3403 (2025). 332 
+
+8. Kaplan, K. A. et al. When a gold standard isn’t so golden: Lack of prediction of subjective sleep quality 333 
+
+from sleep polysomnography. Biological Psychology 123, 37–46 (2017). 334 
+
+9. Lok, R. et al. Objective underpinnings of self-reported sleep quality in middle-aged and older adults: 335 
+
+The importance of N2 and wakefulness. Biol Psychol 170, 108290 (2022). 336 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+10. Åkerstedt, T., Schwarz, J., Gruber, G., Lindberg, E. & Theorell-Haglöw, J. The relation between 337 
+
+polysomnography and subjective sleep and its dependence on age - poor sleep may become good 338 
+
+sleep. J Sleep Res 25, 565–570 (2016). 339 
+
+11. della Monica, C., Johnsen, S., Atzori, G., Groeger, J. A. & Dijk, D.-J. Rapid Eye Movement Sleep, 340 
+
+Sleep Continuity and Slow Wave Sleep as Predictors of Cognition, Mood, and Subjective Sleep 341 
+
+Quality in Healthy Men and Women, Aged 20–84 Years. Front. Psychiatry 9, (2018). 342 
+
+12. Stephan, A. M., Lecci, S., Cataldi, J. & Siclari, F. Conscious experiences and high-density EEG 343 
+
+patterns predicting subjective sleep depth. Current Biology 31, 5487-5500.e3 (2021). 344 
+
+13. Balkin, T. J. et al. Comparative utility of instruments for monitoring sleepiness-related performance 345 
+
+decrements in the operational environment. J Sleep Res 13, 219–227 (2004). 346 
+
+14. Lim, J. & Dinges, D. F. Sleep Deprivation and Vigilant Attention. Annals of the New York Academy 347 
+
+of Sciences 1129, 305–322 (2008). 348 
+
+15. Vattikuti, S. et al. REM-like Oscillatory Theta Activity Predicts a Reduction in the Recuperative 349 
+
+Value of Natural Human Sleep. 2023.10.06.561209 Preprint at 350 
+
+https://doi.org/10.1101/2023.10.06.561209 (2023). 351 
+
+16. Krueger, J. M., Nguyen, J. T., Dykstra-Aiello, C. J. & Taishi, P. Local sleep. Sleep Med Rev 43, 14– 352 
+
+21 (2019). 353 
+
+17. Andrillon, T., Burns, A., Mackay, T., Windt, J. & Tsuchiya, N. Predicting lapses of attention with 354 
+
+sleep-like slow waves. Nat Commun 12, 3657 (2021). 355 
+
+18. Borbély, A. A. & Achermann, P. Sleep Homeostasis and Models of Sleep Regulation. J Biol Rhythms 356 
+
+14, 559–570 (1999). 357 
+
+19. Huber, R. et al. Human Cortical Excitability Increases with Time Awake. Cerebral Cortex 23, 1–7 358 
+
+(2013). 359 
+
+20. Finelli, L. A., Baumann, H., Borbély, A. A. & Achermann, P. Dual electroencephalogram markers of 360 
+
+human sleep homeostasis: correlation between theta activity in waking and slow-wave activity in 361 
+
+sleep. Neuroscience 101, 523–529 (2000). 362 
+
+21. Khitrov, M. Y. et al. PC-PVT: a platform for psychomotor vigilance task testing, analysis, and 363 
+
+prediction. Behav Res Methods 46, 140–147 (2014). 364 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+22. Tononi, G. & Cirelli, C. Sleep function and synaptic homeostasis. Sleep Medicine Reviews 10, 49–62 365 
+
+(2006). 366 
+
+23. Mölle, M., Marshall, L., Gais, S. & Born, J. Grouping of Spindle Activity during Slow Oscillations in 367 
+
+Human Non-Rapid Eye Movement Sleep. J Neurosci 22, 10941–10947 (2002). 368 
+
+24. Berry, R. B. et al. The AASM Manual for the Scoring of Sleep and Associated Events: Rules, 369 
+
+Terminology and Technical Specifications. American Academy of Sleep Medicine (2012). 370 
+
+25. Subramaniyan, M., Hughes, J. D., Doty, T. J., Killgore, W. D. S. & Reifman, J. Individualised 371 
+
+prediction of resilience and vulnerability to sleep loss using EEG features. Journal of Sleep Research 372 
+
+33(6), e14220 (2024). https://doi.org/10.1111/jsr.14220 373 
+
+26 . Cook, J. D., Prairie, M. L. & Plante, D. T. Utility of the Fitbit Flex to evaluate sleep in major 374 depressive disorder: a comparison against polysomnography and wrist-worn actigraphy. 375 Journal of Affective Disorders 217, 299–305 (2017). 376 
+
+27. Kawai, K., Iwamoto, K., Miyata, S., Okada, I., Fujishiro, H., Noda, A., Nakagome, K., 377 Ozaki, N. & Ikeda, M. Comparison of Polysomnography, Single-Channel 378 Electroencephalogram, Fitbit, and Sleep Logs in Patients With Psychiatric Disorders: Cross-379 Sectional Study. Journal of Medical Internet Research 25, e51336 (2023). 380 https://doi.org/10.2196/51336 381 
+
+28 . Herberger, S., Aurnhammer, C., Bauerfeind, S., Bothe, T., Penzel, T. & Fietze, I. 382 Performance of wearable finger ring trackers for diagnostic sleep measurement in the clinical 383 context. Scientific Reports 15, 9461 (2025). https://doi.org/10.1038/s41598-025-93774-z 384 29. Lechat, B. et al. New and Emerging Approaches to Better Define Sleep Disruption and Its 385 Consequences. Frontiers in Neuroscience 15, (2021). 386 
+
+387 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+Supplementary Materials 388 
+
+S1. Fatigue (Vigor) Changes with Sleep Loss and After Recovery Sleep 389 
+
+As expected, vigor (the inverse of fatigue) was lower during sleep deprivation (the resilience test 390 period) than after recovery sleep (Figure S1). This relative difference was more marked when 391 normalizing by individual baseline PVT performance. In the unnormalized group analysis 392 (Figure S1a), there was a trend difference between conditions (t = 1.6, p = 0.1). This became 393 significant with normalization (Figure S1b), with slope β = 1.1 (p < 0.0001, R² = 0.6). The 394 coefficient greater than one is consistent with the grouped results in Figure S1a, confirming that 395 vigor improved following recovery sleep. 396 397 
+
+Figure S1. Fatigue (Vigor) Measures Across Wake Periods. (a) Group-wise variation in vigor during 398 
+
+the sleep deprivation resilience phase and the recovery phase (t = 1.6, p = 0.1). (b) Regression of recovery 399 
+
+vigor on resilience vigor (β = 1.1, p < 0.0001, R² = 0.6). N = 23. 400 
+
+S2. Marked Differences in Clinically-Scored Deep Sleep During Sleep Satiation vs. 401 
+
+Recovery Sleep 402 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+We assessed the statistical distribution of sleep parameters for the baseline sleep satiation night 403 (SLEEPSAT3) vs. the first recovery sleep night (SLEEPR1) for descriptive purposes; no formal 404 statistical testing was conducted. As expected, recovery sleep was characterized by shorter sleep 405 onset latency (SOL) and higher sleep efficiency (SE) (Figure S2). These findings also highlight 406 that sleep history and context are critical for interpreting standard metrics — the sleep-satiated 407 SOL and SE distributions overlapped with insomnia ranges, while recovery SOL fell almost 408 entirely within the excessive sleepiness range. Both reflect normal, expected patterns for these 409 conditions but can be misinterpreted without contextual framing. Furthermore, clinically-scored 410 N3 increased during recovery, consistent with prior findings and indicative of a strong 411 homeostatic response to accumulated sleep debt. The observed changes in sleep architecture and 412 fatigue across sleep debt conditions were thus clear and expected. The following sections 413 examine whether these clinical metrics predict functional states. 414 415 
+
+Figure S2. Sleep onset latency, sleep efficiency, and clinically-scored N3 during sleep satiation 416 
+
+(SLEEPSAT3) vs. recovery sleep (SLEEPR1). Dark gray band indicates the typical healthy sleep range. 417 
+
+Shown for illustrative purposes. N = 23. 418 
+
+S3. Sleep Deprivation Wakefulness SWA Effect Holds Under Conservative 419 
+
+Scoring 420 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+A potential concern is that subjects may have been experiencing frank sleep during the sleep 421 deprivation recording period. However, recordings were taken during monitored Maintenance of 422 Wakefulness Tests (MWTs) with strict instructions to terminate recordings upon any detected 423 sleep. To further test robustness, we selected the subset of subjects with scored MWT data (n = 424 16) and removed any scored sleep epochs prior to analysis. The resilience and recovery 425 correlations remained significant: r = 0.7 (p = 0.003) and r = 0.8 (p = 3×10⁻⁵), respectively, 426 confirming that the wakefulness SWA effect is not attributable to covert sleep during the 427 recording period. 428 
+
+S4. Rate of Fatigue Accumulation Varies Across Individuals and Is Predicted by 429 
+
+Wakefulness SWA 430 
+
+Previously reported results for sleep deprivation physiology consistently show a positive 431 association between SWA and fatigue at the group level — the opposite direction from our 432 cross-individual finding, where elevated wakefulness SWA was associated with greater vigor. 433 This apparent conflict is resolved by distinguishing group-averaged from cross-individual 434 effects. 435 To illustrate this, we first examined the association between SWA and vulnerability (the inverse 436 of our resilience measure) at the group level. As shown in Figure S3a, elevated SWA was 437 associated with increased vulnerability to sleep loss (r = 0.76, p < 0.001), consistent with prior 438 literature — on average across individuals, SWA and fatigue increase together as sleep debt 439 accumulates, with a circadian modulation also evident in both traces. 440 This group-vs-individual dissociation motivates a specific hypothesis: while all individuals are 441 affected by prolonged wakefulness, individuals differ substantially in their relative vulnerability, 442 and this variability may reflect individual differences in a protective covert wakefulness SWA. 443 Examination of this hypothesis confirmed the prediction (Figure S3b) — individuals in the 444 lowest vulnerability tertile showed higher wakefulness SWA than those in the highest 445 vulnerability tertile, and this difference became more pronounced with greater sleep loss. As 446 noted, wake EEG recordings were collected separately from performance testing; whether 447 elevated SWA also occurred during task execution remains unknown. The results suggest this 448 may not be the case, and continuous recordings during performance testing are warranted to 449 investigate this further. 450 
+
+> 105 and is also made available for use under a CC0 license. (which was not certified by peer review) is the author/funder. This article is a US Government work. It is not subject to copyright under 17 USC The copyright holder for this preprint this version posted March 28, 2026. ;https://doi.org/10.64898/2026.03.25.714331 doi: bioRxiv preprint
+
+451 452 
+
+Figure S3. Vulnerability to sleep loss and adjusted SWA during the sleep deprivation period. (a) 453 
+
+Group-average SWA and vulnerability traces across the sleep deprivation period. (b) Left panel: average 454 
+
+traces for the top (dashed) and bottom (solid) vulnerability tertiles. Right panel: difference in vulnerability 455 
+
+and SWA between the top and bottom vulnerability tertiles. N = 23. 456
