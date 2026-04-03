@@ -1,0 +1,20 @@
+---
+title: Using activity data to estimate brown bear den exit and entry dates
+authors: "Brault, B., Clermont, J., Zedrosser, A., Friebe, A., Kindberg, J., Pelletier, F."
+date: 2026-04-01
+pdf: "https://www.biorxiv.org/content/10.64898/2026.03.30.715338v1.full.pdf"
+tags: ["query:tr-hb"]
+score: 10.0
+evidence: 利用活动数据估算棕熊冬眠入穴和出穴的时间
+tldr: 开发了一种利用加速度计数据准确估算棕熊冬眠时间的方法。
+source: biorxiv
+selection_source: fresh_fetch
+figures_json: "[{\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-30-715338-v1/fig-001.webp\", \"caption\": \"Figure 2 - Timing of den site use and inactivity periods in Scandinavian brown bears 647\", \"page\": 26, \"index\": 1, \"width\": 1021, \"height\": 1225}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-30-715338-v1/fig-002.webp\", \"caption\": \"Figure 4 - Temporal trends in inactivity end dates across brown bear demographic groups 669\", \"page\": 29, \"index\": 2, \"width\": 904, \"height\": 660}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-30-715338-v1/fig-003.webp\", \"caption\": \"Figure 3 - Start and end dates of brown bear inactivity periods by demographic group 659\", \"page\": 28, \"index\": 3, \"width\": 1002, \"height\": 1174}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-30-715338-v1/fig-004.webp\", \"caption\": \"Table 1. Timing of den site arrival and inactivity start by bear demographic group 682\", \"page\": 31, \"index\": 4, \"width\": 1465, \"height\": 556}]"
+motivation: 利用活动数据估算棕熊冬眠入穴和出穴的时间。
+method: 方法与实现细节请参考摘要与正文。
+result: 结果与对比结论请参考摘要与正文。
+conclusion: 总体而言，该工作在所述任务上展示了有效性，并提供了可复用的思路或工具。
+---
+
+## Abstract
+Background. In hibernating mammals, the timing of den entry and exit reflects complex interactions among environment, physiology, and energetic constraints, with consequences for fitness. Consequently, shifts in denning phenology can affect population dynamics, particularly under climate change. Reliable estimation of denning timing is therefore critical, yet current methods often rely on GPS-derived movement data, limited by coarse sampling intervals, detection issues, and the inability to distinguish true inactivity from active presence at the den site. In this study, we developed and apply a method to estimate denning phenology in a brown bear population in south-central Sweden using accelerometer-derived activity data. Our approach employs adaptive, individual-specific thresholds to account for variation in baseline activity across bears, focusing on day-to-day changes to identify the start and end of inactivity periods. This method allows flexible and reproducible detection of den entry and exit dates, overcoming limitations associated with fixed thresholds and small sample sizes. Results. We compared activity-based estimates with GPS-derived den occupancy and examined variation in denning behavior across demographic groups. Analyzing 388 bear-winters, the method successfully identified inactivity periods in 360 cases. The method failed to identify clear start and end dates of hibernation for 28 (7%) bear-winters, which were characterized by unusually high or low daily activity levels at the boundaries of the inactivity period. Den site occupancy ranged from September 5 to June 2, with durations of 112-260 days, whereas inactivity periods detected from activity data extended from September 6 to May 13, lasting 83-217 days. Our comparison of activity-based and GPS-based methods indicates that bears may arrive at the den site several weeks before the onset of inactivity, with timing varying among demographic groups. Conclusion. We show that activity-based analysis provides a robust framework for estimating denning phenology, distinguishing actual inactivity from site presence, and improving understanding of the timing and variability of bear denning behavior. Applying an individual-level activity-based method improves accuracy in assessing ecological mechanisms underlying hibernation in bears and other hibernators, while also enhancing interpretation of environmental drivers and providing a reliable tool to monitor phenological shifts in response to climate change.

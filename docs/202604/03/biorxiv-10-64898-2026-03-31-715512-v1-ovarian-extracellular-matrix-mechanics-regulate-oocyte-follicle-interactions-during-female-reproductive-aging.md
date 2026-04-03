@@ -1,0 +1,20 @@
+---
+title: Ovarian extracellular matrix mechanics regulate oocyte-follicle interactions during female reproductive aging
+authors: "Shen, X., Wang, H., Cao, G., Lee, Y., Zhu, J., Wang, L. C., Zhao, T., Ler, S. G., Sobota, R. M., Li, R., Young, J. L."
+date: 2026-04-02
+pdf: "https://www.biorxiv.org/content/10.64898/2026.03.31.715512v1.full.pdf"
+tags: ["query:qll"]
+score: 9.0
+evidence: 卵巢功能衰退与生殖衰老
+tldr: 研究卵巢细胞外基质硬度变化如何导致与年龄相关的卵泡功能障碍。
+source: biorxiv
+selection_source: fresh_fetch
+figures_json: "[{\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-001.webp\", \"caption\": \"\", \"page\": 25, \"index\": 1, \"width\": 1380, \"height\": 1559}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-002.webp\", \"caption\": \"\", \"page\": 26, \"index\": 2, \"width\": 1380, \"height\": 863}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-003.webp\", \"caption\": \"\", \"page\": 27, \"index\": 3, \"width\": 1380, \"height\": 1259}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-004.webp\", \"caption\": \"\", \"page\": 28, \"index\": 4, \"width\": 1380, \"height\": 1354}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-005.webp\", \"caption\": \"\", \"page\": 29, \"index\": 5, \"width\": 1349, \"height\": 639}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-006.webp\", \"caption\": \"\", \"page\": 30, \"index\": 6, \"width\": 1044, \"height\": 569}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-007.webp\", \"caption\": \"\", \"page\": 31, \"index\": 7, \"width\": 941, \"height\": 697}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-008.webp\", \"caption\": \"\", \"page\": 32, \"index\": 8, \"width\": 1380, \"height\": 1382}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-009.webp\", \"caption\": \"\", \"page\": 33, \"index\": 9, \"width\": 983, \"height\": 1003}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-010.webp\", \"caption\": \"\", \"page\": 34, \"index\": 10, \"width\": 991, \"height\": 1025}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-03-31-715512-v1/fig-011.webp\", \"caption\": \"\", \"page\": 35, \"index\": 11, \"width\": 837, \"height\": 568}]"
+motivation: 卵巢功能衰退与生殖衰老。
+method: 方法与实现细节请参考摘要与正文。
+result: 结果与对比结论请参考摘要与正文。
+conclusion: 总体而言，该工作在所述任务上展示了有效性，并提供了可复用的思路或工具。
+---
+
+## Abstract
+Female reproductive aging is associated with ovarian functional decline, leading to infertility. During aging, biochemical and biophysical changes in the ovarian extracellular matrix (ECM) occur, yet how these properties affect follicle growth and oocyte quality remains poorly understood. Here we describe spatiotemporal changes in the ovarian ECM with age using mass spectrometry, immunohistochemistry, and nanoindentation. While follicle stiffness remains unchanged, stromal matrix remodeling is associated with a ~2.5-fold increase in stiffness. To understand how this increase in stromal stiffness affects age-related follicular dysfunction, isolated young follicles were cultured in soft and stiff hydrogels mimicking young and aged ovarian stromal stiffness, respectively. Higher stiffness leads to a decrease in granulosa cell (GC) proliferation, oocyte quality, and GC-oocyte interactions mediated via transzonal projections (TZPs). RNA-seq revealed TGF-{beta} signaling as a major pathway affected by stiffness, and activation of TGF-{beta} signaling through Mongersen treatment rescued TZP formation and oocyte quality in stiff matrix. These findings provide mechanistic insight into how changes in ECM mechanics contribute to ovarian aging functional decline and reveal potential therapeutic targets to counter fertility loss associated with tissue aging and fibrosis.

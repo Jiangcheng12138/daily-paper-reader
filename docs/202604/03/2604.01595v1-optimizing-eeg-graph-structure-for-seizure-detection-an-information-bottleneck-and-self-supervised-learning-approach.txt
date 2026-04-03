@@ -1,0 +1,613 @@
+Title: Optimizing EEG Graph Structure for Seizure Detection: An Information Bottleneck and Self-Supervised Learning Approach
+
+URL Source: https://arxiv.org/pdf/2604.01595v1
+
+Published Time: Fri, 03 Apr 2026 00:32:42 GMT
+
+Number of Pages: 10
+
+Markdown Content:
+# Optimizing EEG Graph Structure for Seizure Detection: An Information Bottleneck and Self-Supervised Learning Approach 
+
+Lincan Li ∗, Rikuto Kotoge †, Xihao Piao †, Zheng Chen †, Yushun Dong ∗∗Department of Computer Science, Florida State University, Tallahassee, USA 
+
+†SANKEN, The University of Osaka, Ibaraki, Japan 
+
+Abstract —Seizure detection based on EEG signals is highly challenging due to complex spatiotemporal dynamics and extreme inter-patient variability. To model such complex patterns, recent methods construct dynamic graphs via statistical correlations, predefined similarity measures, or implicit learning, yet rarely account for EEG’s highly noisy nature. Consequently, these graphs usually contain redundant or task-irrelevant connections, undermining model performance even when using state-of-the-art architectures. In this paper, we present a new perspective for EEG seizure detection: jointly learning denoised dynamic graph structures and informative spatial-temporal representa-tions guided by the Information Bottleneck (IB). Unlike prior approaches, our graph constructor explicitly accounts for the noisy characteristics of EEG data, producing compact and reli-able connectivity patterns that better support downstream seizure detection. To further enhance representation learning, we employ a self-supervised Graph Masked AutoEncoder that reconstructs masked EEG signals based on dynamic graph context, promoting structure-aware and compact representations that align with the IB principle. Bringing things together, we introduce Information Bottleneck-guided EEG SeizuRE DetectioN via SElf-Supervised Learning (IRENE), which explicitly learns dynamic graph struc-tures and interpretable spatial-temporal EEG representations. IRENE addresses three core challenges: (i) Identifying the most informative nodes and edges; (ii) Explaining seizure propagation in the brain network; and (iii) Enhancing robustness against label scarcity and inter-patient variability. Extensive experiments on benchmark EEG datasets demonstrate that our method outperforms state-of-the-art baselines in seizure detection and provides clinically meaningful insights into seizure dynamics. The source code is available at https://github.com/LabRAI/IRENE. 
+
+Index Terms —Graph Structure Learning, Physiological Inter-pretability, Information Bottleneck, Spatial-Temporal Learning 
+
+I. I NTRODUCTION 
+
+Epileptic seizures are a prevalent neurological disease, and their timely detection is essential for clinical diagnosis and intervention [1], [2]. Recent advances in deep learning have significantly improved the automation of EEG analysis for seizure detection [3]–[6]. In particular, graph neural networks (GNNs) have shown strong capabilities in modeling spatial dependencies and capturing the dynamic topological patterns in multi-channel EEGs [7]–[10]. To leverage this, researchers typically construct graph-based EEG representations, where nodes correspond to EEG channels and edges reflect inter-channel correlations. Through graph learning, these methods 
+
+Corresponding author: Yushun Dong (Email: yushun.dong@fsu.edu). 
+
+capture interactions and detect abnormal patterns among brain regions, thereby improving seizure detection performance and facilitating the discovery of more informative biomarkers. While graph-based modeling holds great potential, a critical research question lies in how the EEG graph structure is constructed and represented. In existing methods, the graph is typically defined using pairwise similarity or correlation between EEG channels [10], [11], estimated from raw signals or extracted features [12]. This structure is then fixed dur-ing training and not subject to optimization. Such modeling implicitly assumes that the initial graph can reflect underly-ing neural interactions. However, EEG data are notoriously noisy [13], [14], and no universally effective filtering or feature extraction technique currently exists to guarantee robust graph construction. As a result, the predefined graphs are usually suboptimal, embedding spurious or irrelevant connections. Since GNNs heavily rely on the provided graph to guide message passing and representation learning [15]–[17], a poor graph structure inevitably leads to degraded model perfor-mance and unreliable seizure detection. Given these challenges with existing EEG graph construc-tion methods, our work aims to systematically address the following three fundamental challenges. First, how to con-duct pysiologically-plausible graph structure learning: Effec-tive seizure detection from EEG relies on identifying which electrodes (nodes) are involved and how seizure activities propagate through the brain network [18]. However, most existing graph learning-based methods treat the dynamic graphs as latent representations optimized indirectly during training [11], [19], without explicit mechanisms to enforce physiological plausibility. Second, how to jointly leverage the learned graph structure and EEG representations for accurate seizure detection? Existing methods often decouple graph construction from downstream tasks, relying on generic GNNs or attention mechanisms that overlook the reliability or clinical relevance of the connections. This separation limits the ability to suppress noise and the utilization of domain-informed structure. Third, generalizable seizure detection under label scarcity and data variability: obtaining high-quality seizure annotations is highly expensive and requires expert clinical knowledge [20], [21], leading to a large number of EEG sequences without precise labels (e.g., seizure onset and offset mark) [22]. Also, EEG signals exhibit high inter-personal 
+
+> arXiv:2604.01595v1 [cs.LG] 2 Apr 2026
+
+variability and are sensitive to differences in acquisition set-tings [9], [23], which pose challenges for model generalization. These challenges highlight the need for a principled frame-work that constructs task-informative and interpretable graphs from EEG signals, and learns structure-aware spatial-temporal representations through self-supervised training. To address the aforementioned challenges, we propose IRENE, a novel framework that integrates self-supervised learning with information bottleneck-based dynamic graph modeling to enable interpretable and robust seizure detection. 
+
+To address the first challenge , we explicitly construct task-informative graphs by optimizing an Information Bottleneck (IB) objective, which is different from prior approaches that implicitly learn graph structure. The IB objective encourages sparse yet discriminative edge connections by balancing rel-evance to labels and compression of input, leading to sparse and interpretable graph representations. To address the second challenge , we introduce a graph structure-aware attention mechanism (GSA-Attn) into IRENE’s encoder network, which explicitly incorporates graph patterns learned through the IB objective-guided graph construction. Specifically, we integrate edge confidence scores derived from self-expressive coeffi-cient into the attention computation. This allows the model to prioritize physiologically meaningful connections, while suppressing noisy or unstable interactions. To address the third challenge , we adopt a self-supervised learning paradigm based on Graph Masked AutoEncoder architecture. IRENE is pre-trained by masking then reconstructing the node attributes of EEG graphs derived from IB principles. This enables IRENE’s Encoder to learn generalized and physiologically grounded spatial-temporal representations without relying on labeled seizure data. By leveraging structural priors during pretraining, the model becomes more robust to variations across patients and recording conditions. Our main contributions are three-fold:  
+
+> •
+
+Information Bottleneck-guided dynamic graph con-struction. We propose a principled framework that explic-itly learns task-relevant and interpretable brain connectivity graphs. By optimizing a mutual information objective that balances label relevance and input compression, our method constructs sparse yet discriminative edge struc-tures, enabling both accurate seizure detection and en-hanced clinical interpretability.  
+
+> •
+
+IRENE – A Self-Supervised Graph Masked Autoen-coder Framework. IRENE is proposed to tackle label-scarce and inter-patient variability conditions. By recon-structing node features from IB-guided graphs, IRENE captures robust spatial-temporal dependencies while miti-gating noise. We further introduce a GSA-Attn mechanism that leverages edge confidence scores, enabling the model to prioritize physiologically meaningful connections during information propagation.  
+
+> •
+
+Comprehensive Experimental Evaluation. Extensive ex-periments on the TUSZ benchmark demonstrate that IRENE consistently outperforms state-of-the-art EEG graph learning methods in seizure detection and classi-fication tasks. Our model achieves superior accuracy and robustness in handling patient variability and adapting to various clinical settings with great interpretability. We con-firm the effectiveness of each model component through ablation and robustness studies. II. N OTATIONS 
+
+Graph-Based EEG Representation: EEG signals naturally exhibit non-Euclidean, graph-like characteristics due to the spatial and functional relationships among EEG channels (i.e., electrodes). Thus, EEG signals can be modeled as a sequence of dynamic graphs. Specifically, at each time step t, the brain activity is represented as graph Gt = (V, At, Xt), where 
+
+V = {v1, v2, ..., vN } is the set of N EEG channels as graph nodes. At ⊆ V × V represents the edge set at time t,capturing the dynamic connectivity relationships. Each node 
+
+vi is associated with a feature matrix xit, representing the temporal and spatial characteristics of the EEG channel within the current time window. The collection of all node features at time step t is denoted as Xt = {x1 
+
+> t
+
+, x2 
+
+> t
+
+, ..., xNt }.
+
+Information Bottleneck (IB): The IB principle is an information-theoretic framework for representation learning, which aims to extract a compact yet informative representation from input data by balancing sufficiency and minimality [24], [25]. Given an input variable x and its associated label y,IB seeks to learn a stochastic representation z that preserves the information relevant for predicting y while discarding redundant information from x. Formally, the IB objective can be formulated as: min p(z|x) LIB = I(x; z) − βI (z; y),where I(x; z) is the mutual information between the input x
+
+and latent representation z, encouraging compression of input information. I(z; y) measures the predictive power of z with respect to y. β > 0 is a trade-off hyperparameter balancing compression and informativeness. z is a latent representation extracted from the input data x using a neural network. In graph learning scenario, a popular approach is to rewrite the standard IB equation as: min p(z|G x) LIB = I(Gx; z)−βI (z; y),where Gx denotes the graph data, z denotes the latent repre-sentation. 
+
+Problem 1 (Dynamic Graph-based Seizure Detection.) . Given a sequence of dynamic brain graphs Gt = ( V, At, Xt), t =1, 2, ..., T , where V denotes the set of EEG channels as nodes, 
+
+At and Xt denote the edge set and node feature set at time step t, respectively. Our goal is to predict the corresponding seizure label yt for each time step t by designing a function 
+
+f that maps the input graph sequence to the label sequence, i.e., f : {G t}Tt=1 → { yt}Tt=1 , through minimizing the seizure detection or classification error over the temporal sequence. 
+
+III. M ETHODOLOGY 
+
+A. Model Architecture 
+
+IRENE Model Architecture. Figure 1 presents an overview of our IRENE framework, which integrates IB-guided dynamic graph construction with a structure-aware encoder-decoder FP1  FP2                            
+
+> F7 F3 Fz F4 F8
+> T3 C3 Cz C4 T4
+> T5 P3 Pz P4 T6
+> O1 O2
+> Fz
+> FP1 FP2
+> F7 F3 F4 F8
+> T3 C3 Cz C4 T4
+> T5 P3 Pz P4 T6
+> O1 O2
+> Self -Expressiveness
+> Loss Information -
+> Bottleneck Loss
+> Similarity
+
+IB -Guided Graph Construction  Masking Block  Encoder Block (Graph Evolve)  Decoder (Graph Reconstruction) 
+
+> Node Masking
+> Reconstructed
+> EEG Signals
+
+EEG Tasks 
+
+EEG Seizure Classification 
+
+Seizure Detection 
+
+Yes 
+
+No 
+
+Seizure Classification   
+
+> Combined
+> Focal Seizure
+> Generalized
+> Non -Specific
+> Seizure
+> Absence
+> Seizure
+> Combined
+> Tonic Seizures
+> Graph Convolution
+> Layer Norm
+> QKV
+> Graph Structure Aware Attn.
+> Layer Normalization
+> Feed Forward Network
+> Layer Normalization
+> Graph Convolution
+> ⨁
+> ⨁
+> Graph
+> Encoder
+> Block
+> Graph
+> Transformer
+> Block
+
+𝑳  ×
+
+> Multi -Layer Perceptron
+> ⨁
+> ⨁
+> Frequency Domain
+> Representation
+> EEG Sequence
+
+Fig. 1: The architecture of the proposed IRENE framework. architecture. The entire pipeline begins with raw EEG signals, which are first transformed into the frequency domain to better capture meaningful neural oscillations. These processed signals are then passed into our IB-Guided Graph Construction 
+
+module (left block in the figure), where an initial set of node embeddings {z1 
+
+> t
+
+, z 2 
+
+> t
+
+, . . . , z Nt } is extracted for each time step t using a shared encoder. These embeddings are used to learn a dynamic adjacency matrix At via a self-expressiveness formulation regularized by an information bottleneck (IB) loss. The loss encourages the graph to maintain minimal yet task-relevant dependencies among EEG channels. Once the dynamic graph structure is obtained, it is input into the encoder-decoder backbone of IRENE for representation learning. The center block of the figure shows the graph encoder composed of two major components: (i) a Graph Encoder Block , where local spatial interactions are captured using stacked graph convolutional layers guided by At; and (ii) a Graph Transformer Block , which leverages structure-aware self-attention to model global brain interactions. The resulting node-level representations are then processed through a Multi-Layer Perceptron (MLP) for downstream seizure-related tasks. Notably, the entire model is trained end-to-end with both reconstruction and supervision signals. 
+
+Graph Learning and Model Workflow. The core learning procedure of IRENE follows a masked graph autoencoder paradigm designed to exploit the dynamics and topology of brain connectivity. As shown in the top pathway of the architecture, given an input EEG clip, we first construct a dy-namic graph at each time t using our IB-guided strategy. This involves jointly minimizing a self-expressiveness loss || Zt −
+
+ZtAt|| 2 
+
+> F
+
+to capture relational dependencies, while simultane-ously optimizing two mutual information terms λ1I(At; Zt)
+
+for compressing redundant connections and λ2I(At; Yt) for maximizing task relevance. The learned graph At is then passed into the encoder, which consists of L stacked blocks. In each block, the Graph Encoder Block performs local graph convolution guided by At, while the Graph Transformer Block applies a structure-aware attention mechanism where edge weights modulate attention scores across channels. During self-supervised pretraining, a masking block randomly oc-cludes a subset of node features, and the decoder aims to reconstruct the original features based on the learned context. This denoising-style objective enhances the model’s ability to extract robust, informative EEG representations. The fi-nal embeddings can be fine-tuned for diverse EEG analysis tasks (right block), including seizure detection and multi-class seizure classification, demonstrating IRENE’s generalization and interpretability. B. Information Bottleneck-Guided Dynamic Graph Construc-tion 
+
+EEG signals are inherently noisy and exhibit time-varying inter-channel interactions [26], [27]. Motivated by the In-formation Bottleneck (IB) theory [28], [29], we propose a principled dynamic graph construction method that extracts denoised and task-informative graph structures. At each time step t, we encode the feature vector of each EEG channel into a latent representation zit ∈ Rd×T using a shared encoder fθ .Collectively, these node-wise embeddings form a brain state collection Zt = {z1 
+
+> t
+
+, z2 
+
+> t
+
+, . . . , zNt } ∈ RN ×d×T , where each zit
+
+is treated as a distinct view of the whole underlying brain state at this moment. 
+
+Self-Expressive Graph Construction via Information Bottleneck. To uncover inter-channel dependencies while sup-pressing noise, we adopt a self-expressiveness formulation guided by an IB objective. Each node embedding is approx-imated as a sparse, weighted combination of other nodes, where the magnitude of each weight reflects the strength of the corresponding edge connection: 
+
+zit = X 
+
+> j̸=i
+
+At(i, j ) · zjt (1) Here, At ∈ RN ×N is the learnable graph adjacency matrix at time t, which encodes the inter-channel connectivity. Each coefficient At(i, j ) reflects the importance of node j in recon-structing node i, and its magnitude ϕij = |At(i, j )| is used as the structure confidence score for the attention mechanism gating, which we will introduce in section III-C. 
+
+Information Bottleneck Loss for Structure Learning. To ensure the learned graph captures compact yet discriminative structural dependencies, we treat At as the bottleneck variable and formulate an IB-based objective:               
+
+> LIB-Graph =∥Zt−ZtAt∥2
+> F
+> |{z }
+> Self-expressiveness loss
+> +λ1I(At;Zt)
+> |{z }
+> Redundancy regularization
+> −λ2I(At;Yt)
+> |{z }
+> Information maximization
+> (2)
+
+Since our goal is to optimize only the graph structure, we explicitly treat At as the information bottleneck variable. The first term encourages graph-based reconstruction of node features. The second term penalizes redundant structure by dis-couraging mutual information between At and Zt. The third term maximizes the predictive power of At for the seizure label Yt. Hyperparameters λ1 and λ2 balance compression and discriminativeness. 
+
+Temporal Consistency Regularization. Given the inher-ent temporal continuity of neural activities, brain functional connectivity is expected to evolve smoothly over time rather than exhibiting abrupt structural changes [30]. To align the learned dynamic graphs with this neurophysiological prior and encourage the smooth evolution of brain connectivity, we in-troduce a temporal consistency regularization that encourages gradual transitions in graph topology. [31], [32] Specifically, we regularize the change of graph topology in adjacent time steps, resulting in the temporal smoothness regularization: 
+
+Lsmooth = ∥At −At−1∥2 
+
+> F
+
+. This equation is based on Frobenius norm, which penalizes abrupt changes in the connectivity matrices between consecutive time steps [33]. 
+
+Final Dynamic Graph Construction. After training, we retain the learned adjacency matrix At as a soft graph with continuous edge weights. To ensure sparsity while preserving the relative importance of connections, we first apply Min-Max normalization to |At(i, j )|, which maps values to the range [0,1]. Subsequently, for each node, we apply a Top-K sparsification strategy. The resulting sparse yet weighted final adjacency matrix: ˜At ∈ [0 , 1] N ×N . The refined graph Gt =(V, ˜At, Zt) serves as the structural input to IRENE’s encoder. Furthermore, the edge weights ˜At(i, j ) are used as structure-aware confidence scores ϕij to softly gate the proposed GSA-Attn mechanism. To make the Information Bottleneck objective in Eq. (2) computationally tractable, we employ variational estimation techniques to approximate the mutual information terms 
+
+I(At; Yt) and I(At; Zt). Specifically, we adopt a contrastive lower bound to estimate the predictive term I(At; Yt), and an adversarial upper bound to estimate the redundancy term 
+
+I(At; Zt).
+
+Estimating I(At; Yt): We approximate this mutual infor-mation using InfoNCE bound [34], which transforms the estimation into a contrastive learning task. Let gϕ(At, Yt)
+
+denote a learned scoring function (e.g., a bilinear classifier), then the lower bound is: 
+
+I(At; Yt) ≥ E
+
+"
+
+log exp( gϕ(At, Yt)) 
+
+P 
+
+> y′∈N
+
+exp( gϕ(At, y′)) 
+
+#
+
+(3) where N is a set of negative samples drawn from the label distribution. This encourages the graph structure to retain seizure-discriminative information. 
+
+Estimating I(At; Zt): We estimate it using a variational upper bound based on the Donsker-Varadhan (DV) represen-tation of the KL divergence [35]. Let Tψ (At, Zt) be a critic function parameterized by a neural network. The upper bound becomes: 
+
+I(At; Zt) ≤ EP (At,Zt)[Tψ ] − log EP (At)P (Zt)[exp( Tψ )] (4) This penalizes unnecessary dependency between At and po-tentially noisy or irrelevant input features. 
+
+C. Structure-Aware Graph Transformer for EEG Representa-tion Learning 
+
+We implement IRENE as a structure-aware Graph Masked AutoEncoder, designed to model seizure-discriminative depen-dencies from IB-guided dynamic graphs in a self-supervised fashion. Its encoder adopts a Transformer-style backbone that stacks L layers of residual blocks, each composed of two submodules: a graph convolution module and a structure-aware soft mask attention mechanism. 
+
+Masking Strategy. During pretraining, we adopt a node-wise masking strategy tailored to EEG signals. At each time step t, we randomly select a subset M ⊂ V of EEG channels to be masked. For each masked node vi ∈ M , its input feature 
+
+xi is replaced by a fixed token—either a zero vector or a learned embedding—to prevent direct leakage of information. Each node’s feature corresponds to a temporal patch from its EEG signal, making the masking operation patch-level at the channel scale. The model is trained to reconstruct the original node features {xi ∈ M} from the remaining unmasked nodes and the current graph structure Gt, thereby enforcing structure-aware predictive learning. Unless otherwise stated, the masking ratio is fixed at 15% throughout pretraining. 
+
+Encoder Architecture. At each time step t, the encoder receives the dynamic graph Gt = ( V, A∗ 
+
+> t
+
+, Zt), where Zt ∈
+
+RN ×d×T is the node embedding matrix and A∗ 
+
+> t
+
+is the top-
+
+k sparsified binary adjacency matrix derived from the IB-guided graph constructor. Each encoder block begins with two stacked GCN layers to capture local neighborhood information under the structural prior A∗ 
+
+> t
+
+. The resulting representation is then passed to a full-graph self-attention module, which enables long-range interaction across EEG channels. Residual connection and layer normalization are applied after each submodule to enhance stability and gradient flow, following standard Transformer design. 
+
+Graph Structure-Aware Attention. To incorporate the IB-derived graph structure into attention computation, we introduce a graph structure-aware (GSA) attention mechanism. For each node pair (i, j ), the attention score is computed as: 
+
+αij = softmax j
+
+ q⊤ 
+
+> i
+
+kj
+
+√d + γ · ϕij 
+
+
+
+(5) Here, qi and kj denote the query and key vectors of node 
+
+i and j, respectively, computed via linear projections of the input node representations. γ is a learnable parameter that balances the influence of the structural prior. ϕij is the structure confidence score derived as ϕij = |At(i, j )|, where 
+
+At(i, j ) is the self-expressiveness coefficient learned from the IB-guided graph constructor. Once attention weights αij are obtained, each node up-dates its representation by aggregating information from its neighbors, weighted by attention scores: h′ 
+
+> i
+
+= PNj=1 αij · hj ,where hj is the value vector of node j, also obtained via a learned linear transformation of the input embedding hj . The updated feature h′ 
+
+> i
+
+captures both content-based relevance and structural plausibility (via ϕij ). The attention mechanism is followed by a residual connection and layer normalization: 
+
+˜hi = LayerNorm (hi + h′
+
+> i
+
+). This formulation allows IRENE to softly constrain its attention flow using biologically grounded structural priors, while retaining the flexibility of full-graph attention to discover non-obvious dependencies. As a result, the encoder learns robust and physiologically meaningful EEG representations under both noisy and label-scarce conditions. 
+
+D. Model Training Strategy and Loss Function 
+
+We adopt a two-stage training strategy that separates rep-resentation pretraining from downstream seizure classifica-tion. This approach enables the encoder to first learn robust, structure-aware EEG features in a self-supervised manner before adapting to the final prediction task. 
+
+Stage 1: Pretraining with Self-Supervised Objectives. In the first stage, we optimize IRENE’s encoder by jointly minimiz-ing a reconstruction objective and the Information Bottleneck-guided graph construction losses. The total pretraining loss is defined as: 
+
+Lpretrain = LIB-Graph + λ3Lsmooth + λ4Lrecon (6) Here, LIB-Graph enforces the compactness and task-relevance of the learned dynamic graph structures, while Lsmooth pro-motes temporal consistency by regularizing abrupt topology changes across adjacent time steps. The reconstruction loss 
+
+Lrecon encourages the encoder to learn structure-aware rep-resentations that can predict missing node features from the surrounding graph context. Specifically, given a randomly masked subset of EEG channels M ⊂ V at each time step, we reconstruct the original node features {xi}i∈M from their latent embeddings using a shared MLP Decoder ψ (·):
+
+ˆxi = Decoder ψ (hi), ∀i ∈ M (7) The reconstruction loss is computed as the Mean Squared Error (MSE) between the reconstructed and original features of the masked nodes: Lrecon = 1
+
+> |M|
+
+P 
+
+> i∈M
+
+∥ˆxi − xi∥22. This objective forces the encoder to capture discriminative and robust spatial dependencies, enhancing its ability to generalize under noisy and label-scarce conditions. 
+
+Stage 2: Fine-Tuning for Seizure Classification. Once pretraining is complete, we fix the encoder parameters, and attach a task-specific classification head (e.g., a multi-layer perceptron) to the encoder. The model is then fine-tuned using the Cross-Entropy Loss over true labels. This two-stage setup allows the model to first develop generalized graph-aware representations and then specialize to seizure classification, enhancing both robustness and discriminative power. IV. E XPERIMENTAL EVALUATION 
+
+In this section, we conduct extensive experiments to evaluate the effectiveness, robustness, and interpretability of our pro-posed method. Specifically, we aim to address the following research questions: RQ1. Does our method show improve performance compared to state-of-the-art EEG graph learning baselines? RQ2. To what extent does the IB principle reduce redundant edges in the constructed graphs, and how does this affect model interpretability? RQ3. How do different components of IRENE contribute to its overall performance? In the following sections, we first introduce the experimental settings and datasets, followed by detailed results and analysis to answer each of the above questions. 
+
+A. Experimental Settings 
+
+Dataset. We conduct experiments on the publicly available EEG seizure benchmark dataset: the Temple University Hos-pital EEG Seizure Corpus (TUSZ) v1.5.2 [36], [37]. TUSZ is currently one of the largest clinical EEG corpora for seizure detection, comprising 5,612 EEG recordings and 3,050 seizure annotations. It includes 19 EEG channels recorded using the standard 10-20 system, covering a broad range of subjects across diverse clinical conditions. For additional interpretabil-ity analyses, we leverage the seizure onset-offset labels and event type annotations provided in TUSZ dataset. Baseline Methods. To comprehensively evaluate the effec-tiveness of our proposed method, we compare it against a diverse set of baseline models spanning four categories. (i) As classic deep learning baselines without graph modeling, we include the standard LSTM network [38] and ResNet-LSTM [39], which combines residual convolutional layers with temporal recurrence for seizure detection. (ii) For static graph-based modeling, we evaluate Dist-DCRNN [12], which builds a distance-based fixed connectivity graph and applies diffusion convolutional recurrent network. (iii) To benchmark against dynamic graph learning approaches tailored for EEG, we include GRAPHS4MER [40], NeuroGNN [41], and Corr-DCRNN [12], all of which learn time-evolving brain connec-tivity graphs to capture transient neural dynamics. 
+
+Evaluation Metrics. To provide a comprehensive and robust evaluation, we adopt three widely-used evaluation metrics in EEG seizure detection and classification [9], [12], [42]: Accuracy [42], F1 score [9], and Area Under the Receiver Operating Characteristic curve (AUROC) [12]. (i) Accuracy 
+
+measures the overall proportion of correctly predicted samples out of all predictions. It is the most commonly adopted criteria in classification tasks. (ii) F1 score is the harmonic mean of Precision and Recall, balancing the trade-off between false positives and false negatives. It is particularly suitable for imbalanced EEG datasets. F1 offers a single summary measure that reflects both the model’s precision and sensitivity to seizure events. (iii) AUROC evaluates the model’s ability to distinguish between seizure and non-seizure classes across all possible decision thresholds. It is computed as the area under the ROC curve, which plots the true positive rate (recall) against the false positive rate. 
+
+Experimental Settings. All experiments are conducted using an NVIDIA A100 GPU. Adam optimization [43] with an initial learning rate of 3e−4 and a weight decay of 1e−5
+
+is employed in the experiments. Batch size is set to 32 for training and 64 for evaluation. Our model is trained using EEG recordings from TUSZ dataset, which are preprocessed into 12s/60s non-overlapping clips and resampled to a fixed frequency. Input features were z-score normalized using statis-tics computed on the training set. During training, we balanced seizure and non-seizure samples by random undersampling of the majority class. The model parameters are randomly initialized and optimized to maximize AUROC on the vali-dation set. To ensure robustness, we conduct 5 independent training runs with different random seeds and report the mean performance. Early stopping is applied based on the validation AUROC. For all graph-based models, adjacency matrices are dynamically calculated from EEG signal correlations or loaded from precomputed spatial priors. 
+
+B. Performance Evaluation 
+
+To answer RQ1 , we compare IRENE against a suite of representative baselines on seizure detection tasks using the TUSZ dataset, under both 12-second and 60-second EEG clip settings. F1-Score, Recall, and AUROC are used as evaluation metrics, and the results are summarized in Table I. The ROC curves and confusion matrices are further provided in Figure 2(a)-(b). We have the following key observations: (1) IRENE consistently outperforms all baselines across all metrics and clip lengths, achieving the highest F1-Score and AUROC, highlighting its robustness and effectiveness. (2) Traditional RNN-based methods (LSTM, ResNet-LSTM) perform poorly, while graph-based models like Dist-DCRNN and Corr-DCRNN offer notable gains by modeling spatial dependencies, yet still fall short of IRENE. (3) Although GraphS4mer leverages a Transformer backbone, its sensitivity to noise and lack of dynamic graph modeling limit its recall. (4) As shown in Figure 2(b), IRENE achieves particularly strong performance in detecting challenging seizure types such as CF (Focal Seizure with Consciousness Impairment) and GN (Generalized Non-Motor Seizure), while also improving detection of AB (Absence Seizure) and CT (Clonic Seizure Type). These seizure types exhibit heterogeneous patterns and subtle EEG manifestations, where conventional methods struggle. IRENE demonstrates higher true positive rates and improved accuracy, reflecting its sensitivity to subtle seizure dynamics. 
+
+C. Effectiveness of Graph Structure 
+
+To answer RQ2 , we evaluate the impact of different graph construction methods on both model performance (Figure 3 & Table II) and graph interpretability (Figure 4) by com-paring IRENE with several mainstream approaches, including Distance-based graph (D-G + IRENE), Cross-Correlation-based graph (CC-G + IRENE), Temporal similarity-based (TS-
+
+G + IRENE), and Semantic Similarity-based graph (SS-G). (Figure 3 presents the F1 scores of the IRENE model for seizure detection and classification tasks under different graph construction methods, with Figure 3 (a) and (b) presents the 12s/60s clips, respectively.) Below, we further explain the labels used in Figure 3. For example, variant “D-G + IRENE” means that we replace the Information Bottleneck-based graph construction method in IRENE with the distance-based graph construction method [12]. We observe that simple heuristic-based graphs, such as distance-based and cross-correlation-based graphs, yield relatively low F1 scores (e.g., 0.705/0.709 and 0.710/0.712), indicating their limited capability to cap-ture discriminative EEG connectivity patterns. Incorporating more informative similarity measures, such as temporal and semantic similarity, improves performance, reflecting better task-relevant structure modeling. Notably, our proposed IB-based graph construction method achieves the highest F1 scores on detection and classification. This demonstrates the effectiveness of the IB principle in suppressing task-irrelevant noise and redundant edges, leading to more discriminative graph structures and superior downstream performance. 
+
+D. Graph Structure Interpretability 
+
+To assess the interpretability of IRENE’s learned dynamic graphs for EEG seizure detection, we conduct a qualitative visualization study on a representative EEG sequence where a seizure gradually emerges, intensifies, and eventually subsides. TABLE I: Performance comparison among different methods on seizure detection task. 
+
+Method Detection-12s Detection-60s F1 Recall AUROC F1 Recall AUROC 
+
+LSTM 0.580 ± 0.043 0.624 ± 0.033 0.836 ± 0.022 0.592 ± 0.033 0.638 ± 0.017 0.841 ± 0.026 
+
+ResNet-LSTM 0.598 ± 0.035 0.653 ± 0.031 0.843 ± 0.022 0.625 ± 0.027 0.663 ± 0.030 0.850 ± 0.014 
+
+Dist-DCRNN 0.713 ± 0.044 0.735 ± 0.043 0.866 ± 0.016 0.695 ± 0.028 0.733 ± 0.014 0.875 ± 0.015 
+
+Corr-DCRNN 0.729 ± 0.038 0.756 ± 0.041 0.861 ± 0.005 0.722 ± 0.038 0.732 ± 0.021 0.873 ± 0.012 
+
+NeuroGNN 0.647 ± 0.040 0.710 ± 0.024 0.865 ± 0.019 0.698 ± 0.044 0.733 ± 0.042 0.871 ± 0.021 
+
+GraphS4mer 0.690 ± 0.034 0.721 ± 0.025 0.882 ± 0.014 0.680 ± 0.012 0.718 ± 0.041 0.885 ± 0.012 
+
+IRENE (Ours) 0.749 ± 0.032 0.782 ± 0.026 0.908 ± 0.011 0.753 ± 0.028 0.788 ± 0.022 0.916 ± 0.013 0.0 0.2 0.4 0.6 0.8 1.0 
+
+False Positive Rate 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+> True Positive Rate
+
+12-s EEG Clips ROC Curves 
+
+IRENE, AUROC = 0.914 
+
+LSTM, AUROC = 0.836 
+
+ResNet-LSTM, AUROC = 0.843 
+
+Dist-DCRNN, AUROC = 0.866 
+
+Corr-DCRNN, AUROC = 0.861 
+
+NeuroGNN, AUROC = 0.865 
+
+GraphS4mer, AUROC = 0.882 
+
+(a) ROC curves CF GN AB CT 
+
+Predicted label             
+
+> CF
+> GN
+> AB
+> CT
+> True label
+> 0.93 0.05 0.00 0.02
+> 0.45 0.43 0.00 0.12
+> 0.02 0.04 0.92 0.02
+> 0.26 0.04 0.05 0.65
+
+Corr-DCRNN CF GN AB CT 
+
+Predicted label             
+
+> CF
+> GN
+> AB
+> CT
+> True label
+> 0.92 0.06 0.00 0.01
+> 0.46 0.43 0.01 0.10
+> 0.04 0.02 0.94 0.00
+> 0.26 0.05 0.08 0.61
+
+Dist-DCRNN CF GN AB CT 
+
+Predicted label                
+
+> CF
+> GN
+> AB
+> CT
+> True label
+> 0.92 0.06 0.01 0.01
+> 0.61 0.38 0.01 0.00
+> 0.03 0.06 0.91 0.00
+> 0.32 0.22 0.40 0.06
+> ResNet-LSTM CF GN AB CT
+
+Predicted label             
+
+> CF
+> GN
+> AB
+> CT
+> True label
+> 0.88 0.07 0.03 0.02
+> 0.40 0.52 0.06 0.02
+> 0.02 0.05 0.93 0.00
+> 0.20 0.08 0.37 0.36
+
+GraphS4mer CF GN AB CT 
+
+Predicted label                
+
+> CF
+> GN
+> AB
+> CT
+> True label
+> 0.91 0.04 0.03 0.02
+> 0.48 0.40 0.03 0.09
+> 0.02 0.03 0.92 0.03
+> 0.24 0.01 0.13 0.62
+> NeuroGNN CF GN AB CT
+
+Predicted label              
+
+> CF
+> GN
+> AB
+> CT
+> True label
+> 0.94 0.04 0.01 0.01
+> 0.22 0.69 0.07 0.02
+> 0.01 0.03 0.96 0.00
+> 0.13 0.00 0.00 0.87
+> IRENE (FULL Model)
+
+(b) Confusion matrices 
+
+Fig. 2: (a) ROC curves for seizure detection on 12s EEG clips. (b) Confusion matrices for each baseline model on 12s clip seizure classification. IRENE shows improved per-class prediction accuracy, particularly for the most challenging CT class. TABLE II: Edge density of different graph construction meth-ods integrated with IRENE. 
+
+Graph Construction Method Edge Density 
+
+Distance-based G [12] + IRENE 0.31 Cross-Correlation G [12] + IRENE 0.72 Temporal Sim. G [41] + IRENE 0.47 Semantic Sim. G [41] + IRENE 0.38 
+
+Original IRERE (w IB-based G) 0.16 D- + IRENE   
+
+> CC- + IRENE
+> TS- + IRENE
+> SS- + IRENE
+> IRERE (w IB- )
+> 0.69
+> 0.70
+> 0.71
+> 0.72
+> 0.73
+> 0.74
+> 0.75
+> 0.76
+> 0.77
+> 0.78
+> F1 Score
+> 0.703 0.706
+> 0.728 0.730
+> 0.749
+> 0.707
+> 0.702
+> 0.729
+> 0.744
+> 0.768
+> F1-Score on 12s Clips under Various Graph Construction
+> Seizure Detection
+> Seizure Classification
+
+(a) D- + IRENE    
+
+> CC- + IRENE
+> TS- + IRENE
+> SS- + IRENE
+> IRERE (w IB- )
+> 0.70
+> 0.71
+> 0.72
+> 0.73
+> 0.74
+> 0.75
+> 0.76
+> 0.77
+> 0.78
+> 0.79
+> F1 Score
+> 0.705
+> 0.710
+> 0.738 0.736
+> 0.753
+> 0.709 0.712
+> 0.742
+> 0.751
+> 0.774
+> F1-Score on 60s Clips under Various Graph Construction
+> Seizure Detection
+> Seizure Classification
+
+(b) 
+
+Fig. 3: Performance of IRENE when using different graph construction methods. We illustrate how various graph struc-tures, including distance-based graph (D-G + IRENE), cross-correlation (CC-G + IRENE), temporal similarity-based graph (TS-G + IRENE), semantic similarity graph (SS-G), and our IB-based dynamic graph, impact the model’s F1-Scores. The TUSZ dataset provides channel-level seizure annotations, for example, it specifies which EEG electrodes (e.g., Frontal 7: F7) are involved during seizure events, as identified by clinical experts. Therefore, we select six representative time windows from a seizure recording, spanning the pre-ictal, onset, ictal, and post-ictal phases. For each time window, we visualize the graph structures learned by IRENE and compare them with those generated by several dynamic graph construction base-lines, including cross-correlation-based, temporal similarity-based, and semantic similarity-based methods. Additionally, we include the corresponding ground-truth graphs derived from TUSZ annotations to evaluate how effectively each method captures meaningful seizure-related patterns. As shown in Figure 4, in the ground-truth graphs, we observe a clear transition from sparsely connected networks in the pre-ictal phase to more densely connected structures during the ictal period, particularly among the frontal and temporal electrodes. These stronger and thicker edges indi-cate clinically relevant synchronization among seizure-related regions. Our method, IRENE, captures such transition by adaptively strengthening connections in seizure-critical regions during the ictal phase, while maintaining a sparse and dis-criminative structure in the pre-ictal and post-ictal phases. For example, during the ictal phase (column 3-4), IRENE highlights strong edges among electrodes such as F7, T3, and TABLE III: Analysis of the contribution of key model components.                                                                                            
+
+> Model Variant Detection 60-s Classification 60-s F1 AUROC F1 AUROC
+> w/o IB-G0.728 ±0.019 0.884 ±0.017 0.745 ±0.018 0.896 ±0.021 w/o Lrecon 0.737 ±0.023 0.893 ±0.022 0.758 ±0.022 0.904 ±0.018 w/o GSA-Attn 0.733 ±0.024 0.895 ±0.026 0.754 ±0.019 0.895 ±0.023 w/o Pre-training 0.721 ±0.018 0.881 ±0.024 0.749 ±0.023 0.893 ±0.025 w Full AutoEnc. 0.732 ±0.021 0.897 ±0.018 0.757 ±0.016 0.901 ±0.018 w/o Lsmooth 0.744 ±0.012 0.903 ±0.021 0.765 ±0.013 0.908 ±0.015
+> IRENE 0.753 ±0.021 0.916 ±0.013 0.774 ±0.015 0.918 ±0.017
+
+T5, consistent with the ground-truth annotations. In contrast, alternative methods like cross-correlation or temporal simi-larity often produce overly dense graphs, introducing noisy over-connectivities to the graphs. TABLE IV: Average edge density of each method constructed graphs in Figure 4.       
+
+> Model Avg. Edge Density
+> Ground-Truth Graph 0.0575 IRENE (Ours) 0.0636 Cross-Correlation 0.369 Temporal Similarity 0.197 Semantic Similarity 0.183
+
+Given another example, during early seizure onset, IRENE emphasizes edges near temporal and central electrodes, which match expert-identified propagation patterns, while others fail to localize such activity. These results highlight that IRENE not only achieves superior performance but also learns graphs with greater clinical plausibility, supporting its interpretability and potential for aiding neurological diagnosis. Compared to IRENE, the baseline methods exhibit notable limitations in generating clinically meaningful connectivity patterns. The Cross-Correlation-based graphs often appear overly dense and fail to reflect spatially localized interactions, leading to spurious long-range connections that dilute the signal of seizure-relevant regions. In several windows, this method mistakenly assigns high connectivity to frontal or occipital channels with minimal seizure activity. The Temporal Similarity-based graphs exhibit better temporal smoothness but lack spatial precision, frequently generating uniform or hub-like patterns that obscure localized propagation paths. Semantic Similarity-based graphs encode abstract relation-ships between EEG channels but struggle to adapt to rapid physiological changes during seizure onset, resulting in graphs that remain largely unchanged across time and fail to capture seizure dynamics. In contrast, IRENE dynamically adjusts its graph structure to emphasize transient, localized interactions aligned with seizure progression. These observations demon-strate that IRENE can capture accurate brain connectivity patterns and offer interpretable graph representations that align more closely with clinically identified epileptogenic zones. The density and regional coverage of learned graphs may provide valuable insights for localizing seizure regions, sup-porting both surgical planning and fundamental discoveries. Furthermore, to quantitatively support this observation, we calculate the average edge density for each graph construction method across the 6 selected windows, as shown in Table IV. The ground-truth graphs exhibit an average edge density of 0.0575, reflecting their inherently sparse yet clinically meaningful connectivity. IRENE’s learned graphs achieve an average density of 0.0636, closely matching the ground truth, indicating its ability to balance sparsity and informativeness. In contrast, the baseline methods generate significantly denser graphs (e.g., Cross-Correlation: 0.369, Temporal Similarity: 0.197, Semantic Similarity: 0.183), underscoring their ten-dency towards excessive and less meaningful connections. 
+
+E. Ablation Study and Component Analysis 
+
+To answer RQ3 , we perform ablation studies to assess the contribution of key components in IRENE. Table III summa-rizes the results using simplified variant notations. w/o IB-G
+
+removes the IB-based dynamic graph module, causing notable performance drops in both tasks, confirming the necessity of learning sparse, task-relevant inter-channel dependencies. w/o 
+
+Lrecon , which discards the masked feature reconstruction loss during pretraining, also degrades performance, demonstrating the role of local context modeling in enhancing representation robustness. w/o GSA-Attn excludes the Graph Structure-Aware Attention, reducing the model capacity to effectively propagate information using graph priors. w/o Pretraining ,trained directly on classification without self-supervised pre-training, exhibits the largest performance decline, highlighting the importance of progressive representation learning. w Full Autoencoder , where masked autoencoding is replaced with full autoencoding, shows slight degradation, indicating that selective node masking better encourages the model to focus on informative dependencies. Lastly, w/o Lsmooth omits the temporal consistency loss, resulting in minor declines yet verifying its role in ensuring stable dynamic connectivity. The results demonstrate that IRENE’s superior performance stems from the synergistic integration of IB-guided graph, structure-aware attention, and self-supervised objectives. V. C ONCLUSION 
+
+In this work, we present IRENE, a novel structure-aware Graph Masked AutoEncoder framework for EEG-based seizure detection and classification. This work addresses crit-ical challenges in dynamic graph structure learning for noisy and heterogeneous EEG data. Specifically, IRENE introduces FP1  FP2                                                                                    
+
+> F7 F3 Fz F4 F8
+> T3 C3 Cz C4 T4
+> T5 P3 Pz P4 T6
+> O1 O2
+> FP1 FP2
+> F7 F3 Fz F4 F8
+> T3 C3 Cz C4 T4
+> T5 P3 Pz P4 T6
+> O1 O2
+> FP1 FP2
+> F7 F3 Fz F4 F8
+> T3 C3 Cz C4 T4
+> T5 P3 Pz P4 T6
+> O1 O2
+> FP1 FP2
+> F7 F3 Fz F4 F8
+> T3 C3 Cz C4 T4
+> T5 P3 Pz P4 T6
+> O1 O2
+> FP1 FP2
+> F7 F3 Fz F4 F8
+> T3 C3 Cz C4 T4
+> T5 P3 Pz P4 T6
+> O1 O2
+> FP1 FP2
+> F7 F3 Fz F4 F8
+> T3 C3 Cz C4 T4
+> T5 P3 Pz P4 T6
+> O1 O2
+> Ground -Truth graph IRENE (Ours) Cross -Correlation Temporal Sim. Semantic Sim.
+
+Pre -ictal  Onset  Ictal  Ictal  Post -ictal  Post -ictal Fig. 4: Visualization of learned dynamic EEG graphs across different brain states. Each subfigure in each row shows a learned dynamic graph structure generated by a specific method. We have the following observations for IRENE constructed graphs: In the normal state, the graphs exhibit sparse and weakly connected structures. As seizure onset approaches, the graphs display stronger and more centralized connections, closely resemble to the ground-truth structure patterns and connectivity dynamics. an Information Bottleneck-guided graph construction method that explicitly models task-informative and sparse inter-channel dependencies. Furthermore, we design a structure-aware soft mask attention mechanism that leverages struc-tural priors to enhance feature propagation while preserving interpretability. Complemented by a self-supervised masked reconstruction objective, IRENE effectively learns robust and discriminative EEG representations, even under limited labeled data and patient variability. Extensive experiments on real-world seizure datasets demonstrate that IRENE consistently outperforms state-of-the-art baselines across multiple evalua-tion metrics. IRENE exhibits strong generalization capabilities across varying clip lengths and graph construction paradigms. Overall, this work provides a principled and effective solution for accurate and interpretable seizure diagnosis, with poten-tial future extensions to other graph-based biomedical signal modeling tasks. REFERENCES [1] M. Kalkach-Aparicio, S. Fatima, A. Selte, I. S. Sheikh, J. Cormier, K. Gallagher, G. Avagyan, J. Cespedes, P. V. Krishnamurthy, A. A. Elazim et al. , “Seizure assessment and forecasting with efficient rapid-eeg: a retrospective multicenter comparative effectiveness study,” Neu-rology , vol. 103, no. 2, p. e209621, 2024. [2] T. Loddenkemper, “Detect, predict, and prevent acute seizures and status epilepticus,” Epilepsy & Behavior , vol. 141, p. 109141, 2023. [3] Z. Chen, L. Zhu, H. Jia, and T. Matsubara, “A two-view eeg repre-sentation for brain cognition by composite temporal-spatial contrastive learning,” in Proceedings of the 2023 SIAM International Conference on Data Mining (SDM) , 2023, pp. 334–342. [4] C. Yang, M. Westover, and J. Sun, “Biot: Biosignal transformer for cross-data learning in the wild,” in Advances in Neural Information Processing Systems , 2023, pp. 78 240–78 260. [5] K. Yi, Y. Wang, K. Ren, and D. Li, “Learning topology-agnostic eeg representations with geometry-aware modeling,” in Advances in Neural Information Processing Systems , 2023, pp. 53 875–53 891. [6] Z. Chen, Y. Matsubara, Y. Sakurai, and J. Sun, “Long-term eeg parti-tioning for seizure onset detection,” Proceedings of the AAAI Conference on Artificial Intelligence , pp. 14 221–14 229, 2025. [7] J. He, J. Cui, G. Zhang, M. Xue, D. Chu, and Y. Zhao, “Spatial–temporal seizure detection with graph attention network and bi-directional lstm architecture,” Biomedical Signal Processing and Control , vol. 78, p. 103908, 2022. [8] Y. Li, Y. Yang, Q. Zheng, Y. Liu, H. Wang, S. Song, and P. Zhao, “Dynamical graph neural network with attention mechanism for epilepsy detection using single channel eeg,” Medical & Biological Engineering & Computing , vol. 62, no. 1, pp. 307–326, 2024. [9] J. Chen, Y. Yang, T. Yu, Y. Fan, X. Mo, and C. Yang, “Brainnet: Epileptic wave detection from seeg with hierarchical graph diffusion learning,” in Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining , 2022, pp. 2741–2751. [10] D. Klepl, M. Wu, and F. He, “Graph neural network-based eeg classification: A survey,” IEEE Transactions on Neural Systems and Rehabilitation Engineering , vol. 32, pp. 493–503, 2024. [11] T. K. K. Ho and N. Armanfard, “Self-supervised learning for anomalous channel detection in eeg graphs: Application to seizure analysis,” in 
+
+Proceedings of the AAAI conference on artificial intelligence , vol. 37, no. 7, 2023, pp. 7866–7874. [12] S. Tang, J. Dunnmon, K. K. Saab, X. Zhang, Q. Huang, F. Dubost, D. Rubin, and C. Lee-Messer, “Self-supervised graph neural networks for improved electroencephalographic seizure analysis,” in International Conference on Learning Representations , 2022. [13] A. ¨ Ozkahraman, T. ¨ Olmez, and Z. Dokur, “Impact of noise elimination methods on classification performance in motor imagery eeg,” in Novel & Intelligent Digital Systems Conferences . Springer, 2024, pp. 78–89. [14] E. Y. Lim, K. Yin, H.-B. Shin, and S.-W. Lee, “Baseline-guided representation learning for noise-robust eeg signal classification,” in 46th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC) . IEEE, 2024, pp. 1–4. [15] T. N. Kipf and M. Welling, “Semi-supervised classification with graph convolutional networks,” arXiv preprint arXiv:1609.02907 , 2016. [16] F. Wu, A. Souza, T. Zhang, C. Fifty, T. Yu, and K. Weinberger, “Simplifying graph convolutional networks,” in International conference on machine learning . Pmlr, 2019, pp. 6861–6871. [17] M. Dong and Y. Kluger, “Towards understanding and reducing graph structural noise for gnns,” in International Conference on Machine Learning . PMLR, 2023, pp. 8202–8226. [18] X. Liu, L. Hu, S. Wang, and J. Shen, “Localization of seizure onset zone with epilepsy propagation networks based on graph convolutional network,” Biomedical Signal Processing and Control , vol. 74, p. 103489, 2022. [19] Y. Zhao, C. Dong, G. Zhang, Y. Wang, X. Chen, W. Jia, Q. Yuan, F. Xu, and Y. Zheng, “Eeg-based seizure detection using linear graph convolution network with focal loss,” Computer Methods and Programs in Biomedicine , vol. 208, p. 106277, 2021. [20] S. Wong, A. Simmons, J. Rivera-Villicana, S. Barnett, S. Sivathamboo, P. Perucca, Z. Ge, P. Kwan, L. Kuhlmann, and T. J. O’Brien, “Channel-annotated deep learning for enhanced interpretability in eeg-based seizure detection,” Biomedical Signal Processing and Control , vol. 103, p. 107484, 2025. [21] Y. Yang, N. D. Truong, C. Maher, A. Nikpour, and O. Kavehei, “Continental generalization of a human-in-the-loop ai system for clinical seizure recognition,” Expert Systems with Applications , vol. 207, p. 118083, 2022. [22] K. Raeisi, M. Khazaei, G. Tamburro, P. Croce, S. Comani, and F. Zap-pasodi, “A class-imbalance aware and explainable spatio-temporal graph attention network for neonatal seizure detection,” International Journal of Neural Systems , vol. 33, no. 09, p. 2350046, 2023. [23] P. Peng, Y. Song, L. Yang, and H. Wei, “Seizure prediction in eeg signals using stft and domain adaptation,” Frontiers in Neuroscience , vol. 15, p. 825434, 2022. [24] N. Tishby, F. C. Pereira, and W. Bialek, “The information bottleneck method,” arXiv preprint physics/0004057 , 2000. [25] A. A. Alemi, I. Fischer, J. V. Dillon, and K. Murphy, “Deep variational information bottleneck,” arXiv preprint arXiv:1612.00410 , 2016. [26] X. Fan, P. Xu, W. Sun, S. Yang, Q. Zhao, C. Hao, Z. He, Z. Zhao, and Z. Wang, “Eeg-based seizure type classification with temporal-spatial-spectral attention,” in 2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM) , 2024, pp. 4150–4157. [27] Z. Li, K. Hwang, K. Li, J. Wu, and T. Ji, “Graph-generative neural network for eeg-based epileptic seizure detection via discovery of dynamic brain functional connectivity,” Scientific reports , vol. 12, no. 1, 2022. [28] Q. Sun, J. Li, H. Peng, J. Wu, X. Fu, C. Ji, and P. S. Yu, “Graph structure learning with variational information bottleneck,” in Proceedings of the AAAI conference on artificial intelligence , vol. 36, no. 4, 2022, pp. 4165– 4174. [29] C. Wei, J. Liang, D. Liu, and F. Wang, “Contrastive graph structure learning via information bottleneck for recommendation,” Advances in neural information processing systems , vol. 35, pp. 20 407–20 420, 2022. [30] W. H. Thompson, Brain networks in time: deriving and quantifying dynamic functional connectivity . Karolinska Institutet (Sweden), 2017. [31] D. Kong, A. Zhang, and Y. Li, “Learning persistent community struc-tures in dynamic networks via topological data analysis,” in Proceedings of the AAAI Conference on Artificial Intelligence , vol. 38, no. 8, 2024, pp. 8617–8626. [32] P. Bao, J. Li, R. Yan, and Z. Liu, “Dynamic graph contrastive learning via maximize temporal consistency,” Pattern Recognition , vol. 148, p. 110144, 2024. [33] Z. Liu and M. Hauskrecht, “Learning linear dynamical systems from multivariate time series: A matrix factorization based framework,” in 
+
+Proceedings of the 2016 SIAM International Conference on Data Mining (SDM) , 2016, pp. 810–818. [34] M. Tschannen, J. Djolonga, P. K. Rubenstein, S. Gelly, and M. Lucic, “On mutual information maximization for representation learning,” 
+
+arXiv preprint arXiv:1907.13625 , 2019. [35] S. Ghimire, A. Masoomi, and J. Dy, “Reliable estimation of kl diver-gence using a discriminator in reproducing kernel hilbert space,” Ad-vances in Neural Information Processing Systems , vol. 34, pp. 10 221– 10 233, 2021. [36] V. Shah, E. Von Weltin, S. Lopez, J. R. McHugh, L. Veloso, M. Gol-mohammadi, I. Obeid, and J. Picone, “The temple university hospital seizure detection corpus,” Frontiers in neuroinformatics , vol. 12, p. 83, 2018. [37] S. Rahman, A. Hamid, D. Ochal, I. Obeid, and J. Picone, “Improving the quality of the tusz corpus,” in 2020 IEEE Signal Processing in Medicine and Biology Symposium (SPMB) . IEEE, 2020, pp. 1–5. [38] S. Hochreiter and J. Schmidhuber, “Long short-term memory,” Neural computation , vol. 9, no. 8, pp. 1735–1780, 1997. [39] K. Lee, H. Jeong, S. Kim, D. Yang, H.-C. Kang, and E. Choi, “Real-time seizure detection using eeg: A comprehensive comparison of recent approaches under a realistic setting,” in Conference on Health, Inference, and Learning . PMLR, 2022, pp. 311–337. [40] S. Tang, J. A. Dunnmon, Q. Liangqiong, K. K. Saab, T. Baykaner, C. Lee-Messer, and D. L. Rubin, “Modeling multivariate biosignals with graph neural networks and structured state space models,” in 
+
+Proceedings of the Conference on Health, Inference, and Learning ,2023, pp. 50–71. [41] A. Hajisafi, H. Lin, Y.-Y. Chiang, and C. Shahabi, “Dynamic gnns for precise seizure detection and classification from eeg data,” in Pacific-Asia Conference on Knowledge Discovery and Data Mining . Springer, 2024, pp. 207–220. [42] J. Wang, S. Liang, J. Zhang, Y. Wu, L. Zhang, R. Gao, D. He, and C.-J. R. Shi, “Eeg signal epilepsy detection with a weighted neighbor graph representation and two-stream graph-based framework,” IEEE Transactions on Neural Systems and Rehabilitation Engineering , vol. 31, pp. 3176–3187, 2023. [43] D. P. Kingma and J. Ba, “Adam: A method for stochastic optimization,” 
+
+arXiv preprint arXiv:1412.6980 , 2014.
