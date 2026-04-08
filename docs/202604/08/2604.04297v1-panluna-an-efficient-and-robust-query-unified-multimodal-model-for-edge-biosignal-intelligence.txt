@@ -1,0 +1,195 @@
+Title: PanLUNA: An Efficient and Robust Query-Unified Multimodal Model for Edge Biosignal Intelligence
+
+URL Source: https://arxiv.org/pdf/2604.04297v1
+
+Published Time: Tue, 07 Apr 2026 01:16:24 GMT
+
+Number of Pages: 5
+
+Markdown Content:
+# PanLUNA: An Efficient and Robust Query-Unified Multimodal Model for Edge Biosignal Intelligence 
+
+Marija Zelic ∗, Anna Tegon ∗, Yawei Li ∗, Thorir Mar Ingolfsson ∗, Luca Benini ∗† ∗Integrated Systems Laboratory, ETH Z¨ urich, Z¨ urich, Switzerland 
+
+†DEI, University of Bologna, Bologna, Italy 
+
+Abstract —Physiological foundation models (FMs) have shown promise for biosignal representation learning, yet most remain confined to a single modality such as EEG, ECG, or PPG, largely because paired multimodal datasets are scarce. In this paper, we present PanLUNA, a compact 5.4M-parameter pan-modal FM that jointly processes EEG, ECG, and PPG within a single shared encoder. Extending LUNA’s channel-unification module, PanLUNA treats multimodal channels as entries in a unified query set augmented with sensor-type embeddings, enabling effi-cient cross-modal early fusion while remaining inherently robust to missing modalities at inference time. Despite its small footprint, PanLUNA matches or exceeds models up to 57 × larger: 81.21% balanced accuracy on TUAB abnormal EEG detection and state-of-the-art 0.7416 balanced accuracy on HMC multimodal sleep staging. Quantization-aware training with INT8 weights recovers 
+
+≥96% of full-precision performance, and deployment on the GAP9 ultra-low-power RISC-V microcontroller for wearables achieves 325.6 ms latency and 18.8 mJ per 10-second, 12-lead ECG inference, and 1.206 s latency at 68.65 mJ for multimodal 5-channel sleep staging over 30-second epochs. 
+
+Index Terms —EEG, ECG, PPG, foundation models, multi-modal learning 
+
+I. I NTRODUCTION 
+
+Physiological foundation models (FMs) have emerged as a powerful paradigm for biosignal analysis, enabling self-supervised pretraining on large unlabeled corpora, followed by task-specific fine-tuning [1]–[3]. However, existing FMs are largely confined to single modalities–ECG-only [3], EEG-only [1], or PPG-only [4]–primarily because the most acces-sible large-scale datasets are unimodal. Since the human body operates as an integrated biological system, physiological con-ditions manifest across a broad spectrum of signals; leveraging multiple biosignal modalities is therefore essential for holistic health assessment. Recent work corroborates this: cross-modal transfer from EEG to ECG/PPG has proven viable [5], and multimodal pretraining can bootstrap downstream performance beyond what unimodal models achieve [6]. Despite its poten-tial, multimodal biosignal modeling faces three key challenges: 
+
+1) Late-fusion architectures inflate model size. Existing multimodal approaches (e.g., ECG+EEG [7]; ECG+PPG [8]; EEG/ECG/EOG/EMG [9], [10]) predominantly assign a ded-icated encoder per modality, aggregated through joint op-timization [10] or two-stage training [9]. These modality-specific backbones significantly inflate model size and mem-ory footprint, posing a substantial barrier to deployment on 
+
+Corresponding email: {ategon,thoriri }@iis.ee.ethz.ch 
+
+resource-constrained edge devices. Efficient single-encoder fusion strategies remain rare. 
+
+2) Robustness to missing modalities. At inference time, not all modalities may be available–a common scenario in clinical and wearable settings. Notable efforts include Phys-ioOmni [9] (decoupled tokenizer and prototype alignment) and PhysioME [11] (restoration decoder), but these still rely on modality-specific encoders. 
+
+3) Edge-device feasibility. Most multimodal FMs remain computationally intensive, precluding deployment on ultra-low-power microcontrollers (MCUs) for continuous wearable monitoring. To date, no work has demonstrated end-to-end quantization and MCU deployment of a multimodal physio-logical FM. To address these gaps, we present PanLUNA , a Pan -modal extension of LUNA [2] that jointly processes EEG, ECG, and PPG within a single shared encoder. The key insight is that LUNA’s Channel-Unification Module–originally designed for variable EEG channel configurations–naturally generalizes to cross-modal fusion by treating each modality’s channels as entries in a unified query set augmented with sensor-type embeddings, yielding a compact 5.4M-parameter model pretrained on ∼40,000 hours of heterogeneous biosignal data. Our contributions are:  
+
+> •
+
+Single-encoder multimodal FM: We extend LUNA’s channel-unification mechanism to fuse EEG, ECG, and PPG within one encoder, avoiding the parameter over-head of late-fusion designs. PanLUNA (5.4M parame-ters) matches or exceeds models up to ∼ 57 × larger on established benchmarks: 81 .21% balanced accuracy on TUAB abnormal EEG detection and state-of-the-art 
+
+0.7416 balanced accuracy on HMC sleep staging.  
+
+> •
+
+Missing-modality robustness: The single-encoder, query-fusion design inherently handles arbitrary subsets of modalities at test time without architectural modification, as demonstrated by EEG-only and ECG-only evaluations on HMC.  
+
+> •
+
+Quantization analysis: We conduct a systematic study of post-training quantization (PTQ) and quantization-aware training (QAT) across five cardiac benchmarks. QAT with INT8 weights recovers ≥ 96% of FP32 performance, while INT2 weight quantization achieves up to 16 ×
+
+storage reduction with graceful degradation.  
+
+> ©2026 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works.
+> arXiv:2604.04297v1 [cs.AI] 5 Apr 2026 •
+
+Edge deployment: We deploy PanLUNA on the GAP9 ultra-low-power RISC-V MCU for wearables, achieving an inference latency of 325.6 ms and energy consumption of just 18.8 mJ for a 10-second, 12-lead ECG window– 
+
+2.4× faster and 2.4× more energy-efficient than compa-rable unimodal FMs on the same platform. II. M ETHODOLOGY 
+
+A. Pretraining Datasets and Preprocessing 
+
+We leverage five large publicly available datasets, totaling 
+
+∼40,000 hours of Electroencephalography (EEG), Electrocar-diogram (ECG), and Photoplethysmography (PPG) record-ings, for modality-agnostic self-supervised pretraining (Ta-ble I). For EEG, we use the Temple University Hospital EEG (TUEG) [12] and the Siena Scalp EEG dataset [13]. For ECG, we include MIMIC-IV [14] and CODE-15% [15]. Finally, PulseDB [16] provides synchronized ECG and PPG recordings. All signals undergo modality-specific bandpass filtering (EEG: 0.1–75 Hz [1]; ECG: 0.5–120 Hz [17]; PPG: 0.5–8 Hz [4], [18], [19]) with a 4th-order Butterworth filter, followed by notch filtering at 50 or 60 Hz. We resample to a common frequency of 256 Hz, and apply channel-wise z-score normalization to account for the large amplitude differences across modalities (e.g., EEG in μV vs. ECG in mV). Signals are then segmented into non-overlapping 5-second windows with a patch size of 32 samples. 
+
+B. Architecture 
+
+PanLUNA builds on LUNA [2], a topology-agnostic EEG foundation model whose Channel-Unification Module projects variable electrode configurations into a fixed latent space via cross-attention between learned queries and channel-wise features, achieving permutation invariance and linear scaling with channel count. We extend this principle from topology invariance to multimodal physiological sensing : channels from different sensors (EEG, ECG, PPG) are concatenated along the channel dimension, and the cross-attention mechanism natu-rally fuses information across both channels and modalities through a shared set of latent queries. This design removes the requirement for paired multimodal recordings during pre-training and enables training on large-scale unimodal corpora while maintaining a single unified encoder. 
+
+a) Input representation.: We introduce sensor-type em-beddings via a modality-specific lookup table, added to chan-nel features at the input stage to distinguish sensing modalities. Channel positional encodings follow modality-specific strate-gies. For EEG, we retain normalized 3D electrode coordinates encoded with sinusoidal embeddings as in [2]. For ECG, where no standardized spatial coordinate system exists for conventional 12-lead recordings, we adopt lead-angle esti-mates derived from anatomical measurements on 30 body scans [20], constructing a spatial encoding analogous to an EEG electrode positioning. For PPG, recorded from a single peripheral site without meaningful spatial structure, a neutral coordinate (0 , 0) is assigned, so that the model relies primarily on the sensor-type embedding to identify the modality. TABLE I: Summary of pretraining and downstream datasets. Ch: number of channels. FS: sampling frequency. T: window length.                                                                 
+
+> Dataset Modality # Subjects Ch. FS (Hz) T (s)
+> Pretraining (self-supervised)
+> TUEG [12] EEG 14,987 20/22 250 5Siena [13], [26], [27] EEG 14 29 512 5MIMIC-IV [14], [27] ECG 161,352 12 500 5CODE-15% [15], [28] ECG 233,700 12 400 5PulseDB [16] ECG,PPG 5,361 2125 5
+> Downstream (fine-tuning)
+> TUAB [12] EEG 2,329 22 250 5PTBXL-Super [29] ECG 18,617 12 500 10 PTBXL-Sub ECG 18,617 12 500 10 PTBXL-Form ECG 7,849 12 500 10 PTBXL-Rhythm ECG 18,269 12 500 10 CSN [30] ECG 23,026 12 500 10 HMC [31] EEG,ECG 151 5256 30
+
+b) Encoder.: Signals are partitioned into short temporal segments and embedded using lightweight convolutional en-coders combined with frequency features from the real-valued FFT. Patch-level features are augmented with positional encod-ings and sensor-type embeddings before entering the Channel– Modality Unification module, where cross-attention aggregates information across both channels and sensing modalities. The resulting latent queries are refined through self-attention, enabling cross-modal interactions without explicit late-fusion components. The unified latent sequence is then processed by a patch-wise temporal Transformer with Rotary Positional Em-beddings [21] to capture long-range temporal dependencies. 
+
+c) Decoding.: During self-supervised pretraining, a re-construction decoder attends to the encoder outputs to recover masked signal patches in a channel-specific manner. During downstream fine-tuning, this decoder is discarded and replaced by a lightweight aggregation query that produces a pooled representation, which is fed to a classification head. 
+
+C. Evaluation Datasets 
+
+We evaluate PanLUNA on established unimodal EEG [2], [22] and ECG [3], [23], [24] benchmarks for direct comparison with prior foundation models, and on a multimodal sleep staging task to assess cross-modal integration. Preprocessing follows Sect. II-A, except for windowing, where task-specific protocols ensure fair comparison (e.g., 30-seconds epochs for sleep stage classification [25]). Table I summarizes all downstream datasets. For EEG, we use TUAB [12] (binary normal/abnormal; a subset of TUEG with no pretraining overlap). For ECG, we evaluate on four PTB-XL sub-tasks [27], [29], [32] and CSN [27], [30], [33] following the MERL protocol [23]. For multimodal evaluation, HMC [27], [31], [34] five-class sleep staging (splits as in [9]), using concurrent EEG and ECG channels to assess both cross-modal fusion and missing-modality robustness. D. Evaluation Setups 
+
+We consider three adaptation strategies. Full fine-tuning 
+
+(FF) updates all 5.4M model parameters. The frozen encoder 
+
+(FE) setting keeps the pretrained backbone fixed, training only the classification head ( ∼400k parameters). Low-Rank Adaptation (LoRA) [35] injects trainable low-rank matrices (rank 16, ∼180k parameters, totaling ∼580k parameters) into selected Transformer layers while freezing the backbone. 
+
+E. Quantization 
+
+We compress fine-tuned models to INT8/INT4/INT2 using Brevitas [36], evaluating (weight, activation) configurations: (INT8, INT8), (INT4, INT4), (INT4, INT8), and (INT2, INT8) under two strategies: Post-Training Quantization (PTQ) 
+
+quantizes the FP32 model directly using calibration-set acti-vation statistics. Quantization-Aware Training (QAT) simu-lates quantization via fake-quantization [37] during 15 epochs of fine-tuning, recovering accuracy lost under PTQ. III. R ESULTS 
+
+A. Query-Level Attention Visualization 
+
+To examine whether the learnable queries develop modality-specific temporal sensitivity, we concatenate channels from all three modalities and visualize per-patch attention scores in Figure 1 (averaged across channels per modality). The results reveal clear functional specialization: Query 3 peaks sharply at ECG QRS complexes, Query 1 dominates PPG with uniformly high attention, and Query 2 is most active on EEG. This consistent one-to-one query–modality correspondence suggests that the learnable queries specialize based on the sensor-type information encoded in the patches. 
+
+B. Fine-tuning Experiments 
+
+Table II summarizes TUAB results, where PanLUNA ex-ceeds or achieves comparable performance to existing models. Notably, under full fine-tuning, it outperforms original the EEG-only LUNA-Base and LUNA-Large models, while re-maining only marginally below LUNA-Huge, despite being approximately 8 to 57 × smaller in parameter count. Given the architectural similarities, it is reasonable to hypothesize that PanLUNA benefits from multimodal pretraining, which likely enhances the quality of its learned representations. TABLE II: Performance comparison on TUAB abnormal EEG detection. Best results are bolded .                                                                                                        
+
+> Model Size Bal. Acc. (%) ↑AUC-PR ↑AUROC ↑
+> Self-supervised Models
+> BIOT [38] 3.2M 79.59 ±0.57 0.8692 ±0.0023 0.8815 ±0.0043 FEMBA-Huge [22] 386M 81.82 ±0.16 0.9005 ±0.0017 0.8921 ±0.0042 CEReBrO-Huge [39] 85.15M 81.67 ±0.23 0.9049 ±0.0026 0.8916 ±0.0038 LaBraM-Base [1] 5.9M 81.40 ±0.19 0.8965 ±0.0016 0.9022 ±0.0009 LaBraM-Huge [1] 369.8M 82.58 ±0.11 0.9204 ±0.0011 0.9162 ±0.0016
+> CBraMod [40] 69.3M 82.49 ±0.25 0.9221 ±0.0015 0.9156 ±0.0017 LUNA-Base [2] 7M 80.63 ±0.08 0.8953 ±0.0016 0.8868 ±0.0015 LUNA-Large [2] 43M 80.96 ±0.10 0.8986 ±0.0005 0.8924 ±0.0010 LUNA-Huge [2] 311.4M 81.57 ±0.11 0.9029 ±0.0014 0.8957 ±0.0011
+> PanLUNA (FF) 5.4M 81.21 ±0.12 0.8999 ±0.0030 0.8932 ±0.0025
+
+In HMC sleep staging (Table III), PanLUNA achieves its strongest performance, surpassing EEG-only models such as LaBraM-Base and CBraMod, as well as the multimodal PhysioOmni, by a relative margin of 1.27% in Balanced Ac-curacy, 0.95% in Cohen’s Kappa, and 0.31% in Weighted F1-Score. Evaluating ECG-only and ECG+EEG variants further highlights the architecture’s robustness to missing modalities, thanks to its single-encoder and query-fusion design. TABLE III: The results of different methods on HMC (sleep stage detection). Best results are bolded ; second-best re-sults are underlined. Quantization results are obtained for INT8/INT8 combination in weights and activations.                                                                                                       
+
+> Method Training Modality Test Modality Balanced Accuracy Cohen’s Kappa Weighted F1
+> EEG-Conformer [41] EEG EEG 0.6767 ±0.0200 0.5886 ±0.0397 0 .6550 ±0.0463
+> BIOT [38] EEG EEG 0.6862 ±0.0041 0.6295 ±0.0113 0 .7091 ±0.0147
+> LaBraM-Base [1] EEG EEG 0.7286 ±0.0101 0.6812 ±0.0073 0 .7554 ±0.0024
+> CBraMod [40] EEG EEG 0.7177 ±0.0072 0.6653 ±0.0057 0 .7388 ±0.0052
+> PhysioOmni [9] EEG+EOG+EMG EEG 0.7289 ±0.0010 0.6880 ±0.0097 0.7635 ±0.0053
+> PanLUNA (FF) EEG+ECG+PPG EEG 0.7416 ±0.0068 0.6946 ±0.0110 0.7659 ±0.0086 PanLUNA (FF) EEG+ECG+PPG ECG 0.2977 ±0.0055 0.1095 ±0.0062 0.2876 ±0.0092
+> PanLUNA (FF) EEG+ECG+PPG EEG+ECG 0.7002 ±0.0217 0.6561 ±0.0145 0.7383 ±0.0118
+> Quantization Results
+> PanLUNA (FP32) EEG+ECG+PPG EEG+ECG 0.7170 0.6699 0.7499 PanLUNA (PTQ) EEG+ECG+PPG EEG+ECG 0.4221 0.3162 0.4479 PanLUNA (QAT) EEG+ECG+PPG EEG+ECG 0.7347 0.6913 0.7273
+
+C. Quantization Results 
+
+In Table IV, we report quantization results across unimodal cardiac experiments. FP32 performance is obtained using LoRA fine-tuning on a single seed, achieving SoA results on 2/5 tasks (Super and CSN) and near-best performance on Rhythm and Sub [23], [3], [24]. Using PTQ with INT8, we recover roughly 85 − 95% of the FP32 performance without additional training. QAT with INT2 weights and INT8 activations achieves a similar fraction, enabling extremely aggressive compression: 2-bit weights reduce storage require-ments by factor of 16, while maintaining large fraction of FP32 performance. The largest discrepancy occurs in the Form task, with a 2 − 3% absolute drop under QAT with INT8 activations and INT4/INT8 weights, which we attribute to the morphological nature of its label space–subtle waveform shape features (e.g., ST-segment deviations, T-wave inversions) are inherently more sensitive to weight perturbations than the coarser rhythm or diagnostic distinctions in the other tasks. A detailed investigation of quantization sensitivity across task types is left to future work. Other tasks show at most 1.5% 
+
+degradation. Similar trends for INT4 and INT8 weight quanti-zation, allow model size reductions of up to 8 × with minimal performance loss. For multimodal HMC setting – combining 4 EEG channels with one ECG channel (Table III) – INT8 QAT not only preserves but marginally exceeds FP32 performance on Balanced Accuracy and Cohen’s Kappa, demonstrating that aggressive compression is viable even in heterogeneous, multi-sensor configurations. 
+
+D. Deployment 
+
+To validate edge feasibility, we deploy PanLUNA on the GAP9 ultra-low-power RISC-V processor [42] (9-core cluster at 370 MHz, 1.5 MB L2 SRAM). We first deploy the QAT INT8 model fine-tuned on PTB-XL Subclass (12-lead ECG, 0.0                   
+
+> 0.5
+> Query 0
+> PPG
+> 0.0
+> 0.5
+> Query 1
+> 0.0
+> 0.5
+> Query 2
+> 0200 400 600 800 1000 1200
+> Time (samples)
+> 0.0
+> 0.5
+> Query 3
+> ECG
+> 0200 400 600 800 1000 1200
+> Time (samples)
+> EEG
+> 0200 400 600 800 1000 1200
+> Time (samples)
+> 0.01
+> 0.02
+> 0.03
+> 0.04
+> 0.05
+> Attention score
+
+Fig. 1: Per-patch channel-query cross-attention scores overlaid on raw signals. Each query specializes to a distinct modality: Query 3 activates on ECG QRS complexes, Query 1 on PPG waveforms, and Query 2 on EEG. TABLE IV: Quantization Results on Cardiac Experiments. 
+
+Bold results are closest to the FP32 performance.                                                      
+
+> Task AUROC FP32 (FE) W: INT8 A: INT8 W: INT4 A: INT8 W: INT2 A: INT8 W: INT4 A: INT4 PTQ QAT PTQ QAT PTQ QAT PTQ QAT
+> PTBXL-Super 0.9083 0.8448 0.9012 0.5892 0.9011 0.4976 0.8675 0.4993 0.8514 PTBXL-Sub 0.8880 0.7877 0.8784 0.6718 0.8797 0.4877 0.8272 0.5310 0.8170 PTBXL-Form 0.8331 0.7215 0.8009 0.5528 0.8114 0.4422 0.6710 0.4663 0.7378 PTBXL-Rhythm 0.9641 0.8897 0.9623 0.6526 0.9508 0.5443 0.9034 0.5340 0.9099 CSN 0.9505 0.8743 0.9507 0.6256 0.9447 0.5297 0.8821 0.5384 0.9109
+
+10-second window). While this configuration processes uni-modal ECG input, the deployed encoder is the full multimodal-pretrained PanLUNA backbone–to our knowledge, the first deployment of a multimodal physiological FM on an ultra-low-power MCU for wearables. Deployment uses the Bio-Foundation edge framework [2], [22], [43] for automated operator tiling, double-buffered DMA, and NE16 acceleration, supplemented with custom tiled kernels for the cross-attention projections and sensor-type embedding lookup. TABLE V: On-device biosignal inference on ultra-low-power MCUs. All GAP9 models operate at 370 MHz.                                                       
+
+> Model Platform Params Signal Cycles Latency Energy Power MACs/cyc
+> Task-specific models
+> AF-LSTM [44] STM32L4 <50k ECG (1) –143 ms 3.5 mJ ––CLTC [45] STM32F7 ∼240k ECG (12) –∼1 s –137.4 mW –
+> Foundation models
+> TinyMyo [43] GAP9 3.56M EMG 291.3 M 785 ms 44.9 mJ 57.2 mW 6.65 FEMBA [22] GAP9 7.8M EEG (22) 629.4 M 1.70 s 75 mJ 44.1 mW 1.13
+> PanLUNA GAP9 5.4M ECG (12) 120.5 M 325.6 ms 18.8 mJ 60.2 mW 4.59 PanLUNA GAP9 5.4M EEG+ECG (5) 446.2 M 1.206 s 68.65 mJ 56.9 mW 3.23
+
+Table V reports end-to-end on-device metrics measured on the GAP9 EVK board and compares against the pub-lished biosignal inference systems. Compared to task-specific ARM Cortex-M classifiers ( <250k parameters, 143 ms–1 s latency) [44], [45], foundation models on GAP9 operate in a more computationally demanding regime: TinyMyo [43] requires 785 ms / 44.9 mJ, and FEMBA [22] requires 1.70 s / 75 mJ per inference. PanLUNA achieves 325.6 ms inference latency and 18.8 mJ per 10-second, 12-lead ECG inference– 
+
+2.4× faster and more energy-efficient than TinyMyo, 5.2×
+
+faster than FEMBA–while being the only model pretrained across EEG, ECG, and PPG. Since the model operates on patch-level inputs (32 samples, i.e., 125 ms at 256 Hz), infer-ence can be triggered after each new patch in a sliding-window fashion rather than waiting for a full 10-second buffer, yielding an effective streaming latency of 450.6 ms (125 ms acquisition 
+
++ 325.6 ms compute). On a typical 300 mAh / 3.7 V wearable battery ( ∼4.0 kJ), this translates to approximately 24 days of continuous inference-only ECG monitoring. To further validate true multimodal on-device inference, we deploy the INT8 QAT model fine-tuned on HMC sleep staging (4 EEG + 1 ECG channels, 30-second epochs–i.e., 3× the temporal window of the ECG configuration). Despite processing a substantially longer input, PanLUNA completes inference in 1.206 s at 68.65 mJ, comfortably within the real-time budget of a 30-second epoch and on par with FEMBA, which processes only 5-second, single-modality EEG windows. On the same wear-able battery, this yields approximately 20 days of continuous multimodal sleep monitoring. IV. C ONCLUSION 
+
+We presented PanLUNA, a 5.4M-parameter multimodal physiological foundation model that unifies EEG, ECG, and PPG processing within a single encoder by extending LUNA’s channel-unification mechanism to cross-modal fusion via sensor-type embeddings. PanLUNA matches or exceeds mod-els up to 57 × larger on established EEG and ECG benchmarks and achieves state-of-the-art multimodal sleep staging on HMC, while remaining inherently robust to missing modal-ities at inference time. Quantization-aware training enables aggressive compression down to INT2 weights with graceful degradation, and deployment on the GAP9 ultra-low-power MCU achieves 325.6 ms latency at 18.8 mJ per inference for unimodal ECG, and 1.206 s at 68.65 mJ for multimodal EEG+ECG sleep staging, demonstrating, for the first time, that a multimodal physiological FM can operate within the power envelope of a wearable device across both unimodal and multimodal configurations. Future work will explore scaling to additional modalities and clinical validation in continuous monitoring scenarios. ACKNOWLEDGMENT 
+
+This work was supported by a grant from the Swiss National Supercomputing Centre (CSCS) under project IDs lp12 and lp160 on Alps. We acknowledge the CINECA award under the ISCRA initiative (project IsB32) for the availability of HPC resources. REFERENCES [1] W.-B. Jiang, L.-M. Zhao et al. , “Large brain model for learning generic representations with tremendous EEG data in BCI,” in The Twelfth International Conference on Learning Representations , 2024. [2] B. D¨ oner, T. M. Ingolfsson et al. , “LUNA: Efficient and topology-agnostic foundation model for EEG signal analysis,” arXiv preprint arXiv:2510.22257 , Oct. 2025. [3] J. Jin, H. Wang et al. , “Reading your heart: Learning ECG words and sentences via pre-training ECG language model,” in The Thirteenth International Conference on Learning Representations , 2025. [4] A. Pillai, D. Spathis et al. , “PaPaGei: Open foundation models for optical physiological signals,” in The Thirteenth International Conference on Learning Representations , 2025. [5] B. T´ oth, D. Senti et al. , “Finetuning and quantization of EEG-based foundational BioSignal models on ECG and PPG data for blood pressure estimation,” Annu. Int. Conf. IEEE Eng. Med. Biol. Soc. , pp. 1–7, Jul. 2025. [6] Y. Chen, M. Orlandi et al. , “PhysioWave: A multi-scale wavelet-transformer for physiological signal representation,” in Thirty-Ninth Conference on Neural Information Processing Systems , 2025. [7] Y. Ghallab, O. Iraqy et al. , “Leveraging foundational models and simple fusion for multi-modal physiological signal analysis,” in NeurIPS 2025 Workshop on Foundation Models for the Brain and Body , 2025. [8] S. Liu, N. Wang et al. , “Self-supervised learning of ecg and ppg signals for multi-modal health monitoring,” in Proceedings of 2025 2nd International Conference on Machine Learning and Intelligent Computing , ser. Proceedings of Machine Learning Research, N. Zeng, R. B. Pachori et al. , Eds., vol. 278. PMLR, 25–27 Apr 2025, pp. 350–358. [9] W.-B. Jiang, X. Fu et al. , “Towards robust multimodal physiologi-cal foundation models: Handling arbitrary missing modalities,” arXiv preprint arXiv:2504.19596 , 2025. [10] C. Fang, C. Sandino et al. , “Promoting cross-modal representations to improve multimodal foundation models for physiological signals,” in 
+
+AIM-FM Workshop at NeurIPS 2024 , 2024. [11] C.-H. Lee, H.-Y. Lee et al. , “PhysioME: A robust multimodal self-supervised framework for physiological signals with missing modali-ties,” arXiv preprint arXiv:2510.11110 , Oct. 2025. [12] I. Obeid and J. Picone, “The temple university hospital EEG data corpus,” Front. Neurosci. , vol. 10, p. 196, May 2016. [13] P. Detti, G. Vatti et al. , “EEG synchronization analysis for seizure prediction: A study on data of noninvasive recordings,” Processes (Basel) , vol. 8, no. 7, p. 846, Jul. 2020. [14] B. Gow, T. Pollard et al. , “MIMIC-IV-ECG: Diagnostic Electrocardio-gram Matched Subset,” PhysioNet , Sep. 2023, version 1.0. [15] A. H. Ribeiro, G. M. M. Paixao et al. , “CODE-15%: a large scale annotated dataset of 12-lead ECGs,” 2021. [16] W. Wang, P. Mohseni et al. , “PulseDB: A large, cleaned dataset based on MIMIC-III and VitalDB for benchmarking cuff-less blood pressure estimation methods,” Front. Digit. Health , vol. 4, p. 1090854, 2022. [17] A. Habib, C. Karmakar et al. , “Choosing a sampling frequency for ECG QRS detection using convolutional networks,” arXiv preprint arXiv:2007.02052 , 2020. [18] D. G. Lapitan, D. A. Rogatkin et al. , “Estimation of phase distortions of the photoplethysmographic signal in digital IIR filtering,” Sci. Rep. ,vol. 14, no. 1, p. 6546, Mar. 2024. [19] S. Ismail, U. Akram et al. , “Heart rate tracking in photoplethysmography signals affected by motion artifacts: a review,” EURASIP J. Adv. Signal Process. , vol. 2021, no. 1, Jan. 2021. [20] J. Chen, X. Zheng et al. , “Electrocardio panorama: Synthesizing new ECG views with self-supervision,” in Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence . California: International Joint Conferences on Artificial Intelligence Organization, Aug. 2021. [21] J. Su, A. Murtadha et al. , “RoFormer: Enhanced transformer with rotary position embedding,” Neurocomputing , vol. 568, p. 127063, Feb. 2024. [22] A. Tegon, T. M. Ingolfsson et al. , “FEMBA: Efficient and scalable EEG analysis with a bidirectional mamba foundation model,” Annu. Int. Conf. IEEE Eng. Med. Biol. Soc. , pp. 1–7, Jul. 2025. [23] C. Liu, Z. Wan et al. , “Zero-shot ECG classification with multimodal learning and test-time clinical knowledge enhancement,” in Proceedings of the 41st International Conference on Machine Learning , ser. Pro-ceedings of Machine Learning Research, vol. 235. PMLR, 2024, pp. 31 949–31 963. [24] F. Wang, J. Xu et al. , “From token to rhythm: A multi-scale approach for ECG-Language pretraining,” in Proceedings of the 42nd International Conference on Machine Learning , ser. Proceedings of Machine Learning Research, vol. 267. PMLR, 2025, pp. 65 059–65 074. [25] R. B. Berry, R. Brooks et al. , “AASM scoring manual updates for 2017 (version 2.4),” J. Clin. Sleep Med. , vol. 13, no. 5, pp. 665–666, May 2017. [26] P. Detti, “Siena scalp EEG database,” 2020. [27] A. L. Goldberger, L. A. N. Amaral et al. , “PhysioBank, Phys-ioToolkit, and PhysioNet: Components of a new research re-source for complex physiologic signals,” Circulation , vol. 101, no. 23, pp. e215–e220, 2000 (June 13), circulation Electronic Pages: http://circ.ahajournals.org/content/101/23/e215.full PMID:1085218; doi: 10.1161/01.CIR.101.23.e215. [28] A. L. P. Ribeiro, G. M. M. Paix˜ ao et al. , “Tele-electrocardiography and bigdata: The CODE (clinical outcomes in digital electrocardiography) study,” J. Electrocardiol. , vol. 57S, pp. S75–S78, Nov. 2019. [29] P. Wagner, N. Strodthoff et al. , “PTB-XL, a large publicly available electrocardiography dataset,” PhysioNet , Nov. 2022, version 1.0.3. [30] J. Zheng, H. Guo et al. , “A large scale 12-lead electrocardiogram database for arrhythmia study,” PhysioNet , Aug. 2022, version 1.0.0. [31] D. Alvarez-Estevez and R. M. Rijsman, “Inter-database validation of a deep learning approach for automatic sleep scoring,” PLoS One , vol. 16, no. 8, p. e0256111, Aug. 2021. [32] P. Wagner, N. Strodthoff et al. , “PTB-XL, a large publicly available electrocardiography dataset,” Sci. Data , vol. 7, no. 1, p. 154, May 2020. [33] J. Zheng, H. Chu et al. , “Optimal multi-stage arrhythmia classification approach,” Sci. Rep. , vol. 10, no. 1, p. 2898, Feb. 2020. [34] D. Alvarez-Estevez and R. Rijsman, “Haaglanden Medisch Centrum sleep staging database,” PhysioNet , Mar. 2022, version 1.1. [35] E. J. Hu, Y. Shen et al. , “LoRA: Low-Rank adaptation of large language models,” in The Tenth International Conference on Learning Representations , 2022. [36] G. Franco, A. Pappalardo et al. , “Brevitas,” GitHub repository, 2025, zenodo release. [37] B. Jacob, S. Kligys et al. , “Quantization and training of neural networks for efficient integer-arithmetic-only inference,” in Proceedings of the IEEE conference on computer vision and pattern recognition , 2018, pp. 2704–2713. [38] C. Yang, M. B. Westover et al. , “BIOT: Biosignal transformer for cross-data learning in the wild,” in Advances in Neural Information Processing Systems , vol. 36, 2023. [39] A. Dimofte, G. A. Bucagu et al. , “CEReBrO: Compact encoder for representations of brain oscillations using efficient alternating attention,” 
+
+arXiv preprint arXiv:2501.10885 , Jan. 2025. [40] J. Wang, S. Zhao et al. , “CBraMod: A criss-cross brain foundation model for EEG decoding,” in The Thirteenth International Conference on Learning Representations , 2025. [41] Y. Song, Q. Zheng et al. , “EEG conformer: Convolutional transformer for EEG decoding and visualization,” IEEE Trans. Neural Syst. Rehabil. Eng. , vol. 31, pp. 710–719, Feb. 2023. [42] GreenWaves Technologies, “GAP SDK,” GitHub repository, 2022, ver-sion 4.12.0. [43] M. Fasulo, G. Spacone et al. , “TinyMyo: A tiny foundation model for flexible EMG signal processing at the edge,” arXiv preprint arXiv:2512.15729 , Dec. 2025. [44] Y. Akbari, N. Lei et al. , “Atrial fibrillation detection on the embed-ded edge: Energy-efficient inference on a low-power microcontroller,” 
+
+Sensors (Basel) , vol. 25, no. 21, p. 6601, Oct. 2025. [45] Z. Huang, L. F. Herbozo Contreras et al. , “Efficient edge-AI models for robust ECG abnormality detection on resource-constrained hardware,” 
+
+J. Cardiovasc. Transl. Res. , vol. 17, no. 4, pp. 879–892, Aug. 2024.
