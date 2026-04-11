@@ -1,0 +1,101 @@
+Title: How Long short-term memory artificial neural network, synthetic data, and fine-tuning improve the classification of raw EEG data
+
+URL Source: https://arxiv.org/pdf/2604.04316v1
+
+Published Time: Tue, 07 Apr 2026 01:17:32 GMT
+
+Number of Pages: 4
+
+Markdown Content:
+# How Long short-term memory artificial neural network, synthetic data, and fine-tuning improve the classification of raw EEG data 
+
+Albert Nasybullin 
+
+Laboratory of Data Analysis and Bioinformatics, Center for Artificial Intelligence, Innopolis University 
+
+Innopolis, Russia a.nasibullin@innopolis.university 
+
+Vladimir Maksimenko 
+
+Neuroscience and Cognitive Technology Laboratory, Center for Technologies in Robotics and Mechatronics Components, Innopolis University 
+
+Innopolis, Russia maximenkovl@gmail.com 
+
+Semen Kurkin 
+
+Neuroscience and Cognitive Technology Laboratory, Center for Technologies in Robotics and Mechatronics Components, Innopolis University 
+
+Innopolis, Russia kurkinsa@gmail.com 
+
+Abstract —In this paper, we discuss a Machine Learning pipeline for the classification of EEG data. We propose a com-bination of synthetic data generation, long short-term memory artificial neural network (LSTM), and fine-tuning to solve clas-sification problems for experiments with implicit visual stimuli, such as the Necker cube with different levels of ambiguity. The developed approach increased the quality of the classification model of raw EEG data. 
+
+Index Terms —EEG, classification, LSTM, synthetic data, fine-tuning 
+
+I. I NTRODUCTION 
+
+The brain signal classification is one of the major problems in neurosciences. Current studies propose various methods for EEG data classification. Classical machine learning ap-proaches, such as Support Vector Machine (SVM), Principal Component Analysis (PCA), and k-Nearest Neighbors (k-NN) classifiers, are widely used. Approaches based on arti-ficial neural networks show satisfying results as well [1]–[3]. Successful solving of classification problems is required for extending the development of Brain-Computer Interfaces [4], [5]. Age, awareness, caffeine and alcohol consumption, smok-ing, handedness, and other factors may influence human brain activities [6], [7]. Due to the generalization ability of artificial neural networks, Deep Learning is a promising direction of study in Brain-Computer Interfaces (BCI). EEG data in neu-rosciences often suffer from a limited size of experiments. The average number of subjects in neurophysiological experiments is thirty-three participants [8] and Deep Learning approaches require large size datasets to achieve satisfying results. In this study, we work with EEG data, using band-pass filtering to generate synthetic datasets, implement LSTM artificial neural networks and use fine-tuning techniques to solve classification problem for the experiment based on visual stimuli and increase classification quality. II. D ATA COLLECTION AND DATA STRUCTURE 
+
+The experimental group contained twenty healthy volunteers of age 26–35, nine participants were female, and eleven participants were male. Participants had a normal or corrected-to-normal vision and participated in the experiment after providing written informed consent. Subjects participated in similar experiments not earlier than six months before. All experiments were carried out under the requirements of the Declaration of Helsinki and approved by the local Research Ethics Committee of the Innopolis University. 
+
+A. Visual Stimuli 
+
+In the experiment, the Necker cube served as an ambiguous bistable visual stimulus that may be interpreted in one of two ways. Participants interpreted two-dimensional (2D) images of the Necker cube as three-dimensional (3D) objects with either left or right orientation. The brightness balance between three inner lines of the left-bottom corner and three inner lines in the right upper corner dictates the orientation of the 3D cube and the level of ambiguity. An unambiguous 2D cube is a cube with limiting cases of a = 0 and a = 1 corresponding to the left or the right-oriented cubes, respectively. Completely ambiguous orientation of the 3D defined with a = 0.5. The Necker cube images presented to participants contained set of ambiguity values a = [0.15, 0.25, 0.4, 0.45, 0.55, 0.6, 0.75, 0.85]. Subsets of a = [0.15, 0.25, 0.4, 0.45] and a = [0.55, 0.6, 0.75, 0.85] split set of images to left and right oriented. High ambiguity images are subset of a = [0.40, 0.45, 0.55, 0.60]. The rest of the ambiguous values are considered easily interpretable. Full set of images described in Fig. 1. 
+
+B. Task 
+
+Images of Necker cubes (22.55 × 22.55 cm) were shown to participants on a white background on a monitor (52.1 × 29.3 cm). The resolution of the monitor is 1920 by 1080 pixels and the refresh rate is 60 Hz. Distance from the monitor to  
+
+> arXiv:2604.04316v1 [cs.LG] 5 Apr 2026 Fig. 1. Ambiguous values of the Necker cube in visual stimulus [9]
+
+a participant is 0.79-0.8 m, visual angle is ∼0.39 rad. The duration of the experiment for each participant is about 40 min. Before and after the main part of the experiment eyes-open resting state was recorded for ≈150 s. Subjects looked at about 500 Necker cube images with predefined levels of ambiguity in random order. Each image appeared on the screen for 1-1.5 s. White noise pictures appeared on the screen for 3-5 s between Necker cube images. The participants were instructed to respond to the left or right stimulus orientation of the visual stimulus by pressing the left or right key, respectively. We monitored presentation time (when a stimulus appeared) and decision time (time passed from stimulus appearance to key pressing). To extract participant decisions’ error rates, we matched participants’ key responses and actual ambiguity values. Subjects with an error rate higher, than 20% were excluded from the dataset. 
+
+C. EEG data acquisition 
+
+We used a classical 10–10 electrode scheme to register the EEG signal. We recorded signals from thirty-one channels using an electrode cap, with two reference electrodes on the earlobes (A1 and A2) and a ground electrode N above the forehead. Ag/AgCl cup adhesive electrodes placed on the “Tien–20” paste (Weaver and Company, Aurora, CO, USA) were used for signal acquisition. Immediately before the experiments, a special abrasive “NuPrep” gel (Weaver and Company, Aurora CO, USA) was applied to the electrode attachment areas to increase skin conductivity. We main-tained the impedance values in the range of 2–5 k Ω. For registration, amplification, and analog-to-digital conversion of the EEG signals, we used a multichannel electroencephalo-graph “Encephalan-EEG-19/26” (Medicom MTD company, Taganrog, Russian Federation) with a two-button input de-vice (keypad). This device holds the registration certificate from the Federal Service for Supervision in Health Care No. FCP 2007/00124 of 07.11.2014 and European Certificate CE 538571 from the British Standards Institute (BSI). 
+
+D. Data Structure 
+
+The experimental dataset contains 4 000 files in .CSV format with a split to each level of ambiguity mentioned above a = [0.15, 0.25, 0.4, 0.45, 0.55, 0.6, 0.75, 0.85]. Each file contains thirty-one rows and from 700 to 1500 columns, due to the variable length of trials in the experiment. Each row corresponds to a different channel. In this study, we separate the dataset into three classes with correspondence to different levels of ambiguity. Subsets a = [0.15, 0.25] and a = [0.75, 0.85] define left-oriented (997 trials) and right-oriented (1 003 trials) cube classes, respectively. Subset a = [0.4, 0.45, 0.55, 0.6] defines the high-ambiguity (2 000 trials) class. These conditions make our work a multi-class classification problem of imbalanced data. Dataset was split into 60/40 proportions. The conventional train/test split in Deep Learning is 80/20 [10]. We chose it for the demonstration purposes of the proposed method. To have an equal distribution of participants in the test set, we used K-fold Cross-Validation with twenty folds. Table I shows structure of original dataset.                
+
+> TABLE I ORIGINAL DATASET STRUCTURE
+> Class labels ”Left” ”High-ambiguity” ”Right”
+> Ambiguity values 0.15, 0.25 0.4, 0.45, 0.55, 0.6 0.75, 0.85
+> Total dataset size 997 2 000 1 003
+> Train subset size 598 1 200 602
+> Test subset size 399 800 401
+
+III. LSTM NEURAL NETWORK , SYNTHETIC DATA GENERATION , AND FINE -TUNING 
+
+A. LSTM neural network model 
+
+The long short-term memory model of the artificial neural network was first introduced in 1997 [11]. LSTM is a type of recurrent neural network and can process not only single data points but sequences of data. LSTM models are used for handwriting recognition, speech recognition, robot control, video prediction, and neuroscience problems as well [12]– [15]. We developed the model architecture and parameters empirically during the study. The input shape of the LSTM model was thirty-one by 256 (see Fig. 2). The model contains five LSTM layers with decreasing densities of 256, 128, 64, 32, and sixteen artificial neurons, respectively. LSTM layers one-four return sequences, the LSTM layer five does not return sequences. Layer six is a fully connected layer of sixty-four artificial neurons and sigmoid activation function. Layer number seven is a fully connected layer with three artificial neurons corresponding to the number of classes and SoftMax activation function. We apply a Dropout of rate 0.3 between layers six and seven. Sparce categorical cross-entropy is a loss function. The total number of parameters in the model is 2 062 531. 
+
+B. LSTM classification of original data 
+
+To introduce our method, we apply the developed model to the original data and will compare the results between model performances. Classes on the proposed dataset differ in the number of trials. We can consider our problem imbalanced data multi-class classification problem. To evaluate the model’s performance, we used a weighted-average F1 score [16]. All demonstrated results are taken from the first attempt of the experiment. We did not use so-called “Cherry-Picking” in this work [17]. We trained the LSTM model for 100 epochs and reached a weighted-average F1 score of 0.63. Taking into account the complexity of the problem and the type of stimulus presented to participants, we can consider those results satisfying. 
+
+C. Expanding the size of the dataset with band-pass filtering and pre-training LSTM model 
+
+To improve the results of classification and avoid overfitting issues, we propose to apply fine-tuning method with synthetic data. Fine-tuning implies the use of a trained artificial neural network and the use of its weights as initial weights for a new model of the same domain. Fine-tuning implies overcoming a small dataset size problem. In our study, we use a band-pass filter to create a new dataset and pre-train our model. The size of the original dataset is 4 000 trials. We applied three different band-pass filters to create a dataset of 12 000 trials. Each filter represents a frequency range that usually corresponds to a different type of brain activity and creates an additional data subset of 4 000 trials: theta frequency (4–8 Hz), alpha frequency (8–14 Hz), and beta frequency (14–30 Hz). The generated dataset has a size of 12 000 trials: the left-oriented cube’s class is 3 988 trials, the right-oriented cube’s class is 4 012 trials and the high-ambiguity class is 8 000 trials. We trained the LSTM model for twenty epochs for each generated subset. First, we pre-trained the model on the theta frequency subset and saved pre-trained weights. Then, we initialize the new model with pre-trained weights and continue training with the alpha frequency subset. The same logic appears in each created subset. In the end, we got weights of pre-trained models on different combinations of subsets. 
+
+D. LSTM classification with pre-trained models 
+
+We have trained the same model with different initial weights on fifty epochs each time. The model achieved the highest value of the weighted-average F1 score with initial weights from the theta frequency subset (F1 score = 0.78). Weighted-average F1 scores for the rest of the pre-trained weights are lower but surpassed the results from the original data. All experimental results described in Table II. The higher performance of the model pre-trained on theta subset is hard to interpret and requires additional study.                
+
+> TABLE II MODEL EVALUATION WITH DIFFERENT PRE -TRAINED WEIGHTS
+> Training data subset F-1 score Original Theta Alpha Beta
+> 0.63 +
+> 0.78 ++
+> 0.71 ++
+> 0.69 ++
+> 0.73 ++++
+
+IV. D ISCUSSION 
+
+The proposed method extends the classification capabil-ities of raw EEG data in the case of ambiguous stimuli with artificial deep neural networks. We expect the proposed method to be relevant for different architectures of artificial neural networks. We will continue our study of raw EEG data classification. Future work shall answer several questions. Can the method be used for eight classes of ambiguity defined by the original data? Can we use the method for the feature extraction prob-lem? Why does a model pre-trained on theta subset achieve better results? V. C ONCLUSION 
+
+In the work, we explored the combination of data expansion with band-pass filtering and fine-tuning for the EEG data clas-sification problem. Despite the high ambiguity of the stimuli presented to participants, the proposed method increases the quality of the classification model. All pre-trained models increase classification ability. However, the model pre-trained on the theta frequency subset reaches the highest classification results. ACKNOWLEDGMENT 
+
+This work has been supported by the Center for Technolo-gies in Robotics and Mechatronics Components (Innopolis University). A.N. acknowledges The Analytical Center for the Government of the Russian Federation (Agreement No. 70-2021-00143 dd. 01.11.2021, IGK 000000D730321P5Q0002) for the support. REFERENCES [1] P. Chholak, A. N. Pisarchik, S. A. Kurkin, V. A. Maksimenko, and A. E. Hramov, “Phase-amplitude coupling between mu- and gamma-waves to carry motor commands,” in 2019 3rd School on Dynamics of Complex Networks and their Application in Intellectual Robotics (DCNAIR), 2019, pp. 39–45. [2] S. Kurkin, P. Chholak, V. Maksimenko, and A. Pisarchik, “Machine learning approaches for classification of imaginary movement type by MEG data for neurorehabilitation,” in 2019 3rd School on Dynamics of Complex Networks and their Application in Intellectual Robotics (DCNAIR), 2019, pp. 106–108. [3] S. Y. Gordleeva et al., “Real-time EEG–EMG human–machine interface-based control system for a lower-limb exoskeleton,” IEEE Access, vol. 8, pp. 84070–84081, 2020. [4] S. P. Liburkina, A. N. Vasilyev, L. V. Yakovlev, S. Y. Gordleeva, and A. Y. Kaplan, “A motor imagery-based brain–computer interface with vibrotactile stimuli,” Neurosci. Behav. Physiol., vol. 48, no. 9, pp. 1067– 1077, 2018. Fig. 2. The architecture of the Long short-term memory artificial neural network model used for classification. 
+
+Fig. 3. We build our intuition behind data expanding strategy on a difference created in a signal by band-pass filtering. [5] U. Chaudhary et al., “Spelling interface using intracortical signals in a completely locked-in patient enabled via auditory neurofeedback training,” Nat. Commun., vol. 13, no. 1, p. 1236, 2022. [6] N. S. Frolov et al., “Age-related slowing down in the motor initiation in elderly adults,” PLoS One, vol. 15, no. 9, p. e0233942, 2020. [7] B. Fiani et al., “The neurophysiology of caffeine as a central nervous system stimulant and the resultant effects on cognitive function,” Cureus, vol. 13, no. 5, p. e15032, 2021. [8] A. Bazzani, S. Ravaioli, L. Trieste, U. Faraguna, and G. Turchetti, “Is EEG suitable for marketing research? A systematic review,” Front. Neurosci., vol. 14, p. 594566, 2020. [9] A. K. Kuc, S. A. Kurkin, V. A. Maksimenko, A. N. Pisarchik, and A. E. Hramov, “Monitoring brain state and behavioral performance during repetitive visual stimulation,” Appl. Sci. (Basel), vol. 11, no. 23, p. 11544, 2021. [10] K. M. Kahloot and P. Ekler, “Algorithmic splitting: A method for dataset preparation,” IEEE Access, vol. 9, pp. 125229–125237, 2021. [11] S. Hochreiter and J. Schmidhuber, “Long short-term memory,” Neural Comput., vol. 9, no. 8, pp. 1735–1780, 1997. [12] A. Graves, M. Liwicki, S. Fern´ andez, R. Bertolami, H. Bunke, and J. Schmidhuber, “A novel connectionist system for unconstrained hand-writing recognition,” IEEE Trans. Pattern Anal. Mach. Intell., vol. 31, no. 5, pp. 855–868, 2009. [13] H. Sak, A. Senior, and F. Beaufays, “Long short-term memory recurrent neural network architectures for large scale acoustic modeling,” in Interspeech 2014, 2014. [14] M. J. Monesi, B. Accou, J. Montoya-Martinez, T. Francart, and H. Van Hamme, “An LSTM based architecture to relate speech stimulus to EEG,” in ICASSP 2020 - 2020 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), 2020, pp. 941–945. [15] N. Elsayed, A. S. Maida, and M. Bayoumi, “Reduced-gate convolutional LSTM architecture for next-frame video prediction using predictive coding,” in 2019 International Joint Conference on Neural Networks (IJCNN), 2019, pp. 1–9. [16] A. Tharwat, “Classification assessment methods,” Appl. Comput. In-form., vol. 17, no. 1, pp. 168–192, 2021. [17] J. Komiyama and T. Maehara, “A simple way to deal with cherry-picking,” arXiv [stat.ME], 2018.
