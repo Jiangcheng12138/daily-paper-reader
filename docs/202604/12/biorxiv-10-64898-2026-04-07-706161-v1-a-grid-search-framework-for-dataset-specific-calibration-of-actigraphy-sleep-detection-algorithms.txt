@@ -1,0 +1,1766 @@
+Title: A Grid-Search Framework for Dataset-Specific Calibration of Actigraphy Sleep Detection Algorithms
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.04.07.706161v1.full.pdf
+
+Number of Pages: 41
+
+Markdown Content:
+A Grid -Search Framework for Dataset -Specific Calibration of Actigraphy 1
+
+Sleep Detection Algorithms 2
+
+Ali Rahjouei *3
+
+* Department of Anesthesiology and Intensive Care Medicine | CCM | CVK 4 Email: ali.rahjouei@ charite.de 5
+
+.CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint Abstract 6
+
+Actigraphy is widely used for long -term sleep monitoring, but established sleep –7
+
+wake scoring algorithms often require parameter tuning, which is commonly 8
+
+performed manually and can reduce reproducibility. In this study, a grid -search -9
+
+based calibration framework is presented for established actigraphy algorithms 10 
+
+and evaluate whether it can serve as a practical alternative to manual tuning. The 11 
+
+method was evaluated using two datasets: a multi -subject polysomnography -12 
+
+validated actigraphy dataset and a self -collected dual -device dataset. In the 13 
+
+polysomnography -validated dataset, grid -search optimization produced 14 
+
+performance patterns similar to manual parameter selection, while slightly 15 
+
+improving detection of sleep onset and sleep offset and yielding modest gains in 16 
+
+wake -sensitive metrics. In the dual -device dataset, consensus and majority 17 
+
+voting were useful for reducing the influence of brief wake episodes occurring 18 
+
+within the main sleep period, including micro -awakenings that can fragment sleep 19 
+
+predictions across individual algorithms. Overall, these findings show that grid -20 
+
+search can replace manual parameter tuning with a more explicit and 21 
+
+reproducible procedure while providing small improvements in sleep timing 22 
+
+estimation and benefiting ensemble -based handling of within -sleep wakefulness. 23 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+1. Introduction 24 
+
+Actigraphy, the continuous measurement of physical activity using wearable 25 
+
+accelerometers, has become a cornerstone tool in sleep research and clinical 26 
+
+practice. Unlike polysomnography (PSG), which requires specialized equipment 27 
+
+and laboratory settings, actigraphy enables long -term, non -invasive monitoring of 28 
+
+sleep patterns in naturalistic environments. Consequently, actigraphy is widely 29 
+
+used in large -scale epidemiological studies, psychiatric research, and 30 
+
+longitudinal monitoring of circadian rhythms (Fekedulegn et al., 2020; Smith et 31 
+
+al., 2018) .32 
+
+A fundamental step in actigraphy analysis is the classification of sleep and wake 33 
+
+states from activity signals. Over the past decades, numerous rule -based 34 
+
+algorithms have been developed for this purpose, including the Cole –Kripke, 35 
+
+Sadeh, Oakley, MASDA, and Crespo methods (Cole et al., 1992; Crespo et al., 36 
+
+2012; Loock et al., 2021; NR Oakley, 1997; Sadeh et al., 1994) . These 37 
+
+algorithms differ in their mathematical formulations, temporal smoothing 38 
+
+strategies, and assumptions regarding the relationship between movement and 39 
+
+sleep –wake states. Each algorithm also includes one or more tunable 40 
+
+parameters, such as activity thresholds or smoothing window lengths, which 41 
+
+strongly influence classification outcomes (Blackwell et al., 2011; Quante et al., 42 
+
+2018) .43 
+
+A major practical challenge in actigraphy research is that optimal parameter 44 
+
+settings vary substantially across devices, populations, and recording contexts 45 
+
+(Cellini et al., 2013; Meltzer et al., 2012) . Differences in sensor sensitivity, device 46 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+placement, individual activity patterns, and recording environments mean that 47 
+
+parameter values validated in one study often perform poorly when applied to 48 
+
+new datasets (Hjorth et al., 2012) . As a result, researchers frequently rely on 49 
+
+manufacturer defaults or informal manual tuning, leading to inconsistent results 50 
+
+and reduced reproducibility across studies (De Souza et al., 2003; Quante et al., 51 
+
+2018) .52 
+
+Existing approaches typically treat algorithm selection and parameter tuning as 53 
+
+independent decisions, optimizing each algorithm separately . However, this 54 
+
+practice neglects an important observation: classical actigraphy algorithms often 55 
+
+exhibit complementary strengths and weaknesses. For example, temporally 56 
+
+smoothed algorithms may accurately capture consolidated sleep periods but fail 57 
+
+to detect brief awakenings (Sadeh, 2011; Sadeh et al., 1994) , whereas threshold -58 
+
+based algorithms may detect short wake bouts but produce fragmented sleep 59 
+
+estimates. Consequently, selecting a single algorithm or tuning it in isolation may 60 
+
+introduce systematic bias. 61 
+
+A systematic calibration framework is proposed in this work to address this 62 
+
+problem, harmonizing multiple classical sleep detection algorithms for a given 63 
+
+dataset and individual. Rather than developing a new predictive model, the goal 64 
+
+is to automate the process of dataset -specific parameter tuning while reducing 65 
+
+researcher degrees of freedom (Simmons et al., 2011) .66 
+
+The central idea explored in this work is that agreement between diverse sleep 67 
+
+detection algorithms can be used as a practical criterion for selecting stable 68 
+
+parameter configurations in the absence of labeled training data. Because 69 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+classical actigraphy algorithms exhibit high parameter sensitivity —where small 70 
+
+deviations can shift detection toward implausible extremes such as nearly 71 
+
+continuous sleep or wake —solutions that produce consistent predictions across 72 
+
+multiple algorithms are likely to reflect stable behavioral patterns. Rather than 73 
+
+assuming that algorithm agreement represents ground truth, cross -algorithm 74 
+
+convergence is used as an optimization target within physiological plausibility 75 
+
+constraints. This allows automated calibration of algorithm parameters while 76 
+
+reducing researcher degrees of freedom. 77 
+
+Since individual sleep detection algorithms exhibit high parameter sensitivity ,78 
+
+where minor deviations can drastically shift detection towards non -physiological 79 
+
+extremes (0% or 100% sleep ), it is suggested as highly probable that the true, 80 
+
+stable behavioral pattern is captured when five diverse algorithms reach a 81 
+
+simultaneous alignment in their parameter configurations. Therefore, by 82 
+
+optimizing for maximum inter -algorithm agreement within physiological 83 
+
+constraints, the identification of accurate detection parameters is achieved 84 
+
+without reliance on labeled training data . To operationalize this idea, a grid -85 
+
+search -based calibration procedure was implemented to explore parameter 86 
+
+combinations across multiple algorithms . The optimization balances several 87 
+
+criteria: maximizing inter -algorithm agreement, enforcing physiological plausibility 88 
+
+constraints, minimizing temporal instability, and preventing misclassification of 89 
+
+non -wear periods as sleep. The calibrated algorithm outputs are then integrated 90 
+
+through ensemble decision rules that quantify uncertainty and allow abstention in 91 
+
+low -confidence situations. 92 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+The proposed framework is evaluated using two datasets: a dual -device self -93 
+
+recorded dataset and a polysomnography -validated actigraphy dataset (Walch et 94 
+
+al., 2019) . These findings show that automated calibration of research -grade 95 
+
+actigraphy can tune algorithm parameters to produce sleep bout estimates that 96 
+
+align with those derived from a commercial smartwatch optimized for its own 97 
+
+sensor data (“Estimating Sleep Stages from Apple Watch,” 2025) . Furthermore, 98 
+
+applying ensemble methods, specifically majority voting and consensus region 99 
+
+identification, helps reduce fragmentation caused by brief wake episodes within 100 
+
+the main sleep period . However, comparison with PSG highlights an intrinsic 101 
+
+limitation of activity -based sleep detection: algorithmic convergence reflects 102 
+
+behavioral quiescence rather than electrophysiologically defined sleep. 103 
+
+Contributions 104 
+
+This work makes four primary contributions: 105 
+
+Calibration Framework : a systematic grid -search approach for dataset -specific 106 
+
+calibration of classical actigraphy sleep detection algorithms. 107 
+
+Automated Parameter Selection : demonstration that automated calibration can 108 
+
+replace manual parameter tuning while producing comparable performance and 109 
+
+slightly improved sleep timing estimates. 110 
+
+Ensemble -Based Sleep Detection : evaluation of consensus and majority voting 111 
+
+approaches for reducing fragmentation caused by brief wake episodes within the 112 
+
+main sleep period. 113 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+Insight into Actigraphy Limitations : comparison with PSG highlights that 114 
+
+actigraphy algorithms primarily capture behavioral quiescence rather than 115 
+
+electrophysiologically defined sleep. 116 
+
+2. Methods 117 
+
+2.1 Study Design and Datasets 118 
+
+The proposed framework is designed as a dataset -specific calibration pipeline 119 
+
+for harmonizing classical actigraphy sleep detection algorithms. Rather than 120 
+
+training a predictive model, the method optimizes algorithm parameters 121 
+
+independently for each recording to account for device characteristics, individual 122 
+
+activity patterns, and recording conditions .123 
+
+The framework was evaluated using two datasets with distinct purposes. 124 
+
+2.1.1 Dataset 1: Polysomnography -Validated Actigraphy Dataset 125 
+
+A multi -subject dataset containing concurrent wrist -worn actigraphy and 126 
+
+polysomnography (PSG) recordings was used to evaluate calibrated algorithm 127 
+
+outputs against physiological sleep staging. Activity signals were recorded at 1 -128 
+
+second resolution and later aggregated to 1 -minute epochs. 129 
+
+PSG sleep stages were binarized into wake (stage 0) and sleep (stages N1, N2, 130 
+
+N3, REM) to provide a reference standard for epoch -level comparison (Walch et 131 
+
+al., 2019) .132 
+
+2.1. 2 Dataset 2: Dual -Device Self -Recording Dataset 133 
+
+A self -recorded dataset was collected to develop and illustrate the calibration 134 
+
+pipeline. A single participant simultaneously wore a research -grade actigraph 135 
+
+(ActiLumus) and an Apple Watch on opposite wrists for ten consecutive days. 136 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+Apple Watch sleep -stage outputs were binarized (sleep stage > 0 = sleep) and 137 
+
+used as an external reference for algorithm comparison. This dataset was used 138 
+
+for qualitative evaluation of multi -day algorithm behavior, rather than for 139 
+
+generalizable validation. 140 
+
+2.2 Data Preprocessing 141 
+
+All datasets underwent standardized preprocessing to ensure consistency across 142 
+
+recordings. 143 
+
+2.2.1 Temporal Alignment and Epoch Standardization 144 
+
+Activity data were resampled to uniform 60 -second epochs. For high -resolution 145 
+
+signals, missing timestamps were first interpolated to create continuous timelines 146 
+
+before aggregation .147 
+
+2.2.2 Complete -Day Filtering 148 
+
+Only complete recording days containing exactly 1,440 epochs were retained to 149 
+
+avoid edge effects in circadian analyses. 150 
+
+2.3 Non -Wear Detection 151 
+
+Off -wrist periods were identified using an adapted Choi algorithm based on 152 
+
+extended zero -activity runs with artifact tolerance (Choi et al., 2012) . Continuous 153 
+
+low -activity segments exceeding a minimum duration threshold were classified as 154 
+
+non -wear. 155 
+
+2.4 Activity Imputation 156 
+
+A two -stage imputation procedure replaced activity values during non -wear 157 
+
+periods using time -of -day baseline activity patterns (dataset 1 and 2) . For 158 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+continuous activity metrics, imputation used percentile -bounded random 159 
+
+sampling to preserve realistic signal distributions (dataset 2) .160 
+
+2. 5 manual adjustment 161 
+
+For comparison with the automated calibration framework, each algorithm was 162 
+
+also evaluated using manually selected parameter settings. In this configuration, 163 
+
+parameter values were adjusted iteratively while visually inspecting the resulting 164 
+
+sleep –wake classifications alongside the raw activity signal. 165 
+
+Parameter combinations were modified until the detected sleep periods aligned 166 
+
+with extended intervals of reduced activity that visually resembled consolidated 167 
+
+sleep bouts. This procedure reflects common practice in exploratory actigraphy 168 
+
+analyses, where parameter settings are often adjusted to match observable 169 
+
+activity patterns in the absence of a physiological ground truth. 170 
+
+Because actigraphy is frequently used in long -term behavioral monitoring without 171 
+
+concurrent polysomnography, this manual tuning approach provides a practical 172 
+
+baseline representing typical real -world usage conditions. The manually selected 173 
+
+configurations were therefore used as a reference for evaluating the potential 174 
+
+benefits of the proposed automated calibration framework. 175 
+
+2. 6 Performance Evaluation 176 
+
+Performance metrics included accuracy, balanced accuracy, precision, recall, 177 
+
+specificity, F1 -score, Cohen’s kappa (Cohen, 1960) , and Matthews correlation 178 
+
+coefficient (MCC). MCC and balanced accuracy were prioritized to account for 179 
+
+the inherent class imbalance between sleep and wake states in actigraphy data 180 
+
+(Chicco & Jurman, 2020) . Importantly, these metrics were used to characterize 181 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+calibrated outputs rather than to train predictive models, ensuring an independent 182 
+
+assessment of the harmonization framework’s efficacy. 183 
+
+2. 7 Implementation and Reproducibility 184 
+
+The sleep -wake scoring algorithms used in this study were implemented based 185 
+
+on their original published descriptions and validated against the open -source 186 
+
+pyActigraphy software package (Hammad et al., 2021) . The present work does 187 
+
+not introduce novel implementations of these algorithms; rather, the 188 
+
+methodological contribution lies in the proposed multi -objective calibration and 189 
+
+harmonization framework. 190 
+
+2. 8 Sleep Onset and Offset Detection and Evaluations 191 
+
+Sleep onset and offset times were derived from the binary sleep –wake 192 
+
+sequences produced by each algorithm and by the reference labels. For each 193 
+
+subject, records were ordered by timestamp and short wake interruptions of ≤10 194 
+
+consecutive minutes occurring within sleep were bridged to reduce the influence 195 
+
+of brief awakenings. After this gap -filling step, the main sleep episode was 196 
+
+defined as the longest contiguous run of sleep epochs in the recording. Sleep 197 
+
+onset was taken as the first epoch of this main sleep bout, and sleep offset as 198 
+
+the last epoch of the same bout. 199 
+
+Algorithm -derived onset and offset times were compared with the corresponding 200 
+
+reference times obtained from PSG (Dataset 1) or Apple Watch -derived binary 201 
+
+labels (Dataset 2). Timing errors were calculated in minutes as algorithm 202 
+
+estimate minus reference estimate, such that positive values indicate a later 203 
+
+estimated event and negative values indicate an earlier estimated event. 204 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+Agreement was evaluated using error distributions, mean error (ME), mean 205 
+
+absolute error (MAE), root mean square error (RMSE), scatter plots against the 206 
+
+identity line, and Bland –Altman analysis. 207 
+
+3 Grid -Search workflow and rational e208 
+
+The proposed calibration framework was applied to identify parameter 209 
+
+configurations for multiple classical actigraphy sleep –wake algorithms that 210 
+
+produce physiologically plausible and mutually consistent sleep classifications. 211 
+
+Rather than optimizing algorithm parameters against a labeled reference dataset, 212 
+
+the framework uses a consensus -based optimization strategy, selecting 213 
+
+parameter configurations that maximize agreement between algorithms while 214 
+
+enforcing physiological plausibility constraints. 215 
+
+The calibration procedure consisted of three main stages: candidate parameter 216 
+
+filtering, consensus -based optimization, and selection of the final parameter 217 
+
+configuration (Fig. 1). These stages progressively reduced the parameter search 218 
+
+space and identified a parameter combination that yielded consistent sleep –wake 219 
+
+classifications across algorithms. 220 
+
+3.1 Candidate Parameter Filtering 221 
+
+The calibration process began with a broad grid search over candidate 222 
+
+parameter values for each algorithm. The evaluated algorithms included Cole –223 
+
+Kripke, Sadeh, Oakley, Crespo, and MASDA (Roenneberg), each of which 224 
+
+contains parameters controlling classification thresholds, temporal smoothing, or 225 
+
+activity weighting. 226 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+For each algorithm, a predefined parameter grid was constructed spanning a 227 
+
+range of plausible values based on algorithm design and prior usage. Each 228 
+
+parameter combination was applied to the activity signal to produce a binary 229 
+
+sleep –wake mask, representing epochs classified as sleep or wake. 230 
+
+Because some parameter configurations can produce unrealistic sleep 231 
+
+estimates, a physiological plausibility filter was applied to remove implausible 232 
+
+results. Specifically, configurations were retained only if the proportion of epochs 233 
+
+classified as sleep fell within a predefined range of 10 –50 % of the recording 234 
+
+duration. This filtering step eliminated parameter settings that yielded extreme 235 
+
+outcomes such as near -continuous sleep or almost no detected sleep. 236 
+
+Even after this filtering stage, the number of valid parameter configurations could 237 
+
+remain large. To ensure computational feasibility in the subsequent optimization 238 
+
+stage, candidate configurations were further reduced by retaining a diverse 239 
+
+subset of valid runs for each algorithm. Diversity was assessed based on 240 
+
+predicted sleep percentages and mask variability, ensuring that the remaining 241 
+
+candidates covered a broad range of plausible behaviors while limiting the total 242 
+
+number of configurations. 243 
+
+This stage therefore produced a manageable set of candidate parameterizations 244 
+
+for each algorithm while ensuring that all retained configurations generated 245 
+
+physiologically plausible sleep estimates. 246 
+
+3.2 Consensus -Based Optimization 247 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+After identifying valid parameter candidates for each algorithm, the next stage 248 
+
+aimed to determine which combination of parameter settings across algorithms 249 
+
+produced the highest agreement in sleep –wake classification. 250 
+
+Candidate configurations from all algorithms were combined to form multi -251 
+
+algorithm parameter sets. For each combination, agreement between the 252 
+
+resulting sleep masks was quantified using the mean pairwise Jaccard similarity, 253 
+
+which measures the overlap between binary sleep –wake sequences. High 254 
+
+Jaccard similarity indicates that multiple algorithms classify the same epochs as 255 
+
+sleep or wake, suggesting greater consistency in sleep detection. 256 
+
+The primary optimization objective was to maximize the mean pairwise Jaccard 257 
+
+similarity across all algorithms. This approach treats agreement between 258 
+
+established algorithms as a proxy for reliable classification when an external 259 
+
+ground truth is unavailable. 260 
+
+When multiple parameter combinations produced identical agreement scores, 261 
+
+two secondary selection criteria were applied to break ties: 262 
+
+1.  Consistency of predicted sleep duration. Preference was given to 263 
+
+parameter combinations that minimized the standard deviation of 264 
+
+predicted sleep percentages across algorithms, ensuring that different 265 
+
+algorithms estimated similar total sleep durations. 266 
+
+2.  Physiological plausibility of sleep duration. Solutions were favored 267 
+
+when the mean predicted sleep percentage across algorithms was closer 268 
+
+to a target value representing typical nightly sleep proportions. 269 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+In some cases, the total number of possible parameter combinations across 270 
+
+algorithms exceeded practical computational limits. When this occurred, 271 
+
+combinations were evaluated using random sampling of the parameter space, 272 
+
+allowing the optimization to explore a large number of candidate configurations 273 
+
+without exhaustive enumeration. 274 
+
+Through this consensus -based optimization process, the framework identified 275 
+
+parameter combinations that produced the most mutually consistent sleep –wake 276 
+
+classifications across algorithms while maintaining physiologically plausible sleep 277 
+
+estimates. 278 
+
+3.3 Selected Parameter Configurations 279 
+
+The parameter combination achieving the highest consensus score was selected 280 
+
+as the final calibrated configuration for each algorithm. These optimized 281 
+
+parameters were then applied to generate the final binary sleep –wake masks for 282 
+
+all algorithms. 283 
+
+Using these calibrated parameters, two ensemble sleep -wake masks were 284 
+
+additionally constructed: 285 
+
+• Strict consensus mask , where an epoch was labeled as sleep only if all 286 
+
+algorithms agreed. 287 
+
+• Majority voting mask , where an epoch was labeled as sleep when more 288 
+
+than half of the algorithms classified the epoch as sleep. 289 
+
+These ensemble masks provide complementary perspectives on sleep detection. 290 
+
+The strict consensus mask emphasizes high confidence classifications with 291 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+maximal agreement, whereas the majority voting mask offers a more permissive 292 
+
+estimate of sleep periods. 293 
+
+The calibrated algorithm outputs and ensemble masks served as the basis for 294 
+
+the subsequent performance evaluations. In the following sections, these 295 
+
+calibrated classifications are compared with reference sleep labels derived from 296 
+
+polysomnography recordings (Section 4) and manual parameter configurations 297 
+
+(Section 5), followed by analyses of sleep timing agreement (Section 6) and 298 
+
+multi -day algorithm behavior (Section 7). 299 
+
+300 
+
+Figure 1. Hyperparameter tuning and consensus optimization workflow for actigraphy -301 
+
+based sleep detection algorithms. The process is divided into four distinct phases: 302 
+
+(Phase 1) Grid Search & Filtering, where parameter grids are defined for five algorithms 303 
+
+(Cole -Kripke, Sadeh, Oakley, Crespo, MASDA) and results are filtered to retain only 304 
+
+biologically plausible sleep percentages (10 –50%); (Phase 2) Pruning for Diversity, 305 
+
+which reduces the computational load by selecting the top  𝐾  (e.g., 40) configurations 306 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+distributed across sleep percentage bins; (Phase 3) Consensus Optimization, which 307 
+
+iterates through parameter combinations to maximize inter -algorithm agreement (Mean 308 
+
+Pairwise Jaccard Index), using sleep duration standard deviation as a tie -breaker; and 309 
+
+(Phase 4) Finalization, where the optimal parameters are applied to generate strict 310 
+
+consensus (100% agreement) and majority vote (>50% agreement) sleep masks, 311 
+
+validated by Cohen’s Kappa statistics. 312 
+
+313 
+
+4. Results 314 
+
+4. 1 Algorithm performance with manual parameters 315 
+
+Across the 23 subjects, all algorithms demonstrated high sensitivity for sleep 316 
+
+detection, with recall values approaching unity, indicating that the majority of 317 
+
+PSG -defined sleep epochs were correctly classified as sleep ( Fig. 2A–B). 318 
+
+However, specificity for wake detection remained lower, reflecting frequent 319 
+
+misclassification of wake epochs as sleep. 320 
+
+Overall accuracy and F1 -scores were relatively high across algorithms, largely 321 
+
+driven by the high sensitivity to the dominant sleep class ( Fig. 2B). In contrast, 322 
+
+metrics that account for class imbalance and chance agreement , including 323 
+
+balanced accuracy, Cohen’s κ, and Matthews Correlation Coefficient (MCC) ,324 
+
+were comparatively lower. This indicates that the algorithms were less effective 325 
+
+in identifying wake periods during the sleep interval. Analysis of per -subject 326 
+
+metric distributions revealed consistent patterns across the cohort ( Fig. 2C). 327 
+
+Sensitivity showed limited variability across subjects, whereas specificity and 328 
+
+agreement -based metrics exhibited greater dispersion, suggesting that wake 329 
+
+detection performance varied more substantially between individuals. Finally, 330 
+
+pairwise agreement analysis demonstrated moderate agreement between 331 
+
+algorithms and the PSG reference, as well as among the algorithms themselves 332 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+(Fig. 2D). These results indicate that while the algorithms produce broadly similar 333 
+
+classification patterns, their agreement with the physiological sleep reference 334 
+
+remains constrained by difficulties in detecting wake epochs. 335 
+
+336 
+
+Figure 2. Performance of sleep –wake algorithms using manually selected parameter 337 
+
+settings across 23 subjects. 338 
+
+(A) Mean per -subject confusion matrices (±SD) relative to the PSG reference. Values 339 
+
+represent the percentage of epochs classified as wake or sleep averaged across 340 
+
+subjects. Across algorithms, sleep epochs were identified with high sensitivity, whereas 341 
+
+wake epochs were more frequently misclassified as sleep. 342 
+
+(B) Mean performance metrics (±SD) across subjects, including Accuracy, Balanced 343 
+
+Accuracy, Precision, Recall (Sensitivity), Specificity, F1 -score, Cohen’s κ, and Matthews 344 
+
+Correlation Coefficient (MCC). The red dashed lines indicate reference thresholds for 345 
+
+comparison across metrics. 346 
+
+(C) Boxplots showing the distribution of performance metrics across subjects (N = 23). 347 
+
+While accuracy and F1 -score remain consistently high across algorithms, greater 348 
+
+variability is observed in specificity and agreement -based metrics such as Cohen’s κ and 349 
+
+MCC. 350 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+(D) Pairwise agreement heatmap showing Cohen’s κ values between the PSG reference 351 
+
+and each algorithm, as well as agreement among the algorithms themselves. Higher 352 
+
+agreement values indicate greater similarity in sleep –wake classification patterns. 353 
+
+354 
+
+4. 2 Algorithm performance with grid -search optimization 355 
+
+For each algorithm, parameters were optimized using a custom grid search 356 
+
+framework prior to evaluation as described previously . Across the 23 subjects, all 357 
+
+algorithms demonstrated high sensitivity for sleep detection, with mean recall 358 
+
+values approaching unity (≈0.97 –1.00). This indicates that the majority of PSG -359 
+
+defined sleep epochs were correctly classified as sleep by the algorithms. 360 
+
+However, specificity for wake detection was substantially lower, reflecting 361 
+
+frequent misclassification of wake epochs as sleep in the pooled confusion 362 
+
+matrices ( Fig. 3A). 363 
+
+Despite relatively high overall accuracy and F1 -scores, metrics that account for 364 
+
+class imbalance and chance agreement , including balanced accuracy, Cohen’s 365 
+
+κ, and Matthews Correlation Coefficient (MCC) , were noticeably lower ( Fig. 3B). 366 
+
+This pattern reflects the imbalance between sleep and wake epochs in overnight 367 
+
+recordings, where strong performance on the dominant sleep class can inflate 368 
+
+conventional performance metrics. 369 
+
+Analysis of per -subject metric distributions showed that this pattern was 370 
+
+consistent across the cohort ( Fig. 3C). Sensitivity remained tightly clustered near 371 
+
+its upper bound, whereas specificity, balanced accuracy, κ, and MCC exhibited 372 
+
+greater variability between subjects. 373 
+
+Finally, pairwise agreement analysis using Cohen’s κ demonstrated moderate 374 
+
+agreement between the different algorithms and PSG, as well as among the 375 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+algorithms themselves ( Fig. 3D), indicating that while the algorithms generate 376 
+
+broadly similar classification patterns, their agreement with the physiological 377 
+
+reference remains constrained by difficulties in identifying wake epochs during 378 
+
+sleep periods. 379 
+
+380 
+
+Figure 3. Performance of actigraphy -based sleep –wake algorithms compared with 381 
+
+polysomnography (PSG) across 23 subjects. 382 
+
+(A) Pooled confusion matrices showing epoch -level classification relative to PSG for 383 
+
+each algorithm. 384 
+
+(B) Mean performance metrics across subjects (±SD), including Accuracy, Balanced 385 
+
+Accuracy, Precision, Recall (Sensitivity), Specificity, Cohen’s κ, F1 -score, and Matthews 386 
+
+Correlation Coefficient (MCC). 387 
+
+(C) Boxplots showing per -subject distributions of performance metrics across the cohort 388 
+
+(N = 23). Red dashed lines indicate commonly used reference thresholds for agreement 389 
+
+(e.g., κ = 0.6). 390 
+
+(D) Heatmap of pairwise Cohen’s κ values showing agreement between algorithms and 391 
+
+PSG. 392 
+
+393 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+4.3 Comparison between tuning approaches 394 
+
+To evaluate the impact of parameter selection on algorithm performance, results 395 
+
+obtained using manually selected parameter configurations ( Fig. 2 ) were 396 
+
+compared with those obtained using grid -search optimized parameters ( Fig. 3 ). 397 
+
+Overall performance patterns were broadly similar between the two approaches. 398 
+
+Across all algorithms, sleep detection remained highly sensitive, with recall 399 
+
+values consistently approaching unity under both parameter configurations. This 400 
+
+indicates that both tuning strategies preserved strong detection of PSG -defined 401 
+
+sleep epochs. However, differences emerged in metrics reflecting wake detection 402 
+
+and overall classification balance. Grid -search optimization generally resulted in 403 
+
+modest improvements in balanced accuracy, specificity, and agreement -based 404 
+
+metrics, including Cohen’s κ and Matthews Correlation Coefficient (MCC). These 405 
+
+improvements suggest that automated parameter optimization provided better 406 
+
+calibration of algorithm thresholds, leading to improved discrimination between 407 
+
+sleep and wake epochs. In contrast, manually selected parameters tended to 408 
+
+maintain high overall accuracy and F1 -scores but showed comparatively lower 409 
+
+performance in metrics sensitive to class imbalance. Per -subject metric 410 
+
+distributions further illustrated these differences. While both approaches 411 
+
+demonstrated limited variability in sleep sensitivity across subjects, the grid -412 
+
+search optimized configuration showed slightly reduced variability in specificity 413 
+
+and agreement -based metrics, indicating more consistent performance across 414 
+
+the cohort. Despite these improvements, the overall classification patterns 415 
+
+remained similar between the two parameterization strategies. Pairwise 416 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+agreement analysis revealed that algorithms continued to exhibit moderate 417 
+
+agreement with the PSG reference and comparable agreement with one another, 418 
+
+regardless of the parameter tuning method. 419 
+
+Taken together, these findings indicate that automated grid -search optimization 420 
+
+yields performance comparable to manually selected parameter configurations 421 
+
+while providing a more systematic and reproducible approach to parameter 422 
+
+tuning. Thus, grid -search optimization can serve as a practical replacement for 423 
+
+manual parameter selection without altering the fundamental performance 424 
+
+characteristics of actigraphy -based sleep –wake classification. 425 
+
+4.4 Sleep onset and offset agreement with PSG 426 
+
+Agreement between algorithm -derived sleep timing estimates and PSG was 427 
+
+evaluated by comparing sleep onset and sleep offset times obtained using both 428 
+
+manual parameter settings and grid -search optimized configurations ( Fig. 4 ). 429 
+
+Across algorithms, sleep onset and offset estimates generally followed the PSG 430 
+
+reference, as illustrated by the clustering of points around the identity line in the 431 
+
+scatter plots ( Fig. 4B ). However, systematic deviations were observed across 432 
+
+subjects and algorithms. The distribution of timing errors indicated that sleep 433 
+
+onset estimates tended to be closer to the PSG reference than sleep offset 434 
+
+estimates, although variability was present across algorithms ( Fig. 4A ). 435 
+
+Comparing parameterization strategies, the grid -search optimized configurations 436 
+
+generally reduced timing errors and produced estimates that more closely 437 
+
+aligned with PSG, particularly for sleep onset. This improvement was reflected by 438 
+
+tighter clustering of points around the identity line in the scatter plots and 439 
+
+narrower error distributions across subjects. In contrast, manually selected 440 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+parameters exhibited larger deviations from PSG for some algorithms. Bland –441 
+
+Altman analyses further characterized the agreement patterns ( Fig. 4C ). Across 442 
+
+algorithms, the mean bias between algorithm -derived estimates and PSG varied 443 
+
+depending on the algorithm and parameter configuration. Grid -search 444 
+
+optimization generally resulted in reduced bias and narrower limits of agreement, 445 
+
+indicating improved consistency of sleep timing estimates across subjects. 446 
+
+Nevertheless, the limits of agreement remained relatively wide for several 447 
+
+algorithms, highlighting persistent variability in estimating sleep onset and offset 448 
+
+from actigraphy data. Together, these results indicate that while actigraphy -449 
+
+based algorithms can approximate PSG -derived sleep timing, parameter 450 
+
+optimization through grid search improves agreement and reduces variability, 451 
+
+particularly for sleep onset estimation. 452 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+453 
+
+Figure 4. Comparison of sleep timing estimates between algorithms and PSG 454 
+
+using manual and grid -search parameter configurations. 455 
+
+.CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint (A) Distribution of sleep onset and sleep offset timing errors across subjects relative to 456 
+
+PSG (N = 23). Positive values indicate estimates occurring later than the PSG reference, 457 
+
+while negative values indicate earlier estimates. Results are shown for both manual 458 
+
+parameter settings (orange) and grid -search optimized parameters (blue). 459 
+
+(B) Scatter plots comparing algorithm -derived sleep onset (left panels) and sleep offset 460 
+
+(right panels) times against PSG measurements for each algorithm. Points represent 461 
+
+individual subjects. The diagonal dashed line represents perfect agreement with PSG. 462 
+
+Manual parameter results are shown in orange, and grid -search optimized results in 463 
+
+blue. Algorithms are ordered according to the combined mean absolute error (MAE). 464 
+
+(C) Bland –Altman plots illustrating agreement between algorithm estimates and PSG for 465 
+
+sleep onset (left panels) and sleep offset (right panels). Each point represents a subject. 466 
+
+The central line indicates the mean difference (bias) between algorithm and PSG, and 467 
+
+the dashed lines represent the limits of agreement (±1.96 SD). Results for manual 468 
+
+parameter settings are shown in orange, while grid -search optimized parameters are 469 
+
+shown in blue. 470 
+
+471 
+
+4.5 Multi -Day Sleep Detection and Fragmentation Analysis 472 
+
+To investigate algorithm performance under longitudinal conditions, multi -day 473 
+
+actigraphy data from a single subject were analyzed (Fig. 5). Due to limitations in 474 
+
+continuous PSG recordings, the subject wore both a research -grade actigraph 475 
+
+and an Apple Watch Series 10 simultaneously, allowing sleep staging data from 476 
+
+the smartwatch to serve as an external reference. Apple Watch sleep stage 477 
+
+outputs were converted to binary sleep –wake labels (sleep = 1, wake = 0) for 478 
+
+direct comparison with algorithm predictions. 479 
+
+Across multiple consecutive days, the algorithms using grid -search optimized 480 
+
+parameters were able to reproduce the overall sleep –wake structure observed in 481 
+
+the reference signal ( Supp . 3A–B). Major sleep periods were consistently 482 
+
+identified, and transitions between wake and sleep generally aligned with the 483 
+
+smartwatch -derived labels. Pairwise Cohen’s κ analysis showed that grid -search –484 
+
+optimized algorithms exhibited higher agreement both with each other and with the 485 
+
+smartwatch -derived labels compared with PSG -based comparisons (Supp. 3C) .486 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+Wake bouts occurring within sleep were identified in the reference signal and 487 
+
+grouped by duration to evaluate how well each algorithm detected brief 488 
+
+awakenings (Fig. 5A). Short bouts were the most common, with 29 bouts lasting 489 
+
+1–2 min and 18 lasting 3 –5 min. Detection performance varied substantially for 490 
+
+these short awakenings. For 1 –2 min bouts, traditional algorithms such as Cole –491 
+
+Kripke, Sadeh, and Oakley detected approximately 75 –90% of events, whereas 492 
+
+Crespo and MASDA detected substantially fewer (~30% and ~27%, 493 
+
+respectively). The ensemble approaches performed strongly, with Consensus 494 
+
+detecting all 1 –2 min bouts and the Majority method detecting ~80%. A similar 495 
+
+pattern was observed for 3 –5 min bouts, where detection remained high for 496 
+
+Cole –Kripke, Oakley, and Consensus (~88 –90%), moderate for Sadeh (~72%), 497 
+
+and markedly lower for Crespo (~11%) and MASDA (~22%). 498 
+
+499 
+
+Detection rates increased with bout duration. For bouts lasting 6 –10 min or 500 
+
+longer, most algorithms —including Cole –Kripke, Sadeh, Oakley, Consensus, and 501 
+
+Majority —detected nearly all events. Crespo also detected longer bouts reliably, 502 
+
+while MASDA continued to detect only a small fraction of 6 –10 min bouts. Across 503 
+
+all durations combined (Fig. 5B), Consensus achieved the highest overall 504 
+
+detection rate (97.0%), followed by Oakley (92.5%), Cole –Kripke (88.1%), 505 
+
+Majority (83.6%), and Sadeh (82.1%), whereas Crespo (29.9%) and MASDA 506 
+
+(34.3%) detected far fewer wake bouts. Consistent with these patterns, the mean 507 
+
+fraction of wake epochs detected within bouts (Fig. 5C) was high for Cole –508 
+
+Kripke, Sadeh, Oakley, and Consensus across most duration bins (generally 509 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+~80 –100%), while Crespo and MASDA captured substantially smaller portions of 510 
+
+wake epochs during short awakenings. 511 
+
+512  Figure 5. Detection of wake bouts occurring within sleep across actigraphy 513 
+
+algorithms. 514 
+
+(A) Wake -bout detection rate by reference bout duration. Wake bouts were defined from 515 
+
+the reference sleep –wake signal as contiguous runs of wake occurring within sleep (i.e., 516 
+
+flanked by sleep on both sides). A bout was considered detected when an algorithm 517 
+
+classified ≥50% of epochs within the bout as wake. Detection rates are shown for 518 
+
+duration bins (1 –2 min, 3 –5 min, 6 –10 min, 11 –20 min, >60 min). Sample sizes for each 519 
+
+bin are indicated below the x -axis labels. Colors represent algorithms: Cole –Kripke, 520 
+
+Sadeh, Oakley, Crespo, MASDA, Consensus, and Majority. The dashed horizontal line 521 
+
+indicates the 50% detection threshold. 522 
+
+(B) Overall wake -bout detection rate across all durations. Values represent the 523 
+
+percentage of reference wake bouts correctly detected by each algorithm. 524 
+
+(C) Mean fraction of wake epochs detected within each bout, averaged by duration bin. 525 
+
+This metric reflects how much of each wake bout is identified as wake by the algorithm, 526 
+
+independent of the binary detection threshold. 527 
+
+528 
+
+529 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+5. Discussion 530 
+
+The main contribution of this study is demonstrating that classical actigraphy 531 
+
+sleep –wake algorithms can be calibrated simultaneously using an unsupervised, 532 
+
+consensus -based grid -search framework without compromising performance 533 
+
+relative to manual parameter adjustment. This addresses a practical challenge in 534 
+
+wearable sleep research: many real -world studies, particularly long -term 535 
+
+behavioral monitoring, lack physiological references such as PSG, yet 536 
+
+investigators must still select plausible and reproducible algorithm parameters. 537 
+
+Current sleep medicine guidance supports the use of actigraphy but emphasizes 538 
+
+that interpretation depends strongly on the scoring approach and context of use 539 
+
+(Smith et al., 2018) .540 
+
+A central finding is that the grid -search strategy identified parameter sets that 541 
+
+produced high agreement across algorithms while maintaining physiologically 542 
+
+plausible sleep estimates. Traditional workflows often rely on default settings, 543 
+
+proprietary software parameters, or manual tuning guided by visual inspection. 544 
+
+Although practical, these approaches are difficult to standardize and reproduce 545 
+
+across studies or raters. Even structured manual scoring introduces subjectivity 546 
+
+and requires explicit procedures to achieve reproducibility (Breneman et al., 547 
+
+2024) .548 
+
+The proposed framework replaces subjective adjustment with an explicit 549 
+
+optimization rule. Instead of relying on visual judgment of whether detected 550 
+
+intervals “look like sleep,” the algorithm searches a predefined parameter space, 551 
+
+removes implausible solutions, and selects the configuration that maximizes 552 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+inter -algorithm agreement. Although the method still depends on assumptions 553 
+
+about plausible sleep proportions and algorithm behavior, it makes the calibration 554 
+
+procedure transparent, auditable, and repeatable. Future work will extend this 555 
+
+approach by incorporating short -term activity averaging (e.g., 30 –60 minute 556 
+
+sliding windows) to detect sustained low -activity intervals that may correspond to 557 
+
+resting periods. 558 
+
+Importantly, consensus does not imply validity. Algorithms may agree while 559 
+
+sharing systematic biases. In PSG comparisons, the calibrated algorithms 560 
+
+showed the typical actigraphy pattern of high sleep sensitivity but lower wake 561 
+
+specificity, with moderate balanced accuracy, kappa, and MCC. This reflects a 562 
+
+known limitation of wrist actigraphy rather than a failure of the framework. 563 
+
+Numerous studies show that actigraphy detects sleep well but tends to 564 
+
+overestimate sleep and underestimate wake, particularly quiet wakefulness and 565 
+
+wake after sleep onset (Quante et al., 2018) .566 
+
+Thus, consensus -based calibration improves reproducibility and provides a 567 
+
+principled way to tune parameters without labels but cannot overcome the 568 
+
+fundamental sensing limitations of wrist accelerometry. Because accelerometers 569 
+
+measure movement rather than neurophysiological sleep, immobile wakefulness 570 
+
+remains difficult to distinguish from sleep. This explains why high recall and 571 
+
+overall accuracy were accompanied by lower specificity and moderate chance -572 
+
+corrected agreement metrics, consistent with previous actigraphy studies 573 
+
+(Quante et al., 2018) .574 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+This perspective also clarifies the comparison with manual tuning. In this study, 575 
+
+manual parameter selection involved visually adjusting outputs until detected 576 
+
+sleep periods appeared to align with low -activity intervals. While this incorporates 577 
+
+contextual human judgment and can adapt to unusual recordings, it is difficult to 578 
+
+standardize and vulnerable to operator bias. The grid -search framework offers a 579 
+
+rule -based alternative that can be applied consistently across recordings. The 580 
+
+fact that optimized configurations generally improved classification balance and 581 
+
+timing agreement relative to manual tuning suggests that systematic parameter 582 
+
+search can outperform ad hoc adjustment under the conditions examined here. 583 
+
+Human scorers tend to prefer outputs that appear physiologically plausible and 584 
+
+internally coherent; the framework operationalizes similar principles through 585 
+
+explicit constraints and agreement criteria. This is particularly valuable in large -586 
+
+scale or technical studies where reproducibility is essential. The importance of 587 
+
+subject -specific calibration is also supported by prior work showing that 588 
+
+personalized models can outperform generalized ones in actigraphy -based sleep 589 
+
+estimation (Khademi et al., 2019) .590 
+
+The ensemble results provide a second contribution. Combining calibrated 591 
+
+algorithms through strict consensus and majority voting produced interpretable 592 
+
+outputs. Ensemble approaches are attractive because classical actigraphy 593 
+
+algorithms differ in their assumptions about thresholds, smoothing, and sleep 594 
+
+continuity. Majority voting reduces the influence of individual algorithm biases, 595 
+
+whereas strict consensus emphasizes high -confidence intervals where all 596 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+algorithms agree. Ensemble strategies have repeatedly improved robustness and 597 
+
+generalization in automated sleep scoring tasks. 598 
+
+These strategies involve different trade -offs. Strict consensus is conservative and 599 
+
+may reduce false -positive sleep detection but can fragment sleep and increase 600 
+
+false wake calls. Majority voting is more permissive and better preserves the 601 
+
+continuity of the main sleep episode but may inherit actigraphy’s tendency to 602 
+
+classify quiet wake as sleep. Accordingly, ensemble choice should depend on 603 
+
+the application: majority voting may be preferable for estimating overall sleep 604 
+
+windows, whereas strict consensus may better identify high -confidence sleep 605 
+
+intervals. 606 
+
+Sleep onset and offset analyses further highlight where consensus -based 607 
+
+optimization is beneficial. Grid -searched configurations generally aligned more 608 
+
+closely with reference timing and reduced error relative to manual tuning, 609 
+
+particularly for sleep onset. Because onset and offset represent transition points, 610 
+
+parameter settings that improve agreement around transitions naturally improve 611 
+
+timing estimates. Nevertheless, Bland –Altman analyses showed wide limits of 612 
+
+agreement for some algorithms, reflecting persistent uncertainty in actigraphy -613 
+
+based timing estimation. This is consistent with literature indicating that 614 
+
+actigraphy is more reliable for estimating overall sleep schedules and sleep 615 
+
+opportunity than for precisely resolving sleep latency, wake after sleep onset, or 616 
+
+fragmentation relative to PSG (Conley et al., 2019) .617 
+
+The multi -day single -subject analysis extends these findings to ecological 618 
+
+monitoring, where actigraphy is often most valuable. Long -term PSG is rarely 619 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+feasible, so wearable devices are frequently used for longitudinal sleep tracking. 620 
+
+In this context, the ability to calibrate classical algorithms without PSG is 621 
+
+particularly useful. The multi -day results suggest that grid -search -tuned 622 
+
+algorithms can recover the main sleep –wake structure across extended 623 
+
+recordings, even when the reference is a consumer wearable rather than PSG. 624 
+
+However, smartwatch -derived labels should be interpreted cautiously, as 625 
+
+consumer devices remain less reliable than PSG and vary across devices and 626 
+
+populations (Lee et al., 2025) .627 
+
+Accordingly, the smartwatch analysis should be interpreted not as clinical 628 
+
+validation but as a real -world stress test of longitudinal behavior. The goal is to 629 
+
+evaluate whether tuned algorithms produce coherent multi -day sleep structure 630 
+
+and plausible fragmentation patterns under realistic monitoring conditions. From 631 
+
+this perspective, the single -subject analysis demonstrates the framework’s 632 
+
+applicability in settings where wearable data are abundant but PSG is 633 
+
+unavailable. 634 
+
+635 
+
+Fragmentation analysis further illustrates the limitations of movement -based 636 
+
+sleep scoring. Although the algorithms consistently detected the main sleep 637 
+
+episode, they differed in sensitivity to brief awakenings. Such awakenings often 638 
+
+produce minimal motion, making them difficult to detect reliably. Algorithms with 639 
+
+stronger smoothing may suppress these events, whereas more reactive 640 
+
+algorithms may overcall wake. Parameter optimization alone cannot fully resolve 641 
+
+this trade -off because fragmentation detection reflects the inherent balance 642 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+between responsiveness and stability within each algorithm. This aligns with 643 
+
+evidence that actigraphy -derived measures of wake after sleep onset and quiet 644 
+
+wake are generally less reliable than total sleep time or sleep period time (Conley 645 
+
+et al., 2019) .646 
+
+Several limitations should be acknowledged. First, the framework optimizes 647 
+
+agreement among existing algorithms, so performance is constrained by their 648 
+
+shared biases. Second, physiological plausibility constraints such as sleep -649 
+
+percentage bounds encode prior assumptions that may vary across populations 650 
+
+or study designs. Third, the manual baseline reflects realistic exploratory practice 651 
+
+but did not involve multiple raters, so comparisons between manual and 652 
+
+automated tuning should be interpreted as proof of principle. Finally, the multi -653 
+
+day dataset involved a single participant with a smartwatch -derived reference, 654 
+
+limiting generalizability. 655 
+
+656 
+
+Future work should evaluate the framework across larger and more diverse 657 
+
+cohorts, including populations with insomnia, fragmented sleep, circadian 658 
+
+disruption, or neurological disorders. Additional unsupervised objectives —such 659 
+
+as transition consistency, day -to -day regularity, or alignment with behavioral 660 
+
+markers like sleep diaries, light exposure, or heart -rate -derived sleep periods —661 
+
+could also be incorporated. Extending the ensemble approach toward weighted 662 
+
+or probabilistic consensus may also improve robustness. 663 
+
+Overall, this study shows that consensus -based grid search provides a practical 664 
+
+and scientifically defensible approach for tuning classical actigraphy algorithms 665 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+when PSG is unavailable. Although it cannot overcome the intrinsic limitations of 666 
+
+accelerometry for detecting quiet wake or fragmentation, it offers clear 667 
+
+advantages over informal manual tuning in transparency, reproducibility, 668 
+
+scalability, and consistency. The ensemble outputs further enhance robustness 669 
+
+by summarizing shared structure across algorithms rather than relying on a 670 
+
+single method. In this sense, the framework functions not as a new sleep 671 
+
+detector but as a calibration and harmonization layer that improves the usability 672 
+
+of existing algorithms in real -world, label -sparse actigraphy research (Patterson 673 
+
+et al., 2023) .674 
+
+6. Declaration of AI and AI -Assisted Technologies 675 
+
+The conceptualization, core logic, and initial codebase of this project were 676 
+
+developed solely by the author. AI -assisted tools (specifically GitHub Copilot, 677 
+
+Claude, and Gemini) were employed for the following purposes: 678 
+
+Code Optimization: Refining scripts and verifying algorithmic integrity against 679 
+
+mathematical formulas and established open -source packages. 680 
+
+Language Refinement: Improving grammatical structure, clarity, and technical 681 
+
+writing style. 682 
+
+Critical Review: Simulating a peer -review perspective to identify potential 683 
+
+weaknesses in the manuscript's logic and presentation. 684 
+
+In all instances, these tools were utilized under strict privacy settings to ensure 685 
+
+that no part of the conversation or data was used for further model training. The 686 
+
+final intellectual content and conclusions remain the sole responsibility of the 687 
+
+author. 688 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+7. Funding Disclosure 689 
+
+This research received no specific grant from any funding agency in the public, 690 
+
+commercial, or not -for -profit sectors. This work was conducted as an 691 
+
+independent project. 692 
+
+8. Code availability 693 
+
+GitHub : git@github.com:arahjou/GridSearch_Actigraphy_Optimization.git 694 
+
+References 695 
+
+Blackwell, T., Ancoli -Israel, S., Redline, S., Stone, K. L., & for the Osteoporotic 696 
+
+Fractures in Men (MrOS) Study Group. (2011). Factors that May Influence the 697 
+
+Classification of Sleep -Wake by Wrist Actigraphy: The MrOS Sleep Study. 698 
+
+Journal of Clinical Sleep Medicine , 7(4), 357 –367. 699 
+
+https://doi.org/10.5664/JCSM.1190 700 
+
+Breneman, C. B., Howell, M. K., Allen, N., Klingaman, E. A., & Reinhard, M. J. (2024). 701 
+
+Manually scoring actigraphy in the absence of a sleep diary: Reliability analysis 702 
+
+in Gulf War veterans. Sleep Epidemiology , 4, 100084. 703 
+
+https://doi.org/10.1016/j.sleepe.2024.100084 704 
+
+Cellini, N., Buman, M. P., McDevitt, E. A., Ricker, A. A., & Mednick, S. C. (2013). 705 
+
+Direct comparison of two actigraphy devices with polysomnographically recorded 706 
+
+naps in healthy young adults. Chronobiology International , 30 (5), 691 –698. 707 
+
+https://doi.org/10.3109/07420528.2013.782312 708 
+
+Chicco, D., & Jurman, G. (2020). The advantages of the Matthews correlation coefficient 709 
+
+(MCC) over F1 score and accuracy in binary classification evaluation.  BMC 710 
+
+Genomics , 21 (1), 6. https://doi.org/10.1186/s12864 -019 -6413 -7711 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+Choi, L., Ward, S. C., Schnelle, J. F., & Buchowski, M. S. (2012).  Assessment of 712 
+
+wear/nonwear time classification algorithms for triaxial accelerometer. Medicine 713 
+
+and Science in Sports and Exercise , 44 (10), 2009 –2016. 714 
+
+https://doi.org/10.1249/MSS.0b013e318258cb36 715 
+
+Cohen, J. (1960). A Coefficient of Agreement for Nominal Scales. Educational and 716 
+
+Psychological Measurement , 20 (1), 37 –46. 717 
+
+https://doi.org/10.1177/001316446002000104 718 
+
+Cole, R. J., Kripke, D. F., Gruen, W., Mullaney, D. J., & Gillin, J. C. (1992). Automatic 719 
+
+Sleep/Wake Identification From Wrist Activity. Sleep , 15 (5), 461 –469. 720 
+
+https://doi.org/10.1093/sleep/15.5.461 721 
+
+Conley, S., Knies, A., Batten, J., Ash, G., Miner, B., Hwang, Y., Jeon, S., & Redeker, N. 722 
+
+S. (2019). Agreement between actigraphic and polysomnographic measures of 723 
+
+sleep in adults with and without chronic conditions: A systematic review and 724 
+
+meta -analysis. Sleep Medicine Reviews , 46 , 151 –160. 725 
+
+https://doi.org/10.1016/j.smrv.2019.05.001 726 
+
+Crespo, C., Aboy, M., Fernández, J. R., & Mojón, A. (2012). Automatic identification of 727 
+
+activity –rest periods based on actigraphy. Medical & Biological Engineering & 728 
+
+Computing , 50 (4), 329 –340. https://doi.org/10.1007/s11517 -012 -0875 -y729 
+
+De Souza, L., Benedito -Silva, A. A., Pires, M. L. N., Poyares, D., Tufik, S., & Calil, H. 730 
+
+M. (2003). Further Validation of Actigraphy for Sleep Studies. Sleep , 26 (1), 81 –731 
+
+85. https://doi.org/10.1093/sleep/26.1.81 732 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+Estimating Sleep Stages from Apple Watch. (2025). Apple Co. 733 
+
+https://www.apple.com/health/pdf/Estimating_Sleep_Stages_from_Apple_Watch 734 
+
+_Oct_2025.pdf 735 
+
+Fekedulegn, D., Andrew, M. E., Shi, M., Violanti, J. M., Knox, S., & Innes, K. E. (2020). 736 
+
+Actigraphy -Based Assessment of Sleep Parameters. Annals of Work Exposures 737 
+
+and Health , 64 (4), 350 –367. https://doi.org/10.1093/annweh/wxaa007 738 
+
+Hammad, G., Reyt, M., Beliy, N., Baillet, M., Deantoni, M., Lesoinne, A., Muto, V., & 739 
+
+Schmidt, C. (2021). pyActigraphy: Open -source python package for actigraphy 740 
+
+data visualization and analysis. PLOS Computational Biology , 17 (10), e1009514. 741 
+
+https://doi.org/10.1371/journal.pcbi.1009514 742 
+
+Hjorth, M. F., Chaput, J. -P., Damsgaard, C. T., Dalskov, S. -M., Michaelsen, K. F., 743 
+
+Tetens, I., & Sjödin, A. (2012). Measure of sleep and physical activity by a single 744 
+
+accelerometer: Can a waist -worn Actigraph adequately measure sleep in 745 
+
+children?: Waist -worn Actigraphs for sleep measures. Sleep and Biological 746 
+
+Rhythms , 10 (4), 328 –335. https://doi.org/10.1111/j.1479 -8425.2012.00578.x 747 
+
+Khademi, A., EL -Manzalawy, Y., Master, L., Buxton, O. M., & Honavar, V. G. (2019). 748 
+
+Personalized Sleep Parameters Estimation from Actigraphy: A Machine Learning 749 
+
+Approach. Nature and Science of Sleep , Volume 11 , 387 –399. 750 
+
+https://doi.org/10.2147/NSS.S220716 751 
+
+Lee, Y. J., Lee, J. Y., Cho, J. H., Kang, Y. J., & Choi, J. H. (2025). Performance of 752 
+
+consumer wrist -worn sleep tracking devices compared to polysomnography: A 753 
+
+meta -analysis. Journal of Clinical Sleep Medicine , 21 (3), 573 –582. 754 
+
+https://doi.org/10.5664/jcsm.11460 755 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+Loock, A., Khan Sullivan, A., Reis, C., Paiva, T., Ghotbi, N., Pilz, L. K., Biller, A. M., 756 
+
+Molenda, C., Vuori‐Brodowski, M. T., Roenneberg, T., & Winnebeck, E. C. 757 
+
+(2021). Validation of the Munich Actimetry Sleep Detection Algorithm for 758 
+
+estimating sleep –wake patterns from activity recordings. Journal of Sleep 759 
+
+Research , 30 (6), e13371. https://doi.org/10.1111/jsr.13371 760 
+
+Meltzer, L. J., Montgomery -Downs, H. E., Insana, S. P., & Walsh, C. M. (2012). Use of 761 
+
+actigraphy for assessment in pediatric sleep research. Sleep Medicine Reviews ,762 
+
+16 (5), 463 –475. https://doi.org/10.1016/j.smrv.2011.10.002 763 
+
+NR Oakley, N. O. (1997). Validation with polysomnography of the Sleepwatch 764 
+
+sleep/wake scoring algorithm used by the Actiwatch activity monitoring system. 765 
+
+Mini Mitter Co. Camntech.Com .766 
+
+Patterson, M. R., Nunes, A. A. S., Gerstel, D., Pilkar, R., Guthrie, T., Neishabouri, A., & 767 
+
+Guo, C. C. (2023). 40 years of actigraphy in sleep medicine and current state of 768 
+
+the art algorithms.  Npj Digital Medicine , 6(1), 51. https://doi.org/10.1038/s41746 -769 
+
+023 -00802 -1770 
+
+Quante, M., Kaplan, E. R., Cailler, M., Rueschman, M., Wang, R., Weng, J., Taveras, E. 771 
+
+M., & Redline, S. (2018).  Actigraphy -based sleep estimation in adolescents and 772 
+
+adults: A comparison with polysomnography using two scoring algorithms. 773 
+
+Nature and Science of Sleep , Volume 10 , 13 –20. 774 
+
+https://doi.org/10.2147/NSS.S151085 775 
+
+Sadeh, A. (2011). The role and validity of actigraphy in sleep medicine: An update. Sleep 776 
+
+Medicine Reviews , 15 (4), 259 –267. https://doi.org/10.1016/j.smrv.2010.10.001 777 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+Sadeh, A., Sharkey, M., & Carskadon, M. A. (1994). Activity -Based Sleep -Wake 778 
+
+Identification: An Empirical Test of Methodological Issues. Sleep , 17 (3), 201 –779 
+
+207. https://doi.org/10.1093/sleep/17.3.201 780 
+
+Simmons, J. P., Nelson, L. D., & Simonsohn, U. (2011). False -Positive Psychology: 781 
+
+Undisclosed Flexibility in Data Collection and Analysis Allows Presenting 782 
+
+Anything as Significant. Psychological Science , 22 (11), 1359 –1366. 783 
+
+https://doi.org/10.1177/0956797611417632 784 
+
+Smith, M. T., McCrae, C. S., Cheung, J., Martin, J. L., Harrod, C. G., Heald, J. L., & 785 
+
+Carden, K. A. (2018). Use of Actigraphy for the Evaluation of Sleep Disorders 786 
+
+and Circadian Rhythm Sleep -Wake Disorders: An American Academy of Sleep 787 
+
+Medicine Systematic Review, Meta -Analysis, and GRADE Assessment. Journal 788 
+
+of Clinical Sleep Medicine , 14 (7), 1209 –1230. https://doi.org/10.5664/jcsm.7228 789 
+
+Walch, O., Huang, Y., Forger, D., & Goldstein, C. (2019). Sleep stage prediction with 790 
+
+raw acceleration and photoplethysmography heart rate data derived from a 791 
+
+consumer wearable device. Sleep , 42 (12), zsz180. 792 
+
+https://doi.org/10.1093/sleep/zsz180 793 
+
+794 
+
+795 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+796 
+
+Supp 1. Sleep algorithm performance against Polysomnography (PSG) ground 797 
+
+truth. 798 
+
+(Left) Activity profile and algorithmic sleep classifications for a single subject over a 7 -799 
+
+day period from the PSG validation dataset. The top row displays the raw mean absolute 800 
+
+deviation (MAD) activity signal. Subsequent rows show binary sleep predictions (colored 801 
+
+blocks) for four optimized algorithms (Cole -Kripke, Oakley, Crespo, MASDA/MASDA) 802 
+
+and two ensemble methods. Note that the Sadeh algorithm was excluded from this 803 
+
+analysis due to convergence failures. 804 
+
+(Right) Detailed 24 -hour view of a single recording day. Vertical red dashed lines 805 
+
+indicate Sleep Onset and Sleep Offset. The bottom -most row displays the concurrent 806 
+
+PSG hypnogram (Sleep Stages: N1, N2, N3, REM), serving as the reference standard. 807 
+
+The visualization highlights the "quiescence vs. sleep" discrepancy discussed in the text: 808 
+
+while all algorithms and ensembles successfully identify the broad sleep window (high 809 
+
+inter -algorithm agreement), they produce solid blocks of sleep prediction that often fail to 810 
+
+capture the physiological wake transitions and sleep architecture nuances present in the 811 
+
+PSG recording. 812 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+813 
+
+Supp 2. Multi -algorithm sleep detection and ensemble convergence compared to 814 
+
+Apple Watch reference. 815 
+
+(Left) Full 10 -day activity profile (top row, blue) and corresponding binary sleep 816 
+
+classifications generated by five optimized algorithms (Cole -Kripke, Sadeh, Oakley, 817 
+
+Crespo, MASDA) and two ensemble strategies (Majority Vote, Full Consensus). 818 
+
+(Right) Detailed 24 -hour view of a single night (highlighted by the black bounding box) 819 
+
+visualizing algorithmic behavior during sleep transitions. Vertical dashed lines indicate 820 
+
+Sleep Onset (red) and Sleep Offset (purple) derived from the Apple Watch reference. 821 
+
+The comparison highlights the structural differences between algorithms: threshold -822 
+
+based methods (Cole -Kripke, Sadeh, Oakley) exhibit high fragmentation and sensitivity 823 
+
+to brief movements, while smoothed approaches (Crespo, MASDA) produce 824 
+
+consolidated sleep blocks but may miss short awakenings. The bottom row displays the 825 
+
+concurrent Apple Watch sleep staging (Wake, Light, Deep, REM) used as the validation 826 
+
+standard for this dataset. 827 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 9, 2026. ;https://doi.org/10.64898/2026.04.07.706161 doi: bioRxiv preprint
+
+828 
+
+Supp 3. Multi -day sleep –wake detection performances 829 
+
+The subject wore a research actigraphy device and an Apple Watch Series 10 830 
+
+simultaneously across multiple consecutive days. Apple Watch sleep staging was 831 
+
+converted into binary sleep –wake labels (sleep = 1, wake = 0) and used as the reference 832 
+
+for evaluation. 833 
+
+(A) Continuous multi -day activity recording showing actigraphy signal and corresponding 834 
+
+sleep –wake classifications produced by the evaluated algorithms using grid -search 835 
+
+optimized parameters. The Apple Watch –derived binary sleep –wake labels are shown 836 
+
+as the reference. 837 
+
+(B) Multi -day comparison between algorithm predictions and the reference sleep –wake 838 
+
+labels. Periods of sleep fragmentation are highlighted where repeated wake transitions 839 
+
+occur within the sleep interval. 840 
+
+(C) Quantitative evaluation of algorithm performance across multiple nights, including 841 
+
+standard classification metrics (e.g., accuracy, sensitivity, specificity) computed relative 842 
+
+to the Apple Watch reference. 843 
+
+844

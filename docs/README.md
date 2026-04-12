@@ -6,92 +6,85 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-11
-- 运行时间：2026-04-11 19:49:12 UTC
+- 最新运行日期：2026-04-12
+- 运行时间：2026-04-12 20:17:34 UTC
 - 运行状态：成功
-- 本次总论文数：24
-- 精读区：11
+- 本次总论文数：21
+- 精读区：8
 - 速读区：13
 
 ### 今日简报（AI）
-今日精选 24 篇前沿论文，深度解析了大脑在离线状态下的环路交互与病理干预
-- 详情：[/202604/11/README](/202604/11/README)
+今日精研21篇神经科学前沿，重点攻克睡眠状态下记忆巩固的核心机制。
+满分论文揭示了蓝斑核-海马体交互及去抑制机制如何通过涟漪波加速记忆重现。
+建议深入了解睡眠对大脑“离线”修复的作用，并关注多模态监测技术的最新进展。
+- 详情：[/202604/12/README](/202604/12/README)
 
 ### 精读区论文标签
-1. [Differential locus coeruleus-hippocampus interactions during offline states](/202604/11/biorxiv-10-1101-2025-09-18-677005-v2-differential-locus-coeruleus-hippocampus-interactions-during-offline-states)  
+1. [Differential locus coeruleus-hippocampus interactions during offline states](/202604/12/biorxiv-10-1101-2025-09-18-677005-v2-differential-locus-coeruleus-hippocampus-interactions-during-offline-states)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：非快速眼动睡眠期间的蓝斑活动
-2. [Repetitive induction of a hibernation-like brain state slows amyloid pathology](/202604/11/biorxiv-10-64898-2025-12-26-694269-v2-repetitive-induction-of-a-hibernation-like-brain-state-slows-amyloid-pathology)  
+   evidence：NREM睡眠期间的LC活动和NE释放及其在前脑回路中的作用
+2. [Sleep-modulated disinhibition enables replay for memory consolidation, accelerated by ripples](/202604/12/biorxiv-10-64898-2025-12-09-693276-v3-sleep-modulated-disinhibition-enables-replay-for-memory-consolidation-accelerated-by-ripples)  
+   标签：评分：10.0/10、query:slp-ns
+   evidence：睡眠调节记忆巩固的神经生物学机制
+3. [Repetitive induction of a hibernation-like brain state slows amyloid pathology](/202604/12/biorxiv-10-64898-2025-12-26-694269-v2-repetitive-induction-of-a-hibernation-like-brain-state-slows-amyloid-pathology)  
    标签：评分：10.0/10、query:tr-hb
-   evidence：诱导类冬眠状态减缓淀粉样蛋白病理的医学应用
-3. [Collapse of local circuit integrated information {Phi} during NREM sleep](/202604/11/biorxiv-10-64898-2026-04-01-715799-v1-collapse-of-local-circuit-integrated-information-phi-during-nrem-sleep)  
+   evidence：诱导类冬眠状态减缓淀粉样病变的医学应用
+4. [Cell-specific variant-to-gene mapping identifies conserved neural and glial regulators of sleep](/202604/12/biorxiv-10-64898-2026-04-07-715910-v1-cell-specific-variant-to-gene-mapping-identifies-conserved-neural-and-glial-regulators-of-sleep)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：NREM 睡眠期间的整合信息
-4. [Endocytosis at the mouse blood brain barrier is elevated during sleep](/202604/11/biorxiv-10-64898-2026-04-02-716170-v1-endocytosis-at-the-mouse-blood-brain-barrier-is-elevated-during-sleep)  
+   evidence：睡眠和白天嗜睡的遗传基础及神经/胶质调节因子
+5. [NREM Oscillations Mediate Synaptic Proteome Remodelling to Support Synapse Stabilisation](/202604/12/biorxiv-10-64898-2026-04-07-716883-v1-nrem-oscillations-mediate-synaptic-proteome-remodelling-to-support-synapse-stabilisation)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：睡眠期间血脑屏障的内吞作用
-5. [Cell-specific variant-to-gene mapping identifies conserved neural and glial regulators of sleep](/202604/11/biorxiv-10-64898-2026-04-07-715910-v1-cell-specific-variant-to-gene-mapping-identifies-conserved-neural-and-glial-regulators-of-sleep)  
-   标签：评分：10.0/10、query:slp-ns
-   evidence：鉴定保守的神经和胶质睡眠调节因子
-6. [NREM Oscillations Mediate Synaptic Proteome Remodelling to Support Synapse Stabilisation](/202604/11/biorxiv-10-64898-2026-04-07-716883-v1-nrem-oscillations-mediate-synaptic-proteome-remodelling-to-support-synapse-stabilisation)  
-   标签：评分：10.0/10、query:slp-ns
-   evidence：非快动眼睡眠振荡与突触蛋白质组重塑
-7. [Reactivation during sleep segregates the neural representations of episodic memories](/202604/11/biorxiv-10-64898-2026-04-08-717230-v1-reactivation-during-sleep-segregates-the-neural-representations-of-episodic-memories)  
-   标签：评分：10.0/10、query:slp-ns
-   evidence：研究睡眠期间的重新激活如何影响记忆的神经表征
-8. [Sleep-modulated disinhibition enables replay for memory consolidation, accelerated by ripples](/202604/11/biorxiv-10-64898-2025-12-09-693276-v3-sleep-modulated-disinhibition-enables-replay-for-memory-consolidation-accelerated-by-ripples)  
+   evidence：非快速眼动睡眠振荡与突触蛋白质组重塑
+6. [Hippocampal neuronal and astrocytic responses to noradrenaline and natural arousal](/202604/12/biorxiv-10-64898-2026-01-16-699885-v3-hippocampal-neuronal-and-astrocytic-responses-to-noradrenaline-and-natural-arousal)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：慢波睡眠与记忆巩固机制
-9. [Hippocampal neuronal and astrocytic responses to noradrenaline and natural arousal](/202604/11/biorxiv-10-64898-2026-01-16-699885-v3-hippocampal-neuronal-and-astrocytic-responses-to-noradrenaline-and-natural-arousal)  
+   evidence：自然觉醒期间的细胞反应特征
+7. [Reactivation during sleep segregates the neural representations of episodic memories](/202604/12/biorxiv-10-64898-2026-04-08-717230-v1-reactivation-during-sleep-segregates-the-neural-representations-of-episodic-memories)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：自然觉醒期间的细胞反应谱
-10. [MATR3 is essential for oocyte growth and maturation quality through a dual molecular mechanism](/202604/11/biorxiv-10-64898-2026-02-12-705648-v3-matr3-is-essential-for-oocyte-growth-and-maturation-quality-through-a-dual-molecular-mechanism)  
-   标签：评分：9.0/10、query:qll
-   evidence：卵母细胞生长和成熟过程中mRNA积累的分子机制
-11. [A Grid-Search Framework for Dataset-Specific Calibration of Actigraphy Sleep Detection Algorithms](/202604/11/biorxiv-10-64898-2026-04-07-706161-v1-a-grid-search-framework-for-dataset-specific-calibration-of-actigraphy-sleep-detection-algorithms)  
+   evidence：睡眠期间的神经表征与记忆重现
+8. [Memory reactivation during sleep promotes structure abstraction](/202604/12/biorxiv-10-64898-2026-04-10-717748-v1-memory-reactivation-during-sleep-promotes-structure-abstraction)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：体动记录仪睡眠检测算法的校准
+   evidence：睡眠期间的记忆重现及其在结构抽象中的作用
 
 ### 速读区论文标签
-1. [The astrocyte clock controls circadian perineuronal net remodeling, synapse strength and learning behavior](/202604/11/biorxiv-10-64898-2026-04-04-716486-v1-the-astrocyte-clock-controls-circadian-perineuronal-net-remodeling-synapse-strength-and-learning-behavior)  
+1. [Fusion hidden Markov modeling reveals a dominant backbone state and transient alternatives in simultaneous resting-state EEG-fMRI](/202604/12/biorxiv-10-64898-2026-04-04-716444-v1-fusion-hidden-markov-modeling-reveals-a-dominant-backbone-state-and-transient-alternatives-in-simultaneous-resting-state-eeg-fmri)  
    标签：评分：8.0/10、query:slp-ns
-   evidence：昼夜节律时钟与周期的神经调节
-2. [Self-Supervised Foundation Model for Calcium-imaging Population Dynamics](/202604/11/2604.04958v1-self-supervised-foundation-model-for-calcium-imaging-population-dynamics)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：用于神经科学钙成像分析的基础模型
-3. [Self-Supervised Foundation Model for Calcium-imaging Population Dynamics](/202604/11/2604.04958v2-self-supervised-foundation-model-for-calcium-imaging-population-dynamics)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：用于神经科学钙成像分析的基础模型
-4. [Thermogenic Adipose ADH5 Counteracts Age-related Metabolic Decline](/202604/11/biorxiv-10-1101-2025-07-01-662628-v4-thermogenic-adipose-adh5-counteracts-age-related-metabolic-decline)  
+   evidence：静息态EEG-fMRI中的大脑动力学
+2. [A Grid-Search Framework for Dataset-Specific Calibration of Actigraphy Sleep Detection Algorithms](/202604/12/biorxiv-10-64898-2026-04-07-706161-v1-a-grid-search-framework-for-dataset-specific-calibration-of-actigraphy-sleep-detection-algorithms)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：体动记录仪睡眠检测算法的校准
+3. [Complement modulation synergizes with therapeutic hypothermia in a rat model of neonatal HIE](/202604/12/biorxiv-10-64898-2026-04-07-717097-v1-complement-modulation-synergizes-with-therapeutic-hypothermia-in-a-rat-model-of-neonatal-hie)  
+   标签：评分：8.0/10、query:tr-hb
+   evidence：治疗性低温及诱导降温的医学应用
+4. [Thermogenic Adipose ADH5 Counteracts Age-related Metabolic Decline](/202604/12/biorxiv-10-1101-2025-07-01-662628-v4-thermogenic-adipose-adh5-counteracts-age-related-metabolic-decline)  
    标签：评分：7.0/10、query:qll
-   evidence：与年龄相关的代谢稳态下降和衰老
-5. [NEuRT: A Transformer-Based Model for Explainable Neuronal Activity Analysis](/202604/11/biorxiv-10-64898-2026-01-13-699305-v2-neurt-a-transformer-based-model-for-explainable-neuronal-activity-analysis)  
+   evidence：衰老过程中的蛋白质S-亚硝基化修饰与代谢衰退
+5. [A cholinergic mechanism orchestrating task-dependent computation across the cortex](/202604/12/biorxiv-10-1101-2025-11-26-690825-v2-a-cholinergic-mechanism-orchestrating-task-dependent-computation-across-the-cortex)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：用于分析复杂神经元活动和相互作用的Transformer模型
-6. [State-Dependent Organization of Microscale Functional Circuitry in Visual Cortex](/202604/11/biorxiv-10-64898-2026-03-31-715474-v2-state-dependent-organization-of-microscale-functional-circuitry-in-visual-cortex)  
+   evidence：任务依赖性动力学的胆碱能机制
+6. [Precision phase targeting of event-related oscillations using real-time closed-loop TMS-EEG](/202604/12/biorxiv-10-64898-2026-03-26-713979-v2-precision-phase-targeting-of-event-related-oscillations-using-real-time-closed-loop-tms-eeg)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：觉醒状态与视觉皮层功能回路
-7. [Stress-Induced PTBP1 Reprograms Neuronal Function and Activates Cellular Senescence](/202604/11/biorxiv-10-64898-2026-04-03-711742-v1-stress-induced-ptbp1-reprograms-neuronal-function-and-activates-cellular-senescence)  
+   evidence：用于靶向脑电振荡的实时闭环TMS-EEG系统
+7. [A water compartment cell culture lid enables stable longitudinal recording of neuronal networks in vitro](/202604/12/biorxiv-10-64898-2026-04-01-713917-v1-a-water-compartment-cell-culture-lid-enables-stable-longitudinal-recording-of-neuronal-networks-in-vitro)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：神经元网络的纵向记录
+8. [The dynamics of piRNA expression in Blattella germanica ovaries](/202604/12/biorxiv-10-64898-2026-04-02-716027-v1-the-dynamics-of-pirna-expression-in-blattella-germanica-ovaries)  
    标签：评分：7.0/10、query:qll
-   evidence：PTBP1对神经元基因表达和细胞衰老的调节
-8. [Brain anatomy and molecular signaling predict neurophysiological dynamics across the lifespan](/202604/11/biorxiv-10-64898-2026-04-03-715930-v1-brain-anatomy-and-molecular-signaling-predict-neurophysiological-dynamics-across-the-lifespan)  
+   evidence：卵巢成熟和卵母细胞的转录活性
+9. [Synaptotagmin isoforms differentially regulate glutamate and GABA release in the lateral habenula](/202604/12/biorxiv-10-64898-2026-04-02-716068-v1-synaptotagmin-isoforms-differentially-regulate-glutamate-and-gaba-release-in-the-lateral-habenula)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：跨生命周期的神经生理动力学和分子信号传导
-9. [Fusion hidden Markov modeling reveals a dominant backbone state and transient alternatives in simultaneous resting-state EEG-fMRI](/202604/11/biorxiv-10-64898-2026-04-04-716444-v1-fusion-hidden-markov-modeling-reveals-a-dominant-backbone-state-and-transient-alternatives-in-simultaneous-resting-state-eeg-fmri)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：静息态EEG-fMRI脑动力学的融合建模
-10. [Explainable Machine Learning Reveals 12-Fold Ucp1 Upregulation and Thermogenic Reprogramming in Female Mouse White Adipose Tissue After 37 Days of Microgravity: First AI/ML Analysis of NASA OSD-970](/202604/11/2604.02942v1-explainable-machine-learning-reveals-12-fold-ucp1-upregulation-and-thermogenic-reprogramming-in-female-mouse-white-adipose-tissue-after-37-days-of-microgravity-first-aiml-analysis-of-nasa-osd-970)  
-   标签：评分：6.0/10、query:tr-hb
-   evidence：哺乳动物生理学中的代谢适应和产热重编程
-11. [How Long short-term memory artificial neural network, synthetic data, and fine-tuning improve the classification of raw EEG data](/202604/11/2604.04316v1-how-long-short-term-memory-artificial-neural-network-synthetic-data-and-fine-tuning-improve-the-classification-of-raw-eeg-data)  
+   evidence：哺乳动物大脑中调节行为状态的神经递质共同传递
+10. [Convolutional Neural Network and Adversarial Autoencoder in EEG images classification](/202604/12/2604.04313v1-convolutional-neural-network-and-adversarial-autoencoder-in-eeg-images-classification)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：使用 LSTM 和合成数据对原始脑电图数据进行分类
-12. [Structured stabilization in recurrent neural circuits through inhibitory synaptic plasticity](/202604/11/biorxiv-10-1101-2024-10-12-618014-v4-structured-stabilization-in-recurrent-neural-circuits-through-inhibitory-synaptic-plasticity)  
+   evidence：神经科学中的EEG数据分析和脑活动分类
+11. [Regime Mapping of Oscillatory States in Balanced Spiking Networks with Multiple Time Scales](/202604/12/2604.04770v1-regime-mapping-of-oscillatory-states-in-balanced-spiking-networks-with-multiple-time-scales)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：抑制性连接的自组织以稳定神经回路
-13. [Spatial Organellomics Maps Cell State Diversity and Metabolic Adaptation in Tissues](/202604/11/biorxiv-10-1101-2024-12-06-627285-v2-spatial-organellomics-maps-cell-state-diversity-and-metabolic-adaptation-in-tissues)  
-   标签：评分：6.0/10、query:qll
-   evidence：绘制组织中的细胞状态多样性和代谢适应图谱
+   evidence：脉冲网络中的振荡状态
+12. [Frailty Estimation in Elderly Oncology Patients Using Multimodal Wearable Data and Multi-Instance Learning](/202604/12/2604.06985v1-frailty-estimation-in-elderly-oncology-patients-using-multimodal-wearable-data-and-multi-instance-learning)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：用于衰弱评估的智能手表睡眠特征
+13. [EEG2Vision: A Multimodal EEG-Based Framework for 2D Visual Reconstruction in Cognitive Neuroscience](/202604/12/2604.08063v1-eeg2vision-a-multimodal-eeg-based-framework-for-2d-visual-reconstruction-in-cognitive-neuroscience)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：认知神经科学中基于EEG的框架
 
 
 <div class="dpr-home-promo-card">
