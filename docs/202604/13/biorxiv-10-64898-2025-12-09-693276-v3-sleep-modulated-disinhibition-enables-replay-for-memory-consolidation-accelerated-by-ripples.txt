@@ -1,0 +1,1258 @@
+Title: Sleep-modulated disinhibition enables replay for memory consolidation, accelerated by ripples
+
+URL Source: https://www.biorxiv.org/content/10.64898/2025.12.09.693276v3.full.pdf
+
+Number of Pages: 49
+
+Markdown Content:
+# Sleep-modulated disinhibition enables replay for memory consolidation, accelerated by ripples 
+
+Shrey Dutta 1*  
+
+> 1Independent researcher, Sahiya, Uttarakhand, India
+
+* shreyndutta@gmail.com 
+
+# Abstract 
+
+Memory consolidation involves elusive neural mechanisms. Here, we develop a biophysically detailed model of the entorhinal-hippocampal-cortical network to reveal that disinhibi-tion drives synaptic and systems consolidation. Transitioning to slow-wave sleep via neuromodulatory dampening of inhibition generates up-down states and spontaneous, time-compressed replays of spatial sequences encoded with phase precession. Lateral inhibition levels unify physiological and pathological ripple diversity. Cortical disinhibition enables memory transfer from hippocampus. Weakened afferent CA1 synapses eliminate ripples but spare replays, proposing strategies to mitigate ripple disruptions. Replays sustain systems consolidation even without ripples, albeit slower; excessive weakening halts it, rescuable by enhanced hippocampal-to-cortical connectivity. Medial entorhinal cortex (MEC)-mediated CA1 disinhibition compensates for attenuated neuromodulatory CA1 disinhibition, mimicking MEC-input-dependent quiet wakefulness replay; under this configuration during wakefulness, artificially inducing disinhibition triggers replays and ripples that drive consolidation, underscoring disinhibition’s state-agnostic role. These insights elucidate disinhibition’s centrality in engraining memories and fostering hippocam-pal independence, reconciling empirical observations, yielding testable predictions, and identifying therapeutic avenues for memory disorders. 
+
+# Introduction 
+
+Memory consolidation, the process that transforms transient experiences into endur-ing memories, is fundamental to learning and cognition [1 –5]. It encompasses synaptic consolidation—stabilizing memory engrams locally in the hippocampus [6 –10]—and sys-tems consolidation—integrating engrams with cortical networks [11 –15]. Both rely on neural phenomena during slow-wave sleep [16 –21] and quiet wakefulness [22 –25]: memory replays reactivating sequential neural patterns from recent experiences [26 –33]; sharp-wave ripples (SWRs), high-frequency oscillations that synchronize neuronal firing to promote synaptic plasticity [3, 34, 35]; and replay-mediated transfer redistributing hip-pocampal engrams to cortical regions (e.g., retrosplenial or prefrontal cortex), enabling long-term storage independent of the hippocampus [36 –40]. Despite significant progress, the mechanisms initiating and regulating these phenomena remain elusive. 1
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+Emerging evidence reshapes our understanding of hippocampal SWR generation, focusing on disinhibition regulated by neuronal and neuromodulatory factors [41 –43]. Traditionally, SWRs were thought to initiate sequential replay activity [44, 45]—but ripple-less replays [46] indicate independent mechanisms that remain to be elucidated. Moreover, although transient cortical disinhibition is necessary for hippocampal-to-cortical communication [47, 48], concurrent sleep-state alterations in inhibitory circuits [49 –57] challenge its sufficiency, necessitating a refined mechanistic framework. Studies indicate that SWRs facilitate hippocampal-to-cortical transfer of replayed sequences, as evidenced by co-occurrence with hippocampal replays [58 –63] and ensuing cortical activity [64 –67], along with impaired memory recall following ripple-associated replay disruption [68 –73]. Wakeful ripple-associated replays tag engrams for selective sleep consolidation [74]. Ripple-less replay of non-salient trajectories [46] refines this view, since trajectory saliency dictates ripple coupling and thereby replay prioritization for cortical storage [75, 76]. These insights prompt pivotal questions: What mechanistic distinctions underlie ripple-associated versus ripple-less replay? Can ripple-less replay mediate hippocampal-to-cortical engram transfer? To address these questions, existing models often omit biophysical integrations critical for multi-region dynamics across sleep-wake states. We thus develop a computational model of the entorhinal-hippocampal-cortical network, incorporating Hodgkin-Huxley neurons [77]; synaptic plasticity rules [78] including dynamic feedforward [79], feedback and lateral inhibition [80]; short-term plasticity [81]; inter- and intra-regional delays [82]; phase precession during encoding [83]; protein-mediated synaptic stabilization [84]; spine addition/removal [85]; and ionic dynamics for awake-sleep transitions [86]. This model sim-ulates stimulus-triggered sequence encoding, spontaneous hippocampal replay and SWRs upon slow-wave sleep onset, and both synaptic and systems-level memory consolidation. 
+
+# Results 
+
+Medial entorhinal cortex stimulation drives entorhinal-hippocampal spatial memory encoding 
+
+Our model includes neuronal populations for the medial entorhinal cortex (MEC), hip-pocampal subregions (dentate gyrus, DG; CA3; CA1), cortical regions (CR, e.g., prefrontal or retrosplenial cortex), and a background population that simulates asynchronous-irregular synaptic inputs during wakefulness [87, 88] and up-down dynamics during slow-wave sleep (SWS) [89] from unmodeled brain regions (Fig. 1a,b; Methods). To simulate the wakefulness-to-SWS transition, we lowered extracellular potassium buffer concentration ([K +]Buffer ) from 3.5 to 3.0 mM, reflecting the observed drop in extracellular potassium concentration ([K +]o) during natural sleep [86]. This [K +]o reduction decreases neuronal excitability via hyperpolarized resting potentials [86] and weakens inhibitory synaptic efficacy [49] via a K +-dependent disinhibition modulating factor (Methods), inducing SWS-typical up-down dynamics (Fig. 1b) [90]. Excitatory-to-excitatory synaptic strengths evolve via triplet-spike-timing-dependent 2
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+plasticity (triplet-STDP) [78], with proportional adjustments to associated inhibitory synapses for balanced feedforward, feedback, and lateral inhibition (Fig. 1a; Methods). Spatial navigation was simulated by sequentially stimulating location-specific MEC excita-tory assemblies with phase-precessing spike bursts (Fig. 1c; Methods) [83]. Efferent MEC projections elicited delayed activation of corresponding assemblies in DG, CA3, and CA1, driving synaptic potentiation across regions (Fig. 1d) [91]. This strengthened initially weak MEC →MEC, DG →CA3, and CA3 →CA3 synapses to encode sequence A–D, while enhanc-ing MEC →DG/CA3/CA1 and CA3 →CA1 projections. Strong CA1 →CR feedforward inhibition [92 –95] (Methods) limited CR activity below potentiation thresholds and thereby induced synaptic depression during exploration [96], preventing premature sequence matu-ration and allowing cortical engram recall only post-offline consolidation [38]. Potentiation saturates at peak spine receptor density but remains labile until protein-mediated synaptic stabilization (Methods). Potentiated synapses stabilize over hours through lingering plasticity-related proteins (PRPs) from encoding, independent of engram reactivation [97]. To save stabilization time before sleep simulations, we assumed complete stabilization of encoding-induced changes by equating stable synaptic weights ( ew) to overall (stable+labile) weights ( w)and resetting PRPs to zero, enabling new spine formation and further potentiation during offline reactivation (Methods). 3
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+DG MEC CA3 CA1 CR Background Entorhinal-hippocampal-cortical circuit Pre Post Post 
+
+Δw ±BΔw ±AΔw ±
+
+Self Other Other ASIN 
+
+cΔw ± DΔw ±
+
+Δw ±FΔw ± FΔw ±Fig 1: Entorhinal-hippocampal-cortical circuit model, awake/sleep dynamics, and stimulation-driven encoding . a Left: Schematic of the entorhinal-hippocampal-cortical circuit driven by background neural activity. Brain regions: medial entorhinal cortex (MEC, green), dentate gyrus (DG, yellow), CA3 (purple), CA1 (red), cortical regions (CR, blue-green), unmodeled brain regions (Background, black). Black solid arrows denote effective pre-encoding connections (MEC →DG, MEC →CA3, MEC →CA1, CA3 →CA1). Gray solid arrow (CA1 →CR) indicates anatomical connection with strong feedforward inhibition during wakefulness. Dashed arrows show ineffective (weak) pre-encoding connections (DG →CA3; recurrent in MEC, CA3, CR). Lightning bolt on MEC signifies stimulation initiating encoding. Right top: Dynamic synaptic updates for feedforward inhibition. Neurons: presynaptic excitatory (‘pre’, unfilled circle), postsynaptic excitatory (‘post’, unfilled circle) or inhibitory (gray filled circle). Updates: ∆ w±
+
+from ‘pre’ to excitatory ‘post’ drives A∆w± to ‘pre’ →inhibitory ‘post’ and B∆w± to inhibitory ‘post’ →excitatory ‘post’, where 
+
+A = a/M , B = b/M , M is the number of interneurons in the feedforward inhibition path from ‘pre’ to ‘post’, and a, b are scaling constants. Right bottom: Dynamic synaptic updates for feedback and lateral inhibition. Neurons: excitatory in the assembly of ‘post’ (‘self’, middle unfilled circle), in other assemblies (‘other’, left/right unfilled circles), assembly-specific inhibitory neuron (ASIN, filled circle). Updates: ∆ w± to ‘post’ drives c∆w± to ‘post’ →ASIN, D∆w± to ASIN →‘self’ (feedback), F ∆w± to ASIN →‘other’ (lateral), where D = d/N , F = f /N , N is the number of neurons in the assembly, and c, d, f are scaling constants. Arrows: excitatory; round arrowheads: inhibitory. b Extracellular potassium buffer ([K +]Buffer ) decrease (3.5 to 3.0 mM) transitions the dynamics from ‘awake’ to ‘slow-wave sleep’ via disinhibition. Top: Raster plots of spikes from 435 neurons (1–336 excitatory, 337–435 inhibitory) showing ‘awake’ (asynchronous-irregular; left) and ‘slow-wave sleep’ (up-down; right) dynamics before encoding. Bottom: Respective local field potential activity, (Φ), from ‘Background’ neurons. Gray lines trace the upper and lower envelopes. 
+
+c Top: Stimulation pattern mimicking exploration from locations A to D with phase precession for 16 MEC neurons over 1.125 s. Each gray 8-Hz cycle (9 cycles, 125 ms each) is organized into four phases, with colored letters (blue A, orange B, green C, pink D: locations; black X: none) marking burst stimulation (three spikes) in the four neurons of each location-specific cell assembly, advancing to earlier phases with successive cycles. Bottom: Raster plot over 5 s during four complete stimulations of locations (MEC cell assemblies in green) ‘A’ to ‘D’. Inhibitory neurons at top with gray shading. Background activity (black) is asynchronous irregular (‘awake’). MEC stimulation drives downstream activity via effective connections (panel a). Inset: Zoomed view of the latter part of the second stimulation (boxed), showing delayed activation in downstream regions for locations C and D. d Top: Time course of changes (∆) in mean excitatory-to-excitatory synaptic weights for connections in panel a during stimulation-driven encoding ( ⟨∆w⟩, solid: fast overall [labile + stable] governed by spike-timing-dependent plasticity; ⟨∆ ew⟩, dashed: slow stable governed by protein-mediated stabilization; ⟨∆w⟩ − ⟨ ∆ ew⟩, shading: labile component). The 5-min stimulation period (from 30 s to 330 s) represents repeated sequential exploration of locations ‘A’ to ‘D’. Middle & bottom: Matrices showing overall weights, w,between neurons before (middle) and after (bottom) the stimulation-driven encoding; white indicates no connection. 
+
+4
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint Hippocampal disinhibition enables sequential replay of encoded engrams via inter-assembly delay 
+
+Following encoding, we transitioned to SWS dynamics. Reduced feedforward inhibition via a K +-dependent disinhibition factor (Methods) triggered spontaneous reactivation of location-specific assemblies in entorhinal and hippocampal regions (Fig. 2a). These reactivations replayed the encoded sequence (A–D) in compressed form, shortening from 1.125 s (Fig. 1c) to less than 400 ms (Fig. 2b–g), as observed in ethological contexts [33]. Replay initiated mainly during SWS up-phases, concordant with empirical studies [98]. Sequential replay propagated downstream [99–101], mirroring delayed hippocampal acti-vation during encoding (Fig. 1c). Partial replays (length < 4) outnumbered full replays (length = 4) (Fig. 2h), recapitulating empirical patterns [102]. CA3 generates replay sequences independently of MEC inputs [101]; MEC silencing (via 60-fold feedforward inhibition increase) reduced replay occurrences but preserved lengths and durations, echo-ing empirical findings [101]. Intra-regional inter-assembly delays exceed intra-assembly delays (Methods); eliminating them (set to 0 ms) disrupted sequential replays (Fig. 2i), underscoring their role in sequence maintenance [103]. 5
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+33.5 
+
+> h [K +]o i
+> (mM)
+
+030 
+
+> h A i
+> (spikes/s)
+
+0 100 500 Time (s) 030 
+
+> h A i
+> (spikes/s)
+
+2 3 4CA1 replay length 010 Log(count) 
+
+> MEC Normal MEC Silencing
+
+125.4 126.2 1400 Cell ID 236.6 237.4 427 427.8 170.15 170.95 1400 Cell ID 251.95 252.75 Time (s) 490.15 490.95 0 1Time (s) 180 Cell ID 0 1Time (s) 
+
+a b c de f ghi
+
+b c de fg
+
+Awake Slow-wave sleep MEC Normal MEC Silencing 
+
+Replay length 2 Replay length 3 Replay length 4 With inter-assembly delay Without inter-assembly delay Fig 2: Transition to slow-wave sleep activates K +-dependent disinhibition that enables spontaneous time-compressed replay via inter-assembly delay. a Time courses of average extracellular K +, [K +]o , and average firing rate of entorhinal and hippocampal regions. Top: Temporal evolution of ⟨[K +]o⟩ from ‘Background’ neurons when [K +]Buffer is decreased from 3.5 to 3.0 mM at 100 s to initiate the transition from ‘awake’ to ‘slow-wave sleep’ dynamics. Middle & bottom: Average firing rates, ⟨ψ⟩,during normal MEC dynamics (middle) and during silenced MEC dynamics by enhanced inhibition (bottom). Arrows labeled ‘b’ to ‘g’ point to the timestamps of rasters in panels b to g. b–g Top: 1200 ms raster plot of spikes from all neurons at the respective timestamps from panel a. Bottom: Zoom of the 400 ms box from the top panel showing exemplars of replays with lengths 2–4. h
+
+Bar plot showing the logarithm of total number of CA1 replays of lengths 2–4 during time-courses in panel a. i Left: Sequential replay with inter-assembly delay. Right: Disrupted replay sequence without inter-assembly delay. Colors represent brain regions as in Fig. 1. 
+
+Reduced CA1 excitatory input yields ripple-less replay and de-celerates synaptic consolidation, until disruption 
+
+Synchronized assembly bursts during replay evoke sharp-wave ripple (SWR)-like oscilla-tions in simulated LFPs, originating in CA3 [45,104 –107] and propagating to CA1 [42,104, 108, 109], as shown by frequency-time analyses (Fig. 3a). Motivated by ripple-less replays in non-salient contexts [46], we attenuated CA3 →CA1 excitatory input without modeling saliency sources. This abolished ripples while preserving replay sequences (Fig. 3b), consistent with diminished ripples in salience-impaired states [110–114]. Although both ripple-associated and ripple-less replays consolidate hippocampal en-gram synapses by enhancing w via triplet-STDP and ew via PRP consumption (Fig. 3a,b; 6
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint Methods), ripple-less replays at intermediate CA3 →CA1 weight reduction (0.17 ×) con-solidate slowly (functional), as triplet-STDP induces weaker potentiation at lower spike rates [78] and activity-dependent PRP synthesis (Methods) yields fewer PRPs for con-sumption (Fig. 3b). At higher reductions (0.13 ×), ripple-less replays persist but disrupt consolidation (dysfunctional; Fig. 3c). 0 400 1400 -0.1 00.3          
+
+> h"wi
+> &h" ewi
+> 180 Cell ID -1 1
+> )
+> (mV)
+> 0300 f(Hz) -1 1
+> )
+> (mV)
+> 103.98 104.18 0300 f(Hz) 0400 1400
+> 103.98 104.18 Time (s) 0400 1400
+> -22 -15 Power (dB)
+> 103.98 104.18
+> -22 -15 Power (dB)
+
+a b c1.0 #CA3 !CA1 0.17 #CA3 !CA1 0.13 #CA3 !CA1 Ripples No ripples No ripples Replay with ripples Replay without ripples (functional) Replay without ripples (dysfunctional)       
+
+> Fig 3: Reduced CA1 excitatory input renders replay without ripples, slowing synaptic consolidation, until disruption .
+> a–c Dynamics with CA3 →CA1 connectivity at 1.0 ×(a; with ripples), 0.17 ×(b; without ripples, functional), and 0.13 ×(c; without ripples, dysfunctional). Row 1: Time course of changes (∆) in mean CA3 →CA1 excitatory synaptic weights during slow-wave sleep (⟨∆w⟩, solid, overall; ⟨∆ew⟩, dashed, stable; shading, labile; see Fig. 1d for details). Rows 2–6: 300-ms raster plot (row 2), local field potential and time-frequency analysis for CA1 (rows 3–4) and CA3 (rows 5–6) showing an exemplar replay. Colors represent brain regions as in Fig. 1.
+
+Lateral inhibition unifies empirically observed ripple diversity 
+
+To examine lateral inhibition (LI) effects at fixed reduced levels on CA1 ripple-associated replays, we disabled triplet-STDP and dynamic inhibitory updates to prevent interference with fixed LI values, while silencing MEC to isolate the CA3 →CA1 circuit. LI modulation controls inter-assembly gap durations during sequence replay [115], with reductions that elevate average ripple power (Fig. 4a; Methods) [80]. At 100% LI, discrete ripple chains emerge as separable high-frequency bursts in frequency-time spectra, with successive events encoding adjacent assemblies (Fig. 4b, left), consistent with observed chains [99, 116, 117]. At 50% LI, shortened gaps concatenate fragments into prolonged ripples (Fig. 4b, middle), mirroring long-duration ripples [80, 105, 117]. At 0% LI, total fusion disrupts winner-takes-all dynamics [118 –121], co-activating assemblies into disordered bursts (Fig. 4b, right), resembling ripples in schizophrenia models [122]. 7
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint 100% 50% 0% Lateral inhibition 00.07 Mean ripple power (mV 2)180 Cell ID -1 2    
+
+> )
+> (mV)
+> 50 250 0400 f(Hz)
+> 50 250 Time (ms)
+> 50 250
+> -22 -15 Power (dB)
+
+a b 100% (chain) 50% (long-duration) 0% (pathological) Fig 4: Different levels of lateral inhibition unify ripple diversity . a Mean power of CA1 ripple-associated replays (all lengths, including 1) increases as lateral inhibition (LI) decreases, computed over 200-s simulations. b 300-ms raster plot (row 1), CA1 local field potential (row 2), and CA1 frequency-time analysis (row 3) at 100% LI (ripple chain; left), 50% LI (long-duration ripple; middle), and 0% LI (pathological ripple; right). MEC is silenced to eliminate its inputs to CA3 and CA1, thereby isolating CA3 modulation of CA1. Colors represent brain regions as in Fig. 1. 
+
+Cortical disinhibition enables sequence transfer from hippocam-pus resulting in hippocampal independence 
+
+Systems consolidation involves the transfer of hippocampal memories to cortical regions (CRs) [39, 123 –126], rendering them independent of the hippocampus [11, 38, 127, 128] for endurance despite hippocampal forgetting [13,38,129 –131]. Sleep-modulated CR disinhibi-tion enables CA1 ripple-associated replay to overcome strong feedforward inhibition active during wakefulness, which sequentially activates CR cell assemblies, thereby potentiating synapses to encode the transferred sequence (Fig. 5a) [55,57,132]. CR displays spontaneous replays even after silencing entorhinal and hippocampal regions, exhibiting hippocampal independence and confirming successful transfer. Functional CA1 ripple-less replay transfers successfully to CR but more slowly than ripple-associated replay (Fig. 5b). However, dysfunctional ripple-less replay fails to achieve systems consolidation (Fig. 5c), but doubling CA1 →CR excitatory weights restores consolidation (Fig. 5d), with implications for salience-impaired conditions where disrupted ripples hinder this process [110–114, 133]. 8
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint 00.4 40 90      
+
+> 116 40 90 00.4 40 90
+> 116 40 90 00.4 40 90
+> 116 0700 Time (s) 00.4
+> h"wi
+> &h" ewi
+> 103.98 104.18 Time (s) 40 90 Cell ID
+> 116 Pre ID 116 Post ID
+> 02
+> w
+> 50 250 Time (ms) 40 90 Cell ID
+
+abcd  
+
+> Ripple-associated replay Ripple-less replay (functional) Ripple-less replay (dysfunctional) Ripple-less replay (dysfunctional) with 2#CA1 !CR Hippocampal-to-cortical transfer CR !CR Replay-mediated transfer Post-transfer CR !CR Hippocampal-independent replay Transfer unsuccessful Hippocampus silenced
+
+Fig 5: Hippocampal-to-cortical transfer via ripple-associated and ripple-less replay enables hippocampal independence .
+
+a–d Dynamics under ripple-associated replay (panel a), functional ripple-less replay (panel b), dysfunctional ripple-less replay (panel c), and dysfunctional ripple-less replay with doubled CA1 →CR excitatory strength (panel d). Columns 1–2 trace the transfer: time course of changes (∆) in mean CR →CR excitatory weights (column 1); 300-ms raster plot from Fig. 3 including CR neurons, depicting replay-mediated memory transfer to cortical assemblies (column 2). Columns 3–4 reveal post-transfer cortical autonomy: CR →CR excitatory weight matrix encoding transferred engram (column 3); hippocampal-independent replay after silencing MEC, DG, CA3, and CA1 through 60-fold feedforward inhibition increase, underscoring self-sustained CR replay (column 4). Colors denote brain regions as in Fig. 1. 
+
+Absent CA1 disinhibition explains MEC-input-dependent quiet wakefulness replay via MEC-mediated disinhibition 
+
+To explain why extended quiet wakefulness (QW) replay in hippocampal CA1 requires direct MEC inputs [99], we ablated MEC →CA1 excitatory and inhibitory connections. Despite this, CA3-initiated replay propagated to CA1, recapitulating MEC-independent sleep replay [99] (Fig. 6a). In QW, neuromodulation-associated disinhibition is lower relative to sleep [57, 134, 135]. Disabling CA1 disinhibition eliminates replay propagation, irrespective of MEC and CA3 inputs (Fig. 6a). This conflicts with empirical observations where combined MEC and CA3 inputs enable QW replay, prompting the inclusion of MEC-mediated disinhibition to compensate for the absent sleep-modulated disinhibition. We connected MEC-recipient CA1 interneuron to inhibit CA3-recipient interneuron, inducing transient feedforward disinhibition (Fig. 6b) [136 –138]. This restores CA3-elicited CA1 replay under disabled CA1 disinhibition but with concurrent MEC inputs, thus replicating MEC-input dependence in QW replay dynamics (Fig. 6b). Restoring sleep-modulated CA1 disinhibition eliminates MEC-input requirement while retaining CA3 dependence, matching empirical sleep replay [99]. 9
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint CA1 MEC I 1 I 2CA3 CA1 MEC I 1 I 2CA3 CA3 CA1 MEC I 1 I 2CA1 MEC I 1 I 2CA3 CA1 MEC I 1 I 2CA3 CA3 CA1 MEC I 1 I 2Fig 6: Disabling K +-dependent CA1 disinhibition underlies MEC-input-dependent quiet wakefulness replay through MEC-mediated disinhibition. a,b Row 1: Schematics of feedforward excitatory inputs (arrows) from MEC and CA3 (column 1), CA3-only (column 2), or MEC-only (column 3) to CA1 excitatory and inhibitory neurons; absent (panel a) or present (panel 
+
+b) inhibitory link (round arrowheads) from MEC- to CA3-receiving CA1 interneurons (I 1 → I2 = 50), enabling MEC-mediated disinhibition of excitatory CA1 neurons and gating CA3 input to CA1. Rows 2–7: Replay dynamics, with K +-dependent disinhibition enabled (rows 2–4) or disabled (rows 5–7), in 300-ms raster plots (rows 2, 5), CA1 local field potentials (rows 3, 6), and time– frequency analyses (rows 4, 7). Colors denote brain regions as in Fig. 1. 
+
+Artificially induced disinhibition during wakefulness triggers mem-ory processes driving consolidation 
+
+Memory replay, SWRs, and hippocampal-to-cortical transfer, typically sleep-associated, also occur during QW [123, 139 –142]. To assess if disinhibition suffices to drive these memory processes independent of sleep-specific dynamics, we artificially induced disin-hibition in entorhinal, hippocampal, and cortical regions under the derived QW replay parameters—disabled CA1 disinhibition and enabled MEC-mediated CA1 disinhibition— while preserving wakeful asynchronous background activity. This triggers spontaneous replays that achieve synaptic consolidation and hippocampal-to-cortical transfer for sys-tems consolidation (Fig. 7), recapitulating sleep-associated processes. Thus, sustained disinhibition, not SWS up-down states [98], is fundamental across brain states for eliciting replay, ripples, and hippocampal-to-cortical transfer [55, 57, 132]. 10 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint 00.4 0 500 Time (s) 00.4     
+
+> h"wi
+> &h" ewi
+> 120.15 121.45 Time (s) 1400 Cell ID
+> 116 Pre ID 116 Post ID
+> 02
+> w
+> 50 250 Time (s) 10 90 Cell ID
+
+a b    
+
+> Consolidation with QW replay CA3 !CA1 CR !CR QW replay Post-consolidation CR !CR Hippocampal-independent replay Hippocampus silenced Fig 7: Artificially induced disinhibition under derived QW replay parameters drives synaptic and systems consolida-tion, yielding hippocampal independence. a QW replay-mediated consolidation: time course of changes (∆) in mean synaptic weights of CA3 →CA1 (top left) and CR →CR (bottom left); 2300 ms raster plot of spikes from all neurons (middle); zoom of the 300 ms box from the middle panel (right). bPost-consolidation cortical autonomy: CR →CR synaptic weight matrix encoding transferred engram (left); hippocampal-independent CR replay upon silencing MEC, DG, CA3, and CA1 (right). Colors denote brain regions as in Fig. 1.
+
+# Discussion 
+
+Our computational model reveals how sleep-modulated disinhibition coordinates memory consolidation through spontaneous replay events that promote synaptic strengthening and systems-level transfer. We mimic slow-wave sleep (SWS) by reducing extracellular potassium concentration ([K +]o), which lowers neuronal excitability [86] via a shift from high- to low-conductance states [143, 144]. This reduction diminishes neuromodulatory tone [145], thereby weakening inhibition [50,56] and initiating up-down states [90]. Instead of disfacilitation [146] or inhibitory buildup [147] to terminate up states, with resurgence via recovery from disfacilitation [148] or rebound bursts [149], our model generates up states via disinhibition and terminates them through short-term depression [150] under baseline low-[K +]o conditions. This posits that up-down states emerge from homeostatic compensation for sleep’s low excitability and firing-rate reductions via disinhibition [151]— an activity-dependent neuromodulatory process that may presage persistent maladaptive disinhibition in disorders such as Alzheimer’s disease [152], epilepsy [153], and oth-ers [154 –156], wherein chronic low activity triggers inhibitory weakening via synaptic remodeling. This homeostatic view, echoed in computational studies [157 –160], proposes in vivo experiments inducing low excitability—via pharmacological Na + channel block-ade [161], genetic overexpression of Kir4.1 in astrocytes [162], or optogenetic neuronal hyperpolarization [163]—to verify if this elicits disinhibition [164] and up-down states independently of natural sleep. In Alzheimer’s disease, astrocyte dysfunction disrupts K+ buffering [165], correlating with SWS fragmentation that accelerates pathological progression [166]; our K + buffering model, supported by optogenetic astrocyte interven-tions restoring sleep rhythms [167], suggests that boosting astrocytic Kir4.1 function may stabilize SWS cycles and ameliorate memory deficits, given that its impairment aggravates disease features [168]. Complementing prior models of slow synaptic weight stabilization [158, 160], our offline consolidation integrates activity-dependent protein synthesis for slow-timescale engram stability [84] and spontaneous replays that engage fast-timescale triplet-STDP for selective engram strengthening [169]. The model’s sustained disinhibition—distinct from transient variants in ripple initiation [42, 43, 170] and gating hippocampal-to-cortical input [48]—engages dedicated pathways for engram sequence replay, sharp-wave ripple (SWR) generation, and hippocampal-to-cortical transfer. In contrast to views positing 11 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+SWRs as replay initiators [44, 45], we identify independent mechanisms: inter-assembly delays drive sequential reactivation, while lateral inhibition preserves assembly separation, enabling robust replay despite ripple absence (ripple-less replays [46]) upon CA1 excitatory afferent attenuation. Synaptic and systems consolidation persist in ripple-less replay, albeit at reduced rates, motivating empirical assays of selective ripple ablation via CA1 afferent weakening—unlike prior methods co-disrupting replays and ripples [68 –73]—to disentangle their roles. Paralleling ripple-less replays of non-salient trajectories [46], these mechanisms suggest tunable adjustment of CA1 afferent strength to normalize ripple dynamics in salience-impaired conditions: enhancing where ripples diminish, as in Alzheimer’s disease [110,111], epilepsy (physiological SWRs) [112,113], and aging [110,114]; attenuating where they surge, as in schizophrenia [122, 133, 171]. Amid hippocampal seizure risks [172], alternatively strengthening CA1-to-cortical connectivity restores engram transfer even with dysfunctional ripple-less replay. Future extensions could incorporate saliency cues from locus coeruleus (novelty) [173], ventral tegmental area (reward) [174], basal amygdala (emotion) [175], or lateral entorhinal cortex (contextual cues stabilizing ensembles) [176 –178] to prioritize encoding of internally imagined [179] or externally sensed [174] events that deviate from anticipated offline replay [180, 181]. LI’s modulation of inter-assembly gap duration during simulated sequence replay underlies ripple diversity: strong LI yields discrete chains (doublets, triplets) that link sequence fragments [99, 116, 117]; intermediate LI concatenates them into prolonged events preserving replay sequence [80, 105, 117]; weak LI induces fusion and sequence erosion—mirroring order-ablated patterns from parvalbumin interneuron silencing [40] and pathological disinhibition in schizophrenia [122,182]—positioning LI as a prime therapeutic target for restoring trajectory fidelity. Neuromodulatory changes similar to those in SWS occur during quiet wakefulness (QW), albeit to a lesser extent [134], reducing inhibitory tone [57, 135]. This disinhibition potentially explains delayed replays of recent experiences [31] by overcoming learning-induced inhibition. Our model reveals that MEC-mediated disinhibition compensates the disabled CA1 disinhibition to gate CA3 input and trigger ripple-associated replay, mirroring empirical MEC-input dependence during QW [31, 99]; whereas enabling CA1 disinhibition eliminates this MEC-input dependence, as seen in SWS replay [99]. This suggests reduced neuromodulator-driven CA1 disinhibition during QW relative to SWS, testable by optogenetically enhancing CA1 disinhibition to determine if MEC-input dependence is eliminated, akin to sleep dynamics [99]. Future models could incorporate CA1 recurrent connections [183] to explain MEC- and CA3-independent CA1 assembly sequences during active exploration [184], potentially triggered by contextual cues from lateral entorhinal cortex [176] and thalamic nucleus reuniens [185]. While SWS up-states create excitatory windows facilitating hippocampal ripples [186], our model demonstrates that artificially induced sustained disinhibition during wakefulness—independent of up-states—suffices to initiate and propagate ripple-associated replay to cortical regions [48, 141], providing a mechanistic basis for the homeostatic trade-off of hippocampal SWR events between quiet wakefulness and SWS [187] via disinhibition. This implies nuanced roles for cortical SWS up-states and associated sleep spindles, such as integrating transferred information across broader cortical networks [47], wherein spindle absence—by disrupting hippocampal input gating and inter-cortical integration—may drive consolidation deficits under sleep deprivation [188], a mechanism ripe for future modeling. 12 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+Although our model captures key hippocampal replay dynamics through recurrent MEC and CA3 connections that encode sequential engram and initiate offline replay [61,189,190], it omits feedback projections, including cortical input for replay selection [39, 191] and CA3 →DG connectivity for dentate sharp wave [192]. Instead, feedforward input from MEC replay [189] yields underexplored DG patterns that recapitulate encoding-like se-quential activation [193, 194]. Extending MEC phase precession could model reverse replay, with past assembly following current one to form backward association [195], ab-stractly resembling symmetrical STDP [61] despite asymmetric rules. The model couples inhibitory plasticity updates to excitatory-to-excitatory plasticity for excitation-inhibition balance, yet biologically observed independent local inhibitory rules [196] may intrinsi-cally maintain this balance in future versions. During encoding, CA1 activity evokes transient cortical activation incapable of long-term potentiation [96, 197], modeled via heightened feedforward inhibition, preventing premature cortical engram maturation [38]; refining short-term synaptic plasticity to strengthen cortical synapses on working memory timescales [198, 199] could elucidate working memory’s role in systems consolidation [200]. Broader extensions could explore preplay for engram recruitment [201] probably shaped by past experience [202]; rapid eye movement engram dynamics for complementary con-solidation [50]; larger networks for multi-memory storage [88, 158]; mechanisms underlying replay speed increases for longer trajectories without extending duration [33]; and gradual forgetting [13, 38, 203] via neurogenesis-driven processes [129, 204 –206] that facilitate sys-tems reconsolidation to update memories [205], increasing selectivity [160], and promoting generalization with low-dimensional concept retention [12, 15, 207–210]. 
+
+# Methods 
+
+Individual neuronal dynamics 
+
+The core dynamics of each neuron revolve around its membrane potential V (in mV), the electrical voltage across the cell’s membrane that governs action potential initiation, described by the stochastic Hodgkin-Huxley equation [77, 211]: 
+
+C dV = I dt + Inoise , (1) where C (in μF/cm 2) is the membrane capacitance, dV is the infinitesimal change in V ,
+
+dt is the infinitesimal time interval, I = −INa − IK − ICl − Isyn is the deterministic current (in μA/cm 2) comprising the sodium current INa (usually inward, initiating depolarization), the potassium current IK (usually outward, enabling repolarization), the chloride leak current ICl (usually outward at rest, stabilizing baseline V ), and the synaptic current 
+
+Isyn (inward for excitatory or outward for inhibitory signals), and Inoise = σnoise C dW 
+
+is the stochastic current with dW (in √ms ) normally distributed with mean zero and variance dt , and σnoise (in mV/ √ms ) scaling the noise amplitude. This stochastic term approximates net current perturbations from thermal fluctuations driving random ion channel gating [212] and synaptic neurotransmitter release [213]. The equation captures how depolarizing/hyperpolarizing current balance, augmented by noise, drives V dynamics and action potential firing when depolarization prevails. 13 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+The ionic currents flow through specialized protein channels in the membrane, modeled as 
+
+INa = GNa m3h(V − ENa ) + GNaL (V − ENa ), (2) 
+
+IK = GKn4(V − EK) + GKL (V − EK), (3) 
+
+ICl = GClL (V − ECl ), (4) where GNa (in mS/cm 2) and GK are the maximum possible flow rates (conductances) through sodium and potassium channels when they are fully open during an action potential. GNaL , GKL , and GClL are small, constant leak conductances that allow baseline ion flow, contributing to the neuron’s resting membrane potential. The variables m, h,and n are fractions between 0 and 1 that represent the proportion of channels in an open or active state: m increases to open sodium channels as V becomes less negative (depolarizes), h decreases to inactivate sodium channels and limit the duration of the action potential, and n increases with a delay to open potassium channels and return V
+
+to rest. The exponents (such as m3h) reflect that multiple molecular subunits must align for a channel to open fully. ENa , EK, and ECl are the reversal potentials for each ion, the specific voltage values at which the net flow of that ion stops because electrical and concentration forces balance (typically positive for ENa favoring inward flow, and negative for EK and ECl favoring outward flow). The fractions m, h, and n adjust dynamically over time based on V :
+
+dm dt = αm(1 − m) − βmm, (5) 
+
+dh dt = αh(1 − h) − βhh, (6) 
+
+dn dt = αn(1 − n) − βnn, (7) where these equations describe how the fractions approach steady states: the α terms increase the fraction toward 1 (opening or activating the channel), while the β terms decrease it toward 0 (closing or inactivating the channel). This allows channels to open quickly during depolarization and close during repolarization. The rates α and β vary with the membrane potential V [214, 215]: 
+
+αm = ϕαm 
+
+V + Vshift ,αm 
+
+1 − exp 
+
+n
+
+−V +Vshift ,αm 
+
+> σαm
+
+o, βm = ϕβm 
+
+V + Vshift ,βm 
+
+exp 
+
+nV +Vshift ,βm 
+
+> σβm
+
+o
+
+− 1
+
+, (8) 
+
+αn = ϕαn 
+
+V + Vshift ,αn 
+
+1 − exp 
+
+n
+
+−V +Vshift ,αn 
+
+> σαn
+
+o, βn = ϕβn exp 
+
+
+
+−V + Vshift ,βn 
+
+σβn 
+
+
+
+, (9) 
+
+αh = ϕαh exp 
+
+
+
+−V + Vshift ,αh 
+
+σαh 
+
+
+
+, βh = ϕβh 
+
+1 + exp 
+
+n
+
+−V +Vshift ,βh 
+
+> σβh
+
+o, (10) where the ϕ parameters (in ms −1) set the baseline magnitude of each rate, Vshift adjusts the voltage level at which the rate reaches half its maximum to align with typical neuronal firing thresholds (e.g., −50 mV), and σ determines how sensitively the rate responds to small changes in V (smaller values mean sharper responses). 14 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+The reversal potentials depend on ion concentrations across the membrane, following the Nernst equation: 
+
+ENa = RT F ln 
+
+[Na +]o
+
+[Na +]i
+
+
+
+, (11) 
+
+EK = RT F ln 
+
+[K +]o
+
+[K +]i
+
+
+
+, (12) 
+
+ECl = RT F ln 
+
+ [Cl −]i
+
+[Cl −]o
+
+
+
+, (13) where R (in J/mol ·K) is the universal gas constant, T (in K) is the absolute temperature, and F (in C/mol) is Faraday’s constant. Chloride concentrations are held constant for simplicity, while sodium and potassium levels vary with neuronal activity, as described below. Ion concentrations evolve as ions move through channels during action potentials and are restored by pumps [214]: 
+
+d[K +]o
+
+dt = γβI K − 2βI pump − ϵK
+
+ [K +]o − [K +]Buffer 
+
+ , (14) 
+
+d[Na +]i
+
+dt = −γI Na − 3Ipump , (15) 
+
+d[Na +]o
+
+dt = γβI Na + 3 βI pump − ϵNa 
+
+ [Na +]o − [Na +]Buffer 
+
+ , (16) where γ is a conversion factor that translates electrical current measurements (in μA/cm 2)into changes in ion concentration (in mM/s), based on cell size and charge per ion; β is the ratio of the cell’s internal volume to the surrounding external space, reflecting that the external space is smaller and thus more prone to rapid concentration shifts; and Ipump 
+
+is the current generated by the sodium-potassium pump, a protein that actively moves 3 sodium ions out and 2 potassium ions in per cycle to counteract imbalances from firing. The terms with ϵK (in s −1) (potassium clearance rate) and ϵNa (sodium clearance rate) model diffusion and buffering that pull external potassium and sodium toward [K +]Buffer 
+
+and [Na +]Buffer , respectively—stable reference concentrations representing the combined stabilizing effects of nearby blood vessels, tissues, and support cells like astrocytes. Assuming total ion conservation [214, 215], achieved by balancing inward Na + flux with outward K + flux, the intracellular K + concentration, [K +]i, is given by: [K +]i = K i,base exp 
+
+Na i,ref − [Na +]i
+
+σK
+
+
+
+, (17) where K i,base is the resting intracellular K + level; Na i,ref is a reference intracellular Na +
+
+level; and σK is the exponential scale factor that ensures [K +]i remains positive as [Na +]i
+
+increases. The pump current, I pump , increases gradually (in a sigmoidal pattern) as [Na +]ior [K +]olevels rise, mimicking how the pump ramps up to restore balance: 
+
+Ipump = ρmax 
+
+
+
+1 + exp 
+
+nNa th −[Na +]i
+
+> σNa
+
+o 
+
+(1 + exp {Kth − [K +]o})
+
+, (18) 15 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+where ρmax (in mM/s) is the pump’s maximum operating speed, Na th and K th are the concentration levels at which the pump reaches half-speed, and σNa controls how abruptly the pump responds to sodium increases. The synaptic current, Isyn , aggregates inputs from P ex presynaptic excitatory neu-rons [216–219]: 
+
+Isyn = 
+
+> Pex
+
+X
+
+> j=1
+
+Gj→post (V − Ej ) S je − χj τ att , (19) where Gj→post is the maximum synaptic conductance for synapses between postsynaptic (excitatory or inhibitory) and the jth presynaptic (excitatory or inhibitory) neurons, Ej
+
+is the reversal potential (typically positive for excitatory, producing inward depolarizing currents at resting potential; negative for inhibitory, producing outward hyperpolarizing currents at resting potential), Sj is the fraction (ranging from 0 to 1) of open postsynaptic channels at the synapses formed with the jth presynaptic neuron, and the exponential term attenuates synaptic strength when the presynaptic neuron is in depolarization block, with χj integrating a voltage-dependent measure of the duration of the depolarization block and τatt setting the attenuation scale. Sj depends on the presynaptic neuron’s voltage, Vj , following first-order kinetics [215–217]: 
+
+τex /inh 
+
+dSj
+
+dt = Tmax 
+
+1 + exp 
+
+n
+
+−Vj +Vshift ,S
+
+> σS
+
+o(1 − Sj ) − Sj , (20) where τex /inh is the decay time scale for excitatory/inhibitory synapses, Tmax is the maximum neurotransmitter release rate, Vshift ,S adjusts the presynaptic voltage for half-maximal release, and σS sets how sharply release responds to Vj changes. The dynamics of χj are governed by: 
+
+dχ j
+
+dt = ηχ(Vj + Vshift ,χ ) − δχχj , (21) where ηχ equals ηmax if the presynaptic membrane potential Vj falls within the depolar-ization block range ( Vdep ,low to Vdep ,high ) and 0 otherwise, Vshift ,χ is a voltage shift that modulates the buildup rate, and δχ is the decay rate of χj that restores synaptic strength post-block and prevents overload during prolonged block. Maximal synaptic conductances, Gpre →post , depend on short-term and long-term plas-ticity states: 
+
+Gex →post = gex →post wex →post xex uex ypost , (22) 
+
+Ginh →post = ginh →post wmod inh →post , (23) where gpre →post is the maximal synaptic conductance per single spine for connections between postsynaptic (‘post’) and presynaptic (‘pre’) neurons; x, u, and y are short-term plasticity states; wex →post is the excitatory synaptic weight; and wmod inh →post is the state-dependent modulation of the inhibitory weight. 16 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+Addition and removal of spines 
+
+Synaptic weights, wpre →post , represent postsynaptic receptor density across spines, including both protein synthesis-dependent stable (late long-term potentiation; late-LTP) and protein synthesis-independent labile (early long-term potentiation; early-LTP) components, with ewpre →post denoting only the stable receptor density (late-LTP) [158]. For excitatory-to-excitatory connections, the variable, Lpre →post , represents the number of spines (each holding up to one unit of receptor density when at peak), capping the maximum allowable potentiation in wpre →post .During potentiation attempts in an excitatory-to-excitatory connection, if all spines reach peak receptor density (i.e., wpre →post approaches Lpre →post ) but are not fully stabilized (i.e., ewpre →post < L pre →post ), no potentiation occurs. However, if the receptor density is stabilized ( ewpre →post approaches Lpre →post ) through protein-dependent processes, a new spine is added by incrementing Lpre →post by 1, potentially by inducing spine remodeling, allowing further receptor density increases. This ensures receptor density is sequentially allocated across spines by saturating them to full capacity (1 unit each) before distributing any remainder to an additional spine. Conversely, during depression, as wpre →post decreases, the receptor density in one or more spines may reach zero. Upon stabilization of these changes (reflected in ewpre →post ), the number of spines is adjusted according to 
+
+Lpre →post = min( Lpre →post , ⌈ ewpre →post ⌉ + 1) , (24) where the ceiling function, ⌈ ewpre →post ⌉, determines the minimum number of spines required to accommodate the stable receptor density. Adding +1 permits at most one spine with zero stable receptor density, effectively deleting excesses in Lpre →post that would yield more than one such spine. The min operation prevents premature addition of new spines; for instance, if Lpre →post = 1 and ewpre →post = 0 .1, Lpre →post remains 1, avoiding interference with the addition mechanism. This mechanism facilitates the removal of redundant non-functioning spines while preserving the minimal viable synaptic structure and mirrors empirical observations in biological synapses where repetitive long-term depression leads to pruning of spines with stably reduced receptor density [85]. 
+
+Excitatory-to-excitatory long-term plasticity 
+
+Synaptic weights, wpre →post , are updated using a triplet spike-timing-dependent plasticity rule [78] . Upon a presynaptic spike, weights to postsynaptic neurons are depressed proportionally to the product of the fast postsynaptic trace, zfast post , and a term combining pair-based and triplet-based depression factors: ∆w− 
+
+> pre →post
+
+= −ηw · zfast post · (A− 
+
+> 2
+
++ A− 
+
+> 3
+
+· zslow pre ), (25) where A− 
+
+> 2
+
+is the pair-based depression amplitude, and A− 
+
+> 3
+
+is the triplet-based depression amplitude. 17 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+Conversely, upon a postsynaptic spike, weights from presynaptic neurons are potenti-ated similarly: ∆w+pre →post = ηw · zfast pre · (A+2 + A+3 · zslow post ), (26) where A+2 is the pair-based potentiation amplitude, and A+3 is the triplet-based potentiation amplitude. Synaptic traces are modeled as low-pass filters of spike trains [158], evolving according to: 
+
+ddt zτ = −zτ
+
+τz
+
++ X δ(t − tspike ), (27) where zτ is the trace with time constant τz (in ms) ( τ fast pre and τ fast post for fast traces capturing recent activity, τ slow pre and τ slow post for slow traces capturing earlier activity). In the update rules, the fast presynaptic trace, zfast pre , is evaluated at the current spike time t, while the other three traces ( zfast post , zslow pre , zslow post ) are evaluated just prior to t to exclude the current spike. This offset ensures that depression reflects only presynaptic spikes preceded by postsynaptic activity, potentiation dominates without cancellation when spikes coincide, and slow traces incorporate solely prior spikes. The learning rate, ηw, is scaled such that plasticity is enhanced only when both presynaptic and postsynaptic firing rates— fpre and fpost (computed as synaptic traces with a time-constant of 1 s; z1)—significantly exceed their baseline rates [220, 221], fref ,pre 
+
+and fref ,post , by a factor of cη:
+
+ηw = 11 + exp 
+
+
+
+−sη
+
+ fpost   
+
+> cη·fref ,post
+
+− kη
+
+ · 11 + exp 
+
+
+
+−sη
+
+ fpre   
+
+> cη·fref ,pre
+
+− kη
+
+ , (28) where sη is the steepness parameter, and kη is the midpoint threshold. 
+
+Inhibitory long-term plasticity mechanisms 
+
+Dynamic feedforward inhibition 
+
+To preserve excitation-inhibition balance, modifications to excitatory-to-excitatory synap-tic weights are mirrored by coordinated adjustments in the feedforward inhibitory cir-cuitry [79]. When the weight, wpre →post , changes by ∆ w± 
+
+> pre →post
+
+(positive for potentiation, negative for depression), the excitatory-to-inhibitory weights, wpre →Ij , and inhibitory-to-excitatory weights, wIj→post , involving the M inhibitory interneurons that form feedforward paths are updated according to: ∆wpre →Ij = aM · ∆w±
+
+> pre →post
+
+, (29) ∆wIj→post = bM · ∆w±
+
+> pre →post
+
+, (30) where j = 1 to M indexes the interneurons, and a and b are scaling constants. These coupled updates ensure proportional scaling of inhibitory drive in response to excitatory changes. 18 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+Dynamic feedback and lateral inhibition 
+
+In non-background regions (entorhinal, hippocampal, and cortical), we employ distinct inhibitory neurons to mediate feedback [222] and lateral inhibition [223]. Each cell assembly in these regions is assigned one assembly-specific inhibitory neuron (ASIN), which provides feedback inhibition to excitatory neurons within its assembly and lateral inhibition to excitatory neurons in other assemblies, promoting winner-takes-all dynamics [80, 224]. The weights from ‘post’ to its ASIN, wpost →ASIN ; from the ASIN to each neuron in its assembly, wASIN →self , for feedback inhibition; and from the ASIN to each neuron in other assemblies, wASIN →other , for lateral inhibition are updated according to: ∆wpost →ASIN = c · ∆w±
+
+> pre →post
+
+, (31) ∆wASIN →self = dN · ∆w±
+
+> pre →post
+
+, (32) ∆wASIN →other = fN · ∆w±
+
+> pre →post
+
+, (33) where N is the number of neurons in the assembly to which ‘post’ belongs; c, d, and f
+
+are scaling constants. 
+
+K+-dependent disinhibition modulating factor 
+
+During sleep, extracellular potassium concentration ([K +]o) decreases [86], contributing to reduced neuronal excitability through membrane hyperpolarization [225]. Concurrently, acetylcholine levels drop to minimal values during deep sleep [57], unblocking M-current in interneurons and reducing their responsiveness to synaptic inputs [50]. In parallel, norepinephrine levels, reduced during sleep [226], diminish GABAergic inhibition [56], whereas high norepinephrine during wakefulness enhances it via adrenergic receptors [227]. To model this sleep-modulated weakening of inhibitory synaptic transmission without structural plasticity, we introduce a multiplicative modulating factor, denoted as fI ([K +]o), evolving as a sigmoid function to ensure a smooth transition based on [K +]o levels: 
+
+fI ([K +]o) = lf + 1 − lf
+
+1 + exp( −sf · (⟨[K +]o⟩ − kf )) , (34) where ⟨[K +]o⟩ is the average [K +]o in the background region, lf is the minimum scaling value reached during slow-wave sleep (varying by region: MEC, DG, CA3, CA1, CR, Background), sf (in mM −1) is the steepness parameter of the sigmoid, and kf (in mM) is the midpoint potassium concentration where the factor is halfway between lf and 1. This factor scales the baseline I →E and I →I synaptic weights: 
+
+wmod inh →ex = winh →ex fI ([K +]o), (35) 
+
+wmod inh →inh = winh →inh fI ([K +]o). (36) 19 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+Short-term plasticity 
+
+Short-term synaptic plasticity in excitatory synapses is modeled using the Tsodyks-Markram framework for the presynaptic dynamics [81, 158], 
+
+ddt uex = U (1 − uex ) X δ(t − tspike ex ) + U − uex 
+
+τf
+
+, (37) 
+
+ddt xex = − uex xex 
+
+X δ(t − tspike ex ) + 1 − xex 
+
+τd
+
+, (38) where uex is the neurotransmitter release probability, enhanced upon each presynaptic excitatory spike, relaxing to baseline U with time constant τf (in ms); xex is the available synaptic resources after neurotransmitter release, depleted by vesicle pool reduction, recovering with time constant τd; and δ denotes Dirac delta functions at spike times. To prevent runaway excitation during high postsynaptic firing, we model calcium-dependent spike-frequency adaptation at the postsynaptic end, inspired by mechanisms described in the literature [228, 229]. High postsynaptic spiking elevates intracellular calcium via action potential-triggered activation of voltage-gated calcium channels, leading to adaptation that reduces synaptic responsiveness [228]. In our model, this process attenuates the responsiveness of postsynaptic excitatory and inhibitory neurons through the following dynamics: 
+
+ddt ypost = −ηy ζpost ypost 
+
+X δ(t − tspike post ) + 1 − ypost 
+
+τy
+
+, (39) where ypost is the postsynaptic adaptation factor, depleted in an activity-dependent manner during spiking and recovering to 1 with time constant τy; ηy (in s −1) is the baseline depletion rate; P δ(t − tspike post ) triggers updates at spike times; and ζpost is the activity-dependent scaling factor, defined as 
+
+ζpost = 1 + lζ
+
+1 + exp( −sζ (zfast post − kζ )) , (40) with amplitude lζ , slope sζ , and midpoint threshold kζ .
+
+Protein-mediated synaptic stabilization 
+
+To capture the stabilization of labile synaptic changes into persistent forms, reflecting synaptic tagging and capture mechanisms [230, 231], we model protein-mediated stabi-lization of synaptic changes. Long-term synaptic plasticity, such as potentiation (LTP) or depression (LTD), involves early phases (early-LTP or early-LTD) with rapid, labile alterations in receptor density (e.g., AMPA receptor trafficking), but these decay without protein synthesis [84], governed by: 
+
+ddt wpre →post = −wpre →post − ewpre →post 
+
+τw
+
+, (41) where the total synaptic weight, wpre →post , decays toward the stable component ewpre →post 
+
+with τw as the decay time constant for labile changes. 20 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+Activity-dependent intracellular calcium triggers gene expression and synthesis of plasticity-related proteins (PRPs) through pathways like CaMKK/CaMKIV-CREB [232], which are consumed during stabilization. Thus, we model PRP dynamics as: 
+
+ddt PRP post = ηprp ζpost 
+
+X δ(t − tspike post ) − PRP post 
+
+τprp 
+
+− ddt ewpre →post , (42) where ηprp is the baseline PRP increment, τprp is the PRP decay time constant, and  
+
+> ddt
+
+ewpre →post accounts for PRP consumption proportional to stabilization. These PRPs are captured by tagged synapses to stabilize labile synaptic changes into late-LTP or late-LTD [230, 233], updating the stable weight, ewpre →post , toward wpre →post 
+
+at a rate scaled by available PRP: 
+
+ddt ewpre →post = PRP post 
+
+P · wpre →post − ewpre →post 
+
+τ ew
+
+, (43) where τ ew is the stabilization time constant and P is the total number of presynaptic neurons. 
+
+Network architecture 
+
+We develop an entorhinal-hippocampal-cortical network model using Hodgkin-Huxley-type neurons. The model comprises the medial entorhinal cortex (MEC; 16 excitatory, 7 inhibitory neurons), dentate gyrus (DG; 16 excitatory, 7 inhibitory), CA3 (32 excitatory, 9 inhibitory), CA1 (16 excitatory, 8 inhibitory), cortical regions (CR; 16 excitatory, 8 inhibitory), and a background population representing unmodeled areas (240 excitatory, 60 inhibitory). In non-background regions (MEC, DG, CA3, CA1, CR), excitatory neurons form four cell assemblies per region. Each assembly pairs with one ASIN that delivers feedback inhibition to its own assembly and lateral inhibition to the other three. This reserves four inhibitory neurons per region; they mutually inhibit with a weight of 1 and lack self-inhibition. Remaining inhibitory neurons process feedforward inhibition. Background neurons are recurrently connected, with each receiving afferents from approximately 48 randomly selected excitatory and 12 randomly selected inhibitory background neurons. Synaptic weights, wpre →post , follow a log-normal distribution with parameters μ = ln 
+
+ ⟨wpre →post ⟩2
+
+√⟨w2pre →post ⟩
+
+
+
+and σ =
+
+r
+
+ln 
+
+ ⟨w2pre →post ⟩⟨wpre →post ⟩2
+
+
+
+to match specified ensemble averages, where ⟨wpre →post ⟩ is the mean synaptic weight and ⟨w2pre →post ⟩ is the mean squared synaptic weight, fixed for each connection type (E →E, E →I, I →E, I →I), generating asynchronous irregular activity with realistic firing rates [88]. Excitatory neurons in non-background regions receive inputs from approximately 48 random excitatory background neurons, with weights drawn from the same log-normal distribution. Inhibitory weights for feedforward, feedback, and lateral inhibition depend on corresponding excitatory-to-excitatory updates and are adjusted as described previously. 21 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+Two inhibitory neurons per non-background region mediate feedforward inhibition from the background. Inter-regional projections mirror anatomical connectivity [183]: MEC projects to DG, CA3, and CA1 (one inhibitory neuron per target region for feedforward inhibition); DG to CA3 (one in CA3); CA3 to CA1 (one in CA1); and CA1 to CR (one in CR) [234]. Intra-regional recurrent connections are implemented in MEC [235], CA3 [183], and CR [236 –238] (one each in MEC, CA3, and CR). Recurrent connectivity in DG and CA1 is not modeled for simplicity, as it is sparse and predominantly inhibitory in nature [80, 239, 240]. MEC →DG/CA3/CA1, CA3 →CA1, and CA1 →CR projections are performed assemblywise, where a bundle from a cell assembly projects to a respective bundle of a cell assembly in the receiving area in a one-to-one manner [234, 241, 242]. These projections have initial effective synaptic weights (2 for MEC →DG/CA3/CA1 and 6 for CA3 →CA1) [243 –245] that assist in signal propagation to downstream regions when MEC is stimulated during the encoding phase. In contrast, recurrent connections in MEC, CA3, and CR are all-to-all without self-connections, while DG →CA3 is all-to-all. These connections—critical for sequential engram encoding—have ∼zero initial weights [246], indicating no pre-stored engrams. Before incorporating CA1 →CR projections, parameters 
+
+gpre →post are optimized to yield mean firing rates ( ⟨z1⟩) of ∼1 Hz for background excitatory neurons and ∼6 Hz for inhibitory neurons [88], producing asynchronous-irregular dynamics (CV ISI = 1.03, CC = 0.004 [247]; excitatory z1: mean 1.00 Hz, variance 1.03 Hz 2; inhibitory 
+
+z1: mean 6.00 Hz, variance 13.96 Hz 2 [88]). Additionally, winh →ex is tuned for entorhinal, hippocampal, and cortical regions to maintain ⟨z1⟩ of ∼1 Hz. Subsequently, CA1 →CR excitatory projections are added with weight of 2 and accompanied by strong feedforward inhibition inserted with b equals 0.15 [92 –95], resisting functional engram maturation in CR before offline consolidation [38]. In the model, inter-regional delays incorporate theta phase progression to create temporal windows for local circuit computations [82, 248, 249]. These delays are set illustratively below empirical upper limits: 15 ms from medial entorhinal cortex (MEC) to dentate gyrus (DG), 20 ms to CA3, and 25 ms to CA1; 15 ms from DG to CA3 and from CA3 to CA1; and 35 ms from CA1 to cortical regions (CR). Intra-regional inter-assembly delays within MEC, CA3, and CR are assumed to be 20 ms to enable sequential activations during offline replays [103, 189, 250, 251]. Intra-assembly delays are 1 ms. Delays from excitatory-to-inhibitory neurons (for feedback/lateral inhibition), from inhibitory-to-excitatory neurons, and from inhibitory-to-inhibitory neurons are 0 ms. 
+
+Stimulus-induced phase precession 
+
+To simulate the encoding of location sequences, we implement stimulus-induced phase precession in medial entorhinal cortex (MEC) neurons relative to 8-Hz cycles whose source is arbitrary. This arbitrary source was chosen to ensure generality across species, irrespective of the specific origin of the cycle to which phase precession is locked: continuous 4–12 Hz hippocampal theta oscillations in the local field potential of rodents [252], ∼8-Hz wing-beat rhythms in bats despite absent hippocampal theta [33], and heterogeneous 2–10 Hz fluctuations in the hippocampus of primates (including humans) during both transient theta bouts and the more prevalent non-rhythmic periods [253,254]. Four virtual locations 22 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+(A–D) are traversed in 1.125 s, spanning nine 8-Hz cycles. The 16 MEC excitatory neurons are divided into four cell assemblies (four neurons each), with assemblies 1–4 representing locations A–D, respectively [255, 256]. Stimulation follows a phase-precession pattern across 8-Hz cycles: 
+
+|xxxA|xAAx|AAAB|xBBx|BBBC|xCCx|CCCD|xDDx|DDDx| ,where each segment between vertical bars represents one 8-Hz cycle, ‘x’ denotes no stimulation, and ‘A’–‘D’ indicate stimulation of the corresponding assembly. This pattern replicates the empirical shift of location-tuned firing to earlier phases [257]. For repeated explorations of locations A–D, the stimulation pattern is repeated with a gap of one 8-Hz cycle following each sequence, such that four complete explorations occur over 40 8-Hz cycles, totaling exactly 5 s. Each stimulation event consists of a burst of three current pulses with 6-ms inter-pulse intervals, each designed to elicit one spike. For each pulse, external current is applied for up to 2 ms; if a spike occurs sooner, the current is immediately removed to ensure exactly one spike per pulse. 
+
+Local field potential proxy estimation 
+
+We estimate the proxy for local field potentials (LFPs), Φ R(t) (in mV), as proportional to the average post-synaptic current of the excitatory neurons in a region R [258], using a point-source volume conduction approximation [259]: ΦR(t) = ρΦ AΦ N R
+
+> ex
+
+4πr Φ
+
+IR
+
+> syn
+
+(t) , (44) where N R 
+
+> ex
+
+is the number of excitatory neurons in R (plus background neurons if R ̸ =Background), with R ∈ { MEC , DG , CA1 , CA3 , CR , Background }, and IR
+
+> syn
+
+(t) is their average post-synaptic current density at time t; ρΦ (in mV  
+
+> μA
+
+cm ) is the extracellular resis-tivity [260, 261], rΦ (in cm) is the typical electrode distance [259, 262], and AΦ (in cm 2)is the effective membrane area per neuron, incorporating dendritic contributions based on standard pyramidal cell morphologies [263, 264]. These parameters yield empirically consistent LFP amplitudes [265, 266]. 
+
+Measures of spike train variability and neuronal synchrony 
+
+We quantify the irregularity in neuronal firing patterns using the inter-spike interval coefficient of variation (CV ISI ), calculated as CV ISI =
+
+σISI 
+
+> k
+
+μISI 
+
+> k
+
+
+
+, (45) 23 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+where the angle brackets represent averaging across the entire neuronal population, μISI 
+
+> k
+
+denotes the average inter-spike interval for the k-th neuron, and σISI  
+
+> k
+
+is its corresponding standard deviation. To assess the degree of coordinated activity among neurons, we employ the mean pairwise correlation coefficient (CC), defined following [87] by CC = 
+
+Cov( Rm, R n)
+
+σ(Rm)σ(Rn)
+
+
+
+, (46) with the averaging performed over every unique pair of neurons. Here, Rm indicates the spike count for neuron m within non-overlapping time bins of 5 ms, Cov (Rm, R n) is the covariance between the counts for neurons m and n, and σ(Rm) represents the standard deviation of the spike counts for neuron m.
+
+Detection and extraction of sequential cell assembly replays 
+
+For each of the four CA1 assemblies, we compute the average synaptic trace across members using a time constant τ = 25 ms ( ⟨z0.025 ⟩). Peaks in this trace, corresponding to the maxima of smoothed activation events, are detected to timestamp each assembly activation. To extract sequential replays in the order 1 → 2 → 3 → 4 (including partial chains of length ≥ 1), we link each peak in assembly k to the nearest subsequent peak in 
+
+k + 1 within 125 ms. Longest chains (up to length 4) are constructed first, followed by shorter chains from remaining peaks, with no reuse to avoid overlaps or redundant counts. 
+
+Estimation of mean ripple power 
+
+Ripple-associated replay power, Pe (in mV 2), in the simulated CA1 LFP time series, Φ, is estimated per replay event as the mean-squared amplitude: 
+
+Pe = 1
+
+TeTeX
+
+> t=1
+
+Φ2(t), (47) where Te is the number of time points in the replay event. The mean power is then obtained by averaging Pe across replay events. 
+
+Numerical Integration 
+
+The differential equations were discretized by approximating dt as ∆ t = 0 .025 ms and dW 
+
+as ∆ W ∼ N (0 , ∆t). Eq. (1), incorporating stochastic noise, was solved using the stochastic Heun method [267], which provides second-order weak (distributional) convergence and first-order strong (pathwise) convergence. Eqs. (5–7,14–16,20,21) were solved using the deterministic Heun method [268], which provides second-order convergence. Eqs. (27,37– 39,41–43) were solved using the forward Euler method [269], which provides first-order convergence. 24 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+The values and descriptions of all parameters are provided in Table 1.  
+
+> Table 1: Parameter values and descriptions
+
+Parameter Value Description Ion concentrations and thresholds 
+
+Ki,base 140 mM Equilibrium intracellular K + concentration Na i,ref 18 mM Reference intracellular Na + concentration for ion balance Na th 25 mM Intracellular Na + threshold for half-maximal pump activation 
+
+σNa 3 mM Steepness of pump response to intracellular Na + changes 
+
+σK 110 mM Exponential scale factor for [K +]i conserva-tion Kth 5.5 mM Extracellular K + threshold for half-maximal pump activation [Cl −]i 6 mM Resting intracellular Cl − concentration [Cl −]o 130 mM Resting extracellular Cl − concentration [K +]Buffer 3.5 mM Reference extracellular K + concentration for buffering [Na +]Buffer 144 mM Reference extracellular Na + concentration for buffering 
+
+Pump activation parameters 
+
+ρmax 1.25 mM/s Maximum Na +-K + pump transport rate 
+
+γ 0.0445 (mM/s)/( μA/cm 2) Conversion from current density to concen-tration change 
+
+β 7 Intracellular to extracellular volume ratio 
+
+ϵK 0.6 s −1 Extracellular K + clearance rate 
+
+ϵNa 0.22 s −1 Extracellular Na + clearance rate 
+
+Sodium channel kinetics 
+
+ϕαm 0.32 ms −1 Scaling factor for Na + activation opening rate 
+
+Vshift ,αm 54 mV Voltage shift for Na + activation opening mid-point 
+
+σαm 4 mV Sensitivity of Na + activation opening to volt-age changes 
+
+ϕβm 0.28 ms −1 Scaling factor for Na + activation closing rate 
+
+Vshift ,βm 27 mV Voltage shift for Na + activation closing mid-point 25  
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint Table 1: Parameter values and descriptions (continued)
+
+Parameter Value Description 
+
+σβm 5 mV Sensitivity of Na + activation closing to volt-age changes 
+
+Potassium channel kinetics 
+
+ϕαn 0.032 ms −1 Scaling factor for K + activation opening rate 
+
+Vshift ,αn 52 mV Voltage shift for K + activation opening mid-point 
+
+σαn 5 mV Sensitivity of K + activation opening to volt-age changes 
+
+ϕβn 0.5 ms −1 Scaling factor for K + activation closing rate 
+
+Vshift ,βn 57 mV Voltage shift for K + activation closing mid-point 
+
+σβn 40 mV Sensitivity of K + activation closing to voltage changes 
+
+Sodium inactivation kinetics 
+
+ϕαh 0.128 ms −1 Scaling factor for Na + inactivation onset rate 
+
+Vshift ,αh 50 mV Voltage shift for Na + inactivation onset mid-point 
+
+σαh 18 mV Sensitivity of Na + inactivation onset to volt-age changes 
+
+ϕβh 4 ms −1 Scaling factor for Na + inactivation recovery rate 
+
+Vshift ,βh 27 mV Voltage shift for Na + inactivation recovery midpoint 
+
+σβh 5 mV Sensitivity of Na + inactivation recovery to voltage changes 
+
+Synaptic and noise parameters 
+
+Tmax 20 ms −1 Maximum neurotransmitter release rate at synapses 
+
+Vshift ,S 20 mV Voltage shift for half-maximal synaptic re-lease 
+
+σS 3 mV Steepness of synaptic release response to presynaptic voltage 
+
+τatt 5 ms Time scale for synaptic attenuation during presynaptic depolarization block 
+
+Vshift ,χ 50 mV Voltage offset in synaptic attenuation calcu-lation 
+
+δχ 0.4 ms −1 Decay rate for synaptic attenuation fade 26  
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint Table 1: Parameter values and descriptions (continued)
+
+Parameter Value Description 
+
+ηmax 0.4 ms −1 Maximum buildup rate for synaptic attenua-tion 
+
+Vdep ,low -37 mV Lower voltage threshold for synaptic attenua-tion onset 
+
+Vdep ,high -10 mV Upper voltage threshold for synaptic attenu-ation 
+
+σnoise 1.5 mV/ √ms Noise amplitude scaling factor 
+
+Membrane conductances and capacitance 
+
+GNa 30 mS/cm 2 Maximum Na + channel conductance 
+
+GK 25 mS/cm 2 Maximum K + channel conductance 
+
+GNaL 0.0175 mS/cm 2 Na + leak conductance 
+
+GKL 0.05 mS/cm 2 K+ leak conductance 
+
+GClL 0.05 mS/cm 2 Cl leak conductance 
+
+Gex 0.022 mS/cm 2 Maximum excitatory synaptic conductance 
+
+Ginh 0.374 mS/cm 2 Maximum inhibitory synaptic conductance 
+
+C 1 μF/cm 2 Membrane capacitance per unit area 
+
+Reversal potentials and time constants 
+
+Eex 0 mV Excitatory synaptic reversal potential 
+
+Einh -80 mV Inhibitory synaptic reversal potential 
+
+τex 4 ms Excitatory synaptic decay time constant 
+
+τinh 8 ms Inhibitory synaptic decay time constant 
+
+Physical constants 
+
+R 8.314 J/molK Universal gas constant 
+
+T 309.15 K Absolute temperature 
+
+F 96485 C/mol Faraday’s constant 
+
+Excitatory-to-excitatory long-term plasticity 
+
+A− 
+
+> 2
+
+7.0 × 10 −3 Pair-based depression amplitude 
+
+A− 
+
+> 3
+
+2.3 × 10 −4 Triplet-based depression amplitude 
+
+A+2 5.0 × 10 −10 Pair-based potentiation amplitude 
+
+A+3 6.2 × 10 −3 Triplet-based potentiation amplitude 
+
+τ fast pre 16.8 ms Time constant for fast presynaptic trace 
+
+τ fast post 33.7 ms Time constant for fast postsynaptic trace 
+
+τ slow pre 101 ms Time constant for slow presynaptic trace 
+
+τ slow post 125 ms Time constant for slow postsynaptic trace 27  
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint Table 1: Parameter values and descriptions (continued)
+
+Parameter Value Description 
+
+cη 16 Scaling factor for firing rate threshold in learn-ing rate 
+
+sη 10 Steepness parameter for learning rate sigmoid 
+
+kη 0.5 Midpoint threshold for learning rate sigmoid 
+
+Inhibitory long-term plasticity 
+
+a 1 Scaling constant for excitatory-to-inhibitory weight updates 
+
+b 0.05 Scaling constant for inhibitory-to-excitatory weight updates 
+
+c 0.07 Scaling constant for postsynaptic to ASIN weight updates 
+
+d 0.0088 Scaling constant for ASIN to self-assembly weight updates 
+
+f 0.0352 Scaling constant for ASIN to other-assembly weight updates 
+
+lMEC  
+
+> f
+
+0.1 Minimum scaling value for MEC region 
+
+lDG  
+
+> f
+
+0.4 Minimum scaling value for DG region 
+
+lCA3  
+
+> f
+
+0.3 Minimum scaling value for CA3 region 
+
+lCA1  
+
+> f
+
+0.1 Minimum scaling value for CA1 region 
+
+lCR  
+
+> f
+
+0.3 Minimum scaling value for CR region 
+
+lBackground  
+
+> f
+
+0.3 Minimum scaling value for Background region 
+
+sf 25 mM −1 Steepness parameter of the sigmoid for disin-hibition factor 
+
+kf 3.275 mM Midpoint potassium concentration for disin-hibition factor 
+
+Short-term plasticity 
+
+U 0.2 Baseline neurotransmitter release probability 
+
+τf 1500 ms Facilitation time constant for release proba-bility 
+
+τd 20 ms Depression time constant for synaptic re-source recovery 
+
+τy 1000 ms Adaptation recovery time constant 
+
+ηy 0.001 s −1 Baseline depletion rate for postsynaptic adap-tation 
+
+lζ 100 Amplitude of the activity-dependent scaling factor 
+
+sζ 3 Slope of the activity-dependent scaling factor 28  
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint Table 1: Parameter values and descriptions (continued)
+
+Parameter Value Description 
+
+kζ 3 Midpoint threshold of the activity-dependent scaling factor 
+
+Protein-mediated synaptic stabilization 
+
+τw 3 h Decay time constant for labile synaptic changes 
+
+ηexc prp 6.94 × 10 −4 Baseline PRP increment for excitatory neu-rons 
+
+ηinh prp 2.78 × 10 −5 Baseline PRP increment for inhibitory neu-rons 
+
+τprp 1 h PRP decay time constant 
+
+τ ew 5 min Stabilization time constant 
+
+Network architecture 
+
+N MEC ex 16 Number of excitatory neurons in MEC 
+
+N MEC inh 7 Number of inhibitory neurons in MEC 
+
+N DG ex 16 Number of excitatory neurons in DG 
+
+N DG inh 7 Number of inhibitory neurons in DG 
+
+N CA3 ex 32 Number of excitatory neurons in CA3 
+
+N CA3 inh 9 Number of inhibitory neurons in CA3 
+
+N CA1 ex 16 Number of excitatory neurons in CA1 
+
+N CA1 inh 8 Number of inhibitory neurons in CA1 
+
+N CR ex 16 Number of excitatory neurons in CR 
+
+N CR inh 8 Number of inhibitory neurons in CR 
+
+N Background ex 240 Number of excitatory neurons in Background 
+
+N Background inh 60 Number of inhibitory neurons in Background 
+
+⟨wex →ex ⟩ 0.37 Mean synaptic weight for E to E connections 
+
+⟨w2ex →ex ⟩ 0.30 Mean squared synaptic weight for E to E connections 
+
+⟨winh →ex ⟩ 0.51 Mean synaptic weight for I to E connections 
+
+⟨w2inh →ex ⟩ 0.50 Mean squared synaptic weight for I to E con-nections 
+
+⟨winh →inh ⟩ 0.54 Mean synaptic weight for I to I connections 
+
+⟨w2inh →inh ⟩ 0.56 Mean squared synaptic weight for I to I con-nections 
+
+⟨wex →inh ⟩ 0.68 Mean synaptic weight for E to I connections 
+
+⟨w2ex →inh ⟩ 0.70 Mean squared synaptic weight for E to I con-nections 29  
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint Table 1: Parameter values and descriptions (continued)
+
+Parameter Value Description 
+
+DMEC →DG 15 ms Delay from MEC to DG 
+
+DMEC →CA3 20 ms Delay from MEC to CA3 
+
+DMEC →CA1 25 ms Delay from MEC to CA1 
+
+DDG →CA3 15 ms Delay from DG to CA3 
+
+DCA3 →CA1 15 ms Delay from CA3 to CA1 
+
+DCA1 →CR 35 ms Delay from CA1 to CR 
+
+Dinter −assembly 20 ms Intra-regional inter-assembly delay in MEC, CA3, CR 
+
+Dintra −assembly 1 ms Intra-assembly delay 
+
+Dex →inh 0 ms Delay from excitatory to inhibitory neurons (feedback/lateral inhibition) 
+
+Dinh →ex 0 ms Delay from inhibitory to excitatory neurons 
+
+Dinh →inh 0 ms Delay from inhibitory to inhibitory neurons 
+
+Local field potential proxy estimation 
+
+ρΦ 0.35 mV/( μA cm) Extracellular resistivity 
+
+rΦ 0.015 cm Typical electrode distance 
+
+AΦ 0.0025 cm 2 Effective membrane area per neuron 
+
+Numerical integration 
+
+∆t 0.025 ms Integration time step 30 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+# References 
+
+[1] M¨ uller, G. E. & Pilzecker, A. Experimentelle beitr¨ age zur lehre vom ged¨ achtnis. 
+
+Zeitschrift f¨ ur Psychologie, Erg¨ anzungsband 1, 1–300 (1900). [2] McGaugh, J. L. Memory–a century of consolidation. Science 287 , 248–251 (2000). [3] Sadowski, J. H., Jones, M. W. & Mellor, J. R. Sharp-wave ripples orchestrate the induction of synaptic plasticity during reactivation of place cell firing patterns in the hippocampus. Cell Reports 14 , 1916–1929 (2016). [4] Guskjolen, A. & Cembrowski, M. S. Engram neurons: Encoding, consolidation, retrieval, and forgetting of memory. Molecular Psychiatry 28 , 3207–3219 (2023). [5] Murai, Y. & Goto, A. Diverse synaptic mechanisms underlying learning and memory consolidation. Current Opinion in Neurobiology 92 , 102996 (2025). [6] Bliss, T. V. P. & Collingridge, G. L. A synaptic model of memory: long-term potentiation in the hippocampus. Nature 361 , 31–39 (1993). [7] Malinow, R. & Malenka, R. C. AMPA receptor trafficking and synaptic plasticity. 
+
+Annual Review of Neuroscience 25 , 103–126 (2002). [8] Swanger, S. A., He, Y. A., Richter, J. D. & Bassell, G. J. Dendritic GluN2A synthesis mediates activity-induced NMDA receptor insertion. The Journal of Neuroscience 
+
+33 , 8898–8908 (2013). [9] Mocle, A. J. et al. Excitability mediates allocation of pre-configured ensembles to a hippocampal engram supporting contextual conditioned threat in mice. Neuron 
+
+112 , 1487–1497.e6 (2024). [10] Uytiepo, M. et al. Synaptic architecture of a memory engram in the mouse hip-pocampus. Science 387 , eado8316 (2025). [11] Frankland, P. W. & Bontempi, B. The organization of recent and remote memories. 
+
+Nature Reviews Neuroscience 6, 119–130 (2005). [12] Sun, W., Advani, M., Spruston, N., Saxe, A. & Fitzgerald, J. E. Organizing memories for generalization in complementary learning systems. Nature Neuroscience 26 ,1438–1448 (2023). [13] Chandra, S., Sharma, S., Chaudhuri, R. & Fiete, I. R. Episodic and associative memory from spatial scaffolds in the hippocampus. Nature 638 , 739–751 (2025). [14] Yang, Y., Huang, Z., Yang, Y., Fan, M. & Yin, D. Time-dependent consolidation mechanisms of durable memory in spaced learning. Communications Biology 8, 535 (2025). [15] Ko, S. Y. et al. Systems consolidation reorganizes hippocampal engram circuitry. 
+
+Nature 643 , 735–743 (2025). [16] Stickgold, R. Sleep-dependent memory consolidation. Nature 437 , 1272–1278 (2005). 31 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[17] Clawson, B. C. et al. Causal role for sleep-dependent reactivation of learning-activated sensory ensembles for fear memory consolidation. Nature Communications 
+
+12 , 1200 (2021). [18] Zhou, Z. & Norimoto, H. Sleep sharp wave ripple and its functions in memory and synaptic plasticity. Neuroscience Research 189 , 20–28 (2023). [19] Staresina, B. P. Coupled sleep rhythms for memory consolidation. Trends in Cognitive Sciences 28 , 339–351 (2024). [20] Ng, T., Noh, E. & Spencer, R. M. C. Does slow oscillation-spindle coupling contribute to sleep-dependent memory consolidation? a bayesian meta-analysis. eLife (2024). [21] Bollmann, L., Baracskay, P., Stella, F. & Csicsvari, J. Sleep stages antagonistically modulate reactivation drift. Neuron 113 , 1446–1459.e6 (2025). [22] Foster, D. J. & Wilson, M. A. Reverse replay of behavioural sequences in hippocampal place cells during the awake state. Nature 440 , 680–683 (2006). [23] Shin, J. D., Tang, W. & Jadhav, S. P. Dynamics of awake hippocampal-prefrontal replay for spatial learning and memory-guided decision making. Neuron 104 ,1110–1125.e7 (2019). [24] Himmer, L., Sch¨ onauer, M., Heib, D. P. J., Schabus, M. & Gais, S. Rehearsal initiates systems memory consolidation, sleep makes it last. Science Advances 5,eaav1695 (2019). [25] Mekbib, D. B. & McDonough, I. M. Reactivation and consolidation of memory traces during post-encoding rest across the adult lifespan. Annals of Clinical and Translational Neurology 12 , 246–254 (2025). [26] Louie, K. & Wilson, M. A. Temporally structured replay of awake hippocampal ensemble activity during rapid eye movement sleep. Neuron 29 , 145–156 (2001). [27] Lee, A. K. & Wilson, M. A. Memory of sequential experience in the hippocampus during slow wave sleep. Neuron 36 , 1183–1194 (2002). [28] Ghandour, K. et al. Orchestrated ensemble activities constitute a hippocampal memory engram. Nature Communications 10 , 2637 (2019). [29] Zaki, Y. et al. Offline ensemble co-reactivation links memories across days. Nature 
+
+637 , 145–155 (2025). [30] Bakermans, J. J. W., Warren, J., Whittington, J. C. R. & Behrens, T. E. J. Constructing future behavior in the hippocampal formation through composition and replay. Nature Neuroscience 28 , 1061–1072 (2025). [31] Mallory, C. S., Widloski, J. & Foster, D. J. The time course and organization of hippocampal replay. Science 387 , 541–548 (2025). [32] Cano, G. & Kempter, R. Conditions for replay of neuronal assemblies. PLOS Computational Biology 22 , e1013844 (2026). 32 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[33] Forli, A., Fan, W., Qi, K. K. & Yartsev, M. M. Replay and representation dynamics in the hippocampus of freely flying bats. Nature (2025). [34] Csicsvari, J. & Dupret, D. Sharp wave/ripple network oscillations and learning-associated hippocampal maps. Philosophical Transactions of the Royal Society B: Biological Sciences 369 , 20120528 (2014). [35] Zhang, J., Ou, J. & Liu, Y. Replay and ripples in humans. Annual Review of Neuroscience 48 , 65–84 (2025). [36] Maviel, T., Durkin, T. P., Menzaghi, F. & Bontempi, B. Sites of neocortical reorganization critical for remote spatial memory. Science 305 , 96–99 (2004). [37] Ji, D. & Wilson, M. A. Coordinated memory replay in the visual cortex and hippocampus during sleep. Nature Neuroscience 10 , 100–107 (2007). [38] Kitamura, T. et al. Engrams and circuits crucial for systems consolidation of a memory. Science 356 , 73–78 (2017). [39] Rothschild, G., Eban, E. & Frank, L. M. A cortical-hippocampal-cortical loop of information processing during memory consolidation. Nature Neuroscience 20 ,251–259 (2017). [40] Lensjø, K. K. et al. Local inhibitory circuits mediate cortical reactivations and memory consolidation. Science Advances 11 , eadu9800 (2025). [41] Schlingloff, D., K´ ali, S., Freund, T. F., H´ ajos, N. & Guly´ as, A. I. Mechanisms of sharp wave initiation and ripple generation. The Journal of Neuroscience 34 ,11385–11398 (2014). [42] Buzs´ aki, G. Hippocampal sharp wave-ripple: A cognitive biomarker for episodic memory and planning. Hippocampus 25 , 1073–1088 (2015). [43] Evangelista, R. et al. Generation of sharp wave-ripple events by disinhibition. The Journal of Neuroscience 40 , 7811–7836 (2020). [44] Roux, L., Hu, B., Eichler, R., Stark, E. & Buzs´ aki, G. Sharp wave ripples during learning stabilize the hippocampal spatial map. Nature Neuroscience 20 , 845–853 (2017). [45] Oliva, A., Fern´ andez-Ruiz, A., Leroy, F. & Siegelbaum, S. A. Hippocampal CA2 sharp-wave ripples reactivate and promote social memory. Nature 587 , 264–269 (2020). [46] Widloski, J. & Foster, D. J. Replay without sharp wave ripples in a spatial memory task. Nature Communications 16 , 10287 (2025). [47] Peyrache, A., Battaglia, F. P. & Destexhe, A. Inhibition recruitment in prefrontal cortex during sleep spindles and gating of hippocampal inputs. Proceedings of the National Academy of Sciences 108 , 17207–17212 (2011). [48] Zhang, C.-L., Sontag, L., G´ omez-Oc´ adiz, R. & Schmidt-Hieber, C. Learning-dependent gating of hippocampal inputs by frontal interneurons. Proceedings of the National Academy of Sciences 121 , e2403325121 (2024). 33 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[49] Rezaei, E. & Tohidi, S. Cortical GABAergic inhibition dynamics around hippocampal sharp-wave ripples. bioRxiv 2025.08.17.670701 (2025). [50] Satchell, M. et al. Cholinergic modulation of neural networks supports sequential and complementary roles for NREM and REM states in memory consolidation. 
+
+PLOS Computational Biology 21 , e1013097 (2025). [51] Aime, M. et al. Paradoxical somatodendritic decoupling supports cortical plasticity during REM sleep. Science 376 , 724–730 (2022). [52] Wu, K., Han, W. & Lu, W. Sleep and wake cycles dynamically modulate hippocampal inhibitory synaptic plasticity. PLOS Biology 20 , e3001812 (2022). [53] Tamaki, M. et al. Complementary contributions of non-REM and REM sleep to visual learning. Nature Neuroscience 23 , 1150–1156 (2020). [54] Tak´ acs, V. T. et al. Co-transmission of acetylcholine and GABA regulates hip-pocampal states. Nature Communications 9, 2848 (2018). [55] Dom´ ınguez, S., Fern´ andez de Sevilla, D. & Bu˜ no, W. Muscarinic long-term en-hancement of tonic and phasic GABA A inhibition in rat CA1 pyramidal neurons. 
+
+Frontiers in Cellular Neuroscience 10 , 244 (2016). [56] O’Donnell, J., Zeppenfeld, D., McConnell, E., Pena, S. & Nedergaard, M. Nore-pinephrine: A neuromodulator that boosts the function of multiple cell types to optimize CNS performance. Neurochemical Research 37 , 2496–2512 (2012). [57] Gais, S. & Born, J. Low acetylcholine during slow-wave sleep is critical for declarative memory consolidation. Proceedings of the National Academy of Sciences 101 , 2140– 2144 (2004). [58] Wilson, M. A. & McNaughton, B. L. Reactivation of hippocampal ensemble memories during sleep. Science 265 , 676–679 (1994). [59] Kudrimoti, H. S., Barnes, C. A. & McNaughton, B. L. Reactivation of hippocampal cell assemblies: effects of behavioral state, experience, and EEG dynamics. Journal of Neuroscience 19 , 4090–4101 (1999). [60] Diba, K. & Buzs’aki, G. Forward and reverse hippocampal place-cell sequences during ripples. Nature Neuroscience 10 , 1241–1242 (2007). [61] Ecker, A. et al. Hippocampal sharp wave-ripples and the associated sequence replay emerge from structured synaptic interactions in a network model of area CA3. eLife 
+
+11 , e71850 (2022). [62] Krause, E. L. & Drugowitsch, J. A large majority of awake hippocampal sharp-wave ripples feature spatial trajectories with momentum. Neuron 110 , 722–733.e8 (2022). [63] Chang, H. et al. Sleep microstructure organizes memory replay. Nature 637 ,1161–1169 (2025). [64] Sirota, A., Csicsvari, J., Buhl, D. & Buzs´ aki, G. Communication between neocortex and hippocampus during sleep in rodents. Proceedings of the National Academy of Sciences 100 , 2065–2069 (2003). 34 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[65] Norman, Y. et al. Hippocampal sharp-wave ripples linked to visual episodic recol-lection in humans. Science 365 , eaax1030 (2019). [66] Staresina, B. P., Niediek, J., Borger, V., Surges, R. & Mormann, F. How coupled slow oscillations, spindles and ripples coordinate neuronal processing and communication during human sleep. Nature Neuroscience 26 , 1429–1437 (2023). [67] Robinson, H. L. et al. Large sharp-wave ripples promote hippocampo-cortical memory reactivation and consolidation during sleep. Neuron 114 , 226–236.e6 (2026). [68] Girardeau, G., Benchenane, K., Wiener, S. I., Buzs´ aki, G. & Zugaro, M. B. Selective suppression of hippocampal ripples impairs spatial memory. Nature Neuroscience 
+
+12 , 1222–1223 (2009). [69] Jadhav, S. P., Kemere, C., German, P. W. & Frank, L. M. Awake hippocampal sharp-wave ripples support spatial memory. Science 336 , 1454–1458 (2012). [70] van de Ven, G. M., Trouche, S., McNamara, C. G., Allen, K. & Dupret, D. Hip-pocampal offline reactivation consolidates recently formed cell assembly patterns during sharp wave-ripples. Neuron 92 , 968–974 (2016). [71] Aleman-Zapata, A., Morris, R. G. M. & Genzel, L. Sleep deprivation and hippocam-pal ripple disruption after one-session learning eliminate memory expression the next day. Proceedings of the National Academy of Sciences 119 , e2123424119 (2022). [72] Ego-Stengel, V. & Wilson, M. A. Disruption of ripple-associated hippocampal activity during rest impairs spatial learning in the rat. Hippocampus 20 , 1–10 (2010). [73] Gridchyn, I., Schoenenberger, P., O’Neill, J. & Csicsvari, J. Assembly-specific disruption of hippocampal replay leads to selective memory deficit. Neuron 106 ,291–300.e6 (2020). [74] Yang, W. et al. Selection of experience for memory by hippocampal sharp wave ripples. Science 383 , 1478–1483 (2024). [75] Schapiro, A. C., McDevitt, E. A., Rogers, T. T., Mednick, S. C. & Norman, K. A. Human hippocampal replay during rest prioritizes weakly learned information and predicts memory performance. Nature Communications 9, 3920 (2018). [76] Huelin Gorriz, M., Takigawa, M. & Bendor, D. The role of experience in prioritizing hippocampal replay. Nature Communications 14 , 8157 (2023). [77] Hodgkin, A. L. & Huxley, A. F. A quantitative description of membrane current and its application to conduction and excitation in nerve. The Journal of Physiology 
+
+117 , 500–544 (1952). [78] Pfister, J.-P. & Gerstner, W. Triplets of spikes in a model of spike timing-dependent plasticity. The Journal of Neuroscience 26 , 9673–9682 (2006). 35 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[79] House, D. R. C., Elstrott, J., Koh, E., Chung, J. & Feldman, D. E. Parallel regulation of feedforward inhibition and excitation during whisker map plasticity. 
+
+Neuron 72 , 819–831 (2011). [80] Adaikkan, C. et al. Silencing CA1 pyramidal cells output reveals the role of feedback inhibition in hippocampal oscillations. Nature Communications 15 , 2190 (2024). [81] Tsodyks, M. V. & Markram, H. The neural code between neocortical pyramidal neurons depends on neurotransmitter release probability. Proceedings of the National Academy of Sciences 94 , 719–723 (1997). [82] Cutsuridis, V. & Poirazi, P. A computational study on how theta modulated inhibition can account for the long temporal windows in the entorhinal-hippocampal loop. Neurobiology of Learning and Memory 120 , 69–83 (2015). [83] O’Keefe, J. & Recce, M. L. Phase relationship between hippocampal place units and the EEG theta rhythm. Hippocampus 3, 317–330 (1993). [84] Tsokas, P. et al. Local protein synthesis mediates a rapid increase in dendritic elongation factor 1A after induction of late long-term potentiation. The Journal of Neuroscience 25 , 5833–5843 (2005). [85] Shinoda, Y., Tanaka, T., Tominaga-Yoshino, K. & Ogura, A. Persistent synapse loss induced by repetitive LTD in developing rat hippocampal neurons. PLOS ONE 
+
+5, e10390 (2010). [86] Ding, F. et al. Changes in the composition of brain interstitial ions control the sleep-wake cycle. Science 352 , 550–555 (2016). [87] Destexhe, A. Self-sustained asynchronous irregular states and updown states in thalamic, cortical and thalamocortical networks of nonlinear integrate-and-fire neurons. Journal of Computational Neuroscience 27 , 493–506 (2009). [88] Mongillo, G., Rumpel, S. & Loewenstein, Y. Inhibitory connectivity defines the realm of excitatory plasticity. Nature Neuroscience 21 , 1463–1470 (2018). [89] Levenstein, D., Buzs´ aki, G. & Rinzel, J. NREM sleep in the rodent neocortex and hippocampus reflects excitable dynamics. Nature Communications 10 , 2478 (2019). [90] Steriade, M., Nu˜ nez, A. & Amzica, F. A novel slow ( < 1 hz) oscillation of neocortical neurons in vivo: depolarizing and hyperpolarizing components. The Journal of Neuroscience 13 , 3252–3265 (1993). [91] Bi, G.-q. & Poo, M.-m. Synaptic modifications in cultured hippocampal neurons: dependence on spike timing, synaptic strength, and postsynaptic cell type. The Journal of Neuroscience 18 , 10464–10472 (1998). [92] Marek, R. et al. Hippocampus-driven feed-forward inhibition of the prefrontal cortex mediates relapse of extinguished fear. Nature Neuroscience 21 , 384–392 (2018). [93] S´ anchez-Bellot, C., AlSubaie, R., Mishchanchuk, K., Wee, R. W. S. & MacAskill, A. F. Two opposing hippocampus to prefrontal cortex pathways for the control of approach and avoidance behaviour. Nature Communications 13 , 339 (2022). 36 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[94] Liu, X., Dimidschstein, J., Fishell, G. & Carter, A. G. Hippocampal inputs engage CCK+ interneurons to mediate endocannabinoid-modulated feed-forward inhibition in the prefrontal cortex. eLife 9, e55267 (2020). [95] Opalka, A. N., Huang, W.-q., Liu, J., Liang, H. & Wang, D. V. Hippocampal ripple coordinates retrosplenial inhibitory neurons during slow-wave sleep. Cell Reports 
+
+30 , 432–441.e3 (2020). [96] Ruggiero, R. N. et al. Neuromodulation of hippocampal-prefrontal cortical synaptic plasticity and functional connectivity: Implications for neuropsychiatric disorders. 
+
+Frontiers in Cellular Neuroscience 15 , 732360 (2021). [97] Chong, Y. S., Ang, S. R. & Sajikumar, S. Beyond boundaries: extended temporal flexibility in synaptic tagging and capture. Communications Biology 8, 553 (2025). [98] Swanson, R. A. et al. Topography of putative bi-directional interaction between hippocampal sharp-wave ripples and neocortical slow oscillations. Neuron 113 ,754–768.e9 (2025). [99] Yamamoto, J. & Tonegawa, S. Direct medial entorhinal cortex input to hippocampal CA1 is crucial for extended quiet awake replay. Neuron 96 , 217–227.e4 (2017). [100] Funane, T. et al. Impaired sharp-wave ripple coordination between the medial entorhinal cortex and hippocampal CA1 of knock-in model of Alzheimer’s disease. 
+
+Frontiers in Systems Neuroscience 16 , 955178 (2022). [101] Zutshi, I. & Buzs´ aki, G. Hippocampal sharp-wave ripples and their spike assembly content are regulated by the medial entorhinal cortex. Current Biology 33 , 3648– 3659.e4 (2023). [102] Eliav, T. et al. Fragmented replay of very large environments in the hippocampus of bats. Cell 188 , 4091–4105.e16 (2025). [103] Russo, E. & Durstewitz, D. Cell assemblies at multiple time scales with arbitrary lag constellations. eLife 6, e19428 (2017). [104] Hofer, K. T. et al. The hippocampal CA3 region can generate two distinct types of sharp wave-ripple complexes, in vitro. Hippocampus 25 , 169–186 (2015). [105] Oliva, A., Fern´ andez-Ruiz, A., Fermino de Oliveira, E. & Buzs´ aki, G. Origin of gamma frequency power during hippocampal sharp-wave ripples. Cell Reports 25 ,1693–1700.e4 (2018). [106] Harvey, R. E., Berkowitz, L. E., Savage, D. D. & Clark, B. J. Prenatal alcohol exposure disrupts hippocampal sharp-wave ripple-associated spike dynamics. bioRxiv 
+
+2021.06.29.450435 (2021). [107] Li, Z. et al. Coordinated NREM sleep oscillations among hippocampal subfields modulate synaptic plasticity in humans. Communications Biology 7, 1236 (2024). [108] Sakon, J. J. & Kahana, M. J. Hippocampal ripples signal contextually mediated episodic recall. Proceedings of the National Academy of Sciences 119 , e2201657119 (2022). 37 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[109] Maslarova, A. et al. Spatiotemporal patterns differentiate hippocampal sharp-wave ripples from interictal epileptiform discharges in mice and humans. Nature Communications 16 , 11636 (2025). [110] He, X. et al. Abnormal salience network in normal aging and in amnestic mild cognitive impairment and Alzheimer’s disease. Hum Brain Mapp 35 , 3446–64 (2014). [111] Jones, E. A., Gillespie, A. K., Yoon, S. Y., Frank, L. M. & Huang, Y. Early hip-pocampal sharp-wave ripple deficits predict later learning and memory impairments in an Alzheimer’s disease mouse model. Cell Reports 29 , 2123–2133.e4 (2019). [112] Cheah, C. S., Lundstrom, B. N., Catterall, W. A. & Oakley, J. C. Impairment of sharp-wave ripples in a murine model of dravet syndrome. The Journal of Neuroscience 39 , 9251–9260 (2019). [113] Zhou, X. et al. Disturbance of functional and effective connectivity of the salience network involved in attention deficits in right temporal lobe epilepsy. Epilepsy & Behavior 124 , 108308 (2021). [114] Wiegand, J.-P. L. et al. Age is associated with reduced sharp-wave ripple frequency and altered patterns of neuronal variability. The Journal of Neuroscience 36 ,5650–5660 (2016). [115] Noguchi, A., Husz´ ar, R., Morikawa, S., Buzs´ aki, G. & Ikegaya, Y. Inhibition allocates spikes during hippocampal ripples. Nature Communications 13 , 1280 (2022). [116] Davidson, T. J., Kloosterman, F. & Wilson, M. A. Hippocampal replay of extended experience. Neuron 63 , 497–507 (2009). [117] Fern´ andez-Ruiz, A. et al. Long-duration hippocampal sharp wave ripples improve memory. Science 364 , 1082–1086 (2019). [118] Klampfl, S. & Maass, W. Emergence of dynamic memory traces in cortical mi-crocircuit models through STDP. The Journal of Neuroscience 33 , 11515–11529 (2013). [119] Kreiser, R., Aathmani, D., Qiao, N., Indiveri, G. & Sandamirskaya, Y. Organizing sequential memory in a neuromorphic device using dynamic neural fields. Frontiers in Neuroscience 12 , 717 (2018). [120] Pfeiffer, B. E. The content of hippocampal replay. Hippocampus 30 , 6–18 (2020). [121] Asabuki, T. & Fukai, T. Predictive learning rules generate a cortical-like replay of probabilistic sensory experiences. eLife 13 , RP92712 (2025). [122] Suh, J., Foster, D. J., Davoudi, H., Wilson, M. A. & Tonegawa, S. Impaired hippocampal ripple-associated replay in a mouse model of schizophrenia. Neuron 
+
+80 , 484–493 (2013). [123] Wang, D. V. & Ikemoto, S. Coordinated interaction between hippocampal sharp-wave ripples and anterior cingulate unit activity. The Journal of Neuroscience 36 ,10663–10672 (2016). 38 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[124] Klinzing, J. G., Niethard, N. & Born, J. Mechanisms of systems memory consolida-tion during sleep. Nature Neuroscience 22 , 1598–1610 (2019). [125] Ngo, H.-V., Fell, J. & Staresina, B. Sleep spindles mediate hippocampal-neocortical coupling during long-duration ripples. eLife 9, e57011 (2020). [126] Kim, J., Joshi, A., Frank, L. & Ganguly, K. Cortical-hippocampal coupling during manifold exploration in motor cortex. Nature 613 , 103–110 (2023). [127] Goshen, I. et al. Dynamics of retrieval strategies for remote memories. Cell 147 ,678–689 (2011). [128] Varela, C. et al. Tracking the time-dependent role of the hippocampus in memory recall using DREADDs. PLOS ONE 11 , e0154374 (2016). [129] Akers, K. G. et al. Hippocampal neurogenesis regulates forgetting during adulthood and infancy. Science 344 , 598–602 (2014). [130] Epp, J. R., Silva Mera, R., K¨ ohler, S., Josselyn, S. A. & Frankland, P. W. Neurogenesis-mediated forgetting minimizes proactive interference. Nature Commu-nications 7, 10838 (2016). [131] Richards, B. A. & Frankland, P. W. The persistence and transience of memory. 
+
+Neuron 94 , 1071–1084 (2017). [132] Hasselmo, M. E. Neuromodulation: acetylcholine and memory consolidation. Trends in Cognitive Sciences 3, 351–359 (1999). [133] Ohki, T. et al. Multivariate sharp-wave ripples in schizophrenia during awake state. 
+
+Psychiatry and Clinical Neurosciences 78 , 507–516 (2024). [134] Marrosu, F. et al. Microdialysis measurement of cortical and hippocampal acetyl-choline release during sleep-wake cycle in freely moving cats. Brain Research 671 ,329–332 (1995). [135] Dasari, S. & Gulledge, A. T. M1 and M4 receptors modulate hippocampal pyramidal neurons. Journal of Neurophysiology 105 , 779–792 (2011). [136] Bell, K. A., Delong, R., Goswamee, P. & McQuiston, A. R. The entorhinal cortical alvear pathway differentially excites pyramidal cells and interneuron subtypes in hippocampal CA1. Cerebral Cortex 31 , 2382–2401 (2021). [137] Croce, A., Pelletier, J. G., Tartas, M. & Lacaille, J.-C. Afferent-specific properties of interneuron synapses underlie selective long-term regulation of feedback inhibitory circuits in CA1 hippocampus. The Journal of Physiology 588 , 2091–2107 (2010). [138] Li, K., Koukoutselos, K., Sakaguchi, M. & Ciocchi, S. Distinct ventral hippocampal inhibitory microcircuits regulating anxiety and fear behaviors. Nature Communica-tions 15 , 8228 (2024). [139] Tang, W., Shin, J. D., Frank, L. M. & Jadhav, S. P. Hippocampal-prefrontal reactivation during learning is stronger in awake compared with sleep states. The Journal of Neuroscience 37 , 11789–11805 (2017). 39 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[140] Liu, X. & Kuzum, D. Hippocampal-cortical memory trace transfer and reactivation through cell-specific stimulus and spontaneous background noise. Frontiers in Computational Neuroscience 13 , 67 (2019). [141] Buch, E. R., Claudino, L., Quentin, R., B¨ onstrup, M. & Cohen, L. G. Consolidation of human skill linked to waking hippocampo-neocortical replay. Cell Reports 35 ,109193 (2021). [142] Duan, W. et al. Awake reactivation of cortical memory traces predicts subsequent memory retrieval. Progress in Neurobiology 250 , 102778 (2025). [143] Destexhe, A., Rudolph, M. & Par´ e, D. The high-conductance state of neocortical neurons in vivo. Nature Reviews Neuroscience 4, 739–751 (2003). [144] Yoshida, K. et al. Leak potassium channels regulate sleep duration. Proceedings of the National Academy of Sciences 115 , E9459–E9468 (2018). [145] Dietz, A. G. et al. Local extracellular K+ in cortex regulates norepinephrine levels, network state, and behavioral output. Proceedings of the National Academy of Sciences 120 , e2305071120 (2023). [146] Bazhenov, M., Timofeev, I., Steriade, M. & Sejnowski, T. J. Model of thalamocortical slow-wave sleep oscillations and transitions to activated states. The Journal of Neuroscience 22 , 8691–8704 (2002). [147] Funk, C. M. et al. Role of somatostatin-positive cortical interneurons in the generation of sleep slow waves. The Journal of Neuroscience 37 , 9132–9148 (2017). [148] Timofeev, I., Grenier, F., Bazhenov, M., Sejnowski, T. J. & Steriade, M. Origin of slow cortical oscillations in deafferented cortical slabs. Cerebral Cortex 10 , 1185–1199 (2000). [149] David, F. et al. Essential thalamic contribution to slow waves of natural sleep. The Journal of Neuroscience 33 , 19599–19610 (2013). [150] Holcman, D. & Tsodyks, M. The emergence of up and down states in cortical networks. PLOS Computational Biology 2, e23 (2006). [151] Frank, M. G. Erasing synapses in sleep: Is it time to be shy? Neural Plasticity 
+
+2012 , 264378 (2012). [152] Gleichmann, M., Chow, V. W. & Mattson, M. P. Homeostatic disinhibition in the aging brain and Alzheimer’s disease. Journal of Alzheimer’s Disease 24 , 15–24 (2011). [153] Issa, N. P., Nunn, K. C., Wu, S., Haider, H. A. & Tao, J. X. Putative roles for homeostatic plasticity in epileptogenesis. Epilepsia 64 , 539–552 (2023). [154] Inan, M., Petros, T. J. & Anderson, S. A. Losing your inhibition: Linking cortical GABAergic interneurons to schizophrenia. Neurobiology of Disease 53 , 36–48 (2013). [155] Liu, X., Kumar, V., Tsai, N.-P. & Auerbach, B. D. Hyperexcitability and homeostasis in Fragile X Syndrome. Frontiers in Molecular Neuroscience 14 , 805929 (2022). 40 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[156] Chai, Z., Ma, C. & Jin, X. Homeostatic activity regulation as a mechanism underlying the effect of brain stimulation. Bioelectronic Medicine 5, 16 (2019). [157] Vogels, T. P., Sprekeler, H., Zenke, F., Clopath, C. & Gerstner, W. Inhibitory plasticity balances excitation and inhibition in sensory pathways and memory networks. Science 334 , 1569–1573 (2011). [158] Zenke, F., Agnes, E. J. & Gerstner, W. Diverse synaptic plasticity mechanisms orchestrated to form and retrieve memories in spiking neural networks. Nature Communications 6, 6922 (2015). [159] Chen, L., Li, X., Tjia, M. & Thapliyal, S. Homeostatic plasticity and excitation-inhibition balance: The good, the bad, and the ugly. Current Opinion in Neurobiology 
+
+75 , 102553 (2022). [160] Tom´ e, D. F. et al. Dynamic and selective engrams emerge with memory consolidation. 
+
+Nature Neuroscience 27 , 561–572 (2024). [161] Rocchi, L. et al. Distinct impacts of sodium channel blockers on the strength-duration properties of human motor cortex neurons. Epilepsia (2025). [162] Tyurikova, O. et al. Astrocyte Kir4.1 expression level territorially controls excitatory transmission in the brain. Cell Reports 44 , 115299 (2025). [163] Merolla, A. et al. A pH-sensitive closed-loop nanomachine to control hyperexcitability at the single neuron level. Nature Communications 15 , 5609 (2024). [164] Kilman, V., van Rossum, M. C. W. & Turrigiano, G. G. Activity deprivation reduces miniature IPSC amplitude by decreasing the number of postsynaptic GABA A
+
+receptors clustered at neocortical synapses. The Journal of Neuroscience 22 , 1328– 1337 (2002). [165] Samokhina, E. et al. Potassium homeostasis during disease progression of Alzheimer’s disease. The Journal of Physiology 603 , 3405–3424 (2025). [166] Mander, B. A. Local sleep and Alzheimer’s disease pathophysiology. Frontiers in Neuroscience 14 , 525970 (2020). [167] Lee, Y. F. et al. Optogenetic targeting of astrocytes restores slow brain rhythm function and slows Alzheimer’s disease pathology. Scientific Reports 13 , 13075 (2023). [168] Abhyankar, S. D. et al. M¨ uller glial Kir4.1 channel dysfunction in APOE4 -KI model of Alzheimer’s disease. Glia 74 , e70119 (2026). [169] Goto, A. et al. Stepwise synaptic plasticity events drive the early phase of memory consolidation. Science 374 , 857–863 (2021). [170] Bocchio, M. et al. Functional networks of inhibitory neurons orchestrate synchrony in the hippocampus. PLOS Biology 22 , e3002837 (2024). [171] Huang, H. et al. Resting-state functional connectivity of salience network in schizophrenia and depression. Scientific Reports 12 , 11204 (2022). 41 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[172] Lepeu, G. et al. The critical dynamics of hippocampal seizures. Nature Communi-cations 15 , 6945 (2024). [173] Heer, C. M. & Sheffield, M. E. J. Distinct catecholaminergic pathways projecting to hippocampal CA1 transmit contrasting signals during navigation in familiar and novel environments. eLife (2024). [174] Roscow, E. L., Howe, T., Lepora, N. F. & Jones, M. W. Post-learning replay of hippocampal-striatal activity is biased by reward-prediction signals. Nature Communications 16 , 10394 (2025). [175] Zheng, J. et al. Amygdala-hippocampal dynamics during salient information pro-cessing. Nature Communications 8, 14413 (2017). [176] Bowler, J. C. & Losonczy, A. Direct cortical inputs to hippocampal area CA1 transmit complementary signals for goal-directed navigation. Neuron 111 , 4071– 4085.e6 (2023). [177] Issa, J. B., Radvansky, B. A., Xuan, F. & Dombeck, D. A. Lateral entorhinal cortex subpopulations represent experiential epochs surrounding reward. Nature Neuroscience 27 , 536–546 (2024). [178] Robert, V. et al. Cortical glutamatergic and GABAergic inputs support learning-driven hippocampal stability. Science eadn0623 (2025). [179] Dabas, A., Bruckner, R., Schultz, H., Bergmann, F. & Benoit, R. G. Learning from imagined experiences via an endogenous prediction error. Nature Communications 
+
+16 , 10845 (2025). [180] Widloski, J. & Foster, D. J. Flexible rerouting of hippocampal replay sequences around changing barriers in the absence of global place field remapping. Neuron 
+
+110 , 1547–1558.e8 (2022). [181] Liu, B. & Buonomano, D. V. Ex vivo cortical circuits learn to predict and sponta-neously replay temporal patterns. Nature Communications 16 , 3179 (2025). [182] Heckers, S. & Konradi, C. Gabaergic mechanisms of hippocampal hyperactivity in schizophrenia. Schizophrenia Research 167 , 4–11 (2015). [183] van Strien, N. M., Cappaert, N. L. M. & Witter, M. P. The anatomy of memory: an interactive overview of the parahippocampal-hippocampal network. Nature Reviews Neuroscience 10 , 272–282 (2009). [184] Zutshi, I., Valero, M., Fern´ andez-Ruiz, A. & Buzs´ aki, G. Extrinsic control and intrinsic computation in the hippocampal CA1 circuit. Neuron 110 , 658–673.e5 (2022). [185] Ratigan, H. C., Krishnan, S., Smith, S. & Sheffield, M. E. J. A thalamic-hippocampal CA1 signal for contextual fear memory suppression, extinction, and discrimination. 
+
+Nature Communications 14 , 6758 (2023). 42 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[186] M¨ olle, M., Yeshenko, O., Marshall, L., Sara, S. J. & Born, J. Hippocampal sharp wave-ripples linked to slow oscillations in rat slow-wave sleep. Journal of Neurophysiology 96 , 62–70 (2006). [187] Findlay, G. et al. A hippocampal ‘sharp-wave sleep’ state that is dissociable from cortical sleep. Nature Neuroscience 29 , 399–410 (2026). [188] Prince, T.-M. & Abel, T. The impact of sleep loss on hippocampal function. Learning & Memory 20 , 558–569 (2013). [189] O’Neill, J., Boccara, C. N., Stella, F., Schoenenberger, P. & Csicsvari, J. Superficial layers of the medial entorhinal cortex replay independently of the hippocampus. 
+
+Science 355 , 184–188 (2017). [190] Schieferstein, N. et al. Propagation of sharp wave-ripple activity in the mouse hippocampal CA3 subfield in vitro. The Journal of Physiology 602 , 5039–5059 (2024). [191] Rajasethupathy, P. et al. Projections from neocortex mediate top-down control of memory retrieval. Nature 526 , 653–659 (2015). [192] Meier, K., Merseburg, A., Isbrandt, D., Marguet, S. L. & Morellini, F. Dentate gyrus sharp waves, a local field potential correlate of learning in the dentate gyrus of mice. The Journal of Neuroscience 40 , 7105–7118 (2020). [193] Skaggs, W. E., McNaughton, B. L., Wilson, M. A. & Barnes, C. A. Theta phase precession in hippocampal neuronal populations and the compression of temporal sequences. Hippocampus 6, 149–172 (1996). [194] Stefanini, F. et al. A distributed neural code in the dentate gyrus and in CA1. 
+
+Neuron 107 , 703–716.e4 (2020). [195] Wang, M., Foster, D. J. & Pfeiffer, B. E. Alternating sequences of future and past behavior encoded within hippocampal theta oscillations. Science 370 , 247–250 (2020). [196] D’amour, J. A. & Froemke, R. C. Inhibitory and excitatory spike-timing-dependent plasticity in the auditory cortex. Neuron 86 , 514–528 (2015). [197] Lee, J.-H., Kim, W. B., Park, E. H. & Cho, J.-H. Neocortical synaptic engrams for remote contextual memories. Nature Neuroscience 26 , 259–273 (2023). [198] Panichello, M. F. et al. Intermittent rate coding and cue-specific ensembles support working memory. Nature 636 , 422–429 (2024). [199] Kozachkov, L. et al. Robust and brain-like working memory through short-term synaptic plasticity. PLOS Computational Biology 18 , e1010776 (2022). [200] Cotton, K. & Ricker, T. J. Examining the relationship between working memory consolidation and long-term consolidation. Psychonomic Bulletin & Review 29 ,1625–1648 (2022). 43 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[201] Dragoi, G. & Tonegawa, S. Preplay of future place cell sequences by hippocampal cellular assemblies. Nature 469 , 397–401 (2011). [202] Sharpe, M. J., Batchelor, H. M., Mueller, L. E., Gardner, M. P. H. & Schoenbaum, G. Past experience shapes the neural circuits recruited for future learning. Nature Neuroscience 24 , 391–400 (2021). [203] OLeary, J. D., Bruckner, R., Autore, L. & Ryan, T. J. Natural forgetting reversibly modulates engram expression. eLife (2024). [204] Meltzer, L. A., Yabaluri, R. & Deisseroth, K. A role for circuit homeostasis in adult neurogenesis. Trends in Neurosciences 28 , 653–660 (2005). [205] Lei, B. et al. Reconstructing a new hippocampal engram for systems reconsolidation and remote memory updating. Neuron 113 , 471–485.e6 (2025). [206] Golbabaei, A. et al. Neurogenesis-dependent transformation of hippocampal memory traces during systems consolidation. Current Biology 35 , 4959–4969.e4 (2025). [207] Liao, Z. et al. Inhibitory plasticity supports replay generalization in the hippocampus. 
+
+Nature Neuroscience 27 , 1987–1998 (2024). [208] Tran, L. M. et al. Adult neurogenesis acts as a neural regularizer. Proceedings of the National Academy of Sciences 119 , e2206704119 (2022). [209] DeCostanzo, A. J., Fung, C. C. A. & Fukai, T. Hippocampal neurogenesis reduces the dimensionality of sparsely coded representations to enhance memory encoding. 
+
+Frontiers in Computational Neuroscience 12 , 99 (2018). [210] Jones, D. T. & Breakspear, M. The hippocampal latent diffusion engine: A compu-tational framework for memory, perception, and cognitive dysfunction. PsyArXiv 
+
+(2026). [211] Goldwyn, J. H. & Shea-Brown, E. The what and where of adding channel noise to the Hodgkin-Huxley equations. PLOS Computational Biology 7, e1002247 (2011). [212] Faisal, A. A. & Laughlin, S. B. Stochastic simulations on the reliability of action potential propagation in thin axons. PLOS Computational Biology 3, e79 (2007). [213] Norman, C. A., Krishnakumar, S. S., Timofeeva, Y. & Volynski, K. E. The release of inhibition model reproduces kinetics and plasticity of neurotransmitter release in central synapses. Communications Biology 6, 1091 (2023). [214] Cressman, J. R., Ullah, G., Ziburkus, J., Schiff, S. J. & Barreto, E. The influence of sodium and potassium dynamics on excitability, seizures, and the stability of persistent states: I. single neuron dynamics. Journal of Computational Neuroscience 
+
+26 , 159–170 (2009). [215] Wei, Y., Ullah, G., Ingram, J. & Schiff, S. J. Oxygen and seizure dynamics: II. computational modeling. Journal of Neurophysiology 112 , 213–223 (2014). [216] Destexhe, A., Contreras, D., Sejnowski, T. J. & Steriade, M. A model of spindle rhythmicity in the isolated thalamic reticular nucleus. Journal of Neurophysiology 
+
+72 , 803–818 (1994). 44 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[217] Destexhe, A., Mainen, Z. & Sejnowski, T. Kinetic models of synaptic transmission. In Koch, C. & Segev, I. (eds.) Methods in Neuronal Modeling , chap. 1, 1–25 (MIT Press, Cambridge, 1998), 2 edn. [218] Ullah, G., Cressman Jr., J. R., Barreto, E. & Schiff, S. J. The influence of sodium and potassium dynamics on excitability, seizures, and the stability of persistent states: II. network and glial dynamics. Journal of Computational Neuroscience 26 ,171–183 (2009). [219] Dutta, S., Iyer, K. K., Vanhatalo, S., Breakspear, M. & Roberts, J. A. Mecha-nisms underlying pathological cortical bursts during metabolic depletion. Nature Communications 14 , 4792 (2023). [220] Bienenstock, E. L., Cooper, L. N. & Munro, P. W. Theory for the development of neuron selectivity: orientation specificity and binocular interaction in visual cortex. 
+
+The Journal of Neuroscience 2, 32–48 (1982). [221] Cooper, L. N. & Bear, M. F. The BCM theory of synapse modification at 30: interaction of theory with experiment. Nature Reviews Neuroscience 13 , 798–810 (2012). [222] Szocs, S., Henn-Mike, N., Agocs-Laboda, A., Szabo-Meleg, E. & Varga, C. Neurogli-aform cells mediate feedback inhibition in the medial entorhinal cortex. Frontiers in Neuroanatomy 16 , 779390 (2022). [223] Espinoza, C., Guzman, S. J., Zhang, X. & Jonas, P. Parvalbumin + interneurons obey unique connectivity rules and establish a powerful lateral-inhibition microcircuit in dentate gyrus. Nature Communications 9, 4605 (2018). [224] Kriener, B., Chaudhuri, R. & Fiete, I. R. Robust parallel decision-making in neural circuits with nonlinear inhibition. Proceedings of the National Academy of Sciences 
+
+117 , 25505–25516 (2020). [225] Rasmussen, R. et al. Cortex-wide changes in extracellular potassium ions parallel brain state transitions in awake behaving mice. Cell Reports 28 , 1182–1194.e4 (2019). [226] Brown, R. E., Basheer, R., McKenna, J. T., Strecker, R. E. & McCarley, R. W. Control of sleep and wakefulness. Physiological Reviews 92 , 1087–1187 (2012). [227] Atzori, M. et al. Locus ceruleus norepinephrine release: A central regulator of CNS spatio-temporal activation? Frontiers in Synaptic Neuroscience 8, 25 (2016). [228] Sah, P. Ca 2+ -activated K + currents in neurones: types, physiological roles and modulation. Trends in Neurosciences 19 , 150–154 (1996). [229] Benda, J. & Herz, A. V. M. A universal model for spike-frequency adaptation. 
+
+Neural Computation 15 , 2523–2564 (2003). [230] Redondo, R. L. & Morris, R. G. M. Making memories last: the synaptic tagging and capture hypothesis. Nature Reviews Neuroscience 12 , 17–30 (2011). 45 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[231] Bin Ibrahim, M. Z., Wang, Z. & Sajikumar, S. Synapses tagged, memories kept: synaptic tagging and capture hypothesis in brain health and disease. Philosophical Transactions of the Royal Society B: Biological Sciences 379 , 20230237 (2024). [232] Redondo, R. L. et al. Synaptic tagging and capture: Differential role of distinct calcium/calmodulin kinases in protein synthesis-dependent long-term potentiation. 
+
+The Journal of Neuroscience 30 , 4981–4989 (2010). [233] Clopath, C., Ziegler, L., Vasilaki, E., B¨ using, L. & Gerstner, W. Tag-Trigger-Consolidation: A model of early and late long-term-potentiation and depression. 
+
+PLOS Computational Biology 4, e1000248 (2008). [234] Cenquizca, L. A. & Swanson, L. W. Spatial organization of direct hippocampal field CA1 axonal projections to the rest of the cerebral cortex. Brain Research Reviews 
+
+56 , 1–26 (2007). [235] Zutshi, I. et al. Recurrent circuits within medial entorhinal cortex superficial layers support grid cell firing. Nature Communications 9, 3701 (2018). [236] Mante, V., Sussillo, D., Shenoy, K. V. & Newsome, W. T. Context-dependent computation by recurrent dynamics in prefrontal cortex. Nature 503 , 78–84 (2013). [237] Shahnazian, D. & Holroyd, C. B. Distributed representations of action sequences in anterior cingulate cortex: A recurrent neural network approach. Psychonomic Bulletin & Review 25 , 302–321 (2018). [238] Voigts, J. et al. Spatial reasoning via recurrent neural dynamics in mouse retrosplenial cortex. Nature Neuroscience 28 , 1293–1299 (2025). [239] Galloni, A. R., Samadzelkava, A., Hiremath, K., Oumnov, R. & Milstein, A. D. Recurrent excitatory feedback from mossy cells enhances sparsity and pattern separation in the dentate gyrus via indirect feedback inhibition. Frontiers in Computational Neuroscience 16 , 826278 (2022). [240] Engin, E. et al. Tonic inhibitory control of dentate gyrus granule cells by α5-containing GABA A receptors reduces memory interference. The Journal of Neuro-science 35 , 13698–13712 (2015). [241] Dolorfo, C. L. & Amaral, D. G. Entorhinal cortex of the rat: Topographic organi-zation of the cells of origin of the perforant path projection to the dentate gyrus. 
+
+Journal of Comparative Neurology 398 , 25–48 (1998). [242] Ishizuka, N., Weber, J. & Amaral, D. G. Organization of intrahippocampal pro-jections originating from CA3 pyramidal cells in the rat. Journal of Comparative Neurology 295 , 580–623 (1990). [243] Aguiar, P. d. C. A general hippocampal computational model combining episodic and spatial memory in a spiking model. Ph.D. thesis, University of Edinburgh, College of Science and Engineering, School of Informatics, Edinburgh, UK (2006). [244] Edvardsen, V. Examining remapping phenomena in a computational model of the hippocampus. Master’s thesis, Norwegian University of Science and Technology, Trondheim, Norway (2014). 46 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[245] Wu, Y. & Chen, Z. S. Computational models for state-dependent traveling waves in hippocampal formation. bioRxiv 2023.05.19.541436 (2023). [246] Hopfield, J. J. Neural networks and physical systems with emergent collective computational abilities. Proceedings of the National Academy of Sciences 79 , 2554– 2558 (1982). [247] El Boustani, S., Pospischil, M., Rudolph-Lilith, M. & Destexhe, A. Activated cortical states: Experiments, analyses and models. Journal of Physiology-Paris 101 ,99–109 (2007). [248] Mizuseki, K., Sirota, A., Pastalkova, E. & Buzs´ aki, G. Theta oscillations provide temporal windows for local circuit computation in the entorhinal-hippocampal loop. 
+
+Neuron 64 , 267–280 (2009). [249] Zielinski, M. C., Shin, J. D. & Jadhav, S. P. Coherent coding of spatial position mediated by theta oscillations in the hippocampus and prefrontal cortex. The Journal of Neuroscience 39 , 4550–4565 (2019). [250] N´ adasdy, Z., Hirase, H., Czurk´ o, A., Csicsvari, J. & Buzs´ aki, G. Replay and time compression of recurring spike sequences in the hippocampus. The Journal of Neuroscience 19 , 9497–9507 (1999). [251] Liu, Y., Dolan, R. J., Kurth-Nelson, Z. & Behrens, T. E. J. Human replay sponta-neously reorganizes experience. Cell 178 , 640–652.e14 (2019). [252] Belluscio, M. A., Mizuseki, K., Schmidt, R., Kempter, R. & Buzs´ aki, G. Cross-frequency phase–phase coupling between theta and gamma oscillations in the hip-pocampus. The Journal of Neuroscience 32 , 423–435 (2012). [253] Qasim, S. E., Fried, I. & Jacobs, J. Phase precession in the human hippocampus and entorhinal cortex. Cell 184 , 3242–3255.e10 (2021). [254] Zheng, J. et al. Theta phase precession supports memory formation and retrieval of naturalistic experience in humans. Nature Human Behaviour 8, 2423–2436 (2024). [255] Harris, K. D., Csicsvari, J., Hirase, H., Dragoi, G. & Buzs´ aki, G. Organization of cell assemblies in the hippocampus. Nature 424 , 552–556 (2003). [256] Malvache, A., Reichinnek, S., Villette, V., Haimerl, C. & Cossart, R. Awake hippocampal reactivations project onto orthogonal neuronal assemblies. Science 
+
+353 , 1280–1283 (2016). [257] Hafting, T., Fyhn, M., Bonnevie, T., Moser, M.-B. & Moser, E. I. Hippocampus-independent phase precession in entorhinal grid cells. Nature 453 , 1248–1252 (2008). [258] Mazzoni, A. et al. Computing the local field potential (LFP) from integrate-and-fire network models. PLOS Computational Biology 11 , e1004584 (2015). [259] Lind´ en, H. et al. Modeling the spatial reach of the LFP. Neuron 72 , 859–872 (2011). 47 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+[260] Ranck, J. B. Specific impedance of rabbit cerebral cortex. Experimental Neurology 
+
+7, 144–152 (1963). [261] Goto, T. et al. An evaluation of the conductivity profile in the somatosensory barrel cortex of wistar rats. Journal of Neurophysiology 104 , 3388–3412 (2010). [262] Kajikawa, Y. & Schroeder, C. E. How local is the local field potential? Neuron 72 ,847–858 (2011). [263] Meg´ ıas, M., Emri, Z., Freund, T. F. & Guly´ as, A. I. Total number and distribu-tion of inhibitory and excitatory synapses on hippocampal CA1 pyramidal cells. 
+
+Neuroscience 102 , 527–540 (2001). [264] Benavides-Piccione, R., Rojo, C., Kastanauskaite, A. & DeFelipe, J. Variation in pyramidal cell morphology across the human anterior temporal lobe. Cerebral Cortex 31 , 3592–3609 (2021). [265] Buzs´ aki, G., Anastassiou, C. A. & Koch, C. The origin of extracellular fields and currents — EEG, ECoG, LFP and spikes. Nature Reviews Neuroscience 13 , 407–420 (2012). [266] Einevoll, G. T., Kayser, C., Logothetis, N. K. & Panzeri, S. Modelling and analysis of local field potentials for studying the function of cortical circuits. Nature Reviews Neuroscience 14 , 770–785 (2013). [267] Kloeden, P. E. & Platen, E. Numerical Solution of Stochastic Differential Equations 
+
+(Springer, 1992). [268] Hairer, E., Nørsett, S. P. & Wanner, G. Solving Ordinary Differential Equations I: Nonstiff Problems (Springer, 1993). [269] Butcher, J. C. Numerical Methods for Ordinary Differential Equations (John Wiley & Sons, 2016). 48 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint
+
+# Acknowledgments 
+
+I am grateful to my immediate and extended family for their selfless, invaluable support. 49 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 11, 2026. ;https://doi.org/10.64898/2025.12.09.693276 doi: bioRxiv preprint

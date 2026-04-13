@@ -1,0 +1,80 @@
+---
+title: Hippocampal neuronal and astrocytic responses to noradrenaline and natural arousal
+title_zh: 海马体神经元和星形胶质细胞对去甲肾上腺素及自然觉醒的反应
+authors: "Duss, S. N., Wilhelm, M., Marinescu, A.-M., Zhang, R., Helmchen, F., Bohacek, J., Rupprecht, P."
+date: 2026-04-08
+pdf: "https://www.biorxiv.org/content/10.64898/2026.01.16.699885v3.full.pdf"
+tags: ["query:slp-ns"]
+score: 9.0
+evidence: 神经元和星形胶质细胞对自然觉醒和去甲肾上腺素的反应
+tldr: 本研究对比了自然觉醒与选择性激活蓝斑（LC）对小鼠海马CA1区细胞的影响。通过光遗传学和双光子成像发现，自然觉醒能同时激活神经元和星形胶质细胞，而LC激活在适度水平下仅诱发星形胶质细胞反应，高强度下则抑制多数神经元。这表明在适度觉醒和应激下，去甲肾上腺素在海马中的作用主要由星形胶质细胞介导，而非神经元。
+source: biorxiv
+selection_source: fresh_fetch
+figures_json: "[{\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-01-16-699885-v3/fig-001.webp\", \"caption\": \"Figure 4 – Pyramidal cells exhibit distinct and stable response patterns during natural arousal but respond uniformly to LC 347 stimulation. 348 A, All cellular responses to ≥20 Hz LC stimulation, shown as the spike rate estimated from ΔF/F traces and sorted by the spike rate change 349 during the 10 s stimulation window compared to the 20 s before stimulation, with subselection of the 250 most and least responsive cells. 350 Data pooled from 15 sessions across 5 mice. B, Same as in (A) but sorted by the highest activity in 10-s time bins for 60 s before and 90 s 351 after LC stimulation. Neurons with maximum activity outside the displayed time window are not shown. The visualization illustrates the 352 sequential activity patterns of pyramidal cells. C, Quantification of number of neurons in each time bin in panel (B). The number of neurons 353 activated in the 10-s bins following LC stimulation is lower than for any other time bins. D, Change of spike rate from a 10-s pre-stimulus 354 window (x-axis) to the 10-s window of LC stimulation (y-axis). Spike rate changes are shown both for random time points (spontaneous, 355 gray) and 20-Hz LC stimulation time points (red). Compared to spontaneous spike rate changes, LC stimulation induces a reduction of 356 spike rates. E, Left: Response to two strong LC stimulations within a single session (stimulation 1: x-axis, stimulation 2: y-axis) to investigate 357 within-session stability. Right: Marginal distribution of LC stimulation responses, color-coded as in panel (C). F, Analysis of stability of 358 pyramidal cell responses within sessions. Left: Cellular responses to stimulation #1, sorted by most to least responsive cells and plotted 359 as the quantiles shown in panel (C, right). Right: The responses of the same cells to stimulation #2 within the same session, with the sorting 360 maintained from stimulation #1. No evidence for response stability can be observed. G, Example recording of negatively-movement 361 modulated (top) and positively-movement modulated pyramidal cell (below), together with behavioral proxies for arousal (pupil diameter, 362 body movement; bottom). Raw ΔF/F traces (light color) as well as estimated spike rates (dark color) are shown, matching the color-code 363 in panels (J,K). Episodes of natural arousal encompassed by body movement are highlighted with gray shading (manual annotation). 364 Episodes of optogenetic stimulation of LC are highlighted with red shading.The same pyramidal cells are tracked for day 1 (left) and day 2 365 (right) H, Left: Analysis of stability of pyramidal cells responses towards LC stimulation across sessions (day N vs. day N+1), pooled across 366 all sessions and animals. Right: Correlation of responses across days for each animal and each session pair. I, Left: Analysis of stability of 367 pyramidal cell activity locked to body movement across sessions (day N vs. day N+1), pooled across all sessions and animals. Right: 368 Correlation of responses across days for each animal and session pair. J, Comparison of the cellular responses to natural arousal (body 369 movement) vs artificial arousal (LC stimulation), not exhibiting any visible correlation. Cells modulated positively vs. negatively by body 370 movement are color-coded. The two neurons shown in (G) are highlighted with large dark symbols. K, LC response magnitude of positively-371\", \"page\": 10, \"index\": 1, \"width\": 1012, \"height\": 894}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-01-16-699885-v3/fig-002.webp\", \"caption\": \"Figure 6 – Cell-type-specific response profiles to LC stimulation across intensities. 491 A, Mean astrocytic population responses to optogenetic LC stimulation at increasing frequencies (1-40 Hz) for astrocytes. Shaded region 492 indicates stimulation period. Responses are offset on the y-axis to improve readability. B, Astrocytic response properties during the early 493 response window (10-s window during stimulation) for astrocytes. Left: grand-average response magnitude. Right: population similarity 494 across stimulation intensities computed with Pearson’s correlation of the population activity vector. C, Same as in (B) but for the late time 495 window (10 s after stimulation). D-F, Same as in (A-C) but for pyramidal neurons. G-I, Same as in (A-C) but for interneurons. In (G-I), the 496 subpopulation of interneurons that were activated by stimulation intensities ≥20 Hz are shown separately (lighter color) together with the 497 entire population (darker color). The similarity measurements are based on the entire interneuron population. For all panels, values are 498 averaged for astrocytes across 495 cells, with 6 stimulations from 3 sessions and 3 animals for 1 Hz, 495/6/3/3 for 3 Hz, 2207/34/12/4 for 499 5 Hz, 495/7/3/3 for 10 Hz, 2207/32/12/4 for 20 Hz, and 495/6/3/3 for 40 Hz. For interneurons, 368/7/3/3 for 1 Hz, 368/6/3/3 for 3 Hz, 500 1710/41/14/4 for 5 Hz, 368/6/3/3 for 10 Hz, 1710/39/14/4 for 20 Hz, and 751/12/6/3 for 40 Hz. For pyramidal cells, 672/4/2/2 for 1 Hz, 501 672/4/2/2 for 3 Hz, 4425/37/14/6 for 5 Hz, 672/4/2/2 for 10 Hz, 4425/36/14/6 for 20 Hz, and 3457/17/9/3 for 40 Hz. 502\", \"page\": 14, \"index\": 2, \"width\": 846, \"height\": 435}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-01-16-699885-v3/fig-003.webp\", \"caption\": \"Figure 2 Supplement 5 - Cell-type specific responses to LC stimulation during anesthesia with two-photon microscopy. 1147 Average responses (average across all cells, animals and sessions) to LC stimulation for astrocytes (A), pyramidal cells (B) and 1148 interneurons (C) during wakefulness (left) and anesthesia (right). Under both conditions, similar overall responses can be observed 1149 (activation for astrocytes, inhibition for pyramidal cells and interneurons). For interneurons, a slow activation not observed during 1150 wakefulness can be seen riding on top of the inhibition. D, Responses on the cellular level (responses to LC stimulation computed 1151 as in Figures 3 to 5) are correlated across states for astrocytes and interneurons but not for pyramidal cells, consistent with results 1152 observed for response stability across sessions during wakefulness (Figures 3 to 5). 1153\", \"page\": 35, \"index\": 3, \"width\": 669, \"height\": 433}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-01-16-699885-v3/fig-004.webp\", \"caption\": \"Figure 3 – Astrocyte subpopulations exhibit stable, cell-specific responses to LC stimulation that diverge from activity during 275 natural arousal. 276 A, All astrocytic responses to ≥20 Hz LC stimulation, sorted by the ΔF/F change during the 10 s stimulation window compared to the 20 s 277 window before stimulation, with subselection of the 250 most and least responsive cells. Data pooled from 12 sessions across 4 mice. B, 278 Time-averaged response to a strong stimulation as shown in panel (A) as a function of pre-stimulus ΔF/F (average across 20 s before 279 stimulation). C, Left: Response to two strong LC stimulations within a single session (stimulation 1: x-axis, stimulation 2: y-axis) to 280 investigate within-session stability. Right: Marginal distribution of LC stimulation responses, colorcoded as in panel (D). D, Analysis of 281 stability of astrocytic responses within sessions. Left: Cellular responses to stimulation #1, sorted by most to least responsive cells and 282 plotted as the quantiles shown in panel (C, right). Right: Responses of the same cells to stimulation #2 within the same session, with the 283 sorting maintained from stimulation #1. E, Left: Analysis of stability of astrocytic responses towards LC stimulation for an individual session 284 pair (day N vs. day N+1). Here and in panels (H,I,J), only a single session pair is shown as scatter plot due to large differences between 285 mean average response magnitudes across sessions and animals. Right: Correlation of responses across days for each animal and each 286 session pair. Here and in the following panels, the colored dots correspond to the astrocytes shown in panel (G). F, Left: Analysis of stability 287 of astrocytic activity locked to body movement across a session pair (day N vs. day N+1). Right: Correlation of responses across days for 288 each animal and each session pair. G, Examples of distinct astrocytic response types. Episodes of natural arousal encompassed by body 289 movement are highlighted with gray shading (manual annotation). Episodes of optogenetic stimulation of LC are highlighted with red 290 shading. Simultaneously recorded body movement as a proxy for natural arousal is shown below. The same astrocytes are shown for day 291 1 (left) and day 2 (right). H, Sigmoid fit of activation in response to increasing LC stimulation frequency for the three selected astrocytes 292 displayed in (G). Activation functions are shown normalized to the saturating response of each astrocyte. I, Response sensitivity of 293 astrocytes to LC stimulation, defined as the ratio of responses to 5 Hz vs. 20 Hz stimulations of LC. Left: Example stability of response 294 sensitivity across two imaging sessions. Right: Pearson correlation coefficient for each session pair for all animals. J, Left: Correlation of 295 responses to LC stimulation and movement modulation. Right: Pearson correlation coefficient for all four animals. K, Example activity 296\", \"page\": 8, \"index\": 4, \"width\": 546, \"height\": 354}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-01-16-699885-v3/fig-005.webp\", \"caption\": \"Table 1. Overview of functionally defined response characteristics of the investigated cell types. Subgroups are defined based on 570 different response polarities to arousal or LC stimulation (third and fourth column). Accordingly, there are no subgroups for astrocytes, 571 although astrocytes exhibit a spectrum of sensitivities to LC stimulation. Laminar location is defined as \\\"deep\\\" (more dorsal in dorsal CA1) 572 and \\\"superficial\\\" (more ventral in dorsal CA1). \\\"Aligned with population average\\\" indicates whether the overall response directionality 573 (activation vs. inhibition) was the same between responses to arousal and responses to LC stimulation. \\\"Aligned on cellular level\\\" indicates 574 whether the single-cell response profiles were aligned across arousal vs. LC stimulation. \\\"Response stability\\\" indicates whether single-cell 575 response patterns were stable within and across days. 576\", \"page\": 16, \"index\": 5, \"width\": 1023, \"height\": 440}]"
+motivation: 旨在阐明蓝斑-去甲肾上腺素系统在自然觉醒过程中如何具体贡献于海马CA1区的各类细胞反应。
+method: 结合生理滴定的光遗传学、去甲肾上腺素与钙信号纤维光度法、慢性双光子成像及行为监测技术进行综合分析。
+result: 适度LC激活仅引起星形胶质细胞强烈的钙反应，而高强度激活则导致神经元普遍受抑制及特定中间神经元亚群的瞬时激活。
+conclusion: 蓝斑驱动的去甲肾上腺素释放对海马细胞的影响具有高度细胞特异性，且在中低度觉醒水平下主要通过星形胶质细胞发挥作用。
+---
+
+## 摘要
+蓝斑 (LC)-去甲肾上腺素 (NA) 系统是大脑对觉醒和压力反应的核心组成部分。然而，LC 活动如何促成自然觉醒期间观察到的细胞反应特征仍不清楚。在本研究中，我们利用生理滴定光遗传学、NA 和钙信号的光纤光度法、慢性双光子成像以及行为监测，直接比较了小鼠 CA1 区在自然觉醒与选择性 LC 激活下的表现。虽然自然觉醒能显著激活星形胶质细胞、锥体细胞和中间神经元，但直接的 LC 刺激却揭示了细胞反应极性和敏感性方面的显著差异。在对应于觉醒和中度压力的 LC 激活水平下，我们观察到星形胶质细胞产生了强烈且可靠的钙反应，而锥体神经元和中间神经元则基本不受影响。仅在高强度 LC 刺激下，神经元才表现出反应，其特征是锥体细胞和中间神经元在群体水平上受到广泛抑制，同时伴随着占据 CA1 不同层级位置的中间神经元亚群的瞬时激活。因此，LC 驱动的 NA 释放会在海马体 CA1 区产生细胞特异性效应，这些效应与自然觉醒期间的细胞动力学不同，在神经元群体水平上甚至与后者截然相反。总之，我们的结果揭示了星形胶质细胞和神经元对 LC 驱动的 NA 释放反应的差异，并表明在适度觉醒和压力水平下，海马体中的去甲肾上腺素能效应主要由星形胶质细胞介导。
+
+## Abstract
+The locus coeruleus (LC)-noradrenaline (NA) system is a central component of the brains response to arousal and stress. Yet how LC activity contributes to the cellular response profiles observed during natural arousal remains unclear. Here, we directly compared natural arousal with selective LC activation in mouse CA1, using physiologically titrated optogenetics, fiber photometry of NA and calcium signals, chronic two-photon imaging, and behavioral monitoring. While natural arousal robustly activated astrocytes, pyramidal cells, and interneurons, direct LC stimulation revealed a striking divergence in cellular response polarity and sensitivity. At levels of LC activation that correspond to arousal and moderate stress, we observed strong and reliable calcium responses in astrocytes, whereas pyramidal neurons and interneurons remained largely unaffected. Only at high-intensity LC stimulation did neurons exhibit a response, characterized by broad population-level inhibition of both pyramidal cells and interneurons, alongside the transient activation of an interneuron subpopulation that occupied distinct laminar positions in CA1. Thus, LC-driven NA release produces cell-specific effects in hippocampal CA1 that are distinct from and, at the population level for neurons even opposite to, cellular dynamics during natural arousal. Together, our results reveal a divergence in how astrocytes and neurons respond to LC-driven NA release and suggest that noradrenergic effects in the hippocampus at moderate levels of arousal and stress are predominantly mediated by astrocytes.
+
+---
+
+## 论文详细总结（自动生成）
+
+这是一份关于论文《Hippocampal neuronal and astrocytic responses to noradrenaline and natural arousal》（海马体神经元与星形胶质细胞对去甲肾上腺素及自然觉醒的反应）的结构化总结：
+
+### 1. 核心问题与整体含义
+*   **研究动机**：蓝斑（LC）释放的去甲肾上腺素（NA）是调节大脑觉醒和压力反应的核心。虽然已知自然觉醒会引起海马体广泛的细胞活动，但目前尚不清楚这些活动中有多少是直接由LC-NA系统驱动的，以及不同细胞类型（锥体神经元、中间神经元、星形胶质细胞）对NA的敏感度和反应极性有何差异。
+*   **核心问题**：直接激活LC产生的细胞效应是否能模拟自然觉醒时的海马动力学？海马体中的神经元和星形胶质细胞对不同强度的LC活动如何响应？
+
+### 2. 方法论
+*   **核心思想**：通过“生理滴定”（Physiological Titration）建立光遗传刺激强度与自然压力状态下NA水平的对应关系，从而在可控条件下研究LC-NA对海马CA1区的直接影响。
+*   **关键技术细节**：
+    *   **光遗传学**：在DBH-iCre小鼠的LC中表达ChrimsonR（激活）或Jaws（抑制）。
+    *   **信号监测**：使用纤维光度法（Fiber Photometry）记录群体NA水平（GRAB-NE传感器）和钙信号；使用双光子成像（Two-photon Imaging）在单细胞分辨率下记录CA1区三类细胞的钙动力学。
+    *   **行为监测**：通过瞳孔扩大程度和身体运动（Body Movement）作为自然觉醒的代理指标。
+    *   **数据处理**：利用CASCADE深度学习工具进行尖峰推断（Spike Inference），并使用扩张线性回归（Dilated Linear Regression）剔除运动对神经元活动的干扰。
+
+### 3. 实验设计
+*   **场景与压力源**：
+    *   **自然压力/觉醒**：提尾（Tail lift）、足底电击（Foot shock）、冷水游泳（Cold forced swim）。
+    *   **人工干预**：不同频率（1Hz至40Hz）的光遗传LC刺激。
+*   **对比维度**：
+    *   **细胞类型对比**：锥体细胞（CamKIIα+）、中间神经元（mDlx+）、星形胶质细胞（GFAP+）。
+    *   **状态对比**：清醒状态 vs. 麻醉状态；自然觉醒 vs. 光遗传刺激。
+    *   **基准（Benchmark）**：以自然压力诱发的NA释放峰值为基准，将5Hz定义为中度压力，20Hz定义为高强度压力。
+
+### 4. 资源与算力
+*   **算力说明**：论文未明确提及具体的GPU型号或大规模算力集群的使用。
+*   **软件工具**：主要依赖Bonsai进行数据采集，Scanimage进行成像控制，Suite2p进行ROI提取，以及自定义的MATLAB和Python脚本进行统计分析。
+
+### 5. 实验数量与充分性
+*   **实验规模**：
+    *   使用了多只小鼠（如光度法n=31，双光子n=13）。
+    *   记录了大量单细胞数据（如495个星形胶质细胞、4425个锥体细胞、1710个中间神经元）。
+    *   进行了跨天（Multi-day）追踪实验，验证了细胞反应的稳定性。
+*   **充分性评价**：实验设计非常充分。研究不仅涵盖了群体水平的测量，还深入到单细胞分辨率；包含了从低频到高频的完整梯度测试，并进行了消融实验（如抑制LC以验证NA来源），逻辑链条完整且客观。
+
+### 6. 主要结论与发现
+*   **星形胶质细胞的高敏感性**：星形胶质细胞对LC-NA极其敏感，在中等强度（5Hz）刺激下即可产生强烈且可靠的钙反应，其反应模式与自然觉醒高度一致。
+*   **神经元的抑制效应**：与传统认知（NA增加兴奋性）不同，在清醒小鼠中，LC刺激主要引起锥体细胞和大多数中间神经元的广泛抑制，且这种效应仅在高强度（≥10-20Hz）刺激下才显著。
+*   **中间神经元的异质性**：发现了一类靠近锥体层（Superficial）的中间神经元亚群会被LC刺激瞬时激活，而深层的中间神经元则被抑制。
+*   **自然与人工的脱节**：自然觉醒引起的神经元兴奋无法通过单纯激活LC来模拟，说明自然觉醒中的神经元活动主要由其他神经递质（如乙酰胆碱）或回路驱动，而非LC-NA。
+
+### 7. 优点与亮点
+*   **生理对齐**：通过滴定实验确保了光遗传刺激在生理范围之内，避免了过度刺激导致的非自然效应。
+*   **单细胞追踪**：能够跨天追踪同一批细胞，证明了细胞对NA反应的个体差异是其固有的功能特征（如某些星形胶质细胞天生比其他的更敏感）。
+*   **层级分析**：揭示了中间神经元反应的层级组织逻辑（Laminar Organization），为理解海马体微回路提供了新视角。
+
+### 8. 不足与局限
+*   **刺激模式的局限**：光遗传刺激采用的是恒定频率，可能无法完全模拟LC神经元在自然状态下的爆发式（Burst）放电模式。
+*   **中间神经元分类**：虽然观察到了层级差异，但未能完全将功能反应与具体的分子亚型（如PV, SST, VIP）一一对应。
+*   **环境干扰**：头固定（Head-fixed）实验环境本身可能对小鼠造成一定的基准压力，可能影响对“基准觉醒状态”的定义。
+
+（完）
