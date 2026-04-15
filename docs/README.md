@@ -6,97 +6,106 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-14
-- 运行时间：2026-04-14 20:08:22 UTC
+- 最新运行日期：2026-04-15
+- 运行时间：2026-04-15 20:11:20 UTC
 - 运行状态：成功
-- 本次总论文数：25
-- 精读区：12
+- 本次总论文数：28
+- 精读区：15
 - 速读区：13
 
 ### 今日简报（AI）
-今日深挖 25 篇前沿文献，聚焦大脑离线状态与代谢稳态的神经调控机制。
-满分研究揭示了模拟冬眠状态能有效减缓淀粉样病变，并阐明了蓝斑-海马体在记忆巩固中的关键交互。
-建议关注“脑态切换”与代谢通路在神经退行性疾病治疗中的跨界应用。
-- 详情：[/202604/14/README](/202604/14/README)
+今日精选 28 篇前沿研究，深度解析了脑态调控与病理干预的突破性进展。
+重点揭示了蓝斑-海马体在离线状态下的交互机制，以及诱导类冬眠脑态对延缓淀粉样病变的显著作用。
+建议关注睡眠与代谢调节对神经退行性疾病的预防价值，并探索生物钟与肠道健康的深层联系。
+- 详情：[/202604/15/README](/202604/15/README)
 
 ### 精读区论文标签
-1. [Differential locus coeruleus-hippocampus interactions during offline states](/202604/14/biorxiv-10-1101-2025-09-18-677005-v2-differential-locus-coeruleus-hippocampus-interactions-during-offline-states)  
+1. [Differential locus coeruleus-hippocampus interactions during offline states](/202604/15/biorxiv-10-1101-2025-09-18-677005-v2-differential-locus-coeruleus-hippocampus-interactions-during-offline-states)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：研究了非快速眼动睡眠期间蓝斑活动和去甲肾上腺素的释放
-2. [Repetitive induction of a hibernation-like brain state slows amyloid pathology](/202604/14/biorxiv-10-64898-2025-12-26-694269-v2-repetitive-induction-of-a-hibernation-like-brain-state-slows-amyloid-pathology)  
+   evidence：NREM睡眠期间的蓝斑活动
+2. [Repetitive induction of a hibernation-like brain state slows amyloid pathology](/202604/15/biorxiv-10-64898-2025-12-26-694269-v2-repetitive-induction-of-a-hibernation-like-brain-state-slows-amyloid-pathology)  
    标签：评分：10.0/10、query:tr-hb
-   evidence：诱导类冬眠生理状态以减缓淀粉样病变
-3. [Cell-specific variant-to-gene mapping identifies conserved neural and glial regulators of sleep](/202604/14/biorxiv-10-64898-2026-04-07-715910-v1-cell-specific-variant-to-gene-mapping-identifies-conserved-neural-and-glial-regulators-of-sleep)  
+   evidence：诱导类冬眠状态在阿尔茨海默病中的医学应用
+3. [Cell-specific variant-to-gene mapping identifies conserved neural and glial regulators of sleep](/202604/15/biorxiv-10-64898-2026-04-07-715910-v1-cell-specific-variant-to-gene-mapping-identifies-conserved-neural-and-glial-regulators-of-sleep)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：睡眠的遗传基础以及神经和胶质调节因子
-4. [NREM Oscillations Mediate Synaptic Proteome Remodelling to Support Synapse Stabilisation](/202604/14/biorxiv-10-64898-2026-04-07-716883-v1-nrem-oscillations-mediate-synaptic-proteome-remodelling-to-support-synapse-stabilisation)  
+   evidence：睡眠和白天嗜睡的神经和胶质调节因子
+4. [NREM Oscillations Mediate Synaptic Proteome Remodelling to Support Synapse Stabilisation](/202604/15/biorxiv-10-64898-2026-04-07-716883-v1-nrem-oscillations-mediate-synaptic-proteome-remodelling-to-support-synapse-stabilisation)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：非快速眼动睡眠振荡介导突触蛋白质组重塑和稳定
-5. [Towards Multi-Source Domain Generalization for Sleep Staging with Noisy Labels](/202604/14/2604.10009v1-towards-multi-source-domain-generalization-for-sleep-staging-with-noisy-labels)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：基于脑电图的多模态睡眠分期与领域泛化
-6. [Myeloid-Driven Inflammation in Prodromal Parkinson's Disease](/202604/14/biorxiv-10-1101-2025-05-16-654530-v2-myeloid-driven-inflammation-in-prodromal-parkinsons-disease)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：快速眼动睡眠行为障碍作为帕金森病前驱症状
-7. [Sleep-modulated disinhibition enables replay for memory consolidation, accelerated by ripples](/202604/14/biorxiv-10-64898-2025-12-09-693276-v3-sleep-modulated-disinhibition-enables-replay-for-memory-consolidation-accelerated-by-ripples)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：慢波睡眠期间记忆巩固的神经机制
-8. [Hippocampal neuronal and astrocytic responses to noradrenaline and natural arousal](/202604/14/biorxiv-10-64898-2026-01-16-699885-v3-hippocampal-neuronal-and-astrocytic-responses-to-noradrenaline-and-natural-arousal)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：海马神经元对自然觉醒和去甲肾上腺素的反应
-9. [A Grid-Search Framework for Dataset-Specific Calibration of Actigraphy Sleep Detection Algorithms](/202604/14/biorxiv-10-64898-2026-04-07-706161-v1-a-grid-search-framework-for-dataset-specific-calibration-of-actigraphy-sleep-detection-algorithms)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：体动记录仪睡眠检测算法的校准
-10. [Reactivation during sleep segregates the neural representations of episodic memories](/202604/14/biorxiv-10-64898-2026-04-08-717230-v1-reactivation-during-sleep-segregates-the-neural-representations-of-episodic-memories)  
-   标签：评分：9.0/10、query:slp-ns
+   evidence：非快速眼动睡眠振荡介导突触蛋白组重塑
+5. [Reactivation during sleep segregates the neural representations of episodic memories](/202604/15/biorxiv-10-64898-2026-04-08-717230-v1-reactivation-during-sleep-segregates-the-neural-representations-of-episodic-memories)  
+   标签：评分：10.0/10、query:slp-ns
    evidence：研究睡眠期间的记忆再激活及其对神经表征的影响
-11. [Are infraslow oscillations the missing link between sleep and Alzheimer's?](/202604/14/biorxiv-10-64898-2026-04-09-717425-v1-are-infraslow-oscillations-the-missing-link-between-sleep-and-alzheimers)  
+6. [Towards Multi-Source Domain Generalization for Sleep Staging with Noisy Labels](/202604/15/2604.10009v1-towards-multi-source-domain-generalization-for-sleep-staging-with-noisy-labels)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：领域不变的多模态睡眠分期框架
+7. [Brain-DiT: A Universal Multi-state fMRI Foundation Model with Metadata-Conditioned Pretraining](/202604/15/2604.12683v1-brain-dit-a-universal-multi-state-fmri-foundation-model-with-metadata-conditioned-pretraining)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：在包括睡眠状态在内的多种大脑状态上进行预训练
+8. [Excitation-inhibition balance controls coupling stability and network reorganization in a plastic Kuramoto model](/202604/15/biorxiv-10-1101-2024-06-17-599234-v4-excitation-inhibition-balance-controls-coupling-stability-and-network-reorganization-in-a-plastic-kuramoto-model)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：睡眠的神经机制与脑网络中的突触重组
+9. [Myeloid-Driven Inflammation in Prodromal Parkinson's Disease](/202604/15/biorxiv-10-1101-2025-05-16-654530-v2-myeloid-driven-inflammation-in-prodromal-parkinsons-disease)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：前驱期帕金森病中的REM睡眠行为障碍
+10. [Sleep-modulated disinhibition enables replay for memory consolidation, accelerated by ripples](/202604/15/biorxiv-10-64898-2025-12-09-693276-v3-sleep-modulated-disinhibition-enables-replay-for-memory-consolidation-accelerated-by-ripples)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：慢波睡眠与记忆巩固的神经机制
+11. [Hippocampal neuronal and astrocytic responses to noradrenaline and natural arousal](/202604/15/biorxiv-10-64898-2026-01-16-699885-v3-hippocampal-neuronal-and-astrocytic-responses-to-noradrenaline-and-natural-arousal)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：蓝斑活动与自然觉醒机制
+12. [A Grid-Search Framework for Dataset-Specific Calibration of Actigraphy Sleep Detection Algorithms](/202604/15/biorxiv-10-64898-2026-04-07-706161-v1-a-grid-search-framework-for-dataset-specific-calibration-of-actigraphy-sleep-detection-algorithms)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：体动记录仪睡眠检测算法的校准框架
+13. [A Preoptic Neuronal Population Regulates Energy Expenditure and Balance](/202604/15/biorxiv-10-64898-2026-04-09-715318-v1-a-preoptic-neuronal-population-regulates-energy-expenditure-and-balance)  
+   标签：评分：9.0/10、query:tr-hb
+   evidence：视前区神经元调节代谢、体温和能量消耗
+14. [Are infraslow oscillations the missing link between sleep and Alzheimer's?](/202604/15/biorxiv-10-64898-2026-04-09-717425-v1-are-infraslow-oscillations-the-missing-link-between-sleep-and-alzheimers)  
    标签：评分：9.0/10、query:slp-ns
    evidence：非快速眼动睡眠脑电图与超慢波振荡
-12. [Memory reactivation during sleep promotes structure abstraction](/202604/14/biorxiv-10-64898-2026-04-10-717748-v1-memory-reactivation-during-sleep-promotes-structure-abstraction)  
+15. [Memory reactivation during sleep promotes structure abstraction](/202604/15/biorxiv-10-64898-2026-04-10-717748-v1-memory-reactivation-during-sleep-promotes-structure-abstraction)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠期间的记忆重现及其在结构抽象中的作用
+   evidence：睡眠期间的记忆再激活及其在结构抽象中的作用
 
 ### 速读区论文标签
-1. [Cell-type-specific circadian and light-responsive transcriptional dynamics in adult Drosophila neurons](/202604/14/biorxiv-10-64898-2026-04-07-717038-v1-cell-type-specific-circadian-and-light-responsive-transcriptional-dynamics-in-adult-drosophila-neurons)  
+1. [Gut microbiota as a modulator of circadian neural development in the honey bee model.](/202604/15/biorxiv-10-1101-2025-09-30-678393-v4-gut-microbiota-as-a-modulator-of-circadian-neural-development-in-the-honey-bee-model)  
    标签：评分：8.0/10、query:slp-ns
-   evidence：昼夜节律神经元在全天不同时间点的转录动态
-2. [A Preoptic Neuronal Population Regulates Energy Expenditure and Balance](/202604/14/biorxiv-10-64898-2026-04-09-715318-v1-a-preoptic-neuronal-population-regulates-energy-expenditure-and-balance)  
-   标签：评分：8.0/10、query:tr-hb
-   evidence：视前区神经元调节能量消耗和体温
-3. [FABP4 Couples Lipid Metabolism to PD-L1 Stabilization in Immunosuppressive Macrophages](/202604/14/biorxiv-10-64898-2026-04-09-717546-v1-fabp4-couples-lipid-metabolism-to-pd-l1-stabilization-in-immunosuppressive-macrophages)  
-   标签：评分：8.0/10、query:qll
-   evidence：棕榈酸诱导巨噬细胞中的 PD-L1 棕榈酰化
-4. [EEG2Vision: A Multimodal EEG-Based Framework for 2D Visual Reconstruction in Cognitive Neuroscience](/202604/14/2604.08063v1-eeg2vision-a-multimodal-eeg-based-framework-for-2d-visual-reconstruction-in-cognitive-neuroscience)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：认知神经科学中基于脑电图的视觉重建
-5. [A cholinergic mechanism orchestrating task-dependent computation across the cortex](/202604/14/biorxiv-10-1101-2025-11-26-690825-v2-a-cholinergic-mechanism-orchestrating-task-dependent-computation-across-the-cortex)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：协调皮层动力学的胆碱能电路机制
-6. [Histone variant H2A.Z mutant suppresses the senescence-associated secretory phenotype](/202604/14/biorxiv-10-64898-2026-02-16-706244-v2-histone-variant-h2az-mutant-suppresses-the-senescence-associated-secretory-phenotype)  
+   evidence：昼夜节律机制与神经发育
+2. [Decoupling AMPK from fatty acid synthesis allows maintenance of fitness late in life](/202604/15/biorxiv-10-1101-2025-03-27-645766-v2-decoupling-ampk-from-fatty-acid-synthesis-allows-maintenance-of-fitness-late-in-life)  
    标签：评分：7.0/10、query:qll
-   evidence：组蛋白变体H2A.Z在细胞衰老和SASP中的作用
-7. [FAβ-gal: an automated fluorescence-based quantification of the senescence-associated beta-galactosidase X-gal assay](/202604/14/biorxiv-10-64898-2026-02-27-707795-v2-fa-gal-an-automated-fluorescence-based-quantification-of-the-senescence-associated-beta-galactosidase-x-gal-assay)  
-   标签：评分：7.0/10、query:qll
-   evidence：细胞衰老标志物的自动定量
-8. [Precision phase targeting of event-related oscillations using real-time closed-loop TMS-EEG](/202604/14/biorxiv-10-64898-2026-03-26-713979-v2-precision-phase-targeting-of-event-related-oscillations-using-real-time-closed-loop-tms-eeg)  
+   evidence：衰老过程中细胞衰老和适应度下降的代谢基础
+3. [A cholinergic mechanism orchestrating task-dependent computation across the cortex](/202604/15/biorxiv-10-1101-2025-11-26-690825-v2-a-cholinergic-mechanism-orchestrating-task-dependent-computation-across-the-cortex)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：开发了用于实时锁定脑电振荡相位的闭环系统
-9. [Integrative Multi-cohort Transcriptomics and Network Pharmacology Analysis Reveals Key Network Nodes and Potential Drug Clues in PCOS Granulosa Cells](/202604/14/biorxiv-10-64898-2026-04-01-715808-v1-integrative-multi-cohort-transcriptomics-and-network-pharmacology-analysis-reveals-key-network-nodes-and-potential-drug-clues-in-pcos-granulosa-cells)  
+   evidence：胆碱能系统对皮层动力学和行为的调节
+4. [Exploring molecular signatures of senescence with markeR, an R toolkit for evaluating gene sets as phenotypic markers](/202604/15/biorxiv-10-64898-2025-12-05-692517-v3-exploring-molecular-signatures-of-senescence-with-marker-an-r-toolkit-for-evaluating-gene-sets-as-phenotypic-markers)  
    标签：评分：7.0/10、query:qll
-   evidence：PCOS颗粒细胞的转录组学和网络分析
-10. [Thermogenic Adipose ADH5 Counteracts Age-related Metabolic Decline](/202604/14/biorxiv-10-1101-2025-07-01-662628-v4-thermogenic-adipose-adh5-counteracts-age-related-metabolic-decline)  
+   evidence：评估细胞衰老表型标志物基因集的工具包
+5. [FAβ-gal: an automated fluorescence-based quantification of the senescence-associated beta-galactosidase X-gal assay](/202604/15/biorxiv-10-64898-2026-02-27-707795-v2-fa-gal-an-automated-fluorescence-based-quantification-of-the-senescence-associated-beta-galactosidase-x-gal-assay)  
+   标签：评分：7.0/10、query:qll
+   evidence：细胞衰老标志物的自动定量分析
+6. [The astrocyte clock controls circadian perineuronal net remodeling, synapse strength and learning behavior](/202604/15/biorxiv-10-64898-2026-04-04-716486-v2-the-astrocyte-clock-controls-circadian-perineuronal-net-remodeling-synapse-strength-and-learning-behavior)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：昼夜节律时钟对大脑回路和行为的控制
+7. [Photo-downregulation of SIRT4 mitigates aging in mice by enhancing H3K9ac via fatty acid metabolism](/202604/15/biorxiv-10-64898-2026-04-07-717004-v1-photo-downregulation-of-sirt4-mitigates-aging-in-mice-by-enhancing-h3k9ac-via-fatty-acid-metabolism)  
+   标签：评分：7.0/10、query:qll
+   evidence：通过脂肪酸代谢增强组蛋白乙酰化来缓解衰老
+8. [Cell-type-specific circadian and light-responsive transcriptional dynamics in adult Drosophila neurons](/202604/15/biorxiv-10-64898-2026-04-07-717038-v1-cell-type-specific-circadian-and-light-responsive-transcriptional-dynamics-in-adult-drosophila-neurons)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：大脑中昼夜节律神经元的转录动力学
+9. [Effects of hypoxia and low temperature on female physiology and reproduction of Drosophila melanogaster](/202604/15/biorxiv-10-64898-2026-04-08-717251-v1-effects-of-hypoxia-and-low-temperature-on-female-physiology-and-reproduction-of-drosophila-melanogaster)  
+   标签：评分：7.0/10、query:tr-hb
+   evidence：低温和缺氧对代谢和生殖的生理影响
+10. [Neuromodulation supports robust rhythmic pattern transitions in degenerate central pattern generators with fixed connectivity](/202604/15/2604.08312v1-neuromodulation-supports-robust-rhythmic-pattern-transitions-in-degenerate-central-pattern-generators-with-fixed-connectivity)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：中枢模式发生器中节律模式转换的神经调节
+11. [SREBP governs a triglyceride:glycogen metabolic switch in Drosophila](/202604/15/biorxiv-10-1101-2024-05-13-593915-v2-srebp-governs-a-triglycerideglycogen-metabolic-switch-in-drosophila)  
    标签：评分：6.0/10、query:qll
-   evidence：衰老相关的蛋白质S-亚硝基化和代谢衰退
-11. [Live Spike Sorting of Large-scale Neural Recordings](/202604/14/biorxiv-10-64898-2025-12-29-696938-v4-live-spike-sorting-of-large-scale-neural-recordings)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：用于神经科学研究的大规模神经记录和脉冲分选
-12. [Sulfide:quinone oxidoreductase drives mitochondrial supersulfide metabolism to regulate bioenergetics and longevity in eukaryotes](/202604/14/biorxiv-10-64898-2026-04-05-716515-v1-sulfidequinone-oxidoreductase-drives-mitochondrial-supersulfide-metabolism-to-regulate-bioenergetics-and-longevity-in-eukaryotes)  
+   evidence：代谢切换对雌性生育力和寿命的影响
+12. [Estrogen Receptor Beta Activation Coordinates Liver Lipid Remodeling and Metabolic Fluxes, Preventing Lipotoxicity](/202604/15/biorxiv-10-1101-2025-08-14-670313-v2-estrogen-receptor-beta-activation-coordinates-liver-lipid-remodeling-and-metabolic-fluxes-preventing-lipotoxicity)  
    标签：评分：6.0/10、query:qll
-   evidence：衰老模型中的线粒体生物能量学和长寿
-13. [A hierarchical generative model reveals enhanced latent precision of brain-body interaction dynamics during interoceptive attention](/202604/14/biorxiv-10-64898-2026-04-05-716599-v1-a-hierarchical-generative-model-reveals-enhanced-latent-precision-of-brain-body-interaction-dynamics-during-interoceptive-attention)  
+   evidence：在去卵巢模型中研究代谢稳态和脂质重塑
+13. [CoPhaser: generic modeling of biological cycles in scRNA-seq with context-dependent periodic manifolds](/202604/15/biorxiv-10-64898-2025-12-24-696376-v2-cophaser-generic-modeling-of-biological-cycles-in-scrna-seq-with-context-dependent-periodic-manifolds)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：使用EEG和生理信号模拟脑体交互动力学
+   evidence：在单细胞测序中模拟昼夜节律等生物周期
 
 
 <div class="dpr-home-promo-card">

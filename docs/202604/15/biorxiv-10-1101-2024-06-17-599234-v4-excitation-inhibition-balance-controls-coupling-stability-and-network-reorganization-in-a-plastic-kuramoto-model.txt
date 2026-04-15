@@ -1,0 +1,861 @@
+Title: 11960429
+
+URL Source: https://www.biorxiv.org/content/10.1101/2024.06.17.599234v4.full.pdf
+
+Number of Pages: 43
+
+Markdown Content:
+Title 1
+
+Excitation–inhibition balance controls coupling stability and network 2
+
+reorganization in a plastic Kuramoto model 3
+
+4
+
+Authors 5
+
+Satoshi Kuroki, 1 * Kenji Mizuseki, 16
+
+7
+
+Affiliations 8 
+
+> 1
+
+Department of Physiology, Osaka Metropolitan University Graduate School of 9Medicine, Asahimachi 1-4-3, Abeno-ku, Osaka, 545-8585, Japan 10  
+
+> *
+
+Correspondence: skuroki@omu.ac.jp 11 
+
+12 
+
+Abstract 13 
+
+Sleep and rest, characterized by synchronized neuronal activity that emerges under large 14 shifts in the excitation–inhibition balance, are crucial for synaptic reorganization in the 15 brain. However, the network dynamics that permit rewiring without erasing stable 16 connections remain unclear. To address this question, we extended a Kuramoto framework 17 with excitation–inhibition balance by adding Hebbian and homeostatic plasticity. The 18 resulting model showed that networks with robust inhibition consistently exhibited 19 desynchronized dynamics and stable couplings. In contrast, networks with weaker 20 inhibition exhibited a bistable regime, in which couplings of intermediate strengths 21 fluctuated while strong couplings remained stable. These findings suggest that the 22 dynamic interplay between network activity and plasticity selectively stabilizes stronger 23 connections while permitting flexible reorganization of weaker ones, providing a potential 24 mechanism for network reorganization during sleep and rest. 25 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+Introduction 26 
+
+Empirical evidence suggests that brain activity during sleep and rest promotes memory 27 consolidation, knowledge abstraction, and creative insight 1,2 through the reorganization of 28 neural circuits 3,4 . Such reorganization should rely on mechanisms distinct from those 29 involved in learning during task performance. Indeed, synaptic plasticity during sleep and 30 rest improves task performance 5,6 .31 
+
+Neuronal synchronization occurs in two distinct states. Collective neuronal firing is 32 desynchronized during active wakefulness, including task engagement, movement, and 33 attentional states, as well as during rapid eye movement (REM) sleep, but more 34 synchronized during quiet wakefulness and non-REM (NREM) sleep. Throughout the 35 paper, we refer to these regimes descriptively as wake-like/desynchronized and sleep/rest-36 like/synchronized or bistable states, depending on the model dynamics being discussed. 37 The transition between these states is associated with shifts in the excitation–inhibition 38 (EI) balance. Firing rates of inhibitory neurons and synaptic conductance of inhibitory 39 synapses are significantly elevated during wake-like states, while those of excitatory 40 synapses show comparatively smaller changes 7–10 . These observations raise the possibility 41 that, during sleep/rest-like states, EI-balance-dependent changes in collective neuronal 42 synchronization interact with synaptic plasticity to reshape network structure. However, 43 detailed mechanisms by which neuronal synchronization in sleep/rest-like states reshapes 44 network structure through plasticity remain unclear. 45 
+
+Collective synchronization of oscillators, including neurons, has been studied using 46 coupled-oscillator models. Among these, the Kuramoto model is one of the simplest 47 frameworks 11,12 , and numerous variants have been proposed. One variant, the EI-48 Kuramoto model, incorporates the EI balance by dividing oscillators into excitatory and 49 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+inhibitory groups and assigning four interaction types between them 13,14 . We have 50 previously shown that tuning these four strengths toggles the network between 51 synchronized, desynchronized, and bistable states, potentially reflecting a neuronal 52 synchronization mechanism 14 . That study, however, kept all coupling weights—defined in 53 this paper as pair-specific interaction strengths—fixed and identical, and therefore could 54 not address how EI-balance-dependent dynamical states shape synaptic coupling through 55 plasticity over time. 56 
+
+In this study, we focused on Hebbian and homeostatic plasticity. Hebbian plasticity, based 57 on the principle “fire together, wire together,” strengthens synapses between neurons that 58 fire in close temporal proximity 15 . In contrast, homeostatic plasticity regulates neuronal 59 excitability and synaptic strength to maintain network stability, thereby preventing 60 excessive excitation or quiescence 16 . The interplay between these plasticity mechanisms 61 enables the emergence of diverse neuronal functions and firing patterns 17–20 . Previous 62 studies have incorporated plasticity into Kuramoto models, enabling coupling weights to 63 adapt based on the oscillator activity to examine their impact on system synchronization 21– 64 31 . However, these studies focused on promoting synchronization under a single dynamic 65 state. How distinct collective dynamics, controlled by the EI balance, differentially shape 66 synaptic plasticity remains unexplored. 67 
+
+To address these gaps, we developed a plastic EI (pEI)-Kuramoto model in which 68 excitatory–excitatory couplings undergo Hebbian potentiation and homeostatic regulation. 69 We found that strong inhibition produced a desynchronized regime with relatively stable 70 couplings, whereas weaker inhibition produced a bistable regime in which intermediate-71 strength couplings fluctuated while strong couplings remained stable. These results 72 suggest that EI-balance-dependent collective dynamics selectively stabilize strong 73 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+couplings while permitting flexible reorganization of weaker ones, providing a potential 74 mechanism for network reorganization during sleep and rest. 75 
+
+Results 76 
+
+Establishment of the pEI-Kuramoto model 77 
+
+The pEI-Kuramoto model comprised two oscillator groups: excitatory units, referred to as 78 excUnits, and inhibitory units, referred to as inhUnits. These specific terms clarify that the 79 units represented excitatory and inhibitory factors in this model, rather than actual neurons 80 or synapses. Four interaction strengths were assigned between the groups, with only 81 excitatory-excitatory couplings ( Jee ) being distributed and plastic. The other interaction 82 strengths, K ii (repulsive strength between inhUnits), K ei (attractive strength from excUnits 83 to inhUnits), and K ie (repulsive strength from inhUnits to excUnits) were constant across 84 time and across unit pairs (Figure 1A; see Materials and Methods). The interactions are 85 modeled as zero-phase-lag sine functions. The interactions from excUnits are purely 86 attractive, while those from inhUnits are purely repulsive. Accordingly, the terms 87 "excitatory" and "inhibitory" are used synonymously with "attractive" and "repulsive," 88 respectively. 89 
+
+First, we investigated how the distribution of pair-specific excitatory-excitatory coupling 90 weights Jee affected the dynamics of the pEI-Kuramoto model in the absence of plasticity 91 (Figure 1B and C). In our previous study, we demonstrated that the Kuramoto model with 92 EI balance (EI-Kuramoto model) exhibits three distinct dynamic states—synchronized, 93 bistable, and desynchronized—depending on the balance between the constant values of 94 the interaction strengths 14 . In this study, Jee followed a Gaussian distribution with a mean 95 of μJee and a standard deviation of σJee , where σJee was set to 0, 1/10, and 1/2 of μJee 96 (Figure 1B). The collective synchronization was quantified using the order parameter R,97 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+which represents the magnitude of the average vector between the oscillator units. In this 98 simulation, regardless of the standard deviation value, all systems with a distributed Jee 99 also exhibited synchronized (high R), bistable (alternating high and low R), and 100 desynchronized (low R) dynamics, as observed with constant ( σJee = 0) values (Figure 1C). 101 
+
+Next, we incorporated plasticity into Jee by applying Hebbian potentiation and homeostatic 102 regularization plasticity rules (see Materials and Methods). Among the various methods 103 available for implementing Hebbian plasticity in the Kuramoto model, we initially 104 selected the simplest method: the cosine function (Figure S1A; see Materials and 105 Methods) 21–23,26,30,31 . In this process, when a pair of excUnits exhibits closer phases, their 106 
+
+Jee coupling weight is potentiated. Simultaneously, the Jee distribution was rescaled to 107 maintain the initial mean and standard deviation, thereby preventing overpotentiation 108 through homeostatic regularization plasticity (see Materials and Methods). The system 109 dynamics were evaluated using the parameter set ( μJee = 1, σJee = 0.1, K ei = 3, K ie = 3, Kii =110 3), at which the system exhibited a desynchronized state in the absence of Jee plasticity. 111 Under the cosine rule, unit pairs with smaller phase differences acquire a larger Jee weight. 112 This rule causes the J ee distribution, which was initially Gaussian, to become bimodal 113 (Figure S1B). Plasticity also influences the distribution of oscillator units, resulting in 114 bimodal distributions of both phase and phase difference (Figure S1C), consistent with 115 previous studies that incorporated the Hebbian rule into the Kuramoto model 21,26 . This 116 bimodal distribution of the coupling weight deviates from the long-tailed skewed 117 distributions typically observed in biological synaptic weights 10,32,33 .118 
+
+To address this discrepancy, we introduced an exponential-based Hebbian plasticity rule 119 to adjust the decay rate (sparseness parameter γ) of the gain for the phase difference 120 (Figure 1D). We applied this rule to a range of parameter sets and evaluated the resulting 121 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+Jee distribution using skewness, kurtosis, and dip values, which quantify the distribution 122 bimodality 34 . Although Jee distributions initially followed a Gaussian pattern, they 123 transitioned into various bimodal or skewed forms (Figure 1E and F). We also quantified 124 the synchronization of the excUnits using the mean and standard deviation of the order 125 parameter Rexc over time, denoted as E[ Rexc ]t and S[ Rexc ]t , respectively. Plasticity in Jee 126 affects synchronization (Figure 1G), resulting in uniform, bimodal, or unimodal phase and 127 phase-difference distributions depending on the plasticity parameters (Figure S1D). 128 Moreover, the boundary of the statistical features of the Jee distribution (Figure 1E) 129 appears to coincide with the synchronization boundary (Figure 1G). For further analysis, 130 we chose a parameter set that resulted in a long-tailed skewed Jee distribution (Figure 1F, 131 top, magenta circle), which more closely reflects the synaptic weight distributions 132 observed in the brain 10,32,33 .133 
+
+Coupling fluctuations increase in the bistable state 134 
+
+We next investigated how distinct dynamic states associated with different EI balances 135 affect coupling weights. To this end, we altered the EI balance of the pEI-Kuramoto 136 model by manipulating the interaction strength from inhUnits. We unified K ie and Kii into 137 a single parameter, K i, to simplify the simulation, following the approach used in our 138 previous study 14 . We then examined how the Jee fluctuations were associated with the K i139 values, quantified as the standard deviation of Jee over time (S[ Jee ]t ; see Materials and 140 Methods) (Figure 2A and B). We determined the system’s dynamic state by analyzing the 141 time course of Rexc (Figure 2C and D), as previously described 14 .142 
+
+When K i < 0.4, both the average (E{S[ Jee ]t }n ) and standard deviation (S{S[ Jee ]t }n ) of 143 S[ Jee ]t across unit pairs were almost zero (Figure 2A and B), indicating no plastic changes 144 in Jee . In this K i range, the system was in a synchronized state, characterized by high 145 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+E[ Rexc ]t and low S[ Rexc ]t (Figure 2C and D). The coupling weights between individual 146 pairs exhibited no fluctuation over time after reaching the synchronized state (Figure 2E 147 and F, K i: 0.1; Video S1). 148 
+
+As K i increased, E{S[ Jee ] t }n also increased, peaking at K i = 0.7, then decreased, and 149 eventually stabilized around K i = 1.5 (Figure 2A). Meanwhile, the S{S[ Jee ]t }n continued to 150 increase (Figure 2B). For K i values above 1.5, the system transitioned into a 151 desynchronized state characterized by low E[ Rexc ]t and S[ Rexc ]t values (Figure 2C and D). 152 Strong or weak couplings remained stable over time, whereas those of intermediate 153 strength fluctuated (Figure 2E, K i: 1.5; Video S2). The system generated transient clusters 154 of units coupled with strong Jee weights (Figure 2F, K i: 1.5, the lower leftmost panel, t =155 24). Over time, most units left these clusters, leaving only small, stable subsets (Figure 2F, 156 
+
+K i: 1.5, the lower panels, t = 29–50). 157 
+
+In the intermediate range (0.4 < K i < 1.5), the system exhibited a bistable state with high 158 S[ Rexc ]t (Figure 2D). Notably, the S[ Jee ]t was significantly higher in this bistable state 159 (Figure 2A). Similar to the desynchronized state ( K i > 1.5), the couplings with high or low 160 weights were stable. However, the intermediate-strength couplings fluctuated more 161 (Figure 2E and F, K i: 0.8 and 1.0). Notably, the number of these intermediate fluctuating 162 couplings was higher in the intermediate K i range (Figure 2E and F, K i: 0.8 and 1.0; 163 Videos S3 and S4) than in the low and high K i ranges. Thus, transitions in the dynamic 164 state were accompanied by changes in the coupling weight fluctuations. Particularly, the 165 bistable state tended to exhibit larger Jee fluctuations. 166 
+
+Note that Hebbian plasticity affected the dynamic state of the pEI-Kuramoto model 167 (Figure S2A), slightly shifting the bifurcation points between the synchronized and 168 bistable states, and the bistable and desynchronized states toward larger K i values. Owing 169 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+to this effect, we observed a small discrepancy from the state predicted by the eigenvalue-170 based classification for the EI-Kuramoto model 14 (data not shown). However, the overall 171 trend of the state transition from synchronized to bistable and then to desynchronized as K i172 values increased remained consistent across different Hebbian learning rates. The 173 enhancement of synchronization induced by Hebbian plasticity was consistent with the 174 findings of previous reports on Kuramoto models incorporating cosine-shaped Hebbian 175 plasticity 26,31 . In contrast, σJee did not affect the dynamic states (Figure S2B), consistent 176 with the results in the absence of Jee plasticity shown in Figure 1C. 177 
+
+Intermediate couplings are selectively destabilized while the strong couplings remain 178 
+
+stable 179 
+
+We further investigated coupling weight fluctuations under conditions of slightly weaker 180 inhibition than in the desynchronized state, assuming intermediate brain states between 181 wake-like and sleep/rest-like states. We analyzed the individual Jee coupling weights at 182 selected points of K i (K i = 0.8, 1.0, and 1.5, red crosses in Figure 2A–D, except K i = 0.1). 183 Histograms of E[ Jee ]t (mean of Jee over time for each pair of units) and S[ J ee ]t also tended 184 to shift toward higher values as K i decreased (Figure 3A and B). A scatter plot of E[ Jee ]t185 and S[ Jee ]t formed a characteristic “bow-shaped” distribution (Figure 3C). In this two-186 dimensional distribution, data points near the minimum and maximum E[ Jee ]t values had 187 lower S[ Jee ]t values, whereas intermediate E[ Jee ]t showed a higher S[ Jee ]t . This pattern was 188 consistent across all distributions for different K i values. A similar phenomenon, the 189 stabilization of strong couplings (e.g., synapses with large mushroom-shaped spines), has 190 been observed in brain synapses 35–37 .191 
+
+Furthermore, the S[ Jee ]t values tended to increase at intermediate E[ Jee ]t values with 192 decreasing K i (Figure 3C), suggesting that K i can regulate the fluctuations in individual Jee 193 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+plastic couplings. At high K i values in desynchronized states ( K i = 1.5, green dots), the 194 couplings were relatively stable, whereas at low K i values in bistable states ( K i = 1.0 and 195 0.8, orange and blue dots), the couplings of intermediate weights were more unstable. 196 Strong Jee coupling remained stable with small fluctuations, even when K i was low. These 197 dynamics may provide a mechanism that preserves the coupling of particularly strong 198 pairs and resets moderate-weight pairs, facilitating the reorganization of the network 199 structure (Figure 2E and 2F). 200 
+
+To enable a direct comparison with Figure 7A and 7B in Yasumatsu et al 37 , which report 201 the relationship between spine volume and changes in spine volume in hippocampal slices, 202 we quantified the change in coupling weight, ΔJ ee (= Jee (t+Δt ) – Jee (t)), as a function of its 203 current value, Jee , at each time step in our pEI-Kuramoto model (Figure 3D and E). We 204 pooled Jee values and their changes ΔJ ee across all excUnit pairs and time points, binned 205 the Jee values, and computed the mean and the standard deviation of ΔJ ee for each Jee bin 206 (E[ ΔJ ee ]t,n and S[ ΔJ ee ]t,n ). In the desynchronized state ( K i = 1.5, green lines ), E[ΔJ ee ]t,n was 207 slightly but significantly positive for small Jee (Wilcoxon signed-rank test, 208 bin=[0.011,0.012), mean=1.1×10 -8 , n=6,686,034, W=1.06×10 13 , p<1.0×10 -308 ), then 209 decreased with increasing Jee , reaching a local minimum near Jee ≈0.02 . Subsequently, 210 E[ ΔJ ee ]t,n increased and approached zero around Jee ≈0.025 (Figure 3D), a region 211 corresponding to the peak of E[ Jee ]t (Figure 3A and C). S[ ΔJ ee ]t,n increased monotonically 212 over the same range of Jee (Figure 3E). These trends closely mirror observations in 213 hippocampal slices and in vivo cortical imaging 37,38 . In comparison, the bistable regimes 214 (K i=0.8 and 1.0, orange and blue lines) showed large deviations in the mean change 215 
+
+(E[Δ Jee ]t,n ) either in the same direction ( K i=1.0, orange line) or the opposite direction 216 (K i=0.8, blue line) as the desynchronized state (Figure 3D). Furthermore, the standard 217 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+deviation (S[ ΔJ ee ]t,n ) was generally elevated relative to the desynchronized state across the 218 range of Jee from 0.01 to 0.025 (Figure 3E). 219 
+
+Factors determining coupling weight properties 220 
+
+To identify the parameters that determine the individual Jee coupling properties (E[ Jee ]t221 and S[ Jee ]t ) shown in Figure 3, we explored the candidate parameters (natural frequency 222 difference Δω , initial phase difference Δθ , and initial Jee values of each excUnit pair) that 223 may contribute to Jee fluctuations (Figure 4). We colored the dots of E[ Jee ]t vs. S[ Jee ]t224 distribution (Figure 3C) according to each parameter value (Figure 4A–C). For statistical 225 comparison, couplings were roughly categorized based on whether E[ Jee ]t exceeded 0.018 226 (high-E[ Jee ]t group) or not (low-E[ Jee ]t group), because the correlation between E[ Jee ]t and 227 S[ Jee ]t reversed around this point (Figure 4D–F). 228 
+
+Regarding differences in the natural frequency Δω , most pairs in the high (≥0.018) E[ Jee ]t229 group had relatively small Δω , whereas pairs with larger Δω tended to be in the low 230 (<0.018) E[ Jee ]t group (Figure 4A and 4D). In the low-E[ Jee ]t group, S[ Jee ]t seemingly 231 increased with Δω (Figure 4A). The initial phase differences Δθ between the pairs were 232 also significantly different between the high- and low-E [ Jee ]t groups (Figure 4B and E). In 233 the high-E[ Jee ]t group, most pairs exhibited small initial Δθ , whereas in the low-E[ Jee ]t234 group, the initial Δθ was uniformly distributed. Additionally, we examined the effect of 235 the initial Jee coupling weight, which showed no noticeable bias (Figure 4C) and followed 236 a normal distribution in both the high and low-E[ J ee ]t groups (Figure 4F). Considering 237 these results, pairs with small differences in natural frequency and initial phase positions 238 maintained more stable and larger Jee weights (Figure 4G and H). Conversely, the initial 239 
+
+Jee weight was not an important factor in determining the stability and strength of the 240 couplings. 241 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+Theoretical analysis of quasi-steady coupling weight distribution 242 
+
+We investigated the theoretical mechanism underlying the fluctuation of coupling weights 243 
+
+Jee by analyzing their distribution in a quasi-steady state, assuming 𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 (𝑡𝑡 + ∆𝑡𝑡 ) ≈244 
+
+𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 (𝑡𝑡 ) (Supplemental Text). Although a true static steady weight distribution does not 245 exist in the desynchronized or bistable states due to the non-constant phases of each 246 oscillator unit, the desynchronized condition allows for a quasi-steady state where the 247 phase and weight distributions evolve on a sufficiently slow timescale, resulting in 248 minimal fluctuation of the Jee distribution. Under this assumption, the coupling weights do 249 not change as a result of the plastic modulation in Equations M11 and M14, leading to the 250 following relationship (Supplemental Text, Equation S3). 251 
+
+𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 = 𝐽𝐽̂ 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 + 𝑐𝑐 exp �−𝛾𝛾�𝛥𝛥𝜃𝜃 𝑘𝑘𝑘𝑘 �� (Equation 1). 252 
+
+𝑐𝑐 = 𝛼𝛼 (1 − 𝛽𝛽 )
+
+𝛽𝛽 
+
+253 
+
+The first term, 𝐽𝐽̂ 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 , represents the value of Jee,kj , which is rescaled with the homeostatic 254 regulation plasticity rule so that the mean and variance become 𝜇𝜇̂ 𝐽𝐽 𝑒𝑒𝑒𝑒  and 𝜎𝜎 �𝐽𝐽 𝑒𝑒𝑒𝑒 ,255 respectively. The second term is the Hebbian potentiation component, scaled by the ratio 256 between the Hebbian and homeostatic plasticity learning rates 𝑐𝑐 . This equation indicates 257 that the weight Jee,kj depends on the distribution of 𝐽𝐽̂ 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 and the distribution of phase 258 difference between unit k and j Δθ kj (𝑐𝑐 exp �−𝛾𝛾�𝛥𝛥𝜃𝜃 𝑘𝑘𝑘𝑘 �� ). Assuming that this rule remains 259 applicable during the approach to a quasi-steady state, successive iterations of the update 260 rule progressively integrate the second Δθ -dependent Hebbian term into the Jee 261 distribution. Furthermore, the distribution of Δθ is dependent on that of θ (Supplemental 262 Text). Therefore, when the weight dynamics are sufficiently slow, the Jee distribution is 263 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+determined by the phase distribution. Indeed, the characteristics of the Jee distribution 264 appear to be correlated with the synchronization state of the system, which reflects the 265 shape of the phase distribution (Figure 1E, 1F, and S1). Specifically, a uniform phase (and 266 phase difference) distribution (desynchronized state) corresponds to a right-skewed, long-267 tailed Jee distribution (magenta circle in Figure 1E, F and S1D). A bimodal phase 268 distribution corresponds to a bimodal Jee distribution (green circle in Figure 1E, F and 269 S1D and the cos rule in S1B and S1C). A unimodal phase distribution (synchronized state) 270 corresponds to a left-skewed Jee distribution (yellow circle in Figure 1E, F and S1D). 271 
+
+Next, we considered the change in the phase difference for a pair of excUnits, Δθ kj .272 Assuming that Jee,kj and Δθ kj are constant, the following relationship can be derived from 273 Equations 1 and M9 (Supplemental Text, Equation S18): 274 
+
+−𝛥𝛥𝛥𝛥 + 𝐹𝐹 𝑖𝑖𝑖𝑖ℎ − 𝐹𝐹 𝑒𝑒𝑒𝑒𝑒𝑒  
+
+> (−𝑘𝑘𝑘𝑘 )
+
+= −2 �𝐽𝐽̂ 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 + 𝑐𝑐 exp �−𝛾𝛾�𝛥𝛥𝜃𝜃 𝑘𝑘𝑘𝑘 ��� sin �𝛥𝛥𝜃𝜃 𝑘𝑘𝑘𝑘 � (Equation 2). 275 
+
+𝛥𝛥𝛥𝛥 is the natural frequency difference between units k and j, 𝐹𝐹 𝑖𝑖𝑖𝑖ℎ is the interaction 276 strength from the inhUnits, and 𝐹𝐹 𝑒𝑒𝑒𝑒𝑒𝑒  
+
+> (−𝑘𝑘𝑘𝑘 )
+
+is the interaction strength from the excUnits, except 277 for units k and j. 𝐹𝐹 𝑖𝑖𝑖𝑖ℎ − 𝐹𝐹 𝑒𝑒𝑒𝑒𝑒𝑒  
+
+> (−𝑘𝑘𝑘𝑘 )
+
+is the Rexc - and Rinh -dependent term; its direction can be 278 either attractive or repulsive, depending on the phase configuration of the system 279 (Supplemental Text). The right-hand side of this equation represents the interaction 280 strength between units k and j, whereas the left-hand side represents the net forces of the 281 other factors. A stable fixed point for Δθ kj exists, where the functions for the left- and 282 right-hand sides intersect (Figure S3). 283 
+
+On the right-hand side, the attractive force is driven by both the homeostatic set-point, 284 
+
+𝐽𝐽̂ 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 , and the Hebbian potentiation term. Near Δθ ≈0, the Hebbian effect is strong, 285 yielding a large attractive force. As the phase difference ∣Δθ ∣ increases, this Hebbian 286 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+potentiation weakens, and the coupling weight relative position within the Jee distribution 287 falls to a lower value, causing an overall attractive force reduction. 288 
+
+On the left-hand side, while the influence of Finh and 𝐹𝐹 𝑒𝑒𝑒𝑒𝑒𝑒  
+
+> (−𝑘𝑘𝑘𝑘 )
+
+is limited in a desynchronized 289 state where Rexc and Rinh are near zero, their impact becomes non-negligible in the bistable 290 state, where these order parameters undergo periodic modulation. Sufficiently large 291 fluctuations in these forces cause the stable fixed point to disappear or be substantially 292 displaced, thereby leading to large fluctuations in the phase difference between the unit 293 pair. 294 
+
+Cyclic modulation of inhibition 295 
+
+Finally, we varied K i to mimic the sleep – wake cycle 39,40 . Jee fluctuated (Figure 5A, Video 296 S5) in response to K i modulation (Figure 5B, top panel). Rexc alternated between the 297 desynchronized and bistable states (Figure 5B, middle), with corresponding changes in 298 E{S[ Jee ]t }n (Figure 5B, bottom). When K i was high, the system was in a desynchronized 299 state, and E{S[ Jee ]t } n was small. Conversely, when K i was low, the system exhibited a 300 bistable state, and E{S[ Jee ]t } n increased. These dynamics can be considered as modeling 301 how the circuit structure is stabilized during the wake-like state and destabilized during 302 the sleep/rest-like state, thereby promoting circuit reorganization. 303 
+
+Discussion 304 
+
+The main conceptual advance of this study is to show that EI balance can determine not 305 only the synchronization state of a network but also whether plastic couplings are 306 stabilized or rendered labile. In the model, strong inhibition favored a desynchronized 307 regime with relatively stable couplings, whereas weaker inhibition produced a bistable 308 regime that selectively destabilized intermediate couplings while preserving the strongest 309 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+ones. This provides a candidate systems-level mechanism by which sleep/rest-like 310 network states can promote reorganization without erasing established strong connections. 311 
+
+Although the sleep/rest-like state is often associated with synchrony, it is not uniformly 312 synchronized. Near the transition between synchronized and desynchronized states, the 313 dynamics tend to become irregular or weakly stable, as captured by two-population 314 coupled-oscillator models 41,42 . Sleep onset can be formalized as a noisy saddle-node 315 bifurcation 43 , and macroscopic brain-state transitions are often argued to occur near the 316 bifurcation point 44,45 . Beyond the transitions between wakefulness and sleep, even within 317 sleep, the microarchitecture exhibits intrinsic instability, such as the NREM-REM sleep 318 cycle 3,4,39,40 , the cyclic alternating pattern in NREM sleep 46 , UP–DOWN state 319 alternations 47,48 , and microarousals 49 , which may reflect switching among synchronized 320 and desynchronized states. These fluctuation-driven transitions align with the bistable 321 regime of our model under reduced inhibition. 322 
+
+Preserving robust couplings while randomizing weaker ones simplifies the network, 323 rendering it sparse. The plasticity parameters used here, which yield a long-tailed 324 coupling-weight distribution (Figure 1E and F) similar to that observed in the brain 10,32,33 325 and mirror the EI balance during state transitions and in sleep/rest-like states 7–10 , appear to 326 facilitate network sparsification. The selective preservation of strong synaptic connections 327 is also frequently observed in the brain 35–37 and is understood through molecular 328 mechanisms, including the dynamics of NMDA receptors 5,50 and actin filaments 51 . Our 329 results introduce a complementary, system-level mechanism for sustaining strong 330 coupling, viewed through the dynamics of collective oscillators. Additionally, our results 331 may be mechanistically linked to the systems-level observation that only a subset of 332 neuronal populations remain stable while others drift 52–54 . This process resembles pruning 333 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+strategies used in artificial neural networks that facilitate knowledge generalization 55,56 .334 Such pruning-like dynamics are particularly relevant during sleep/rest-like states when 335 synaptic downregulation is dominant 5,50 , as fluctuations in coupling strength can weaken 336 intermediate connections and eventually reset them toward baseline. 337 
+
+Fluctuations in network connectivity can promote network reorganization. In our model, 338 bistable states under low inhibition conditions, mirroring the EI balance during state 339 transitions and sleep/rest-like states 7–10 , promoted fluctuating coupling weights between 340 excUnits. It has also been proposed that the brain enhances neuronal circuit reorganization 341 during the sleep/rest-like state 3,4 . Combined with mechanisms that evaluate and stabilize 342 reorganized circuits 57 —potentially including dopaminergic signaling during NREM 343 sleep 58 , which may provide a reinforcement-like signal and gate plastic changes—the 344 sleep/rest-like state could, in principle, contribute to the generation of novel associations, 345 creative ideas, or innovative problem-solving strategies. 346 
+
+The characteristic “bow-shaped” relationship between coupling weight mean (E[ Jee ]t ) and 347 standard deviation (S[ Jee ]t ) (Figure 3C) arises from the stability of phase differences 348 between excUnits (Equation 2). Pairs with strong coupling maintain small and stable 349 phase differences ( Δθ ≈0), ensuring that the Hebbian potentiation term (c exp(−γ|Δθ|)) and 350 their relative position in the Jee distribution remain consistently high. In contrast, pairs 351 with weak couplings evolve independently with fluctuations driven mainly by natural 352 frequency differences Δω . The largest S[ Jee ]t was found in pairs with intermediate 353 weights. In this regime, the intrinsic synchronizing force between the two units is closely 354 counterbalanced by external driving influences, chiefly their natural frequency difference, 355 
+
+Δω . Furthermore, Hebbian potentiation and homeostatic depression are also balanced. 356 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+Small fluctuations in Δθ can frequently tip these balances and reverse the direction of the 357 weight change, leading to large fluctuations in the coupling weight Jee .358 
+
+From a dynamics perspective, these mechanisms explain not only the characteristic bow-359 shaped distribution in Figure 3C but also a key feature of biological synapses: larger 360 synapses are more stable than smaller ones 35–37 . Moreover, particularly in the 361 desynchronized state, our model reproduces the relationship between synaptic size and 362 changes in synaptic size reported in experimental studies 37,38 (Figure 3D and E, green 363 lines; see Results), further supporting its biological relevance. 364 
+
+The quasi-steady Jee distribution is determined by the phase-difference distribution (Figure 365 1E, 1F, S1C and S1D), as it reflects a transformation of the Δθ distribution via the 366 Hebbian function (Equation 1). In this study, the exponential rule 𝑐𝑐 exp �−𝛾𝛾�𝛥𝛥𝜃𝜃 𝑘𝑘𝑘𝑘 �� 367 transforms the uniform phase-difference distribution into a hyperbolic weight distribution 368 (Supplemental Text, Equation S8–12). Modifying the Hebbian function would allow the 369 generation of alternative Jee distributions, such as log-normal distributions commonly 370 observed in the brain 10,32,33 .371 
+
+Equation 2 further predicts that unit pairs with small natural frequency differences ( Δω )372 and small initial phase differences ( Δθ ) are more robust and more likely to return to a 373 stable, synchronized state even after large perturbations, consistent with the results in 374 Figure 4. In our simulation (Figure 1F, magenta circle), the Hebbian plasticity-induced 375 enhancement of interaction strength near Δθ =0 is limited, even though the plasticity 376 slightly strengthens the restoring force near the stable point (Figure S3). Thus, the 377 tendency for pairs with small Δω and small initial Δθ to be more robust and stable arises 378 primarily from the underlying sinusoidal form of the baseline interaction function rather 379 than plasticity-induced modifications. This finding resonates with experimental 380 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+observations that neurons exhibiting synchronized firing prior to learning (analogous to a 381 small Δθ ) are preferentially incorporated into the same assembly during learning 59–61 .382 
+
+Fluctuations in Jee at intermediate K i levels (Figs. 2–4, K i=0.8, 1.0) arise from bistability 383 between synchronized and desynchronized states. This alternation perturbs phase 384 distributions, which directly drive changes in Jee . Concurrent periodic fluctuations of the 385 order parameters Rexc and Rinh constantly modulate the interaction term, 𝐹𝐹 𝑖𝑖𝑖𝑖ℎ − 𝐹𝐹 𝑒𝑒𝑒𝑒𝑒𝑒 
+
+> (−𝑘𝑘𝑘𝑘 )
+
+386 (Equation 2), further destabilizing phase differences Δθ of moderately coupled pairs. 387 
+
+While the Kuramoto model provides conceptual insight, it is substantially simpler than 388 biological neural circuits. The model reduces neuronal interactions to attractive and 389 repulsive forces, neglecting pulse-based communication, conduction delays, and complex 390 network topology 62 . Additionally, our model simplifies the complexity of 391 neuroplasticity—excluding neurotransmitters 63 , inhibitory plasticity 64,65 , and 392 adaptation 66 —and does not distinguish between specific sleep stages (e.g., NREM vs. 393 REM), which are thought to play distinct roles in memory processing and circuit 394 reorganization 3,4 . Addressing these limitations is essential for a comprehensive 395 understanding of neural dynamics. 396 
+
+Future work can extend the framework by introducing explicit evaluation and stabilization 397 signals that select among reorganized circuits 57,67 , potentially linking fluctuation-driven 398 reorganization to selective retention during sleep and rest. Another important direction is 399 to examine how synchrony transitions influence interregional plasticity between 400 functionally distinct networks, such as hippocampus and cortex 68 , thereby linking circuit-401 level reorganization to systems-level consolidation. 402 
+
+Materials and Methods 403 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+pEI-Kuramoto model 404 
+
+The original Kuramoto model 11,12,69 is expressed as: 405 
+
+𝑑𝑑𝜃𝜃 𝑘𝑘  (𝑡𝑡 )
+
+𝑑𝑑 𝑡𝑡  = 𝛥𝛥 𝑘𝑘  + 𝐾𝐾 𝑁𝑁 � sin �𝜃𝜃 𝑘𝑘 (𝑡𝑡 ) − 𝜃𝜃 𝑘𝑘  (𝑡𝑡 )�𝑁𝑁 𝑘𝑘 
+
+(Equation M1), 406 
+
+where 𝜃𝜃 𝑘𝑘  (𝑡𝑡 ) is the phase of unit j at time t, 𝛥𝛥 𝑘𝑘  is the natural frequency of unit j following a 407 probability distribution 𝑔𝑔 (𝛥𝛥 ), N is the number of units, and K is the interaction strength 408 among the oscillation units. In the original Kuramoto model, K is applied constantly and 409 uniformly to all unit pairs. The order parameter R and the mean phase 𝜓𝜓 are then 410 calculated from the mean vector of the oscillators as: 411 
+
+𝑅𝑅𝑒𝑒 𝑖𝑖𝑖𝑖 = 1
+
+𝑁𝑁 � 𝑒𝑒 𝑖𝑖𝜃𝜃 𝑗𝑗 𝑁𝑁 
+
+> 𝑘𝑘
+
+(Equation M2), 412 
+
+where 𝑖𝑖 denotes an imaginary unit. Given Euler’s formula and Equation M2, 413 
+
+1
+
+𝑁𝑁 � sin �𝜃𝜃 𝑘𝑘 − 𝜃𝜃 𝑘𝑘  �𝑁𝑁 𝑘𝑘 
+
+= 1
+
+𝑁𝑁 � Im �𝑒𝑒 𝑖𝑖𝜃𝜃 𝑘𝑘 𝑒𝑒 −𝑖𝑖𝜃𝜃 𝑗𝑗 �𝑁𝑁 𝑘𝑘 
+
+= Im �𝑅𝑅𝑒𝑒 𝑖𝑖𝑖𝑖 𝑒𝑒 −𝑖𝑖𝜃𝜃 𝑗𝑗 � = 𝑅𝑅 sin( 𝜓𝜓 − 𝜃𝜃 𝑘𝑘 ) (Equation M3). 414 
+
+Considering Equation M3, Equation M1 becomes 415 
+
+𝑑𝑑𝜃𝜃 𝑘𝑘 
+
+𝑑𝑑 𝑡𝑡  = 𝛥𝛥 𝑘𝑘  + 𝐾𝐾 𝑅𝑅  sin( 𝜓𝜓 − 𝜃𝜃 𝑘𝑘  ) (Equation M4). 416 
+
+In our previous EI-Kuramoto model 14 , the oscillation units were categorized into two 417 groups: excitatory and inhibitory units, referred to as excUnits and inhUnits, respectively. 418 Employing these terms clarified that the units in the model represented excitatory and 419 inhibitory factors, distinguishing them from actual neurons or synapses. Zero-phase-lag 420 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+sine interactions are purely attractive for excUnits and purely repulsive for inhUnits. 421 Hence, the terms "excitatory" and "inhibitory" are used interchangeably with "attractive" 422 and "repulsive," respectively. The interaction strength K is divided into four quantifiable 423 parameters: K ee (attractive strength between excUnits), K ii (repulsive strength between 424 inhUnits), K ei (attractive strength from excUnits to inhUnits), and K ie (repulsive strength 425 from inhUnits to excUnits). K ee , Kii , Kei , and Kie are distinct positive real numbers that are 426 uniformly applicable across all the unit pairs. Consequently, Equation M4 becomes: 427 
+
+𝑑𝑑𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 𝑑𝑑 𝑡𝑡  = 𝛥𝛥 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 + 𝐾𝐾 𝑒𝑒𝑒𝑒 𝑅𝑅 𝑒𝑒𝑒𝑒𝑒𝑒 sin �𝜓𝜓 𝑒𝑒𝑒𝑒𝑒𝑒 − 𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 � − 𝐾𝐾 𝑖𝑖 𝑒𝑒 𝑅𝑅 𝑖𝑖𝑖𝑖ℎ sin �𝜓𝜓 𝑖𝑖𝑖𝑖ℎ − 𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 � (Equation M5) 428 
+
+for excUnits, and 429 
+
+𝑑𝑑𝜃𝜃 𝑘𝑘 ,𝑖𝑖𝑖𝑖ℎ 𝑑𝑑 𝑡𝑡  = 𝛥𝛥 𝑘𝑘 ,𝑖𝑖𝑖𝑖ℎ + 𝐾𝐾 𝑒𝑒 𝑖𝑖 𝑅𝑅 𝑒𝑒𝑒𝑒𝑒𝑒 sin �𝜓𝜓 𝑒𝑒𝑒𝑒𝑒𝑒 − 𝜃𝜃 𝑘𝑘 ,𝑖𝑖𝑖𝑖ℎ � − 𝐾𝐾 𝑖𝑖𝑖𝑖 𝑅𝑅 𝑖𝑖𝑖𝑖ℎ sin �𝜓𝜓 𝑖𝑖𝑖𝑖ℎ − 𝜃𝜃 𝑘𝑘 ,𝑖𝑖𝑖𝑖ℎ � (Equation M6) 430 
+
+for inhUnits, where exc and inh represent the parameters for excUnits and inhUnits, 431 respectively. The order parameter and mean phase of each excUnit and inhUnit are 432 
+
+𝑅𝑅 𝑒𝑒𝑒𝑒𝑒𝑒 𝑒𝑒 𝑖𝑖 𝑖𝑖 𝑒𝑒𝑒𝑒𝑒𝑒 = 1
+
+𝑁𝑁 𝑒𝑒𝑒𝑒𝑒𝑒 � 𝑒𝑒 𝑖𝑖𝜃𝜃 𝑗𝑗 ,𝑒𝑒𝑒𝑒𝑒𝑒 𝑁𝑁 𝑒𝑒𝑒𝑒𝑒𝑒 
+
+> 𝑘𝑘
+
+(Equation M7) 433 
+
+and 434 
+
+𝑅𝑅 𝑖𝑖𝑖𝑖ℎ 𝑒𝑒 𝑖𝑖 𝑖𝑖 𝑖𝑖𝑖𝑖ℎ = 1
+
+𝑁𝑁 𝑖𝑖𝑖𝑖ℎ � 𝑒𝑒 𝑖𝑖𝜃𝜃 𝑗𝑗 ,𝑖𝑖𝑖𝑖ℎ 𝑁𝑁 𝑖𝑖𝑖𝑖ℎ 
+
+> 𝑘𝑘
+
+(Equation M8). 435 
+
+436 
+
+In the present study, we developed a pEI-Kuramoto model (Figure 1A). A key 437 modification of our previous EI-Kuramoto model is that the constant and uniform 438 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+interaction strength value K ee is replaced with the heterogeneous and plastic coupling 439 weight (interaction strength of an individual unit pair) matrix Jee . The Jee distribution is 440 defined by its mean μJee and standard deviation σJee , which are scaled with the inverse of 441 
+
+N exc to adjust for the system size and to facilitate comparisons with other Kuramoto-model 442 variants. Accordingly, the initial Jee distribution follows the Gaussian distribution 443 
+
+𝑔𝑔 (𝐽𝐽 𝑒𝑒𝑒𝑒 )~ 𝒩𝒩 (𝜇𝜇̂ 𝐽𝐽 𝑒𝑒𝑒𝑒 , ( 𝜎𝜎 �𝐽𝐽 𝑒𝑒𝑒𝑒 )2), where 𝜇𝜇̂ 𝐽𝐽 𝑒𝑒𝑒𝑒  = 𝜇𝜇 𝐽𝐽 𝑒𝑒𝑒𝑒 /N 𝑒𝑒𝑒𝑒𝑒𝑒 , 𝜎𝜎 �𝐽𝐽 𝑒𝑒𝑒𝑒  = 𝜎𝜎 𝐽𝐽 𝑒𝑒𝑒𝑒  /N 𝑒𝑒𝑒𝑒𝑒𝑒 . The other 444 interaction strengths, K ii , K ei , and Kie , were uniform and consistently applicable across all 445 units. Equation M5 becomes 446 
+
+𝑑𝑑𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 𝑑𝑑 𝑡𝑡  = 𝛥𝛥 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 + � 𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 sin �𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 − 𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 �𝑁𝑁 𝑒𝑒𝑒𝑒𝑒𝑒 𝑘𝑘 − 𝐾𝐾 𝑖𝑖 𝑒𝑒 𝑅𝑅 𝑖𝑖𝑖𝑖ℎ sin �𝜓𝜓 𝑖𝑖𝑖𝑖ℎ − 𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 � (Equation M9). 447 
+
+Jee,kj is the coupling weight between the excUnits k (pre) and j (post). 448 
+
+Given the rotational symmetry, when the mean natural frequencies of excUnits and 449 inhUnits are equal,  𝛥𝛥 � = 𝛥𝛥 �𝑒𝑒𝑒𝑒𝑒𝑒 = 𝛥𝛥 � 𝑖𝑖𝑖𝑖ℎ , they can be set to 0 rad/s, which is equivalent to 450 rotating the coordinate frame by the mean natural frequency  𝛥𝛥 �69 . For all simulations in 451 this study: 𝑁𝑁 𝑒𝑒𝑒𝑒𝑒𝑒 = 80 , 𝑁𝑁 𝑖𝑖𝑖𝑖ℎ = 20 ; total simulation duration 𝑇𝑇 = 50 s; time step 𝑑𝑑 𝑡𝑡  = 0.01 452 s. The 𝑔𝑔 (𝛥𝛥 ) followed the Gaussian distribution 𝑔𝑔 (𝛥𝛥 )~ 𝒩𝒩 (0, 0.01) for both excUnits and 453 inhUnits. In Figs. 2–5, K ii and K ie are unified with the same parameter K i to simplify the 454 simulation. 455 
+
+𝐾𝐾 𝑖𝑖 = 𝐾𝐾 𝑖𝑖 𝑒𝑒  = 𝐾𝐾 𝑖𝑖𝑖𝑖 (Equation M10). 456 
+
+457 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+At each time step ∆𝑡𝑡 (= dt = 0.01 s in this study), the Jee values were first modulated by 458 Hebbian potentiation and then rescaled using homeostatic regularization rules. The 459 Hebbian potentiation plasticity is implemented as an exponential function: 460 
+
+𝐽𝐽 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 = 𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 (𝑡𝑡 ) + 𝛼𝛼 exp �−𝛾𝛾 |𝛥𝛥𝜃𝜃 𝑘𝑘𝑘𝑘 |� (Equation M11). 461 
+
+α is the learning rate for Hebbian plasticity. Note that α should scale proportionally with 462 an inverse of N exc as α ∝ 1/N 𝑒𝑒𝑒𝑒𝑒𝑒 to maintain consistency across different system sizes. 𝛾𝛾 463 determines the sharpness of the exponential decay from the peak. ∆𝜃𝜃 𝑘𝑘𝑘𝑘 is the phase 464 difference between excUnit k and j465 
+
+∆𝜃𝜃 𝑘𝑘𝑘𝑘 = 𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 − 𝜃𝜃 𝑘𝑘 ,𝑒𝑒𝑒𝑒𝑒𝑒 �−𝜋𝜋 ≤ ∆𝜃𝜃 𝑘𝑘𝑘𝑘 < 𝜋𝜋� (Equation M12). 466 
+
+The implementation of Hebbian plasticity with a cosine function (Figure S1A) is defined 467 as 468 
+
+𝐽𝐽 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 = 𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 (𝑡𝑡 ) + 𝛼𝛼 
+
+2 {cos �𝛥𝛥𝜃𝜃 𝑘𝑘𝑘𝑘 � + 1} (Equation M13). 469 
+
+In any Hebbian learning rule in this paper, weight changes of 𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 and 𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘  are the same 470 due to the symmetry with respect to the sign of ∆𝜃𝜃 𝑘𝑘𝑘𝑘 .471 
+
+After the Hebbian modulations, JHebb was rescaled with the homeostatic regularization 472 plasticity rule to prevent overpotentiation. Plasticity was implemented as follows: 473 
+
+𝐽𝐽̂ 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 = σ�𝐽𝐽 𝑒𝑒𝑒𝑒 
+
+𝑆𝑆 [𝐽𝐽 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 ]𝑖𝑖 
+
+(𝐽𝐽 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 − 𝐸𝐸 [𝐽𝐽 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 ]𝑖𝑖 ) + 𝜇𝜇̂ 𝐽𝐽 𝑒𝑒𝑒𝑒 474 
+
+𝐽𝐽 𝑒𝑒𝑒𝑒 ,𝑘𝑘𝑘𝑘 (𝑡𝑡 + ∆𝑡𝑡 ) = 𝛽𝛽𝐽𝐽̂ 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 + (1 − 𝛽𝛽 )𝐽𝐽 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 (Equation M14). 475 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+𝐽𝐽̂ 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 represents the normalized value (homeostatic set-point) of 𝐽𝐽 𝐻𝐻 𝑒𝑒 𝐻𝐻𝐻𝐻 under the initial 476 setting of the mean 𝜇𝜇̂ 𝐽𝐽 𝑒𝑒𝑒𝑒  and standard deviation 𝜎𝜎 �𝐽𝐽 𝑒𝑒𝑒𝑒 . 𝛽𝛽 is the learning rate for homeostatic 477 plasticity. This procedure scales Jee,kj toward the initial targets, 𝜇𝜇̂ 𝐽𝐽 𝑒𝑒𝑒𝑒  and 𝜎𝜎 �𝐽𝐽 𝑒𝑒𝑒𝑒 .478 
+
+The change in coupling weight at each time step ΔJ ee (Figure 3D and E) was defined as 479 
+
+∆𝐽𝐽 𝑒𝑒𝑒𝑒 = 𝐽𝐽 𝑒𝑒𝑒𝑒 (𝑡𝑡 + ∆𝑡𝑡 ) − 𝐽𝐽 𝑒𝑒𝑒𝑒 (𝑡𝑡 ) (Equation M15) 480 
+
+For plotting, pairs of ΔJ ee and Jee (t) values were pooled across all excUnit pairs and time 481 points, and the Jee (t) values were binned (bin size = 0.001). 482 
+
+Cyclic inhibitory modulation 483 
+
+In Figure 5, Ki is modulated as a sine function 484 
+
+𝐾𝐾 𝑖𝑖 = 𝐴𝐴 𝑠𝑠 sin( 𝛥𝛥 𝑠𝑠 𝑡𝑡 ) + 𝐶𝐶 𝑠𝑠 (Equation M16), 485 
+
+where As (= 0.32), ωs (= 0.004π), and C s (= 1.28) are the amplitude, frequency, and 486 baseline offset for the sine modulation, respectively. The other parameters for interaction 487 strengths are held constant to simplify the simulation: μJee = 1, σJee = 0.1, Kei = 3, and T =488 3,000 s. 489 
+
+Statistics 490 
+
+E[ ･]t (also E{ ･} t ) and S[ ･]t are the mean and the standard deviation over time, 491 respectively, where t indicates the number of time points. E[ ･]n and S[ ･]n are the mean and 492 the standard deviation among unit pairs, respectively, where n indicates the number of unit 493 pairs. E[ ･]t,n and S[ ･]t,n represent mean and standard deviation, respectively, pooling all 494 values across time and unit pairs. Here, ･ represents a certain variable. The range of time 495 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+for the time series analyses (E[ ･]t , S[ ･]t , E[ ･]t,n , and S[ ･]t,n ) is [ T/2, T] to exclude the initial 496 fluctuations. For Figure 5B lower panel, value of E{S[ Jee ]t }n was estimated in the time 497 window [-15s, +15 s] for each time point. 498 
+
+Descriptive statistics (mean, standard deviation, kurtosis, and skewness) and statistical 499 tests were performed using the Python NumPy and SciPy libraries. The Dip test 34 was 500 performed using the Python Diptest Library ( https://github.com/RUrlus/diptest ). The dip 501 statistic quantifies the maximum distance between the observed distribution and the 502 closest unimodal distribution. If the data distribution is close to unimodal distribution, the 503 dip value is low. If the distribution is bimodal, the dip value is high. Hierarchical 504 clustering was performed using the linkage function of the Python SciPy library. 505 
+
+506 
+
+References 507 
+
+1. Jenkins, J.G., and Dallenbach, K.M. (1924). Obliviscence during sleep and waking. Am. J. 508 Psychol. 35 , 605. 509 
+
+2. Wallas, G. (1926). The art of thought (Jonathan Cape). 510 
+
+3. Landmann, N., Kuhn, M., Piosczyk, H., Feige, B., Baglioni, C., Spiegelhalder, K., Frase, L., 511 Riemann, D., Sterr, A., and Nissen, C. (2014). The reorganisation of memory during sleep. 512 Sleep Med. Rev. 18 , 531–541. 513 
+
+4. Lewis, P.A., Knoblich, G., and Poe, G. (2018). How memory replay in sleep boosts creative 514 problem-solving. Trends Cogn. Sci. 22 , 491–503. 515 
+
+5. Norimoto, H., Makino, K., Gao, M., Shikano, Y., Okamoto, K., Ishikawa, T., Sasaki, T., 516 Hioki, H., Fujisawa, S., and Ikegaya, Y. (2018). Hippocampal ripples down-regulate 517 synapses. Science 359 , 1524–1527. 518 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+6. Goto, A., Bota, A., Miya, K., Wang, J., Tsukamoto, S., Jiang, X., Hirai, D., Murayama, M., 519 Matsuda, T., McHugh, T.J., et al. (2021). Stepwise synaptic plasticity events drive the early 520 phase of memory consolidation. Science 374 , 857–863. 521 
+
+7. Haider, B., Häusser, M., and Carandini, M. (2013). Inhibition dominates sensory responses in 522 the awake cortex. Nature 493 , 97–100. 523 
+
+8. Miyawaki, H., and Diba, K. (2016). Regulation of hippocampal firing by network oscillations 524 during sleep. Curr. Biol. 26 , 893–902. 525 
+
+9. Alfonsa, H., Burman, R.J., Brodersen, P.J.N., Newey, S.E., Mahfooz, K., Yamagata, T., 526 Panayi, M.C., Bannerman, D.M., Vyazovskiy, V.V., and Akerman, C.J. (2022). Intracellular 527 chloride regulation mediates local sleep pressure in the cortex. Nat. Neurosci. 26 , 64–78. 528 
+
+10. Mizuseki, K., and Buzsáki, G. (2013). Preconfigured, skewed distribution of firing rates in 529 the hippocampus and entorhinal cortex. Cell Rep. 4, 1010–1021. 530 
+
+11. Kuramoto, Y. (1984). Chemical oscillations, waves, and turbulence (Springer). 531 
+
+12. Kuramoto, Y. (1975). Self-entrainment of a population of coupled non-linear oscillators. In 532 International Symposium on Mathematical Problems in Theoretical Physics (Springer), pp. 533 420–422. 534 
+
+13. Montbrió, E., and Pazó, D. (2018). Kuramoto model for excitation-inhibition-based 535 oscillations. Phys. Rev. Lett. 120 , 244101. 536 
+
+14. Kuroki, S., and Mizuseki, K. (2025). Excitation-inhibition balance controls synchronization 537 in a simple model of coupled phase oscillators. Neural Comput. 37 , 1353–1372. 538 
+
+15. Hebb, D.O. (1949). The organization of behavior; a neuropsychological theory (Wiley). 539 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+16. Turrigiano, G.G. (2008). The self-tuning neuron: synaptic scaling of excitatory synapses. 540 Cell 135 , 422–435. 541 
+
+17. Toyoizumi, T., Kaneko, M., Stryker, M.P., and Miller, K.D. (2014). Modeling the dynamic 542 interaction of Hebbian and homeostatic plasticity. Neuron 84 , 497–510. 543 
+
+18. Kim, S., Jung, D., and Royer, S. (2020). Place cell maps slowly develop via competitive 544 learning and conjunctive coding in the dentate gyrus. Nat. Commun. 11 , 4550. 545 
+
+19. Benas, S., Fernandez, X., and Kropff, E. (2024). Modeled grid cells aligned by a flexible 546 attractor. eLife 12 . https://doi.org/10.7554/eLife.89851. 547 
+
+20. Weber, S.N., and Sprekeler, H. (2018). Learning place cells, grid cells and invariances with 548 excitatory and inhibitory plasticity. Elife 7, e34560. 549 
+
+21. Aoki, T., and Aoyagi, T. (2009). Co-evolution of phases and connection strengths in a 550 network of phase oscillators. Phys. Rev. Lett. 102 , 034101. 551 
+
+22. Bronski, J.C., He, Y., Li, X., Liu, Y., Sponseller, D.R., and Wolbert, S. (2017). The stability 552 of fixed points for a Kuramoto model with Hebbian interactions. Chaos 27 , 053110. 553 
+
+23. Fialkowski, J., Yanchuk, S., Sokolov, I.M., Schöll, E., Gottwald, G.A., and Berner, R. 554 (2023). Heterogeneous nucleation in finite-size adaptive dynamical networks. Phys. Rev. 555 Lett. 130 , 067402. 556 
+
+24. Ha, S.Y., Lee, J., Li, Z., and Park, J. (2018). Emergent dynamics of Kuramoto oscillators 557 with adaptive couplings: Conservation law and fast learning. SIAM J. Appl. Dyn. Syst. 17 ,558 1560–1588. 559 
+
+25. Ha, S.Y., Noh, S.E., and Park, J. (2016). Synchronization of Kuramoto oscillators with 560 adaptive couplings. SIAM J. Appl. Dyn. Syst. 15 , 162–194. 561 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+26. Niyogi, R.K., and English, L.Q. (2009). Learning-rate-dependent clustering and self-562 development in a network of coupled phase oscillators. Phys. Rev. E Stat. Nonlin. Soft 563 Matter Phys. 80 , 066213. 564 
+
+27. Park, J., Poyato, D., and Soler, J. (2021). Filippov trajectories and clustering in the Kuramoto 565 model with singular couplings. J. Eur. Math. Soc. 23 , 3193–3278. 566 
+
+28. Picallo, C.B., and Riecke, H. (2011). Adaptive oscillator networks with conserved overall 567 coupling: Sequential firing and near-synchronized states. Phys. Rev. E Stat. Nonlin. Soft 568 Matter Phys. 83 , 036206. 569 
+
+29. Poyato, D. (2019). Filippov flows and mean-field limits in the kinetic singular Kuramoto 570 model. arXiv [math.AP]. 571 
+
+30. Ren, Q., and Zhao, J. (2007). Adaptive coupling and enhanced synchronization in coupled 572 phase oscillators. Phys. Rev. E Stat. Nonlin. Soft Matter Phys. 76 , 016207. 573 
+
+31. Seliger, P., Young, S.C., and Tsimring, L.S. (2002). Plasticity and learning in a network of 574 coupled phase oscillators. Phys. Rev. E Stat. Nonlin. Soft Matter Phys. 65 , 041906. 575 
+
+32. Buzsáki, G., and Mizuseki, K. (2014). The log-dynamic brain: how skewed distributions 576 affect network operations. Nat. Rev. Neurosci. 15 , 264–278. 577 
+
+33. Iwase, M., Diba, K., Pastalkova, E., and Mizuseki, K. (2024). Dynamics of spike 578 transmission and suppression between principal cells and interneurons in the hippocampus 579 and entorhinal cortex. Hippocampus 34 , 393–421. 580 
+
+34. Hartigan, J.A., and Hartigan, P.M. (1985). The dip test of unimodality. Ann. Stat. 13 , 70–84. 581 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+35. Holtmaat, A.J.G.D., Trachtenberg, J.T., Wilbrecht, L., Shepherd, G.M., Zhang, X., Knott, 582 G.W., and Svoboda, K. (2005). Transient and persistent dendritic spines in the neocortex in 583 vivo. Neuron 45 , 279–291. 584 
+
+36. Grutzendler, J., Kasthuri, N., and Gan, W.-B. (2002). Long-term dendritic spine stability in 585 the adult cortex. Nature 420 , 812–816. 586 
+
+37. Yasumatsu, N., Matsuzaki, M., Miyazaki, T., Noguchi, J., and Kasai, H. (2008). Principles of 587 long-term dynamics of dendritic spines. J. Neurosci. 28 , 13592–13608. 588 
+
+38. Loewenstein, Y., Kuras, A., and Rumpel, S. (2011). Multiplicative dynamics underlie the 589 emergence of the log-normal distribution of spine sizes in the neocortex in vivo. J. Neurosci. 590 
+
+31 , 9481–9488. 591 
+
+39. Harris, K.D., and Thiele, A. (2011). Cortical state and attention. Nat. Rev. Neurosci. 12 , 509– 592 523. 593 
+
+40. Steriade, M., and Llinás, R.R. (1988). The functional states of the thalamus and the 594 associated neuronal interplay. Physiol. Rev. 68 , 649–742. 595 
+
+41. Okuda, K., and Kuramoto, Y. (1991). Mutual entrainment between populations of coupled 596 oscillators. Progr. Theoret. Phys. 86 , 1159–1176. 597 
+
+42. Martens, E.A., Bick, C., and Panaggio, M.J. (2016). Chimera states in two populations with 598 heterogeneous phase-lag. Chaos 26 , 094819. 599 
+
+43. Yang, D.-P., McKenzie-Sell, L., Karanjai, A., and Robinson, P.A. (2016). Wake-sleep 600 transition as a noisy bifurcation. Phys. Rev. E. 94 , 022412. 601 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+44. Priesemann, V., Valderrama, M., Wibral, M., and Le Van Quyen, M. (2013). Neuronal 602 avalanches differ from wakefulness to deep sleep--evidence from intracranial depth 603 recordings in humans. PLoS Comput. Biol. 9, e1002985. 604 
+
+45. Hengen, K.B., and Shew, W.L. (2025). Is criticality a unified setpoint of brain function? 605 Neuron 113 , 2582–2598. 606 
+
+46. Parrino, L., Ferri, R., Bruni, O., and Terzano, M.G. (2012). Cyclic alternating pattern (CAP): 607 the marker of sleep instability. Sleep Med. Rev. 16 , 27–45. 608 
+
+47. Levenstein, D., Buzsáki, G., and Rinzel, J. (2019). NREM sleep in the rodent neocortex and 609 hippocampus reflects excitable dynamics. Nat. Commun. 10 , 2478. 610 
+
+48. Jercog, D., Roxin, A., Barthó, P., Luczak, A., Compte, A., and de la Rocha, J. (2017). UP-611 DOWN cortical dynamics reflect state transitions in a bistable network. Elife 6.612 https://doi.org/10.7554/eLife.22425. 613 
+
+49. Lüthi, A., and Nedergaard, M. (2025). Anything but small: Microarousals stand at the 614 crossroad between noradrenaline signaling and key sleep functions. Neuron 113 , 509–523. 615 
+
+50. Tononi, G., and Cirelli, C. (2020). Sleep and synaptic down-selection. Eur. J. Neurosci. 51 ,616 413–421. 617 
+
+51. Kasai, H., Hayama, T., Ishikawa, M., Watanabe, S., Yagishita, S., and Noguchi, J. (2010). 618 Learning rules and persistence of dendritic spines. Eur. J. Neurosci. 32 , 241–249. 619 
+
+52. Bollmann, L., Baracskay, P., Stella, F., and Csicsvari, J. (2025). Sleep stages antagonistically 620 modulate reactivation drift. Neuron 113 , 1446-1459.e6. 621 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+53. Ziv, Y., Burns, L.D., Cocker, E.D., Hamel, E.O., Ghosh, K.K., Kitch, L.J., El Gamal, A., and 622 Schnitzer, M.J. (2013). Long-term dynamics of CA1 hippocampal place codes. Nat. 623 Neurosci. 16 , 264–266. 624 
+
+54. Vaidya, S.P., Li, G., Chitwood, R.A., Li, Y., and Magee, J.C. (2025). Formation of an 625 expanding memory representation in the hippocampus. Nat. Neurosci. 28 , 1510–1518. 626 
+
+55. Bartoldson, B., Morcos, A., Barbu, A., and Erlebacher, G. (2020). The generalization-627 stability tradeoff in neural network pruning. In Advances in Neural Information Processing 628 Systems, H. Larochelle, M. Ranzato, R. Hadsell, M. F. Balcan, and H. Lin, eds. (Curran 629 Associates, Inc.), pp. 20852–20864. 630 
+
+56. Hoefler, T., Alistarh, D., Ben-Nun, T., Dryden, N., and Peste, A. (2021). Sparsity in deep 631 learning: pruning and growth for efficient inference and training in neural networks. J. Mach. 632 Learn. Res. 22 , 10882–11005. 633 
+
+57. Campbell, D.T. (1960). Blind variation and selective retention in creative thought as in other 634 knowledge processes. Psychol. Rev. 67 , 380–400. 635 
+
+58. Gomperts, S.N., Kloosterman, F., and Wilson, M.A. (2015). VTA neurons coordinate with 636 the hippocampal reactivation of spatial experience. Elife 4, e05360. 637 
+
+59. Dragoi, G., and Tonegawa, S. (2011). Preplay of future place cell sequences by hippocampal 638 cellular assemblies. Nature 469 , 397–401. 639 
+
+60. Luczak, A., Barthó, P., and Harris, K.D. (2009). Spontaneous events outline the realm of 640 possible sensory responses in neocortical populations. Neuron 62 , 413–425. 641 
+
+61. Miller, J.-E.K., Ayzenshtat, I., Carrillo-Reid, L., and Yuste, R. (2014). Visual stimuli recruit 642 intrinsically generated cortical ensembles. Proc. Natl. Acad. Sci. U. S. A. 111 , E4053-61. 643 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+62. Izhikevich, E.M. (2010). Dynamical systems in neuroscience: The geometry of excitability 644 and bursting (MIT Press). 645 
+
+63. Brzosko, Z., Mierau, S.B., and Paulsen, O. (2019). Neuromodulation of spike-timing-646 dependent plasticity: Past, present, and future. Neuron 103 , 563–581. 647 
+
+64. Wu, Y.K., Miehl, C., and Gjorgjieva, J. (2022). Regulation of circuit organization and 648 function through inhibitory synaptic plasticity. Trends Neurosci. 45 , 884–898. 649 
+
+65. Chiu, C.Q., Barberis, A., and Higley, M.J. (2019). Preserving the balance: diverse forms of 650 long-term GABAergic synaptic plasticity. Nat. Rev. Neurosci. 20 , 272–281. 651 
+
+66. Blitz, D.M., Foster, K.A., and Regehr, W.G. (2004). Short-term synaptic plasticity: a 652 comparison of two synapses. Nat. Rev. Neurosci. 5, 630–640. 653 
+
+67. Beaty, R.E., Benedek, M., Silvia, P.J., and Schacter, D.L. (2016). Creative cognition and 654 brain network dynamics. Trends Cogn. Sci. 20 , 87–95. 655 
+
+68. Klinzing, J.G., Niethard, N., and Born, J. (2019). Mechanisms of systems memory 656 consolidation during sleep. Nat. Neurosci. 22 , 1598–1610. 657 
+
+69. Acebrón, J.A., Bonilla, L.L., Pérez Vicente, C.J., Ritort, F., and Spigler, R. (2005). The 658 Kuramoto model: A simple paradigm for synchronization phenomena. Rev. Mod. Phys. 77 ,659 137–185. 660 
+
+661 
+
+Acknowledgments 662 
+
+We would like to thank Susumu Setogawa for his insightful comments on the manuscript. 663 This study was supported by Japan Society for the Promotion of Science KAKENHI 664 [grant 24K18243 to S.K.; grants 23K27479 and 25H02508 to K.M.], Japan Agency for 665 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+Medical Research and Development (grant JP24wm0625216 to K.M.), and the Takeda 666 Science Foundation [to K.M.]. The funding sources had no involvement in the study 667 design, data collection, interpretation, or the decision to submit this paper for publication. 668 
+
+Author contributions: 669 
+
+Conceptualization: SK; Methodology: SK; Investigation: SK; Visualization: SK; 670 Supervision: KM; Writing—original draft: SK; Writing—review & editing: SK, KM; 671 Funding acquisition: SK, KM 672 
+
+Competing interests: 673 The authors declare that they have no known competing financial interests or personal 674 relationships that could have appeared to influence the work reported in this paper. 675 
+
+Data and materials availability: 676 The scripts for this study can be found at Google Colaboratory: 677 
+
+https://colab.research.google.com/drive/1v8JF97G9YdwUOh_Wuh9i_TvuGa42fLAu?usp 678 
+
+=sharing 679 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+Figures and Tables 680 
+
+681 
+
+682 
+
+Figure 1. EI-Kuramoto model with distributed Jee and plasticity. (A) Schematic 683 representation of the pEI-Kuramoto model. Left: Oscillator units are excitatory 684 (warm-colored) or inhibitory (cool-colored), each with its own natural frequency 685 
+
+.CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint (shown by color gradients). Middle: Jee functions attractively between excUnits 686 (red arrows). K ei is the attractive interaction strength from excUnit to inhUnit 687 (magenta arrow). K ii represents the repulsive strength between inhUnits (blue 688 arrows). K ie is the repulsive strength from inhUnit to excUnit (cyan arrow). K ei , Kii ,689 and K ie are constants that are applied uniformly across all units. Right: Each Jee 690 unit pair has its own coupling weight and undergoes plastic modification. (B) 691 Distribution of Jee coupling weights with different σJee . μJee = 1, N exc = 80. (C) Rexc 692 time traces of synchronized, bistable, and desynchronized states with each σJee and 693 no plasticity. (D) Exponential rules of Hebbian potentiation plasticity. The Jee 694 weight of each pair of units is potentiated based on the phase difference between 695 the units. (E) Evaluation of the Jee distribution at the last frame ( t = 50 s) with 696 various plasticity parameters. Skewness (top panels), kurtosis (middle), and dip 697 values (bottom). (F) Jee distribution of exponential Hebbian plasticity rules at the 698 last frame ( t = 50 s) with various parameter settings. The parameter settings of the 699 top, middle, and bottom panels correspond to those marked by magenta, green, and 700 yellow circles in (E). (G) Evaluation of state synchrony with various plasticity 701 parameters. E[ Rexc ]t and S[ Rexc ]t denote the time-averaged mean and standard 702 deviation, respectively, of the order parameter for excUnits, Rexc . The parameters 703 used for evaluation were N exc = 80, N inh = 20, μJee = 1, σJee = 0.1, K ei = 3, Kie = 3, 704 
+
+K ii = 3, corresponding to a desynchronized state of the system without plasticity 705 (E–G). 706 
+
+707 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+708 
+
+Figure 2. Changes in Jee fluctuation with K i modification. (A–D) (A) E{S[ Jee ]t }n , (B) 709 S{S[ Jee ]t }n , (C) E[ Rexc ]t , and (D) S[ Rexc ]t as a function of K i. Red crosses indicate 710 each value in the K i conditions shown in (E) and (F). (E) Time course of Jee 711 weights under different K i conditions. The order of unit pairs is sorted by E[ Jee ]t712 for each K i value. (F) Upper panels show Rexc traces. The lower panels show the Jee 713 weight matrix at selected time points indicated by the red and blue vertical lines in 714 the top panels (red and blue are local maximum and local minimum, respectively, 715 for K i = 0.8 and 1.0; t = 24, 29, 34, 39, 44, and 50 for K i = 0.1 and 1.5). The order 716 of units is rearranged by the result of hierarchical clustering for the leftmost panel 717 (around t: 24-25). E and F share the color bar. μJee = 1, σJee = 0.1, K ei = 3, α = 0.01, 718 
+
+β = 0.5, γ = 2. 719 
+
+720 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+721 
+
+Figure 3. Relationship between the magnitude and fluctuation of J ee . (A) E[ Jee ]t722 histogram. (B) S[ Jee ]t histogram. (C) E[ Jee ]t vs. S[ Jee ]t scatter plot for different K i723 values. (D) E[ ΔJ ee ]t,n as a function of Jee for different K i values. The right panel 724 shows an enlarged view of the region enclosed by the dotted rectangle in the left 725 panel. Black line indicates E[ ΔJ ee ]t,n = 0. Error bars indicate the standard error of 726 the mean (SEM). (E) S[ ΔJ ee ]t,n as a function of Jee for different K i values. At each 727 time point, all pairs of ΔJ ee and the immediately preceding Jee values were 728 collected, binned by the Jee values, and used to compute the statistics within each 729 bin (D, E). μJee = 1, σJee = 0.1, K ei = 3, α = 0.01, β = 0.5, γ = 2. 730 
+
+731 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+732 
+
+Figure 4. Factors affecting the J ee fluctuation. (A–C) E[ Jee ]t vs. S[ Jee ]t scatter plot with 733 color coding of (A) the natural frequency difference Δω , (B) the initial phase 734 difference Δθ , and (C) the initial Jee weight over different K i. The red dotted line 735 for each panel indicates E[ Jee ]t = 0.018. Left column, K i = 0.8; middle column, K i =736 1.0; right column, K i = 1.5. (D–F) Violin plots provide distribution densities based 737 on whether the threshold E[ Jee ]t ≥ 0.18 or not for (D) natural frequency differences 738 
+
+Δω , (E) initial phase differences Δθ , and (F) initial Jee weights across different K i.739 The red and blue horizontal lines indicate the mean and median values, 740 respectively. The red vertical lines indicate the standard errors. The numbers in the 741 upper right corner of each panel are the p-values from the Mann–Whitney U-test. 742 The numbers of unit pairs were as follows: for K i = 0.8, E[ Jee ]t < 0.018: n = 5,968, 743 E[ Jee ]t ≥ 0.018: n = 352; for K i = 1.0, E[ Jee ]t < 0.018: n = 5,920, E[ Jee ]t ≥ 0.018: n =744 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+400; for K i = 1.5, E[ Jee ]t < 0.018: n = 5,852, E[ Jee ] t ≥ 0.018: n = 468. The statistics 745 were as follows: (D, natural frequency difference), K i = 0.8, z = 24.7, p < 0.001; K i746 = 1.0, z = 26.8, p < 0.001; K i = 1.5, z = 27.8, p < 0.001. (E, initial phase difference) 747 
+
+K i = 0.8, z = 9.20, p < 0.001; K i = 1.0, z = 16.4, p < 0.001; K i = 1.5, z = 16.7, p <748 0.001. (F, initial Jee weight) K i = 0.8, z = –0.046, p = 0.96; K i = 1.0, z = 0.046, p =749 0.96; K i = 1.5, z = 0.17, p = 0.87. (G and H) Scatter plots of natural frequency 750 differences Δω and initial phase differences Δθ with color coding of (G) E[ Jee ]t and 751 (H) S[ Jee ]t (K i = 1.5). μJee = 1, σJee = 0.1, K ei = 3, α = 0.01, β = 0.5, γ = 2. 752 
+
+753 
+
+> .CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint
+
+754 
+
+Figure 5. J ee fluctuation changes with K i cyclic modulation. (A) Time trace of each Jee 755 weight sorted by E[ Jee ]t. (B) Time traces of (top) K i modulation, (middle) Rexc , and 756 (low) E{S[ Jee ]t }n . μJee = 1, σJee = 0.1, K ei = 3, α = 0.01, β = 0.5, γ = 2. 757 
+
+758 
+
+759 
+
+760 
+
+.CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint DCB
+
+Kurtosis Skewness Dip value 0.225 0.025 
+
+70 0
+
+> 0.001 0.0032 0.01 0.032 0.1
+
+1240.1 0.3 0.5 0.7 0.9 0.25 0.5 Hebbian plasticity rate α
+
+> Sparseness  γ
+
+Reguralization rate β
+
+0-8 835 0.015 2000 
+
+0 0.012 0.028 
+
+γ 2, α 0.01, β 0.5 
+
+Jee Frequency 1000 0.02 
+
+F
+
+1000 00.0125 0.0275 
+
+γ 0.5, α 0.032, β 0.7 
+
+J ee Frequency 500 0.02 
+
+300 0 0.082 0.09 
+
+γ 0.25, α 0.032, β 0.3 
+
+Jee Frequency 150 0.086 
+
+500 0 0.03 ~6320 Jee Frequency 00.5 0.1 
+
+σJee 250 -0.01 0 0.01 0.02 
+
+-π
+
+010 π
+
+Phase difference Normalized J ee potentiation 
+
+γ=0.5 γ=2 
+
+0.5 010 50 100 50 0 50 01R exc Time (s) 
+
+μJee = 3
+
+K ei = 1
+
+K ie = 1
+
+K ii = 1
+
+Synchronized Bistable Desynchronized 
+
+μJee = 1
+
+K ei = 3
+
+K ie = 3
+
+K ii = 1
+
+Time (s) Time (s) 
+
+μJee x 0.1 
+
+μJee x 0.5 0
+
+σJee 0.5 25 25 25 
+
+μJee = 1
+
+K ei = 3
+
+K ie = 3
+
+K ii = 3
+
+E
+
+Jee Kei Kie Kii 
+
+Low ω High ω
+
+Max Min Coupling Weight Unit # Unit # 
+
+AG
+
+10
+
+0.24 0E[R exc ] tS[R exc ] t0.1 0.3 0.5 0.7 0.9 Reguralization rate β
+
+1240.25 0.5 Sparseness  γ
+
+0.5 0.12 0.001 0.0032 0.01 0.032 0.1 Hebbian plasticity rate α
+
+1 80 180 Jee 
+
+.CC-BY 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 15, 2026. ;https://doi.org/10.1101/2024.06.17.599234 doi: bioRxiv preprint E{S[J ee ] t }nE[R  exc ] tS[R  exc ] t0.003 00.0015 00100.2 0.002 0.001 0.0010 0.5 0.1 0.0005 0 1 32KiS{S[J ee ] t }n
+
+Time (s) Pair # 0 50 0 50 0 50 0 50 06000 4000 2000 25 25 25 25 Ki : 0.1 Ki : 0.8 Ki : 1.0 Ki : 1.5 
+
+0.030 0.015 Jee 0.02 0.025 
+
+E
+
+F
+
+010 50 Time (s) R exc 0.5 25 
+
+t: 46.65 t: 39.89 t: 35.79 t: 31.19 t: 28.40 t: 24.00 Ki : 0.8 010 50 Time (s) R exc 0.5 25 
+
+t: 50.00 t: 44.00 t: 39.00 t: 34.00 t: 29.00 t: 24.00 Ki : 1.5 010 50 Time (s) R exc 0.5 25 
+
+t: 49.48 t: 45.55 t: 37.20 t: 34.03 t: 26.79 t: 24.63 Ki : 1.0 010 50 Time (s) R exc 0.5 25 
+
+t: 50.00 t: 44.00 t: 39.00 t: 34.00 t: 29.00 t: 24.00 Unit # Unit # 180 1 80 Ki : 0.1 
+
+A
+
+BCD0.006 00.012 0.024 S[J ee ] tKi0.003 0.018 E[J ee ] t
+
+700 0 0 0.007 0.8 1.0 1.5 K iFrequency 350 0.0035 S[J ee ] t
+
+> Frequency
+
+800 0 0.01 0.03 0.8 1.0 1.5 K i400 0.02 E[J ee ] t
+
+CAB
+
+Jee 0.01 0.03 04-8 ×10 -6 0.8 1.0 1.5 0.02 -4 Ki
+
+> E[ΔJ ee ] t,n
+> S[ΔJ ee ] t,n
+
+Jee 0.01 0.03 04×10 -5 0.8 1.0 1.5 0.02 2KiJee 0.01 0.026 0×10 -7 0.018 -2 -4 
+
+> E[ΔJ ee ] t,n
+
+D EΔω Initial Δθ 
+
+0 0.4 0
+
+π
+
+0.024 0.012 
+
+0.006 0
+
+Δω Initial Δθ 
+
+0 0.4 0
+
+πG H
+
+π/2 π/2 
+
+0.2 0.2 0.018 0.003 E[J ee ] t S[J ee ] t
+
+> Δω
+
+0.4 0p=0.000 p=0.000 p=0.000 
+
+> Initial J ee  weight
+
+0.016 0.008 p=0.963 p=0.963 p=0.867 
+
+> Initial Δθ
+
+0
+
+π
+
+p=0.000 p=0.000 p=0.000 
+
+DEF
+
+<0.018 ≥0.018 
+
+0.2 
+
+π/2 
+
+0.012 
+
+Natural frequenc y differences Δω 
+
+Initial phase differ ences Δθ 
+
+Initial J ee weights 
+
+0.006 00.012 0.024 0.4 0
+
+π
+
+00.008 0.016 Ki=0.8 Ki=1.0 
+
+ABC
+
+0.012 0.024 0.012 0.024 0.006 00.006 00.012 0.024 0.012 0.024 0.012 0.024 0.012 0.024 0.012 0.024 0.012 0.024 =1.5 Ki0.006 00.006 00.006 00.006 00.006 00.006 00.2 
+
+π/2 
+
+0.012 0.003 0.003 0.003 0.018 0.018 0.018 0.018 0.018 0.018 0.018 0.018 0.018 S[J ee ] tE[J ee ] t E[J ee ] t E[J ee ] tE[J ee ] t E[J ee ] t E[J ee ] tE[J ee ] t E[J ee ] t E[J ee ] t0.003 S[J ee ] t0.003 S[J ee ] t0.003 0.003 0.003 0.003 E[J ee ] t<0.018 ≥0.018 
+
+E[J ee ] t<0.018 ≥0.018 
+
+E[J ee ] t<0.018 ≥0.018 
+
+E[J ee ] t<0.018 ≥0.018 
+
+E[J ee ] t<0.018 ≥0.018 
+
+E[J ee ] t<0.018 ≥0.018 
+
+E[J ee ] t<0.018 ≥0.018 
+
+E[J ee ] t<0.018 ≥0.018 
+
+E[J ee ] tKi=0.8 K i=1.0 =1.5 Ki0 3000 06000 Time (s) Pair # 1.00 1.50 0.0 1.0 0 3000 0.002 0.003 Time (s) E{S[J ee ] t }nR exc  Ki
+
+A B
+
+0.03 0.01 1.25 0.5 1000 2000 2000 1000 2000 0.02 Jee 0.004 4000

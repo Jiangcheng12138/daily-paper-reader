@@ -1,0 +1,24 @@
+---
+title: "FAβ-gal: an automated fluorescence-based quantification of the senescence-associated beta-galactosidase X-gal assay"
+title_zh: FAβ-gal：一种基于荧光的衰老相关β-半乳糖苷酶 X-gal 检测自动化定量方法
+authors: "Tartiere, A. G., Roiz-Valle, D., Espanol, Y., Bretones, G., Freije, J. M. P., Ugalde, A. P."
+date: 2026-04-14
+pdf: "https://www.biorxiv.org/content/10.64898/2026.02.27.707795v2.full.pdf"
+tags: ["query:qll"]
+score: 7.0
+evidence: 细胞衰老标志物的自动定量分析
+tldr: 细胞衰老在衰老和癌症研究中至关重要，但传统的SA-β-gal显色法因定量困难限制了其应用。本研究开发了FAβ-gal方法，利用X-gal反应产物靛蓝的远红外荧光特性，结合配套的自动化分析软件，在常规荧光显微镜下实现了对衰老细胞的高灵敏度、无偏见定量。该方法不仅与衰老细胞比例呈强线性相关，还适用于组织切片，显著提升了衰老检测的准确性和可重复性。
+source: biorxiv
+selection_source: fresh_fetch
+figures_json: "[{\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-02-27-707795-v2/fig-001.webp\", \"caption\": \"Figure 1. The X-gal assay product indigo can be recorded in the far-red fluorescence channel\", \"page\": 15, \"index\": 1, \"width\": 889, \"height\": 648}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-02-27-707795-v2/fig-002.webp\", \"caption\": \"Figure 7. FAβ-gal quantitation software options\", \"page\": 21, \"index\": 2, \"width\": 889, \"height\": 658}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-02-27-707795-v2/fig-003.webp\", \"caption\": \"Figure 4. FAβ-gal shows a strong linear correlation with the percentage of senescent cells\", \"page\": 18, \"index\": 3, \"width\": 889, \"height\": 575}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-02-27-707795-v2/fig-004.webp\", \"caption\": \"Figure 5. FAβ-gal is able to quantify senescence induced by doxorubicin\", \"page\": 19, \"index\": 4, \"width\": 721, \"height\": 1044}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-02-27-707795-v2/fig-005.webp\", \"caption\": \"Figure 3. FAβ-gal captures gradual increases in indigo signal\", \"page\": 17, \"index\": 5, \"width\": 889, \"height\": 660}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-02-27-707795-v2/fig-006.webp\", \"caption\": \"Figure 6. FAβ-gal is suitable for quantifying senescence in tissue sections\", \"page\": 20, \"index\": 6, \"width\": 889, \"height\": 285}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-02-27-707795-v2/fig-007.webp\", \"caption\": \"Figure 2. FAβ-gal analysis workflow\", \"page\": 16, \"index\": 7, \"width\": 889, \"height\": 427}]"
+motivation: 针对传统SA-β-gal显色法难以精确定量和易受主观影响的问题，开发一种更灵敏、自动化的定量检测手段。
+method: 利用X-gal产物靛蓝在远红外波段的荧光特性，结合常规荧光显微镜成像和半自动图像处理软件进行定量分析。
+result: FAβ-gal显示出与衰老细胞比例的强线性相关性，具有极高的检测灵敏度，并成功应用于细胞和组织样本。
+conclusion: FAβ-gal为研究人员提供了一种简便、准确且兼容现有实验流程的自动化衰老定量方案，具有广泛的应用前景。
+---
+
+## 摘要
+细胞衰老在衰老和癌症中发挥着关键作用，而这两者是当今时代面临的主要生物医学和社会经济挑战。因此，研究细胞衰老对于设计基于其干预手段的治疗方案至关重要。在此背景下，研究人员开发了多种技术来检测和定量细胞衰老。其中，最流行的是基于显色底物 X-gal 的原始衰老相关β-半乳糖苷酶（SA-β-gal）比色法。该化合物被 β-半乳糖苷酶切割，产生 5,5'-二溴-4,4'-二氯靛蓝（通常简称为靛蓝）的不溶性蓝色沉淀。虽然该方法仍是衰老检测的金标准，但由于其基于颜色的读数，定量分析仍具挑战性。在这项工作中，我们描述了一种名为 FAβ-gal（β-半乳糖苷酶荧光分析）的方法，该方法利用了 β-gal 产物靛蓝的远红荧光，并允许在任何常规宽场荧光显微镜下，利用原始 X-gal 检测对 SA-β-gal 活性进行定量。此外，我们开发了工作流和软件应用程序，以半自动且无偏见的方式使 SA-β-gal 定量标准化。我们证明了 FAβ-gal 测量值与衰老细胞百分比之间存在强线性相关性，并表现出高灵敏度。此外，我们展示了该方法也适用于组织切片，突显了该方法的通用性。因此，FAβ-gal 可以轻松引入已经在使用原始比色法的实验室常规工作中，从而提高衰老检测的准确性、灵敏度和重复性。
+
+## Abstract
+Cellular senescence plays a pivotal role in aging and cancer, two major biomedical and socioeconomic challenges of our time. Therefore, its study has become crucial for the design of interventions based on its manipulation. In this sense, researchers have developed a wide variety of techniques to detect and quantify cellular senescence. Among them, the most popular is the original Senescence-Associated {beta}-galactosidase (SA-{beta}-gal) colorimetric assay, based on the use of the chromogenic substrate X-gal. This compound is cleaved by {beta}-galactosidase, producing an insoluble, blue precipitate of 5,5'-dibromo-4,4'-dichloro-indigo (commonly referred to as indigo). While this method remains the gold standard senescence assay, its quantification remains challenging due to the color-based readout. In this work, we describe a method, which we have named FA{beta}-gal (Fluorescence Analysis of {beta}-galactosidase), that exploits the far-red fluorescence of the {beta}-gal product indigo and allows the quantification of SA-{beta}-gal activity under any conventional wide-field fluorescence microscopy using the original X-gal assay. In addition, we developed workflows and software applications that standardize SA-{beta}-gal quantification in a semiautomatic and unbiased manner. We demonstrate that FA{beta}-gal measurements present a strong linear correlation with the percentage of senescent cells and show high sensitivity. Moreover, we show that this method is also applicable to tissue sections, underscoring the versatility of our approach. Therefore, FA{beta}-gal could be easily introduced into the routine of laboratories already using the original colorimetric assay, enhancing the accuracy, sensitivity and reproducibility of senescence detection.
