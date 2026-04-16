@@ -1,0 +1,3644 @@
+Title: A neuron-glia circuit anticipates hypoxia to regulate organismal oxygen use
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.04.10.717666v1.full.pdf
+
+Number of Pages: 73
+
+Markdown Content:
+1
+
+# A neuron-glia circuit anticipates hypoxia to regulate 1
+
+# organismal oxygen use 2
+
+3
+
+4
+
+Rongwei Zhang *†1,2 , Ziqiang Wei *2 , Javier J. How 2,3 , Michele Nardin 2, Sujatha Narayan 2, Amina 5
+
+Kinkhabwala 1, Weiyu Chen 2, Jing-Xuan Lim 2, Virginia M. S. Ruetten 2, Anuththara Rupashinge 4,6
+
+Martin Haesemeyer 5, Brett D. Mensh 2, Mark C. Fishman 6, Florian Engert 7, Behtash Babadi 4, Jiulin 7
+
+Du 8, David A. Prober *†1 , Misha B. Ahrens *†2 
+
+8
+
+9 
+
+> 1
+
+Tianqiao and Chrissy Chen Institute for Neuroscience, Division of Biology and Biological 10 
+
+Engineering, California Institute of Technology, USA 11  
+
+> 2
+
+Janelia Research Campus, Howard Hughes Medical Institute, USA 12  
+
+> 3
+
+Department of Biomedical Engineering, Johns Hopkins University, USA 13  
+
+> 4
+
+Department of Electrical and Computer Engineering, University of Maryland, USA 14  
+
+> 5
+
+Department of Neuroscience, The Ohio State University College of Medicine, USA 15  
+
+> 6
+
+Harvard Department of Stem Cell and Regenerative Biology, Harvard University, USA 16  
+
+> 7
+
+Department of Molecular and Cellular Biology, Harvard University, USA 17  
+
+> 8
+
+Institute of Neuroscience, Chinese Academy of Sciences, Shanghai, China 18 
+
+19 
+
+* equal contribution 20 
+
+† corr.: rongweizhang@gmail.com; dprober@caltech.edu; ahrensm@janelia.hhmi.org 21 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+2
+
+Abstract 22 
+
+Organisms must regulate metabolic resources such as oxygen (O 2) and nutrients despite 23 
+
+environmental variability and the energetic costs of their own actions 1–3 . Such regulation can occur 24 
+
+reactively, through homeostatic corrections of recent imbalances, or predictively, through 25 
+
+allostatic adjustments that anticipate future demand 4,5 . Predictive regulation is particularly 26 
+
+important because metabolic resources often continue to be consumed for seconds to minutes after 27 
+
+motor actions cease as tissues repay incurred costs, making it advantageous to prevent depletion 28 
+
+before it occurs 6. However, the cellular and circuit mechanisms for allostatic control remain largely 29 
+
+unknown 5,7,8 . Using whole-brain neuronal and astroglial imaging and O 2 measurements in 30 
+
+behaving zebrafish, we identified a noradrenergic–astroglial circuit that detects, anticipates, and 31 
+
+prevents internal O 2 depletion. We found that swimming exacerbated internal hypoxia with a 32 
+
+multi-second delay, but behavioral adaptations occurred before such self-generated hypoxia 33 
+
+manifested, suggesting predictive control, confirmed using computational modeling. 34 
+
+Noradrenergic neurons in the nucleus of the solitary tract directly detected brain hypoxia and 35 
+
+received efference copies of swimming actions; these inputs summed at the level of membrane 36 
+
+voltage to increase spiking and norepinephrine release when actions and resource scarcity co-37 
+
+occurred. Astroglia integrated noradrenergic input into prolonged Ca 2+ elevation that tracked the 38 
+
+O2 cost of recent actions and thereby predicted O 2 debt relative to O 2 availability, rising ~8 s before 39 
+
+O2 fell. This astroglial prediction reorganized brain-wide activity to suppress locomotion and 40 
+
+promote respiration, preempting O 2 depletion. Silencing noradrenergic neurons or astroglial 41 
+
+signaling abolished these hypoxia coping behaviors, whereas selective activation evoked them. 42 
+
+This neuronal–astroglial mechanism constitutes a predictive control system that integrates 43 
+
+physiological state with behavioral intent to avert metabolic crisis, revealing a cellular substrate 44 
+
+for proactive energy management. 45 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+3
+
+Main 46 
+
+Animals must regulate their physiology and behavior in response to changing environmental and 47 
+
+internal resources 9–14 . Both aquatic and terrestrial animals consume nutrients and O 2 as they run, 48 
+
+swim, or fly 15–18 , while also experiencing varying resource availability caused by environmental 19–  
+
+> 49
+> 21
+
+and bodily factors 22 . Survival under stressors like hypoxic conditions, such as fish in stagnant 50 
+
+water 23,24 , thus requires brain mechanisms to estimate the physiological risk of performing 51 
+
+vigorous physical actions when resources are limited, and regulate bodily O 2 levels for future use 52 
+
+(Fig. 1a). Motor actions rapidly consume ATP, but consume O 2 gradually with a multi-second 53 
+
+lag 6,25 , requiring that effective behavioral regulation be based on both current reserves and 54 
+
+anticipated future O 2 depletion. Thus, although animals might in principle just react to current 55 
+
+internal O 2 levels, an alternative and more effective strategy would be to also make a prediction of 56 
+
+how internal O 2 levels will vary in the future as a result of recent actions and preemptively adjust 57 
+
+behavior to minimize anticipated hypoxic stress 3,8,26 . However, little is known about behavioral 58 
+
+control strategies that predict the physiological risk of actions and their cellular and circuit-level 59 
+
+mechanisms. 60 
+
+> 61
+
+Zebrafish larvae adapt behavior to varying oxygen levels 62 
+
+To examine the effects of hypoxia on the brain and behavior, we established a preparation in larval 63 
+
+zebrafish that included whole-brain calcium imaging of neurons and astroglia, while monitoring 64 
+
+fictive swimming using electrophysiology, and measuring O 2 levels in both the water bath and in 65 
+
+the brain using Clark-type O 2 microelectrodes with sub-second response times 27,28 (Fig. 1b; see 66 
+
+Methods). In addition, using separate recording electrodes placed on the skin above the head, we 67 
+
+also captured respiration-relevant electrical signals, which were synchronized with bodily 68 
+
+movements associated with respiration 29 , including movements of the operculum, jaw, and 69 
+
+pectoral fins (Extended Data Fig. 1a-c). Perfusion of a hypoxic solution (4 mg/l O 2 compared to 8 70 
+
+mg/l O 2 for normoxia) resulted in a drop of O 2 levels by ~50% in the bath and ~80% inside the 71 
+
+brain by ~5 minutes (Fig. 1c), a difference that is likely due to consumption of O 2 by the animal. 72 
+
+> 73
+
+Similar to hypoxia-induced adaptive behaviors that have been described in many species 30,31 , acute 74 
+
+hypoxia resulted in an increase of respiration rate, a decrease of swim frequency with an increased 75 
+
+occurrence of long pauses (5 seconds or more of no swimming 32 ), more vigorous swim bouts, and 76 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+4
+
+decreased behavioral responsiveness to visual stimuli (Fig. 1d-f and Extended Data Fig. 1d-h). 77 
+
+These effects can be viewed as an adaptive response wherein the fish minimize the decrease in 78 
+
+brain O 2 level (pO 2, partial pressure of oxygen) during hypoxia by decreasing energy expenditure 79 
+
+(less swimming) while increasing O 2 intake (more breathing). 80 
+
+> 81
+
+Reactive versus predictive control reflected by fish behaviors 82 
+
+In addition to the effects of environmental O 2 levels, swimming caused a ~2% per 10 seconds 83 
+
+decrease in brain pO 2 (Fig. 1g and Extended Data Fig. 1i,j). This decrease lagged multiple seconds 84 
+
+behind locomotion, continuing for several seconds after swimming ceased, and recovered on a 85 
+
+timescale of ~10 seconds (Fig. 1g,h and Extended Data Fig. 1i-k). The effect was observed both 86 
+
+during fictive swimming in paralyzed fish and in restrained, non-paralyzed fish (Extended Data 87 
+
+Fig. 1i), consistent with O 2 consumption arising from neuronal activity in the brain and spinal 88 
+
+cord 33–35 . The decrease was larger in non-paralyzed fish, presumably due to muscle contractions. 89 
+
+> 90
+
+To mitigate the effects of hypoxia, one possible behavioral strategy is to stop swimming when 91 
+
+brain pO 2 drops below a threshold, a form of reactive control (Fig. 1i). However, because pO 292 
+
+continues to decline for several seconds after swimming ends—as it is consumed by oxidative 93 
+
+phosphorylation to regenerate metabolic resources like ATP in muscle and nerve cells 6,36,37 , and 94 
+
+as O 2 equilibrates diffusively throughout tissues 38 (Fig. 1h and Extended Data Fig. 1j)—fish might 95 
+
+also benefit from proactively adjusting behavior in anticipation of such delayed O 2 depletion. This 96 
+
+would use an alternative predictive control strategy, in which recent swimming history is used to 97 
+
+estimate forthcoming O 2 decline and preemptively pause locomotion (Fig. 1j and Extended Data 98 
+
+Fig. 1l,m). These two strategies—reactive and predictive—provide complementary hypotheses for 99 
+
+how behavioral control of O 2 is organized. 100 
+
+> 101
+
+To test which strategy best describes fish behavior, we fitted swim data with two models (Fig. 102 
+
+1i,j): (1) a reactive controller in which swim actions depend only on current pO 2, and (2) a 103 
+
+predictive controller in which fish integrate both recent pO 2 and past swim actions to estimate 104 
+
+future pO 2 and select subsequent actions. The predictive model outperformed the reactive model 105 
+
+with a high level of variance explained (>40%), and explained fourfold more variance in behavior 106 
+
+(Fig. 1k,l; see Methods). The fitted kernels revealed two key components: (1) a direct dependence 107 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+5
+
+on current pO 2 (Fig. 1k, right; reactive component), and (2) an hypoxia-dependent integration of 108 
+
+swims (Fig. 1k, left; predictive component). The swim-integration weights during hypoxia 109 
+
+summed to a larger value than those during normoxia. Moreover, the swim kernel was biphasic: 110 
+
+swims initially promoted more swimming but suppressed it after ~3 seconds, generating a 111 
+
+“struggle then pause” pattern. Under hypoxia, the net effect was inhibitory, agreeing with 112 
+
+preemptive pauses. 113 
+
+> 114
+
+Together, these analyses defined the computational requirements of a predictive controller: a 115 
+
+representation of current brain pO 2, an integrator of recent motor output that predicts future pO 2116 
+
+decreases, a multiplicative interaction between these signals to represent expenditure relative to 117 
+
+availability, and downstream control of swimming and respiration to preemptively compensate for 118 
+
+O2 debt before it manifests. Guided by this theoretical framework, we next examined the neural 119 
+
+substrates implementing predictive O 2 regulation. 120 
+
+> 121
+
+Neuronal and astroglial representations of brain pO 2122 
+
+In order to identify the control mechanism through which prediction of pO 2 regulated behavior, 123 
+
+we performed whole-brain light-sheet calcium imaging of neurons and astroglia in response to 124 
+
+changes in pO 2 (Fig. 1m; Tg(elavl3:H2B-jGCaMP7f) fish for neurons and Tg(gfap:GCaMP6f) fish 125 
+
+for astroglia). Based on the predictive model, we hypothesized that adaptations to hypoxia are 126 
+
+driven by brain activity that accounts for two factors on different timescales: a slow factor on the 127 
+
+timescale of tens of seconds reflecting changes in pO 2 that tend to arise from ambient 128 
+
+environmental O 2 level fluctuations, and a fast factor on the timescale of seconds reflecting O 2-129 
+
+consuming swim behaviors. We therefore decomposed brain-wide neuronal and astroglial calcium 130 
+
+signals into a slow component (F slow ) which mainly reflected pO 2-related baseline calcium 131 
+
+dynamics, and a fast component (ΔF/F) which captured behavior-related calcium transients (Fig. 132 
+
+1n and Extended Data Fig. 2a; r(swim) represents rank correlation between swim vigor and ΔF/F; 133 
+
+see Methods). 134 
+
+> 135
+
+Next, we related F slow to brain hypoxia (−pO 2) using rank correlation (Extended Data Fig. 2b), and 136 
+
+compared fast dynamics (ΔF/F) during hypoxia and normoxia using d-prime (see Methods). Acute 137 
+
+hypoxia treatment induced dynamic responses in both neurons and astroglia (Fig. 1m and Extended 138 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 6
+
+Data Fig. 2c-f; identified via factor-based clustering, see Methods). For slow and fast dynamics, 139 
+
+we considered cells to be ‘hypoxia-excited’ if their calcium activity increased during the hypoxic 140 
+
+period, i.e. showing positive correlation to −pO 2 for F slow and increased d-prime during hypoxia 141 
+
+for ∆F/F, respectively (red in Fig. 1o,p), or ‘hypoxia-inhibited’ if calcium activity decreased during 142 
+
+hypoxia (blue in Fig. 1o,p). Additionally, hierarchical clustering of calcium activity identified 143 
+
+several populations that showed more complex slow dynamics (e.g., a biphasic response to 144 
+
+hypoxia; Extended Data Fig. 2b). For slow dynamics, hypoxia-excited neurons were distributed 145 
+
+sparsely in the brain, primarily located in the olfactory bulb, anterior forebrain, optic tectum, lateral 146 
+
+hypothalamus, nucleus of the solitary tract (NTS), and nodose ganglia (Fig. 1o, top, red). In 147 
+
+contrast, hypoxia-inhibited neurons were observed in most brain areas (Fig. 1o, top, blue), likely 148 
+
+due to reduced ATP generation and thus reduced energy available for spiking during hypoxia 39 .149 
+
+Hypoxia-excited astroglia were widespread but most prominent in the dorsal hindbrain, including 150 
+
+the NTS and surrounding region, whereas hypoxia-inhibited astroglia were distributed more 151 
+
+widely in the forebrain, hypothalamus and anterior hindbrain (Fig. 1p, top). Distinct from hypoxia-152 
+
+induced modulation of neuronal F slow , different neuronal clusters showed more diverse types of 153 
+
+fast dynamics during hypoxia (Fig. 1o, bottom, and Extended Data Fig. 2c,d), whereas almost all 154 
+
+astroglial cells showed elevated fast dynamics during hypoxia (Fig. 1p, bottom, and Extended Data 155 
+
+Fig. 2e,f). Furthermore, the fast dynamics in many neuronal populations and all astroglial cells 156 
+
+were synchronized with swims during hypoxia (Fig. 1m,n, and Extended Data Fig. 2c-f), 157 
+
+suggesting that anticipated hypoxic stress caused by the combination of low pO 2 and motor activity 158 
+
+may be represented by specific neuronal and all astroglial populations. Interestingly, when the 159 
+
+sodium channel blocker tricaine was added to the water bath to inhibit neuronal activity 40 ,160 
+
+astroglial responses to hypoxia were largely suppressed (Extended Data Fig. 2g,h), which suggests 161 
+
+that astroglial responses to hypoxia are mainly driven by neuronal activation. Overall, hypoxia 162 
+
+induced a global reconfiguration of neural and astroglial dynamics. 163 
+
+> 164
+
+Based on this analysis, neurons in the NTS and astroglia in the dorsal hindbrain stood out, as they 165 
+
+showed the largest increases of both the slow and fast calcium components in response to hypoxia 166 
+
+(Fig. 1q). As described above, slow dynamics can represent environmentally-induced O 2 level 167 
+
+changes in the brain, while fast dynamics may be related to anticipated O 2 consumption due to 168 
+
+behavior. These signals can be integrated as an internal estimate of future O 2 demand (Fig. 1r), 169 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+7
+
+consistent with the fish following a predictive strategy (Fig. 1j), which is related to forward models 170 
+
+in motor control 41 . In the regime of current as well as anticipated high future O 2 demand, the brain 171 
+
+would suppress nonessential movements to preserve O 2. We found the majority of hypoxia-172 
+
+activated NTS neurons co-localized with NE-MO (the noradrenergic cluster of the medulla 173 
+
+oblongata, likely homologous to A2 in mammals) 42 (Extended Data Fig. 2i,j). Considering that 174 
+
+noradrenergic neurons can activate astroglia 32,43 , we thus considered the noradrenergic-astroglial 175 
+
+pathway as a candidate to detect brain hypoxia and modulate the behaviors that facilitate O 2176 
+
+replenishment (Fig. 1s and Extended Data Fig. 1n,o). 177 
+
+> 178
+
+Brainstem noradrenergic neurons directly detect intracranial pO 2179 
+
+To examine whether and how hypoxia activates noradrenergic populations in the NTS (i.e. NE-180 
+
+MO), we imaged Tg(th1:Gal4);Tg(UAS:GCaMP6f) fish, which express GCaMP6f in all 181 
+
+noradrenergic neurons in the brainstem including NE-MO, the locus coeruleus (LC) and area 182 
+
+postrema (AP), and sympathetic ganglia (SG, in the peripheral nervous system) (Fig. 2a). Most of 183 
+
+these noradrenergic neurons showed hypoxia-related signals, but to different extents (Fig. 2b-d). 184 
+
+NE-MO and SG neurons showed large F slow increases during hypoxia, LC showed moderate 185 
+
+increases, and AP showed no change (Fig. 2c,d). Moreover, hypoxia enhanced the swim-related 186 
+
+fast dynamics (∆F/F) in NE-MO and LC, but SG and AP neurons showed little or no change (Fig. 187 
+
+2c,e). Conversely, treatment with hyperoxic water (100% increase in bath O 2 relative to normoxia) 188 
+
+led to a decrease of F slow in NE-MO, SG and LC, but not in AP (Fig. 2f). Strikingly, we found that 189 
+
+Fslow in these areas correlated negatively with brain pO 2, with strongest correlations in NE-MO 190 
+
+and SG, less in LC, and none in AP (Fig. 2g,h). These results imply a link between brain pO 2 and 191 
+
+the activity of noradrenergic neurons in the brain, particularly NE-MO. 192 
+
+> 193
+
+Previous studies have shown that brain cells can sense hypoxia from specific peripheral organs 44,45 .194 
+
+We tested this possibility by ablating known peripheral neurons related to sensing O 2, including 195 
+
+the olfactory epithelia and nodose ganglia. However, neuronal, astroglial and behavioral responses 196 
+
+to hypoxia were intact after each ablation (Extended Data Fig. 3). We therefore tested whether 197 
+
+hypoxia can directly affect the physiology of NE-MO neurons using whole-cell patch-clamp 198 
+
+electrophysiology (Fig. 2i and Extended Data Fig. 4a,b). First, we found that hypoxia led to an 199 
+
+increase of resting membrane potential (V m) and both tonic and phasic spike firing of NE-MO 200 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+8
+
+neurons (Fig. 2i,j and Extended Data Fig. 4a-f). In contrast, hypoxia had only a moderate effect on 201 
+
+LC neurons, and little or no effect on AP neurons (Extended Data Fig. 4d-f), consistent with the 202 
+
+calcium responses of these cells during hypoxia (Fig. 2b-g). Thus, NE-MO neurons can detect 203 
+
+brain hypoxia via an increase in both V m and spike rate, and may function to modulate behavior to 204 
+
+compensate for low O 2 levels. 205 
+
+> 206
+
+Next, we performed two experiments to determine whether NE-MO neurons can directly detect 207 
+
+hypoxia. First, to exclude the possibility of synaptic inputs from upstream O 2 chemoreceptors, we 208 
+
+used a drug cocktail to abolish glutamatergic and cholinergic synaptic transmission as well as gap 209 
+
+junction function (Methods) 46 . Treatment with this drug cocktail abolished fictive locomotion, and 210 
+
+almost completely silenced brain-wide neuronal activity (Extended Data Fig. 4g,h) and phasic 211 
+
+spike firing of NE-MO neurons (Fig. 2k), indicating a near-complete block of neuron-neuron 212 
+
+communication. However, hypoxia still caused an increase in V m in NE-MO neurons to the same 213 
+
+level as without the drug cocktail (Fig. 2k-m and Extended Data Fig. 4i,j), suggesting that the 214 
+
+response of NE-MO neurons to reduced brain pO 2 does not depend on inputs from peripheral 215 
+
+sensors. Rather, NE-MO cells may detect brain pO 2 themselves and respond to hypoxia by 216 
+
+increasing V m and tonic spike firing rate, likely through intrinsic cellular mechanisms 47,48 or 217 
+
+through local cell-cell interactions 49,50 . Beyond the increase of V m and tonic firing rate during 218 
+
+hypoxia, we found that NE-MO cells become more responsive to input, as injecting current with 219 
+
+the same amplitude caused more spike firing during hypoxia than during normoxia (Fig. 2n,o). 220 
+
+> 221
+
+Second, we manipulated local pO 2 by puffing the O 2 scavenger Na 2SO 3 directly onto the soma of 222 
+
+NE-MO neurons, and measured the responses of NE-MO neurons using patch-clamp recording 223 
+
+under the synaptic- and gap-junction-block drug cocktail (Fig. 2p and Extended Data Fig. 4k-n) 46 .224 
+
+We observed an increase in V m and spike rate immediately after delivery of Na 2SO 3. In contrast, 225 
+
+puffing either Na 2SO 4 (which is not an O 2 scavenger) or extracellular solution (ES) caused no 226 
+
+increase in V m or spike rate (Fig. 2p,q and Extended Data Fig. 4m,n). To control for general effects 227 
+
+of Na 2SO 3 on neurons that might not be restricted to those we found to be O 2-sensitive, we tested 228 
+
+the effect of puffing Na 2SO 3 onto the cerebellum while performing whole-cell recordings from 229 
+
+these neurons (labeled as Cb in Fig. 2q,s). This produced no change in V m or spike rate of cerebellar 230 
+
+neurons (Fig. 2q and Extended Data Fig. 4m,n). Similar results were observed using calcium 231 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 9
+
+imaging (Fig. 2r,s). Together, these data show that, independently of peripheral sensors, NE-MO 232 
+
+neurons can detect local changes in brain pO 2.233 
+
+> 234
+
+NE-MO neurons integrate brain pO 2 and motor efference copies, consistent with predictive 235 
+
+signaling for anticipated hypoxic stress 236 
+
+Hypoxia elevated the membrane excitability of NE-MO neurons and also increased fast calcium 237 
+
+dynamics, which was coupled with swimming (Fig. 2c). Therefore, we hypothesized that brain 238 
+
+pO 2 would impact NE-MO spiking in response to motor signals. To test this, we performed 239 
+
+simultaneous electrophysiological recordings of NE-MO and fictive swimming, and found a co-240 
+
+occurrence of excitatory postsynaptic potentials (EPSPs) in NE-MO and individual swim bouts 241 
+
+(Fig. 3a), with swim bouts preceding the EPSPs by ~58 ms (Extended Data Fig. 5a), indicating 242 
+
+that NE-MO cells receive excitatory motor efference copies. Consistent with increased fast 243 
+
+calcium activity in hypoxia (Fig. 2c,e and Extended Data Fig. 5b-d), hypoxia led to an elevation 244 
+
+of swim-coupled phasic spiking in NE-MO neurons (Fig. 3b–d). Therefore, the hypoxia-induced 245 
+
+Vm rise appeared to make NE-MO cells more responsive to synaptic inputs, including motor 246 
+
+efference copies (Fig. 3e and Extended Data Fig. 5h-k). We further tested this possibility by 247 
+
+injecting current into NE-MO neurons to elevate their V m, which also led to an increase of swim-248 
+
+coupled spike rates (Extended Data Fig. 5e-g). Therefore, NE-MO can integrate current pO 2 with 249 
+
+motor efference copies, consistent with the predictive model combining both pO 2 and swim history 250 
+
+(Fig. 1j-l and Extended Data Fig. 1n,o). Through this approximately multiplicative interaction of 251 
+
+hypoxia levels (~ 1/pO 2) and motor signals via the membrane potential-to-spiking transformation 252 
+
+(Fig. 3d,e), NE-MO spiking may represent predicted hypoxic stress, defined as the decrease in O 2253 
+
+levels relative to prior O 2 availability or −∆pO 2/pO 2, and thereby encode the urgency to preserve 254 
+
+O2 under limited supply. Moreover, such a multiplicative interaction between hypoxia levels and 255 
+
+swimming at NE-MO matched the prediction of the behavioral model (Fig. 1k). Remarkably, 256 
+
+during normoxia, the slope of the approximately-linear relationship between swim vigor and NE-257 
+
+MO spiking was ~0.41 of that during hypoxia (Fig. 3d), closely matching the corresponding ratio 258 
+
+of swim-history weights in the behavioral model (~0.44; Fig. 1k, inset). This concordance suggests 259 
+
+that NE-MO activity implements the swim-history computation posited by the predictive model to 260 
+
+transform current O 2 availability and behavior into anticipated hypoxic stress. 261 
+
+> 262
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 10
+
+Astroglial calcium is predictive of future hypoxic stress 263 
+
+The NE-MO representation of predicted hypoxic stress is transient (Fig. 3f, top), and thus 264 
+
+insufficient to explain the prolonged integration of swim history in the predictive model (Fig. 1k). 265 
+
+NE-MO spiking also does not, by itself, account for the intermittent, repeated ~18 second-long 266 
+
+periods of locomotion suppression in hypoxia (Extended Data Fig. 1h), whose function may be to 267 
+
+allow for sufficient time for pO 2 recovery, which is also slow (Fig. 1h). We therefore tested 268 
+
+whether astroglia, as a slow integrator of NE-MO activity 32 , could better predict the time course 269 
+
+of future hypoxic stress from current swims. We examined swim-induced pO 2 changes together 270 
+
+with astroglial activity during sets of swims with similar vigor in normoxia and hypoxia (swim-271 
+
+matched trials) and found that astroglial calcium changes were similar in shape to the inverse of 272 
+
+swim-induced O 2 changes and, importantly, were shifted ~8 seconds earlier in time (Fig. 3f, 273 
+
+bottom). Furthermore, swim events with similar vigor evoked larger astroglial calcium activity 274 
+
+under hypoxia as compared to normoxia (Fig. 3g), consistent with the larger noradrenergic drive 275 
+
+during hypoxia (Fig. 3c). Swim-induced pO 2 decrease (−∆pO 2) was similar in the two conditions 276 
+
+(Fig. 3h, left), but hypoxic stress (−∆pO 2/pO 2) was larger during hypoxia due to the lower baseline 277 
+
+level of pO 2, mimicking astroglial scaling between the conditions (Fig. 3f and Fig. 3h, right). 278 
+
+Moreover, hypoxic stress had a similar time course (Fig. 3i) and magnitude to astroglial dynamics 279 
+
+(Fig. 3j). Similar to NE-MO (Fig. 3d), swim-triggered astroglial activation exhibited a hypoxia-280 
+
+dependent gain increase so that astroglial calcium signals encode a combination of swim vigor and 281 
+
+depth of hypoxia, captured by the functional form F(z)~[1/pO 2]×[integrated swim vigor] (Fig. 3j), 282 
+
+suggesting both of them transform current O 2 availability and behavior into anticipated hypoxic 283 
+
+stress. Using LOWESS regression to compare astroglial and pO 2 dynamics, we confirmed that, 284 
+
+remarkably, astroglial activity accurately forecasted hypoxic stress for individual swims ~8 285 
+
+seconds in advance with high explained variances (0.51 in normoxia, 0.63 in hypoxia) (Fig. 3k,l). 286 
+
+Moreover, optogenetic activation of astroglia in the hindbrain suppressed swimming and increased 287 
+
+respiration (Extended Data Fig. 5l,m). These results show that astroglial calcium signaling is 288 
+
+predictive of future hypoxic stress, i.e. predictive of pO 2 decreases relative to pO 2 availability. By 289 
+
+encoding hypoxic stress several seconds in advance, and by its function of suppressing swim and 290 
+
+promoting respiration, astroglial calcium signaling provides a time window to enable animals to 291 
+
+preemptively adjust their behavior to minimize future internal hypoxia (Supplementary Video 1). 292 
+
+> 293
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 11
+
+Control theory accounts for neuron-glia dynamics 294 
+
+Based on NE-MO and astroglial dynamics predicting hypoxic stress (Fig. 3a-l), we extended the 295 
+
+simple behavioral model (Fig. 1j) into a circuit implementation (Fig. 3m,n). This implementation 296 
+
+was derived from a control model that optimized for a balance between brain pO 2 and locomotion 297 
+
+(Methods). This model recapitulated (1) the fish’s behavioral patterns and pO 2 fluctuations during 298 
+
+normoxia and hypoxia, (2) a multiplication of pO 2 and swimming that resembles NE-MO activity, 299 
+
+(3) an integration that resembles astroglial activity, and (4) occasional high vigor swims (reflected 300 
+
+as an increase of swim bout duration both in simulation and real data) (Extended Data Fig. 1n,o). 301 
+
+In simulation, this model recapitulated the change of swim patterns and noradrenergic-astroglial 302 
+
+dynamics during normoxia and hypoxia (Fig. 3o,p). In summary, the optimal predictive model and 303 
+
+its circuit implementation can account for the observed NE-MO-astroglial dynamics that underlies 304 
+
+behavioral adaptation to hypoxia. 305 
+
+> 306
+
+A NE-MO-astroglial circuit mediates the hypoxia-induced brain and behavioral state 307 
+
+Since NE-MO shows the largest increases in both F slow and ∆F/F in response to hypoxia, and can 308 
+
+be directly activated by hypoxia, we asked whether the effects of hypoxia on brain state and 309 
+
+behavior are dependent on NE-MO. We first ablated NE-MO using a two-photon laser in 310 
+
+Tg(th1:Gal4);Tg(UAS:NTR-mCherry) fish, and found that the effects of hypoxia on neuronal and 311 
+
+astroglial fast dynamics were almost completely abolished after NE-MO ablation (Fig. 4a-c and 312 
+
+Extended Data Fig. 6a-g), while brain dynamics during normoxia were less affected. This result is 313 
+
+consistent with a brain-wide modulatory role for NE. Specifically, hypoxia-induced functional 314 
+
+relations among the neural clusters were suppressed by NE-MO ablation (Fig. 4d-f). For example, 315 
+
+the normoxia and hypoxia ∆F/F manifolds of the midbrain- versus DRN-cluster and midbrain-316 
+
+versus forebrain-cluster were separated before NE-MO ablation, but became indistinguishable 317 
+
+after ablation (Fig. 4e,f; see Methods). In summary, although neuronal slow dynamics retained 318 
+
+some O 2 dependence after the ablation (Extended Data Fig. 6b,f), potentially due to direct effects 319 
+
+on cellular metabolism 39,51 , NE-MO mediated the hypoxia-induced modulations of brain-wide 320 
+
+∆F/F dynamics. 321 
+
+> 322
+
+In addition to suppressing the effect of hypoxia on brain state, ablation of NE-MO also 323 
+
+substantially reduced hypoxia-induced changes of swim frequency, respiration rate, and swim 324 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 12
+
+vigor (Fig. 4g-i and Extended Data Fig. 7a). Conversely, mild and sustained optogenetic or 325 
+
+chemogenetic NE-MO activation in normoxic conditions caused longer inter-swim-bout intervals 326 
+
+(Extended Data Fig. 6h,i,l,m), as seen in hypoxia (Fig. 1e). Furthermore, optogenetically silencing 327 
+
+NE-MO in hypoxic fish increased swimming and reduced respiration (Extended Data Fig. 6j,k). 328 
+
+These NE-MO manipulations establish a causal link between NE-MO, brain-wide dynamics, and 329 
+
+behavioral adaptations to hypoxia. 330 
+
+> 331
+
+We next tested the role of noradrenergic signaling by blocking the NE-astroglia pathway with 332 
+
+prazosin, a small molecule inhibitor of α1 adrenergic receptors (the predominant NE receptor on 333 
+
+astroglia 52 ). Treatment with prazosin almost completely abolished the effects of hypoxia on 334 
+
+astroglial activity, swim frequency, respiration frequency, and swim vigor (Fig. 4g-i and Extended 335 
+
+Data Fig. 7b,8a,8b). Notably, it also restored the optomotor response, which was otherwise 336 
+
+inhibited during hypoxia (Extended Data Fig. 7e). 337 
+
+> 338
+
+To explicitly test the role of astroglial activation in hypoxia, we suppressed the increase of 339 
+
+astroglial Ca 2+ that is normally triggered by NE using Tg(gfap:iβARK) or Tg(her4.1:hPMCA2) 340 
+
+fish. In Tg(gfap:iβARK) fish, astroglia express an inhibitory peptide based on β-adrenergic receptor 341 
+
+kinase 1 (iβARK) 53 that disrupts intracellular signaling of Gq-coupled GPCRs, including α1 342 
+
+adrenergic receptors (Extended Data Fig. 8c). In Tg(her4.1:hPMCA2) fish, a calcium-transporting 343 
+
+ATPase (hPMCA) is localized to the astroglial cell membrane, where it functions as a calcium 344 
+
+extruder to reduce astroglial calcium levels (Extended Data Fig. 8i) 54,55 . Consistent with the 345 
+
+prazosin results, we found that hypoxia-induced changes in astroglial calcium responses, swim 346 
+
+frequency, respiration rate, and swim vigor were almost completely abolished in Tg(gfap:iβARK) 347 
+
+and Tg(her4.1:hPMCA2) fish (Fig. 4g-i and Extended Data Fig. 7c,d,8c-m). As a negative control, 348 
+
+in Tg(gfap:iβARK-D110) fish, which express an inactive iβARK mutant protein that fails to disrupt 349 
+
+Gq signaling, we observed normal astroglial calcium and behavioral responses to hypoxia (Fig. 350 
+
+4g-i and Extended Data Fig. 7c,8g,8h). Furthermore, whereas control fish almost stopped 351 
+
+performing the optomotor response during hypoxia, this hypoxia-induced suppression of the 352 
+
+optomotor response was largely prevented in Tg(gfap:iβARK) and Tg(her4.1:hPMCA2) fish: the 353 
+
+astroglia-disabled fish behaved in hypoxia as they did in normoxia (Extended Data Fig. 7f,g). 354 
+
+Therefore, noradrenergic and astroglial signaling are required for hypoxia-induced behaviors. 355 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+13 
+
+356 
+
+Taken together, these results reveal a neuromodulatory and astroglial predictive control system for 357 
+
+adaptive behavior in the context of an essential but fluctuating metabolic resource. 358 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 14 
+
+Discussion 359 
+
+To survive in variable environments, animals continuously regulate their physiology and behavior 360 
+
+through reactive mechanisms (i.e. homeostasis) to correct for deviations in response to 361 
+
+environmental or internal changes 7,56 . Examples of reactive regulation include sweating to 362 
+
+maintain body temperature in hot weather, and drinking water after dehydration 57 . In addition to 363 
+
+reactive homeostasis, animals also use anticipatory control (i.e. allostasis) to preempt 364 
+
+physiological challenges 58 . For example, insulin is released upon tasting food, before nutrients 365 
+
+enter the digestive system 59 , and ingestion of water causes rapid suppression of vasopressin release 366 
+
+prior to the resulting change of blood osmolarity, thus preventing excessive renal water retention 60 .367 
+
+However, aside from a small number of well-studied cases, neural mechanisms for many forms of 368 
+
+physiological regulation, especially predictive control, are poorly understood 3,58 . Here, we 369 
+
+discovered that both behavior and brain dynamics of O 2 regulation align with a predictive control 370 
+
+strategy, through which future O 2 consumption is estimated from swim history and used to 371 
+
+proactively suppress swimming during resource scarcity. Our findings establish a mechanism of 372 
+
+predictive O 2 regulation, supported by convergent evidence across behavior, circuits, cells, and 373 
+
+theory. 374 
+
+> 375
+
+Although allostasis is often defined as predictive regulation 4,5 , it also has been framed as regulation 376 
+
+via context-dependent set points 61 . Consistent with the predictive view, astroglial calcium is 377 
+
+predictive of future hypoxia. Moreover, astroglial calcium integrates recent motor output scaled 378 
+
+by recently experienced hypoxia to suppress future swimming, and this scaling is analogous to a 379 
+
+context-dependent shift in set point for O 2 preservation. Thus, our findings bridge these 380 
+
+complementary views of allostatic control at the mechanistic level. 381 
+
+> 382
+
+As animals encounter changing environmental conditions and physiological states, their behavior 383 
+
+and physiology must adapt 9,62 . Despite a limited capacity for anaerobic metabolism, hypoxia is a 384 
+
+threat to all cells of an animal and requires extensive behavioral adaptations and a global 385 
+
+reconfiguration of brain dynamics. Neuromodulatory systems are well-suited to orchestrate such 386 
+
+changes because they project across large swaths of the brain and can influence global brain 387 
+
+dynamics 63,64 , sometimes through astrocytes 43,65–70 , which aligns with our discovery that a 388 
+
+noradrenergic-astroglial system encodes and integrates hypoxic stress over ethologically-relevant 389 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+15 
+
+long timescales to influence brain and behavior states. Moreover, this neuromodulatory-astroglial 390 
+
+system can induce effects at different timescales, i.e. promoting vigorous swims at a short time 391 
+
+scale via NE release 71 and suppressing swimming via activation of astroglia at a longer time 392 
+
+scale 32 , which agrees with the swim-pause cycles in hypoxia and biphasic swim kernel captured 393 
+
+by the predictive model. Thus, this predictive biological system can provide proactive regulation 394 
+
+that optimizes metabolic usage for behaviors during environmental and physiological challenges 395 
+
+like hypoxia and futility 32 . Similar to hypoxic stress, peripheral sympathetic nerve terminals and 396 
+
+central noradrenergic LC neurons can release norepinephrine in response to other stress stimuli, 397 
+
+and orchestrate body-wide vigilance states and classic ‘fight-or-flight’ responses 72–74 . We found 398 
+
+that noradrenergic neurons in the sympathetic ganglion and LC showed modest activation in 399 
+
+hypoxia, suggesting that these noradrenergic populations may also contribute to hypoxia-induced 400 
+
+physiological adaptations in synergy with noradrenergic neurons in NTS 75,76 . Considering their 401 
+
+sensitivity to stimuli and widespread projections, noradrenergic neurons may act as allostatic 402 
+
+mediators, capable of predicting impending challenges and orchestrating body-wide adjustments 403 
+
+that optimize cardiovascular, metabolic, and behavioral responses to stressors 74 .404 
+
+> 405
+
+Relative to peripheral chemoreceptors, such as the mammalian carotid bodies, central neurons for 406 
+
+O2 sensing and behavior execution are less well-studied 77,78 . Consistent with our results, 407 
+
+catecholaminergic neurons and sympathetic nerves have been shown to respond to hypoxia and 408 
+
+hypercapnia 79–81 . However, their molecular mechanisms for sensing O2, and the circuit 409 
+
+connectivity underlying hypoxia-triggered behaviors, were largely unknown. The latter includes 410 
+
+the neuron-glia coupling within breathing circuits that produce rhythmic activity 82,83 ; these circuits 411 
+
+have been mapped out at the regional scale in mammals and include the pre-Bötzinger 412 
+
+complex 84,85 , but whether they directly translate to zebrafish is unknown. Ventilation in mammals 413 
+
+increases immediately upon the onset of exercise—before any measurable changes in arterial O 2,414 
+
+CO 2, or pH occur—and carotid body chemoreceptors are reset at exercise initiation 86,87 , which 415 
+
+exemplifies a predictive regulation of O 2 demands similar to the strategy identified in our study. 416 
+
+Additionally, land-roaming mammals exist in conditions that are less susceptible to large 417 
+
+fluctuations in environmental O 2 levels compared to fish, although burrowing mammals and those 418 
+
+at high altitudes can encounter similar challenges 20,21,88 , choking and strangulation can cause 419 
+
+hypoxia 22 , and diving or overexertion can also cause mammals to experience pO 2 decreases 420 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+16 
+
+resulting from their own body’s consumption, each of which requires behavioral 421 
+
+adaptations 15,16,89,90 . Taking into account these commonalities and differences, we expect that core 422 
+
+elements of allostasis are conserved across species; identifying specific similarities and differences 423 
+
+will require additional studies. A second area of future investigation includes the molecular 424 
+
+pathway underlying brain pO 2 sensing, which is not fully understood even in peripheral 425 
+
+chemoreceptors 48 . Possible mechanisms include local neuron-glial interactions as seen in the 426 
+
+retrotrapezoid nucleus area of mammals 82,83,50,91 , reactive oxygen species (ROS) production in 427 
+
+cells, and ion channel modulation by metabolic products such as ROS, ATP, or lactate 48 , but the 428 
+
+full space of possibilities requires exploration. 429 
+
+430 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+17 
+
+Methods 431 
+
+> 432
+
+Zebrafish 433 
+
+Larval zebrafish were reared in system water at 28.5°C with 14:10 hour light:dark cycles. 434 
+
+Zebrafish from 6 to 9 dpf were fed with rotifers and used for experiments. At this stage of 435 
+
+development, sex is not defined. Transgenic zebrafish larvae were in a casper or nacre mutant 436 
+
+background, and were generated using the Tol2 system 92 , except that Tg(th1:gal4) was generated 437 
+
+by CRISPR/Cas9-based knock-in 93 . All experiments were conducted according to the animal 438 
+
+research guidelines from NIH and approved by the Institutional Care and Use Committee (IACUC) 439 
+
+at Janelia Research Campus (animal protocol 22-0216) and IACUC at California Institute of 440 
+
+Technology (animal protocol 1836). 441 
+
+> 442
+
+Transgenesis 443 
+
+For imaging neuronal or astroglial activity we used transgenic zebrafish lines expressing: 444 
+
+● Nuclear-localized jGCaMP7f in all neurons, Tg(elavl3:H2B-jGCaMP7f) 94 
+
+> 445
+
+● Cytosolic jRGECO1b in all neurons, Tg(elavl3:jRGECO1b) 95 
+
+> 446
+
+● Cytosolic GCaMP6f in all astroglia, Tg(gfap:GCaMP6f) 32 
+
+> 447
+
+● Cytosolic jRGECO1b in all astroglia, Tg(gfap:jRGECO1b) 32 
+
+> 448
+
+● Cytosolic GCaMP6f in all noradrenergic neurons, Tg(th1:gal4); Tg(UAS:GCaMP6f) 93 
+
+> 449
+
+● Cytosolic GCaMP8f in peripheral ganglia, Tg(17768:gal4);Tg(UAS:jGCaMP8f) (this 450 
+
+paper) 451 
+
+For norepinephrine release imaging, we used: 452 
+
+● Tg(elavl3:GRAB-NE) (this paper) 453 
+
+For silencing astroglial activity we used: 454 
+
+● Tg(gfap:iβARK) (this paper) 455 
+
+● Tg(gfap:iβARK-D110) (this paper) 456 
+
+● Tg(her4.1:PMCA2) (this paper) 457 
+
+For optogenetic stimulation, optogenetic inhibition, and chemogenetic stimulation we used: 458 
+
+● Tg(gfap:CoChR-eGFP) 32 
+
+> 459
+
+● Tg(th1:gal4); Tg(UAS:GtACR2-eYFP) (this paper) 460 
+
+● Tg(dbh:KalTA4); Tg(UAS:CoChR-eGFP) 32 
+
+> 461
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+18 
+
+● Tg(dbh:KalTA4); Tg(UAS:TRPV1-mCherry) (this paper) 462 
+
+For 2-photon ablation and whole-cell patch-clamp recording we used: 463 
+
+● Tg(th1:gal4); Tg(UAS:NTR-mCherry) (this paper) 464 
+
+> 465
+
+Preparation of oxygenated solutions 466 
+
+Zebrafish larvae were maintained in zebrafish facility system water, whose dissolved O 2467 
+
+concentration was ~8.5 mg/L (i.e. 150 mmHg pO 2), which was measured using a portable O 2 meter 468 
+
+(MW600, Milwaukee). To generate water with low or high dissolved O 2 levels, system water was 469 
+
+bubbled with nitrogen or oxygen gas for 30 minutes prior to each experiment. The resulting 470 
+
+nitrogen- or oxygen-bubbled water was then mixed with untreated system water to obtain a series 471 
+
+of intermediate O 2 concentrations ranging between 1 and 20 mg/L (i.e. between 20 and 350 472 
+
+mmHg). The final dissolved O 2 concentration of each mixture was measured using an O 2 meter. 473 
+
+In most experiments, system water with 4 mg/L or 16 mg/L was used for hypoxic or hyperoxic 474 
+
+treatment, respectively. pH, measured using a pH meter (SD20, Mettler Toledo), was the same 475 
+
+regardless of O 2 content. 476 
+
+> 477
+
+Fictive swimming and fictive respiration 478 
+
+Zebrafish larvae were paralyzed with alpha-bungarotoxin (1 mg/ml, Invitrogen), then embedded 479 
+
+in 1.5% low melting-point agarose (Sigma) with dorsal side up in a custom-made chamber, as 480 
+
+previously described 96 . Agarose was removed above the head and around the tail to expose those 481 
+
+regions for electrophysiological recordings. Microelectrodes for recording fictive swimming and 482 
+
+fictive respiration were of the same size, made with borosilicate capillaries (TW150-3, World 483 
+
+Precision Instruments), pulled by a vertical puller (PC-10, Narishige, Japan) and polished by a 484 
+
+microforge (MF-900, Narishige, Japan) to make pipettes with a tip diameter of ~50 μm. 485 
+
+Extracellular recordings of fictive swims were made by attaching a pipette to the tail with slight 486 
+
+suction, as previously described 94 . Electrophysiological signals were captured using an Axon 487 
+
+Multiclamp 700B amplifier in current clamp and acquired using National Instruments DAQ boards 488 
+
+(PCIe-6321, BNC-2110), sampled at 6 kHz, band-pass filtered with a 300 Hz/1000 Hz high-489 
+
+pass/low-pass cutoff for swim signals, and recorded by custom software written in C# (Microsoft) 490 
+
+which is available upon request. Individual swim bouts and swim vigor were detected offline using 491 
+
+a custom Matlab script as previously described 96 . In brief, raw electrical signals representing 492 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 19
+
+fictive swimming were processed using a windowed (10 ms) standard deviation to generate a 493 
+
+smoothed power of swim signal. A histogram distribution of power was used to determine a 494 
+
+threshold, which was then used for detecting the start and end of each swim bout when the 495 
+
+amplitude of the swim signal was above the threshold. The integral from the start to the end of one 496 
+
+swim bout was computed as the swim vigor of that bout. Only active fish with swim frequency 497 
+
+larger than 0.4 Hz under normoxia were included in the analysis. 498 
+
+> 499
+
+Extracellular recordings of fictive respiration were made by placing a pipette onto the skin above 500 
+
+the optic tectum or the tail, with slight suction to obtain a good seal. In the preparation, respiration-501 
+
+related electrical activity could be detected by the large tip-opening pipettes. The recording 502 
+
+configuration was the same as that for fictive swims, except that it was filtered with a 0.1-100 Hz 503 
+
+band-pass filter. After the experiments, the fictive respiration signal was further processed with a 504 
+
+10 Hz low-pass filter to remove high-frequency noise. The fictive respiration events were detected 505 
+
+by tracking the peak amplitude of electrical respiratory activities during the periods between swim 506 
+
+bouts using the “findpeak” function in MATLAB. Extended Data Figure 1a-c validates this 507 
+
+approach for recording fictive respiration by simultaneous detection of respiratory behaviors. 508 
+
+> 509
+
+Light-sheet imaging 510 
+
+All whole-brain imaging experiments were performed with a custom light-sheet microscope as 511 
+
+previously described 97 . Briefly, two low-magnification objectives (4x/0.28 NA, Olympus) were 512 
+
+used to generate excitation laser beams, which were scanned in the horizontal and vertical planes 513 
+
+and controlled by galvanometer scanners (Cambridge Technology). Larval zebrafish were placed 514 
+
+in a custom-made chamber with glass windows, so that the laser beams were focused through the 515 
+
+glass windows onto the fish brain. The side laser was turned off when it was pointed at the eye to 516 
+
+avoid direct stimulation of the retina. The detection arm consists of a water-dipping objective 517 
+
+(16x/0.8 NA, Nikon), a tube lens, and an sCMOS camera (ORCA Flash 4.0, Hamamatsu). In 518 
+
+general, whole-brain neuronal and astroglial volumetric images were acquired at ~2-3 519 
+
+volumes/second, with 5 or 10 μm between imaged planes. Blue (488 nm) and green (561 nm) 520 
+
+lasers (SOLE-3, Omicron) were used to excite GCaMP and jRGECO1b, respectively, and green 521 
+
+525/50 nm or red 630/92 nm filters (Semrock) were used for detection. For two-color imaging, the 522 
+
+488 nm and 561 nm lasers were used simultaneously, and an image splitter (W-View Gemini, 523 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+20 
+
+Hamamatsu) was used to separate the green and red images. The data acquisition was based on 524 
+
+custom software written in LabVIEW, as described previously 94,97 .525 
+
+> 526
+
+For visual stimulation, a stripe pattern (2 mm stripe width) was projected underneath the fish 527 
+
+chamber by a video projector (WT50, Akaso). A red Kodak filter (Wratten #25) was used for 528 
+
+visual stimulation when imaging jGCaMP7f, whereas a blue Kodak filter (Wratten #47) was used 529 
+
+for visual stimulation when imaging jRGECO1b or when imaging both jGCaMP7f and 530 
+
+jRGECO1b. 531 
+
+> 532
+
+Fish were placed in a virtual-reality (VR) system. In open-loop VR mode, the red/black visual 533 
+
+stripes moved forward at a fixed speed of ~2.5 mm/s. In closed-loop VR mode, the visual stripes 534 
+
+moved at 2.5 mm/s when the fish was not swimming, and additionally moved backward at a rate 535 
+
+proportional to swim vigor when the fish was swimming. This mimics the visual feedback the 536 
+
+animal would receive in a freely-swimming environment. In spontaneous VR mode, the fish stayed 537 
+
+in a light background with red and black stripes. In each of these environments, relative to 538 
+
+normoxia, hypoxia caused decreases in swim frequency, increases in respiration frequency, and 539 
+
+increases in NE-MO and astroglial calcium activities. 540 
+
+> 541
+
+Whole-cell patch-clamp recordings 542 
+
+Fish were paralyzed as described for whole-brain imaging and extracellular electrophysiological 543 
+
+recordings. After paralysis, fish were embedded in a custom-made glass-bottom Petri dish, and 544 
+
+bathed with extracellular solution, which consists of (in mM) 134 NaCl, 2.9 KCl, 2.1 CaCl 2, 1.2 545 
+
+MgCl 2, 10 HEPES and 10 glucose (290 mOsmol L -1 , pH 7.8). A small incision was made in the 546 
+
+skin above the ventricle between cerebellum and hindbrain using a glass micropipette with a tip 547 
+
+opening of 1 μm as previously described 98 . Micropipettes were made from borosilicate glass 548 
+
+(BF100-58-10, Sutter Instrument) by a Flaming/Brown micropipette puller P-97 (Sutter 549 
+
+Instrument). The prepared fish was then transferred to an electrophysiological recording set-up, 550 
+
+and perfused with extracellular solution at ~4 ml/min using a peristaltic pump (Longer Pump). In 551 
+
+vivo whole-cell patch-clamp recordings were performed using micropipettes with resistance of 20-552 
+
+30 MΩ filled with internal solution containing (in mM) 100 K-gluconate, 10 KCl, 2 CaCl 2, 2 Mg-553 
+
+ATP, 2 Na 2-GFP, 10 HEPES, and 10 EGTA (280 mOsmol L -1 , pH 7.4). Neurons in the LC, MO, 554 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+21 
+
+AP and cerebellum were visualized using Tg(th1:Gal4); Tg(UAS:NTR-mCherry) fish under 555 
+
+fluorescent signal guidance using an upright microscope (BX51WI, Olympus). Contact of the 556 
+
+micropipette onto neurons was confirmed by visualizing mCherry-positive membranes within the 557 
+
+tip of the recording micropipette. An EPC-10 amplifier and patchmaster software (Heka, 558 
+
+Germany) were used for electrophysiology and signals were filtered at 2.9 kHz and sampled at 10 559 
+
+kHz. 560 
+
+> 561
+
+Spontaneous neuronal activity of most cells was recorded under current clamp (I=0 pA) without 562 
+
+stimulus, while some data were captured via extracellular unit recordings. The data were accepted 563 
+
+if the series resistance was below 100 MΩ, and the baseline of resting membrane potential or spike 564 
+
+firing frequency was stable for more than 10 minutes before perfusion of hypoxic water. 565 
+
+> 566
+
+The analysis of electrophysiological data and spike detection were processed using Clampfit 567 
+
+(Axon instrument) and Matlab. We set a maximal inter-spike interval of 70 ms for phasic spike 568 
+
+firing of noradrenergic neurons. The minimum number of spikes in a burst was set at 3. We 569 
+
+analyzed total spike rate, tonic spike rate and phasic burst events per minute for Fig. 2 and 570 
+
+Extended Data Fig. 4. 571 
+
+> 572
+
+Measurement of brain and bath O 2 levels 573 
+
+During imaging and electrophysiological assays, the recording chamber was continuously 574 
+
+perfused with system water at a speed of ~4-5 ml per minute. The water inflow was controlled by 575 
+
+gravity and valves, and the outflow was controlled by vacuum suction. O 2 levels in the brain and 576 
+
+in the bath solution were recorded with calibrated Clark-type polarographic O 2 microelectrodes 577 
+
+(OX-10, Unisense A/S) 27,99 with a customized tip diameter of 3-5 μm, whose 90% response time 578 
+
+is ~0.3 s (T 90 , the time for 90% of final measured signal is reached). The O 2 probe for brain pO 2579 
+
+was inserted into the anterior hindbrain at a depth of ~50-100 μm using a manual manipulator 580 
+
+(MX130, Sisikiyou), and the O 2 probe for bath O 2 levels was placed in the bath solution. These O 2581 
+
+signals were amplified by a high-impedance amperometric device (fx-6 UniAmp, Unisense A/S) 582 
+
+and converted by an analog-to-digital device (BNC-2110 and PCIe-6321 board, National 583 
+
+Instruments) with the same configuration as for electrophysiological recordings. The data were 584 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+22 
+
+denoised using a 10 second window using the ‘smooth’ function in MATLAB and analyzed 585 
+
+offline. 586 
+
+> 587
+
+Puffing of O 2 scavenger 588 
+
+In O 2 scavenger experiments, sodium sulfite (Na 2SO 3, O 2 scavenger) or sodium sulfate (Na 2SO 4,589 
+
+control) was dissolved in extracellular solution, loaded into glass micropipettes, and ejected using 590 
+
+a PicoSpritzer III (Parker Instruments). For electrophysiological experiments, we used ~2-3 μm 591 
+
+tip diameter pipettes and ~5 psi air pressure for 0.5 seconds at 30-second intervals. For imaging 592 
+
+experiments, we used ~5 μm tip diameter pipettes and ~10 psi air pressure for 5 seconds at 120-593 
+
+second intervals in order to eject more solution around the tissue. In Fig. 2p,q we calculated the 594 
+
+change of spike firing by dividing the values 2 seconds after the start of puffing by the baseline 595 
+
+before puffing. In Extended Data Fig. 4m,n we calculated the change of V m by subtracting the 596 
+
+values 2 seconds after the start of puffing from the baseline before puffing. 597 
+
+> 598
+
+To examine the effect of puffing O 2 scavenger on pO 2 change in Extended Data Fig. 4k,l, a ~5 μm 599 
+
+tip diameter pipette was placed ~20 μm away from the tip of the O 2 probe. Different concentrations 600 
+
+(0.01-1.0 M) of Na 2SO 3, Na 2SO 4 or external solution were used for the calibration. The Unisense 601 
+
+O2 probe OX-10 is sensitive to shear force. Therefore, puffing the control solution (external 602 
+
+solution or 20 mM Na 2SO 4) caused a positive deflection of pO 2 value. In comparison, puffing 20 603 
+
+mM Na 2SO 3 caused a smaller positive response. Therefore we set the control puffing solution 604 
+
+value (~ +0.67 mg/L) as the baseline, and the net pO 2 change by puffing 20 mM Na 2SO 3 was about 605 
+
+-0.4 mg/L. Notably, puffing 100 mM or 1 M Na 2SO 3 caused negative responses, similar to 606 
+
+published results in mouse somatosensory cortex 28 . We found that puffing high concentrations 607 
+
+(100 mM or 1 M) of Na 2SO 3 resulted in a large calcium response, followed by a lack of responses 608 
+
+to additional puffs. This was not an issue with puffs of 20 mM Na 2SO 3 or Na 2SO 4, so we used this 609 
+
+concentration for the electrophysiological and imaging experiments in Fig. 2p-s. 610 
+
+> 611
+
+Pharmacology 612 
+
+A drug cocktail including D(−)-2-Amino-5-phosphonopentanoic acid (APV, 50 μM), 6-cyano-613 
+
+7-nitroquinoxaline-2,3-dione (CNQX, 50 μM), hexamethonium (HEX, 100 mM), atropine (2 614 
+
+μM), carbenoxolone (CBX, 100 μM) was used to block conventional NMDA and AMPA 615 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+23 
+
+receptors, nicotinic and muscarinic acetylcholine receptors, and gap junctions in synaptic-block 616 
+
+and O 2 scavenger experiments (Fig. 2k-s and Extended Data Fig. 4g-n). Tricaine (0.02%) was 617 
+
+used to block sodium channels (Extended Data Fig. 2g,h). 618 
+
+> 619
+
+2-photon neuronal ablation 620 
+
+To ablate NE-MO cells (Fig. 4 and Extended Data Fig. 6a-g), we used a two-photon 621 
+
+titanium:sapphire laser (Chameleon Ultra II, Coherent) as previously described 94 . High laser power 622 
+
+(~2500 mW at the laser at 90% maximum) at 850 nm with a short exposure time (5 ms) was applied 623 
+
+onto cell bodies of fluorescent NE-MO cells using Tg(th1:gal4); Tg(UAS:NTR-mCherry) fish at a 624 
+
+500 ms interval. Ablations were confirmed one hour later. Fish swimming had usually recovered 625 
+
+by that time, and a second hypoxia treatment was applied to determine the effect of NEMO ablation 626 
+
+on brain activity and behavior. 627 
+
+> 628
+
+Nodose ganglion and olfactory epithelial cells were ablated (Extended Data Fig. 3) using 629 
+
+Tg(elavl3:H2B-jGCaMP7f) or Tg(elavl3:jRGECO1b); Tg(gfap:GCaMP6f) fish the night before 630 
+
+an experiment using a Zeiss 880 microscope equipped with a two-photon laser (Chameleon Ultra 631 
+
+II ，Coherent) and 20x water immersion objective (1.0 NA). To ablate the nodose ganglion, fish 632 
+
+were embedded in agarose on their side to ablate one side. The fish was then released and 633 
+
+embedded again to ablate the nodose ganglion on the other side. The ablation was considered 634 
+
+successful when no GFP was observable and a small cavitation was briefly visible after laser 635 
+
+treatment. Only healthy fish with normal swimming patterns were used for experiments on the 636 
+
+next day. 637 
+
+> 638
+
+DMD-based optogenetics 639 
+
+To specifically activate NE-MO or astroglial cells in the hindbrain, we applied optogenetic 640 
+
+stimulation using a digital micromirror device (DMD) as previously described 32 . The DMD 641 
+
+(LightCrafter DLP4500, Texas Instruments) was illuminated by a blue laser (488 nm, SOLE-3, 642 
+
+Omicron). The patterns for target stimulation areas were generated using a custom Python script, 643 
+
+and applied to the DMD using custom software written in C# (Microsoft). To mimic fast calcium 644 
+
+increases of astroglial cells under hypoxia, we applied a series of 10-ms pulse illuminations at 10-645 
+
+Hz for 5 seconds followed by 25-s light-off periods. The laser intensity measured under the 646 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+24 
+
+objective was ~0.15 mW/mm 2 for experiments using Tg(gfap:CoChR-eGFP) fish in Extended 647 
+
+Data Fig. 5l,m. To mimic slow activity changes of NE-MO under hypoxia or hyperoxia, we applied 648 
+
+a continuous (60 seconds), but low-intensity light onto the target cells followed by a 60-s light-off 649 
+
+period. The laser intensity measured under the objective was ~0.06 mW/mm 2 for experiments 650 
+
+using Tg(dbh:KalTA4); Tg(UAS:CoChR-eGFP) fish in Extended Data Fig. 6h,i; and ~0.03 651 
+
+mW/mm 2 using Tg(th1:gal4); Tg(UAS:GtACR2-eYFP) fish in Extended Data Fig. 6j,k .652 
+
+> 653
+
+Cell segmentation 654 
+
+We extracted populations of cell bodies and neuropil from raw fluorescence data using a previously 655 
+
+described volumetric segmentation pipeline 94 that is available at 656 
+
+https://github.com/mikarubi/voluseg. 657 
+
+> 658
+
+Anatomical brain atlas preparation 659 
+
+We constructed a neuronal brain atlas by imaging Tg(elavl3:H2B-jGCaMP7f) fish at 0.406 μm x 660 
+
+0.406 μm x 2 μm (x, y, z; 2509 x 1325 x 183 voxels) resolution, and the astroglial brain atlas by 661 
+
+imaging Tg(gfap:GCaMP6f) fish at 0.296 μm x 0.296 μm x 1 μm (x, y, z; 3200 x 1700 x 281 662 
+
+voxels) resolution using a one-photon confocal microscope (LSM 980, Zeiss). 663 
+
+> 664
+
+Brain registration 665 
+
+We registered the brain images of Tg(elavl3:H2B-jGCaMP7f) and Tg(elavl3:GRAB-NE) to the 666 
+
+neural brain atlas and Tg(gfap:GCaMP6f) fish to the astroglial brain atlas using the “greedy” 667 
+
+algorithm 100 . The details of the algorithm can be found in the github repo at 668 
+
+https://github.com/zqwei/Hypoxia_dynamics. 669 
+
+> 670
+
+Fast-slow dynamics decomposition 671 
+
+We found that slow dynamics on timescales of ~5 minutes represents the trend of the internal brain 672 
+
+oxygen (pO 2), while fast dynamics represents fish behaviors like swim vigor. We thus decomposed 673 
+
+the fluorescence dynamics F (raw fluorescence) of cell segments as 674 
+
+𝐹 (𝑡 ) = 𝐹 !"#$ (𝑡 ) × (1 + (∆𝐹 /𝐹 )(𝑡 ))675 
+
+where Fslow is the slow dynamics computed as the 20 th percentile in a 5-minute window centered 676 
+
+at each time point, and ∆𝐹 /𝐹 is the fast dynamics. 677 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+25 
+
+> 678
+
+Factor-based whole brain clusters analysis 679 
+
+We ran a sparse version of factor analysis 101 onto whole brain data. In brief, we reconstructed the 680 
+
+neural data matrix 681 
+
+𝐹 %×' = 𝐿 %×(𝐴 (×',682 
+
+where 𝐿 %×( is the weight matrix, which reconstructs the neural dynamics from factors 𝐴 (×'. 𝑁 683 
+
+is the number of the cells, 𝑇 is the number of time points, and 𝑚 is the number of the factors. To 684 
+
+increase the interpretability of the factors, we forced the sparsity of the weight matrix using a Beta 685 
+
+distribution as a Bayesian prior distribution for the weights before sampling, 𝐵𝑒𝑡𝑎 (0.5, 0.5). We 686 
+
+further separated the positive and negative weights in each factor into two factors. 687 
+
+> 688
+
+Factor combined across fish 689 
+
+We thresholded and binarized the weight matrices at 0.3 and combined the similar spatial factors 690 
+
+across fish (Figs. 1m-q, and 4a-f, and Extended Data Figs. 2b-h, 3f-l, 6a-g, 8b-m). We counted the 691 
+
+overlaps of the weight matrices across fish. The number of the fish with positive weight per voxel 692 
+
+on the neuronal or astroglial brain atlas were computed within a diameter of 10 μm x 10 μm x 20 693 
+
+μm (x, y, z) per voxel. 694 
+
+> 695
+
+Slow and fast dynamics map 696 
+
+We constructed the slow dynamics map by calculating the correlation coefficient between slow 697 
+
+response Fslow and the averaged brain pO 2 dynamics (which were recorded independently using the 698 
+
+O2 sensor in the same experimental paradigm) using rank correlation. We combined the positive 699 
+
+and negative indices separately across fish (Fig. 1m-q and Extended Data Fig. 2b), which was 700 
+
+averaged in a spatially moving spherical window of diameter 10 μm x 10 μm x 20 μm (x, y, z). 701 
+
+Similarly, we constructed the normalized Fslow map by dividing the average of Fslow during hypoxia 702 
+
+by that during normoxia (Fig. 2b and Extended Data Figs. 2h, 8b,f,h,k,m). We constructed the fast 703 
+
+dynamics map by calculating the index d-prime, which is based on the comparison of the fast 704 
+
+response ∆𝐹 /𝐹 in the last 5 minutes during the hypoxia epoch (from 35 to 40 minutes in our 705 
+
+experiment paradigm) versus that in the last 5 minutes during the normoxia epoch (from 15 to 20 706 
+
+minutes in our experiment paradigm). We combined positive and negative pO 2 modulation 707 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+26 
+
+separately across fish (Fig. 1m-q and Extended Data Fig. 2c-f), which was averaged in a spatially 708 
+
+moving spherical window of diameter 10 μm x 10 μm x 20 μm (x, y, z). 709 
+
+> 710
+
+Swim-matched event analysis 711 
+
+To examine our cellular model, we subsampled swim events (trials) with similar vigor. In these 712 
+
+trials, we required that (1) the total vigor per swim is similar across O 2 conditions; (2) the swim 713 
+
+length is similar; (3) and the inter-swim-interval from the previous swim is longer than 1 second 714 
+
+(so that the change of fluorescence is little affected by the previous swim). Trials were sampled in 715 
+
+the late phase of normoxia (10 to 20 minutes) and hypoxia (30 to 40 minutes) conditions with a 716 
+
+minimum of 10 swim events in each condition. The significance of the O 2 condition was 717 
+
+determined using the rank sum test on the average increase of fluorescence from the onset of swims 718 
+
+in a 1 second time window. 719 
+
+> 720
+
+Circuit model 721 
+
+We formulated a circuit model (Fig. 3n-p) to mimic a variety of behavioral observations of swim 722 
+
+patterns and fluorescence dynamics, ∆𝐹 /𝐹 (𝑡 ), for NE-MO and astroglia. We simulated the 723 
+
+‘natural’ swim bouts from discrete ‘swim events’, where a swim bout may consist of one or 724 
+
+multiple swim events. Each swim event is generated by a central pattern generator (CPG), whose 725 
+
+output can be modulated by astrocytes or other neuromodulatory systems. This modulation adjusts 726 
+
+the probability of swim-event generation, 𝑃 !$)( , which can be down- or up-regulated. (In the 727 
+
+below, 𝑥 ′(𝑡 ) = 𝑑𝑥 (𝑡 )/𝑑𝑡 .) 728 
+
+𝑃 !$)( ′(𝑡 ) = −𝑃 !$)( (𝑡 )/𝜏 !$)( + 𝑃 *+, + 𝑝 (𝐹 %- − 𝐹 .")/ ).729 
+
+The underlying swim generator 𝑃 *+, = 1 every 1s (which generates swim bouts at 1 Hz in the 730 
+
+absence of modulation); swim probability 𝑃 !$)( ∈ [0, 1] was clipped to this range; the swim 731 
+
+modulator 𝑝 (𝑥 ) = 𝑥 /3 is clipped to [0, 1] and depends on the level of NE ( 𝐹 %- ) and glia ( 𝐹 .")/ ). 732 
+
+A swim event was generated when 𝑃 !$)( (𝑡 ) > 𝑃 (𝑡 ), where 𝑃 (𝑡 ) is a random number sampled 733 
+
+uniformly from (0, 1). 𝜏 !$)( = 50 ms (such that a swim event lasts for ~100 ms) approximates 734 
+
+the half-decay time of a swim bout containing a single swim event in real data. 735 
+
+𝐹 %-01 ′(𝑡 ) = 𝐹 %-01 (𝑡 )/𝜏 %-01 + 𝑓 21! (𝛿 !$)( )736 
+
+where 𝜏 %-01 = 100 ms, 𝑓 21! = 1 for normoxia and 𝑓 21! = 10 for hypoxia. 737 
+
+𝐹 %- ′(𝑡 ) = 𝐹 %- (𝑡 )/𝜏 %- + 𝑓 (𝐹 %-01 (𝑡 ))738 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+27 
+
+where 𝜏 %- = 100 ms, 𝑓 (𝑥 ) = 𝑅𝐸𝐿𝑈 (𝑥 − 𝑥 3), 𝑥 3 = 0.3.739 
+
+𝐹 .")/ ′(𝑡 ) = 𝐹 .")/ (𝑡 )/𝜏 .")/ + 𝑔 (𝐹 %- (𝑡 ))740 
+
+where 𝜏 .")/ = 3 s, 𝑔 (𝑥 ) = 𝑔𝑥 , 𝑔 = 3. When the CPG was sufficiently excited to produce multiple 741 
+
+swim events with inter-event intervals <50 ms, these events were grouped into a single swim bout; 742 
+
+otherwise, isolated swim events were treated as individual bouts. To enable comparison with 743 
+
+experimental data (Fig. 3p), swim vigor was quantified as the number of swim events within each 744 
+
+swim bout. 745 
+
+> 746
+
+A delayed control system – a normative model framework for oxygen allostasis 747 
+
+We assumed that the brain oxygen dynamics, 𝑥 (𝑡 ), was updated by oxygen uptake from 748 
+
+environment, 𝑥 4, and oxygen consumption from swimming, 𝑢 (t). Since the oxygen consumption 749 
+
+went possibly through a cascade process, from spinal cord motor neural activity to muscle 750 
+
+contraction to tissue and blood oxygen depletion 38 , we simplified this process as a system delay, 751 
+
+𝜏 . Therefore, the normative model for this delayed system would be: 752  
+
+> 56
+> 57
+
+= 𝛼 (𝑥 4 − 𝑥 (𝑡 )) − 𝛽𝑢 (𝑡 − 𝜏 ),753 
+
+where 𝛼 is the oxygen uptake rate; 𝛽 is the oxygen consumption rate. 754 
+
+> 755
+
+Here the system minimizes the infinite horizon cost functional, J(x,u), 756 
+
+𝐽 (𝑥 , 𝑢 ) = ∫ 𝛾[𝑥(𝑡) − 𝑥] 8 + [𝑢(𝑡) − 𝑢] 8𝑑𝑡  
+
+> 9
+> 3
+
+,757 
+
+where 𝑥 is the desired oxygen level of the system; 𝑢 ̄ is an averaged swim rate generated by swim 758 
+
+CPG; 𝛾 is the weight between the two components of the objective function. The second term in 759 
+
+optimization is to maintain the overall swim rates – fish tend to not swim at excessively high rates, 760 
+
+nor should they stop swimming altogether since that would presumably be fatal, whether in 761 
+
+normoxia or hypoxia. 762 
+
+> 763
+
+We derived the linear optimal delayed feedback controller 102,103 as 764 
+
+𝑢 ∗(𝑡 ) = −{𝛼𝐾 
+
+𝛽 𝑒𝑥𝑝 (−𝛼𝜏 )(𝑥 − 𝑥 (𝑡 )) + S 𝑒𝑥𝑝 (−𝛼𝜃)[𝐾𝑢(𝑡 − 𝜃)]𝑑𝜃 
+
+> ;
+> 3
+
+} + 𝐶. 765 
+
+Here the gain 𝐾 = ℎ<(1 − X1 − =! 
+
+> >!
+
+𝛾) and ℎ< = 𝛼 (𝑥 − 𝑥 4) + 𝛽 𝑢 , which predicts: (1) during 766 
+
+normoxia, this K is small ( 𝑥 ≃ 𝑥 4) and the integral term is less effective in controller; (2) during 767 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+28 
+
+hypoxia, K produces a notable multiplicative effect of hypoxic level and swimming signal as 𝑥 ≫768 
+
+𝑥 4. The constant 𝐶 = − ?" 
+
+> >
+
+𝑒𝑥𝑝 (−𝛼𝜏 ) − 𝐾 (1 −𝑒𝑥𝑝 (−𝛼𝜏 ))𝑢 + 𝑢 represents a ‘natural’ rate of 769 
+
+swimming, which decreases as 𝑥 4 decreases. 770 
+
+> 771
+
+The model can be mapped into two processes: the first term, 𝑥 − 𝑥 (𝑡 ), is represented as a reactive 772 
+
+control from the slow dynamics of the measured oxygen. The second term reflects predictive 773 
+
+control that integrates swims to predict future oxygen consumption. The term 𝐾𝑢 (𝑡 − 𝜃 ) reflects 774 
+
+oxygen-dependent swim vigor (Fig. 3d). The overall modulation, i.e. slow dynamics in the first 775 
+
+term plus fast dynamics in the second term, would inhibit future swimming (represented as the 776 
+
+minus sign). 777 
+
+> 778
+
+Model fits 779 
+
+We fitted a generalized linear model of behavioral data (Fig. 1i-l), binned by 1 second. This model 780 
+
+predicts the probability of a swim action (1, swim; 0, no swim) at time t based on a swim history 781 
+
+from t-9 to t-1 and oxygen history from t-8 to t as follow: 782 
+
+P(swim(t)) =[1+exp( 
+
+−y)] 
+
+> −1
+
+,783 
+
+y = Σ s=1…9 αs swim(t 
+
+−s) + Σ s=0…8 βs pO 2(t 
+
+−s) + β ,784 
+
+where swim(t) is the swim action, pO 2(t) is the brain pO 2 at time t; αs, βs are the swim and oxygen 785 
+
+kernels, respectively; β is the offset term. We fitted this model of the behavioral data under 786 
+
+normoxia and hypoxia separately, where the offset β could represent the external oxygen condition. 787 
+
+Goodness of fit was measured using pseudo variance explained 104 , r2 = 1 
+
+− ln(L M)/ln(L 0), where 788 
+
+LM is the likelihood of the fitted model and L0 is the likelihood of the null model (model fitted only 789 
+
+by the offset β). We performed the model fits with both swim and oxygen history to quantify the 790 
+
+variance explained by the predictive model (Fig. 1j) and performed the model fits with only oxygen 791 
+
+history to quantify the variance explained by the reactive model (Fig. 1i). 792 
+
+> 793
+
+We applied the LOWESS regression 105 , a locally linear regression, to predict hypoxic stress (Fig. 794 
+
+3k,l), −∆pO 2(t)/pO 2(t), at time t from the astroglial dynamics, astroglia(t−τ), at time t−τ. Here we 795 
+
+estimated hypoxic stress as 796 
+
+[−∆𝑝 𝑂 8/𝑝 𝑂 8]\ (𝑡) = 𝑓(𝑎𝑠𝑡𝑟𝑜𝑔𝑙𝑖𝑎(𝑡 − 𝜏)) ,797 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+29 
+
+where the nonlinearity f is determined by the LOWESS regression and the optimal τ is determined 798 
+
+by comparing the performance of the fits from a grid search of τ. Goodness of fits were measured 799 
+
+using variance explained, 800 
+
+𝑟 8 = 1 − ([B∆21 8/21 8]B[B∆21 8/21 8F ]) ! 
+
+> H/I([B∆218/218])
+
+.801 
+
+For all model fits, we used default setups and hyperparameters from the Python package 802 
+
+Statsmodels 106 .803 
+
+804 
+
+Statistical analysis 805 
+
+Graphs show mean ± s.e.m. unless stated otherwise. Statistical significance in most cases was 806 
+
+determined using nonparametric statistical tests: the Wilcoxon signed-rank test for paired data, and 807 
+
+the Wilcoxon rank-sum test for independent samples. Student’s t-test was used if the data was 808 
+
+normally distributed, which was determined using the Shaprio-Wilk test. Rank correlation was 809 
+
+used for correlation analysis. No statistical methods were used to predetermine sample size. 810 
+
+811 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+30 
+
+References 812 
+
+1. Sammons, M. et al. Brain-body physiology: Local, reflex, and central communication. Cell 813 
+
+187 , 5877–5890 (2024). 814 
+
+2. Geary, N. Energy homeostasis from Lavoisier to control theory. Phil. Trans. R. Soc. B 378 ,815 
+
+20220201 (2023). 816 
+
+3. Mushiake, H. Neurophysiological Perspective on Allostasis and Homeostasis: Dynamic 817 
+
+Adaptation in Viable Systems. JRM 34 , 710–717 (2022). 818 
+
+4. Sterling, P. Allostasis: A model of predictive regulation. Physiology & Behavior 106 , 5–15 819 
+
+(2012). 820 
+
+5. Theriault, J. E. et al. It’s not the thought that counts: Allostasis at the core of brain function. 821 
+
+Neuron S0896627325007160 (2025) doi:10.1016/j.neuron.2025.09.028. 822 
+
+6. Walsh, B., Howlett, R. A., Stary, C. M., Kindig, C. A. & Hogan, M. C. Determinants of 823 
+
+Oxidative Phosphorylation Onset Kinetics in Isolated Myocytes. Medicine & Science in 824 
+
+Sports & Exercise 37 , 1551–1558 (2005). 825 
+
+7. Cannon, W. B. The Wisdom of the Body . (W.W. Norton & Company, inc., New York, 1932). 826 
+
+8. Schulkin, J. & Sterling, P. Allostasis: A Brain-Centered, Predictive Mode of Physiological 827 
+
+Regulation. Trends in Neurosciences 42 , 740–752 (2019). 828 
+
+9. Flavell, S. W., Gogolla, N., Lovett-Barron, M. & Zelikowsky, M. The emergence and 829 
+
+influence of internal states. Neuron 110 , 2545–2570 (2022). 830 
+
+10. Ilanges, A. et al. Brainstem ADCYAP1+ neurons control multiple aspects of sickness 831 
+
+behaviour. Nature 609 , 761–771 (2022). 832 
+
+11. Su, Y. et al. Brainstem Dbh+ neurons control allergen-induced airway hyperreactivity. Nature 833 
+
+631 , 601–609 (2024). 834 
+
+12. Augustine, V., Lee, S. & Oka, Y. Neural Control and Modulation of Thirst, Sodium Appetite, 835 
+
+and Hunger. Cell 180 , 25–32 (2020). 836 
+
+13. Hobbiss, A. F. et al. Covert muscle activity reveals dynamic freezing states and prepares the 837 
+
+animal for action. Preprint at https://doi.org/10.1101/2024.11.26.622641 (2024). 838 
+
+14. Goldschmidt, D. et al. A neuronal substrate for translating nutrient state and resource density 839 
+
+estimations into foraging decisions. Preprint at https://doi.org/10.1101/2023.07.19.549514 840 
+
+(2023). 841 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+31 
+
+15. Durand, F. & Raberin, A. Exercise-Induced Hypoxemia in Endurance Athletes: 842 
+
+Consequences for Altitude Exposure. Front. Sports Act. Living 3, 663674 (2021). 843 
+
+16. Ramirez, J.-M., Folkow, L. P. & Blix, A. S. Hypoxia Tolerance in Mammals and Birds: From 844 
+
+the Wilderness to the Clinic. Annual Review of Physiology vol. 69 113–143 (2007). 845 
+
+17. Dempsey, J. A. & Wagner, P. D. Exercise-induced arterial hypoxemia. Journal of Applied 846 
+
+Physiology 87 , 1997–2006 (1999). 847 
+
+18. Wagner, P. D. et al. Mechanism of exercise-induced hypoxemia in horses. Journal of Applied 848 
+
+Physiology 66 , 1227–1233 (1989). 849 
+
+19. Breitburg, D. et al. Declining oxygen in the global ocean and coastal waters. Science 359 ,850 
+
+eaam7240 (2018). 851 
+
+20. Li, M. et al. The hypoxia adaptation of small mammals to plateau and underground burrow 852 
+
+conditions. Anim Models and Exp Med 4, 319–328 (2021). 853 
+
+21. Frank, F., Kaltseis, K., Filippi, V. & Broessner, G. Hypoxia-related mechanisms inducing 854 
+
+acute mountain sickness and migraine. Front. Physiol. 13 , 994469 (2022). 855 
+
+22. Korycka, K., Mormul, A., Korab, M. & Smalira, J. Choking in children: causes, prevention 856 
+
+and intervention strategies. Wiad Lek 77 , 1802–1807 (2024). 857 
+
+23. Lee, Y. et al. Hypoxia in aquatic invertebrates: Occurrence and phenotypic and molecular 858 
+
+responses. Aquatic Toxicology 263 , 106685 (2023). 859 
+
+24. Kramer, D. L. Dissolved oxygen and fish behavior. Environmental Biology of Fishes 18 , 81– 860 
+
+92 (1987). 861 
+
+25. Scarabello, M., Heigenhauser, G. J. F. & Wood, C. M. Gas Exchange, Metabolite Status and 862 
+
+Excess Post-Exercise Oxygen Consumption After Repetitive Bouts of Exhaustive Exercise in 863 
+
+Juvenile Rainbow Trout. Journal of Experimental Biology 167 , 155–169 (1992). 864 
+
+26. Wingfield, J. C. THE CONCEPT OF ALLOSTASIS: COPING WITH A CAPRICIOUS 865 
+
+ENVIRONMENT. Journal of Mammalogy 86 , 248–254 (2005). 866 
+
+27. Thompson, J. K., Peterson, M. R. & Freeman, R. D. Single-Neuron Activity and Tissue 867 
+
+Oxygenation in the Cerebral Cortex. Science 299 , 1070–1072 (2003). 868 
+
+28. Wei, H. S. et al. Erythrocytes Are Oxygen-Sensing Regulators of the Cerebral 869 
+
+Microcirculation. Neuron 91 , 851–862 (2016). 870 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+32 
+
+29. Moore, J. D. et al. Hierarchy of orofacial rhythms revealed through whisking and breathing. 871 
+
+Nature 497 , 205–210 (2013). 872 
+
+30. Hammarlund, E. U., Flashman, E., Mohlin, S. & Licausi, F. Oxygen-sensing mechanisms 873 
+
+across eukaryotic kingdoms and their roles in complex multicellularity. Science 370 ,874 
+
+eaba3512 (2020). 875 
+
+31. Erich Hohenauer. Physiological Adaptions to Acute Hypoxia. in Exercise Physiology (eds 876 
+
+Ricardo Ferraz et al.) Ch. 3 (IntechOpen, Rijeka, 2022). doi:10.5772/intechopen.102532. 877 
+
+32. Mu, Y. et al. Glia Accumulate Evidence that Actions Are Futile and Suppress Unsuccessful 878 
+
+Behavior. Cell 178 , 27–43 (2019). 879 
+
+33. Hargreaves, M. & Spriet, L. L. Skeletal muscle energy metabolism during exercise. Nat Metab 880 
+
+2, 817–828 (2020). 881 
+
+34. Lin, A.-L., Fox, P. T., Hardies, J., Duong, T. Q. & Gao, J.-H. Nonlinear coupling between 882 
+
+cerebral blood flow, oxygen consumption, and ATP production in human visual cortex. Proc. 883 
+
+Natl. Acad. Sci. U.S.A. 107 , 8446–8451 (2010). 884 
+
+35. Beinlich, F. R. M. et al. Oxygen imaging of hypoxic pockets in the mouse cerebral cortex. 885 
+
+Science 383 , 1471–1478 (2024). 886 
+
+36. Ames, A. CNS energy metabolism as related to function. Brain Research Reviews 34 , 42–68 887 
+
+(2000). 888 
+
+37. Sheth, S. A. et al. Linear and Nonlinear Relationships between Neuronal Activity, Oxygen 889 
+
+Metabolism, and Hemodynamic Responses. Neuron 42 , 347–355 (2004). 890 
+
+38. Özugur, S., Kunz, L. & Straka, H. Relationship between oxygen consumption and neuronal 891 
+
+activity in a defined neural circuit. BMC Biol 18 , 76 (2020). 892 
+
+39. Nieber, K., Eschke, D. & Brand, A. Brain hypoxia: Effects of ATP and adenosine. in Progress 893 
+
+in Brain Research vol. 120 287–297 (Elsevier, 1999). 894 
+
+40. Ohnesorge, N. et al. Assessment of the effect of tricaine (MS-222)-induced anesthesia on 895 
+
+brain-wide neuronal activity of zebrafish (Danio rerio) larvae. Front. Neurosci. 18 , 1456322 896 
+
+(2024). 897 
+
+41. Miall, R. C. & Wolpert, D. M. Forward Models for Physiological Motor Control. Neural 898 
+
+Networks 9, 1265–1279 (1996). 899 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+33 
+
+42. Rinaman, L. Hindbrain noradrenergic A2 neurons: diverse roles in autonomic, endocrine, 900 
+
+cognitive, and behavioral functions. American Journal of Physiology-Regulatory, Integrative 901 
+
+and Comparative Physiology 300 , R222–R235 (2011). 902 
+
+43. Uribe-Arias, A. et al. Radial astrocyte synchronization modulates the visual system during 903 
+
+behavioral-state transitions. Neuron 111 , 4040-4057.e6 (2023). 904 
+
+44. Gonzalez, C., Almaraz, L., Obeso, A. & Rigual, R. Carotid body chemoreceptors: from 905 
+
+natural stimuli to sensory discharges. Physiological Reviews 74 , 829–898 (1994). 906 
+
+45. Bleymehl, K. et al. A Sensor for Low Environmental Oxygen in the Mouse Main Olfactory 907 
+
+Epithelium. Neuron 92 , 1196–1203 (2016). 908 
+
+46. Zhang, R., Li, X., Kawakami, K. & Du, J. Stereotyped initiation of retinal waves by bipolar 909 
+
+cells via presynaptic NMDA autoreceptors. Nature Communications 7, (2016). 910 
+
+47. López-Barneo, J., Pardal, R. & Ortega-Sáenz, P. Cellular Mechanism of Oxygen Sensing. 911 
+
+Annu. Rev. Physiol. 63 , 259–287 (2001). 912 
+
+48. Cummins, E. P., Strowitzki, M. J. & Taylor, C. T. Mechanisms and Consequences of Oxygen 913 
+
+and Carbon Dioxide Sensing in Mammals. Physiological Reviews 100 , 463–488 (2020). 914 
+
+49. Gourine, A. V. & Dale, N. Brain H+/CO2 sensing and control by glial cells. Glia 70 , 1520– 915 
+
+1535 (2022). 916 
+
+50. Angelova, P. R. et al. Functional Oxygen Sensitivity of Astrocytes. Journal of Neuroscience 917 
+
+35 , 10460–10473 (2015). 918 
+
+51. Adams, S., Zubov, T., Bueschke, N. & Santin, J. M. Neuromodulation or energy failure? 919 
+
+Metabolic limitations silence network output in the hypoxic amphibian brainstem. American 920 
+
+Journal of Physiology-Regulatory, Integrative and Comparative Physiology 320 , R105–R116 921 
+
+(2021). 922 
+
+52. Ding, F. et al. α1-Adrenergic receptors mediate coordinated Ca2+ signaling of cortical 923 
+
+astrocytes in awake, behaving mice. Cell Calcium 54 , 387–394 (2013). 924 
+
+53. Nagai, J. et al. Specific and behaviorally consequential astrocyte Gq GPCR signaling 925 
+
+attenuation in vivo with iβARK. Neuron 109 , 2256-2274.e9 (2021). 926 
+
+54. Yu, X. et al. Reducing Astrocyte Calcium Signaling In Vivo Alters Striatal Microcircuits and 927 
+
+Causes Repetitive Behavior. Neuron 99 , 1170-1187.e9 (2018). 928 
+
+55. Yu, X., Moye, S. L. & Khakh, B. S. Local and CNS-Wide Astrocyte Intracellular Calcium 929 
+
+Signaling Attenuation In Vivo with CalEx flox Mice. J. Neurosci. 41 , 4556–4574 (2021). 930 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+34 
+
+56. Zhang, T., Perkins, M. H., Chang, H., Han, W. & Araujo, I. E. de. An inter-organ neural 931 
+
+circuit for appetite suppression. Cell 185 , 2478-2494.e28 (2022). 932 
+
+57. Zimmerman, C. A., Leib, D. E. & Knight, Z. A. Neural circuits underlying thirst and fluid 933 
+
+homeostasis. Nat Rev Neurosci 18 , 459–469 (2017). 934 
+
+58. Schulkin, J. & Sterling, P. Allostasis: A Brain-Centered, Predictive Mode of Physiological 935 
+
+Regulation. Trends in Neurosciences 42 , 740–752 (2019). 936 
+
+59. Wiedemann, S. J. et al. The cephalic phase of insulin release is modulated by IL-1β. Cell 937 
+
+Metabolism 34 , 991-1003.e6 (2022). 938 
+
+60. Mandelblat-Cerf, Y. et al. Bidirectional Anticipation of Future Osmotic Challenges by 939 
+
+Vasopressin Neurons. Neuron 93 , 57–65 (2017). 940 
+
+61. Schulkin, J. Rethinking Homeostasis . (MIT Press, 2002). 941 
+
+62. Nair, A. et al. An approximate line attractor in the hypothalamus encodes an aggressive state. 942 
+
+Cell 186 , 178-193.e15 (2023). 943 
+
+63. Lovett-Barron, M. et al. Ancestral Circuits for the Coordinated Modulation of Brain State. 944 
+
+Cell 171 , 1411-1423.e17 (2017). 945 
+
+64. Ma, C. et al. Microglia regulate sleep through calcium-dependent modulation of 946 
+
+norepinephrine transmission. Nat Neurosci 27 , 249–258 (2024). 947 
+
+65. Duque, M. et al. Ketamine induces plasticity in a norepinephrine-astroglial circuit to promote 948 
+
+behavioral perseverance. Neuron 113 , 426-443.e5 (2025). 949 
+
+66. Lefton, K. B. et al. Norepinephrine signals through astrocytes to modulate synapses. Science 950 
+
+388 , 776–783 (2025). 951 
+
+67. Guttenplan, K. A. et al. GPCR signaling gates astrocyte responsiveness to neurotransmitters 952 
+
+and control of neuronal activity. Science 388 , 763–768 (2025). 953 
+
+68. Paukert, M. et al. Norepinephrine controls astroglial responsiveness to local circuit activity. 954 
+
+Neuron 82 , 1263–1270 (2014). 955 
+
+69. Ma, Z., Stork, T., Bergles, D. E. & Freeman, M. R. Neuromodulators signal through astrocytes 956 
+
+to alter neural circuit activity and behaviour. Nature 539 , 428–432 (2016). 957 
+
+70. Drummond, G. T. et al. Cortical norepinephrine-astrocyte signaling critically mediates 958 
+
+learned behavior. bioRxiv 2024.10.24.620009 (2024) doi:10.1101/2024.10.24.620009. 959 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+35 
+
+71. Chen, A. B. et al. Norepinephrine changes behavioral state through astroglial purinergic 960 
+
+signaling. Science 388 , 769–775 (2025). 961 
+
+72. Berridge, C. W. & Waterhouse, B. D. The locus coeruleus–noradrenergic system: modulation 962 
+
+of behavioral state and state-dependent cognitive processes. Brain Research Reviews 42 , 33– 963 
+
+84 (2003). 964 
+
+73. Aston-Jones, G. & Waterhouse, B. Locus coeruleus: From global projection system to 965 
+
+adaptive regulation of behavior. Brain Research 1645 , 75–78 (2016). 966 
+
+74. Ross, J. A. & Van Bockstaele, E. J. The Locus Coeruleus- Norepinephrine System in Stress 967 
+
+and Arousal: Unraveling Historical, Current, and Future Perspectives. Front. Psychiatry 11 ,968 
+
+601519 (2021). 969 
+
+75. Magalhães, K. S. et al. Locus Coeruleus as a vigilance centre for active inspiration and 970 
+
+expiration in rats. Sci Rep 8, 15654 (2018). 971 
+
+76. King, T. L., Ruyle, B. C., Kline, D. D., Heesch, C. M. & Hasser, E. M. Catecholaminergic 972 
+
+neurons projecting to the paraventricular nucleus of the hypothalamus are essential for 973 
+
+cardiorespiratory adjustments to hypoxia. American Journal of Physiology-Regulatory, 974 
+
+Integrative and Comparative Physiology 309 , R721–R731 (2015). 975 
+
+77. Gourine, A. V. & Funk, G. D. On the existence of a central respiratory oxygen sensor. Journal 976 
+
+of Applied Physiology 123 , 1344–1349 (2017). 977 
+
+78. Neubauer, J. A. & Sunderram, J. Oxygen-sensing neurons in the central nervous system. 978 
+
+Journal of Applied Physiology 96 , 367–374 (2004). 979 
+
+79. Sun, M. K. & Reis, D. J. Hypoxia selectively excites vasomotor neurons of rostral 980 
+
+ventrolateral medulla in rats. American Journal of Physiology-Regulatory, Integrative and 981 
+
+Comparative Physiology 266 , R245–R256 (1994). 982 
+
+80. Erickson, J. T. & Millhorn, D. E. Hypoxia and electrical stimulation of the carotid sinus nerve 983 
+
+induce fos-like immunoreactivity within catecholaminergic and serotoninergic neurons of the 984 
+
+rat brainstem. J. Comp. Neurol. 348 , 161–182 (1994). 985 
+
+81. Pineda, J. & Aghajanian, G. K. Carbon dioxide regulates the tonic activity of locus coeruleus 986 
+
+neurons by modulating a proton- and polyamine-sensitive inward rectifier potassium current. 987 
+
+Neuroscience 77 , 723–743 (1997). 988 
+
+82. Gourine, A. V., Llaudet, E., Dale, N. & Spyer, K. M. ATP is a mediator of chemosensory 989 
+
+transduction in the central nervous system. Nature 436 , 108–111 (2005). 990 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+36 
+
+83. Gourine, A. V. et al. Astrocytes Control Breathing Through pH-Dependent Release of ATP. 991 
+
+Science 329 , 571–575 (2010). 992 
+
+84. Ramirez, J.-M. & Baertsch, N. A. The Dynamic Basis of Respiratory Rhythm Generation: 993 
+
+One Breath at a Time. Annu. Rev. Neurosci. 41 , 475–499 (2018). 994 
+
+85. Moore, J. D. et al. Hierarchy of orofacial rhythms revealed through whisking and breathing. 995 
+
+Nature 497 , 205–210 (2013). 996 
+
+86. Bell, H. J. & Duffin, J. Rapid increases in ventilation accompany the transition from passive 997 
+
+to active movement. Respiratory Physiology & Neurobiology 152 , 128–142 (2006). 998 
+
+87. Forster, H. V., Haouzi, P. & Dempsey, J. A. Control of Breathing During Exercise. 999 
+
+Comprehensive Physiology 2, 743–777 (2012). 1000 
+
+88. Pamenter, M. E., Dzal, Y. A., Thompson, W. A. & Milsom, W. K. Do naked mole rats 1001 
+
+accumulate a metabolic acidosis or an oxygen debt in severe hypoxia? Journal of 1002 
+
+Experimental Biology jeb.191197 (2018) doi:10.1242/jeb.191197. 1003 
+
+89. Williams, T. M. & Davis, R. W. Physiological resiliency in diving mammals: Insights on 1004 
+
+hypoxia protection using the Krogh principle to understand COVID-19 symptoms. 1005 
+
+Comparative Biochemistry and Physiology Part A: Molecular & Integrative Physiology 253 ,1006 
+
+110849 (2021). 1007 
+
+90. Williams, T. M., Haun, J. E. & Friedl, W. A. The diving physiology of bottlenose dolphins 1008 
+
+(Tursiops truncatus): I. Balancing the demands of exercise for energy conservation at depth. 1009 
+
+Journal of Experimental Biology 202 , 2739–2748 (1999). 1010 
+
+91. Weidemann, A. et al. The glial cell response is an essential component of hypoxia-induced 1011 
+
+erythropoiesis in mice. J. Clin. Invest. JCI39378 (2009) doi:10.1172/JCI39378. 1012 
+
+92. Kawakami, K. Tol2: a versatile gene transfer vector in vertebrates. Genome Biol 8, S7 (2007). 1013 
+
+93. Li, J. et al. Intron targeting-mediated and endogenous gene integrity-maintaining knockin in 1014 
+
+zebrafish using the CRISPR/Cas9 system. Cell Res 25 , 634–637 (2015). 1015 
+
+94. Yang, E. et al. A brainstem integrator for self-location memory and positional homeostasis in 1016 
+
+zebrafish. Cell 185 , 5011-5027.e20 (2022). 1017 
+
+95. Dana, H. et al. Sensitive red protein calcium indicators for imaging neural activity. eLife 24 1018 
+
+(2016). 1019 
+
+96. Ahrens, M. B. et al. Brain-wide neuronal dynamics during motor adaptation in zebrafish. 1020 
+
+Nature 485 , 471–477 (2012). 1021 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+37 
+
+97. Vladimirov, N. et al. Light-sheet functional imaging in fictively behaving zebrafish. Nat 1022 
+
+Methods 11 , 883–884 (2014). 1023 
+
+98. Zhang, R. & Du, J. In Vivo Whole-Cell Patch-Clamp Recording in the Zebrafish Brain. in 1024 
+
+Zebrafish (eds Kawakami, K., Patton, E. E. & Orger, M.) vol. 1451 281–291 (Springer New 1025 
+
+York, New York, NY, 2016). 1026 
+
+99. Takano, T. et al. Astrocyte-mediated control of cerebral blood flow. Nature Neuroscience 9,1027 
+
+260–267 (2006). 1028 
+
+100. Yushkevich, P. A. et al. Fast Automatic Segmentation of Hippocampal Subfields and Medial 1029 
+
+Temporal Lobe Subregions In 3 Tesla and 7 Tesla T2‐Weighted MRI. Alzheimer’s &amp; 1030 
+
+Dementia 12 , (2016). 1031 
+
+101. Wan, Y. et al. Single-Cell Reconstruction of Emerging Population Activity in an Entire 1032 
+
+Developing Circuit. Cell S0092867419309584 (2019) doi:10.1016/j.cell.2019.08.039. 1033 
+
+102. Kwon, W. & Pearson, A. Feedback stabilization of linear systems with delayed control. IEEE 1034 
+
+Trans. Automat. Contr. 25 , 266–269 (1980). 1035 
+
+103. Delfour, M. C. Linear optimal control of systems with state and control variable delays. 1036 
+
+Automatica 20 , 69–77 (1984). 1037 
+
+104. McFadden, D. Conditional logit analysis of qualitative choice behavior. (1973). 1038 
+
+105. Cleveland, W. S. Robust Locally Weighted Regression and Smoothing Scatterplots. (1979). 1039 
+
+106. Seabold, S. & Perktold, J. Statsmodels: Econometric and Statistical Modeling with Python. in 1040 
+
+92–96 (Austin, Texas, 2010). doi:10.25080/Majora-92bf1922-011. 1041 
+
+> 1042
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+38 
+
+> 1043
+
+Acknowledgements 1044 
+
+We thank Emmanuel Marquez Legorreta for helping to prepare and image the confocal astroglial 1045 
+
+reference brain. We thank Ann Hermundstad, Yin Liu, Grigorios Oikonomou, Dhruv Zocchi, and 1046 
+
+Anoj Ilanges for comments on the manuscript. We thank Janelia Experimental Technology for 1047 
+
+creating the behavioral arena, and the Vivarium staff for fish care. We thank members of the Du, 1048 
+
+Ahrens, and Prober labs for assisting with experiments and idea formation. We thank Joshua 1049 
+
+Vogelstein for intellectual input. We thank the Janelia Visiting Scientist Program for support. This 1050 
+
+study was supported by grants from the National Institutes of Health (R35 NS122172 D.A.P.) and 1051 
+
+the Howard Hughes Medical Institute (M.B.A.). 1052 
+
+> 1053
+
+Author contributions 1054 
+
+RZ, ZW, DAP, MBA conceived the project, analyzed the data and wrote the manuscript. RZ 1055 
+
+performed imaging, behavior, and electrophysiology experiments, and data analysis for behavior, 1056 
+
+neural dynamics, astroglial dynamics and noradrenergic dynamics. ZW developed and performed 1057 
+
+population analyses for neural dynamics, developed models for optimal control, network 1058 
+
+dynamics, and biophysics, and developed data processing methodology. JJH developed the 1059 
+
+behavioral analysis pipeline. MN derived the brain-body control system model. SN and J-XL 1060 
+
+developed transgenic fish. AK assisted with behavioral analysis. WC helped with data 1061 
+
+preprocessing and managed fish lines. VMSR and BDM contributed intellectual input. AR and BB 1062 
+
+provided support for biophysical model conceptualization. MH and FE provided Tg(17768:gal4) 1063 
+
+fish. MCF provided support in data conceptualization and interpretation. JD provided support for 1064 
+
+electrophysiological experiments. 1065 
+
+> 1066
+
+Declaration of interests 1067 
+
+The authors declare no competing interests. 1068 
+
+> 1069
+
+Additional Information 1070 
+
+Supplementary Information is available for this paper. 1071 
+
+Correspondence and requests for materials should be addressed to ahrensm@janelia.hhmi.org. 1072 
+
+> 1073
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+39 
+
+1074 
+
+1075 
+
+Figure 1 | Larval zebrafish show oxygen-dependent changes in behavior and brain-wide 1076 
+
+calcium dynamics. 1077 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 40 
+
+a, Hypothetical schematic showing the interactive relationship between brain O 2 levels (pO 2) and 1078 
+
+behavior. 1079 
+
+b, Experimental schematic showing measurements of fictive respiration and fictive swimming 1080 
+
+using glass electrodes placed on the head and tail, brain and bath O 2 levels, optional visual 1081 
+
+stimulus, and brain-wide calcium imaging using a light-sheet microscope. 1082 
+
+c, Mean ± s.e.m. brain (black) and bath O 2 (gray) levels during normoxia and hypoxia for 8 fish. 1083 
+
+The O 2 values were normalized to the mean during normoxia. 1084 
+
+d, Electrophysiological recording of fictive respiration and swimming in a paralyzed fish during 1085 
+
+normoxia and hypoxia. 1086 
+
+e, Mean ± s.e.m. fictive respiration and swimming during normoxia and hypoxia for 29 paralyzed 1087 
+
+fish (gray lines). Hypoxia leads to more respiration and less frequent, stronger swims. Wilcoxon 1088 
+
+signed-rank test. 1089 
+
+f, Optomotor response (OMR) to forward visual flow during normoxia and hypoxia for 9 paralyzed 1090 
+
+fish. OMR rate is calculated by subtracting swim rate during visual stimulus to that during static 1091 
+
+period. Wilcoxon signed-rank test. 1092 
+
+g, Spontaneous fluctuations of brain pO 2 and fictive swimming in a paralyzed fish. See Extended 1093 
+
+Data Fig. 1i for non-paralyzed fish. 1094 
+
+h, Normalized brain pO 2 aligned by swim onset or offset from paralyzed fish (134 swim events 1095 
+
+from 12 fish). Gray shadows indicate s.e.m. 1096 
+
+i, Schematic of a reactive model where a swim action depends on current brain pO 2. Dashed gray 1097 
+
+line, brain pO 2 threshold for swimming; pink boxes, transform model from current brain pO 2 (top 1098 
+
+gray box) to the probability of a swim action (bottom pink box). 1099 
+
+j, Schematic of a predictive model where a swim decision depends on (1) recent brain pO 2 over a 1100 
+
+prolonged period (top gray box), and (2) recent swim actions (bottom gray box) from which self-1101 
+
+generated hypoxia is estimated; pink boxes, transform model from the internal estimate of future 1102 
+
+brain pO 2 (dashed line, top pink box) to the probability of a swim action (bottom pink box). 1103 
+
+k, Model fits of the predictive model to behavioral data during normoxia (black) and hypoxia 1104 
+
+(blue). Top, a generalized linear model for the predictive model. Bottom left, fitted swim kernel; 1105 
+
+bottom right, fitted oxygen kernel; right inset, offset; left inset, linear correlation between α s in 1106 
+
+hypoxia and normoxia conditions; black circles, α s from the same fish; red line, linear fit. Mean ± 1107 
+
+s.e.m. is shown for 7 fish. 1108 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+41 
+
+l, Variances explained by the reactive (pO 2-only) and predictive (pO 2 & swim) models. Bar graphs 1109 
+
+indicate mean ± s.e.m. across 7 fish; two-way ANOVA based on the model type and O 2 condition. 1110 
+
+Variances explained by the reactive model were 0.08 ± 0.03 (mean ± s.d., normoxia) and 0.09 ± 1111 
+
+0.07 (hypoxia). Those by the predictive model were 0.43 ± 0.14 (normoxia) and 0.54 ± 0.17 1112 
+
+(hypoxia). 1113 
+
+m, Example activity matrices showing oxygen-responsive neurons (left) and astroglia (right) from 1114 
+
+one Tg(elavl3:H2B-jGCaMP7f) fish and one Tg(gfap:GCaMP6f) fish, which are detected using 1115 
+
+rank correlation between the inverse brain pO 2 (−pO 2) and the calcium dynamics of individual 1116 
+
+cells. Red bar: hypoxia-excited cells. Blue bar: hypoxia-inhibited cells. The cell segments are 1117 
+
+sorted based on unsupervised factor-based clustering. More clusters and average spatial 1118 
+
+distributions for additional fish are shown in Extended Data Fig. 2c-f. Bottom black traces show 1119 
+
+fictive swimming; vertical scale bars, 1k (1000) cell segments. 1120 
+
+n, Raw fluorescence of a neuronal cluster indicated by the boxed region in (m) was decomposed 1121 
+
+into slow and fast dynamics. Their relationships to hypoxia were quantified as r(F, −pO 2), the rank 1122 
+
+correlation with −pO 2, and d’ ΔF/F (hypo, norm), the d-prime comparison of ΔF/F between the final 1123 
+
+10-minutes of normoxia and hypoxia. r(swim, ΔF/F) measures rank correlation between the 1124 
+
+instantaneous swim vigor and ΔF/F. Panels indicate values of these measures for the example 1125 
+
+neuronal cluster. 1126 
+
+o,p, Whole-brain maps showing hypoxia-excited and -inhibited slow (top) and fast (bottom) 1127 
+
+components for neurons in 9 fish (o) and astroglia in 6 fish (p). 1128 
+
+q, Brain schematics showing the location of 10 neuronal (left) and 3 astroglial (right) clusters (see 1129 
+
+Extended Data Fig. 2c,e for supporting data) and joint distribution plots of each cluster’s slow (x-1130 
+
+axis) and fast (y-axis) dynamics to hypoxia. Positive and negative values indicate hypoxia-excited 1131 
+
+and -inhibited cells, respectively. The circle-like shapes represent the kernel density estimate of 1132 
+
+70% of cells in each cluster from 9 fish (neurons) and 6 fish (astroglia). Notably, cells in the NTS 1133 
+
+cluster (cyan) uniquely show hypoxic excitation in both the slow and fast components. 1134 
+
+r, Hypothetical schematic showing that oxygen demand depends on environmental O 2 levels and 1135 
+
+behavior-related O 2 consumption; the increase of blue gradient indicates an elevation of total O 21136 
+
+demand. The solid cyan, dashed blue, and dashed green regions represent the calcium responses 1137 
+
+of NTS neurons, dorsolateral astroglia, and dorsomedial astroglia, respectively, to hypoxia, as 1138 
+
+shown in (q). 1139 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+42 
+
+s, Hypothetical circuit schematic for hypoxia-induced effects on brain cell dynamics and behavior. 1140 
+
+Arrow, excitation; line ending in filled circle, inhibition. 1141 
+
+Blue shading indicates hypoxic conditions in (c,d,e,f,k,l,m,n) and all following figures. 1142 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 43 
+
+1143 
+
+Figure 2 | Noradrenergic neurons are directly responsive to brain pO 2 changes. 1144 
+
+a, Schematic diagram showing the locations of the four groups of noradrenergic neurons. The 1145 
+
+boxed region is shown in (b). 1146 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 44 
+
+b, Hypoxia-excited noradrenergic neurons in Tg(th1:Gal4);Tg(UAS:GCaMP6f) fish. Dorsal (left) 1147 
+
+and side (right) views are shown. Normalized F slow was calculated by dividing the average of slow 1148 
+
+calcium fluorescence (F slow ) in hypoxia by that in normoxia. 1149 
+
+c, Example GCaMP6f fluorescent traces in the four noradrenergic populations and fictive 1150 
+
+swimming during normoxia and hypoxia. 1151 
+
+d, Normalized slow calcium component of the four noradrenergic neuron groups in response to 1152 
+
+hypoxia across 7 fish. Shading indicates s.e.m. 1153 
+
+e, Violin plots of ∆F/F amplitude change of the four noradrenergic neuron groups in response to 1154 
+
+hypoxia versus normoxia. Wilcoxon rank-sum test. The numbers in the brackets indicate the cell 1155 
+
+number from 7 fish. 1156 
+
+f, Normalized slow calcium component of the four noradrenergic neuron groups in the brain in 1157 
+
+response to hyperoxia across 5 fish. Shading indicates s.e.m. 1158 
+
+g, Simultaneous measurements of brain pO 2 and F slow of NE-MO, LC, SG and AP from an 1159 
+
+unparalyzed fish. The numbers above each trace indicate the rank correlation between brain pO 21160 
+
+and F slow . Right top: overlapping traces showing inverse relationship between NE-MO F slow and 1161 
+
+brain pO 2 (plotted as −pO 2). Right bottom: cross-correlation analysis between brain pO 2 and F slow 1162 
+
+of noradrenergic neuron groups across 3 fish. 1163 
+
+h, The relationship between the changes of brain pO 2 and NE-MO F slow from 3 fish. Each dot 1164 
+
+represents the mean value over 2 minutes. Fish #3 (red) corresponds to the fish shown in panel (g). 1165 
+
+i, Whole-cell patch-clamp recording of NE-MO neurons and example traces showing that 1166 
+
+membrane potential and spike firing rate increase under hypoxia (see also Extended Data Fig. 1167 
+
+4a,b). The arrows indicate the resting membrane potentials. 1168 
+
+j, Effects of hypoxia on resting membrane potential and spiking from 8 NE-MO neurons. 1169 
+
+Wilcoxon signed-rank test. 1170 
+
+k, Example traces showing the increase of membrane potential and spiking of a NE-MO cell under 1171 
+
+hypoxia while synaptic transmission and gap junctions were inhibited. 1172 
+
+l, Effect of hypoxia on resting membrane potential and spiking from 7 NE-MO neurons when 1173 
+
+synaptic transmission and gap junctions were inhibited. Wilcoxon signed-rank test. 1174 
+
+m, Scatter plot showing a positive correlation between hypoxia-induced changes in membrane 1175 
+
+potential and spike frequency in 15 NE-MO cells, 7 of which (open circles) were recorded during 1176 
+
+inhibition of synaptic transmission and gap junctions. Dashed line, a linear fit. 1177 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+45 
+
+n,o, Example traces (n) and summary (o) showing the effect of current injection on membrane 1178 
+
+potential of 8 NE-MO cells during normoxia and hypoxia. Light and dark gray lines at the bottom 1179 
+
+of (n) indicate different current injection amounts. Two-way ANOVA test. 1180 
+
+p, Left, schematic of local application of the O 2 scavenger sodium sulfite (Na 2SO 3) or negative 1181 
+
+control sodium sulfate (Na 2SO 4) during whole-cell patch-clamp recording of a NE-MO cell. Right, 1182 
+
+examples showing that NE-MO cell spike firing was increased by puffing Na 2SO 3 but not Na 2SO 4.1183 
+
+q, Summary of spike rate changes of NE-MO and cerebellar (Cb) neurons evoked by puff 1184 
+
+application of Na 2SO 3 (13 NE-MO neurons; 6 Cb neurons), Na 2SO 4 (8 NE-MO neurons), or 1185 
+
+extracellular solution (ES) (6 NE-MO neurons). Puff-triggered spike rates were normalized to 1186 
+
+baseline firing rates before puffing, yielding fold changes during drug application. The dashed line 1187 
+
+at one indicates the normalized baseline. Wilcoxon rank-sum test. More control experiments for 1188 
+
+puffing are shown in Extended Data Fig. 4k,l; the effects on V m are shown in Extended Data Fig. 1189 
+
+4m,n. 1190 
+
+r, Example traces and matrices showing the effect of puffing Na 2SO 3 or Na 2SO 4 on calcium 1191 
+
+activities of the same NE-MO cells using Tg(th1:Gal4);Tg(UAS:GCaMP6f) fish. 1192 
+
+s, Summary of calcium activity of NE-MO and Cb neurons evoked by puffing Na 2SO 3 (50 NE-1193 
+
+MO neurons and 53 Cb neurons) or Na 2SO 4 (50 NE-MO neurons) in 1194 
+
+Tg(th1:Gal4);Tg(UAS:GCaMP6f) fish. The dashed line at one in indicates the normalized 1195 
+
+baseline. Wilcoxon rank-sum test. 1196 
+
+> 1197
+> 1198
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+46 
+
+1199 
+
+Figure 3 | Predictive regulation of oxygen use by noradrenergic-astroglial signaling. 1200 
+
+a, Whole-cell recordings of NE-MO subthreshold voltage activity with simultaneous fictive 1201 
+
+swimming. Right, swim-triggered EPSPs for one cell across 60 swim bouts; mean ± s.e.m. is 1202 
+
+shown. 1203 
+
+b, Extracellular recording of a single NE-MO cell with simultaneous swim signals during 1204 
+
+normoxia (left) and hypoxia (right). Insets: zoom-in plots of electrophysiological recordings in the 1205 
+
+gray-boxed regions. 1206 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+47 
+
+c, Swim-triggered NE-MO spiking activity during normoxia and hypoxia. Bottom, averaged swim 1207 
+
+signal; inset, bar plots indicate mean ± s.e.m. of average pre-swim spikes; Wilcoxon rank-sum test. 1208 
+
+See also Extended Data Fig. 5c,d for comparison of swim-coupled NE-MO calcium activity in 1209 
+
+normoxia and hypoxia. 1210 
+
+d, Scatter plot of swim-coupled NE-MO spikes and swim vigor per bout during normoxia (black) 1211 
+
+and hypoxia (blue), implying an oxygen-dependent encoding of motor activity in NE-MO cells. 1212 
+
+Dashed lines indicate linear fits, reflecting a multiplicative operation: [spike rate]=f(O 2)×[swim 1213 
+
+vigor] .1214 
+
+e, Schematic of cellular model that explains the oxygen-dependent swim encoding in NE-MO 1215 
+
+cells. A NE-MO cell sums a hypoxia signal (which causes an increase in V m) and motor efference 1216 
+
+copies (via excitatory synaptic input) and passes these through an exponential nonlinearity to 1217 
+
+generate spikes. This model can account for [spike rate]=f(O 2)×[swim vigor] in (d). See also the 1218 
+
+biophysiological implementation model in Extended Data Fig. 5h,i. 1219 
+
+f, Mean ± s.e.m. plots of swim-triggered dynamics of NE-MO (black), change in pO 2 relative to 1220 
+
+baseline (black), astroglial calcium (green), and hypoxic-stress (pO 2 decrease relative to pre-swim 1221 
+
+pO 2; orange) during normoxia (left) and hypoxia (right), using swim-matched trials. Top box, 1222 
+
+simultaneously recorded swim and NE-MO dynamics; bottom box, simultaneously recorded swim, 1223 
+
+oxygen and astroglial dynamics. is shown. See also Video S1 for an animated description. 1224 
+
+g, Mean ± s.e.m. bar plots of swim-triggered calcium dynamics in NE-MO neurons (left) and 1225 
+
+astroglia (right) during normoxia and hypoxia. Calcium amplitudes were larger during hypoxia; 1226 
+
+Wilcoxon rank-sum test, across swim-matched trials in (f). 1227 
+
+h, Bar plots of swim-triggered changes in brain pO 2 (left) and hypoxic stress (right) during 1228 
+
+normoxia and hypoxia. Swim-induced pO 2 change was similar under hypoxia and normoxia, but 1229 
+
+hypoxic stress was higher during hypoxia due to normalization by pO 2; Wilcoxon rank sum test. 1230 
+
+i, Mean ± s.e.m. of decay time constants of swim-triggered responses from NE-MO neurons (left), 1231 
+
+astroglia (middle), and brain pO 2 (right). The decay time in both normoxia and hypoxia of NE-1232 
+
+MO neurons is shorter than astroglia and pO 2; that of astroglia is similar to pO 2. Two-way ANOVA 1233 
+
+test based on the type of the dynamics and oxygen condition. 1234 
+
+j, Scatter plot of swim-triggered astroglial activation and swim vigor per trial (a swim series, 1235 
+
+lasting <40 seconds, flanked by pauses of >5 seconds) in (f) during normoxia (black) and hypoxia 1236 
+
+(blue); dashed lines indicate linear fits. 1237 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+48 
+
+k, Schematic of the model fit in which astroglial calcium at time (t −τ) predicts swim-induced 1238 
+
+hypoxic stress at time t, using LOWESS regression. The fit of astroglial calcium (green) and 1239 
+
+hypoxic-stress (orange) averaged for all trials for an example fish during normoxia. In this case, 1240 
+
+the delay τ is 4.3 seconds, variance explained is 0.98. 1241 
+
+l, Bar plots of the statistics of model fits (left) and astroglial-hypoxia delay (right) during normoxia 1242 
+
+(black) and hypoxia (blue). Mean ± s.e.m. across trials are shown. 1243 
+
+m, Cartoon illustrating predictive regulation of brain pO 2 use via neuron-astroglial interactions. 1244 
+
+Left, model: swimming causes the increase of hypoxic stress; NE integrates hypoxia and swim 1245 
+
+actions; its output is then integrated in time by astroglial Ca 2+ ; elevated astroglial Ca 2+ inhibits 1246 
+
+swimming and promotes respiration, thereby alleviating hypoxic stress (see also Extended Data 1247 
+
+Figure 5m). Arrow, excitation; line ending in filled circle, inhibition. Middle, schematic showing 1248 
+
+time-series of changes during hypoxia. NE-MO encodes swim actions in a high excitability regime 1249 
+
+and thus predicts high hypoxic stress (green dashed line) via astroglia; the resulting large astroglial 1250 
+
+Ca 2+ elevation then inhibits swim actions (red symbols) to prevent excessive hypoxic stress. Right, 1251 
+
+time-series of changes during normoxia. NE-MO encodes swim actions in a low excitability 1252 
+
+regime, wherein swims have only small effects on NE and astroglial Ca 2+ , resulting in only a small 1253 
+
+increase in hypoxic stress. As a result, subsequent swims are not suppressed. 1254 
+
+n, Schematic of the NE-MO–astroglial circuit implementing predictive regulation. Swimming 1255 
+
+induces delayed pO 2 consumption. NE-MO neurons integrate motor efference copies with local 1256 
+
+brain pO 2 signals through a multiplicative interaction (e), implementing predictions of hypoxic 1257 
+
+stress. Astroglia temporally integrate NE-MO spikes and suppress swimming while promoting 1258 
+
+oxygen uptake once predicted hypoxic stress exceeds a threshold. This circuit thereby 1259 
+
+preemptively pauses locomotion to prevent brain pO 2 from falling below critical levels. Arrow, 1260 
+
+excitation; line ending in filled circle, inhibition. 1261 
+
+o, Computer simulation of the NE-MO–astroglial circuit (n) during transitions from normoxia to 1262 
+
+hypoxia. 1263 
+
+p, Comparison of hypoxia-induced changes in swim rate and swim vigor between experimental 1264 
+
+data (right; sampled from 29 fish) and simulation (left). 1265 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+49 
+
+> 1266
+
+Figure 4 | Noradrenergic-astroglial signaling is necessary for hypoxia-induced brain 1267 
+
+dynamics and coping behavior. 1268 
+
+a, Schematic showing two-photon laser ablation of NE-MO neurons. 1269 
+
+b,c, Example activity matrices showing the change of neuronal (b) and astroglial (c) cellular fast 1270 
+
+calcium (ΔF/F) responses to hypoxia before and after NE-MO ablation. Both matrices were 1271 
+
+clustered using factor analysis of the fast calcium component before NE-MO ablation. The spatial 1272 
+
+location and temporal responses for each cluster are shown in Extended Data Figure 6f,g. Bottom 1273 
+
+black traces show fictive swimming. 1274 
+
+d, Example traces showing calcium dynamics of 4 neuronal clusters before and after NE-MO 1275 
+
+ablation in the same fish. 1276 
+
+e,f, Overlaid embedding manifolds of neuronal cluster activity across 5 fish shows distinct 1277 
+
+dynamics under normoxia and hypoxia (left), which became indistinguishable after NE-MO 1278 
+
+ablation (right). Black and blue contours indicate the dynamics manifolds of the two clusters 1279 
+
+during normoxia and hypoxia, respectively. 1280 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+50 
+
+g-i, Effects of NE-MO ablation, prazosin treatment, or expression of iβARK or hPMCA2 in 1281 
+
+astroglia using Tg(gfap:iβARK) or Tg(her4.1:hPMCA2) fish on hypoxia-induced changes in swim 1282 
+
+rate (g), respiration rate (h) and swim vigor (i). Tg(gfap:iβARK-D110) fish express a mutant 1283 
+
+transgene that does not inhibit Gq GPCR signaling, and thus serves as a control. Dots indicate 1284 
+
+individual fish and bars indicate mean ± s.e.m. Wilcoxon signed-rank test for paired statistics in 1285 
+
+same groups with gray lines, Wilcoxon rank-sum test for unpaired statistics between groups. Due 1286 
+
+to low and variable respiration rate in these recorded fish during normoxia, we calculated the net 1287 
+
+change of respiration rate in (h). 1288 
+
+The effects of NE-MO or astroglial manipulation on behaviors during normoxia and hypoxia are 1289 
+
+also shown in Extended Data Figures 7-8. 1290 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+51 
+
+Extended Data Figures 1291 
+
+1292 
+
+Extended Data Fig. 1 | Oxygen-dependent behavioral adaptations and the predictive model. 1293 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 52 
+
+a, Schematic of simultaneous bright-field imaging of craniofacial behavior and 1294 
+
+electrophysiological recordings of fictive respiration and swimming of an embedded, but non-1295 
+
+paralyzed larval zebrafish. A non-invasive electrophysiological assay is used to record fictive 1296 
+
+respiration by attaching large-tip-opening electrodes to the skin on the head. 1297 
+
+b, The top four traces show jaw, pectoral fin, and operculum movements, as well as heart rate. The 1298 
+
+bottom two traces indicate fictive respiration and fictive swimming, which were recorded using 1299 
+
+electrodes placed on the head and tail, respectively, and could be distinguished using low-pass and 1300 
+
+high-pass filters. The blue fictive respiration trace was overlaid with the green jaw movement trace 1301 
+
+for comparison of respiration-coupled fictive electrical events, showing these electrical events can 1302 
+
+represent fictive respiration. Lines above the traces indicate swims and dots indicate respiration 1303 
+
+events; closed circles, respiration events during swims; open circles, respiration events outside 1304 
+
+swims. The boxed regions are shown at higher temporal resolution on the right. 1305 
+
+c, Left: Single trials (gray lines) and averages (colored lines) of craniofacial and fictive behaviors 1306 
+
+aligned by the onset of fictive respiration events that occurred not during (open circle) or during 1307 
+
+(closed circle) a swim bout. Right: Overlay of average craniofacial and fictive behaviors, aligned 1308 
+
+at the onset of fictive respiration events that were not during (open circles, top) or during (closed 1309 
+
+circles, bottom) swim bouts. The electrophysiological signals (blue) coincide with the physical 1310 
+
+movements associated with respiration, including movements of the jaw, fin, and operculum, 1311 
+
+confirming the electrical signals can be interpreted as fictive respiration. 1312 
+
+d-f, Respiration frequency (d), swim frequency (e) and swim vigor per bout (f) under normoxia 1313 
+
+and hypoxia in response to open-loop visual stimulation (16 fish), closed-loop visual stimulation 1314 
+
+(6 fish), or no visual stimulation (constant illumination of static dark/red stripes) (7 fish). Wilcoxon 1315 
+
+signed-rank test. 1316 
+
+g, Temporal traces showing respiration frequency, swim frequency, vigor per swim bout and 1317 
+
+individual swim bout duration during normoxia and hypoxia. The data was averaged in 30 second 1318 
+
+bins, and is shown as mean ± s.e.m. 1319 
+
+h, Histograms showing the distribution of inter-bout interval (left), vigor per bout (middle) and 1320 
+
+individual swim bout duration (right) for 29 fish. 1321 
+
+i, Spontaneous fluctuation of brain pO 2 and fictive swimming in a paralyzed and a non-paralyzed 1322 
+
+fish. 1323 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 53
+
+j, Left schematic indicates the brain pO 2 metrics quantified in the bar plots on the right. Brain pO 21324 
+
+decreases due to a swim bout, then increases after swimming stops as O 2 is replenished. Right, the 1325 
+
+minima of swim-induced brain pO 2, the decay time from the pre-swim pO 2 to 50% of ΔpO 21326 
+
+minima, the rise time from the pO 2 minima to 50% ΔpO 2 rise, and the time from swim stop to pO 21327 
+
+minima for 12 paralyzed and 4 non-paralyzed fish. Wilcoxon rank-sum test. 1328 
+
+k, Mean ± s.e.m delay between swim onset and the onset of resulting pO 2 drops (indicated by the 1329 
+
+orange period in panel j) during normoxia and hypoxia from 6 paralyzed fish. 1330 
+
+l, Probability density plots of the durations of active swimming periods in paralyzed fish. 1331 
+
+Normoxia, black; hypoxia, blue. Mean durations are indicated as arrows on the top. 1332 
+
+m, Swim-triggered pO 2 dynamics in paralyzed fish (centered at the onset of active swimming 1333 
+
+periods) during normoxia (black) and hypoxia (blue); mean ± s.e.m. are shown. Arrows indicate 1334 
+
+the mean durations of active swimming periods. During normoxia, pO 2 fell below pre-swim levels 1335 
+
+at ~4 seconds (indicated as the gray period in panel j), similar to the mean duration (4.65 seconds) 1336 
+
+of active swimming periods. However, during hypoxia, the mean duration of swimming periods 1337 
+
+was only 2.31 seconds, whereas pO 2 did not fall below pre-swim levels until over 8 seconds after 1338 
+
+swim onset, suggesting that a reactive model with a fixed pO 2 threshold is not sufficient to describe 1339 
+
+behavior, and instead suggest a predictive neural control system (Fig. 1j). 1340 
+
+n, Schematic of the predictive model derived from an optimal control framework (Methods). In 1341 
+
+this formulation, brain pO 2 dynamics follow a delayed linear dynamical system in which 1342 
+
+swimming induces a lagged decrease in pO 2. Optimizing the system to avoid hypoxia while 1343 
+
+sustaining locomotion requires a series of computations. First, the model estimates future hypoxic 1344 
+
+stress by a multiplication of brain hypoxia and swim vigor, which can be matched to the oxygen-1345 
+
+dependent swim encoding in NE-MO spiking (Fig. 3c,d). Next, the model sums this multiplication 1346 
+
+with brain hypoxia, which can be matched to oxygen-dependent tonic firing of NE-MO neurons 1347 
+
+(Fig. 3c, inner plot). Then, the model bases the control signal of behaviors on the temporal 1348 
+
+integration of the summed signal, which can be matched to astroglial dynamics. Finally, this 1349 
+
+control signal inhibits swimming. 1350 
+
+o, Example simulations of the model in (n) under normoxia (left) and hypoxia (right). Swim actions 1351 
+
+(1, swim; 0, no swim; black ticks) were matched to ‘swim’ in (n); pO 2 profiles were matched to 1352 
+
+‘brain pO 2’ in (n); control signals were matched to ‘control signal’ in (n). Simulation shows an 1353 
+
+increase of the control signal, which lessens swim events during hypoxia. 1354 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+54 
+
+1355 
+
+Extended Data Fig. 2 | Hypoxia causes distinct changes to brain dynamics. 1356 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 55 
+
+a, Imaging data analysis pipeline showing decomposition of raw calcium activity into slow (F slow )1357 
+
+and fast (ΔF/F) components, which were processed via rank correlation and functional clustering, 1358 
+
+respectively (Methods). 1359 
+
+b, Slow calcium components of neurons (left) and astroglia (right) show variable dynamics across 1360 
+
+different populations. We performed hierarchical clustering on slow components into 6 clusters 1361 
+
+and labeled the clusters by their rank correlation with brain pO 2 change. Left: Temporal activity 1362 
+
+for each cluster; Right: spatial maps of 4 optical sections showing neurons that comprise each 1363 
+
+color-coded cluster. 1364 
+
+c,d, Left: Whole-brain maps for 10 clusters of neuronal fast calcium components across fish. N, 1365 
+
+number of fish that share the same cluster (9 fish in total; some clusters were missed in some fish 1366 
+
+due to imaging conditions). Right: calcium activity from the fish shown in Fig. 1m; top, z-scored 1367 
+
+raw fluorescence; bottom, z-scored fast components (ΔF/F). The colored square at the top left 1368 
+
+corner of each image indicates the brain region shown in the composite brain maps and correspond 1369 
+
+to the clusters with the same colors in Fig. 1q. r(swim) measures rank correlation between the 1370 
+
+instantaneous swim vigor and ΔF/F. Boxed regions of four neuronal clusters are shown at higher 1371 
+
+temporal resolution in (d). The NTS cluster and midbrain cluster are strongly correlated with swim 1372 
+
+vigor. The DRN cluster is strongly anti-correlated with swim vigor. 1373 
+
+e,f, Similar to ( c) for astroglia. Whole-brain maps for 3 clusters of astroglial fast components across 1374 
+
+6 fish. Right: calcium activity from the fish shown in Fig. 1m. Boxed regions are shown at higher 1375 
+
+temporal resolution in (f). 1376 
+
+g, Left: Schematic diagram showing GCaMP6f expression in astroglia (green), and regions of 1377 
+
+interest containing somata (purple box) and processes (yellow box). Right: Raw fluorescence (F) 1378 
+
+and fast calcium component (ΔF/F) in astroglial somata (purple) and processes (yellow) without 1379 
+
+or with tricaine (also known as MS-222, a sodium channel blocker) treatment. 1380 
+
+h, Whole-brain maps of astroglia slow and fast calcium dynamics in response to hypoxia without 1381 
+
+or with tricaine treatment. 1382 
+
+i, Colocalization of NTS neurons that are activated by hypoxia with NE-MO is shown using a 1383 
+
+Tg(elavl3:H2B-jGCaMP7f);Tg(dbh:KalTA4);Tg(UAS:NTR-mCherry) fish, in which all neurons 1384 
+
+express H2B-jGCaMP7f and noradrenergic neurons express mCherry. Green: hypoxia-excited 1385 
+
+neurons based on rank correlation between neuronal slow calcium component and brain pO 21386 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+56 
+
+change. Red: the expression of mCherry in noradrenergic neurons. Dashed line: the location of 1387 
+
+NE-MO cells in NTS. 1388 
+
+j, Hypoxia induces simultaneous slow and fast increases of NE release (red) and astroglial calcium 1389 
+
+(green) in the hindbrain of Tg(elavl3:GRAB-NE2h);Tg(gfap:jRGECO1b) fish. The dashed box 1390 
+
+region (left) is shown at higher temporal resolution (right). 1391 
+
+1392 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+57 
+
+1393 
+
+Extended Data Fig. 3 | Peripheral chemosensory pathways that are not necessary for 1394 
+
+hypoxia-induced behavior and brain state changes. 1395 
+
+a, Fluorescent image of a 7-dpf Tg(17768:gal4);Tg(UAS:jGCaMP8f) zebrafish, in which 1396 
+
+epibrachial (EB) ganglia 1-4 (ganglia EB1/2 are also known as glossopharyngeal ganglia), nodose 1397 
+
+ganglia, and posterior lateral line (PLL) ganglia express jGCaMP8f. 1398 
+
+b, Normalized raw jGCaMP8f fluorescence of each cell population from (a) in response to 1399 
+
+hypoxia. Mean ± s.e.m. for 5 fish are shown. 1400 
+
+c, Schematic and fluorescent images showing the bilateral ablation of nodose ganglia in a 1401 
+
+Tg(elavl3:H2B-jGCaMP7f) fish. 1402 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+58 
+
+d,e, The change of brain pO 2 (d), and swimming and respiration rate (e), in response to hypoxia in 1403 
+
+6 nodose-ablated fish. Mean ± s.e.m for 6 fish are shown; Student’s paired t-test. 1404 
+
+f, Whole-brain dynamics maps showing the increase of slow and fast neuronal calcium 1405 
+
+components in response to hypoxia from 4 nodose-ablated Tg(elavl3:H2B-jGCaMP7f) fish. 1406 
+
+g, The average fluorescence of hypoxia-excited cells (red) in the NTS from a nodose-ablated 1407 
+
+Tg(elavl3:H2B-jGCaMP7f) fish. 1408 
+
+h, Whole-brain dynamics maps showing the increase of slow and fast astroglial calcium 1409 
+
+components in response to hypoxia from 6 nodose-ablated Tg(gfap:GCaMP6f) fish. 1410 
+
+i, Astroglial fluorescence in the hindbrain and swim events from a nodose-ablated 1411 
+
+Tg(gfap:GCaMP6f) fish in response to hypoxia. 1412 
+
+j, Schematic and fluorescent images showing the bilateral ablation of olfactory epithelial cells in 1413 
+
+a Tg(elavl3:H2B-jGCaMP7f) fish. 1414 
+
+k, Swim and respiration rate in response to hypoxia in 6 olfactory epithelia-ablated fish. Mean ± 1415 
+
+s.e.m for 6 fish are shown; Student’s paired t-test. 1416 
+
+l, Whole-brain dynamics maps showing the increase of slow and fast neuronal calcium components 1417 
+
+from 4 olfactory epithelium-ablated Tg(gfap:GCaMP6f) fish in response to hypoxia. 1418 
+
+> 1419
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+59 
+
+1420 
+
+Extended Data Fig. 4 | NE-MO is responsive to pO 2 change. 1421 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 60 
+
+a,b, Example of raw electrical activity (a) and raster spikes (b) for the NE-MO cell shown in Fig. 1422 
+
+2i, showing the change of membrane potential and spike firing during normoxia, hypoxia and 1423 
+
+return to normoxia. 1424 
+
+c, Time-series change of total, tonic spikes and phasic events of the NE-MO cell shown in (a,b). 1425 
+
+d-f, Mean ± s.e.m. change of NE-MO cell total (d), tonic (e) spike firing and phasic (f) events. The 1426 
+
+spike frequency change was calculated by subtracting the frequency during hypoxia from that 1427 
+
+during normoxia. n indicates the number of cells recorded. 1428 
+
+g, Fictive respiration (blue) and fictive swimming (black) during a 40-min recording (top) before 1429 
+
+and after treatment with a cocktail of drugs to block synaptic transmission and gap junctions. The 1430 
+
+boxed regions are shown at higher temporal resolution at the bottom. 1431 
+
+h, Neuronal jGCaMP7f fluorescence matrix from the fish in (g) showing the effect of the drug 1432 
+
+cocktail on spontaneous fast calcium (ΔF/F) dynamics across the whole brain. 1433 
+
+i, Example of NE-MO cell raw electrical activity showing the change of membrane potential and 1434 
+
+spiking under normoxia, hypoxia and return to normoxia. The experiment was performed with 1435 
+
+synaptic transmission and gap junction inhibited. 1436 
+
+j, Mean ± s.e.m. of total spiking (red) and membrane potential (green) for 7 NE-MO cells with 1437 
+
+synaptic transmission and gap junctions inhibited. n indicates the number of cells recorded. 1438 
+
+k,l, Example traces (k) and summary from 3 tests (l) showing the responses of an O 2 sensor (Clark-1439 
+
+type oxygen electrode) to puffing extracellular solution (ES), Na 2SO 3, or Na 2SO 4 onto the tip of 1440 
+
+the O 2 sensor. Circles represent the average of 7 puffing-induced responses from 3 tests. Boxes 1441 
+
+are mean ± s.e.m.. The control solutions, ES and 20 mM Na 2SO 4, caused an upward deflection of 1442 
+
+apparent O 2 level. This is likely due to a high shear force onto the O 2 sensor caused by the high 1443 
+
+partial water pressure generated by puffs from the small diameter pipette tip (personal 1444 
+
+communication with specialists at manufacturer, Unisense). We therefore set the pO 2 value caused 1445 
+
+by puffing ES as baseline. Thus, although puffing 20 mM of the O 2 scavenger Na 2SO 3 caused a 1446 
+
+small upward response, the net pO 2 change is about –0.4 mg/L after subtracting it by the baseline 1447 
+
+of puffing ES. In all O 2 scavenger experiments, we used 20 mM Na 2SO 3 to get reliable responses 1448 
+
+across trials. 1449 
+
+m, Examples (top) showing spikes (colored traces) and V m (black traces) in response to puffing 1450 
+
+Na 2SO 3, Na 2SO 4 or ES onto NE-MO, or puffing Na 2SO 3 onto cerebellar (Cb) neurons. Mean ± 1451 
+
+s.e.m. V m (middle) and spikes (bottom) in response to each treatment for the indicated number of 1452 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+61 
+
+neurons. The vertical lines at t=10 seconds indicate puffs. Na 2SO 4 only caused a small increase in 1453 
+
+Vm and spike rate. 1454 
+
+n, Quantification of puff-induced V m change, based on data from the middle row in ( m). Circles 1455 
+
+represent individual neurons. Boxes represent mean ± s.e.m. The numbers in ( m,n ) indicate the 1456 
+
+number of neurons quantified; Wilcoxon rank-sum test. 1457 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+62 
+
+1458 
+
+Extended Data Fig. 5 | Responsiveness of NE-MO to synaptic inputs is gated by its resting 1459 
+
+membrane potential. 1460 
+
+a, Left, schematic of simultaneous whole-cell patch-clamp recording of a NE-MO cell and 1461 
+
+electrophysiological recording of fictive swimming. Right, cross-correlation between swim signals 1462 
+
+and EPSPs of the NE-MO cell in Fig. 3a; the -58 ms lag from EPSP to swim signal indicates that 1463 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+63 
+
+synaptic input to the NE-MO neuron occurs 58 ms after the swim bout. Mean ± s.e.m. across trials 1464 
+
+is shown; a dashed line indicates the timing of the peak of the cross-correlation. 1465 
+
+b, Example traces showing raw calcium fluorescence (F, top) and fast calcium component (ΔF/F) 1466 
+
+of NE-MO neurons, as well as fictive swimming (bottom), in a Tg(th1:gal4);Tg(UAS:GCaMP6f) 1467 
+
+fish. 1468 
+
+c, Averaged swim-triggered fast calcium activity (ΔF/F) of NE-MO cells in (b) when similar swim 1469 
+
+bouts were selected under normoxia (black trace) and hypoxia (blue trace). Top, swim traces in 1470 
+
+the matched trials. Mean ± s.e.m. are shown. 1471 
+
+d, Mean ± s.e.m. of Spearman correlation coefficient between swim vigor and NE-MO fast 1472 
+
+dynamics under normoxia and hypoxia. Wilcoxon signed-rank test across 7 fish. 1473 
+
+e, Schematic and example traces showing NE-MO activity and swim events when NE-MO was 1474 
+
+held at different V m by whole-cell patch-clamp recording. Positive or negative current injection 1475 
+
+was applied to mimic the change of oxygen-dependent parameter V m.1476 
+
+f, Overlay of individual swim-coupled trials (gray) and average of all trials (colored line) in each 1477 
+
+current injection condition. 1478 
+
+g, Bar plots of swim-coupled spikes at different current injection conditions. The number of swim-1479 
+
+coupled spikes increases with V m. Mean ± s.e.m. for 6 cells are shown. Wilcoxon signed-rank test. 1480 
+
+h-i, Biophysical cellular model showing the integration of oxygen levels and motor signals at NE-1481 
+
+MO; (h) model schematic; (i) simulation. We assumed that oxygen impacts NE-MO cell 1482 
+
+physiology via a parameter E O2 (which resembles the reversal potential in a generalized leaky 1483 
+
+integral-and-fire model; Methods). E O2 increases with hypoxia levels, resulting in a change of the 1484 
+
+subthreshold voltage, V m, which mimics real data. To capture the change of phasic spikes of the 1485 
+
+cell, we simulated the synaptic inputs as pulse currents, I pulse . The spiking output of the cell is 1486 
+
+shown as the dynamics of V m and that for GCaMP fluorescence is shown as F raw , which can be 1487 
+
+decomposed into F slow and ΔF/F (that responds to I pulse ). 1488 
+
+j, A time-series fit of NE-MO ΔF/F through the transform parameter f(pO 2) and instantaneous 1489 
+
+swim vigor during normoxia and hypoxia. We examined the model in calcium dynamics where 1490 
+
+we assumed that swim vigor was the synaptic input, and NE-MO ΔF/F was the output. We thus 1491 
+
+fitted a linear model (see Supplementary Methods) of the swim vigor (that was filtered through an 1492 
+
+exponential decay function of g(t)), indicating the decay of NE-MO GCaMP6f fluorescence to 1493 
+
+ΔF/F every 30 seconds. The oxygen-dependent gain factor f(pO 2) was measured by the linear 1494 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+64 
+
+coefficient of the fit. Green and magenta traces indicate real ΔF/F data and fitted fast activity based 1495 
+
+on swim vigors (variance explained, 79.63%), respectively. 1496 
+
+k, Dynamics of oxygen-dependent gain factor f(pO 2) during the normoxia-hypoxia transition, 1497 
+
+which agrees with the oxygen-dependent swimming encoding in Fig. 3c,d. 1498 
+
+l,m, Examples of an individual fish (l) and mean ± s.e.m. for 5 fish (m) showing that pulsed (10-1499 
+
+ms pulses at 10-Hz for 5 seconds, blue shading) optogenetic activation of astroglia (dashed red 1500 
+
+boxes, left in l), but not a control region (dashed black boxes, left in l), using Tg(gfap:CoChR) fish 1501 
+
+induces behavioral phenotypes that are similar to those induced by hypoxia and to stimulation of 1502 
+
+NE-MO neurons (Fig. 1e). 1503 
+
+1504 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+65 
+
+1505 
+
+Extended Data Fig. 6 | Noradrenergic signaling is important for hypoxia-induced brain 1506 
+
+dynamics and behavioral phenotypes. 1507 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 66 
+
+a, Fluorescent images of Tg(th1:Gal4);Tg(UAS:NTR-mCherry) fish before and after two-photon 1508 
+
+ablation of NE-MO while performing whole-brain calcium imaging under the same light-sheet 1509 
+
+microscope. The dashed red line indicates ablated regions. 1510 
+
+b-e, Whole-brain maps for hypoxia-induced slow and fast calcium dynamics before and after NE-1511 
+
+MO ablation for neurons (5 fish, b,c) or for glia (8 fish, d,e). Red and blue colors indicate hypoxia-1512 
+
+excited and hypoxia-inhibited cells, respectively. Hypoxia-induced increase of slow and fast 1513 
+
+astroglial dynamics is largely reduced after NE-MO ablation, which indicates a brain-wide 1514 
+
+modulatory role for NE. 1515 
+
+f,g, The brain map, average fluorescence (F), and fast component activity (ΔF/F) of neuronal (f) 1516 
+
+and astroglial (g) clusters from the example fish in Fig. 4b,c, showing that NE-MO ablation 1517 
+
+reduced the calcium responses to hypoxia in many astroglial and neuronal populations. 1518 
+
+h,i, Examples of individual fish (h) and mean ± s.e.m. for 5 fish (i) showing that continuous (60 1519 
+
+seconds, blue line) optogenetic stimulation of NE-MO using Tg(dbh:KalTA4); Tg(UAS:CoChR-1520 
+
+eGFP) fish induces effects on swimming and respiration that are similar to those observed in 1521 
+
+hypoxia. The control region of laser illumination was located outside of the brain. The stimulation 1522 
+
+areas for NE-MO and control are similar. Student’s paired t-test. Due to variable swim and 1523 
+
+respiration rates in some of these fish, some graphs show normalized data rather than actual rates. 1524 
+
+j,k, Examples of individual fish (j) and mean ± s.e.m. for 7 fish (k) showing that continuous (60 1525 
+
+seconds, blue line) optogenetic inhibition of NE-MO using hypoxic Tg(th1:gal4); 1526 
+
+Tg(UAS:GtACR2-eYFP) fish induces phenotypes that are opposite to those induced by hypoxia. 1527 
+
+Student’s paired t-test. 1528 
+
+l,m, Example 5-minute swim trajectories for single fish (l) and mean swim distance for 45 TRPV1-1529 
+
+positive and 45 TRPV1-negative fish (m) showing that chemogenetic stimulation of noradrenergic 1530 
+
+neurons, including the NE-MO cluster, using capsaicin treatment of 1531 
+
+Tg(dbh:KalTA4);Tg(UAS:TRPV1:mCherry) fish induced hypoxia-like suppression of swimming. 1532 
+
+Student’s unpaired t-test. 1533 
+
+> 1534
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+67 
+
+1535 
+
+Extended Data Fig. 7 | Noradrenergic-astroglial signaling is necessary for hypoxia-induced 1536 
+
+coping behaviors. 1537 
+
+a-d, Effects of NE-MO 2P ablation (a), prazosin treatment (b), or expression of iβARK (c) or 1538 
+
+hPMCA2 (d) in astroglia on hypoxia-induced changes in swim rate, respiration rate and swim 1539 
+
+vigor. The control group in (c) used Tg(gfap:iβARK-D110) fish, which expresses a mutant 1540 
+
+transgene that does not inhibit Gq GPCR signaling. 1541 
+
+e-g, Effects of prazosin treatment (e), or expression of iβARK (f) or hPMCA2 (g) in astroglia, on 1542 
+
+hypoxia-induced optomotor responses, which was calculated by subtracting swim rate during 1543 
+
+visual stimulus to that during static period. 1544 
+
+Gray lines in (a-g) indicate individual fish and bar graphs indicate mean ± s.e.m. Wilcoxon signed-1545 
+
+rank test for paired statistics in same groups, Wilcoxon rank-sum test for unpaired statistics 1546 
+
+between groups. 1547 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+68 
+
+1548 
+
+Extended Data Fig. 8 | Inhibition of astroglial activity suppresses the effects of hypoxia on 1549 
+
+astroglial dynamics. 1550 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint 69 
+
+a, Whole-brain astroglial raw fluorescence matrix (top) and average calcium activity and fictive 1551 
+
+swimming (bottom) showing the effect of prazosin treatment on hypoxia-induced astroglial 1552 
+
+activity and swim behavior. 1553 
+
+b, Whole-brain maps for slow and fast calcium activity in astroglia before and after prazosin 1554 
+
+treatment for 6 fish. 1555 
+
+c, Schematic showing the Gq GPCR signaling pathway in astroglia. Expression of an artificial 1556 
+
+peptide (iβARK) blocks the activation of Gq by GPCR agonists, e.g., NE. 1557 
+
+d, Brain pO 2 in response to hypoxia in Tg(gfap:iβARK) (purple) and Tg(gfap:iβARK-D110) (black) 1558 
+
+fish. Mean ± s.e.m. for 6 fish are shown. 1559 
+
+e-h, Fluorescence matrix (e,g) and whole-brain maps (f,h) showing effects of hypoxia on astroglial 1560 
+
+calcium activity in Tg(gfap:GCaMP6f);Tg(gfap:iβARK) (e,f) and Tg(gfap:GCaMP6f); 1561 
+
+Tg(gfap:iβARK-D110) (g,h) fish. Expression of iβARK suppresses astroglial fast and slow calcium 1562 
+
+dynamics in response to hypoxia but expression of the negative control protein iβARK-D110 does 1563 
+
+not. 1564 
+
+i, Schematic showing that PMCA2 functions as a calcium extruder that pumps calcium out of the 1565 
+
+cytoplasm when expressed in astroglia. 1566 
+
+j-m, Fluorescence matrix (j,l) and whole-brain maps (k,m) showing effects of hypoxia on astroglial 1567 
+
+calcium activity in Tg(gfap:GCaMP6f);Tg(her4.1:PMCA2) (j,k) and Tg(gfap:GCaMP6f) (l,m) 1568 
+
+fish. Expression of PMCA2 suppresses astroglial fast and slow calcium dynamics in response to 1569 
+
+hypoxia. 1570 
+
+> 1571
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+70 
+
+Supplementary information 1572 
+
+> 1573
+
+Supplementary Methods 1574 
+
+> 1575
+
+Cellular model for NE-MO dynamics 1576 
+
+We used a generalized leaky integrate-and-fire model, GLIF (Teeter et al, 2018), to simulate the 1577 
+
+NE-MO cell in the whole-cell patch-clamp recordings (Fig. 3e; Extended Data Fig. 5h,i). The 1578 
+
+model was made up of two parts: a linear dynamics of voltage change to input and a dynamics of 1579 
+
+the firing threshold: 1580 
+
+𝑉 ′(𝑡 ) = − 1
+
+𝜏 (𝑉 (𝑡 ) − 𝐸 J) + 𝑔𝐼 1581 
+
+𝛩 ′(𝑡 ) = 𝑎 (𝑉 (𝑡 ) − 𝐸 J) − 𝑏𝛩 (𝑡 )1582 
+
+𝐸 J is the resting membrane potential, 𝜏 = 20 ms, 𝑏 = 0.009 /ms are time constants of membrane 1583 
+
+potential and voltage dependence of the threshold, respectively, and 𝑎 = 0.0001 /ms couples the 1584 
+
+membrane potential to the threshold. 𝐼 is the external current and 𝑔 =1 μS is the impedance. 1585 
+
+> 1586
+
+If 𝑉 (𝑡 ) > 𝛩 (𝑡 ) + 𝛩 9, a spike is generated, and then 𝑉 (𝑡 ) was reset as follow: 1587 
+
+𝑉 (𝑡 K) = 𝐸 J + 𝑓 H(𝑉 (𝑡 B) − 𝐸 J) − 𝛿𝑉 1588 
+
+𝛩 (𝑡 K) = 𝛩 (𝑡 B) + 𝛿𝛩 1589 
+
+where 𝑓 H = 0.6, and 𝛿𝑉 = −5 mV, are the slope and intercept of the linear relationship of the 1590 
+
+voltage before and after a spike, respectively; 𝛩 9 = −39 mV is the baseline firing threshold; the 1591 
+
+transient increase of the firing threshold after a spike event 𝛿𝛩 = 4 mV reflects the repolarization 1592 
+
+or after-hyperpolarization which inhibits spike generation after a spike. 1593 
+
+> 1594
+
+In the simulation, we used 𝐸 J = −61 mV for normoxia and 𝐸 J = −57 mV for hypoxia, 1595 
+
+respectively. A linear increase of 𝐸 J from -61 mV to -57 mV presents the dynamics of oxygen 1596 
+
+level transiting from normoxia to hypoxia. Tonic spikes were measured when external input 𝐼 = 01597 
+
+pA, while phasic spikes were measured when a transient pulse 𝐼 = 9 pA was provided for 300 ms 1598 
+
+every 3 seconds. 1599 
+
+> 1600
+
+Cellular model fits to fluorescence dynamics 1601 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+71 
+
+We fitted our cellular model to fluorescence dynamics (Extended Data Fig. 5j,k), ∆𝐹 /𝐹 (𝑡 ), every 1602 
+
+1 minute: 1603 
+
+∆𝐹 /𝐹 (𝑡 ) = 𝑓 21! 𝑔 (𝑠 (𝑡 ))1604 
+
+𝑔 (𝑠 (𝑡 )) = S k𝑠(𝑥)𝑒𝑥𝑝((𝑥 − 𝑡)/𝜏 !)𝑑𝑥 
+
+> 7
+> 7B∆'
+> 1605
+
+𝑓 21! is the transform scalar (which depends on O 2 level) from swim to fluorescence; 𝑔 (∙) is an 1606 
+
+exponential filter function of the square root of swim power in a time window ∆𝑇 before the 1607 
+
+fluorescence. The performance of the fitting was evaluated using variance explained as 1608 
+
+𝐸𝑉 = 1− < (∆𝐹 /𝐹 (𝑡 ) − 𝑓 21! 𝑔 (𝑠 (𝑡 )))8
+
+(∆𝐹 /𝐹 (𝑡 )−< ∆𝐹 /𝐹 (𝑡 ) >7)8 >1609 
+
+where <∙> is the arithmetic average. 1610 
+
+> 1611
+
+Brain-body control system model 1612 
+
+We include an alternative model of how external oxygen (O 2) replenishes blood O 2, which in turn 1613 
+
+supplies muscle O 2 through circulation which leads to qualitatively similar solutions as presented 1614 
+
+in the main text. Let X, M, D denote blood O 2, muscle O 2, and instantaneous oxygen demand. 1615 
+
+Their stochastic dynamics are: 1616 
+
+Ẋ = α (X e −X) −β (X −M) −m r1617 
+
+Ṁ = β (X −M) −D 1618 
+
+Ḋ = −γD + j s s1619 
+
+where s dt ~ Poiss(u) represents the probability of swimming, given a control rate u. Here, α and β 1620 
+
+describe oxygen exchange between environment–blood and blood–muscle, γ is the decay of 1621 
+
+oxygen demand, mᵣ is metabolic rate, jₛ the swim intensity, and X e the external O 2 level. 1622 
+
+The system aims to keep blood O 2 near an optimal setpoint X* while minimizing deviations 1623 
+
+from a preferred swimming rate u*: 1624 
+
+l(X, u) = (X−X*) 2 + λ (u−u*) 2, λ > 0 1625 
+
+Approximating s by its mean rate u and defining centered variables X̂ = X−X*, û = u−u*, the 1626 
+
+system becomes affine-linear. The optimal controller is of LQR form (Anderson & Moore, 2007): 1627 
+
+ut = u* −k 1(X - X*) −k 2M −k 3D1628 
+
+The constants k 1, k 2, k 3 depend on the parameters α, β, γ. In our model simulations, we found k 3 ≈1629 
+
+0 consistently, and we will therefore exclude it and simplify the controller as 1630 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+72 
+
+uₜ = u* −k 1(X−X*) −k 2M1631 
+
+The controller directly senses blood O 2 (X) and demand (D) but not muscle O 2 (M), making the 1632 
+
+system only partially observable. For partially observable systems, the optimal strategy obeys the 1633 
+
+separation principle, where the optimal controller consists of an optimal state estimation, such as 1634 
+
+the Kalman filter, and an optimal deterministic control. Therefore, we postulate that the missing 1635 
+
+variable M can be approximated by a leaky integration of D: 1636 
+
+Ṁₖ ≈ βM k + βX – D. 1637 
+
+Mk is the estimated muscle oxygen. Finally, to prevent unbounded control, we introduce a sigmoid 1638 
+
+nonlinearity approximately linear near equilibrium: 1639 
+
+f(X, M k) = (1 + exp[k 1(X−X*) + k 2Mk]) -1 ,1640 
+
+ut = f(X, M k) u* 1641 
+
+This formulation captures a simple closed-loop strategy for oxygen homeostasis under stochastic 1642 
+
+behavioral drive with signals X and M. 1643 
+
+> 1644
+> 1645
+
+References: 1646 
+
+Anderson, B. D., & Moore, J. B. (2007). Optimal control: linear quadratic methods. Courier 1647 
+
+Corporation. 1648 
+
+Teeter, C., Iyer, R., Menon, V., Gouwens, N., Feng, D., Berg, J., et al. (2018). Generalized leaky 1649 
+
+integrate-and-fire models classify multiple neuron types. Nature communications, 9(1), 709. 1650 
+
+> 1651
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
+
+73 
+
+Supplementary Videos 1652 
+
+1653 
+
+Video S1: Animated description of Figure 3f 1654 
+
+.CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.10.717666 doi: bioRxiv preprint
