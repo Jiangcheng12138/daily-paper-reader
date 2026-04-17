@@ -1,0 +1,1088 @@
+Title: EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts
+
+URL Source: https://arxiv.org/pdf/2604.12579v1
+
+Published Time: Wed, 15 Apr 2026 00:56:32 GMT
+
+Number of Pages: 20
+
+Markdown Content:
+# EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+Runhe Zhou 1 * Shanglin Li 2 3 * Guanxiang Huang 4 Xinliang Zhou 1 Qibin Zhao 3 Motoaki Kawanabe 2
+
+Yi Ding 1 † Cuntai Guan 1 †
+
+# Abstract 
+
+Electroencephalography (EEG)-based multi-modal learning integrates brain signals with complementary modalities to improve mental state assessment, providing great clinical po-tential. The effectiveness of such paradigms largely depends on the representation learning on heterogeneous modalities. For EEG-based paradigms, one promising approach is to leverage their hierarchical structures, as recent studies have shown that both EEG and associated modalities (e.g., facial expressions) exhibit hierarchical structures reflecting complex cognitive processes. However, Euclidean embeddings struggle to represent these hierarchical structures due to their flat geometry, while hyperbolic spaces, with their exponential growth property, are naturally suited for them. In this work, we propose EEG-MoCE, a novel hyperbolic mixture-of-curvature experts framework designed for multimodal neurotechnology. EEG-MoCE assigns each modality to an expert in a learnable-curvature hyperbolic space, enabling adaptive modeling of its intrinsic geometry. A curvature-aware fusion strategy then dynamically weights experts, emphasizing modalities with richer hierarchical information. Extensive experiments on bench-mark datasets demonstrate that EEG-MoCE achieves state-of-the-art performance, including emotion recognition, sleep staging, and cognitive assessment. Code will be released. 
+
+# 1. Introduction 
+
+Electroencephalography (EEG) records multi-channel elec-trical activity of the brain (Niedermeyer & Lopes da Silva, 2005) and provides valuable insights into underlying cogni-
+
+> *
+
+Equal contribution 1Nanyang Technological University, Sin-gapore 2ATR, Kyoto, Japan 3Riken AIP, Tokyo, Japan 4University of Cambridge, Cambridge, UK. Correspondence to: Yi Ding 
+
+<ding.yi@ntu.edu.sg >, Cuntai Guan <ctguan@ntu.edu.sg >.
+
+Preprint. April 15, 2026. 
+
+Figure 1. Euclidean vs. hyperbolic geometry for hierarchical data. Euclidean space is flat and tends to under-represent hierar-chical branching; hyperbolic space exhibits exponential volume growth and better preserves tree-like separation. Hyperbolic geom-etry is informative for multimodal learning, where modalities may differ in how strongly hierarchical their underlying structure is. 
+
+tive processes (Bell & Cuevas, 2012). EEG-based neurotech-nology aims to extract meaningful patterns to support appli-cations such as sleep stage classification (Aboalayon et al., 2016), cognitive assessment (Shin et al., 2018), and emotion recognition (Suhaimi et al., 2020). However, EEG signals are highly susceptible to external artifacts, and their inher-ent complexity makes accurately inferring mental states a significant challenge (Lotte et al., 2018; Li et al., 2025). To overcome these limitations, EEG-based multimodal learning frameworks (Sharma & Meena, 2024), leverag-ing the strengths of other complementary modalities, have the potential to improve robustness and performance in men-tal state assessment (Lee et al., 2025). For instance, emotion recognition tasks often benefit from the integration of EEG, facial video, and speech data (Pillalamarri & Shanmugam, 2025). The complementary yet heterogeneous nature stems from their distinct information sources: facial expressions and speech capture observable behavioral cues, while EEG directly measures internal brain activity (Lee et al., 2024). While integrating these modalities offers a broader perspec-tive, a fundamental challenge remains in effectively repre-senting heterogeneous modalities (Baltru ˇsaitis et al., 2019). For EEG-based multimodal learning, one promising ap-proach is to leverage their hierarchical structures, as recent studies suggest that the brain’s hierarchical cognitive pro-1    
+
+> arXiv:2604.12579v1 [cs.LG] 14 Apr 2026 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts
+> Figure 2. Architecture of EEG-MoCE on EAV dataset. Other datasets use the same overall architecture, with only modality encoders adapted. (a) Modality-specific hyperbolic experts : each modality (e.g., EEG, audio, video) is encoded by an expert that embeds inputs in its own learnable-curvature hyperbolic space. (b) Curvature-oriented fusion : expert representations are aggregated by a curvature-aware scheme, combining curvature-scaled temperature and a curvature prior bias, that favors modalities with richer hierarchical structures.
+
+cesses can be encoded in EEG (Sun et al., 2023; Turner et al., 2023) and associated modalities (e.g., facial expres-sions) (Mettes et al., 2024). While Euclidean embeddings currently dominate EEG decoding approaches, they struggle to represent the exponential growth of states in hierarchical structures due to their flat geometry, where distances and areas scale only linearly or quadratically with radius (Peng et al., 2022). In contrast, hyperbolic spaces with negative curvature exhibit exponential growth, making them naturally suited to model such processes. Leveraging this representa-tional advantage, Li et al. (Li et al., 2026) introduced hyper-bolic geometry for EEG classification and achieved state-of-the-art (SotA) performance in cross-subject decoding. Beyond EEG, many modalities employed in multimodal neurotechnology, such as facial expression analysis (Mettes et al., 2024) and physiological signal (B ´uz ´as et al., 2024), also exhibit inherent hierarchical structures. This shared characteristic motivates the exploration of hyperbolic ge-ometry as a unified embedding framework for EEG-based multimodal learning. In this work, we introduce EEG-MoCE, a hyperbolic mixture-of-curvature framework for EEG-based multimodal learning (Figure 2), with the following contributions: • To our knowledge, the first systematic hierarchical anal-ysis and hyperbolic framework for multimodal physio-logical signals. • Per-modality experts with learnable curvatures that adapt to intrinsic modality differences. • Curvature-guided fusion leveraging learned curvatures as proxies for hierarchical structure and modality im-portance. • Extensive cross-subject experiments showing strong gains and SotA performance on three public EEG-based multimodal datasets. Additionally, EEG-MoCE employs recent advances in hy-perbolic alignment methods (Li et al., 2026) to mitigate distribution shifts, focusing on the most challenging cross-subject evaluation setting. We organize the paper by quan-tifying hierarchical structure across modalities, presenting the EEG-MoCE methodology, and reporting cross-subject benchmarks together with analyses and ablations. 
+
+# 2. Preliminaries 
+
+2.1. Related Work Cognitive hierarchy. The human brain exhibits hierarchical organization across multiple cognitive domains. In emotion regulation as an example, initial affective responses origi-nate from subcortical structures, are modulated by limbic circuits, and are ultimately refined by neocortical regions into complex emotional experiences (Panksepp, 2011). Sun et al. (Sun et al., 2023) demonstrated hierarchical emotion ambiguity processing, with distinct EEG patterns revealing the progression from early subcortical responses to later cor-tical regulation. Hierarchical structure is also implicit in the mechanisms of other modalities (Section C.1). Accordingly, hyperbolic geometry supports embeddings of hierarchical data (Krioukov et al., 2010; Peng et al., 2022), motivating a unified geometric view of all modalities in EEG-based multimodal learning. 
+
+EEG-based multimodal learning. Integrating EEG with complementary modalities has shown promise across emo-tion recognition (Lee et al., 2024), sleep staging (Jia et al., 2EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+2021; Mostafaei et al., 2024), and cognitive assessment (Liu et al., 2025; Shi et al., 2025). However, due to modal-ity characteristics that are fundamentally diverse (Pillala-marri & Shanmugam, 2025), learning unified representa-tions across heterogeneous modalities remains a fundamen-tal challenge (Baltru ˇsaitis et al., 2019). For example, EEG captures internal neural dynamics with inherent variability and noise, while behavioral modalities like facial expres-sions and speech capture observable and distinct temporal and spatial properties (Lee et al., 2024). To address these challenges, various Euclidean architectures have been pro-posed, as detailed in Section C.2, whereas hyperbolic mul-timodal learning methods have not yet been explored for EEG-based multimodal learning. 
+
+Hyperbolic and mixed-curvature learning. Hyperbolic neural networks (Shimizu et al., 2021) have gained signifi-cant attention in natural language processing (Ganea et al., 2018) and computer vision (Peng et al., 2022; Mettes et al., 2024) for hierarchical data. In the EEG literature, (Li et al., 2026) demonstrated improved cross-subject generalization by embedding the representation in hyperbolic space. Chang et al. (Chang et al., 2025) performed contrastive pretraining for emotion recognition in hyperbolic space. These meth-ods for neuroscience applications focus on single-modality EEG with fixed curvature. Recent work has shown that for a single textual modality, different components or tasks may exhibit varying degrees of hierarchical structure that are better captured by mixture-of-curvature models (He et al., 2025). Prior work discusses mixed-curvature learning for graph embeddings (Gu et al., 2019) and weighted mani-folds for heterogeneous graphs (Nguyen-Van et al., 2023). In this work, we generalize mixture-of-curvature model-ing to EEG-based multimodal learning, given that different modalities may exhibit varying degrees of hierarchical struc-ture (Section 4.1). Larger curvature magnitude |K| enables embedding deeper hierarchies with lower distortion without increasing dimensionality (Alvarado et al., 2023), implying that learned curvature can correlate with structural complex-ity and thus fusion contribution (Section 4.2). We therefore use the learned curvatures to guide cross-modal fusion (Sec-tion 3.1). 
+
+2.2. Hyperbolic Geometry 
+
+The hyperbolic space is a Riemannian manifold of constant negative curvature K < 0. The Lorentz hyperboloid model is employed in this work owing to its numerical stability dur-ing gradient-based optimization (Mishne et al., 2023). The 
+
+n-dimensional Lorentz model represents the upper sheet of a two-sheeted hyperboloid embedded in Minkowski space, defined as: 
+
+LnK := 
+
+
+
+p ∈ Rn+1 ⟨p, p⟩L = 1
+
+K , p t > 0
+
+
+
+, (1) where ⟨p, q⟩L = p⊤ 
+
+> s
+
+qs − ptqt denotes the Lorentzian inner product. Each point p ∈ L nK is decomposed as 
+
+p = [ pt, p⊤ 
+
+> s
+
+]⊤, where pt > 0 is the time component and 
+
+ps ∈ Rn is the space component, following the conven-tion from special relativity (Ratcliffe, 2006). The geodesic distance between two points p, q ∈ L nK is defined as: 
+
+dL(p, q) = 1
+
+√−K cosh −1 (K⟨p, q⟩L) . (2) Given a collection of points {pi ∈ LnK }Mi=1 with non-negative weights {ηi}Mi=1 (P 
+
+> i
+
+ηi > 0), the weighted Fr ´echet mean generalizes the notion of centroid to Riemannian man-ifolds by minimizing the weighted sum of squared geodesic distances: 
+
+μ = wFM η
+
+ {pi}Mi=1 
+
+ = arg min 
+
+> q∈L nK
+> M
+
+X
+
+> i=1
+
+ηi d2
+
+> L
+
+(q, pi). (3) With uniform weights, this reduces to the standard Fr ´echet mean. The Fr ´echet variance ν2 corresponds to the minimum value achieved at the Fr´ echet mean. At each point p ∈ L nK , the tangent space TpLnK consists of all vectors v ∈ Rn+1 satisfying ⟨p, v⟩L = 0 . The ex-ponential map exp K 
+
+> p
+
+: TpLnK → L nK projects vectors from the tangent space onto the manifold, while the logarithmic map log K 
+
+> p
+
+: LnK → TpLnK performs the inverse projection. The parallel transport operation PT p→q(v) maps tangent vectors from TpLnK to TqLnK while preserving geometric properties (see Section A for closed-form expressions). 
+
+Hyperbolic neural networks. Hyperbolic neural networks operate directly on the Lorentz manifold (Bdeir et al., 2024). The Lorentz fully-connected layer transforms fea-tures while maintaining the manifold constraint. Given in-put p = [ pt, p⊤ 
+
+> s
+
+]⊤ ∈ L nK , the transformation follows (Yang et al., 2024): 
+
+fL(p) = 
+
+p∥˜ps∥2 − 1/K 
+
+˜ps
+
+!
+
+, where ˜ps = ψ(Wp +b),
+
+(4) producing ˜p = [˜ pt, ˜p⊤ 
+
+> s
+
+]⊤ ∈ L d′ 
+
+> K
+
+, where d′ denotes the out-put dimension, W ∈ Rd′×(n+1) acts on the full Lorentz vector, b ∈ Rd′
+
+, and ψ is an optional activation function. Activation functions such as Lorentz ELU operate on the space components and are combined with the time com-ponent to maintain the manifold structure. In hyperbolic attention mechanisms, the standard dot-product similarity is replaced with negative squared geodesic distance to com-pute attention weights (Yang et al., 2024): 
+
+αij = exp  −d2
+
+> L
+
+(qi, kj )/τ P 
+
+> j′
+
+exp ( −d2
+
+> L
+
+(qi, kj′ )/τ ) , (5) where qi, kj ∈ L nK denote query and key vectors, and 
+
+τ > 0 is a temperature parameter. The weighted Fr ´echet 3EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+mean (Equation (3)) is used for aggregating value vectors to maintain geometric consistency. The Lorentz multinomial logistic regression (MLR) classifier extends the Euclidean MLR by measuring distances from data points to decision hyperplanes in hyperbolic space (see Section A for details). 
+
+δ-hyperbolicity. Khrulkov et al. (Khrulkov et al., 2020) introduced δ-hyperbolicity as a metric to assess the tree-like structure inherent in embeddings. This measure determines the minimal value of δ such that the four-point condition, expressed through the Gromov product, is satisfied (mathe-matical formulation in Section A.5). The Gromov product-based characterization of hyperbolic spaces implies that met-ric relationships among any four points approximate those in a tree structure, with deviations bounded by an additive con-stant δ. Smaller values of δ ≥ 0 indicate embeddings that are more closely aligned with hyperbolic geometry. To facil-itate comparison across modalities, the diameter-normalized 
+
+δrel ∈ [0 , 1] is computed for each modality (Section A.5). 
+
+# 3. Methods 
+
+3.1. Curvature-Oriented Cross-Modal Fusion 
+
+Let M denote the set of modalities and d denote the fea-ture dimension. In our mixture-of-curvature framework, each modality m ∈ M is embedded into its own Lorentz manifold LdK(m) with learnable curvature K(m) < 0. This design is motivated by the observation that mixed-curvature representations can better capture heterogeneous data struc-tures (Gu et al., 2019), and extends naturally to multimodal settings where each modality may possess distinct geometric properties, as we demonstrate empirically in Section 4.1. 
+
+Curvature as information indicator. The central idea of our fusion strategy is that curvature magnitude serves as a learned geometric indicator of hierarchical complex-ity. Theoretically, hyperbolic spaces with larger |K| can embed deeper hierarchies with lower distortion without increasing embedding dimensionality (Sala et al., 2018; Alvarado et al., 2023). Since different modalities may ex-hibit varying degrees of hierarchical structure (as shown in Section 4.1), when curvatures are learned end-to-end, modalities exhibiting richer hierarchical structure will nat-urally converge to larger |K| values to minimize embed-ding distortion (Nguyen-Van et al., 2023; Gu et al., 2019). This provides a data-driven signal for modality importance: larger curvature magnitudes correspond to modalities carry-ing richer information, which can guide cross-modal fusion. 
+
+Curvature-guided attention mechanism. Based on this, we design a cross-modal attention mechanism where curva-ture explicitly guides information aggregation. Our attention mechanism extends Equation (5) using negative squared hy-perbolic distance as similarity. Each modality m attends to other modalities with a curvature-scaled temperature: 
+
+τ (m) = τ0
+
+p|K(m)| , (6) where τ0 > 0 is a base temperature hyperparameter. Higher 
+
+|K| yields lower temperature, producing sharper attention distributions. This enables modalities with richer hierarchi-cal structure to be more selective in aggregating cross-modal information. Furthermore, we incorporate a learnable curvature-based prior into the attention computation to explicitly weight contributions from hierarchically-rich modalities: 
+
+˜αm→j ∝ exp 
+
+ −d2
+
+> L
+
+(q(m), k(j))
+
+τ (m) + λ · ϕ(K(j))
+
+
+
+, (7) where q(m), k(j) ∈ L dKf are query and key vectors after projection to the fusion manifold, d2 
+
+> L
+
+denotes the squared Lorentzian distance (Equation (2)), ϕ(K) = log( |K| + ϵ)
+
+is a log-curvature transform with small constant ϵ > 0
+
+for numerical stability, and λ > 0 is a learnable scalar controlling the strength of the curvature prior, constrained to be positive via softplus reparameterization λ = log(1 + 
+
+e˜λ) with unconstrained ˜λ ∈ R. The attended features are aggregated via the weighted Fr ´echet mean (Equation (3)) on the fusion manifold, preserving hyperbolic geometry throughout the fusion process. Following (He et al., 2025; Yang et al., 2024), we project each modality into a shared fusion manifold LdKf with curvature-dependent scaling (Equation (8)). The fusion curvature is computed as the mean of modality curva-tures: Kf = 1
+
+> |M|
+
+P 
+
+> m∈M
+
+K(m). For a representation 
+
+z(m) ∈ L dK(m) , the projection proceeds via logarithmic and exponential maps with a curvature-dependent scaling factor: 
+
+z(m) 
+
+> f
+
+= exp Kf
+
+> o
+
+s
+
+K(m)
+
+Kf
+
+· log K(m) 
+
+> o
+
+(z(m))
+
+!
+
+. (8) This is a well-defined map between Lorentz models under which the projected point satisfies the hyperboloid constraint on the shared fusion manifold LdKf . The scaling factor 
+
+pK(m)/K f preserves the pairwise ordering induced by Lorentz geodesic distances (Yang et al., 2024), and the cor-responding reverse projection is likewise well defined (He et al., 2025). 
+
+3.2. EEG-MoCE framework 
+
+Following the principle of compositional design (Li et al., 2026) that incorporates the advantages of both Eu-clidean and hyperbolic spaces, we structure EEG-MoCE 4EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+as a composition of four modules: modality-specific Eu-clidean encoders {e(m) 
+
+> θ
+
+}m∈M , mixture-of-curvature experts 
+
+{E(m) 
+
+> ϕ
+
+}m∈M , a cross-modal fusion module Fω , and a hy-perbolic classifier gψ . The complete model is parameterized as: 
+
+hΘ = gψ ◦ Fω ◦ M
+
+> m∈M
+
+E(m) 
+
+> ϕ
+
+◦ e(m)
+
+> θ
+
+!
+
+, (9) where Θ = {θ, ϕ, ω, ψ, {K(m)}m∈M } includes all learn-able parameters. Figure 2 illustrates the overall architecture. 
+
+Modality-specific Euclidean encoders. Each modal-ity m is first processed by a domain-appropriate Eu-clidean encoder e(m) 
+
+> θ
+
+. For EEG signals, we adopt EEG-Net (Lawhern et al., 2018) with temporal convolution for frequency-specific filtering, depthwise spatial convolution for electrode-wise patterns, and separable temporal convolu-tion for temporal summarization. For other peripheral phys-iological signals like EMG and electrooculography (EOG), we use EEGNet-like CNN backbone with similar temporal convolution and spatial convolution for feature extraction. For video (facial expressions), we use a lightweight CNN backbone and apply a temporal transformer for long-range temporal modeling. For audio, we employ a 1D convolu-tional network operating on mel-spectrograms with a similar temporal transformer architecture as for video. These en-coders output feature vectors x(m) ∈ Rd for subsequent hyperbolic processing. 
+
+Mixture-of-curvature experts. Each modality expert E(m)
+
+> ϕ
+
+operates in its own Lorentz manifold LdK(m) with learnable curvature K(m) < 0. Unlike prior works using fixed cur-vatures (Ganea et al., 2018; Chami et al., 2019), learnable curvatures allow the model to adaptively discover the opti-mal embedding space for each modality (Bdeir et al., 2024; Tan et al., 2024). The expert first projects Euclidean features onto the manifold via the exponential map at the origin: 
+
+h(m) = exp K(m) 
+
+> o
+
+(x(m)), (10) where o = [ p−1/K (m), 0]⊤ is the Lorentz origin. The expert then applies hyperbolic batch normalization with moments alignment (Li et al., 2026) for cross-subject gener-alization, followed by Lorentz activation and pooling (Sec-tion A), producing the modality-specific hyperbolic repre-sentation z(m) ∈ L dK(m) .
+
+Fusion and classification. The fusion module Fω imple-ments the curvature-oriented cross-modal fusion described in Section 3.1. All modality representations are projected to the unified fusion manifold LdKf via Equation (8). Multi-ple curvature-guided cross-attention layers (Equation (7)) are then stacked. The curvature prior bias term λ · ϕ(K(j))
+
+in Equation (7) is applied only in the first layer to keep the modality order information intact before mixing. Each cross-attention layer is followed by hyperbolic layer normal-ization, and multi-head attention outputs within each layer are aggregated via Fr ´echet mean (Equation (3)). The final fused representation is obtained by aggregating all modality features via Fr ´echet mean followed by a hyperbolic linear projection (Equation (4)). Classification is performed using hyperbolic multinomial logistic regression (HMLR) (Ganea et al., 2018; Shimizu et al., 2021), which defines decision boundaries as geodesic hyperplanes on the manifold (Sec-tion A.3.1). 
+
+Pipeline overview. From a pipeline perspective, the princi-pal equations of EEG-MoCE define a sequential transforma-tion: Equation (10) first embeds features into per-modality manifolds; Equation (8) then projects them onto a shared fu-sion manifold to enable cross-modal attention. Equation (6) and Equation (7) jointly parameterize the attention mech-anism, using learned curvatures to control the weighting and sharpness of information integration. Following this, Equation (3) aggregates the attended features, and Equa-tion (4) performs the final linear map in hyperbolic space before HMLR (Equation (27)). A detailed mapping of these equations to implementation steps and training updates is provided in Section A.4. 
+
+# 4. Experiments 
+
+EEG-based multimodal technology has great application in real-world scenarios, such as emotion recognition, sleep staging classification, and cognitive assessment. Emotion recognition enables affective human-computer interaction and continuous mental health monitoring, supporting appli-cations in personalized therapy (Houssein et al., 2022) Sleep staging reduces the burden of manual polysomnographic scoring in clinical diagnosis, enabling large-scale screening of sleep disorders (Siddiqui et al., 2013) Cognitive assess-ment supports objective monitoring of cognitive load and fatigue in educational and occupational settings, facilitat-ing adaptive workload scheduling and personalized training (Wallace et al., 2017). We evaluate EEG-MoCE using cross-subject evaluation on three public multimodal datasets corresponding to these applications. All datasets provide multimodal recordings for cross-subject evaluation, with preprocessing details pro-vided in Section B. All baselines are detailed in Section C.2. 
+
+EAV (Lee et al., 2024): Multimodal emotion recognition with EEG, audio, and video from 42 participants across 5 emotion classes (neutral, anger, happiness, sadness, calm-ness). Task-specific baselines for EAV include: MM-DFN (Hu et al., 2022), GA2MIF (Li et al., 2024), AGF-IB (Shou et al., 2024), CMERC (Tu et al., 2024), Hyper-MML (Kang et al., 2025), HEEGNet (Li et al., 2026). 5EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+ISRUC (Khalighi et al., 2016): Sleep staging with EEG, EMG, and EOG from 10 subjects, scored into 5 stages (Wake, N1, N2, N3, REM). Our evaluation protocol is equivalent to leave-one-subject-out cross-validation on this dataset. Task-specific baselines for ISRUC include: SS-Net (Jia et al., 2021), CMST (Mostafaei et al., 2024), CFS-Net (Cao et al., 2026), MMNet (Lin et al., 2024), XSleep-Fusion (Hu et al., 2025). 
+
+Cognitive (Shin et al., 2018): N-back working memory task with EEG, EOG, and near-infrared spectroscopy (NIRS) from 26 participants across 3 difficulty levels (0/2/3-back). Task-specific baselines for Cognitive include: STA-Net (Liu et al., 2025), ST2A (Shi et al., 2025), EFDFNet (Xu et al., 2025), TSMMF (Si et al., 2025), EF-Net (Arif et al., 2024). We additionally consider several general multimodal frameworks across all tasks: LMF (Liu et al., 2018), CTMWA (Zhang et al., 2024), MMML (Wu et al., 2024). We treat individual sessions as distinct domains. For model fitting and evaluation, we use either a leave-one-group-out approach (when the number of source domains is smaller than 10) or a 10-fold leave-groups-out cross-validation scheme. We consider the cross-subject adaptation within each dataset and treat the subject as the grouping variable. EEG-MoCE is implemented in PyTorch and trained on NVIDIA RTX 4090 GPUs. Models are trained for 100 epochs using the Adam optimizer for Euclidean parame-ters and the Riemannian Adam optimizer for hyperbolic parameters, with a learning rate of 10 −3 and early stopping (patience=20). 
+
+4.1. Hierarchical Structure of Multimodal Data 
+
+To further justify hyperbolic embedding, we measure the in-herent tree-likeness of each modality using δ-hyperbolicity (Section A.5) for all modalities in each dataset following (Khrulkov et al., 2020). Lower δrel ∈ [0 , 1] indicates a stronger hierarchical structure and better suitability for hy-perbolic embedding. Table 1 shows the δrel across modalities for both raw data and encoded features. All modalities exhibit hierarchical structure ( δrel < 0.3), confirming their suitability for hyper-bolic embedding. Furthermore, each modality’s δrel exhibits different values from others, demonstrating the rational-ity of modality-specific learnable curvatures. In particular, EEG consistently exhibits the lowest δrel across all datasets, ranging from 0.097 to 0.183 , reflecting its hierarchy and jus-tifying its highest learned curvature. Raw features exhibit lower δrel than encoded features, suggesting that Euclidean encoders can disrupt the inherent hierarchical structure and introduce geometric distortion, which motivates our hyper-bolic processing after initial encoding.        
+
+> Table 1. Hyperbolicity δrel measured for raw data and encoded features following (Khrulkov et al., 2020). Lower values indicate stronger hierarchical tree-like structure and better suitability for hyperbolic embedding. All datasets’ modalities show hyperbolic structure with δrel <0.3.Modality-wise differences motivate modality-specific learnable curvature.
+
+Dataset Modality Raw Encoded EAV (n = 42 )EEG 0.097 ± 0.021 0.160 ± 0.013 
+
+Audio 0.217 ± 0.023 0.293 ± 0.028 
+
+Video 0.280 ± 0.019 0.278 ± 0.011 
+
+ISRUC (n = 10 )EEG 0.107 ± 0.010 0.202 ± 0.019 
+
+EMG 0.072 ± 0.007 0.202 ± 0.008 
+
+EOG 0.137 ± 0.013 0.253 ± 0.028 
+
+Cognitive (n = 26 )EEG 0.125 ± 0.009 0.183 ± 0.008 
+
+EOG 0.220 ± 0.013 0.262 ± 0.011 
+
+NIRS 0.299 ± 0.025 0.292 ± 0.031 
+
+4.2. Learned Curvatures and Modal Contributions 
+
+To verify that learned curvatures correlate with modality contributions, we analyze the learned curvature magnitudes 
+
+|K| for each modality and compute their modal contribu-tions in the fusion process. Modal contribution quantifies the amount of attention each modality receives from others in the cross-attention mechanism. Specifically, for each modal-ity j, we compute the sum of attention weights received from all other modalities: P 
+
+> m̸=j
+
+αm→j , where αm→j de-notes the attention weight from modality m to modality j.These values are normalized across all modalities to obtain percentage contributions. We conduct this analysis using a model with learnable curvatures but without curvature-oriented fusion (Section 3.1) to isolate the effect of learned curvatures. Table 2 presents the results on the EAV dataset. EEG learns the highest curvature magnitude |K| = 2 .34 , reflecting its complex frequency-band hierarchy, followed by Vision (|K| = 2 .29 ) and Audio ( |K| = 1 .91 ). The curvature mag-nitudes order is consistent with the hierarchical structure of the data revealed by δrel . Moreover, results demonstrate that EEG contributes the most (36.0%), consistent with its high-est curvature magnitude. The positive correlation between curvature magnitude |K| and contribution confirms that modalities with higher curvature magnitudes receive more attention in the fusion process, validating our curvature-oriented fusion design hypothesis. Another experimental verification of our curvature-oriented fusion design is the behavior of the parameter curvature prior λ in (Equation (7)), which also adapts during training. Table 3 shows that λ consistently increases from initializa-tion across all datasets, indicating that the model learns to rely on curvature information for attention weighting. 6EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts           
+
+> Table 2. Encoded δrel , learned curvature values Kand attention-based modality contributions on EAV dataset, evaluated using a model with learnable curvatures but without curvature-oriented fusion. A negative association between δrel and |K|and a positive correlation between |K|and attention contribution support the curvature-oriented fusion hypothesis.
+
+Modality Encoded δrel K Contribution EEG 0.160 -2.34 36.0 Vision 0.278 -2.29 33.6 Audio 0.293 -1.91 30.5       
+
+> Table 3. Learned curvature prior λ, initialized at 0.30 on full model with curvature-oriented fusion. Values are mean ±std across cross-validation folds. λconsistently increases during training across datasets, indicating growing reliance on curvature information for attention weighting.
+
+Dataset λinit λlearned ∆λ
+
+EAV 0.300 0.464 ± 0.036 +0 .164 
+
+ISRUC 0.300 0.533 ± 0.034 +0 .233 
+
+Cognitive 0.300 0.332 ± 0.009 +0 .032 
+
+4.3. Main Experiments 
+
+Tables 4 to 6 present the comparison results on three datasets: EAV (Lee et al., 2024), ISRUC (Khalighi et al., 2016), and Cognitive (Shin et al., 2018), respectively. The evaluation metrics are balanced accuracy and F1 macro, defined in Section D.1.   
+
+> Table 4. Performance Comparison with State-of-the-Art Methods on EAV Emotion Recognition Dataset. We evaluate all methods using balanced accuracy (Acc) and macro-averaged F1-score (F1) under cross-subject 10-fold cross-validation protocol ( n= 42
+> subjects).
+
+Method Acc (%) F1 (%) MM-DFN 51 .13 ± 6.81 50 .17 ± 6.95 
+
+CTMWA 52 .86 ± 5.63 49 .92 ± 6.33 
+
+AGF-IB 54 .59 ± 12 .45 54 .20 ± 15 .03 
+
+LMF 57 .29 ± 12 .37 56 .80 ± 14 .16 
+
+CMERC 58 .57 ± 11 .95 57 .70 ± 14 .30 
+
+MMML 59 .60 ± 11 .83 56 .55 ± 14 .31 
+
+Hyper-MML 60 .76 ± 12 .15 57 .76 ± 13 .89 
+
+GA2MIF 61 .10 ± 12 .51 58 .46 ± 14 .63 
+
+HEEGNet 61 .74 ± 8.33 60 .48 ± 8.24 
+
+Ours 75 .88 ± 8.31 75 .47 ± 8.66 
+
+The comparison results show that our method achieves sig-nificant improvements across all datasets. On the EAV dataset, we outperform the all baselines with significance (p ≪ 0.01 ) by at least 14 .14% in accuracy and 14 .99% 
+
+in F1-score, demonstrating the effectiveness of hyperbolic embedding and curvature-oriented fusion for emotion recog-  
+
+> Table 5. Performance Comparison with State-of-the-Art Methods on ISRUC-S3 Sleep Staging Dataset. We evaluate all methods using balanced accuracy (Acc) and macro-averaged F1-score (F1) under leave-one-subject-out cross-validation protocol ( n= 10
+> subjects).
+
+Method Acc (%) F1 (%) CMST 66 .68 ± 8.31 64 .06 ± 10 .32 
+
+MMML 73 .33 ± 3.93 72 .80 ± 4.55 
+
+CFSNet 74 .30 ± 4.82 72 .71 ± 5.31 
+
+SSNet 74 .56 ± 4.10 74 .13 ± 4.83 
+
+MMNet 74 .73 ± 4.02 72 .90 ± 5.45 
+
+LMF 75 .02 ± 4.54 74 .31 ± 5.63 
+
+CTMWA 75 .11 ± 3.96 74 .20 ± 4.46 
+
+XSleepFusion 75 .19 ± 5.20 73 .62 ± 5.80 
+
+Ours 78 .53 ± 2.95 75 .38 ± 4.05    
+
+> Table 6. Performance Comparison with State-of-the-Art Methods on Cognitive N-back Task. We evaluate all methods using balanced accuracy (Acc) and macro-averaged F1-score (F1) under cross-subject 10-fold cross-validation protocol ( n= 26 subjects).
+
+Method Acc (%) F1 (%) MMML 45 .32 ± 9.37 42 .67 ± 11 .81 
+
+STA-Net 46 .63 ± 11 .67 43 .12 ± 15 .32 
+
+EFDFNet 49 .15 ± 12 .85 45 .00 ± 15 .13 
+
+CTMWA 49 .86 ± 11 .72 45 .71 ± 12 .23 
+
+ST2A 51 .28 ± 11 .74 46 .08 ± 13 .17 
+
+LMF 52 .71 ± 11 .77 48 .70 ± 13 .04 
+
+TSMMF 53 .84 ± 13 .62 50 .06 ± 16 .24 
+
+EF-Net 54 .41 ± 14 .03 51 .47 ± 15 .18 
+
+Ours 62 .39 ± 13 .07 59 .67 ± 13 .08 
+
+nition. On the ISRUC dataset, our method achieves a 3.34% 
+
+accuracy improvement over XSleepFusion, with notably lower variance, indicating more stable performance across subjects. On the Cognitive dataset, we achieve a 7.98% ac-curacy improvement over EF-Net, the best baseline, suggest-ing that our approach is effective for cognitive assessment tasks. The consistent improvements across diverse tasks and modalities validate the generalizability of our framework. 
+
+4.4. Ablation Study 
+
+We conduct comprehensive ablation studies on the EAV dataset to investigate the effectiveness of our proposed com-ponents. 
+
+Euclidean vs Hyperbolic Architecture. We first exam-ine the impact of hyperbolic geometry in both the encoder and fusion stages. Table 7 compares four architectural vari-ants by independently enabling hyperbolic operations in the encoder and fusion modules. 7EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+Table 7. Architecture ablation on EAV comparing Euclidean and hyperbolic choices for encoder and fusion. Four variants are shown: neither hyperbolic; hyperbolic fusion only; hyperbolic encoder only; both encoder and fusion. The combination of hyperbolic encoder and hyperbolic fusion produces the best result, indicating complementary benefits. 
+
+Encoder Fusion Acc (%) F1 (%) – – 60 .33 ± 11 .68 57 .24 ± 14 .18 
+
+– ✓ 61 .48 ± 12 .63 58 .79 ± 14 .47 
+
+✓ – 74 .17 ± 9.83 73 .41 ± 10 .27 
+
+✓ ✓ (Ours) 75 .88 ± 8.31 75 .47 ± 8.66 
+
+(a) Euclidean (Subject 17) (b) Hyperbolic (Subject 17) 
+
+(c) Euclidean (Subject 21) (d) Hyperbolic (Subject 21) 
+
+Figure 3. t-SNE of fused features on EAV dataset. Hyperbolic encoder and fusion variant produces more compact and better-separated emotion clusters than the Euclidean baseline variant, illustrating improved class separability by hyperbolic geometry. 
+
+The results demonstrate that hyperbolic geometry in both en-coder and fusion stages is essential for optimal performance, with each component contributing complementary bene-fits. As visualized in Figure 3, the Euclidean encoder and fusion baseline produces severely overlapping emotion clus-ters, while our hyperbolic encoder and fusion architecture achieves clear class separation with compact, well-defined clusters for each emotion category. 
+
+Hyperbolic Component Ablation. Within the hyperbolic framework, we ablate key design choices: curvature learn-ing strategy and fusion mechanism. Figure 4 shows the contribution of learnable curvatures and curvature-oriented multimodal fusion (COMF). The fixed curvature baseline is set to K = −2 using hyperbolic cross-attention mechanism with COMF. All the variants in fusion comparison utilize the learnable curvatures with initial curvature set to K = −2.70 71 72 73 74 75 76 77 78  
+
+> Score (%)
+> w/ COMF (Ours)
+> w/o COMF
+> Fixed Curvature
+> Mean pooling Acc (%)
+> F1 (%)
+
+Figure 4. Ablation of hyperbolic components on the EAV dataset, focusing on learnable curvature and curvature-oriented multimodal fusion (COMF). All fusion variants use learnable curvatures to isolate the effect of the fusion mechanism. Our proposed method achieves the best performance, demonstrating the complementary benefits of learnable curvatures and COMF. 
+
+The results in Figure 4 show that both learnable curvatures and COMF contribute to performance improvements. Com-pared to fixed curvature, learnable curvatures provide a 
+
+2.14% accuracy gain, suggesting that modality-specific ge-ometry optimization is beneficial. COMF contributes a 
+
+1.38% accuracy improvement over attention without curva-ture prior, indicating that incorporating curvature informa-tion into attention computation can enhance fusion quality. The combination of learnable curvatures and COMF yields the best performance, suggesting their complementary roles in the fusion process. 
+
+Single-Modality Ablation. We evaluate the complemen-tary relationship of our multimodal framework by training with single modalities. Table 8 shows that multimodal fu-sion significantly outperforms any single modality. EEG achieves the best single-modality performance ( 62 .74% ), consistent with its highest curvature magnitude and largest fusion contribution, suggesting that it carries relatively more discriminative hierarchical information. Multimodal fusion (75 .88% ) exceeds the best single modality by 13 .14% , in-dicating complementary relationships between modalities. The improvement over individual modality performances suggests that our fusion mechanism may capture cross-modal synergies beyond simple aggregation of independent signals. 
+
+Table 8. Ablation study on single-modality performance on EAV dataset. 
+
+Modality Acc (%) F1 (%) Video only 53 .75 ± 10 .74 53 .46 ± 11 .02 
+
+Audio only 60 .52 ± 8.14 60 .23 ± 8.42 
+
+EEG only 62 .74 ± 9.04 62 .13 ± 9.42 
+
+All modalities 75 .88 ± 8.31 75 .47 ± 8.66 
+
+8EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+4.5. Additional Analysis Multi-seed robustness. To examine initialization sensi-tivity, we additionally run 5 random seeds and report seed-level statistics while keeping the same data split protocol used in the main experiments. As shown in Table 9, EEG-MoCE consistently outperforms the strongest task-specific baselines on all three datasets, and the seed-level standard deviations are small. This indicates that the reported im-provements are not driven by favorable initialization and remain stable across repeated runs.                                             
+
+> Table 9. Seed-level robustness over 5 random seeds under the same cross-subject protocol as the main experiments. Values are mean ±
+> std over seeds. Across EAV, ISRUC, and Cognitive, EEG-MoCE consistently exceeds the strongest baseline with low seed-level variance, supporting initialization robustness.
+> Dataset Method Acc (%) F1 (%) EAV Ours 75 .79 ±0.78 75 .25 ±0.76
+> HEEGNet 61 .54 ±0.76 60 .37 ±0.77
+> ISRUC Ours 78 .42 ±0.31 75 .10 ±0.29
+> XSleepFusion 75 .02 ±0.67 73 .30 ±0.71
+> Cognitive Ours 61 .86 ±1.75 59 .23 ±1.64
+> EF-Net 54 .28 ±2.41 51 .36 ±2.35
+
+Computational cost. We report training and inference latency on EAV with the same RTX 4090 setup for all meth-ods. Table 10 shows that hyperbolic operations increase computational cost relative to Euclidean baselines, but in-ference remains lightweight in absolute terms (2.71 ms per 20 s trial), which is still negligible for online BCI scenarios.      
+
+> Table 10. Computational cost on EAV measured on the same RTX 4090 GPU. Train reports seconds per epoch and Test reports milliseconds per trial. EEG-MoCE is slower due to hyperbolic operations, but its absolute inference latency remains low for real-time deployment settings.
+
+Method Train sec/epoch Test msec/trial MMML 10.86 1.17 Hyper-MML 12.95 1.24 GA2MIF 8.56 0.86 Ours 26.07 2.71 
+
+Fusion curvature design. We compare the default mean fusion curvature with a learnable fusion curvature. Table 11 shows that the simple mean is consistently comparable or slightly better across all datasets in both accuracy and F1. These results support using mean fusion curvature as a sta-ble and effective default without introducing additional opti-mization variables.      
+
+> Table 11. Ablation of fusion-curvature parameterization in the shared manifold. Mean uses the arithmetic mean of modality curvatures, while Learnable treats the fusion curvature as an ex-tra trainable parameter. Mean curvature performs comparably or slightly better across all datasets, supporting the stable and effec-tive design choice.
+
+Dataset Fusion Acc (%) F1 (%) EAV Mean 75 .88 ± 8.31 75 .47 ± 8.66 
+
+Learnable 75 .55 ± 8.57 75 .10 ± 9.13 
+
+ISRUC Mean 78 .53 ± 2.95 75 .38 ± 4.05 
+
+Learnable 78 .08 ± 3.01 74 .97 ± 3.96 
+
+Cognitive Mean 62 .39 ± 13 .07 59 .67 ± 13 .08 
+
+Learnable 60 .96 ± 13 .48 57 .68 ± 13 .61 
+
+# 5. Discussion 
+
+In this work, we present EEG-MoCE, the first hyperbolic framework for EEG-based multimodal learning that uses modality-specific learnable curvatures to capture varying hierarchical structure across modalities. Experiments on emotion recognition, sleep staging, and cognitive assess-ment show state-of-the-art performance. Analysis of learned curvatures demonstrates that they correlate with modality contributions, together with ablation studies validating our geometry-aware design. The consistent gains over prior methods, including hyperbolic baselines, underscore the value of cross-modal synergies in neurotechnology. While our framework shows promising results, several lim-itations and future directions warrant discussion. The cur-rent approach focuses mainly on hyperbolic geometry and modalities with hierarchical structures; future work could explore other modalities with different structural priors. The computational stability and overhead of hyperbolic opera-tions may suggest potential directions for future research. Although the unified manifold strategy for fusion is empiri-cally effective, richer fusion and transport mechanisms may be explored in future work. Finally, investigating the inter-pretability of learned representations could provide deeper insights into the underlying cognitive mechanisms. 
+
+# 6. Acknowledgements 
+
+This work is supported by the Ministry of Education, Singa-pore, under its Academic Research Fund Tier 2 (Grant No. MOE-T2EP20124-0001). 
+
+# 7. Impact statement 
+
+This paper presents work whose goal is to advance the field of Machine Learning. There are many potential societal consequences of our work, none of which we feel must be specifically highlighted here. 9EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+# References 
+
+Aboalayon, K. A. I., Faezipour, M., Almuhammadi, W. S., and Moslehpour, S. Sleep stage classification using eeg signal analysis: a comprehensive survey and new investi-gation. Entropy , 18(9):272, 2016. Alvarado, N., Lobel, H., and Petrache, M. Curvature-dimension tradeoff for generalization in hyperbolic space. In Mathematics of Modern Machine Learning Workshop at NeurIPS , 2023. Arif, A., Wang, Y., Yin, R., Zhang, X., and Helmy, A. EF-Net: Mental state recognition by analyzing multimodal EEG-fNIRS via CNN. Sensors , 24(6):1889, 2024. doi: 10.3390/s24061889. Baltrusaitis, T., Robinson, P., and Morency, L.-P. OpenFace: An open source facial behavior analysis toolkit. In IEEE Winter Conference on Applications of Computer Vision (WACV) , pp. 1–10. IEEE, 2016. Baltru ˇsaitis, T., Ahuja, C., and Morency, L.-P. Multimodal machine learning: A survey and taxonomy. IEEE Trans-actions on Pattern Analysis and Machine Intelligence , 41 (2):423–443, 2019. doi: 10.1109/TPAMI.2018.2798607. Bdeir, A., Schwethelm, K., and Landwehr, N. Fully hyper-bolic convolutional neural networks for computer vision. In International Conference on Learning Representations ,2024. Bell, M. A. and Cuevas, K. Using eeg to study cognitive development: Issues and practices. Journal of cognition and development , 13(3):281–294, 2012. doi: 10.1080/ 15248372.2012.691143. Bonnabel, S. Stochastic gradient descent on Riemannian manifolds. IEEE Transactions on Automatic Control , 58 (9):2217–2229, 2013. doi: 10.1109/TAC.2013.2254619. B ´uz ´as, A., Makai, A., Groma, G. I., Dancsh ´azy, Z., Szendi, I., Kish, L. B., Santa-Maria, A. R., and D ´er, A. Hierar-chical organization of human physical activity. Scientific Reports , 14(1):5981, 2024. Cao, Y., Xiang, W., Wei, J., Cao, S., Tian, X., Zhong, J., Fang, X., Luo, B., Lyu, H., and Li, X. CrossFu-sionSleepNet: A multimodal deep learning model for automatic sleep stage classification. Biomedical Sig-nal Processing and Control , 112:108538, 2026. doi: 10.1016/j.bspc.2025.108538. Chami, I., Ying, Z., R ´e, C., and Leskovec, J. Hyperbolic graph convolutional neural networks. In Advances in Neu-ral Information Processing Systems , volume 32, 2019. Chang, J., Zhang, Z., Qian, Y., and Lin, P. Multi-scale hyperbolic contrastive learning for cross-subject EEG emotion recognition. IEEE Transactions on Affective Computing , 16(3):1716–1731, 2025. Chen, W., Han, X., Lin, Y., Zhao, H., Liu, Z., Li, P., Sun, M., and Zhou, J. Fully hyperbolic neural networks. In Pro-ceedings of the 60th Annual Meeting of the Association for Computational Linguistics , pp. 5672–5686, 2022. Chen, X. et al. Hyperbolic self-paced multi-expert network for cross-domain few-shot facial expression recognition. 
+
+IEEE Transactions on Image Processing , 2025a. Chen, Z., Song, Y., Wu, X.-J., and Sebe, N. Gyrogroup batch normalization. In International Conference on Learning Representations , 2025b. Collins, E., Robinson, A. K., and Behrmann, M. Distinct neural processes for the perception of familiar versus unfamiliar faces along the visual hierarchy revealed by EEG. NeuroImage , 181:120–131, 2018. doi: 10.1016/j. neuroimage.2018.06.080. Fr ´echet, M. Les ´el ´ements al ´eatoires de nature quelconque dans un espace distanci ´e. Annales de l’Institut Henri Poincar´ e, 10(4):215–310, 1948. Ganea, O., B ´ecigneul, G., and Hofmann, T. Hyperbolic neural networks. In Advances in Neural Information Processing Systems , volume 31, 2018. Gromov, M. Hyperbolic groups . Springer, New York, 1987. Gu, A., Sala, F., Gunel, B., and R ´e, C. Learning mixed-curvature representations in product spaces. In Interna-tional Conference on Learning Representations , 2019. Gulcehre, C., Denil, M., Malinowski, M., Razavi, A., Pas-canu, R., Hermann, K. M., Battaglia, P., Bapst, V., Ra-poso, D., Santoro, A., and de Freitas, N. Hyperbolic atten-tion networks. In International Conference on Learning Representations , 2019. He, N., Anand, R., Madhu, H., Maatouk, A., Krishnaswamy, S., Tassiulas, L., Yang, M., and Ying, R. HELM: Hy-perbolic large language models via mixture-of-curvature experts. In Advances in Neural Information Processing Systems , volume 38, 2025. Hochstein, S. and Ahissar, M. View from the top: Hierar-chies and reverse hierarchies in the visual system. Neu-ron , 36(5):791–804, 2002. doi: 10.1016/S0896-6273(02) 01091-7. Houssein, E. H., Hammad, A., and Ali, A. A. Human emo-tion recognition from eeg-based brain–computer interface using machine learning: a comprehensive review. Neu-ral Computing and Applications , 34(15):12527–12557, 2022. 10 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+Hu, D., Hou, X., Wei, L., Jiang, L.-X., and Mo, Y. MM-DFN: Multimodal dynamic fusion network for emotion recognition in conversations. In ICASSP , pp. 7037–7041. IEEE, 2022. Hu, S., Wang, Y., Liu, J., and Yang, C. XSleepFusion: A dual-stage information bottleneck fusion framework for interpretable multimodal sleep analysis. Information Fusion , 123:103275, 2025. doi: 10.1016/j.inffus.2025. 103275. Ioffe, S. and Szegedy, C. Batch normalization: Accelerating deep network training by reducing internal covariate shift. In International Conference on Machine Learning , pp. 448–456. PMLR, 2015. Jia, Z., Lin, Y., Wang, J., Wang, X., Xie, P., and Zhang, Y. SalientSleepNet: Multimodal salient wave detection network for sleep staging. In Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence (IJCAI-21) , pp. 2614–2620, 2021. Kang, Z., Li, Y., Gong, S., Zeng, W., Yan, H., Bian, L., Zhang, Z., Siok, W. T., and Wang, N. Hypergraph multi-modal learning for EEG-based emotion recognition in conversation. arXiv preprint arXiv:2502.21154 , 2025. Khalighi, S., Sousa, T., Santos, J. M., and Nunes, U. ISRUC-Sleep: A comprehensive public dataset for sleep researchers. Computer Methods and Programs in Biomedicine , 124:180–192, 2016. Khrulkov, V., Mirvakhabova, L., Ustinova, E., Oseledets, I., and Lempitsky, V. Hyperbolic image embeddings. In 
+
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 6418–6428, 2020. Kobler, R. J., Hirayama, J.-i., Zhao, Q., and Kawanabe, M. SPD domain-specific batch normalization to crack interpretable unsupervised domain adaptation in EEG. In Advances in Neural Information Processing Systems ,volume 35, pp. 6219–6235, 2022. Krioukov, D., Papadopoulos, F., Kitsak, M., Vahdat, A., and Bogun ´a, M. Hyperbolic geometry of complex networks. 
+
+Physical Review E , 82(3):036106, 2010. Lawhern, V. J., Solon, A. J., Waytowich, N. R., Gordon, S. M., Hung, C. P., and Lance, B. J. EEGNet: A com-pact convolutional neural network for EEG-based brain-computer interfaces. Journal of Neural Engineering , 15 (5):056013, 2018. Lee, H.-T., Shim, M., Liu, X., Cheon, H.-R., Kim, S.-G., Han, C.-H., and Hwang, H.-J. A review of hybrid eeg-based multimodal human–computer interfaces using deep learning: applications, advances, and challenges. 
+
+Biomedical Engineering Letters , 15(4):587–618, 2025. doi: 10.1007/s13534-025-00469-5. Lee, M. H., Shomanov, A., Begim, B., Kabidenova, Z., Nys-sanbay, A., Yazici, A., and Lee, S.-W. EAV: EEG-audio-video dataset for emotion recognition in conversational contexts. Scientific Data , 11(1):1026, 2024. Li, J., Wang, X., Lv, G., and Zeng, Z. GA2MIF: Graph and attention based two-stage multi-source information fusion for conversational emotion detection. IEEE Transactions on Affective Computing , 15(1):130–143, 2024. doi: 10. 1109/TAFFC.2023.3261279. Li, S., Kawanabe, M., and Kobler, R. J. Spdim: Source-free unsupervised conditional and label shift adaptation in eeg. In The Thirteenth International Conference on Learning Representations , 2025. Li, S., Chu, S., Ko c¸ , O., Ding, Y., Zhao, Q., Kawanabe, M., and Chen, Z. Heegnet: Hyperbolic embeddings for eeg. In International Conference on Learning Representations ,2026. Lin, Y., Wang, M., Hu, F., Cheng, X., and Xu, J. Multimodal polysomnography-based automatic sleep stage classifica-tion via multiview fusion network. IEEE Transactions on Instrumentation and Measurement , 73:2504112, 2024. doi: 10.1109/TIM.2023.3343781. Liu, M., Yang, B., Meng, L., Zhang, Y., Gao, S., Zan, P., and Xia, X. STA-Net: Spatial–temporal alignment network for hybrid EEG-fNIRS decoding. Information Fusion ,119:103023, 2025. doi: 10.1016/j.inffus.2025.103023. Liu, Z., Shen, Y., Lakshminarasimhan, V. B., Liang, P. P., Zadeh, A., and Morency, L.-P. Efficient low-rank multi-modal fusion with modality-specific factors. In Proceed-ings of the 56th Annual Meeting of the Association for Computational Linguistics , pp. 2247–2256, 2018. Lopez, S., Chiarantano, F., et al. Hierarchical hypercom-plex network for multimodal emotion recognition. arXiv preprint arXiv:2409.09194 , 2024. Lotte, F., Bougrain, L., Cichocki, A., Clerc, M., Congedo, M., Rakotomamonjy, A., and Yger, F. A review of classi-fication algorithms for eeg-based brain–computer inter-faces: a 10 year update. Journal of neural engineering ,15(3):031005, 2018. Mettes, P., Ghadimi Atigh, M., Keller-Ressel, M., Gu, J., and Yeung, S. Hyperbolic deep learning in com-puter vision: A survey. International Journal of Com-puter Vision , 132(9):3484–3508, 2024. doi: 10.1007/ s11263-024-02043-5. Mishne, G., Wan, Z., Wang, Y., and Yang, S. The nu-merical stability of hyperbolic representation learning. In International Conference on Machine Learning , pp. 24925–24949. PMLR, 2023. 11 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+Mostafaei, S. H., Tanha, J., and Sharafkhaneh, A. A novel deep learning model based on transformer and cross modality attention for classification of sleep stages. Jour-nal of Biomedical Informatics , 157:104689, 2024. doi: 10.1016/j.jbi.2024.104689. Nguyen-Van, T., Le, D. D., and Ta, T.-A. Improving hetero-geneous graph learning with weighted mixed-curvature product manifold. arXiv preprint arXiv:2307.04514 ,2023. Niedermeyer, E. and Lopes da Silva, F. H. (eds.). Electroen-cephalography: basic principles, clinical applications, and related fields . Lippincott Williams & Wilkins, 5th edition, 2005. ISBN 978-0190228484. Panksepp, J. Cross-species affective neuroscience decoding of the primal affective experiences of humans and related animals. PLoS One , 6(9):e21236, 2011. doi: 10.1371/ journal.pone.0021236. Peng, W., Varanka, T., Mostafa, A., Shi, H., and Zhao, G. Hyperbolic deep neural networks: A survey. IEEE Trans-actions on Pattern Analysis and Machine Intelligence , 44 (12):10023–10044, 2022. Pillalamarri, R. and Shanmugam, U. A review on eeg-based multimodal learning for emotion recognition. Artificial Intelligence Review , 58(5):131, 2025. Qu, E. and Zou, D. Lorentz direct concatenation for sta-ble training in hyperbolic neural networks. In NeurIPS 2022 Workshop on Symmetry and Geometry in Neural Representations , 2022. Ratcliffe, J. G. Foundations of Hyperbolic Manifolds .Springer, 2006. Sala, F., De Sa, C., Gu, A., and Re, C. Representation tradeoffs for hyperbolic embeddings. In Proceedings of the 35th International Conference on Machine Learning ,volume 80 of Proceedings of Machine Learning Research ,pp. 4460–4469. PMLR, 2018. Sharma, R. and Meena, H. K. Emerging trends in eeg signal processing: A systematic review. SN Computer Science ,5(4):415, 2024. Shi, X., Wang, H., Li, B., Qin, Y., Peng, C., and Lu, Y. Fusion analysis of EEG-fNIRS multimodal brain signals: A multitask classification algorithm incorporating spatial-temporal convolution and dual attention mechanisms. 
+
+IEEE Transactions on Instrumentation and Measurement ,74:2506312, 2025. doi: 10.1109/TIM.2025.3538086. Shimizu, R., Mukuta, Y., and Harada, T. Hyperbolic neural networks++. In International Conference on Learning Representations , 2021. Shin, J., von L ¨uhmann, A., Kim, D.-W., Mehnert, J., Hwang, H.-J., and M ¨uller, K.-R. Simultaneous acquisition of EEG and NIRS during cognitive tasks for an open access dataset. Scientific Data , 5(1):180003, 2018. Shou, Y., Meng, T., Ai, W., Zhang, F., Yin, N., and Li, K. Adversarial alignment and graph fusion via informa-tion bottleneck for multimodal emotion recognition in conversations. Information Fusion , 112:102590, 2024. Si, X., Zhang, S., Yang, Z., Yu, J., and Ming, D. A bidi-rectional cross-modal transformer representation learning model for EEG-fNIRS multimodal affective BCI. Ex-pert Systems with Applications , 266:126081, 2025. doi: 10.1016/j.eswa.2024.126081. Siddiqui, M. M., Rahman, S., Saeed, S. H., and Banodia, A. Eeg signals play major role to diagnose sleep disor-der. International Journal of Electronics and Computer Science Engineering (IJECSE) , 2(2):503–505, 2013. Suhaimi, N. S., Mountstephens, J., and Teo, J. Eeg-based emotion recognition: a state-of-the-art review of current trends and opportunities. Computational intelligence and neuroscience , 2020(1):8875426, 2020. doi: 10.1155/ 2020/8875426. Sun, S., Yu, H., Yu, R., and Wang, S. Functional connectiv-ity between the amygdala and prefrontal cortex underlies processing of emotion ambiguity. Translational psychia-try , 13(1):334, 2023. doi: 10.1038/s41398-023-02625-w. Tan, X., Lian, Q., Zhu, J., Zhang, J., Wang, Y., and Qi, Y. Effective phoneme decoding with hyperbolic neural net-works for high-performance speech BCIs. IEEE Transac-tions on Neural Systems and Rehabilitation Engineering ,32:3432–3441, 2024. Tu, G., Xiong, F., Liang, B., Wang, H., Zeng, X., and Xu, R. Multimodal emotion recognition calibration in conver-sations. In Proceedings of the 32nd ACM International Conference on Multimedia , 2024. Turner, W., Blom, T., and Hogendoorn, H. Visual informa-tion is predictively encoded in occipital alpha/low-beta oscillations. Journal of Neuroscience , 43(30):5537–5545, 2023. doi: 10.1523/JNEUROSCI.0135-23.2023. Ungar, A. A. Analytic Hyperbolic Geometry and Albert Einstein’s Special Theory of Relativity . World Scientific, 2nd edition, 2022. Wallace, B., Knoefel, F., Goubran, R., Zunini, R. A. L., Ren, Z., and Maccosham, A. Eeg/erp: Within episodic assessment framework for cognition. IEEE Transactions on Instrumentation and Measurement , 66(10):2525–2534, 2017. 12 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+Wu, W., Fan, X., Wu, Y., Gao, Z., Li, P., Jia, Y., and Harandi, M. Modality alignment across trees on heterogeneous hyperbolic manifolds. In International Conference on Learning Representations , 2026. Wu, Z., Gong, Z., Koo, J., and Hirschberg, J. Multimodal multi-loss fusion network for sentiment analysis. In Pro-ceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers) ,pp. 3588–3602, Mexico City, Mexico, 2024. Association for Computational Linguistics. doi: 10.18653/v1/2024. naacl-long.197. URL https://aclanthology. org/2024.naacl-long.197/ .Xu, H., She, Q., Meng, M., Gao, Y., and Zhang, Y. EFDFNet: A multimodal deep fusion network based on feature disentanglement for attention state classification. 
+
+Biomedical Signal Processing and Control , 109:108042, 2025. doi: 10.1016/j.bspc.2025.108042. Yang, M., Verma, H., Zhang, D. C., Liu, J., King, I., and Ying, R. Hypformer: Exploring efficient transformer fully in hyperbolic space. In Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining , pp. 3770–3781. ACM, 2024. doi: 10.1145/ 3637528.3672039. Zhang, B., Yuan, Z., Xu, H., and Gao, K. Crossmodal trans-lation based meta weight adaption for robust image-text sentiment analysis. IEEE Transactions on Multimedia ,26:9949–9961, 2024. doi: 10.1109/TMM.2024.3405662. 13 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+# A. Mathematical Foundations of Hyperbolic Neural Networks 
+
+This section provides detailed mathematical foundations for hyperbolic neural network operations used in EEG-MoCE. We organize these operations into three categories: (1) fundamental Riemannian operators that enable mappings between Euclidean and hyperbolic spaces, (2) manifold-preserving neural layers for feature transformation, and (3) task-specific modules for classification and cross-modal fusion. All formulations follow established conventions in hyperbolic deep learning (Ganea et al., 2018; Chami et al., 2019). 
+
+A.1. Fundamental Riemannian Operators 
+
+We first establish the core geometric operations that bridge Euclidean preprocessing and hyperbolic representation learning. 
+
+Tangent spaces and their role. Each point p on the Lorentz manifold LnK possesses an associated tangent space—a local Euclidean approximation where standard linear algebra applies. Formally, this tangent space is the orthogonal complement under the Lorentzian metric: 
+
+TpLnK = v ∈ Rn+1 ⟨p, v⟩L = 0 . (11) 
+
+Exponential and logarithmic maps. These maps provide bidirectional transport between the manifold and tangent spaces (Ratcliffe, 2006). The exponential map exp K 
+
+> p
+
+: TpLnK → L nK projects tangent vectors onto the manifold along geodesics: 
+
+exp K 
+
+> p
+
+(v) = cosh( α)p + sinh( α) v
+
+α , where α = √−K∥v∥L. (12) Its inverse, the logarithmic map log K 
+
+> p
+
+: LnK → TpLnK , retrieves tangent representations: 
+
+log K 
+
+> p
+
+(q) = cosh −1(β)
+
+pβ2 − 1 · (q − βp), where β = K⟨p, q⟩L. (13) For projecting Euclidean features x ∈ Rn onto LnK , we use the distinguished origin o = [ p−1/K, 0⊤]⊤, where the exponential map simplifies to: 
+
+exp K 
+
+> o
+
+(x) = 
+
+ cosh( √−K∥x∥)
+
+√−K , sinh( √−K∥x∥)
+
+√−K∥x∥ · x
+
+⊤
+
+. (14) 
+
+Parallel transport. When displacing tangent vectors between different base points, parallel transport preserves geometric relationships. For v ∈ TpLnK transported to TqLnK (Ganea et al., 2018): PT p→q(v) = v − K⟨q, v⟩L
+
+1 + K⟨p, q⟩L
+
+(p + q). (15) 
+
+A.2. Manifold-Preserving Neural Layers 
+
+Standard neural network operations must be adapted to respect manifold constraints. We describe the key modifications organized by their functional role. A.2.1. N ONLINEAR ACTIVATION FUNCTIONS 
+
+Applying nonlinearities directly to Lorentz vectors would violate manifold membership. Following the principle of operating on unconstrained coordinates (Shimizu et al., 2021; Bdeir et al., 2024), we apply activations exclusively to the spatial (spacelike) components ps ∈ Rn, then reconstruct the temporal coordinate to restore the Lorentz constraint ⟨p, p⟩L = 1 /K :
+
+σL(p) = 
+
+p∥σ(ps)∥2 − 1/K σ(ps)
+
+!
+
+, (16) where σ denotes any standard activation (e.g., ELU, ReLU). This design ensures the output remains on the hyperboloid regardless of the activation choice. 14 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+A.2.2. F EATURE AGGREGATION AND POOLING 
+
+Arithmetic averaging is ill-defined on curved manifolds. Instead, spatial pooling computes the Fr ´echet mean (Fr ´echet, 1948) over features within each receptive field. Given features {pi}Mi=1 in a pooling window, the aggregated output minimizes total squared geodesic distance (Equation (3) in main text). A.2.3. H YPERBOLIC BATCH NORMALIZATION 
+
+Batch normalization (Ioffe & Szegedy, 2015) is essential for stable training but requires adaptation to respect manifold geometry. Following the gyrovector formalism (Chen et al., 2025b; Li et al., 2026), we define hyperbolic batch normalization (HBN) using Lorentz gyrovector operations that generalize Euclidean centering and scaling. 
+
+Gyrovector operations. The Lorentz model admits a gyrovector structure where standard vector operations are replaced by their hyperbolic analogues (Ungar, 2022). Specifically, gyroaddition ⊕, gyroinverse ⊖, and gyroscalar multiplication ⊙
+
+are defined via exponential and logarithmic maps: 
+
+p ⊕ q = exp o (PT o→p(log o(q))) , (17) 
+
+⊖p = [ pt, −ps]⊤, (18) 
+
+t ⊙ p = exp o(t · log o(p)) , (19) where PT denotes parallel transport (Section A.1). 
+
+Batch normalization in hyperbolic space. Given a batch of activations {pi ∈ L nK }Mi=1 , HBN computes the Fr ´echet mean 
+
+μ and Fr ´echet variance ν2 = 1
+
+> M
+
+PMi=1 d2
+
+> L
+
+(μ, pi) as batch statistics. The normalization then centers and scales each point using gyrovector operations: HBN (pi) = γ
+
+√ν2 + ϵ ⊙ (⊖μ ⊕ pi) , ∀i ≤ M, (20) where γ ∈ R is a learnable scaling parameter and ϵ > 0 ensures numerical stability. The centering operation ⊖μ ⊕ pi
+
+translates each point by the inverse of the batch mean, analogous to subtracting the mean in Euclidean BN. The scaling operation adjusts the dispersion via gyroscalar multiplication. 
+
+Domain-specific momentum estimation. For cross-subject generalization in EEG, we adopt domain-specific momentum batch normalization (Kobler et al., 2022; Li et al., 2026). Each domain d ∈ D maintains separate running estimates 
+
+( ˜ μ(d), ˜ν2( d)) updated via geodesic interpolation: 
+
+˜μ(d) 
+
+> k
+
+= Geodesic ( ˜ μ(d)
+
+> k−1
+
+, μ(d) 
+
+> k
+
+; η), (21) 
+
+˜ν2( d) 
+
+> k
+
+= (1 − η)˜ ν2( d) 
+
+> k−1
+
++ η · ν2( d) 
+
+> k
+
+, (22) where Geodesic (p, q; t) returns the point at fraction t ∈ [0 , 1] along the geodesic from p to q, and η is a momentum parameter following an exponential decay schedule during training. At test time, a fixed momentum ηtest adapts to unseen target domains in a source-free manner. 
+
+Curvature-adaptive running statistics. When curvature K is learnable, running statistics must be transformed to preserve geometric relationships. For the running mean ˜μ, we apply log-scale-exp projection: 
+
+˜μnew = exp Knew 
+
+> o
+
+r Kold 
+
+Knew 
+
+· log Kold  
+
+> o
+
+( ˜ μold )
+
+!
+
+. (23) For variance, since ν2 ∝ 1/|K| (geodesic distance scales with 1/p|K|), we apply: 
+
+˜ν2 
+
+> new
+
+= ˜ ν2 
+
+> old
+
+· Kold 
+
+Knew 
+
+. (24) These transformations ensure that normalized features maintain consistent geometric properties as the embedding space curvature evolves during training. 15 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+A.2.4. D IMENSION TRANSFORMATION AND FEATURE PROJECTION 
+
+Linear transformations in hyperbolic space follow the Hyperbolic Transformation with Curvatures (HTC) framework (Yang et al., 2024). For input p = [ pt, p⊤ 
+
+> s
+
+]⊤ ∈ L nK with parameters W ∈ Rd′×(n+1) and b ∈ Rd′
+
+:
+
+fL(p) = 
+
+p∥˜ps∥2 − 1/K 
+
+˜ps
+
+!
+
+, where ˜ps = ψ(Wp + b), (25) with optional activation ψ, producing output ˜p ∈ L d′ 
+
+> K
+
+where d′ denotes the output dimension. This transformation applies to the full Lorentz vector, enabling both Lorentz rotations and boosts (Chen et al., 2022). Curvature changes in our framework are handled separately via log-exp map projection (see Equation (8) in the main text). 
+
+Hyperbolic concatenation. For spatially-structured inputs, we extend this to convolutions by: (1) gathering features within each receptive field, (2) performing hyperbolic concatenation of their spatial components while preserving manifold structure, and (3) applying the linear transformation. Specifically, for features {ph,w } in a window, the output is fL(HCat( {ph,w })) ,where hyperbolic concatenation (Lorentz direct concatenation (Qu & Zou, 2022)) combines N vectors as: 
+
+HCat( {pi}Ni=1 ) = 
+
+qPNi=1 p2 
+
+> it
+
++ ( N − 1) /K 
+
+p⊤
+
+> 1s
+
+, . . . , p⊤
+
+> N s
+
+!⊤
+
+∈ L nN K . (26) 
+
+A.3. Classification and Cross-Modal Fusion 
+
+A.3.1. H YPERBOLIC CLASSIFICATION VIA GEODESIC HYPERPLANES 
+
+Classification in hyperbolic space replaces Euclidean linear boundaries with geodesic hyperplanes (Ganea et al., 2018; Shimizu et al., 2021). Each class c ∈ { 1, . . . , C } is parameterized by a scalar ac ∈ R controlling hyperplane position and a direction vector zc ∈ Rn. The logit for class c measures the signed distance from input p ∈ L nK to the corresponding hyperplane: 
+
+ℓc(p) = sign (αc) · βc
+
+√−K sinh −1
+
+ √−K α c
+
+βc
+
+
+
+, (27) with intermediate quantities: 
+
+αc = cosh( √−Ka c)⟨zc, ps⟩ − sinh( √−Ka c)∥zc∥ · pt, (28) 
+
+βc =
+
+r
+
+∥ cosh( √−Ka c)zc∥2 −
+
+
+
+sinh( √−Ka c)∥zc∥
+
+2
+
+. (29) Points on the positive side of the hyperplane yield positive logits, enabling standard softmax classification. A.3.2. H YPERBOLIC CROSS -M ODAL ATTENTION 
+
+Our cross-attention mechanism enables information exchange between modalities while respecting hyperbolic geometry. Unlike self-attention, each modality m attends only to other modalities M \ { m}, ensuring pure cross-modal information flow. 
+
+Attention computation. Our attention mechanism extends Hypformer’s approach (Yang et al., 2024) by using explicit hyperbolic distance computation with curvature-adaptive temperature and curvature-based priors, while maintaining the core idea of using negative squared hyperbolic distance as similarity. After projecting all modalities to the unified fusion manifold LdKf , we compute attention weights using negative squared geodesic distance as similarity (Gulcehre et al., 2019; Yang et al., 2024): 
+
+αm→j = exp  −d2
+
+> L
+
+(q(m), k(j))/τ (m)P 
+
+> j′∈M\{ m}
+
+exp  −d2
+
+> L
+
+(q(m), k(j′))/τ (m) , (30) where query q(m) and keys k(j) are obtained via hyperbolic linear projections (Equation (25)), and τ (m) > 0 is the temperature. The squared distance admits the closed form d2
+
+> L
+
+(p, q) = −2/|Kf | − 2⟨p, q⟩L, ensuring closer points receive higher attention. 16 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+Algorithm 1 EEG-MoCE pipeline 
+
+Require: Minibatch inputs; y if training; {K(m)}, τ0, L.
+
+Ensure: ˆy; updated Θ if training.  
+
+> 1:
+
+for each modality m do  
+
+> 2:
+
+x(m) ← e(m) 
+
+> θ
+
+(·) {Euclidean encoding (Sec. 3.2) } 
+
+> 3:
+
+h(m) from Equation (10) {lift to per-modality LdK(m) } 
+
+> 4:
+
+Equation (20) {BN }; Equation (16) {activation }; Equation (26) {concatenation } → z(m) 
+
+> 5:
+
+end for  
+
+> 6:
+
+Kf ← |M| −1 P 
+
+> m
+
+K(m) 
+
+> 7:
+
+for each m do  
+
+> 8:
+
+z(m) 
+
+> f
+
+via Equation (8) {align all modalities to LdKf } 
+
+> 9:
+
+end for  
+
+> 10:
+
+for ℓ = 1 , . . . , L do  
+
+> 11:
+
+Equation (6) {curvature-scaled temperature }; Equation (7) with dL from Equation (2) {hyperbolic attention }; add 
+
+λϕ (K(j)) term of Equation (7) iff ℓ=1  
+
+> 12:
+
+merge with Equation (3) {Fr´ echet mean } 
+
+> 13:
+
+end for  
+
+> 14:
+
+Equation (4) {linear }; ˆy ← Equation (27) {MLR } 
+
+> 15:
+
+if training then  
+
+> 16:
+
+L ← CE(ˆ y, y); update Θ {RSGD (Bonnabel, 2013) where needed } 
+
+> 17:
+
+end if Multi-head aggregation. Each attention head produces an output via weighted Fr ´echet mean over attended values. Outputs across H heads are then combined via another Fr ´echet mean, followed by hyperbolic layer normalization (Yang et al., 2024): 
+
+z(m) 
+
+> cross
+
+= LN L
+
+
+
+wFM 
+
+n
+
+Head (m)
+
+> h
+
+oHh=1 
+
+ 
+
+. (31) Layer normalization applies standard normalization to spatial coordinates, then reconstructs the temporal component (analogous to Section A.2.1). 
+
+A.4. EEG-MoCE algorithm pipeline 
+
+For every expression referenced in Algorithm 1, we state its functional role, linking mathematical notation to implementation logic. The scalar fusion curvature Kf = |M| −1 P 
+
+> m∈M
+
+K(m) (Sec. 3.1) fixes the Lorentz scale of LdKf before Equation (8); it is not assigned a separate equation number. Training uses cross-entropy and parameter updates (including Riemannian steps where needed) without additional displayed objects beyond Algorithm 1. 
+
+Modality expert. Equation (10) lifts e(m) 
+
+> θ
+
+(·) onto the per-modality Lorentz manifold LdK(m) . Equation (20) performs gyrovector batch normalization on LdK(m) . Equation (16) applies σ to the spacelike components and reconstructs the time coordinate so the point remains on the hyperboloid. Equation (26) implements the Lorentz direct concatenation. 
+
+Cross-modal fusion. Equation (8) maps each expert output from LdK(m) to the shared LdKf so that the interaction between queries and keys is well defined on a unified Lorentz manifold. Equation (6) sets the per-modality softmax temperature 
+
+τ (m). Equation (2) defines the geodesic distance dL; Equation (7) builds logits from squared hyperbolic distance d2
+
+> L
+
+/τ (m)
+
+and adds the curvature prior λϕ (K(j)). Equation (3) fuses attended values inside each fusion layer and performs the final modality-level pool on LdKf .
+
+Classification head. Equation (4) applies the Lorentz fully connected map to the fused embedding on LdKf . Equation (27) maps that representation to class logits via the hyperbolic multinomial logistic regression described in Section A.3.1. 
+
+A.5. Quantifying Hierarchical Structure 
+
+To validate that target modalities benefit from hyperbolic embedding, we measure their intrinsic tree-likeness via Gromov’s 
+
+δ-hyperbolicity (Gromov, 1987). 17 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+Gromov product. For a metric space (X, d ), the Gromov product quantifies how closely three points approximate a tripod configuration: 
+
+(y, z)x = 12 (d(x, y) + d(x, z) − d(y, z)) . (32) Geometrically, larger values indicate x lies further from the geodesic between y and z.
+
+Four-point condition. A space is δ-hyperbolic if all quadruples satisfy: 
+
+(x, z)w ≥ min {(x, y)w, (y, z)w} − δ. (33) Trees satisfy this exactly with δ = 0 ; the parameter δ measures deviation from perfect tree geometry. 
+
+Scale-invariant metric. For cross-dataset comparison, we normalize by diameter (Khrulkov et al., 2020): 
+
+δrel (X) = 2δ(X)
+
+diam (X) ∈ [0 , 1] . (34) Values near zero indicate strong hierarchical structure amenable to low-distortion hyperbolic embedding. 
+
+# B. Dataset Details 
+
+We provide detailed descriptions and preprocessing procedures for the three datasets used in our experiments. 
+
+EAV (Lee et al., 2024) is a multimodal emotion recognition benchmark in conversational contexts, comprising 30-channel EEG, audio recordings of speech, and video recordings of facial expressions from 42 participants. The experiment elicited five emotions (neutral, anger, happiness, sadness, and calmness) through cue-based conversation scenarios, with each participant contributing 100 trials with simultaneous recording of all three modalities. Following the official procedure, we preprocess the dataset by downsampling the EEG signal to 100 Hz and bandpass filtering at 0.5–45 Hz. Audio is resampled to 16 kHz and converted to mel-spectrogram, while visual features are extracted using OpenFace (Baltrusaitis et al., 2016) at 5 fps. 
+
+ISRUC (Khalighi et al., 2016) is a sleep dataset containing polysomnographic (PSG) recordings, including EEG, EMG, and EOG from 10 healthy subjects. Each recording was scored by two human experts according to standard sleep staging criteria (Wake, N1, N2, N3, and REM). All PSG signals are resampled to 100 Hz and bandpass filtered (EEG: 0.3–35 Hz, EOG: 0.3–30 Hz, EMG: 10–49 Hz), followed by z-score normalization. Each 30-second epoch is organized into sequences of 20 consecutive epochs for sleep staging. 
+
+Cognitive (Shin et al., 2018) provides simultaneous EEG, EOG, and NIRS recordings from 26 participants performing cognitive tasks. The N-back cognitive task is a working memory task with three difficulty levels (0-, 2-, 3-back), where participants decide whether each presented digit matches the one shown n trials earlier. For preprocessing, EEG and EOG data are bandpass filtered at 0.5–50 Hz and resampled to 200 Hz across 28 channels. NIRS signals are lowpass filtered at 0.2 Hz and baseline-corrected using the −5 s to −2 s window. 
+
+# C. Supplementary Related Work 
+
+C.1. Hierarchical structures 
+
+In this paragraph, we provide additional evidence for the claim that the modalities used in our experiments also exhibit hierarchical structure. In visual processing, elementary features are first extracted by lower cortical regions, then integrated into increasingly complex representations by higher cortical areas (Hochstein & Ahissar, 2002). For scalp EEG, Collins et al. (Collins et al., 2018) used different stimulus frequencies to reveal distinct neural processes at different levels of the visual hierarchy. Chen et al. (Chen et al., 2025a) demonstrated that facial expressions exhibit rich hierarchical relationships, where basic expressions form the foundation for more complex compound expressions. For physiological signals, B ´uz ´as et al. (B ´uz ´as et al., 2024) revealed hierarchical levels in the temporal organization of human physical activity, where activity bursts at the minute scale are organized into superstructures at longer scales (Lopez et al., 2024). Together with our empirical results on hierarchical structure, this evidence suggests that hyperbolic embeddings are a promising framework for multimodal learning. 18 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+C.2. Baseline methods 
+
+We provide detailed descriptions of baseline methods used in our experiments. 
+
+General multimodal fusion methods are applicable across all three tasks. LMF (Liu et al., 2018) performs efficient cross-modal integration through low-rank tensor decomposition. CTMWA (Zhang et al., 2024) employs crossmodal translation network with meta weight adaption for robust multimodal fusion. MMML (Wu et al., 2024) introduces multi-loss training strategies to jointly optimize modality-specific and fusion objectives. For these methods, we keep the fusion module intact and only adapt the encoder to support input modalities. 
+
+Multimodal emotion recognition methods for EAV dataset. MM-DFN (Hu et al., 2022) employs a graph-based dynamic fusion architecture that addresses information redundancy by modeling contextual relationships across multiple semantic representations to improve inter-modal complementarity. GA2MIF (Li et al., 2024) develops two-stage multi-source information fusion using Multi-head Directed Graph Attention networks (MDGATs) for contextual modeling and Multi-head Pairwise Cross-modal Attention networks (MPCATs) for cross-modal modeling. AGF-IB (Shou et al., 2024) introduces adversarial alignment and graph fusion via information bottleneck for cross-modal learning. Hyper-MML (Kang et al., 2025) proposes a hypergraph multi-modal learning framework that integrates EEG with audio and video information, featuring an Adaptive Brain Encoder with Mutual-cross Attention (ABEMA) module for EEG processing and an Adaptive Hypergraph Fusion Module (AHFM) to model higher-order relationships among multi-modal signals. CMERC (Tu et al., 2024) presents a calibration framework that addresses prediction uncertainty in conversational emotion recognition through progressive curriculum learning, hybrid contrastive representation refinement, and confidence-based regularization. HEEGNet (Li et al., 2026) introduces hybrid Euclidean-hyperbolic neural networks for single modality EEG representation learning with improved cross-subject generalization. Among these methods, Hyper-MML and HEEGNet are the only methods designed to support EEG input. For the other methods, following (Kang et al., 2025), we replace text modality with EEG modality for fair comparison. 
+
+Multimodal sleep staging methods for ISRUC dataset. SalientSleepNet (SSNet) (Jia et al., 2021) employs a temporal fully convolutional network architecture with multi-scale extraction and multimodal attention mechanisms to identify salient wave patterns in sleep physiological signals. CrossModalSleepTransformer (CMST) (Mostafaei et al., 2024) employs transformer encoder-decoder architecture with cross-modality attention for integrating multiple physiological channels. CrossFusionSleepNet (CFSNet) (Cao et al., 2026) presents a parallel architecture that processes multimodal features from both temporal and spectral domains, utilizing cross-attention to model interdependencies between time and frequency representations. MMNet (Lin et al., 2024) develops multiview fusion networks with multiscale local feature extraction and cross-linked fusion for sleep analysis. XSleepFusion (Hu et al., 2025) proposes a dual-stage information bottleneck framework with evolutionary attention Transformer for interpretable multimodal sleep analysis. 
+
+Hybrid EEG-fNIRS learning methods for Cognitive dataset. STA-Net (Liu et al., 2025) proposes spatial-temporal alignment networks with functional near-infrared spectroscopy (fNIRS)-guided spatial alignment and EEG-guided temporal alignment to synchronize EEG and fNIRS signals. ST2A (Shi et al., 2025) introduces spatial-temporal convolution with dual attention mechanisms for EEG-fNIRS classification. EFDFNet (Xu et al., 2025) employs fNIRS features to enhance EEG feature disentanglement and uses a deep fusion strategy for effective multimodal feature integration, combining EMCNet (an attention state classification network for EEG that combines Mamba and Transformer) with fNIRS processing. TSMMF (Si et al., 2025) employs a bidirectional cross-modal transformer architecture for temporal-spatial fusion in affective BCI applications, building unified representations while maintaining separate modality branches to retain distinctive characteristics of EEG and fNIRS signals. EF-Net (Arif et al., 2024) is a CNN-based multimodal deep-learning model designed for subject-independent mental state recognition from EEG-fNIRS signals. 
+
+# D. Additional Experimental Details 
+
+D.1. Definition of Evaluation Metrics 
+
+The evaluation metrics are balanced accuracy and F1 macro, defined as: Balanced Accuracy = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+T P i + T N i
+
+T P i + T N i + F P i + F N i
+
+(35) 19 EEG-Based Multimodal Learning via Hyperbolic Mixture-of-Curvature Experts 
+
+F1 Macro = 1
+
+n
+
+> n
+
+X
+
+> i=1
+
+2 · T P i
+
+2 · T P i + F P i + F N i
+
+(36) where n is the number of classes, T P i is the true positive count for class i, T N i is the true negative count for class i, F P i is the false positive count for class i, and F N i is the false negative count for class i.
+
+D.2. Optimized fusion curvature 
+
+To further examine the mean-curvature design, we compare it with an optimization-based fusion curvature computed from pretrained per-modality curvatures. The optimization-based reference follows the perspective introduced in concurrent work on modality alignment across hyperbolic manifolds (Wu et al., 2026). Table 12 shows that the two estimates are statistically close on all datasets. We perform paired two one-sided tests (TOST) on fold-wise paired means with equivalence margin 
+
+±0.005 . The test supports that the mean curvature is an stable approximation for practical use.     
+
+> Table 12. Mean fusion curvature vs. optimization-based fusion curvature (Optimized K) derived using the objective in (Wu et al., 2026). Values are mean ±std across folds. The close agreement across datasets supports the practical use of mean fusion curvature.
+
+Dataset Mean K Optimized K
+
+EAV −2.2544 ± 0.1020 −2.2509 ± 0.1013 
+
+ISRUC −1.3511 ± 0.0777 −1.3547 ± 0.0760 
+
+Cognitive −1.9834 ± 0.0630 −1.9821 ± 0.0623 
+
+D.3. Additional Experimental Results on Cognitive Dataset 
+
+We report additional results on the Word Generation task of the Cognitive dataset. In this task, participants were instructed to think of words beginning with the given letter as fast as possible without repeating the same word; in Baseline, they relaxed and gazed at the fixation cross for low cognitive load. Table 13 compares our method with state-of-the-art approaches under the same cross-subject evaluation protocol.   
+
+> Table 13. Performance comparison with state-of-the-art methods on the Cognitive dataset, Word Generation task ( n= 26 ). We report balanced accuracy (Acc) and macro-averaged F1 (F1) under cross-subject 10-fold cross-validation.
+
+Method Acc (%) F1 (%) MMML (Wu et al., 2024) 56 .35 ± 8.22 51 .76 ± 12 .07 
+
+EFDFNet (Xu et al., 2025) 58 .85 ± 7.63 53 .83 ± 11 .13 
+
+LMF (Liu et al., 2018) 59 .74 ± 6.18 59 .16 ± 6.38 
+
+CTMWA (Zhang et al., 2024) 59 .87 ± 8.15 58 .68 ± 8.63 
+
+STA-Net (Liu et al., 2025) 62 .50 ± 8.72 58 .08 ± 12 .65 
+
+TSMMF (Si et al., 2025) 63 .82 ± 9.47 62 .87 ± 10 .36 
+
+EF-Net (Arif et al., 2024) 64 .53 ± 11 .08 63 .43 ± 12 .33 
+
+ST2A (Shi et al., 2025) 67 .27 ± 10 .45 66 .64 ± 12 .51 
+
+Ours 73 .65 ± 6.93 73 .36 ± 7.09 
+
+20

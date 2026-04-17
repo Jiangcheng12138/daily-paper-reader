@@ -1,0 +1,149 @@
+Title: An Asynchronous Delta Modulator for Spike Encoding in Event-Driven Brain-Machine Interface
+
+URL Source: https://arxiv.org/pdf/2604.08758v1
+
+Published Time: Mon, 13 Apr 2026 00:12:07 GMT
+
+Number of Pages: 5
+
+Markdown Content:
+# An Asynchronous Delta Modulator for Spike Encoding in Event-Driven Brain-Machine Interface 
+
+Kaushik Lakshmiramanan †, Vineeta Nair †, Ching-Yi Lin †, Sheng-Yu Peng ∗, and Sahil Shah †
+
+> †
+
+Department of Electrical and Computer Engineering, University of Maryland, College Park, MD, USA 
+
+> ∗
+
+Department of Electrical and Computer Engineering, National Yang Ming Chiao Tung University, Taiwan Email: speng@nycu.edu.tw sshah389@umd.edu 
+
+Abstract —This paper presents the design and implementation of an asynchronous delta modulator as a spike encoder for event-driven neural recording in a 65nm CMOS process. The proposed neuromorphic front-end converts analog signals into discrete, asynchronous ON and OFF spikes, effectively com-pressing continuous biopotentials into spike trains compatible with spiking neural networks (SNNs). Its asynchronous operation enables seamless integration with neuromorphic architectures for real-time decoding in closed-loop brain–machine interfaces (BMIs). Measurement results from silicon demonstrate an energy consumption of 60 .73 nJ /spike , an F1-score of 80% compared to a behavioral model of the asynchronous delta modulator, and a compact pixel area of 73 .45 μm × 73 .64 μm.
+
+Index Terms —Asynchronous Delta Modulator, Brain-Machine Interface, Spiking Neural Networks 
+
+I. I NTRODUCTION 
+
+The development of high-density intracortical microelec-trode arrays (MEAs) over the past decades has significantly increased the volume of neural data acquired in neural inter-faces [1]. As electrode counts continue to scale, approximately doubling every 7 years, the acquisition and transmission of raw, high-bandwidth analog data from on-chip sensors to ex-ternal processing units impose substantial demands on power and bandwidth [2]. To address these challenges, a wide range of low-power analog front-end circuit topologies have been proposed [3]–[5]. A major contributor to power consumption in these analog front-ends is the analog-to-digital converter. However, neural decoders in brain-machine interfaces (BMIs) primarily rely on action potentials, or “spikes,” to decode neural activity into kinematic information [6]–[8]. This observation motivates the use of alternative front-end architectures that directly encode analog signals into spikes, thereby eliminating the need for conventional data converters and reducing overall system power. Several approaches exist for encoding analog signals into spikes. Spike sorting techniques can extract neuron-specific ac-tivity from recorded signals, but they require computationally expensive algorithms and are often unsuitable for low-power, real-time systems [9], [10]. Alternatively, threshold-crossing methods based on noise-adaptive thresholds derived from the root mean square (RMS) voltage of the signal can be employed [7]. While widely used in neural decoding systems [11], [12], these approaches require additional circuitry to estimate noise statistics. Simpler fixed-threshold methods reduce circuit com-plexity but are sensitive to variations in signal-to-noise ratio, leading to degraded performance under low-SNR conditions, as demonstrated in this work. To overcome these limitations, we propose an analog front-end based on delta modulation, a technique widely used in dynamic vision sensors for efficient event-based encoding [13]. The proposed front-end circuit asynchronously generates events when the input signal crosses predefined upward or downward thresholds relative to a running baseline. Figure 1 illustrates the overall spike encoding mechanism. This en-coding scheme captures changes in the input signal rather than its absolute amplitude, enabling efficient representation of neural activity. Furthermore, the proposed front-end sup-ports asynchronous communication with address event rep-resentation (AER) circuits, facilitating seamless integration with event-driven neural decoders. Such decoders can further reduce system power while maintaining competitive decoding performance [14]–[16]. Threshold Crossing Delta Modulated Abs. Amplitude Thresholding 
+
+Fig. 1. Proposed method in a closed-loop BMI and SNN decoding perfor-mance comparing spiked encoded using threshold crossing, Delta-Modulated (DM) and Absolute Amplitude Threshold spikes averaging X and Y velocities using Pearson correlation coefficient ( ρ)
+
+II. E VENT -BASED NEURAL DECODING 
+
+While delta modulation offers advantages in area and power by eliminating explicit data conversion, its effectiveness for neural decoding remains an open question. In particular, it is important to evaluate whether delta-modulated spike represen-tations can achieve performance comparable to conventional threshold-crossing methods. To this end, we evaluate the decoding performance of delta-modulated (DM) spikes using a spiking neural network 
+
+> arXiv:2604.08758v1 [eess.SY] 9 Apr 2026
+
+(SNN) and compare it against threshold-crossing and absolute amplitude threshold-based encoding. The SNN incorporates an architecture similar to that of the model presented in [17]. Threshold-crossing spikes were obtained from the Nonhuman Primate (Indy) reaching dataset [18], which uses Blackrock Cerebus Neural Signal Processor’s RMS-multiplier threshold crossing algorithm [19], serving as a reference for decoding performance. Target kinematics from this same dataset [18] were used as training labels, ensuring they were precisely temporally aligned with the corresponding neural spikes. As shown in Figure 1, the proposed asynchronous delta modulator-based encoding achieves competitive decoding per-formance. DM spikes achieve an average Pearson correlation coefficient ( ρ) of 0.561, closely approaching the threshold-crossing performance of 0.585, while absolute amplitude threshold encoding shows slightly degraded performance. These results demonstrate delta modulation as an effective strategy in balancing the trade-offs between energy-efficient spike encoding and decoding accuracy. III. A SYNCHRONOUS DELTA MODULATOR 
+
+A. Background 
+
+Asynchronous delta modulators can be realized using a va-riety of circuit architectures. A well-established approach em-ploys a capacitive feedback amplifier with a reset mechanism to integrate the input signal and generate asynchronous spikes using comparators when predefined voltage thresholds are exceeded [20]. Alternative time-domain and frequency-based encoding techniques utilize differential current-controlled ring oscillators, where the oscillation frequency is modulated by input-dependent bias currents [21]. More recent designs have explored capacitive charge redistribution techniques inspired by successive approximation register (SAR) ADCs to achieve improved threshold control and linearity [22]. In addition, hybrid architectures combining SAR-based conversion with voltage-controlled oscillators within a ∆Σ loop have been proposed to leverage both coarse charge-domain and fine time-domain encoding [23]. In this work, a differencing circuit using a capacitive-feedback inverting amplifier combined with dual comparators for spike outputs is adopted. 
+
+B. Operating principle 
+
+An asynchronous delta modulator operates by continuously monitoring the difference between an incoming signal Vin (t)
+
+and the last known value V ′(t), emitting a spike event only when this difference exceeds a fixed threshold ( δ) in either direction rather than sampling at uniform time intervals. In the asynchronous delta modulator, spikes are generated as follows: 
+
+Von : Vin (t) − V ′(t) ≥ +δ (1) 
+
+Voff : Vin (t) − V ′(t) ≤ − δ (2) where V ′(t) is the last known/triggered value. Figure 2 de-picts the nominal operation of the asynchronous delta modula-tor under a representative input signal, where positive and neg-ative spike events are asynchronously generated corresponding 0.0000 0.0020 0.0040 0.0060 0.0080 0.0100 0.0120  
+
+> Time (s)
+> 200
+> 100
+> 0
+> 100
+> 200
+> Voltage (mV)
+> Vin (t)
+> V′(t)
+> Von
+> Voff
+> Fig. 2. Single action potential encoded using the asynchronous delta modu-lator
+
+to upward and downward threshold crossings, respectively. This asynchronous, level crossing behavior ensures the output spike rate scales naturally with the rate of change of the input signal, and rapidly varying signal amplitudes produce dense spike trains while quiescent periods yield silence, making the asynchronous delta modulator inherently well matched to the sparse, temporally coded representations used in neuromorphic processing pipelines. 
+
+C. Circuit Topology 
+
+The system architecture of the proposed event-driven front-end is illustrated in Figure 3(a). At its core, the asynchronous delta modulator receives an amplified analog signal from a Low-Noise Amplifier (LNA) Vin and evaluates it against the threshold set by the bias generator Vbias . Any deviation beyond the defined threshold triggers a comparator stage, the output of which triggers two Schmitt triggers to produce full-swing digital pulses. This encoding yields two distinct spike sequences for positive Von and negative transitions Voff ,respectively. The resulting asynchronous pulse streams can be routed to an Address Event Representation (AER) block for multiplexed, low-latency spike transmission to downstream processing or decoding stages. The transistor-level circuit of the asynchronous delta modu-lator is depicted in Figure 3(b). The topology is a capacitively-coupled, single-ended inverting amplifier paired with a reset mechanism for asynchronous sampling. The analog neural input Vin is AC-coupled through capacitor C1, which sup-presses DC offsets inherited from any preceding amplifier stages. Capacitor C2 serves as the feedback element with a reset transistor Mrst connected in parallel to it. Mrst , gated by Vrst and triggered by the AER or external logic, shorts the input with the output of the common-source amplifier following each spike event. The delay of the reset pulse determines the output spike width, while the reset pulse width determines the refractory period of the output spikes. This allows control over the frequency of output spikes and reduces interference from erratic signals. A Beta-Multiplier Reference provides the required bias voltage for transistors MB, MON ,and MOFF . Transistor MB, biased by Vbias , establishes the operating current of the inverting amplifier, which also defines the steady-state reference value to which the output returns (a) (b) bias out out  
+
+> AER
+> Proposed Asynchronous Delta Modulator
+> Vin
+> Von
+> Voff
+> SNN
+> Spike Encoding Fig. 3. (a) System-level block diagram of the asynchronous delta modulator interfacing with the AER communication block (b) Transistor-level schematic of the Asynchronous Delta Modulator showing the capacitive coupling, input stage, and comparator stages
+
+during reset. Transistors M1, M2, and M3 constitute the amplification and tracking of the voltage variations at the Vout 
+
+node, where, for a small time interval dt , the voltage change is given by: 
+
+dV out 
+
+dt = −A dV in 
+
+dt (3) where A = C1/C 2 is the differencing amplifier gain. After a time interval ∆t, the output voltage is given by integrating Eq. 3. 
+
+Vout = −A
+
+Z t+∆ tt
+
+dV in = −A · ∆Vin (4) If the output voltage of the amplifier exceeds the thresholds set by the bias, the comparators MON or MOFF pull their respective nodes low or high, respectively, until the reset pulse is triggered. The spikes are generated from the comparator out-puts by triggering the subsequent Schmitt triggers illustrated in Figure 3(b) to produce the final spike outputs Von and Voff . The spike outputs are used to generate a reset signal Vrst , which brings the output node of the amplifier back to the reference value to start the next integration cycle based on the input. Tuning the refractory period to a higher value helps protect against high-frequency noise while giving up on the accuracy. In a closed-loop system, the spikes would be transmitted asynchronously from a multi-electrode array using Address-event representation (AER) and then to the SNN for further decoding. Figure 4(a) presents the complete chip floorplan alongside a detailed inset of the asynchronous delta modulator’s layout. As highlighted in Figure 4(b), the core circuitry, especially the coupling and feedback capacitors ( C1 and C2), occupies the majority of the area.                  
+
+> TABLE I ASYNCHRONOUS DELTA MODULATOR HARDWARE MEASUREMENT
+> Parameter Value
+> CMOS Process 65nm Supply Voltage ( VDD )1.2 V Pixel Area 0.0054 mm 2
+> Mid-band Gain 12.14 dB Low Cut-off (-3dB) 80 Hz High Cut-off (-3dB) 8 kHz Input-referred Noise 14.990 μV rms
+> Power (Dynamic) 12.145 μW
+> Energy / Spike 60.7281 nJ/spike
+
+IV. E XPERIMENTAL RESULTS 
+
+The hardware measurement results of the fabricated asyn-chronous delta modulator chip are summarized in Table I. The mid-band gain and the cut-off frequencies (-3dB) are calcu-lated by sweeping an AC input signal across a frequency range of 0.1Hz to 1 GHz and measuring the output magnitude. The frequency bandwidth allows the capture of action potentials, which have a band of about 250 Hz-5 kHz [24]. An additional analog buffer (Abuf in Figure 4(b)) provides an output of Vout 
+
+at a dedicated node for circuit characterization and functional verification during testing. To analyze the input-referred noise, the asynchronous delta modulator’s input is grounded, and the output is captured with a spectrum analyzer. An SR560 preamplifier is used to amplify the signal above the instrument’s noise floor, and the measured output noise is then divided by the combined gain of the preamplifier and the chip’s common-source amplifier. This yields a noise spectral density of 91 .88 nV / √Hz . Integrating the noise spectral density across the operational bandwidth yields a total input-referred noise of 14.990 μV rms .The transient behavior of the circuit is demonstrated in Figure 5, where the spike outputs for a time-varying input signal ( Vin ) are measured from the chip for a duration of 2 seconds. The input is an intracortical signal sampled at 30KSPS. In this work, the reset is generated externally, with 73.45  μm73.64 μmSchmitt trigger + Buffer Abuf Bias Asynchronous Delta Modulator (a) (b) 100 μm             
+
+> Fig. 4. (a) Taped-out chip (b) Enlarged view of the asynchronous delta modulator, highlighting the core, bias, buffers, and Schmitt triggers 0.15
+> 0.10
+> 0.05
+> 0.00
+> 0.05
+> Amplitude (V)
+> 0.00 0.05 0.10 0.15 0.20 0.25 0.30
+> Time (s)
+> Voff
+> Von
+> ADM Model Fig. 5. Transient response showing the analog input waveform ( Vin ) for a 30 ms duration and the resulting asynchronous Von (blue) and Voff (red) spike raster compared against the spikes generated using a behavioral model (green)
+
+a delay of 0.1 ms and a refractory period of 1 ms . Since the positive spikes are inverted at the Schmitt trigger’s output, they are flipped digitally for use with the external reset logic and representation. Positive excursions in the input signal success-fully trigger the spikes which correspond to the Von events, and negative excursions trigger the spikes corresponding to the Voff 
+
+events. These spike events are compared against the behavioral model of the asynchronous delta modulator to calculate the accuracy and tune the thresholds accordingly. To evaluate the robustness of the asynchronous delta modu-lator, an analysis was conducted by injecting the intracortical input signals with Additive White Gaussian noise (AWGN) at varying SNR levels, simulating the degraded recording con-ditions commonly encountered in chronic implant scenarios. Figure 6 illustrates the performance of the hardware against a behavioral absolute amplitude thresholding model across a range of SNR. The baseline noise floor of the recorded signals was estimated at approximately 19 dB , quantified using the Median Amplitude Deviation (MAD) of the input signal. Zero-mean Gaussian noise was injected at four progressive levels: 1×, 1.5 ×, 2 ×, and 4 × the Median absolute value of the signal (22.84 mV ), spanning a range of approximately 10.4% to 41.5% of the 220 mV peak signal amplitude. With increasing noise level, the behavioral absolute am-plitude thresholding model exhibits a sharp deterioration in performance, with its F1-score collapsing from its perfect accuracy to approximately 50% around 15 dB . On the con-trary, the hardware asynchronous delta modulator demon-strates robustness, maintaining a stable F1-score of an average of 76.2% over a band of 19 to 15 dB . A consistent trend observed in both encoders is an increase in sensitivity (recall) at lower SNRs, as elevated noise levels trigger additional threshold crossings that manifest as false positives, partially stabilizing the F1-score at higher noise floors. However, the asynchronous delta modulator sustains its overall performance through higher precision, reflecting its ability to accurately capture true spike events while suppressing spurious noise. 10 12 14 16 18   
+
+> Signal-to-Noise Ratio (dB)
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> Overall Accuracy (F1-Score %)
+> 77.5% 78.2%
+> 72.9%
+> 61.8%
+> 100.0%
+> 52.5% 51.2%
+> 37.0%
+> ADM Operating Range
+> ADM (Hardware Circuit)
+> AAT (Behavioral Model)
+> Fig. 6. Robustness of the asynchronous delta modulator with increasing noise compared against the performance against the behavioral model of absolute amplitude modulation
+
+This robustness under degraded SNR conditions is a direct consequence of the inherent noise-shaping properties of asyn-chronous delta modulation, which shifts the quantization noise from the signal band to higher, out-of-band frequencies [25]. V. C ONCLUSION 
+
+This work presents the implementation and experimental validation of an Asynchronous Delta Modulator designed to encode continuous-time analog signals into digital spike trains. By converting intra-cortical signals into sparse, activity-dependent representations, the asynchronous delta modulator eliminates the representational mismatch between analog ac-quisition and Spiking Neural Network (SNN) architectures. Robustness evaluations against additive noise (ranging from 10.4% to 41.5% of peak amplitude) demonstrate the encoder’s stability under the degraded recording conditions typical of chronic implants. These results validate the proposed asyn-chronous delta modulator as a neuromorphic front-end capable of bridging biological signals and spike-based computational frameworks for real-time, closed-loop BMI systems. REFERENCES [1] X. Liu, Y. Gong, Z. Jiang, T. Stevens, and W. Li, “Flexible high-density microelectrode arrays for closed-loop brain–machine interfaces: a review,” Frontiers in Neuroscience , vol. 18, p. 1348434, 2024. [2] I. H. Stevenson and K. P. Kording, “How advances in neural recording affect data analysis,” Nature neuroscience ,vol. 14, no. 2, pp. 139–142, Feb. 2011. [Online]. Available: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3410539/ [3] E. Bharucha, H. Sepehrian, and B. Gosselin, “A Survey of Neural Front End Amplifiers and Their Requirements toward Practical Neural Interfaces,” Journal of Low Power Electronics and Applications , vol. 4, no. 4, pp. 268–291, 2014. [4] B. H. Abdelgaliel, M. Exalto, Y.-H. Ou-Yang, and D. G. Muratore, “A 2 × 2 Neural Amplifier Macro-Pixel with Shared DC Servo Loop for High-Density Brain-Computer Interfaces,” in 2024 IEEE Biomedical Circuits and Systems Conference (BioCAS) , Oct. 2024, pp. 1–5, iSSN: 2766-4465. [5] J. Liu and R. M. Walker, “A Compact, Low-Noise, Chopped Front-End for Peripheral Nerve Recording in 180 nm CMOS,” in 2018 IEEE Biomedical Circuits and Systems Conference (BioCAS) , Oct. 2018, pp. 1–4, iSSN: 2163-4025. [Online]. Available: https://ieeexplore.ieee.org/document/8584716/ [6] V. Gilja, P. Nuyujukian, C. A. Chestek, J. P. Cunningham, B. M. Yu, J. M. Fan, M. M. Churchland, M. T. Kaufman, J. C. Kao, S. I. Ryu, and K. V. Shenoy, “A high-performance neural prosthesis enabled by control algorithm design,” Nature Neuroscience , vol. 15, no. 12, pp. 1752–1757, Dec. 2012. [Online]. Available: https://www.nature.com/articles/nn.3265 [7] B. P. Christie, D. M. Tat, Z. T. Irwin, V. Gilja, P. Nuyujukian, J. D. Foster, S. I. Ryu, K. V. Shenoy, D. E. Thompson, and C. A. Chestek, “Comparison of spike sorting and thresholding of voltage waveforms for intracortical brain-machine interface performance,” Journal of Neural Engineering , vol. 12, no. 1, p. 016009, Feb. 2015. [8] S. K. WANDELT, S. KELLIS, D. A. BJ ˚ ANES, K. PEJSA, B. LEE, C. LIU, and R. A. ANDERSEN, “Decoding grasp and speech signals from the cortical grasp circuit in a tetraplegic human,” Neuron ,vol. 110, no. 11, pp. 1777–1787.e3, Jun. 2022. [Online]. Available: https://pmc.ncbi.nlm.nih.gov/articles/PMC9186423/ [9] T. Zhang, M. Rahimi Azghadi, C. Lammie, A. Amirsoleimani, and R. Genov, “Spike sorting algorithms and their efficient hardware im-plementation: a comprehensive survey,” Journal of Neural Engineering ,vol. 20, no. 2, p. 021001, Apr. 2023. [10] Y. Han, Y. Pan, X. Jiang, C. Sestito, S. Agwa, T. Prodromakis, and S. Wang, “L-Sort: On-chip Spike Sorting with Efficient Median-of-Median Detection and Localization-based Clustering,” Jan. 2025, arXiv:2501.17885 [eess]. [Online]. Available: http://arxiv.org/abs/2501.17885 [11] P. Watkins, G. Santhanam, K. Shenoy, and R. Harrison, “Validation of adaptive threshold spike detector for neural recording,” in The 26th Annual International Conference of the IEEE Engineering in Medicine and Biology Society , vol. 2, 2004, pp. 4079–4082. [12] Y. Yang, C. S. Boling, A. M. Kamboh, and A. J. Mason, “Adaptive threshold neural spike detector using stationary wavelet transform in cmos,” IEEE Transactions on Neural Systems and Rehabilitation Engi-neering , vol. 23, no. 6, pp. 946–955, 2015. [13] P. Lichtsteiner, C. Posch, and T. Delbruck, “A 128 × 128 120 db 15 μslatency asynchronous temporal contrast vision sensor,” IEEE Journal of Solid-State Circuits , vol. 43, no. 2, pp. 566–576, 2008. [14] E. A. Taeckens and S. Shah, “A spiking neural network with continuous local learning for robust online brain machine interface,” Journal of Neural Engineering , vol. 20, no. 6, p. 066042, Jan. 2024. [15] J. Dethier, P. Nuyujukian, S. I. Ryu, K. V. Shenoy, and K. Boahen, “Design and validation of a real-time spiking-neural-network decoder for brain–machine interfaces,” Journal of Neural Engineering , vol. 10, no. 3, p. 036008, Apr. 2013. [Online]. Available: https://doi.org/10.1088/1741-2560/10/3/036008 [16] V. Mohan, B. Zhou, Z. Wang, A. Bharath, E. Drakakis, and A. Basu, “Architectural Exploration of Hybrid Neural Decoders for Neuromorphic Implantable BMI,” in 2025 IEEE International Symposium on Circuits and Systems (ISCAS) , May 2025, pp. 1–5. [Online]. Available: https://ieeexplore.ieee.org/abstract/document/11043277 [17] E. A. Taeckens and S. Shah, “A spiking neural network with continuous local learning for robust online brain machine interface,” Journal of Neural Engineering , vol. 20, no. 6, p. 066042, Dec. 2023. [Online]. Available: https://iopscience.iop.org/article/10.1088/1741-2552/ad1787 [18] J. E. O’Doherty, M. M. B. Cardoso, J. G. Makin, and P. N. Sabes, “Nonhuman primate reaching with multichannel sensorimotor cortex electrophysiology,” May 2017. [Online]. Available: https://doi.org/10.5281/zenodo.788569 [19] M. Rizk and P. D. Wolf, “Optimizing the Automatic Selection of Spike Detection Thresholds Using a Multiple of the Noise Level,” Medical & biological engineering & computing , vol. 47, no. 9, pp. 955–966, Sep. 2009. [20] M. Sharifshazileh, K. Burelo, J. Sarnthein, and G. Indiveri, “An elec-tronic neuromorphic system for real-time detection of high frequency os-cillations (HFO) in intracranial EEG,” Nature Communications , vol. 12, p. 3095, May 2021. [21] X. Zhang, J. Acharya, and A. Basu, “A 0.11–0.38 pj/cycle differential ring oscillator in 65 nm cmos for robust neurocomputing,” IEEE Transactions on Circuits and Systems I: Regular Papers , vol. 68, no. 2, pp. 617–630, 2021. [22] M. van Elzakker, E. van Tuijl, P. Geraedts, D. Schinkel, E. A. M. Klumperink, and B. Nauta, “A 10-bit charge-redistribution adc consum-ing 1.9 μw at 1 ms/s,” IEEE Journal of Solid-State Circuits , vol. 45, no. 5, pp. 1007–1015, 2010. [23] A. Sanyal and N. Sun, “An Energy-Efficient Hybrid SAR-VCO \Delta 
+
+\Sigma Capacitance-to-Digital Converter in 40-nm CMOS,” IEEE Jour-nal of Solid-State Circuits , vol. 52, no. 7, pp. 1966–1976, Jul. 2017. [24] R. R. Harrison, R. J. Kier, C. A. Chestek, V. Gilja, P. Nuyujukian, S. Ryu, B. Greger, F. Solzbacher, and K. V. Shenoy, “Wireless neural recording with single low-power integrated circuit,” IEEE Transactions on Neural Systems and Rehabilitation Engineering , vol. 17, no. 4, pp. 322–329, 2009. [25] J. Marienborg, T. Lande, and M. Hovin, “Neuromorphic noise shaping in coupled neuron populations,” in 2002 IEEE International Symposium on Circuits and Systems. Proceedings (Cat. No.02CH37353) , vol. 5, 2002, pp. V–V.

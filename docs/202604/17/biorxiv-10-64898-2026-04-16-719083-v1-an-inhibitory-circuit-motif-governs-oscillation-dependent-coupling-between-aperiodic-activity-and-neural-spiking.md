@@ -1,0 +1,24 @@
+---
+title: An inhibitory circuit motif governs oscillation-dependent coupling between aperiodic activity and neural spiking
+title_zh: 一种抑制性环路基序调控非周期性活动与神经放电之间的振荡依赖性耦合
+authors: "Helfrich, J. D., Veit, J., Helfrich, R. F."
+date: 2026-04-17
+pdf: "https://www.biorxiv.org/content/10.64898/2026.04.16.719083v1.full.pdf"
+tags: ["query:slp-ns"]
+score: 8.0
+evidence: 不同皮层状态和行为背景下的神经放电和群体信号
+tldr: 本研究探讨了局部场电位（LFP）中非周期性活动与神经元放电之间的关系及其生理机制。通过在小鼠视觉皮层结合光遗传学和单单位记录，研究者操纵了SST、VIP和PV等抑制性神经元，发现非周期性活动虽能追踪放电率，但其耦合程度受振荡同步性的调节。研究揭示了皮层状态如何通过抑制性环路在振荡和非周期主导模式间切换，为解读神经群体信号提供了重要依据。
+source: biorxiv
+selection_source: fresh_fetch
+figures_json: "[{\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-001.webp\", \"caption\": \"\", \"page\": 4, \"index\": 1, \"width\": 986, \"height\": 260}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-002.webp\", \"caption\": \"\", \"page\": 6, \"index\": 2, \"width\": 986, \"height\": 268}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-003.webp\", \"caption\": \"\", \"page\": 7, \"index\": 3, \"width\": 986, \"height\": 244}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-004.webp\", \"caption\": \"\", \"page\": 8, \"index\": 4, \"width\": 982, \"height\": 243}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-005.webp\", \"caption\": \"\", \"page\": 10, \"index\": 5, \"width\": 985, \"height\": 656}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-006.webp\", \"caption\": \"\", \"page\": 12, \"index\": 6, \"width\": 501, \"height\": 707}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-007.webp\", \"caption\": \"\", \"page\": 23, \"index\": 7, \"width\": 946, \"height\": 223}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-008.webp\", \"caption\": \"\", \"page\": 24, \"index\": 8, \"width\": 969, \"height\": 258}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-009.webp\", \"caption\": \"\", \"page\": 25, \"index\": 9, \"width\": 909, \"height\": 258}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-010.webp\", \"caption\": \"\", \"page\": 26, \"index\": 10, \"width\": 715, \"height\": 645}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-011.webp\", \"caption\": \"\", \"page\": 27, \"index\": 11, \"width\": 1062, \"height\": 603}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-04-16-719083-v1/fig-012.webp\", \"caption\": \"\", \"page\": 28, \"index\": 12, \"width\": 515, \"height\": 475}]"
+motivation: 旨在阐明局部场电位中非周期性活动的神经生理基础，及其与神经元放电和抑制性环路之间的因果关系。
+method: 在小鼠视觉皮层利用光遗传学特异性抑制不同类型的抑制性神经元，并同步记录单神经元放电与局部场电位。
+result: 非周期性活动与神经元放电的耦合受环境和状态影响，高强度的振荡同步会显著削弱两者之间的关联。
+conclusion: 神经兴奋性的状态依赖性变化决定了电路在振荡与非周期模式间的切换，限制了从群体信号推断细胞尺度活动的准确性。
+---
+
+## 摘要
+行为源于协调的神经群体活动，然而放电和突触相互作用如何产生包括局部场电位（LFP）在内的细胞外群体信号，目前仍不清楚。除了振荡之外，非周期性 LFP 活动已成为神经兴奋性的一个推定标志，但其神经生理学基础及其与神经放电的关系尚不明确。本研究在小鼠视觉皮层中利用光遗传学以及同步的单单位和 LFP 记录，量化了在不同皮层状态和行为背景下，放电与振荡及非周期性动力学之间的关系。为了测试环路机制，我们通过光遗传学抑制了生长抑素（SST）、血管活性肠肽（VIP）或小清蛋白（PV）中间神经元的活动，以因果性地操纵抑制性驱动，从而将放电、非周期性活动和伽马振荡解耦。在不同条件下，非周期性活动以符合计算预测的方式追踪神经放电，但这种耦合具有强烈的背景和状态依赖性：高振荡同步性会削弱非周期性活动与放电之间的关联。这些结果表明，神经兴奋性的状态依赖性变化使环路活动在振荡主导和非周期性主导的模式之间切换，这为在突触或细胞尺度上解释神经群体信号设定了原则性限制。
+
+## Abstract
+Behavior arises from coordinated neural population activity, yet how spiking and synaptic interactions give rise to extracellular population signals, including local field potentials (LFPs), remains unresolved. Beyond oscillations, aperiodic LFP activity has emerged as a putative marker of neural excitability, but its neurophysiological basis and relationship to neural spiking are unclear. Here we employed optogenetics and simultaneous single-unit and LFP recordings in mouse visual cortex to quantify how spiking relates to oscillatory and aperiodic dynamics across cortical states and behavioral contexts. To test circuit mechanisms, we optogenetically suppressed the activity of somatostatin (SST), vasoactive intestinal peptide (VIP), or parvalbumin (PV) interneurons to causally manipulate inhibitory drive, thereby dissociating spiking, aperiodic activity, and gamma oscillations. Across conditions, aperiodic activity tracked neural spiking in a manner consistent with computational predictions, but this coupling was strongly context- and state-dependent: high oscillatory synchrony attenuated the relationship between aperiodic activity and spiking. These results demonstrate that state-dependent changes in neural excitability shift circuit activity between oscillation- and aperiodic-dominated regimes, placing principled limits on interpreting neural mass signals at synaptic or cellular scales.
