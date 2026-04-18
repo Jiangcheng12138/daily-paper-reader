@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/biorxiv/biorxiv-10-1101-2024-11-15-623830-v4/fig-001.webp",
+      "caption": "Figure 3: Non-unit rank models are needed to account for anisotropy present in functional neuroimaging data. A): Real-valued synthetic anisotropic phase vectors in two synthetic components. B): The (real-valued) angular central Gaussian mixture model with rank-1 components fails to account for the data anisotropy and instead fits isotropic components along the data manifold. With rank-2 or rank-3 covariance, the model adequately covers the spherical subspace on which the data is distributed. C): Functional neuroimaging data is naturally grouped into networks, which are inadequately described by rank-1 components but likely overparameterized by full-rank models. The solution involves modeling a certain predefined rank r in between 1 and p. Coupling matrices shown are the amplitude covariance corresponding to the conventional covariance matrix of the time-series data x(t), phase-amplitude coupling accounting for both phase and amplitude based on the covariance of z(t), and phase coupling disregarding amplitude information based on the covariance of u(t) shown as the global average covariances across the 255 subjects from the Human Connectome Project in resting state.",
+      "page": 6,
+      "index": 1,
+      "width": 982,
+      "height": 455
+    },
+    {
+      "url": "assets/figures/biorxiv/biorxiv-10-1101-2024-11-15-623830-v4/fig-002.webp",
+      "caption": "Figure 4: Seven-component mixture models applied to the seven task fMRI scans from the human connectome project (HCP). A): Overlap between posterior probability and the true task labels measured using normalized mutual information. B): Volume-by-volume task classification accuracy using binarized test set posterior probabilities. Components were matched to tasks based on their average performance across train subjects. The average classification accuracy across volumes and scans is shown. C): Same as B), with only one predicted component per scan based on the average within-scan posterior. In A), B), and C), boxplots depict values for N=99 test subjects, and the overlap was only evaluated within task blocks. While models were trained on all volumes, NMI and accuracies were only evaluated within task blocks. In B) and C), ** p < 0.01, *** p < 0.001 indicates significance in a Wilcoxon signed rank test, Bonferroni-corrected for three comparisons. D): The average test posterior of each of the seven components (one color for each) of the CACG mixture model at different component ranks. The x-axis represents time with whitespace demarcating different task scans. Boxes indicate the name of the task and box widths are proportional to the number of volumes in the task scan. E): Test-set confusion matrices after ordering components to their most likely task as measured by train accuracy. F): The seven components learned using the best-performing model, i.e., the CACG mixture model with rank-25 components. In the network depiction, the color of edges corresponds to the average interregional “angle” and the line thickness to the average interregional magnitude in 8 canonical networks. Grey background for edges indicates that these are distinct in comparison with all other components (Hotelling’s T2-test, pbonf < 0.05). 7",
+      "page": 7,
+      "index": 2,
+      "width": 830,
+      "height": 1068
+    },
+    {
+      "url": "assets/figures/biorxiv/biorxiv-10-1101-2024-11-15-623830-v4/fig-003.webp",
+      "caption": "Figure 5: Mixture model parameter search and estimate on resting-state fMRI for the CACG model. A): Component rank and model order compared with out-of-sample test log-likelihood (normalized by the number of samples), posterior entropy indicating component mixing for each subject, and computational reproducibility upon repeated initializations of the same model; bars represent standard error across N=99 test subjects. B): CACG mixture estimate with K=3 and component ranks r = 25. In the network representation, average inter-network angle is represented by color, and magnitude by edge thickness. Significant connections (Hotelling’s T2-test, pbonf < 0.05) are highlighted with a grey background.",
+      "page": 10,
+      "index": 3,
+      "width": 973,
+      "height": 672
+    },
+    {
+      "url": "assets/figures/biorxiv/biorxiv-10-1101-2024-11-15-623830-v4/fig-004.webp",
+      "caption": "Figure 1: Mixture modeling of fMRI signals using either their raw values, phase or phase-amplitude representations. A): The Hilbert transform can be used to create the analytic signal z(t), which decomposes a time-series x(t) into phase θ(t) and amplitude a(t). The rectangular representation of phase, discarding amplitude, is u(t) = eiθ(t). B) Mixture modeling of fMRI data can be approached using either their Euclidean representation (zero-mean Gaussian), or through the Hilbert transform providing a phase-amplitude representation (complex zero-mean Gaussian). Alternatively, the amplitude can be discarded completely and the phase modeled using the complex angular central Gaussian (CACG) distribution. c(·) is a normalization constant (see Methods for full densities).",
+      "page": 3,
+      "index": 4,
+      "width": 979,
+      "height": 419
+    },
+    {
+      "url": "assets/figures/biorxiv/biorxiv-10-1101-2024-11-15-623830-v4/fig-005.webp",
+      "caption": "Figure 2: Modeling phase coherence in its entirety. Two oscillatory signals can be compared by examining their phases, which indicate the position of each sample within the oscillation cycle. The phase difference of such signals indicates their average displacement (phase shift). Gathering many phase time series, e.g., from fMRI data, enables modeling the coherence between all region pairs. However, previous models have resorted to only modeling the cosine of pairwise phase differences, meaning that phase shifts θ and 2π−θ (red box) would lead to the same model estimate. Likewise, phase shifts of ±π/2 cannot be distinguished from uncorrelated signals (black box) using cosine models. Similarly, modeling only the sine, corresponding to the imaginary part, fails to distinguish in-phase from antiphasic signals (green box) and in-phase from uncorrelated signals (black box). These issues are resolved when modeling both cosine and sine in a combined complex-valued representation.",
+      "page": 4,
+      "index": 5,
+      "width": 985,
+      "height": 345
+    }
+  ]
+}
