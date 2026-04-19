@@ -1,0 +1,740 @@
+Title: Towards Multi-Source Domain Generalization for Sleep Staging with Noisy Labels
+
+URL Source: https://arxiv.org/pdf/2604.10009v1
+
+Published Time: Tue, 14 Apr 2026 00:25:33 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+# Towards Multi-Source Domain Generalization for Sleep Staging with Noisy Labels 
+
+## Kening Wang 1, Di Wen 1, Yufan Chen 1, Ruiping Liu 1, Junwei Zheng 1,2, Jiale Wei 1,Kailun Yang 3, Rainer Stiefelhagen 1, and Kunyu Peng 1,4,∗
+
+> 1
+
+Karlsruhe Institute of Technology, 2ETH Zurich, 3Hunan University, 4INSAIT, Sofia University “St. Kliment Ohridski” 
+
+## Abstract 
+
+Automatic sleep staging is a multimodal learning problem involv-ing heterogeneous physiological signals such as EEG and EOG, which often suffer from domain shifts across institutions, devices, and populations. In practice, these data are also affected by noisy annotations, yet label-noise-robust multi-source domain general-ization remains underexplored. We present the first benchmark for Noisy Labels in Multi-Source Domain-Generalized Sleep Staging (NL-DGSS) and show that existing noisy-label learning methods de-grade substantially when domain shifts and label noise coexist. To address this challenge, we propose FF-TRUST , a domain-invariant multimodal sleep staging framework with Joint Time-Frequency Early Learning Regularization (JTF-ELR). By jointly exploiting tem-poral and spectral consistency together with confidence-diversity regularization, FF-TRUST improves robustness under noisy super-vision. Experiments on five public datasets demonstrate consistent state-of-the-art performance under diverse symmetric and asym-metric noise settings. The benchmark and code will be made pub-licly available at https://github.com/KNWang970918/FF-TRUST.git. 
+
+## Keywords 
+
+Multi-Source Domain Generalization, Sleep Staging, Label Noise 
+
+## 1 Introduction 
+
+Sleep is essential for physiological homeostasis and overall health, and insufficient or poor-quality sleep is strongly associated with cognitive impairment and multiple chronic diseases [ 3, 5, 27 , 37 ]. Au-tomatic sleep analysis is therefore an important problem in health-care multimedia, where physiological recordings acquired during polysomnography (PSG) must be interpreted from heterogeneous and temporally structured signals. In particular, sleep stage classifi-cation (sleep staging) relies on complementary modalities such as electroencephalogram (EEG) and electrooculogram (EOG), making it a challenging multimodal sequence understanding task rather than a single-signal recognition problem. Manual scoring is labor-intensive and subjective to inter-rater variability [ 1 ]. According to the American Academy of Sleep Medicine (AASM) guidelines, sleep is categorized into wake (W), non-rapid eye movement (NREM; N1–N3), and rapid eye movement (REM) stages [ 4], motivating deep learning-based sequence-to-sequence models for automated sleep staging. Recent progress in automatic sleep staging has demonstrated the potential of deep representation learning for multimodal physi-ological time series. However, most existing methods assume clean  
+
+> ∗Correspondence (e-mail: kunyu.peng@kit.edu ).
+
+…
+
+> Label Noise
+> W, N1, N2, N3,...
+> Multi-Modal Data
+
+Figure 1: An overview of our task setting, we randomly in-ject symmetric/asymmetric label noise into the training set according to a predefined noise ratio. On the right-hand side, we deliver the comparison of the Test Accuracy under vary-ing noise conditions, where our approach shows the best performance. 
+
+annotations and often focus on relatively controlled settings [ 13 , 21 –23 ], despite the fact that real-world sleep data collected across in-stitutions, devices, and populations inevitably exhibit substantial domain shifts and annotation noise. From a multimedia perspective, this challenge is fundamentally about robust learning from hetero-geneous multimodal biosignals acquired under diverse recording conditions. To address cross-domain variability, cross-dataset Do-main Generalization of Sleep Staging (DGSS) has recently gained attention [ 44 ]. Notably, SleepDG [ 44 ] is the only work that studies cross-dataset multi-source DGSS, a more realistic yet substantially more challenging setting due to pronounced inter-institute, inter-subject, and inter-device heterogeneity. However, the impact of label noise in multi-source DGSS remains largely unexplored. Crucially, existing multi-source domain generalization meth-ods [ 11 , 44 , 46 ] implicitly assume access to clean labels, an assump-tion that rarely holds in clinical practice where annotations are costly, subjective, and error-prone. In multi-source DGSS, label noise is not a minor nuisance but a fundamental challenge: noisy supervision amplifies distributional discrepancies across datasets and significantly undermines generalization under domain shifts, as also observed in the visual domain [ 31 ]. For multimodal physio-logical signals, this problem is even more critical because domain shifts and noisy labels jointly distort both temporal dynamics and spectral patterns, which are central to reliable representation learn-ing. Ignoring label noise therefore severely limits the robustness and practical reliability of domain-generalized sleep staging models, 
+
+> arXiv:2604.10009v1 [cs.LG] 11 Apr 2026
+
+and hinders the deployment of trustworthy healthcare multimedia systems in real-world settings. To bridge this gap, we conduct the first systematic investigation of Noisy Labels in multi-source Domain-Generalized Sleep Staging 
+
+(NL-DGSS) by introducing the NL-DGSS benchmark. To evaluate re-cent label-noise learning methods in this setting, we adapt five well-established baselines, i.e. , NPN [ 38 ], JAL [ 43 ], DISC [ 18 ], ELR [ 20 ], and FedDSHAR [ 19 ], into the SleepDG [ 44 ] framework under sleep staging domain generalization settings. Our study shows that exist-ing noisy-label learning methods, largely developed for i.i.d. visual data, degrade markedly when applied to heterogeneous multimodal biosignals. This reveals a fundamental mismatch between prevail-ing visual-space noise-robust learning strategies and multimodal physiological sequence modeling under domain shifts. We attribute this limitation to the fact that existing methods largely ignore the temporal-spectral stability of physiological signals and often rely on fragile noise-transition estimation. To address the challenges brought by noisy supervision under do-main shifts in sequential biomedical data, we propose FF-TRUST , a domain-invariant multimodal sleep staging framework constrained by a novel Joint Time-Frequency Early Learning Regularization (JTF-ELR ). Built upon SleepDG [ 44 ], FF-TRUST preserves sequence-to-sequence autoencoding and sequence-/epoch-level feature align-ment for domain-invariant representation learning, while explicitly enhancing robustness to noisy labels. Specifically, JTF-ELR en-forces time-frequency historical embedding consistency through Ex-ponential Moving Average (EMA)-based regularization in both the temporal and spectral domains ( i.e. , TimeELR and FourierELR ), and further incorporates a novel forward-free confidence diver-sity regularization ( i.e. , FF-CDR ). This design stabilizes domain-agnostic optimization, suppresses unreliable supervision, and im-proves robustness under diverse label noise patterns. Moreover, the forward-free objective avoids explicit noise-transition estimation and promotes confident yet balanced predictions, thereby mitigat-ing class collapse and bias under noisy supervision. By enforcing time-frequency historical embedding consistency of sequential representations within an EMA framework, regulariz-ing confidence diversity, and exploiting the cross-domain stability of physiological spectra, FF-TRUST achieves strong robustness to label noise under multi-source domain shifts. Extensive exper-iments on the NL-DGSS benchmark built from five public sleep datasets show that FF-TRUST consistently achieves state-of-the-art performance as shown in Figure 1, with particularly large gains under severe symmetric noise ( 0.6), outperforming the best baseline by 1.69% ACC and 3.00% MF1 on average target domains. These re-sults highlight the importance of robust multimodal time-frequency representation learning for domain-generalizable healthcare multi-media analysis. 
+
+• We present the first systematic study of Noisy Labels in Domain-Generalized Sleep Staging (NL-DGSS) and introduce the NL-DGSS benchmark by adapting 5 representative label-noise learning methods into DGSS. 
+
+• We introduce FF-TRUST , the first NL-DGSS method, which combines domain-invariant sleep staging with label-noise-robust regularization enforcing time–frequency consistency on sequence-level latent representations via Fourier trans-forms and EMA-based historical spectra, along with a novel forward free confidence diversity regularization tailored for sequential biomedical signals. 
+
+• Extensive experiments on 5 sleep staging datasets show that 
+
+FF-TRUST consistently outperforms our baselines under diverse label noise, achieving state-of-the-art performance in NL-DGSS. 
+
+## 2 Related Work 
+
+Domain Generalization in Automatic Sleep Staging. Automatic sleep staging is naturally formulated as a sequence prediction prob-lem with strong temporal dependence and spectral structure. While deep models from raw EEG match or outperform hand-crafted pipelines [ 39 , 40 ], real-world deployment requires Domain General-ization (DG) across heterogeneous cohorts, hardware, and channel configurations [ 8, 50 ]. In this context, Domain Generalization of Sleep Staging (DGSS) has evolved from robust architectural designs like U-Sleep [ 32 ] and U-Time [ 33 ] to algorithmic invariance via feature alignment [ 12 , 44 ], minimal-sufficient representations [ 13 ], and multi-modal modeling [ 23 ]. Crucially, cross-dataset evalua-tion must also account for the intrinsic ambiguity of sleep labels and rater disagreement [ 36 ]. However, current DGSS approaches typically assume reliable source supervision; when label noise is dataset-dependent and co-occurs with domain shift, invariance objectives can be systematically misdirected, a vulnerability also noted in other noisy DG regimes in the visual domain [29, 30]. 
+
+Learning with Label Uncertainty and Noise. Label uncertainty is intrinsic to sleep staging, particularly in transitional stages like N1 where rater agreement is low [ 16 ]. Recent work addresses this via multi-expert modeling [ 26 , 41 ], while the broader Label Noise Learn-ing (LNL) literature offers sample selection [ 9 , 45 ], semi-supervised refinement [ 17 ], and robust regularization [ 20 , 35 , 49 ]. For class-dependent noise, canonical transition-matrix correction [ 28 ] can become brittle under domain shift, while temporal dependence in sequences can amplify early labeling errors [ 25 ]. For EEG, robust-ness is further shaped by representation: unlike noise-sensitive raw waveforms, sleep-specific spectral patterns exhibit greater sta-bility across recordings, suggesting that time-frequency cues can effectively regularize learning under noisy supervision. Against this backdrop, we study Noisy-Label Domain-Generalized Sleep Staging (NL-DGSS) and propose FF-TRUST . By leveraging early, stable time-frequency cues via an EMA-based target ( JTF-ELR ) and a forward-free objective, FF-TRUST mitigates class-dependent corruption without relying on fragile transition estima-tion under shift. 
+
+## 3 Benchmark 3.1 Label Noise Settings 
+
+In real-world sleep staging, annotation noise is difficult to collect and quantify reliably, since clean ground-truth labels are typically unavailable and inter-rater disagreement varies across datasets, scorers, and clinical protocols. Therefore, following common prac-tice in label-noise learning, we adopt controlled synthetic corrup-tion protocols to simulate symmetric and asymmetric noise. Al-though such a simulation does not perfectly reproduce real clinical annotation uncertainty, it provides a reproducible and standard-ized benchmark for evaluating robustness under different noise levels [ 18 , 38 ]. Our NL-DGSS benchmark considers two types of label noises, i.e. , symmetric label noise and asymmetric label noise under various label noise ratios according to [38]. 
+
+Symmetric Label Noise. Following previous work [ 24 ], we adopt symmetric label noise, where each clean label is independently corrupted with probability 𝜂 and replaced by a uniformly sampled incorrect class. This setting simulates random annotation errors without introducing class-dependent bias. In our experiments, we consider three noise rates, i.e., 𝜂 ∈ { 0.2, 0.4, 0.6}.
+
+Asymmetric Label Noise. To simulate structured annotation er-rors in sleep staging, we adopt a clinically informed synthetic class-dependent noise model rather than uniform random corruption. Specifically, for each clean label y, we flip the label with probability 
+
+𝜂 ; if a corruption occurs, the noisy label ˜y is sampled from a fixed transition matrix T ∈ R𝐶 ×𝐶 , where T𝑖 𝑗 = 𝑃 ( ˜y = 𝑗 | y = 𝑖 ) and 
+
+Í𝐶 𝑗 =1 T𝑖 𝑗 = 1. In contrast to symmetric noise, the off-diagonal en-tries of T are non-uniform: transitions between clinically plausible or commonly confused stages are assigned larger probability mass, such as N1 ↔ N2 and N2 ↔ N3 while implausible transitions receive a very low probability. This design is motivated by the fact that sleep-scoring disagreement is more likely to occur near ambiguous stage boundaries than uniformly across all classes. We emphasize that this asymmetric setting remains a synthetic approximation of structured annotation uncertainty, intended to provide a controlled benchmark for evaluating robustness to class-dependent label cor-ruption under domain shift, rather than a direct substitute for real inter-rater disagreement. 
+
+## 3.2 Baselines 
+
+All experiments were conducted within the SleepDG framework [ 44 ], which provides a unified pipeline for domain generalization in sleep staging. We compared the proposed method with representative baselines from major noisy-label learning paradigms, which in-clude: 
+
+Instance-level selection and correction methods , e.g. , DISC [18 ], which could identify clean samples based on learning dynamics. 
+
+Asymmetric-noise-aware approaches , e.g. , JAL [ 43 ], which ex-plicitly model class-dependent label transitions, NPN [38 ] that fo-cuses label uncertainty via partial and negative learning without prior noise, and ELR [20 ], which regularizes probability to avoid overmemorization. 
+
+Robust time-series frameworks , e.g. , FedDSHAR [ 19 ] adopts training on clean and noisy subsets. 
+
+## 4 Methodology 4.1 Domain Invariant Sleep Staging 
+
+In this subsection, we introduce the preliminaries regarding domain invariant sleep staging representation learning, which serves as the foundation of our FF-TRUST , following [ 44 ]. Our method is described in Figure 2. Generalizable sleep staging is formulated as a multi-source domain generalization problem, where each sleep dataset is treated as a distinct domain. Given multiple labeled source domains 𝑆 = {D 𝑖 𝑆 = (𝑋 𝑖 𝑆 , 𝑌 𝑖 𝑆 )} 𝑀 −1 
+
+> 𝑖 =0
+
+, where 𝑖 ∈ [ 0, ..., 𝑀 − 1] denotes the index of the source domain, and 𝑋 𝑖 𝑆 and 𝑌 𝑖 𝑆 indicate set of se-quential data and labels, the goal is to learn a model that generalizes well to an unseen target domain. Following prior work [ 44 ], the prediction function is decomposed as ℎ = 𝑓 ◦ 𝑔 , where 𝑔 denotes a feature encoder (consisting of CNN layers for basic representation learning and Transformer block for temporal aggregation) and 𝑓 is a classifier. The learning objective is shown in Eq. 1. 
+
+min  
+
+> 𝑓 ,𝑔
+
+E(x,y)∼ 𝑃 (𝑋 𝑆 ,𝑌 𝑆 ) L( 𝑓 (𝑔 (x)) , y) + 𝜆 Lreg , (1) where Lreg promotes domain-invariant representations. SleepDG [ 44 ] instantiates Lreg through four complementary loss terms that jointly serve as the base training objective, including classification, reconstruction, and feature alignment at both epoch and sequence levels, as shown in Figure 2. A sleep recording is represented as a sequence of 𝑁 𝑒 epochs, where x𝑘 and ˆx𝑘 denote the input signal of the 𝑘 -th epoch and its reconstruction. The classifier predicts 𝐶 sleep stages for each epoch. F𝑖 denotes the set of epoch-level features extracted from source domain 𝑖 , and R𝑖 denotes the expected inter-epoch correlation matrix computed from sequence features of domain 𝑖 .
+
+Classification Loss. Sleep stage prediction is supervised using a cross-entropy loss applied at the epoch level, as shown in Eq. 2, where 𝑁 𝑒 denotes the number of epochs. 
+
+Lcls = − 
+
+> 𝑁 𝑒 −1
+
+∑︁  
+
+> 𝑘 =0
+> 𝐶 −1
+
+∑︁ 
+
+> 𝑐 =0
+
+y𝑘,𝑐 log ˆ y𝑘,𝑐 . (2) 
+
+Reconstruction Loss. To encourage informative and stable repre-sentations across domains, an autoencoder structure is utilized and the reconstruction error is minimized, as shown in Eq. 3. 
+
+Lrec = 1
+
+𝑁 𝑒 𝑁 𝑒 −1∑︁ 
+
+> 𝑘 =0
+
+∥x𝑘 − ˆx𝑘 ∥22. (3) 
+
+Epoch-Level Feature Alignment. To reduce domain shift at the epoch level, marginal feature distributions are aligned across source domains by matching first-order and second-order statistics of the learned representations, as shown in Eq. 4. 
+
+Lep =∑︁ 
+
+> 𝑖 ≠𝑗
+
+
+
+∥E(F𝑖 ) − E(F𝑗 )∥ 22 + ∥ Cov (F𝑖 ) − Cov (F𝑗 )∥ 2
+
+> 𝐹
+
+
+
+, (4) where (𝑖, 𝑗 ) ∈ 𝑆 , Cov indicates covariance matrix, and ∥ · ∥ 2
+
+> 𝐹
+
+denotes the squared matrix Frobenius norm. 
+
+Sequence-Level Feature Alignment. Beyond individual epochs, temporal dependencies are aligned across sleep stages by match-ing inter-epoch correlation structures. Specifically, let R𝑖 denote the expected Pearson correlation matrix computed from sequence features in source domain 𝑖 ∈ [ 0, 𝑀 − 1]. The sequence-level align-ment loss is defined as Eq. 5. 
+
+Lseq =∑︁ 
+
+> 𝑖 ≠𝑗
+
+∥R𝑖 − R𝑗 ∥2 
+
+> 𝐹
+
+. (5) Collectively, these losses form the base training objective of domain invariant feature learning, which is shown as Eq. 6. 
+
+L = Lcls + 𝜆 1 Lrec + 𝜆 2 Lep + 𝜆 3 Lseq , (6) where 𝜆 1, 𝜆 2, and 𝜆 3 are trade-off coefficients. Sleep Datasets with Noisy Labels 
+
+> SD 1
+
+## …       
+
+> La tent Label :NREM
+> Label Noise Among Sleep Stages
+> (Asymmetric / Symmetric )
+> Feature Extractor
+> Domain Invariant Sleep Staging Feature Learning
+> Epoch-Level Alignment
+> Epoch:  N-1
+> Epoch:  N
+> Sequence-Level Alignment Reconstruction
+> Decoder
+> Joint Time-Frequency Early Learning Regularization (JTF-ELR)
+> Classification
+> Head
+> CE
+> Time Domain ELR FourierELR FF-CDR
+> EMA
+> rFFT
+> EMA
+> Prediction
+> Logits
+> Batch Mean
+> SoftMax
+> SoftMax
+> CE
+> CDR
+> EOG
+> EEG
+> EOG
+> EEG
+> SD M
+> N1 WN2 N3
+
+Figure 2: An overview of FF-TRUST architecture, comprising domain-invariant sleep staging feature learning and the proposed joint time–frequency early learning regularization. CE denotes cross-entropy loss, and CDR denotes confidence diversity regularization. 
+
+## 4.2 Joint Time-Frequency Early Learning Regularization (JTF-ELR) 
+
+While SleepDG [ 44 ] provides a strong domain-generalization base-line, its original objective assumes reliable supervision. In this work, we focus on the more challenging setting of noisy labels and intro-duce Joint Time-Frequency Early Learning Regularization ( JTF-ELR ), which enhances the original SleepDG [ 44 ] objective with three additional regularization components. Importantly, all domain invariant feature learning terms are preserved. 
+
+Early-Learning Regularization (ELR) in Time Domain. Neural networks tend to fit clean labels in early training stages before memorizing noisy labels, which is verified on the LNL problem for visual space tasks [ 20 ]. To exploit this property, we first incorporate Early-Learning Regularization (ELR) to stabilize the prediction of the time domain. For each training epoch and for prediction token 
+
+𝑛 , an Exponential Moving Average (EMA) buffer P𝑛 ∈ R𝐶 stores historical predictions, as Eq. 7. 
+
+P𝑛 ← 𝑚 ELR P𝑛 + ( 1 − 𝑚 ELR )p𝑛 , (7) where 𝑚 ELR ∈ ( 0, 1) is the ELR momentum. The ELR loss is defined as Eq. 8. 
+
+LELR = −𝜆 ELR E𝑛 
+
+h
+
+log  1 − ⟨ p𝑛 , P𝑛 ⟩i
+
+, (8) which penalizes deviations from early, stable predictions. This term is linearly warmed up during early epochs to avoid over-regularization. 
+
+Fourier-Early Learning Regularization in Frequency Domain. 
+
+While ELR in the time domain regularizes prediction probabilities based on time domain representations, it does not explicitly con-strain the regularization from periodical patterns of biomedical sequence representations. To further stabilize learning dynamics at the sequence level, we introduce a early learning regularization in frequency domain, i.e. , FourierELR .Let F ∈ R𝐵 ×𝑇 ×𝐷 denote the sequence-level latent representation extracted by the encoder 𝑔 (·) , where 𝐵 indicates batch size, 𝑇 in-dicates the temporal length, and 𝐷 is the feature dimension. We compute its frequency-domain magnitude as Eq. 9. 
+
+M = |rFFT (F)| , (9) where rFFT computes the discrete Fourier transform for real input along the time dimension. An EMA buffer Q𝑏 is maintained for each sequence, where 𝑏 indicates the 𝑏 −th sample in a batch, as Eq. 10. 
+
+Q𝑏 ← 𝑚 𝑓 Q𝑏 + ( 1 − 𝑚 𝑓 )M𝑏 , (10) where 𝑚 𝑓 is the FourierELR momentum. The FourierELR loss is defined as Eq. 11. 
+
+LFELR = 𝜆 𝑓 E𝑏 
+
+h
+
+1 − max  0, cos ( ˜M𝑏 , ˜Q𝑏 )i
+
+, (11) where ˜M𝑏 and ˜Q𝑏 denote ℓ2-normalized, vectorized spectra, and 𝜆 𝑓 
+
+controls the strength of FourierELR .The proposed regularizer is seamlessly incorporated into stan-dard mini-batch training. Specifically, for each input sequence, the encoder produces a sequence-level latent representation, which is transformed into the frequency domain by applying rFFT along the temporal axis. The resulting magnitude spectrum is then used to update an EMA buffer that maintains historical frequency repre-sentations. During each training iteration, the current frequency representation is compared against its corresponding historical es-timate via cosine similarity, and the resulting discrepancy is added to the overall training objective. Notably, FourierELR introduces no additional optimization stages and does not modify the underlying training procedure. The regularization term is optimized jointly with all other loss components through standard backpropagation. 
+
+Forward-Free Classification with Confidence Diversity Regu-larization (FF-CDR). A common approach to learning with class-dependent label noise is forward loss correction, which relies on estimating an explicit noise transition matrix to relate clean and noisy labels [ 28 ]. However, accurately estimating this matrix is chal-lenging in practice, and model training can be highly sensitive to estimation errors, which is very critical when we deal with domain shifts for biomedical data without reliable labels. To avoid these issues, we propose a forward-free classification objective that does not require an explicit transition matrix and instead regularizes model predictions directly. In the context of sleep staging, the strong temporal dependencies and spectral redundancy inherent in multi-modal EEG and EOG signals, when coupled with noisy and imbalanced labels, can induce degenerate and biased predictions under standard cross-entropy training. To tackle this problem, we introduce a novel Confidence Diver-sity Regularization (CDR). CDR promotes confident model predic-tions while simultaneously preserving output diversity, and is, to the best of our knowledge, the first approach empirically shown to effectively address label noise in biomedical data. To achieve CDR, InfoMax [ 10 ] is adopted to maximize the mutual information. By promoting stable and balanced predictions under noisy supervi-sion, this objective provides an effective forward-free alternative for learning with noisy labels in sleep staging, especially benefiting the reliability of JTF-ELR .Let z ∈ R𝐵 ×𝑇 ×𝐶 denote the logits, where 𝐵 is the batch size, 𝑇 
+
+denotes the sequence length, and 𝐶 indicates the number of classes, and let p(𝑏,𝑐 ) = 1
+
+> 𝑇
+
+Í𝑇 −1 
+
+> 𝑡 =0
+
+SoftMax (z(𝑏,𝑡,𝑐 ) ) denote the sequence-level predicted probabilities. The classification loss with CDR is refor-mulated as Eq. 12. 
+
+LFF -CDR = LCE + 𝜆 IM 
+
+
+
+E𝑛 [𝐻 (p𝑏 )] − 𝐻 ( ¯p)
+
+
+
+, (12) where 𝑏 indexes a sequence-level sample in a mini-batch, 𝐻 (p𝑏 ) =
+
+− Í𝐶 −1 
+
+> 𝑐 =0
+
+p(𝑏,𝑐 ) log p(𝑏,𝑐 ) is the prediction entropy, ¯p = 1
+
+> 𝐵
+
+Í𝐵 −1 
+
+> 𝑏 =0
+
+p𝑏 
+
+denotes the batch-mean prediction, and 𝜆 IM is a trade-off coefficient. 
+
+Overall objective. The final training objective is as Eq. 13. 
+
+Ltotal = 𝜆 ce LFF -CDR + 𝛼 (𝑡 )L ELR + L FELR 
+
++ 𝜆 1 Lrec + 𝜆 2 Lep + 𝜆 3 Lseq , (13) where 𝜆 ce controls the forward-free classification term, 𝛼 (𝑡 ) ∈ [ 0, 1]
+
+is an epoch-dependent warm-up coefficient that linearly increases the regularization weight during training, and 𝜆 1, 𝜆 2, and 𝜆 3 are weighting coefficients. 
+
+## 5 Experiments 5.1 Datasets 
+
+We follow the preprocessing protocol of SleepDG [ 44 ] and evaluate our approach and baseline methods on 5 public datasets: Sleep-EDFx [ 7 , 14 ], HMC [2], ISRUC [ 15 ], SHHS [34 , 48 ], and P2018 [ 6]. One EEG channel and one EOG channel are used per dataset to ensure cross-dataset following [ 44 ]. Sleep-EDFx and SHHS were originally labeled under R&K [ 47 ] and later aligned with AASM guidelines [ 4]. Signals were band-pass filtered (0.3–35Hz), resam-pled to 100Hz, Z-score normalized, and for Sleep-EDFx, trimmed to relevant PSG segments [39]. 
+
+## 5.2 Implementation Details 
+
+For multi-source cross-dataset domain generalization, 4 datasets served as source domains and 1 dataset was used as target do-main, which was excluded during training and validation, follow-ing [ 42 ]. FF-TRUST was implemented in PyTorch using Adam with a learning rate of 1.2 × 10 −3, weight decay 1 × 10 −4, and 
+
+𝜆 1 = 𝜆 2 = 𝜆 3 = 0.5. Models were trained for 50 epochs with batch size 32 , dropout 0.1, 𝐿 = 20 , and 𝑑 = 512 . Hyperparameters were tuned on source-domain validation sets for different Noise Rates (NR). In the domain-invariant feature learning stage, 𝜆 CE was set to 1.0 for NR ∈ { 0.2, 0.4} and 1.1 for NR = 0.6, while 𝜆 IM increased from 0.02 to 0.2 as NR rose from 0.2 to 0.6. For ELR, 𝜆 ELR was set to 
+
+0.12 (NR ∈ { 0.2, 0.4}) and 0.1 (NR = 0.6), with momentum 0.92 and 
+
+0.9, respectively. A linear ramp-up 𝛼 (𝑡 ) was applied from epoch 20 
+
+to 𝑇 end ∈ { 25 , 30 , 35 } for NR ∈ { 0.2, 0.4, 0.6}. For JTF-ELR , 𝜆 𝑓 was set to 0.08 (NR ∈ { 0.2, 0.4}) and 0.1 (NR = 0.6), with 𝑚 𝑓 = 0.9. The model has 6.5M parameters, identical to SleepDG [ 44 ]. Performance was evaluated using ACC and MF1 on 8 NVIDIA RTX 1080 Ti. 
+
+## 5.3 Analysis of the Benchmark 
+
+We evaluate FF-TRUST and 5 LNL baselines built on the SleepDG backbone [ 44 ] across 5 sleep staging datasets under symmetric and asymmetric label noise (Table 1). As the noise rate increases from 0
+
+to 0.6, both average accuracy and MF1 consistently decrease for all methods. While performance is comparable under both noise types at low and moderate levels, asymmetric label noise causes markedly larger degradation at high noise rates. Notably, our study addresses noise from the label perspective rather than the data perspective. 
+
+High-Noise Setting (NR = 0.6). FF-TRUST shows strong ro-bustness under severe label noise, with only small gaps between symmetric and asymmetric noise at a rate of 0.6 (1.82% in accuracy and 1.72% in MF1). Moreover, FF-TRUST achieves the best overall performance among all methods, reaching 73 .61% ACC / 68 .47% 
+
+MF1 under symmetric noise and 71 .79% ACC / 66 .75% MF1 under asymmetric noise. Under asymmetric noise, FF-TRUST surpasses the strongest competing baseline, FedDSHAR [19 ], by 4.42% in ACC and 4.33% in MF1, and further improves over SleepDG [ 44 ] by 6.94% 
+
+and 5.84% , respectively. In contrast, DISC [18 ] exhibits the largest sensitivity to asymmetry noise, with ACC and MF1 gaps reach-ing 7.14% and 5.88% , respectively. JAL [ 43 ] shows only marginal improvement over DISC [18 ], yet still suffers from considerable gaps of 6.73% in ACC and 6.53% in MF1. NPN [ 38 ] performs the worst among all methods, achieving only 67 .08% ACC and 61 .84% 
+
+MF1 under symmetric noise, and further dropping to 62 .99% ACC and 59 .55% MF1 under asymmetric noise, as NPN [38 ] is primarily designed for independent-sample settings, whereas sleep staging involves strong temporal dependencies, causing pseudo-label errors to propagate across consecutive epochs. 
+
+Moderate-Noise Setting (NR = 0.4). We select 𝑁 𝑅 = 0.4 to serve as the moderate label noise situation. Comparing with SleepDG w/o label noise (BASE) [44 ], symmetric and asymmetric label noise at 0.4
+
+result in 1.02% , and 1.30% ACC degradations and 1.44% , and 1.18% 
+
+MF1 degradations. Among all the leveraged baselines, ELR [20 ] de-livers the best performances with 74 .18% , 74 .34% ACC and 69 .35% ,
+
+69 .90% MF1. Most of the other baselines, e.g. , NPN [ 38 ], JAL [43 ], and DISC [ 18 ], deliver < 74 .1% ACC and 69 .30% MF1. FF-TRUST 
+
+continues to demonstrate strong and stable performance ( 74 .87% 
+
+and 75 .08% ACC, 70 .53% and 70 .48% MF1, for symmetric and asym-metric label noise, respectively), achieving the best overall average accuracy and MF1 under symmetric and asymmetric noise. 
+
+Low-Noise Setting (NR = 0.2). When the noise rate is reduced to 0.2, FF-TRUST achieves the best performance across all base-lines. Notably, its average accuracy and MF1 under both symmetric (75 .55% ACC, 71 .08% MF1) and asymmetric noise ( 75 .79% ACC, 
+
+71 .27% MF1), and even exceed those of SleepDG w/o label noise (BASE) [44 ], indicating that FF-TRUST can effectively mitigate mild label noise while preserving strong generalization perfor-mance. We further implement FF-Trust on one conventional sleep Table 1: Performance comparison of FF-TRUST with existing LNL methods under symmetric and asymmetric label noise. NR :noise rate, I: Sleep-EDFx, II: HMC, III: ISRUC, IV: SHHS, V: P2018. 
+
+Source Domain 
+
+→ Target Domain II,III,IV,V 
+
+→ II,III,IV,V 
+
+→ II I,II,IV,V 
+
+→ III I,II,III,V 
+
+→ IV I,II,III,IV 
+
+→ V Average Method Setting NR ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1 
+
+SleepDG BASE 0 76.10 70.88 73.25 70.70 77.38 73.97 75.77 67.70 73.88 69.54 75.28 70.56 sym. 0.2 75.99 70.68 71.70 69.84 76.36 72.71 75.22 67.40 73.40 68.94 74.53 69.91 0.4 75.59 69.73 70.40 68.77 75.52 71.79 75.11 66.96 72.64 68.18 73.85 69.09 0.6 70.43 64.84 65.87 62.09 73.03 66.32 73.04 63.71 70.84 63.36 70.64 64.06 asym. 0.2 76.14 70.75 73.28 70.89 77.02 73.39 74.40 66.78 73.33 69.45 74.83 70.25 0.4 74.32 68.75 72.11 70.22 75.78 71.89 73.65 66.32 73.05 69.30 73.78 69.30 0.6 67.28 62.66 57.85 54.01 63.34 58.60 68.90 62.64 66.88 66.64 64.85 60.91 NPN sym. 0.2 73.41 68.06 68.83 65.64 75.05 66.37 74.34 65.53 72.94 68.40 72.91 66.80 0.4 73.30 66.43 68.00 65.49 72.56 67.66 72.72 63.72 71.73 67.27 71.66 66.11 0.6 66.25 61.55 64.21 60.33 64.79 60.39 70.61 62.20 69.53 64.74 67.08 61.84 asym. 0.2 74.86 68.69 72.61 69.79 75.61 71.22 73.97 63.62 72.03 68.85 73.82 68.43 0.4 73.43 67.45 70.30 67.85 74.87 70.58 73.86 64.22 71.44 67.81 72.78 67.58 0.6 57.89 56.50 59.00 55.58 62.97 59.69 67.82 61.29 67.29 64.67 62.99 59.55 JAL sym. 0.2 76.63 70.51 73.31 70.07 76.67 72.41 74.46 66.16 73.06 68.64 74.83 69.56 0.4 73.57 67.18 70.37 68.12 75.27 71.06 73.78 65.03 71.59 66.71 72.92 67.62 0.6 71.93 65.47 66.21 63.64 73.92 69.37 73.86 65.78 71.38 66.15 71.46 66.08 asym. 0.2 74.86 68.69 72.61 69.79 76.79 73.10 73.43 64.93 73.06 68.64 74.15 69.03 0.4 74.59 67.54 71.28 68.07 75.39 70.10 72.74 63.69 71.66 67.05 73.13 67.29 0.6 70.35 60.65 55.64 54.66 67.05 62.74 64.15 57.35 66.44 62.35 64.73 59.55 DISC sym. 0.2 76.75 71.33 72.42 70.00 76.99 73.32 74.73 67.01 73.77 69.47 74.93 70.23 0.4 75.99 70.02 71.19 69.04 75.54 71.24 74.61 66.32 73.18 69.37 74.10 69.20 0.6 71.78 64.82 68.17 65.24 72.95 67.12 73.77 64.14 71.77 66.04 71.69 65.47 asym. 0.2 76.44 70.81 72.28 70.27 76.82 73.07 73.53 65.91 74.50 70.39 74.71 70.09 0.4 75.16 69.75 70.93 68.82 75.71 72.18 73.18 65.90 73.30 69.84 73.66 69.30 0.6 68.56 62.76 59.37 56.04 62.47 56.56 66.49 60.00 65.84 62.58 64.55 59.59 FedDSHAR sym. 0.2 76.86 71.00 70.20 67.96 76.95 72.38 74.32 66.21 73.00 68.15 74.27 69.14 0.4 75.97 69.82 70.36 68.39 76.63 72.77 73.48 64.40 72.87 68.61 73.86 68.80 0.6 72.46 65.98 67.22 64.22 73.61 68.51 73.89 65.47 70.95 64.96 71.63 65.83 asym. 0.2 76.96 70.84 71.26 68.90 76.80 72.74 75.18 67.13 72.87 68.09 74.61 69.54 0.4 76.08 70.11 70.81 68.87 75.50 71.21 73.01 65.14 73.86 68.70 73.85 68.81 0.6 70.32 64.35 60.59 58.01 69.93 64.83 67.37 60.01 68.66 64.90 67.37 62.42 ELR sym. 0.2 76.95 71.56 72.01 70.11 76.92 73.41 74.45 66.32 73.61 69.08 74.83 70.10 0.4 76.70 71.21 71.31 69.03 75.39 72.04 74.91 66.36 72.58 68.12 74.18 69.35 0.6 71.54 65.20 68.37 66.15 73.21 68.73 72.01 65.80 70.82 65.63 71.19 66.30 asym. 0.2 75.83 70.18 73.00 71.18 75.96 72.16 74.61 66.62 73.05 69.61 74.49 69.95 0.4 75.27 69.98 72.98 71.09 76.35 72.40 72.99 65.58 74.13 70.43 74.34 69.90 0.6 67.97 63.00 62.39 60.21 68.66 64.76 64.98 59.87 68.14 66.15 66.43 62.80 
+
+FF-TRUST (ours) 
+
+sym. 0.2 77.18 71.70 72.44 70.79 78.02 75.11 76.03 67.88 74.08 69.92 75.55 71.08 
+
+0.4 76.71 71.58 71.90 70.24 77.05 73.79 75.43 67.38 73.26 69.68 74.87 70.53 
+
+0.6 75.13 68.95 70.80 68.79 74.63 71.02 74.99 66.20 72.51 67.40 73.61 68.47 
+
+asym. 0.2 77.30 72.01 73.50 71.16 77.65 74.22 75.84 67.87 74.66 71.11 75.79 71.27 
+
+0.4 76.79 70.96 72.71 70.52 76.57 73.00 75.39 67.42 73.94 70.51 75.08 70.48 
+
+0.6 71.88 66.55 69.59 64.79 72.20 67.83 74.34 65.48 70.94 69.09 71.79 66.75 
+
+staging method, i.e. , DeepSleepNet [ 39 ], to demonstrate its cross-backbone generalizability in Table 2. In summary, FF-TRUST not only achieves the highest absolute performance under both sym-metric and asymmetric label noise, but also exhibits remarkable insensitivity to noise type, especially in high-noise regimes, high-lighting its strong robustness to structured class-dependent label corruption. In our FF-Trust , JTF-ELR exploits the time-frequency early-learning dynamics of sequential data by constraining both time-and frequency-domain representations to remain consistent with their EMA-based historical estimates, thereby preventing memo-rization of noisy labels and stabilizing optimization. In addition, 
+
+FF-CDR avoids explicit noise transition modeling and instead pro-motes confident yet diverse predictions, reducing class-collapse and bias under noisy supervision, which jointly explains the superior robustness of FF-TRUST over existing baselines. 
+
+## 5.4 Analysis of Module Ablation 
+
+To investigate the effectiveness of the proposed FF-CDR mod-ule, as well as the TimeELR and the FourierELR components, Table 2: Performance comparison of FF-TRUST with existing model under symmetric and asymmetric label noise. NR : noise rate, I: Sleep-EDFx, II: HMC, III: ISRUC, IV: SHHS, V: P2018.                                                                                                                                                                                   
+
+> Source Domain
+> →Target Domain II,III,IV,V
+> →II,III,IV,V
+> →II I,II,IV,V
+> →III I,II,III,V
+> →IV I,II,III,IV
+> →VAverage Method Setting NR ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1
+> DeepSleepNet BASE 074.10 68.69 70.28 67.75 77.47 73.65 74.62 67.22 71.23 66.66 73.54 68.79 sym. 0.2 72.68 67.79 69.77 67.37 77.01 72.80 73.49 65.89 70.80 66.75 72.75 68.12 0.4 70.69 65.44 67.16 64.85 76.32 71.28 74.19 66.33 70.74 65.39 71.82 66.66 0.6 69.60 62.37 65.37 61.71 74.40 67.94 73.27 64.68 69.23 61.71 70.37 63.68 asym. 0.2 73.07 67.14 68.69 66.58 76.96 72.49 73.78 66.16 70.90 66.46 72.68 67.77 0.4 71.97 67.29 68.35 66.58 76.83 72.54 68.93 61.41 71.79 68.10 71.57 67.18 0.6 57.90 53.31 58.32 55.71 66.93 62.85 58.56 54.28 64.54 62.41 61.25 57.71
+> FF-TRUST (ours)
+> sym. 0.2 73.82 68.56 70.25 68.52 77.43 73.87 74.05 66.51 71.41 67.61 73.39 69.01
+> 0.4 72.20 66.37 67.41 65.11 77.10 72.31 74.48 66.33 70.90 65.85 72.42 67.19
+> 0.6 70.62 64.24 66.96 64.35 75.82 70.48 73.73 65.14 69.77 64.90 71.38 65.82
+> asym. 0.2 73.08 68.07 69.85 67.80 76.87 72.74 73.95 66.35 72.14 67.20 73.18 68.43
+> 0.4 72.39 67.00 70.89 68.35 77.33 73.04 72.81 64.92 72.36 68.99 73.16 68.46
+> 0.6 68.32 62.81 61.15 60.10 72.83 69.67 67.93 60.86 66.68 65.49 67.38 63.79
+
+Table 3: Module ablation study under 0.6 symmetric label noise. We verify the effectiveness of TimeELR, FourierELR and FF-CDR.                                                                                                                          
+
+> Modules II,III,IV,V
+> →II,III,IV,V
+> →II I,II,IV,V
+> →III I,II,III,V
+> →IV I,II,III,IV
+> →VAverage TimeELR FourierELR FF-CDR ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1
+> 70.43 64.84 65.87 62.09 73.03 66.32 73.04 63.71 70.84 63.36 70.64 64.06
+> ✓71.54 65.20 68.37 66.15 73.21 68.73 72.01 65.80 70.82 65.63 71.19 66.30
+> ✓71.44 65.83 68.41 66.95 73.37 69.50 74.18 65.74 70.62 66.25 71.60 66.85
+> ✓71.63 65.08 68.46 66.09 73.76 69.14 74.23 65.44 71.66 66.38 71.95 66.43
+> ✓✓71.54 66.09 66.23 63.72 73.84 69.93 73.63 65.59 71.81 67.39 71.41 66.54
+> ✓✓71.40 65.94 68.84 66.59 73.64 69.58 73.04 64.95 71.42 66.81 71.67 66.77
+> ✓✓71.20 65.49 70.34 67.76 74.38 69.01 73.89 65.24 72.16 66.91 72.39 66.88
+> ✓✓✓75.13 68.95 70.80 68.79 74.63 71.02 74.99 66.20 72.51 67.40 73.61 68.47
+
+we conducted a comprehensive ablation study. In this experiment, 
+
+SleepDG [ 44 ] under 𝑁 𝑅 = 0.6 symmetric label noise is used as the base baseline (denoted as BASE ), upon which different mod-ules are progressively incorporated to evaluate their individual and combined effects. The ablated methods and their corresponding results are shown in Table 3. The component TimeELR yields a moderate improvement over the BASE model, about 0.55% higher in averaged ACC and 2.24% in averaged MF1, indicating that early learning regularization in the time domain can help mitigate overfit-ting to noisy labels, leading to more stable and reliable predictions. Similar consequences can also be observed when we solely add 
+
+FourierELR and FF-CDR .When replacing TimeELR with FourierELR+FF-CDR , the performance is further improved compared with BASE (0.77% 
+
+ACC and 2.48% MF1 for domain-averaged performance), show-ing that combining frequency-domain early-learning regulariza-tion with prediction-level confidence diversity regularization pro-vides stronger robustness against severe label noise than using time-domain ELR alone. Compared with TimeELR , the addition of FF-CDR leads to a noticeable gain, increasing averaged ACC and MF1 by 0.48% and 0.47% , respectively. Moreover, combining 
+
+TimeELR with FourierELR achieves higher test-domain averaged performance (ACC: 72 .39% , and MF1: 66 .88% ), which confirms that frequency-domain regularization provides an effective complement to TimeELR under high-rate label noise. Finally, integrating all components, i.e. , our full model, yields the best overall performance, reaching 73 .61% averaged ACC and 68 .47% averaged MF1. Com-pared with BASE , the full model outperforms BASE by 2.97% in averaged ACC and 4.41% in averaged MF1, highlighting the joint collaboration of the three modules. 
+
+## 5.5 Analysis of Qualitative Results 
+
+Figure 3 compares hypnograms from the baseline model DISC [ 18 ]and the proposed FF-TRUST model on Sleep-EDFx under 𝑁 𝑅 = 0.6
+
+symmetric label noise, under which FF-TRUST achieves closer alignment with the ground truth than DISC [ 18 ], especially in non-REM sleep stages. These results demonstrate that FF-TRUST pro-duces more stable and temporally coherent stage predictions under noisy labels, thereby limiting error propagation across consecutive epochs. By jointly regularizing early-learning signals in both time and frequency domains, and confidence diversity, JTF-ELR anchors optimization to temporally and spectrally stable patterns that are less affected by label corruption, thereby preventing rapid drift toward label noise. This time-frequency historical consistency con-straint dampens gradient oscillations induced by incorrect labels 0 1 2 3 4 5 6 7  
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage
+> True labels Predicted labels Mismatch
+
+(a) DISC 0 1 2 3 4 5 6 7  
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage
+> True labels Predicted labels Mismatch
+
+(b) FF-TRUST 
+
+Figure 3: Comparison of hypnograms generated by the base-line model (a) DISC and (b) the proposed FF-TRUST model on Sleep-EDFx under 𝑁 𝑅 = 0.6 symmetric label noise. True sleep stages (blue), predicted stages (red dashed) and mismatches (purple bar at bottom) are visualized over time. t-SNE visualization of features for label 
+
+> Wake
+> N1
+> N2
+> N3
+> REM
+
+(a1) t-SNE visualization of features for label  
+
+> Wake
+> N1
+> N2
+> N3
+> REM
+
+(a2) (a) DISC t-SNE visualization of features for label 
+
+> Wake
+> N1
+> N2
+> N3
+> REM
+
+(b1) t-SNE visualization of features for label  
+
+> Wake
+> N1
+> N2
+> N3
+> REM
+
+(b2) (b) FF-TRUST (Ours) 
+
+Figure 4: T-SNE visualizations of feature distributions for DISC and FF-TRUST on the HMC and ISRUC datasets. (a1), (a2) show DISC on HMC and ISRUC, respectively, while (b1), (b2) show FF-TRUST. 
+
+and stabilizes training dynamics, leading to more reliable conver-gence under severe label noise. 
+
+## 6 Analysis of T-SNE Visualization 
+
+As shown in Figure 4, DISC [ 18 ] exhibits considerable overlap among different sleep stages and noticeable variations in embedding structures across datasets. In particular, in Figure 4 (a2) , the REM samples under DISC [18 ] are fragmented into multiple sub-clusters 0 10 20 30 40 50 
+
+> Epoch
+> 0.0
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> Accuracy
+> Comparison of Training Accuracy Dynamics: FF-TRUST vs. SleepDG
+> FF-TRUST
+> SleepDG
+
+(a) Training ACC 0 10 20 30 40 50  
+
+> Epoch
+> 0.0
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> MF1
+> Comparison of Training MF1 Dynamics: FF-TRUST vs. SleepDG
+> FF-TRUST
+> SleepDG
+
+(b) Training MF1 
+
+Figure 5: Comparison of training accuracy (a) and MF1 score (b) over epochs for FF-TRUST and SleepDG on the HMC dataset under 𝑁 𝑅 = 0.6 asymmetric label noise. 
+
+on the ISRUC dataset, indicating unstable class representations across domains. In contrast, FF-TRUST produces more compact and well-separated clusters on both HMC and ISRUC, with highly consistent geometric structures. This suggests that FF-TRUST bet-ter preserves intrinsic class semantics while mitigating domain-induced feature distortions under label noise perturbations. 
+
+## 6.1 Analysis of Training Visualization 
+
+Figure 5 visualizes the training accuracy and macro-F1 curves before and after applying the proposed regularization on the HMC dataset under 𝑁 𝑅 = 0.6 asymmetric label noise. As shown in Figure 5, FF-TRUST exhibits significantly more stable training dynamics com-pared to SleepDG [ 44 ] under 𝑁 𝑅 = 0.6 asymmetric label noise. In terms of training accuracy (Figure 5 (a) ), FF-TRUST demonstrates smoother and more consistent convergence, while SleepDG [ 44 ]suffers from pronounced oscillations throughout training. A sim-ilar trend is observed for the MF1 score (Figure 5 (b) ), where FF-TRUST achieves steadily improving performance and maintains a clear advantage in the later epochs. These results indicate that the proposed regularization effectively mitigates the adverse impact of asymmetric label noise, leading to more robust and stable optimiza-tion behavior. We provide additional details in the Supplementary Material. 
+
+## 7 Conclusion 
+
+In this work, we propose FF-TRUST , a multi-source domain gen-eralization framework for multimodal sleep staging under noisy supervision, along with the first NL-DGSS benchmark. By jointly exploiting early-learning dynamics in the temporal and frequency domains and incorporating forward-free confidence diversity regu-larization, FF-TRUST achieves robust predictions without explicit noise-transition estimation. Extensive experiments on five public datasets show that FF-TRUST consistently outperforms existing baselines under diverse noise settings, particularly in high-noise regimes. Our findings highlight the value of robust multimodal time-frequency learning for domain-generalizable healthcare mul-timedia and real-world physiological signal analysis. References 
+
+[1] Aboalayon, K. A. I., Faezipour, M., Almuhammadi, W. S., and Moslehpour, S. Sleep stage classification using EEG signal analysis: A comprehensive survey and new investigation. Entropy (2016). [2] Alvarez-Estevez, D., and Rijsman, R. M. Inter-database validation of a deep learning approach for automatic sleep scoring. PloS one (2021). [3] Baglioni, C., Spiegelhalder, K., Nissen, C., and Riemann, D. Clinical im-plications of the causal relationship between insomnia and depression: how individually tailored treatment of sleeping difficulties could prevent the onset of depression. Epma Journal (2011). [4] Berry, R. B., Brooks, R., Gamaldo, C. E., Harding, S. M., Marcus, C., and Vaughn, B. V. The AASM manual for the scoring of sleep and associated events. 
+
+Rules, Terminology and Technical Specifications, Darien, Illinois, American Academy of Sleep Medicine (2012). [5] Czeisler, C. A. Duration, timing and quality of sleep are each vital for health, performance and safety. Sleep Health: Journal of the National Sleep Foundation 
+
+(2015). [6] Ghassemi, M. M., Moody, B. E., Lehman, L.-W. H., Song, C., Li, Q., Sun, H., Mark, R. G., Westover, M. B., and Clifford, G. D. You snooze, you win: the physionet/computing in cardiology challenge 2018. In CinC (2018). [7] Goldberger, A. L., Amaral, L. A. N., Glass, L., Hausdorff, J. M., Ivanov, P. C., Mark, R. G., Mietus, J. E., Moody, G. B., Peng, C.-K., and Stanley, H. E. 
+
+Physiobank, physiotoolkit, and physionet: components of a new research resource for complex physiologic signals. Circulation (2000). [8] Gulrajani, I., and Lopez-Paz, D. In search of lost domain generalization. In 
+
+ICLR (2021). [9] Han, B., Yao, Q., Yu, X., Niu, G., Xu, M., Hu, W., Tsang, I., and Sugiyama, M. 
+
+Co-teaching: Robust training of deep neural networks with extremely noisy labels. NeurIPS (2018). [10] Hjelm, R. D., Fedorov, A., Lavoie-Marchildon, S., Grewal, K., Bachman, P., Trischler, A., and Bengio, Y. Learning deep representations by mutual information estimation and maximization. arXiv preprint arXiv:1808.06670 (2018). [11] Hu, S., Liao, Z., Zhang, J., and Xia, Y. Domain and content adaptive convolution based multi-source domain generalization for medical image segmentation. TMI 
+
+(2022). [12] Jia, Z., Lin, Y., Wang, J., Ning, X., He, Y., Zhou, R., Zhou, Y., and Li-wei, H. L. Multi-view spatial-temporal graph convolutional networks with domain generalization for sleep stage classification. TNSRE (2021). [13] Jo, S., Yoon, J. S., Jeong, W., Oh, K., and Suk, H.-I. MEASURE: Multi-scale minimal sufficient representation learning for domain generalization in sleep staging. arXiv preprint arXiv:2510.12070 (2025). [14] Kemp, B., Zwinderman, A. H., Tuk, B., Kamphuisen, H. A. C., and Oberye, J. J. L. Analysis of a sleep-dependent neuronal feedback loop: the slow-wave microcontinuity of the EEG. TBME (2000). [15] Khalighi, S., Sousa, T., Santos, J. M., and Nunes, U. ISRUC-Sleep: A compre-hensive public dataset for sleep researchers. Computer Methods and Programs in Biomedicine (2016). [16] Lee, Y. J., Lee, J. Y., Cho, J. H., and Choi, J. H. Interrater reliability of sleep stage scoring: a meta-analysis. Journal of Clinical Sleep Medicine (2022). [17] Li, J., Socher, R., and Hoi, S. C. H. DivideMix: Learning with noisy labels as semi-supervised learning. In ICLR (2020). [18] Li, Y., Han, H., Shan, S., and Chen, X. DISC: Learning from noisy labels via dynamic instance-specific selection and correction. In CVPR (2023). [19] Lin, Z., Jiang, X., Zhang, K., Fan, C., and Liu, Y. FedDSHAR: A dual-strategy federated learning approach for human activity recognition amid noise label user. 
+
+Future Generation Computer Systems (2025). [20] Liu, S., Niles-Weed, J., Razavian, N., and Fernandez-Granda, C. Early-learning regularization prevents memorization of noisy labels. In NeurIPS (2020). [21] Lv, F., Liang, J., Li, S., Zang, B., Liu, C. H., Wang, Z., and Liu, D. Causality inspired representation learning for domain generalization. In CVPR (2022). [22] Ma, S., Zhang, Y., Chen, Y., Xie, T., Song, S., and Jia, Z. Exploring structure incentive domain adversarial learning for generalizable sleep stage classification. 
+
+TIST (2024). [23] Ma, S., Zhang, Y., Zhang, Q., Chen, Y., Wang, H., and Jia, Z. SleepMG: Multi-modal generalizable sleep staging with inter-modal balance of classification and domain discrimination. In MM (2024). [24] Ma, X., Huang, H., Wang, Y., Romano, S., Erfani, S., and Bailey, J. Normalized loss functions for deep learning with noisy labels. In ICML (2020). [25] Nagaraj, S., Gerych, W., Tonekaboni, S., Goldenberg, A., Ustun, B., and Hartvigsen, T. Learning under temporal label noise. In ICLR (2025). [26] Nasiri, S., Ganglberger, W., Sun, H., Thomas, R. J., and Westover, M. B. 
+
+Exploiting labels from multiple experts in automated sleep scoring, 2023. [27] Neckelmann, D., Mykletun, A., and Dahl, A. A. Chronic insomnia as a risk factor for developing anxiety and depression. Sleep (2007). [28] Patrini, G., Rozza, A., Krishna Menon, A., Nock, R., and Qu, L. Making deep neural networks robust to label noise: A loss correction approach. In CVPR (2017). [29] Peng, K., Wen, D., Saqib, S. M., Chen, Y., Zheng, J., Schneider, D., Yang, K., Wu, J., Roitberg, A., and Stiefelhagen, R. Mitigating label noise using prompt-based hyperbolic meta-learning in open-set domain generalization. arXiv preprint arXiv:2412.18342 (2024). [30] Peng, K., Wen, D., Yang, K., Fu, J., Chen, Y., Liu, R., Wu, J., Zheng, J., Sarfraz, M. S., Gool, L. V., Paudel, D. P., and Stiefelhagen, R. EReLiFM: Evidential reliability-aware residual flow meta-learning for open-set domain generalization under noisy labels. arXiv preprint arXiv:2510.12687 (2025). [31] Peng, K., Wen, D., Yang, K., Luo, A., Chen, Y., Fu, J., Sarfraz, M. S., Roitberg, A., and Stiefelhagen, R. Advancing open-set domain generalization using evidential bi-level hardest domain scheduler. In NeurIPS (2024). [32] Perslev, M., Darkner, S., Kempfner, L., Nikolic, M., Jennum, P. J., and Igel, C. 
+
+U-sleep: resilient high-frequency sleep staging. NPJ digital medicine (2021). [33] Perslev, M., Jensen, M. H., Darkner, S., Jennum, P. J., and Igel, C. U-Time: A fully convolutional network for time series segmentation applied to sleep staging. In NeurIPS (2019). [34] Quan, S. F., Howard, B. V., Iber, C., Kiley, J. P., Nieto, F. J., O’Connor, G. T., Rapoport, D. M., Redline, S., Robbins, J., Samet, J. M., Samet, J. M., and Wahl, P. W. The sleep heart health study: Design, rationale, and methods. Sleep (1997). [35] Reed, S., Lee, H., Anguelov, D., Szegedy, C., Erhan, D., and Rabinovich, A. 
+
+Training deep neural networks on noisy labels with bootstrapping. arXiv preprint arXiv:1412.6596 (2015). [36] Rossi, A. D., Metaldi, M., Bechny, M., Filchenko, I., Meer, J. v. d., Schmidt, M. H., Bassetti, C. L., Tzovara, A., Faraci, F. D., and Fiorillo, L. SLEEPYLAND: trust begins with fair evaluation of automatic sleep staging models. npj Digital Medicine (2025). [37] Sharma, S., and Kavuru, M. Sleep and metabolism: an overview. International Journal of Endocrinology (2010). [38] Sheng, M., Sun, Z., Cai, Z., Chen, T., Zhou, Y., and Yao, Y. Adaptive integration of partial label learning and negative learning for enhanced noisy label learning. In AAAI (2024). [39] Supratak, A., Dong, H., Wu, C., and Guo, Y. DeepSleepNet: A model for automatic sleep stage scoring based on raw single-channel EEG. TNSRE (2017). [40] Supratak, A., and Guo, Y. TinySleepNet: An efficient deep learning model for sleep stage scoring based on raw single-channel EEG. In EMBC (2020). [41] Van Gorp, H., van Gilst, M. M., Fonseca, P., Overeem, S., and van Sloun, R. J. 
+
+Modeling the impact of inter-rater disagreement on sleep statistics using deep generative learning. IEEE Journal of Biomedical and Health Informatics (2023). [42] Wang, J., Lan, C., Liu, C., Ouyang, Y., Qin, T., Lu, W., Chen, Y., Zeng, W., and Yu, P. Generalizing to unseen domains: A survey on domain generalization. 
+
+TKDE (2023). [43] Wang, J., Liu, X., Zhou, X., Hu, G., Zhai, D., Jiang, J., and Ji, X. Joint asymmetric loss for learning with noisy labels. In ICCV (2025). [44] Wang, J., Zhao, S., Jiang, H., Li, S., Li, T., and Pan, G. Generalizable sleep staging via multi-level domain alignment. In AAAI (2024). [45] Wei, H., Feng, L., Chen, X., and An, B. Combating noisy labels by agreement: A joint training method with co-regularization. In CVPR (2020). [46] Wei, Y., and Han, Y. Multi-source collaborative gradient discrepancy minimiza-tion for federated domain generalization. In AAAI (2024). [47] Wolpert, E. A. A manual of standardized terminology, techniques and scoring system for sleep stages of human subjects. Archives of General Psychiatry (1969). [48] Zhang, G.-Q., Cui, L., Mueller, R., Tao, S., Kim, M., Rueschman, M., Mariani, S., Mobley, D., and Redline, S. The national sleep research resource: towards a sleep data commons. Journal of the American Medical Informatics Association 
+
+(2018). [49] Zhang, Z., and Sabuncu, M. Generalized cross entropy loss for training deep neural networks with noisy labels. In NeurIPS (2018). [50] Zhou, K., Liu, Z., Qiao, Y., Xiang, T., and Loy, C. C. Domain generalization: A survey. TPAMI (2023). 0 1 2 3 4 5 6 7
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage  True labels
+> Predicted labels
+
+(a) DISC 0 1 2 3 4 5 6 7
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage  True labels
+> Predicted labels
+
+(b) FF-TRUST 
+
+Figure 6: Comparison of hypnograms generated by the base-line model (a) DISC and (b) the proposed FF-TRUST model on HMC under 𝑁 𝑅 = 0.6 symmetric label noise. True sleep stages (blue) and predicted stages (red dashed) are visualized over time. 
+
+## A Broader Impact and Limitations 
+
+Broader Impact: This work advances robust automatic sleep stag-ing by explicitly addressing the combined challenges of domain shifts and label noise, which are pervasive in real-world clinical and wearable sleep monitoring scenarios. By improving generaliza-tion across heterogeneous datasets with imperfect annotations, the proposed approach has the potential to reduce reliance on costly expert labeling and enable more scalable, accessible sleep health assessment. Such robustness may facilitate broader deployment of sleep analysis tools in under-resourced settings, large popu-lation studies, and longitudinal home-based monitoring, thereby supporting earlier detection of sleep disorders and related health risks. At the same time, automated sleep staging systems should be used to assist rather than replace clinical judgment, as erroneous predictions could lead to misinterpretation if deployed without appropriate safeguards. There is also a risk that models trained on limited public datasets may still underperform for populations with atypical physiology or recording conditions, highlighting the need for continued validation and auditing. Overall, this work con-tributes methodological insights that can improve the reliability of machine learning systems for biomedical time series while under-scoring the importance of responsible deployment in health-related applications. Limitations: Despite improved robustness to label noise and domain shifts, the proposed method is evaluated only on a limited set of public sleep datasets ( 5 public available datasets) and may not fully capture the diversity of recording devices, clini-cal protocols, or population-specific sleep patterns encountered in real-world deployments 0 1 2 3 4 5 6 7
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage  True labels
+> Predicted labels
+
+(a) DISC 0 1 2 3 4 5 6 7
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage  True labels
+> Predicted labels
+
+(b) FF-TRUST 
+
+Figure 7: Comparison of hypnograms generated by the base-line model (a) DISC and (b) the proposed FF-TRUST model on ISRUC under 𝑁 𝑅 = 0.6 symmetric label noise. True sleep stages (blue) and predicted stages (red dashed) are visualized over time. 0 1 2 3 4 5 6 7
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage  True labels
+> Predicted labels
+
+(a) DISC 0 1 2 3 4 5 6 7
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage  True labels
+> Predicted labels
+
+(b) FF-TRUST 
+
+Figure 8: Comparison of hypnograms generated by the base-line model (a) DISC and (b) the proposed FF-TRUST model on SHHS under 𝑁 𝑅 = 0.6 symmetric label noise. True sleep stages (blue) and predicted stages (red dashed) are visualized over time. 
+
+## B Ablation study of FourierELR B.1 Methodology Description of Ablated Variant 
+
+In this subsection, we further provide an ablated variant of Fouri-erELR , which is denoted as FourierELR (log) , detailed as follows. According to the methodology description shown in our main paper, we first compute the frequency-domain magnitude of the learned sleep staging embeddings as Eq. 14. 
+
+M = |rFFT (F)| , (14) Table 4: Performance comparison of FourierELR with variant under symmetric and asymmetric label noise. NR : noise rate, I: Sleep-EDFx, II: HMC, III: ISRUC, IV: SHHS, V: P2018. 
+
+> Source Domain
+
+→ Target Domain II,III,IV,V 
+
+→ II,III,IV,V 
+
+→ II I,II,IV,V 
+
+→ III I,II,III,V 
+
+→ IV I,II,III,IV 
+
+→ V Average Method Setting NR ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1                                                                                                                                                         
+
+> FourierELR(log) sym. 0.2 76.83 71.63 72.06 70.19 77.15 74.28 76.59 68.02 73.89 70.44 75.30 70.91 0.4 76.30 70.98 71.14 68.86 76.40 73.16 76.07 67.84 72.48 68.40 74.48 69.85 0.6 72.80 66.00 68.38 64.72 73.78 68.75 75.34 66.01 71.96 66.41 72.45 66.38 asym. 0.2 77.05 71.26 73.54 71.28 77.07 73.42 75.59 67.60 73.85 69.48 75.42 70.61 0.4 76.44 71.09 72.56 70.84 76.53 72.77 75.80 67.60 73.79 69.49 75.02 70.36 0.6 70.06 65.73 65.95 64.50 71.60 67.56 69.03 62.02 68.51 66.07 69.03 65.18 FourierELR sym. 0.2 77.18 71.70 72.44 70.79 78.02 75.11 76.03 67.88 74.08 69.92 75.55 71.08
+> 0.4 76.71 71.58 71.90 70.24 77.05 73.79 75.43 67.38 73.26 69.68 74.87 70.53
+> 0.6 75.13 68.95 70.80 68.79 74.63 71.02 74.99 66.20 72.51 67.40 73.61 68.47
+> asym. 0.2 77.30 72.01 73.50 71.16 77.65 74.22 75.84 67.87 74.66 71.11 75.79 71.27
+> 0.4 76.79 70.96 72.71 70.52 76.57 73.00 75.39 67.42 73.94 70.51 75.08 70.48
+> 0.6 71.88 66.55 69.59 64.79 72.20 67.83 74.34 65.48 70.94 69.09 71.79 66.75 012345678
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage  True labels
+> Predicted labels
+
+(a) DISC 0 1 2 3 4 5 6 7 8
+
+> Time (h)
+> Wake
+> N1
+> N2
+> N3
+> REM
+> Sleep stage  True labels
+> Predicted labels
+
+(b) FF-TRUST 
+
+Figure 9: Comparison of hypnograms generated by the base-line model (a) DISC and (b) the proposed FF-TRUST model on P2018 under 𝑁 𝑅 = 0.6 symmetric label noise. True sleep stages (blue) and predicted stages (red dashed) are visualized over time. 
+
+where rFFT denotes the discrete Fourier transform applied to real-valued inputs along the time dimension. For each sequence, an EMA buffer Q𝑏 is maintained, with 𝑏 indexing the 𝑏 -th sample in the batch, as defined in Eq. 15. 
+
+Q𝑏 ← 𝑚 𝑓 Q𝑏 + ( 1 − 𝑚 𝑓 )M𝑏 , (15) where 𝑚 𝑓 is the FourierELR momentum. The FourierELR variant loss is defined as Eq. 16. 
+
+LFELR (log ) = −𝜆 𝑓 E𝑏 
+
+h
+
+log  1 − clip (cos ( ˜M𝑏 , ˜Q𝑏 ), 0, 1 − 𝜀 )i
+
+, (16) where ˜M𝑏 and ˜Q𝑏 denote ℓ2-normalized, vectorized spectra, and 
+
+𝜆 𝑓 controls the strength of FourierELR (log) , 𝜀 denotes an upper bound on the log penalty to prevent overly large gradients. 
+
+## B.2 Performance Comparison of the Results 
+
+We evaluate two FourierELR variants defined in Eq. 11 in our main paper and Eq. 16. The former corresponds to FourierELR , while the latter denotes its logarithmic variant, FourierELR (log) , as reported in Table 4. Overall, FourierELR consistently outperforms its logarithmic variant across both symmetric and asymmetric noise settings. The performance gap becomes more pronounced under high noise levels. In particular, at a noise rate of 0.6, FourierELR 
+
+achieves higher average accuracy and MF1 than FourierELR (log) 
+
+under symmetric label noise (by 73 .61% ACC/ 68 .47% MF1 vs. 72 .45% 
+
+ACC/ 66 .38% MF1) and asymmetric label noise (by 71 .79% ACC/ 
+
+66 .75% MF1 vs. 69 .03% ACC/ 65 .18% MF1) for averaged test do-main performance. At low and moderate noise rates ( 𝑁 𝑅 = 0.2 and 
+
+0.4), the two variants exhibit comparable performance, while Fouri-erELR still maintains a consistent advantage. These results indicate that the original FourierELR formulation provides more effective frequency-domain regularization, particularly in the presence of severe label noise. One possible explanation is that the FourierELR (log) induces steeper gradients under low similarity, whereas the original FourierELR applies a linearly controlled penalty, resulting in more stable optimization under noisy supervision. We explored this logarithmic variant to examine whether stronger frequency-domain constraints could further enhance robustness; however, the results indicate that overly aggressive regularization is not beneficial under severe noisy supervision. These observations motivate a deeper investigation into the key components of FF-TRUST , which we further analyze in the following ablation studies. 
+
+## C Analysis of Qualitative Results 
+
+Figures 6, 7, 8, and 9 present more hypnogram comparisons between the baseline model DISC [ 18 ], which delivers the best performance among all the leveraged LNL methods, and the proposed FF-TRUST 
+
+under 0.6 noise rate symmetric label noise on the HMC, ISRUC, SHHS, and P2018 datasets, respectively. In conjunction with the qualitative results shown in our main paper, the above compar-isons indicate that under high label noise conditions, FF-TRUST 
+
+produces prediction sequences that better align with the ground Table 5: Performance comparison of FF-TRUST with DISC under NR=0.6 symmetric and asymmetric label noise across multiple random seeds. NR : noise rate, I: Sleep-EDFx, II: HMC, III: ISRUC, IV: SHHS, V: P2018.                                                                                                                   
+
+> Source Domain
+> →Target Domain II,III,IV,V
+> →II,III,IV,V
+> →II I,II,IV,V
+> →III I,II,III,V
+> →IV I,II,III,IV
+> →VAverage Method Setting NR ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1 ACC MF1
+> DISC sym. 0.6 71 .51 ±0.49 64 .87 ±0.53 67 .14 ±0.98 64 .19 ±0.96 73 .20 ±0.51 67 .84 ±1.12 73 .45 ±1.41 64 .88 ±1.16 70 .76 ±1.56 64 .81 ±1.65 71.21 65.32
+> asym. 0.6 67 .34 ±2.09 60 .77 ±2.18 59 .77 ±3.01 56 .28 ±3.78 64 .35 ±2.15 59 .09 ±2.74 67 .53 ±1.08 59 .21 ±1.72 66 .03 ±1.18 63 .80 ±1.33 65.00 59.83
+> FF-TRUST(ours) sym. 0.6 73 .57 ±1.35 67 .51 ±1.22 69 .64 ±0.82 67 .76 ±0.81 74 .42 ±0.38 70 .26 ±0.65 74 .59 ±0.93 65 .58 ±0.29 71 .89 ±0.85 68 .13 ±0.65 72.82 67.85
+> asym. 0.6 71 .25 ±0.82 66 .34 ±0.47 68 .60 ±0.53 66 .18 ±0.74 72 .35 ±0.25 68 .79 ±0.49 72 .61 ±0.94 64 .74 ±0.43 71 .24 ±0.77 69 .07 ±0.37 71.21 67.02
+
+truth in terms of overall trends and stage transition boundaries, demonstrating stronger robustness in sleep staging against both label noise and domain shifts. 
+
+## D Analysis of Generalization Across Backbones 
+
+As shown in Table 2 in our main paper, the DeepSleepNet [ 39 ]backbone contains approximately 6.2M parameters, which is close to the 6.5M parameters of the SleepDG-based backbone, suggesting that model capacity is unlikely to be a primary factor driving the performance differences. 
+
+## E Analysis of Statistical Significance 
+
+Given the stochastic nature of training under label noise and domain shift, we evaluate all methods using a fixed set of random seeds 
+
+{0, 1, 2, 3, 4} to ensure fair and reproducible comparisons. Results are reported as mean ± standard deviation, providing a reliable estimate of both performance and stability. Figure 5 compares FF-TRUST with DISC [ 18 ] under the most challenging high-noise setting (NR=0.6). Under symmetric label noise, FF-TRUST consistently outperforms DISC across all transfer scenarios in terms of both ACC and MF1, achieving average im-provements of +1.61% and +2.53% , respectively. In addition, the rel-atively small standard deviations indicate that FF-TRUST exhibits more stable performance across different random seeds, demonstrat-ing strong robustness to stochastic training variations under severe label noise. Notably, slightly higher variability is observed on the Sleep-EDFx dataset for both ACC and MF1; however, FF-TRUST 
+
+still maintains lower standard deviations in all other scenarios. Moreover, the performance gains become more pronounced un-der asymmetric label noise, where FF-TRUST outperforms DISC [ 18 ]by +6.21% in ACC and +7.19% in MF1 on average. This enlarged performance gap compared to the symmetric setting highlights the effectiveness of FF-TRUST in handling more challenging and realistic noise patterns. In terms of stability, FF-TRUST achieves lower standard deviations in most cases, whereas DISC consistently exhibits higher variability, typically exceeding 1% . This difference is particularly pronounced on the HMC dataset, where DISC [ 18 ]shows substantial fluctuations (with standard deviations above 3% 
+
+for both ACC and MF1), while FF-TRUST remains below 1% .Overall, these results demonstrate that FF-TRUST not only de-livers superior performance but also ensures more reliable and stable outcomes across different random seeds.
