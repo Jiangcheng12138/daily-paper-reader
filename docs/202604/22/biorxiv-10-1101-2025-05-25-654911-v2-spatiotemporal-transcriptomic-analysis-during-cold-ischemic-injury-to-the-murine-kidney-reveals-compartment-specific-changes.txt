@@ -1,0 +1,932 @@
+Title: Spatiotemporal transcriptomic analysis during cold ischemic injury to the murine kidney reveals compartment-specific changes
+
+URL Source: https://www.biorxiv.org/content/10.1101/2025.05.25.654911v2.full.pdf
+
+Number of Pages: 57
+
+Markdown Content:
+Spa$otemporal transcriptomic analysis during cold ischemic injury to the murine kidney reveals compartment-specific changes 
+
+Srujan Singh 1,2 , Shishir Kumar Patel 3, Ryo Matsuura 3, Dee Velazquez 1,2 , Zhaoli Sun 4, Sanjeev Noel 3, Hamid Rabb 3*, Jean Fan 1,2 *
+
+> 1
+
+Center for ComputaGonal Biology, WhiGng School of Engineering, Johns Hopkins University, BalGmore, Maryland, USA 
+
+> 2
+
+Department of Biomedical Engineering, Johns Hopkins University, BalGmore, Maryland, USA 
+
+> 3
+
+Department of Medicine, Johns Hopkins University, BalGmore, Maryland, USA 
+
+> 4
+
+Department of Surgery, Johns Hopkins University, BalGmore, Maryland, USA Correspondence should be addressed to: Hamid Rabb (hrabb1@jhmi.edu) Jean Fan (jeanfan@jhu.edu) Key words: spaGal transcriptomics, cold ischemia, warm ischemia, kidney transplant 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Background: 
+
+Kidney transplantaGon is the preferred treatment strategy for end-stage kidney disease. Deceased donor kidneys usually undergo cold storage unGl kidney transplantaGon, leading to cold ischemia injury that may contribute to poor graW outcomes. However, the molecular characterizaGon of potenGal mechanisms of cold ischemia injury remains incomplete. 
+
+Results: 
+
+To bridge this knowledge gap, we leveraged the 10x Visium spaGal transcriptomic technology to perform full transcriptome profiling of murine kidneys subject to varying duraGons of cold ischemia typical in a deceased donor kidney transplant se\ng. We developed a computaGonal workflow to idenGfy and compare spaGotemporal transcriptomic changes that accompany the injury pathophysiology in a Gssue compartment-specific manner. We idenGfied proporGonal enrichment of oxidaGve phosphorylaGon (OXPHOS) genes with increasing duraGon of cold ischemia injury within the oxygen-lean inner medulla region, suggesGve of atypical metabolic presentaGon. This was disGnct in cold ischemia injury Gssue compared to warm ischemia-reperfusion kidney injury Gssue. SpaGotemporal trends were validated by qPCR and immunofluorescence in a larger cohort of mice. We provide an interacGve online browser at h`ps://jef.works/CellCarto-ColdIschemia/ to facilitate exploraGon of our results by the broader scienGfic and clinical community. 
+
+Conclusions: 
+
+Altogether, our spaGotemporal transcriptomic analysis idenGfied coordinated molecular changes within metabolic pathways such as OXPHOS deep within the cold ischemic kidney, highlighGng the need for increased a`enGon to the inner medulla and potenGal opportuniGes for new insights beyond those available from superficial biopsy-focused Gssue examinaGons. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Background: 
+
+Kidney transplantaGon remains the gold standard treatment strategy for end-stage kidney disease, relying on viable allograWs from either living or deceased donors. Although live donor kidneys usually have be`er short and long-term graW outcomes, their limited availability has led to a major push to expand the deceased donor pool (1). However, a key challenge with deceased donor kidneys is cold ischemia Gme (CIT), the period during which the kidneys are preserved in cold storage aWer procurement and before transplantaGon (2–4). To minimize cellular injury and preserve the organ viability during transit from procurement to transplantaGon centers, kidneys are usually flushed with cryopreserving soluGon and kept on ice. During this period, kidneys experience cold ischemia injury (5), which can lead to delayed graW funcGon and poor graW outcomes (6).The pathophysiology of cold ischemia induced kidney injury is incompletely understood. While prior studies (7–9) have sought to characterize processes that are believed to accompany cold ischemia and lead to cellular injury, they usually do not account for the complex structure of kidney Gssue. Moreover, these studies primarily invesGgated only a few targeted cold ischemia related processes and their associated biomarkers, potenGally overlooking other clinically relevant pathophysiologic and adapGve events. For example, Salahudeen et al. ( 9) highlighted a few key biological insights into cold-induced cellular changes in vitro like cell necrosis, mitochondrial swelling, and generaGon of free radicals (superoxide and hydroxyl radicals). These characterizaGons remained mostly confined to the cells of the kidney cortex and did not capture the full spectrum of the biological changes accompanying cold ischemia injury. AddiGonally, findings from several large cohort, mulG-variate retrospecGve studies (6, 10 –14 ) lack consensus on a standard clinically acceptable CIT for kidney allograWs. CollecGvely, this highlights the need for a more detailed molecular characterizaGon of cold ischemia injury of the enGre kidney to elucidate the underlying biological processes that may contribute to poorer outcomes with increasing CIT. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Data-driven, high-throughput sequencing approaches can surveil the genome-wide molecular landscape during disease pathogenesis. In parGcular, advances in spaGal transcriptomics (ST) technologies 
+
+(15 –17 ) now enable full transcriptome spaGally resolved profiling of gene expression pa`erns. ApplicaGon of such technologies coupled with data-driven computaGonal exploraGon can facilitate the idenGficaGon of potenGal biomarkers and therapeuGc approaches to prolonged cold ischemia injury. We therefore leveraged the 10x Visium ST technology to perform full transcriptome profiling of murine kidneys subject to varying duraGons of cold ischemia to characterize spaGotemporal molecular changes across typical duraGons of cold ischemia in a deceased donor kidney transplant se\ng (Fig 1A). Our integraGve spaGotemporal computaGonal analyses delineated trends that facilitated the idenGficaGon of differenGal spaGotemporal molecular dynamics in a compartment-specific manner to shed light on how prolonged cold ischemia may contribute to adverse transplant outcomes. Of note, we idenGfied upregulaGon of the oxygen dependent oxidaGve phosphorylaGon (OXPHOS) pathway with increasing duraGon of cold ischemia injury within the oxygen-lean inner medulla region of the kidney. The inner medulla prefers the use of glycolyGc pathways to meet its energy demands and is usually not accessible by biopsy ( 18 , 19 ). As such, we believe the cold ischemia-associated molecular presentaGon within the inner medulla is atypical. We also compared the transcripGonal trends between the corresponding kidney compartments subject to cold ischemia injury with that of published data on warm ischemia injury (ischemia-reperfusion injury) which is relaGvely well characterized ( 20 ). We observed Spp1 to be upregulated within the all the three compartments within both cold and warm ischemia Gssue. In contrast, the OXPHOS pathway was observed to be upregulated within the inner and outer medulla of kidney Gssue subjected to cold ischemia injury while it was downregulated during warm ischemia Gssue, highlighGng both covarying and divergent molecular processes between these two injury models. We believe these biological insights may help towards understanding why prolonged cold ischemia injury is associated with worse clinical outcomes. Moreover, these observaGons point towards a gradual pathophysiologic and 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+adapGve changes within this deeper kidney Gssue region with increasing cold ischemia Gme, highlighGng the need for increased a`enGon to the inner medulla of kidney allograWs. An interacGve browser with our data is available to facilitate exploraGon at h`ps://jef.works/CellCarto-ColdIschemia/. 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Results 1. Computa$onal workflow iden$fied shared spa$al compartment across mul$ple murine kidney spa$al transcriptomics datasets. 
+
+To establish a quanGtaGve molecular understanding of cold ischemia across the enGre kidney, we applied 10x Visium to perform spot-resoluGon full transcriptome spaGal transcriptomic profiling of cold ischemia kidney injury in a murine model. We applied 0, 12, 24 and 48 hours of cold ischemia injury that represent different duraGons of cold ischemia in a deceased-donor kidney transplant se\ng (Fig. 1A, S1A-D) (21 ).Quality control filtering resulted in 19,454 unique gene species detected across 12,530 spots across the cold ischemia kidney injury Gssue specimens (4.18 ± 0.29 transcripts/spot and 2.6 ± 0.96 spots/gene (log 10 scale)) (Fig. S1E-L). This raw gene count matrix was further CPM (counts per million) normalized to control for potenGal technical variaGons in sequencing depth across spots. To facilitate comparaGve analysis across the cold ischemia kidney specimens as well as with other murine kidney specimens from previously published studies (20 , 22 ), including healthy control kidneys as well as kidneys with warm ischemia-reperfusion injury (also a model naGve kidney acute kidney injury-AKI), we sought to computaGonally integrate all 17 ST datasets (44,816 spots) to idenGfy transcripGonally similar Gssue compartments via graph-based clustering (Fig. 1B). However, such unified clustering was driven by batch effects as well as unique biological processes resulGng in condiGon and sample-specific clusters, thereby hindering the idenGficaGon of shared features. We therefore performed batch correcGon using Harmony (17) (Fig. 1C) and re-clustered to idenGfy shared compartments across all datasets (Fig. 1D). Due to lack of single cell resoluGon and concerns for variaGons in cell-type proporGons confounding small clusters, we opted for coarser clustering. UlGmately, this computaGonal workflow led to idenGficaGon of disGnct compartments which we labeled as cortex, outer medulla (O.Medulla), inner medulla (I.Medulla) based on their relaGve anatomical locaGon within all the kidney Gssue specimens (Fig. 1E, Fig. S1M,N). Review of the corresponding H&E images by an expert kidney pathologist validated our labels, confirming 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+congruence between the transcripGonal and histological assessments. Remaining Gssue which was not part of the previous three compartments was labeled as “other,” likely corresponding to the transiGon from medulla to pelvis based on the pathologist’s evaluaGon and was not used for any analyses henceforth. We were then able to perform differenGal expression analysis across compartments of all ST datasets (Fig. S2) to idenGfy marker genes of the different compartments, which were found to be consistent with known annotaGons of associated funcGonal units. For example, markers for funcGonal units like Slc14a2 for descending thin limb of Loop of Henle (LOH) and Slc5a3 for thick descending limb of LOH (24 ) were idenGfied as one of the top gene markers for inner medulla compartment. Similarly, proximal tubule S3 segment marker Slc22a7 (25 ) was idenGfied as one of the top gene markers for outer medulla while pan-proximal tubule marker Slc34a1 and proximal convoluted tubule marker Slc5a2 were associated with the cortex (18) (Fig. S3). This observaGon was consistent across all datasets. As such, our computaGonal workflow idenGfied spaGally disGnct compartments, thereby enabling us to further analyze transcriptomic temporal dynamics in the different compartments of kidney Gssue. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Figure 1. Computa$onal workflow for analysis of mul$ple murine kidney spa$al transcriptomics datasets. (A) SpaGal transcriptomics datasets were generated from murine kidneys subjected to cold ischemia injury of various duraGons: 0, 12, 24 and 48 hours. ThereaWer, the datasets were integrated with previously published ST datasets for downstream analysis. (B) tSNE plot demonstraGng sample-specific 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+effects within the integrated ST datasets. (C) Harmonized tSNE plot leading to a shared embedding across all datasets. (D) Clustering facilitated idenGficaGon of shared transcripGonally disGnct compartments across all the datasets, namely cortex, outer medulla (O.Medulla), inner medulla (I.Medulla) and other. (E) 
+
+SpaGal plots visualizing the anatomic locaGon of the different transcripGonally-defined compartments within the kidney Gssue specimens belonging to different experimental groups like cold ischemia injury and ischemia-reperfusion injury. Created with BioRender.com 
+
+2. Compartment-specific analysis characterized spa$ally confined gene expression dynamics in cold ischemia kidney injury 
+
+To characterize the temporal transcripGonal dynamics associated with cold ischemia injury, we leveraged linear regression modeling to idenGfy genes with normalized expression that significantly change with duraGon of cold ischemia injury (i.e., CIT) within each idenGfied kidney compartment. First, across all compartments, we observed that the total mRNA counts per spot decreased over the duraGon of cold ischemia injury (0-48hours), which might be due to mRNA degradaGon in an ischemic Gssue environment but might also be a`ributable to technical variaGons in sequencing depth (Fig. S4A-C). To control for such potenGal technical variaGon, we performed counts-per-million (CPM) normalizaGon thereby adjusGng raw counts to a proporGonal quanGficaGon with a common sequencing depth. We then applied linear regression to each normalized gene for spots in each compartment separately to idenGfy significantly trends based on mulGple-tesGng corrected p-values and regression R 2 filters (Methods). Such linear regression modeling idenGfied many genes that appear downregulated (proporGonally decreased) with longer CIT i.e., exhibited a significant downward temporal trend (number of genes in inner medulla: 494 (2.5%), outer medulla: 562 (2.9%) and cortex: 492 (2.5%))(Table S1).Other genes appear upregulated (proporGonally enriched) with longer cold ischemia Gme i.e., exhibited a significant upward temporal trend (inner medulla: 305 (1.6%), outer medulla: 471 (2.4%) and cortex: 531 (2.7%))(TableS2). Comparing 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+across compartments, we found temporally upregulated genes either in a compartment-agnosGc or compartment-specific manner. For compartment-agnosGc trends, 128 (0.66%) genes exhibited an upward temporal trend across all compartments whereas 136 (0.7%) genes exhibited a downward temporal trend across all compartments (Table S3). For example, Ig8p7 (Fig. 2A), Fth1, and Spp1 were upregulated over Gme across all compartments whereas Kap (Fig. S5A) , Keg1, and Acsm2 were downregulated over Gme across all compartments. We also idenGfied genes that exhibited a compartment-specific temporal trend (upward trend: inner medulla: 102 (0.52%), outer medulla: 164 (0.87%), cortex: 211 (1.1%)(Table S4); downward trend: inner medulla: 249 (1.28%), outer medulla: 169 (0.86%), cortex: 150 (0.77%) (Table S5)). For example, Ranbp3l was uniquely upregulated over Gme in the inner medulla (Fig. 2B), whereas Ttc36 
+
+was uniquely upregulated in the outer medulla (Fig. 2C), and Slc34a1 in the cortex (Fig. 2D). In contrast, 
+
+Egf was uniquely downregulated over Gme in the inner medulla, whereas Gpx1 was uniquely downregulated in the outer medulla, and Chpt1 in the cortex (Fig. S5B-D). Within each compartment, we observed a great variaGon in the magnitude of gene expression changes as quanGfied by linear regression slopes, with most genes demonstraGng subtle changes as reflected in small slopes (normalized scores<0.5) while a few genes exhibited marked larger, outlier slopes such as Fth1, Ig8p7 , and Kap . (Fig. 2E, F-H, Table S1,2). To invesGgate whether these trends covary between compartments, we compared the regression slopes of genes in the different compartments. Pearson correlaGon analysis suggested that the cortex and outer medulla (Pearson correlaGon coefficient, PCC= 0.98, p<0.05, R 2= 0.96) (Fig. 2F, Table S6,7) are more similar to each other in terms of temporal gene expression changes as compared to the inner medulla (cortex vs inner medulla: PCC= 0.66, p<0.05, R 2= 0.43) (Fig. 2G, Table S6,7); outer medulla vs inner medulla: PCC= 0.71, p<0.05, R 2= 0.51) (Fig. 2H, Table S6,7)). As such, our compartment-specific temporal analysis idenGfied compartment-agnosGc as well as compartment-specific gene expression trends. To gain insight into whether such spaGotemporal gene expression changes may be a`ributable to changes in cell-type composiGon of the kidney Gssue during cold ischemia injury, we performed reference-
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+free cell type deconvoluGon to idenGfy 7 major cell types and quanGfy their proporGons across Gme points (Fig. S4E). Unlike transcripGonal changes, cell type composiGon remained generally consistent even with longer cold ischemia Gme, especially within the inner medulla. (Fig. S4F). Subtle compartment specific changes were observed for deconvolved cell type 2, whose populaGon reduced within the cortex and outer medulla. Based on the associated topmost upregulated marker genes and enriched (GO) pathways (Table S8-9), we interpret this deconvolved cell-type 2 to be proximal tubule cell, which is known to decrease in proporGon under other ischemic condiGons such as acute kidney injury (26 ). Nevertheless, these subtle changes in cell-type proporGons cannot fully explain the strong compartment-specific transcripGonal changes, parGcularly in the inner medulla. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+gexp 
+
+> 02000 4000 6000
+
+2000 4000 6000 0 10 20 30 40 50 time (hours) Avg. gene exp. (CPM) 
+
+Global Cortex 
+
+O.Medulla I.Medulla 
+
+gexp 
+
+> 01000 2000 3000
+
+01000 2000 3000 0 10 20 30 40 50 time (hours) Avg. gene exp. (CPM) 
+
+gexp 
+
+> 0200 400 600
+
+0500 1000 0 10 20 30 40 50 time (hours) Avg. gene exp. (CPM) 
+
+ABCDEF G HCORTEX 
+
+Slc34a1 
+
+> ALL
+
+0 hours 12 hours 24 hours 48 hours 
+
+Ttc36 
+
+> OUTER MEDULLA
+
+Upward Temporal Trend Downward Temporal Trend INNER MEDULLA  Ranbp3l 
+
+CIS Outer Medulla vs CIS Inner Medulla 
+
+gexp 
+
+> 03000 6000 9000
+
+05000 10000 0 10 20 30 40 50 time (hours) Avg. gene exp. (CPM) 
+
+0.00 0.25 0.50 0.75 1.00 Cortex Outer Medulla Inner Medulla Norm. log (abs((Slope) Slopes (Cortex) Slopes (Outer Medulla)  CIS Cortex vs CIS Outer Medulla CIS Cortex vs CIS Inner Medulla 
+
+Igfbp7 
+
+Cortex Outer Medulla Inner Medulla 
+
+Fth1 Slc34a1 Igfbp7 Atp1b1 Kap Acsm2 Keg1 
+
+−6000 −4000 −2000 
+
+02000 
+
+−6000 −4000 −2000 0 2000 PCC = 0.98, p < 0.05 R 2 = 0.96   
+
+> Tns1 Mgp Pabpn1 B2m Hist1h1c Cox8a Pdzk1 Slc22a6 Cndp2 Aldh6a1 Ugt2b38 Ugt3a2 Stard10 Cldn10 Lamp1 Gclm Hist1h2bc Slc25a39
+
+−200 −100 
+
+0100 200 
+
+−200 −100 0 100 200 Slopes (Outer Medulla) Slopes (Cortex) 
+
+Slc34a1 Igfbp7 Atp1b1 Atp1a1 Igfbp5 Spp1 Kap Acsm2 Keg1 
+
+−6000 −4000 −2000 
+
+02000 
+
+−6000 −4000 −2000 0 2000 Slopes (Cortex) Slopes (Inner Medulla) 
+
+> Tns1 Mgp Timp3 Tmsb4x Mdh2 Cox8a Slc25a5 Ppp1r1a Pkm Gabarapl1 Fabp3 Ckb Cyfip2 Acsm3 Cldn10 Cdh16
+
+−200 −100 
+
+0100 200 
+
+−200 −100 0 100 200 Slopes (Inner Medulla) Slopes (Cortex) PCC = 0.66, p < 0.05 R 2 = 0.44 Slopes (Outer Medulla) Slopes (Inner Medulla) 
+
+Atp1b1 Igfbp7 Atp1a1 Kap Gpx3 
+
+−6000 −4000 −2000 
+
+02000 
+
+−6000 −4000 −2000 0 2000 PCC = 0.71, p < 0.05 R 2 = 0.51 
+
+> Lpl Irx1 Mdh2 Pkm Ckb Cyfip2 Cldn10 Gnas
+
+−200 −100 
+
+0100 200 
+
+−200 −100 0 100 200 Slopes (Inner Medulla) Slopes (Outer Medulla) 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Figure 2. Compartment-specific temporal transcrip$onal dynamics in cold ischemic kidneys. (A) SpaGal gene expression plots and corresponding ribbon plots (mean ± s.d) demonstraGng spaGotemporal dynamics of representaGve genes that demonstrated a significant upward temporal trend during the cold ischemic phase (0-48 hours). For example, (A) Ig8p7 was significantly temporally upregulated in all the compartments with varying degrees whereas (B) Ranbp3l, (C) Ttc36 and (D) Slc34a1 were uniquely, significantly temporally upregulated in the inner medulla, outer medulla and cortex compartments of cold ischemic injury kidney Gssue respecGvely. (E) Violin plots highlight the distribuGon of magnitude of transcripGonal changes (linear regression slopes) within the different compartments of CIS kidney Gssue. Sca`erplots depicGng the correlaGon analysis of the temporal transcripGonal dynamics between the different compartments: (F) cortex vs outer medulla, (G) cortex vs inner medulla and (H) outer medulla vs inner medulla of the CIS kidney Gssue. Genes exhibiGng covarying (green) or divergent (purple) temporal trend within these compartments can be visualized along with their Pearson correlaGon coefficients (PCC) and linear regression slopes (blue line). Select genes exhibiGng strong temporal changes within these compartments have been highlighted red. 
+
+3. Pathway characteriza$on of iden$fied spa$otemporal trends highlight elevated oxida$ve phosphoryla$on within the inner medulla 
+
+To be`er understand the molecular pathways associated with genes that demonstrated significant Gme dependent expression with increasing CIT, we performed gene set enrichment analysis using KEGG and HALLMARK (HM) annotaGons on the significantly temporally upregulated and temporally downregulated genes with longer CIT obtained through our previous linear regression analysis ranked by slope in a spaGal compartment specific manner (Methods). We idenGfied several significantly enriched molecular pathways and evaluated whether they exhibited covarying or divergent trends across different compartments based on their normalized enrichment scores (NES) (Fig. 3A-C, Table S10, S11). Within the kidney inner medulla, 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+we observed significant posiGve enrichment (NES>0) of energy metabolism and neurodegeneraGve pathways amongst several enriched biological pathways (Fig. 3A), suggesGng that genes within these pathways were being temporally upregulated in this compartment with increasing CIT. For example, the metabolic pathway for oxidaGve phosphorylaGon (OXPHOS) exhibited a strong (NES=4.47 (KEGG), 5.06 (HM)) to moderate (NES=2.29 (KEGG), 2.13 (HM)) posiGve enrichment within the inner and outer medulla respecGvely, while exhibiGng a negaGve enrichment (NES=-2.56 (HM)) within the cortex (Fig. 3A-C, D-F, Table S10). In conjuncGon, upstream metabolic pathways that help facilitate OXPHOS like citrate cycle (TCA cycle) (NES=-2.07) and fa`y acid degradaGon (NES=-2.67) also exhibited negaGve enrichment within the cortex (Fig. 3C, Table S10). Within the inner medulla, the leading-edge genes of the OXPHOS pathway were related to various processes of mitochondrial machinery like Uqcr11 (complex III) and Cox6a1 (complex IV), (Fig. 3 G,H). Therefore, to validate these spaGotemporal pathway trends in a larger cohort, we performed compartment-specific qPCR using 4-5 animals per Gme point for two Gme points (CIS 0hours vs CIS 48 hours) (Methods). Our qPCR analysis demonstrated similar upward transcripGonal trends for 
+
+Uqcr11 (Fig. 3I) and Cox6a1 (Fig. 3J) within the kidney medulla as observed in spaGal transcriptomics. This observaGon of temporal upregulaGon of genes related to OXPHOS within the inner medulla was unexpected because the inner medulla in a normal kidney, being in an oxygen-lean environment, is known to prefer the anaerobic glycolyGc pathway (27 ). Given that we previously observed the total mRNA counts to decrease over the duraGon of cold ischemia injury (Fig. S4A-C), we sought to assess whether this idenGfied trend could be due to normalizaGon. Therefore, we further evaluated the raw counts of OXPHOS genes (leading edge genes from gene set enrichment analysis from HALLMARK pathway, Fig. 3D-F). Raw counts demonstrated a similar declining trend within the outer medulla (slope=-4.7) and cortex (slope=-9.9) but was relaGvely stable within the inner medulla (slope=-0.38) (Fig S4D-F), thereby confirming the compartmentally-disGnct temporal trends idenGfied through our previous analysis. As such, the raGo of OXPHOS mRNA count to total mRNA count increased strongly in the inner medulla (slope=0.042) and 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+moderately in the outer medulla (0.017) while it declined in the cortex (slope=-0.011) (Fig. S4G-I). This suggests that the temporal upregulaGon (posiGve regression slope) of OXPHOS genes within the inner medulla and outer medulla and downregulaGon (negaGve regression slope) within the cortex with increasing cold ischemia injury idenGfied by our linear regression analysis on the CPM normalized gene expression might be be`er interpreted as a proporGonal enrichment and a proporGonal depleGon respecGvely. Next, we interrogated whether the proporGonal enrichment of OXPHOS genes could stem from relaGve stability of mRNA molecules. Genes with lower GC content and shorter 3’ UTR length (base pairs) are known to be relaGvely more stable ( 28 ). Consequently, they could degrade slower in an ischemic environment relaGve to other genes, resulGng in a proporGonal enrichment and perceived temporal upregulaGon over Gme due to degradaGon of the other genes alone. If temporal upregulaGon was due to higher relaGve mRNA stability, we would anGcipate temporally upregulated genes to have the lower GC content and shorter 3’UTR length compared to temporally downregulated gene transcripts. To test this, we compared the GC content and 3’UTR lengths of the OXPHOS genes with the other temporally upregulated and downregulated genes within the inner medulla. We found that the GC content of the OXPHOS genes (median=46.3%) was very comparable to that of all the other temporally upregulated (median=48.8%) and downregulated (median=44.7%) genes within the inner medulla (Fig. 3K). Further, while other temporally upregulated and downregulated genes exhibited a significant difference in GC content, the direcGon of the difference was contrary (higher in upregulated genes) to what we would expect if temporal upregulaGon was due to higher relaGve mRNA stability. In contrast, the 3’UTR length (i.e., log 10 transformed 3’ UTR length) of these upregulated (median=2.76) and downregulated genes (median=2.8 base pairs) within the inner medulla were comparable (Fig. 3L). Taken together, these findings suggest that the temporal upregulaGon of genes within the inner medulla is likely not solely a`ributable to higher relaGve mRNA stability, and that other mechanisms could potenGally contribute to this observed 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+transcripGonal trend with increasing duraGon of cold ischemia injury. SGll, the 3’ UTR lengths of OXPHOS genes (median=2.26) was significantly lower than that of all other temporally upregulated and downregulated genes, consistent with enhanced mRNA stability (Fig. 3L). However, again, the lack of consistency based on GC content and lack of difference in 3’ UTR length for other upregulated and downregulated genes suggest that this characterisGc alone may be insufficient to fully explain the observed temporal pa`erns. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+A B CE FGHIJCIS Inner Medulla CIS Outer Medulla CIS Cortex D
+
+Uqcr11 (Oxidative Phosphorylation) 
+
+0 hours 12 hours 24 hours 48 hours 
+
+Cox6a1 (Oxidative Phosphorylation) 
+
+p=0.9 p=0.032 
+
+Cortex Medulla 0 48 0 48 01234Cold Ischemia Time (hours) Relative mRNA Fold Change 
+
+Uqcr11 
+
+p=0.73 p=0.032 
+
+Cortex Medulla 0 48 0 48 0.0 0.5 1.0 1.5 2.0 Cold Ischemia Time (hours) Relative mRNA Fold Change 
+
+Cox6a1 
+
+KEGG_Metabolic pathways HM_FATTY_ACID_METABOLISM KEGG_Fatty acid degradation HM_OXIDATIVE_PHOSPHORYLATION KEGG_Peroxisome HM_BILE_ACID_METABOLISM HM_XENOBIOTIC_METABOLISM KEGG_Valine, leucine and isoleucine degradation KEGG_PPAR signaling pathway KEGG_Citrate cycle (TCA cycle) KEGG_Carbon metabolism HM_ADIPOGENESIS KEGG_Antigen processing and presentation KEGG_Focal adhesion KEGG_Regulation of actin cytoskeleton KEGG_Cadherin signaling KEGG_Oocyte meiosis 
+
+−5 −3 −1 1 3 50Normalized Enrichment Score Enrichment Negative Positive 
+
+KEGG_Metabolic pathways HM_FATTY_ACID_METABOLISM HM_XENOBIOTIC_METABOLISM KEGG_Serotonergic synapse KEGG_Alzheimer disease KEGG_Pathways of neurodegeneration HM_OXIDATIVE_PHOSPHORYLATION 
+
+KEGG_Non−alcoholic fatty liver disease KEGG_Parkinson disease KEGG_Thermogenesis KEGG_Oxidative phosphorylation KEGG_Cardiac muscle contraction KEGG_Huntington disease KEGG_Prion disease KEGG_Amyotrophic lateral sclerosis KEGG_reactive oxygen species KEGG_Diabetic cardiomyopathy 
+
+−5 −3 −1 1 3 50Normalized Enrichment Score 
+
+HM_XENOBIOTIC_METABOLISM HM_KRAS_SIGNALING_DN KEGG_Metabolic pathways KEGG_Salmonella infection 
+
+KEGG_Epstein−Barr vi rus infection KEGG_Gastric acid secretion KEGG_Thyroid hormone signaling pathway KEGG_Carbon metabolism KEGG_Retrograde endocannabinoid signaling KEGG_Cardiac muscle contraction 
+
+KEGG_Non−alcoholic fatty liver disease KEGG_Parkinson disease KEGG_Pathways of neurodegeneration KEGG_Alzheimer disease KEGG_Amyotrophic lateral sclerosis KEGG_reactive oxygen species KEGG_Huntington disease KEGG_Oxidative phosphorylation KEGG_Diabetic cardiomyopathy KEGG_Prion disease KEGG_Thermogenesis HM_OXIDATIVE_PHOSPHORYLATION 
+
+−5 −3 −1 1 3 50Normalized Enrichment Score 
+
+gexp 
+
+0250 500 750 1200 
+
+300 600 900 0 10 20 30 40 50 time (hours) Avg. gene exp. (CPM) 
+
+Global 
+
+Cortex 
+
+O.Medulla 
+
+I.Medulla 
+
+1000 2000 3000 
+
+0 10 20 30 40 50 time (hours) Avg. gene exp. (CPM) 
+
+gexp 
+
+01000 2000 3000 
+
+0 hours 12 hours 24 hours 48 hours 
+
+800 
+
+800 
+
+0.0 0.2 0.4 0.6 
+
+> Running Enrichment Score
+
+200 400 600 
+
+Position in the ranked list of genes 
+
+0.0 0.2 0.4 0.6 
+
+200 400 600 
+
+> Running Enrichment Score
+
+Position in the ranked list of genes Oxidative Phosphorylation (KEGG) Oxidative Phosphorylation (HALLMARK) 
+
+CIS Inner Medulla 
+
+−0.1 
+
+0.0 0.1 0.2 
+
+250 500 750 1000 
+
+250 500 750 1000 
+
+Oxidative Phosphorylation (KEGG) 
+
+CIS Outer Medulla 
+
+Oxidative Phosphorylation (HALLMARK) 
+
+−0.1 
+
+0.0 0.1 0.2 0.3 
+
+> Running Enrichment Score
+
+Position in the ranked list of genes Position in the ranked list of genes Running Enrichment Score  −0.3 −0.2 −0.1 
+
+0.0 0.1 
+
+250 500 750 1000 
+
+CIS Cortex 
+
+Oxidative Phosphorylation (HALLMARK) Position in the ranked list of genes Running Enrichment Score 
+
+K GC Content (CIS Inner Medulla) (OXPHOS vs Up- or Downregulated genes) 
+
+p=0.049 p=0.31 p=1.3x10 −13 
+
+M=46.3 M=48.8 M=44.7 30 40 50 60 70 
+
+OXPHOS Upregulated Downregulated GC Content (%) 
+
+p=4.2x10 −17 
+
+p=8.4x10 −18 
+
+p=0.066 M=2.26 M=2.76 M=2.8 
+
+012345
+
+L
+
+> log  10  (3' UTR Length (bp))
+
+3’ UTR Length (CIS Inner Medulla) 
+
+(OXPHOS vs Up- or Downregulated genes) 
+
+OXPHOS Upregulated Downregulated 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Figure 3. Compartment-specific enrichment of molecular pathways within cold ischemic kidney $ssue. 
+
+Bar plots highlighGng all the enriched molecular pathways (KEGG or HALLMARK (HM)) that demonstrated similar temporal dynamics (enrichment: posiGve (red), negaGve (cyan)) within the corresponding (A) inner medulla (B) outer medulla and (C) cortex of cold ischemic injury kidney Gssue. (Prominent energy metabolism pathways like oxidaGve phosphorylaGon and upstream metabolic pathways that facilitate OXPHOS like fa`y acid metabolism and TCA cycle have been highlighted within the list of all enriched pathways.) Running enrichment score plots highlighGng differenGal enrichment of molecular pathways related to oxidaGve phosphorylaGon within the (D) inner medulla, (E) outer medulla and (F) cortex of the CIS kidney Gssue. SpaGal gene expression plots and corresponding line plots demonstraGng spaGotemporal dynamics of representaGve genes associated with the above enriched energy metabolism related pathways: (G) Uqcr11 and (H) Cox6a1 (oxidaGve phosphorylaGon). QuanGtaGve comparison of qPCR derived mRNA transcript levels of (I) Uqcr11, (J) Cox6a1 between the cortex and medulla (inner medulla + outer medulla) of CIS kidney Gssue. (n=5 for 0 hours (cortex and medulla samples each), n=4 for 48 hours (cortex and medulla each). (K) Violin plots comparing distribuGon of GC content of OXPHOS related genes and all the temporally upregulated and downregulated genes within the CIS inner medulla. 
+
+(L) Violin plots comparing distribuGon of log 10 transformed 3’ UTR length (bp: base pairs) of OXPHOS related genes and the temporally upregulated and downregulated genes within the CIS inner medulla. M denotes the median values for the corresponding violin plots in figures K and L. Two-sided Wilcoxon rank sum test was used for staGsGcal tesGng in figures K and L. Benjamini-Hochberg method was used for mulGple hypothesis tesGng for gene set enrichment analysis. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+4. Compartment-specific overlapping and divergent molecular dynamics iden$fied between cold ischemia and warm ischemia-reperfusion-induced AKI 
+
+To be`er understand the pathogenesis of kidney cold ischemic injury, we sought to examine its spaGotemporal transcriptomic dynamics alongside another ischemic injury model to idenGfy potenGal shared molecular processes. We therefore repeated the spaGotemporal analysis with a set of previously published ST datasets from a well-characterized murine model of warm ischemia-reperfusion-induced acute kidney injury (AKI) at various Gmepoints posGnjury covering the peak phases of injury response (sham to 48 hours) (20 ). Our temporal analysis recapitulated putaGve AKI injury markers like Havcr1, Lcn2 and Spp1 with Spp1 demonstraGng the sharpest change (linear regression slope) during the acute injury phase (Fig. S6A-C), further highlighGng the ability of our spaGotemporal analysis to detect known injury-related transcripGonal changes. Cross-compartmental analysis highlighted similar temporal transcripGonal dynamics between the AKI cortex and inner medulla (PCC=0.87, p<0.05, R 2=0.75) while the outer medulla and inner medulla were comparaGvely less similar (PCC=0.46, p<0.05, R 2=0.21) (Fig. S6D-F). We next compared the temporal transcripGonal dynamics between the corresponding compartments of the two injury models (i.e., CIS vs AKI). Compared to CIS, in the warm ischemia-reperfusion-induced AKI model, while compartment-specific correlaGon analysis indicated a weak correlaGon between the inner medulla (PCC=0.09, p>0.05; R 2~0 (0.007)) (Fig. 4A), comparaGvely stronger correlaGons were observed between the outer medulla (PCC=0.84, p<0.05; R 2=0.7) (Fig. 4B) and cortex (PCC=0.53, p<0.05; R 2=0.26) (Fig. 4C) of both the injuries. InteresGngly, we observed Spp1 upregulaGon across all compartments in both injury models with the inner medulla exhibiGng the largest expression (Fig. 4A-C). Since Spp1 expression is strongly temporally upregulated within all compartments of AKI kidney Gssue, the similar trend of temporal upregulaGon of Spp1 within all compartments of CIS kidney Gssue might be suggesGve of a pathological environment within the CIS Gssue. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Based on these observaGons, we performed gene set enrichment analysis to characterize pathways impacted in AKI in a compartment-specific manner as we did with CIS (Fig. S7, Table S12, S13). For the covarying pathways across compartments within the AKI Gssue, pathways associated with energy metabolism like oxidaGve phosphorylaGon, citrate cycle (TCA cycle), fa`y acid degradaGon, etc., demonstrated negaGve enrichment across compartments. PosiGve enrichment of pathophysiologic processes like epithelial-to-mesenchymal transiGon (or EMT) (ID: EPITHELIAL_MESENCHYMAL_TRANSITION; genes: Spp1, Col1a1, Lgals1, Vim , etc.) was observed within the all the three compartments of AKI kidney Gssue, suggesGng the potenGal development of a process leading to wound healing and fibrosis. Of note, posiGve enrichment of coagulaGon pathway (ID: COAGULATION; genes: Clu, Timp1, Mmp2, etc.) within the inner medulla and complement pathway (ID: COMPLEMENT; genes: CR, Pfn1, Ctsd, Timp1 , etc.) within the inner and outer medulla hinted at potenGal endothelial dysfuncGon/vascular remodeling and immune-complex formaGon acGvaGng the complement (classical) pathway during reperfusion. Processes like EMT, complement acGvaGon and microvascular dysfuncGon known to be associated with ischemia-reperfusion injury (29 ) validate the ability of our computaGonal workflow in idenGfying relevant temporal gene and pathway changes that accompany the pathogenesis of diseases like AKI. We also compared the enriched pathways between the two injury models in a compartment-specific manner (Fig. 4 D-G, Table S14, S15). Compartment-specific pathways exhibiGng divergent trends between the two injury models were mostly related to energy metabolism and neurodegeneraGve-linked molecules and were found to be confined to the inner and outer medulla. For example, the OXPHOS pathway was upregulated only within the inner medulla and outer medulla of CIS while it was downregulated within that of AKI (Fig. 4F, G). This finding is consistent with the weak correlaGon observed between the CIS vs AKI inner medulla changes menGoned earlier (Fig. 4A). 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Acknowledging that the AKI and CIS datasets were derived from female and male C57BL/6 mice respecGvely, we next sought to evaluate whether sexual dimorphism could be contribuGng to these compartment-specific divergent transcripGonal dynamics. We therefore analyzed normal control kidneys (CTRL) and 24-hours warm ischemia reperfusion injury kidney Gssues (AKI24) from male C57BL/6 mice 
+
+(22 ). First, we observed that the presentaGon of AKI marker genes like Havcr1 , Lcn2 and Spp1 in the 24-hour male (AKI24) kidney Gssues was very similar to that of female kidney specimens (AKI) at 12 and 48 hours (Fig. S6 A-C, G-I). Next, we performed differenGal expression analysis between inner medulla compartment belonging to the CTRL (male) and AKI24 (male) kidneys. We observed that the leading genes: associated with OXPHOS, the divergent pathways idenGfied earlier (CIS inner medulla vs AKI inner medulla), exhibited similar expression trend during AKI injury within the inner medulla of these male kidneys as what was previously idenGfied in the female kidneys. In parGcular, OXPHOS related genes like 
+
+Atp1b1, Atp5b and Cox8a previously idenGfied to be downregulated over Gme within the inner medulla in AKI in the female kidneys were again idenGfied as downregulated within the inner medulla of AKI24 compared to CTLR in the male kidneys (Fig. S8A). We performed gene set enrichment analysis on the differenGally expressed genes between the corresponding compartments of CTRL and AKI (24 hours) kidneys in male and observed negaGve enrichment of OXPHOS pathway within inner and outer medulla while no enrichment in cortex was observed (Fig. S8B). The above observaGons highlight that, overall, the spaGotemporal transcripGonal dynamics for the OXPHOS pathway observed within male and female AKI kidney specimens are consistent and thus the divergent temporal trends in OXPHOS gene expression between CIS and AKI kidney specimens are likely not driven by solely sexual dimorphism. CollecGvely, the transcriptomic presentaGon of both CIS and warm IRI (AKI) display some molecular similariGes like the upregulaGon of Spp1 within all the compartments highlighGng potenGal similariGes in injury response across these disGnct ischemic models. While divergent temporal trends like OXPHOS within the inner 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+medulla highlight that while both injuries share commonaliGes, their compartment-specific metabolic response to injury may differ. 
+
+> 7
+
+A B CDEF0 hours COLD ISCHEMIA INJURY (CIS) 12 hours 24 hours 48 hours ISCHEMIA-REPERFUSION INJURY (AKI) sham 4 hours 12 hours 48 hours HKL
+
+Atp1b1 Atp1a1 
+
+Spp1 
+
+Fxyd2 Atp5b Atp5a1 Cox8a Mgp Uqcr11 Atp5e Cox7a2 Ctsd Kap Mt1 Mt2 
+
+−20000 −10000 010000 −6000 −4000 −2000 0 2000 
+
+Slopes (CIS Inner Medulla) Slopes (AKI Inner Medulla) 
+
+CIS Inner Medulla vs AKI Inner Medulla 
+
+PCC = 0.09, p > 0.05 
+
+R 2 ~ 0 (0.007) 
+
+Ptger3 Aqp1 Mdh2 Slc25a5 Atp5mpl Tpt1 Cfl1 Pfn1 Ctsb Ndufb8 
+
+Nudt4 
+
+Uqcrh Cox7b Atp5c1 Kcnj1 Eef2 
+
+Ndufb10 
+
+Ndufa13 Vcp Serf2 Atp5o Anxa2 Tagln2 Sparc Atp5g1 Tuba1a 
+
+Ppp1r14b 
+
+Arpc1b Fn1 
+
+Cldn10 
+
+Selenop Lpl Gabarapl1 Cfh Col1a2 Tspan8 Sh3bgrl3 Selenow Clcnka 
+
+−500 −250 0250 500 −200 −100 0 100 200 
+
+> Slopes (AKI Inner Medulla)
+
+Slopes (CIS Inner Medulla) 
+
+Umod Atp1b1 Igfbp7 Spp1 Actb Cox8a Ctsd Mgp Lgals1 Kap Spink1 Co x6c 
+
+−20000 −10000 010000 −6000 −4000 −2000 0 2000 
+
+Slopes (CIS Outer Medulla) Slopes (AKI Outer Medulla) 
+
+CIS Outer Medulla vs AKI Outer Medulla 
+
+PCC = 0.84, p < 0.05 
+
+R 2 = 0.7 
+
+Ttc36 
+
+Lpl Nceh1 Sod3 Ldhd Rida 
+
+Nudt19 
+
+Atpif1 Aqp1 Cfl1 Pkm Atp5e Pfn1 Eef2 H2afz Wfdc2 Sparc 
+
+Slc9a8 
+
+Fbp1 Mpv17l Ghr Gpx1 
+
+Cldn10 Cyp4b1 
+
+Ugt3a2 Oxct1 Pdzk1 
+
+Tmbim6 
+
+Pabpc1 Capns1 Acsm1 Hao2 
+
+−500 −250 0250 500 −200 −100 0 100 200 
+
+> Slopes (AKI Outer Medulla)
+
+Slopes (CIS Outer Medulla) 
+
+Slc34a1 
+
+Actb Spp1 Ctsd Kap Acsm2 
+
+−20000 −10000 010000 −6000 −4000 −2000 0 2000 
+
+Slopes (CIS Cortex) Slopes (AKI Cortex) 
+
+CIS Cortex vs AKI Cortex 
+
+PCC = 0.53, p < 0.05 
+
+R 2 = 0.26 
+
+Tpt1 Ctsb Cfl1 Atp5a1 Pfn1 Cox8a Atp5e Uqcr11 Slc25a5 
+
+Chchd10 
+
+Gk Ppp1r1a Gabarapl1 H2afz Ugt3a2 Oxct1 Mdh1 Atp5k Co x6c 
+
+Sord Tmigd1 
+
+Slco1a6 
+
+Kl Nuak2 Stmn1 
+
+−500 −250 0250 500 −200 −100 0 100 200 
+
+> Slopes (AKI Cortex)
+
+Slopes (CIS Cortex) Enrichment negative positive  
+
+> 02500 5000 7500 10000
+> 5000 10000 15000 010 20 30 40 50
+> time (hours) Avg. gene  exp . (CPM)
+> Global Cortex
+> O.Medulla I.Medulla
+
+Atp1b1            
+
+> gexp
+> 02000 4000 6000
+> 2500 5000 7500 10000
+> 010 20 30 40 50
+> time (hours) Avg. gene  exp . (CPM)
+> gexp
+> 01000 2000 3000 4000 5000
+> 2000 4000 6000
+> 010 20 30 40 50
+> time (hours) Avg. gene  exp . (CPM)
+> gexp
+> gexp
+> 01000 2000 3000 4000
+> 2000 4000 6000
+> 010 20 30 40 50
+> time (hours) Avg. gene  exp . (CPM)
+
+HM_OXIDATIVE_PHOSPHORYLATION KEGG_Metabolic pathways 
+
+7 5 3 1 1 3 5 70
+
+abs(Normalized Enrichment Score) 
+
+CIS Cortex vs AKI Cortex 
+
+HM_XENOBIOTIC_METABOLISM HM_FATTY_ACID_METABOLISM KEGG_Metabolic pathways 
+
+7 5 3 1 1 3 5 70
+
+abs(Normalized Enrichment Score) 
+
+CIS Outer Medulla vs AKI Outer Medulla 
+
+KEGG_Diabetic cardiomyopathy KEGG_reactive oxygen species KEGG_Amyotrophic lateral sclerosis KEGG_Prion disease KEGG_Huntington disease KEGG_Cardiac muscle contraction KEGG_Oxidative phosphorylation KEGG_Thermogenesis KEGG_Parkinson disease 
+
+KEGG_Non−alcoholic fatty liver disease HM_OXIDATIVE_PHOSPHORYLATION KEGG_Pathways of neurodegeneration KEGG_Alzheimer disease 
+
+−7 −5 −3 −1 1 3 5 70
+
+Normalized Enrichment Score 
+
+CIS Outer Medulla vs AKI Outer Medulla 
+
+HM_OXIDATIVE_PHOSPHORYLATION KEGG_Thermogenesis KEGG_Prion disease KEGG_Diabetic cardiomyopathy KEGG_Oxidative phosphorylation KEGG_Huntington disease KEGG_reactive oxygen species KEGG_Amyotrophic lateral sclerosis KEGG_Alzheimer disease KEGG_Pathways of neurodegeneration KEGG_Parkinson disease 
+
+KEGG_Non−alcoholic fatty liver disease KEGG_Cardiac muscle contraction KEGG_Retrograde endocannabinoid signaling KEGG_Carbon metabolism KEGG_Metabolic pathways 
+
+−7 −5 −3 −1 1 3 5 70
+
+Normalized Enrichment Score 
+
+CIS Inner Medulla vs AKI Inner Medulla CIS CIS AKI AKI AKI AKI CIS CIS G     
+
+> 2000 3000 4000
+> 010 20 30 40 50
+> time (hours) Avg. gene  exp . (CPM)
+> gexp
+> 01000 2000 3000
+
+Atp5b      
+
+> gexp
+> 0500 1000 1500 2000
+> 1000 1500 2000
+> 010 20 30 40 50
+> time (hours) Avg. gene  exp . (CPM)
+
+Cox8a Atp1b1 Global Cortex 
+
+> O.Medulla I.Medulla
+
+Atp5b Cox8a 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Figure 4. Compartment-specific comparison of transcrip$onal dynamics between the CIS and AKI kidney $ssue. Sca`er plots depicGng the correlaGon analysis of the temporal transcripGonal dynamics between the corresponding (A) inner medulla, (B) outer medulla and (C) cortex Gssue compartments of the two kidney injury models i.e., cold ischemic injury (CIS) and warm ischemia-reperfusion injury (AKI) kidney Gssue. Genes exhibiGng covarying (green) or divergent (purple) temporal trend within these compartments can be visualized along with their Pearson correlaGon coefficients (PCC) and linear regression slopes (blue line). Bar plots highlighGng all the enriched molecular pathways that demonstrated similar temporal dynamics (enrichment: posiGve (red), negaGve (cyan)) within the corresponding (D) 
+
+cortex, and (E) outer medulla, and divergent temporal dynamics within the corresponding outer medulla and inner medulla of CIS and AKI kidney Gssue. SpaGal gene expression plots and corresponding ribbon plots demonstraGng spaGotemporal dynamics of genes associated with OXPHOS pathway like (K) Atp1b1, 
+
+(L) Atp5b, and (M) Cox8a within both the CIS and AKI kidney Gssue. Benjamini-Hochberg method was used for mulGple hypothesis tesGng for gene set enrichment analysis. 
+
+5. Compartment-specific atypical metabolic changes may be implicated with cold ischemia injury 
+
+Our spaGotemporal transcriptomic analyses highlighted a temporal upregulaGon of the oxygen demanding OXPHOS pathway with increasing duraGon of cold ischemia injury within the oxygen-lean inner medulla of the kidney Gssue. The medullary region of the kidney is known to prefer glycolysis for meeGng its energy requirements ( 18 , 19 ). Thus, we checked for glycolysis related genes within the kidney Gssue. InteresGngly, we observed temporal upregulaGon of glycolysis related gene Pkm within all compartments, with moderate upregulaGon within the outer medulla (regression slope=76.77) and cortex (regression slope=35.99) while the strongest upregulaGon (regression slope=190.48) was observed within the inner medulla (Table S2, Fig 5A). Similarly, we observed the spaGotemporal expression of glucose transporter gene Slc2a1 (GLUT1) mirror that of Pkm , with the strongest upregulaGon within the inner medulla 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+(regression slope=70.22) and moderate upregulaGon within the outer medulla (regression slope=20.32) and cortex (regression slope=10.25) (Table S2, Fig 5B). 
+
+Figure 5. Experimental valida$on of spa$otemporal transcriptomic trends using immunofluorescene. 
+
+SpaGal gene expression plots and corresponding ribbon plots demonstraGng spaGotemporal dynamics of 
+
+(A) Pkm and (B) Slc2a1 within cold ischemia kidney injury Gssue. Immunofluorescence images of kidney 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Gssue cross-secGons displaying protein level spaGotemporal expression of (C,D) Pkm, (E,F) Slc2a1 (Glut1) and (G,H) Uqcr11 at 0- and 48 hours of cold ischemia injury respecGvely. Two representaGve regions (400 𝜇 m x 400 𝜇 m each) highlighted across all Gssue secGons belonging to the cortex (red) and inner medulla (green) region. (C’-H’, C’’-H’’) Magnified images of the representaGve cortex and inner medulla regions for Pkm, Slc2a1 and Uqcr11 respecGvely. Pseudo-colors used: blue (DAPI), gray (autofluorescence (AUTO)) and yellow (protein marker of interest). Scale bar: 500 𝜇 m (C-H) , 100 𝜇 m (C’-H’,C’-H’’) .To further validate these spaGotemporal transcripGonal trends, we performed immunostaining to visualize the protein expression pa`erns for Pkm , Slc2a1, and Uqcr11 across kidney Gssue regions for 0- and 48-hours cold ischemia Gme points (Fig. 5C-H’’). QualitaGve evaluaGon of the immunostained cold ischemic Gssue specimens demonstrated the expected subcellular and Gssue-level spaGal molecular pa`erns, with cytosolic expression of Pkm, membrane expression of Slc2a1, and mitochondrial expression of Uqcr11 being largely localized to the inner medulla (Fig. 5). Further, we observe sustained protein level expression of Pkm (Fig. 5C-C”,D-D”) and a marked increase in protein level expression of Slc2a1 (Fig. 5E-E”,F-F”) and Uqcr11 (Fig. 5G-G”,H-H”) parGcularly within the inner medulla between 0 and 48 hours cold ischemic kidney Gssues. These results indicate a general spaGotemporal molecular agreement at both at the transcriptomic and proteomic level with higher expression of Pkm, Slc2a1 and Uqcr11 within the inner medulla as compared to the cortex, parGcularly aWer 48h of cold ischemia. These compartment-specific temporal trends in both gene and protein level changes suggest an overall atypical metabolic presentaGon that accompany cold ischemia injury in kidneys (Fig. 6). 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Figure 6. Cold ischemia injury induced atypical compartment-specific metabolic changes in murine kidneys. Atypical compartment-specific metabolic changes that accompany cold ischemia injury in kidneys: (A) Cold Ischemic Kidney (Inner Medulla): During cold ischemia injury, molecular pathways related to energy metabolism like (a) OXPHOS and was posiGvely enriched (red arrows) within the inner medulla. (b) OXPHOS related genes Uqcr11 and Cox6a1 related to complex III and IV respecGvely of mitochondrial electron transport chain were upregulated. Strong upregulaGon of (c) glycolysis related gene of Pkm    
+
+> III IV ATP synthase
+> OXPHOS
+> Glucose
+> Glycolysis
+> Pyruvate OH
+> OH
+> CH 2OH
+> OH OH O
+
+Extracellular space Intracellular space Mitochondria Nucleus Slc2a1    
+
+> III IV ATP synthase
+> Acetyl-CoA
+> OXPHOS TCA Cycle
+> Glycolysis
+> OH
+> OH
+> CH 2OH
+> OH OH O
+
+Extracellular space Intracellular space Mitochondria 
+
+Nucleus Slc2a1 
+
+COLD ISCHEMIA TIME Cold Ischemic Kidney (Inner Medulla) Cold Ischemic Kidney (Cortex) Glucose Pyruvate daab     
+
+> bUqcr11 Uqcr11 Pkm Pkm
+> ElectronTransportChainElectronTransportChain
+> Cox6a1
+> Cox6a1
+> c
+> c
+
+AB
+
+> d
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint (transcriptomic) expression and (d) glucose transporter gene Slc2a1 (both transcriptomic and protein level) within the inner medulla. (B) Cold ischemic kidney (cortex): Metabolic pathways like (a) OXPHOS and (b) TCA cycle were negaGvely enriched (blue arrows) during cold ischemia injury. Finally, (c) glycolysis related gene Pkm and (d) glucose transporter gene Slc2a1 were observed to be weakly upregulated within the cortex (transcriptomic level only). (Different colors represent different compartments of the kidney Gssue: inner medulla (green), outer medulla (blue) and cortex (red)). Created with BioRender.com. 
+
+Discussion 
+
+Long duraGons of staGc cold preservaGon storage results in cold ischemia injury and contributes to worse graW outcomes (6). However, the molecular events during the pathogenesis of this injury are incompletely understood, parGcularly in the medulla of the kidney, which is less amenable to safe percutaneous or wedge biopsy sampling in a clinical se\ng. We therefore performed a full transcriptome spaGal characterizaGon of cold ischemia in murine kidneys (0-48 hours) using ST with 10x Visium. Using a data driven computaGonal analysis approach, we idenGfied temporally varying genes within transcripGonally disGnct compartments of the kidney Gssue, enabling compartment-specific invesGgaGon of gene and pathway dynamics. Through Gme-resolved analysis of spaGal molecular profiles across kidney compartments, our analysis idenGfied genes and pathways that demonstrated compartment-specific, Gme-dependent proporGonal enrichment and depleGon as significant temporal upregulaGon and downregulaGon respecGvely with increasing duraGon of cold ischemia injury. These genes were associated primarily with energy metabolism molecular pathways idenGfied through gene set enrichment analysis. ParGcularly, temporal upregulaGon of the OXPHOS pathway within the oxygen-lean kidney inner medulla, which typically relies on the anaerobic glycolyGc pathway. As such the molecular presentaGon within the inner medulla is atypical. This proporGonal enrichment is likely not explained by cell type proporGon changes or 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+relaGve mRNA stability alone. ComparaGve analysis of cold and warm ischemia kidney Gssue idenGfied that OXPHOS was uniquely upregulated within the inner medulla of cold ischemia kidney Gssue while it was observed to be temporally downregulated within the inner medulla of warm ischemia-reperfusion injury kidney Gssue. Overall, the idenGfied trends with increasing cold ischemia Gme suggest heightened OXPHOS within the inner medulla and further invesGgaGon might be necessary to evaluate whether this is a pathological development or a compensatory mechanism. Although our current study brings in new molecular insights into the pathogenesis of cold ischemic injury within the kidney, there are limitaGons which may be addressed in future studies. First, the lack of single cell resoluGon in our spaGal transcriptomic profiling limits our understanding of the cell-type specific effects within the different compartments during cold ischemia injury. For example, although we observe changes in OXPHOS gene expression within the inner medulla, whether this change is driven by a specific cell-type like collecGng duct cells or mulGple cell-types within that region remains unclear. AddiGonally, resoluGon limits our ability to perform characterizaGon of specific funcGonal Gssue units like the glomerulus which has clinical relevance in the context of an ischemic se\ng. Single-cell resoluGon ST pla}orms like Xenium (30 ) or MERFISH (31 ) could be uGlized to perform such cellular or glomerulus-specific characterizaGon, though they are currently limited in the number of genes they can profile simultaneously and therefore can be informed by full-transcriptome characterizaGons such as this study. AlternaGvely, compartment-specific single-cell RNA-sequencing could also be used, though its spaGal fidelity is limited by the precision of microdissecGon, making compartment-specific analyses challenging, parGcularly in the outer medulla, which is anatomically interposed between the cortex and inner medulla. Nevertheless, we anGcipate that the compartment-specific insights from our ST analysis will inform future compartment-specific single-cell invesGgaGons. In addiGon, although we analyzed ~3133 spaGally disGnct spots per sample, spots were derived from same Gssue secGon. Considering the limited number (i.e., n=1) of biological replicates per Gme point, we decided to focus our analysis only on consistent transcriptomic 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+trends during the enGre duraGon of cold ischemia injury (0-48 hours). We did not analyze any Gme-point specific transcriptomic changes. Further studies with increased biological replicates would enable us to characterize early vs late response and enhance our understanding of the injury progression. Although we acknowledge that lack of biological replicates limits the generalizability of exact regression slopes, we anGcipate the general ranks and signs of temporal trends across genes to be more robust, which would in turn lead to robust gene set enrichment results. As the high cost of ST technologies to generate increased sample sizes remains a limiGng factor, we employed qPCR with a larger animal cohort (n=4-5 per Gmepoint) to check the validity of key findings from ST as well as immunostaining to establish concordance at the protein level. ApplicaGon of our computaGonal workflow to AKI ST datasets further recapitulated known molecular trends related to warm ischemia kidney injury and consistent between male and female animals, underscoring the general validity of our analyGcal pipeline and the robustness of idenGfied general trends despite being limited in the number of biological replicates per Gme point. Our observaGon of an elevated OXPHOS signature within the inner medulla is based on the transcripGonal changes within the kidney Gssue subjected to cold ischemia injury. While this transcripGonal program suggests an increased capacity for mitochondrial respiraGon, gene expression alone does not necessarily reflect funcGonal metabolic acGvity. It remains to be determined whether mitochondrial acGvity including the rate of electron transport, oxygen consumpGon, and ATP producGon as the funcGonal output of the OXPHOS system, will mirror the transcripGonal changes of the genes related to OXPHOS. Mitochondrial acGvity measurement techniques may require Gssue dissociaGon which makes it challenging to implement it within intact kidney Gssues. Moreover, sample preparaGons make it difficult to control for cold ischemia Gme. These technical challenges limit our ability to characterize mitochondrial flux in a compartment-specific manner. Future studies aimed at characterizing changes in mitochondrial acGvity during prolonged cold ischemia injury can help understand correlaGon between mitochondrial acGvity and transcripGonal/proteomic changes. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Finally, there are logisGcal differences between the current experimental design and a clinical scenario wherein deceased donor kidneys undergo nephrectomy first and perfused ex vivo using kidney arteries whereas the murine kidneys in the current study were perfused through the hepaGc portal vein first and harvested thereaWer. Given that murine arteries present size-related challenges during perfusion, we anGcipate large animal models like porcine models can be strategized to recapitulate the clinical scenario more accurately in the future. We also acknowledge that staGc cold storage injury likely has differences from newer storage approaches like hypothermic pulsaGle perfusion and normothermic machine perfusion that may be further explored and compared in the future. Overall, we believe this study will serve as a basis for future studies enhancing the clinical decision-making process related to selecGon and reduced discard of deceased donor kidneys. For example, kidney biopsies are rouGnely examined for underlying pathologies primarily within the corGcal region. As such, pathologies developing deep within the Gssue such as in the kidney inner medullary region remain poorly characterized. Our analyses suggest that this may be less of an issue in an AKI se\ng where our spaGotemporal ST analysis found the cortex and inner medulla to exhibit strong posiGve correlaGon, mirroring each other’s temporal molecular dynamics. However, in a cold ischemia se\ng where our spaGotemporal ST analysis found the cortex and inner medulla to exhibit very weak correlaGon, with the inner medulla displaying disGnct molecular signatures potenGally contribuGng to poor outcome, these compartmental divergences argue for targeted further invesGgaGon of inner medullary Gssue to reveal potenGal injury mechanisms that cortex-biased assessments may miss. Furthermore, comparison of staGc cold ischemia vs. cold perfused vs. normothermic perfusion is also needed in the future in this evolving field. To facilitate such future comparisons as well as to make our data more accessible and explorable, we developed an interacGve online browser at h`ps://jef.works/CellCarto-ColdIschemia/. Overall, we anGcipate such spaGotemporally resolved molecular comparaGve analysis will enhance our understanding of biological processes underlying disease pathogenesis to help elucidate novel therapeuGcs in the future. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Materials and Methods Cold Ischemia Model and Kidney Collec$on: 
+
+All experiments were conducted at Johns Hopkins University under an approved InsGtuGonal Animal Care and Use Commi`ee protocol (MO24M439). 7-8 weeks old C57BL/6 male mice were anestheGzed via isoflurane inhalaGon and perfused with ice-cold University of Wisconsin (UW) soluGon through the hepaGc portal vein using a 10 cc syringe with a 25G needle. To facilitate circulaGon, the inferior vena cava below the liver was incised, enabling whole-body perfusion with UW soluGon. Following perfusion, the kidneys were harvested and immediately stored in UW soluGon at 4°C for 0, 12, 24, or 48 hours to induce cold ischemia. AWer the designated cold ischemia period, the kidneys were removed from the UW soluGon and fixed in 10% phosphate-buffered formalin for a minimum of 48 hours. 
+
+Sample prepara$on for spa$al transcriptomics characteriza$on: 
+
+To profile the global spaGal transcriptome aWer cold ischemia at 0, 12, 24, and 48 hours, formalin fixed kidneys were cut sagi`ally, embedded in paraffin and secGoned under RNase free condiGons. Kidney secGons (5mm) were placed on a posiGvely charged glass slide, H&E stained and scanned. One kidney secGon from each Gmepoint was placed on 10x Visium FFPE (formalin fixed paraffin embedded) slide using CytAssist instrument. Adjacent secGons (20 mm) were used for RNA quality assessment and samples with RQN value 7 were used for spaGal transcriptomic analysis. Tissue processing and downstream analyses were achieved by adopGng the following 10x Genomics protocols without any alteraGon: (1) Visium CytAssist SpaGal Gene Expression for FFPE (CG000520, Revision B) for deparaffinizaGon, staining, decrosslinking and imaging of slides. (2) “Sequencing” secGons of the Visium CytAssist SpaGal Gene Expression Reagent Kits User Guide (CG000495) for hybridizaGon. The CytAssist libraries were sequenced using a Novaseq 6000 sequencer. Gene expression counts and spot posiGons were obtained using the SpaceRanger pipeline (v2.0.1) for downstream analysis. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Public data access: 
+
+Previously published 10x Visium spaGal transcriptomics datasets from coronal secGons of female murine kidneys with bilateral ischemia reperfusion injury (ID: AKI (n=5), Gmepoints: sham, 4, 12, 48 hours and 6 weeks) (20 ) were obtained from the Gene Expression Omnibus (GEO) under accession GSE182939. Likewise, previously published 10x Visium spaGal transcriptomics (ST) datasets secGons of sagi`al secGons of normal control male murine kidneys (ID: CTRL(n=4)) and of male murine kidneys with bilateral ischemia reperfusion injury (ID: AKI24 (n=4), Gmepoint: 24 hours (all specimens)) were obtained from the authors 
+
+(22 ). All datasets were accessed as gene counts matrices and spaGal posiGons in preprocessed h5 files. 
+
+Quality Control and Processing: 
+
+Any 10x Visium spots with less than 100 counts were removed. This resulted in a total of 44,816 spots belonging to all the 17 different spaGal transcriptomics datasets. R staGsGcal soWware (version 4.3.1 (2023-06-16)) was used for this purpose and all the computaGonal analyses hereaWer. 
+
+Data Integra$on, Batch Correc$on and Graph Based Clustering: 
+
+For data integraGon, for each of the individual ST dataset (prior to CPM normalizaGon), we removed genes with less than 10 reads across all spots. ThereaWer, we feature selected for over-dispersed genes in each dataset using the getOverdispersedGenes() funcGon from MERINGUE (32 ) To miGgate sample-specific effects, we idenGfied genes that were overdispersed in at least 2 datasets resulGng in 1,378 final shared overdispsersed genes. Using these over-dispersed genes, the top 30 principal components (PCs) were idenGfied. Batch correcGon was performed on the PCs to obtain harmonized PCs using the HarmonyMatrix() funcGon (parameters: theta = 10, lambda = 0.05) from Harmony (23 ). Low-dimensional 2D embeddings of the iniGal and harmonized PCs were obtained using tSNE (33 ). Graph-based Louvain 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+clustering was performed on the harmonized PCs to idenGfy transcripGonally similar spots using getClusters() funcGon (parameters: k=100) from MERINGUE (32 ). ThereaWer, for normalizaGon purposes and subsequent linear regression analysis (covered in next secGon), the gene list was restricted to 19,454 unique genes that were shared across all 17 ST datasets. 
+
+Linear regression modeling: 
+
+Gene count matrices of CIS Gssue specimens containing 19,454 unique shared genes (rows) at each Gmepoint 0, 12, 24 and 48 hours were subset into smaller compartment-specific matrices based on the annotaGons obtained from harmonized clustering. This resulted in generaGon of 3 matrices per Gmepoint capturing all the spots within the inner medulla, outer medulla, and cortex compartments respecGvely. ThereaWer, we performed CPM (counts per million) normalizaGon on the gene counts matrices to obtain count-normalized matrices using normalizeCounts() funcGon from MERINGUE (32 ). To avoid over-representaGon from any parGcular compartment (especially the cortex), 190 random spots were sampled for each of these matrices belonging to the 3 compartments (per Gmepoint) to perform compartment-specific linear regression at each Gmepoint. lmfit() funcGon from limma (34 ) package was used to perform linear regression with Gme (encoded as log e(hours+1)) as the independent variable (x) and count-normalized gene counts as the dependent variable (y). Goodness of fit value, R 2 (R 2>0.026) and adjusted p-value (adj. p< 0.05) was used as a criterion to select the genes (CIS) whose expression had significant temporal associaGon (reflected by the magnitude of linear regression slope with unit as: CPM normalized read/log e(hours+1)). Similar procedure was implemented on AKI Gssue specimens at Gmepoints (0 (sham), 4, 12 and 48 hours) with R 2>0.093 and adj.p<0.05. The choice of R 2 values for CIS and AKI Gssue specimens was based on a bootstrap sampling experiment, where we randomly selected 190 spots from each compartment belonging to the CIS or AKI Gssue and performed linear regression on those spots (CPM normalized gene expression vs log e(Gme+1) (cold ischemia Gme or warm ischemia Gme)). We permutated 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+this process for 100 Gmes and collected the R 2 and p-value for each gene for all the 100 permutaGons. ThereaWer, we ranked all the gene based on their consistency score (i.e., Number of Gmes the p-value for the gene was less than 0.05 out of 100 Gmes). Then we created a cut-off at the 95th quanGle of this ordered gene list and the mean R 2 of the gene (average R 2 for the gene from all the 100 permutaGons) at the 95 th quanGle mark was idenGfied as the R 2 cut-off for qualifying genes as genes with significant temporal regulaGon within a compartment, idenGfied through the linear regression analysis. Finally, the largest R 2 cut-off value out of the three compartments was selected as the R 2 cut-off for either CIS (i.e, 0.026) or AKI (i.e., 0.093) Gssue specimens. 
+
+Gene Set Enrichment Analysis: 
+
+These genes with significant temporal associaGon idenGfied through linear regression were ordered based on the strength of their temporal associaGon (linear regression slopes). These genes were assigned a value which reflected their rank in the ordered list such that temporally upregulated genes received a posiGve score while temporally downregulated genes received a negaGve score. ThereaWer, gene set enrichment analysis was performed on the ordered list of genes along with their assigned values using gseKEGG() funcGon from ClusterProfiler (35 ) package and GSEA() funcGon from Msigdbr (36 ) package to idenGfy enriched KEGG and Hallmark (gene set of Msigdbr) molecular pathways respecGvely. Adjusted p-value (adj. p<0.05) was used as a cut-off criterion to select significantly enriched molecular pathways. Running enrichment score plots were plo`ed using gseaplot2() funcGons from enrichplot (37 ) package. Benjamini-Hochberg method was used for mulGple hypothesis tesGng for gene set enrichment analysis. 
+
+Compartmental correla$on analysis and linear regression: 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+CorrelaGon analysis of the temporal transcriptomic dynamics between the different compartments was performed using cor.test() funcGon in R to obtain Pearson correlaGon coefficient (PCC) and p-value. Linear regression was performed using lm() funcGon in R and summary funcGon was used to obtain the R 2 value. 
+
+Differen$al Expression Analysis: 
+
+DifferenGal expression analysis was performed to idenGfy top marker genes of inner medulla, outer medulla, and cortex compartments. Briefly, count matrices (raw counts) belonging to all the 17 ST datasets were split into three groups based on the labels (from earlier assigned compartmental annotaGons) of the spots. ThereaWer, differenGal expression analysis was performed between the interest group and the other two groups pooled together into one group using DESeq2 (38 ). Top 30 genes based on their log2 fold change (and adjusted p-value<0.05) from each of the compartments were idenGfied and plo`ed as heatmaps. DifferenGal expression was also performed between the inner medulla compartment of all 4 kidney Gssue specimens belonging to normal control kidneys (CTRL) and 4 warm ischemia reperfusion injury (AKI24) to evaluate consistency with linear regression modeling. 
+
+Cell type Deconvolu$on 
+
+Reference-free cell type deconvoluGon of 10x Visium spots of the cold ischemia kidney Gssue was performed using STdeconvolve (39 ). Gene count matrices of all cold ischemic kidney Gssue across Gmepoints were collated to jointly deconvolve all Gme points. Feature selecGon was limited to previously idenGfied shared overdispersed genes. We set K=7 to deconvolve 7 major cell types within the kidney Gssue. The choice of 7 cell types was taken based on findings from previous work ( 20 ). Deconvolved cell-type proporGons were visualized using sca`erbar (40 ). Cell-type-specific marker genes idenGfied for the respecGve deconvolved cell types and ranked by their normalized expression levels (expression level of a 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+parGcular gene was normalized across all deconvolved cell types) were used for gene set enrichment analysis using gseGO() funcGon from clusterProfiler package. 
+
+GC content and 3’ UTR Length Calcula$ons 
+
+The GC content and 3’ UTR length for all the different transcripts belonging to all the genes were derived using BiomaRt package ( 41 , 42 ). ThereaWer, the GC content and 3’ UTR length for all the transcripts belonging to a parGcular gene were averaged respecGvely to obtain the averaged gene level GC content and 3’ UTR length values. These averaged gene level GC content and 3’ UTR length have been used for comparaGve analysis between OXPHOS genes and all other temporally regulated genes within the inner medulla of cold ischemia kidney Gssue. 
+
+RNA isola$on and qPCR: 
+
+Kidney cortex and medulla (inner + outer medulla) were collected as previously described (43 ) .Total RNA was isolated from samples using a QIAshredder (Qiagen, Valencia, CA, Cat.No.79654) and a RNeasy Mini kit (Qiagen, Cat.No.74104) and reverse transcribed using High-Capacity cDNA Reverse TranscripGon Kit (Applied Biosystems, Foster City, CA, Cat.No. 4368814). Real-Gme PCR was performed in QuantStudio 12K Flex (Applied Biosystems, Foster City, CA) using the SYBR Green PCR master mix (Applied biosystems, Cat.No. 4309155). 𝛽 -acGn served as the reference gene and the relaGve mRNA fold change expression values were calculated using a DD cycle threshold method. Two-sided Wilcoxon rank sum test was used to compare the relaGve mRNA fold change values for Uqcr11 , Cox6a1 and Pink1 between the cortex and medulla regions of the kidney using wilcox.test() funcGon. The primer sequences for genes are listed below: 
+
+Genes Forward primer Reverse primer 
+
+Actb GTGACGTTGACATCCGTAAAGA GCCGGACTCATCGTACTCC 
+
+Uqcr11 GGACTGGGTGCCTTACATCAACG GTGTCCAGCTTCCTCAGTGTCTTC 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Cox6a1 CAACGTGTTCCTCAAGTCGCGG GCCAGGTTCTCTTTACTCATC 
+
+Immunostaining and Immufluorescenece microsocopy: 
+
+The paraffin embedded secGons were deparaffinized and hydrated by incubaGon in xylene and subsequently in 100%, 95%, 80%, 70% ethanol and deionized water. ThereaWer, anGgen retrieval was performed by microwaving the deparaffinized specimens in 1x Tris EDTA buffer (ThermoFisher ScienGfic, Catalog no: 00-4956-58) for a minute. The specimens were permeabilized using 0.1% (v/v) Triton X-100 in phosphate buffered saline (PBS) for 5 minutes. Primary anGbodies used for different protein markers were: Uqcr11 (ThermoFisher ScienGfic, Catalog no: 14793-1-AP), Pkm (Abcam, Catalog no: AB154816), Slc2a1 (Abcam, Catalog no: AB150299). Primary anGbody soluGon was prepared in 0.1% (v/v) Tween-20 in PBS containing 10% (v/v) normal donkey serum (Sigma Aldrich, D9663). All primary anGbodies (host species: Rabbit) were used at a diluGon of 1:100 (v/v). Goat AnG-Rabbit IgG Alexa Fluor 647 (Abcam, Catalog no: AB150083) was used as a secondary anGbody and was used for conjugaGon with all primary anGbodies used in this study at a diluGon of 1:200 (v/v). The immunostained slides were imaged using Nikon Suno Spinning disk microscope and all images were analyzed using Fiji. 
+
+Code availability: 
+
+Code to reproduce the analyses and results of this study is available on GitHub at: h`ps://github.com/ssingh95jhu/Cold_Ischemia_Injury_Molecular_CharacterizaGon_v2 An interacGve browser is available at h`ps://jef.works/CellCarto-ColdIschemia/ with source code at h`ps://github.com/JEFworks-Lab/CellCarto-ColdIschemia 
+
+Data availability: 
+
+Count matrices, spaGal posiGons, and H&E images for the cold ischemia Visium datasets generated in this study have been deposited in a Zenodo repository at h`ps://doi.org/10.5281/zenodo.15359609 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Acknowledgements 
+
+This material is based upon work supported by the NaGonal InsGtute of General Medical Sciences of the NaGonal InsGtutes of Health under Award Number R35-GM142889 (SS, JF) and the NaGonal Science FoundaGon under Grant No. 2047611 (DV, JF). H.R. and S.N. were supported by NIH/NIDDK grants (R01DK132278, R01DK123342, U54DK137331) and the Kidney precision medicine project biomarker award. We thank Dr. Ian Dobbie and Yuan Cai at the Integrated Imaging Center (IIC), Johns Hopkins University for their insights and feedback related to microscopic imaging and analysis of immunostained slides. 
+
+Contribu$ons 
+
+J.F. and H.R. conceptualized the study. S.S. led the data analysis, interpretaGon, and wriGng under the guidance of J.F. and with input from S.K.P., R.M., S.N., and H.R. S.K.P., R.M. and S.N. performed the cold ischemia protocol, kidney Gssue collecGon, secGoning and Gssue processing for spaGal transcriptomics under the guidance of Z.S. and H.R. S.K.P., R.M. and S.N. led the qPCR validaGon under the guidance of H.R. S.S. led the immunostaining validaGon. D.V. developed the web applicaGon under the guidance of S.S. and J.F. All authors contributed to the wriGng of the manuscript. All authors approved the final manuscript. 
+
+References: 
+
+1. Centers for Medicare & Medicaid Services (Accessed: March 2025), Increasing Organ Transplant Access (IOTA) Model. https://www.cms.gov/priorities/innovation/innovation-models/iota. 2. L. Heylen, J. Pirenne, M. Naesens, B. Sprangers, I. Jochmans, “Time is tissue”—A minireview on the importance of donor nephrectomy, donor hepatectomy, and implantation times in kidney and liver transplantation. American Journal of 
+
+Transplantation 21 , 2653–2661 (2021). 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+3. A. M. Placona, C. Humphries, C. Curran, W. Ambroise, J. P. Orlowski, K. Gauntt, J. Wainright, Association of Transit Time With Cold Ischemic Time in Kidney Transplantation. JAMA Netw. Open 4, e2141108 (2021). 4. J. F. McAnulty, Hypothermic organ preservation by static storage methods: Current status and a view to the future. Cryobiology 60 , S13–S19 (2010). 5. A. K. Salahudeen, Cold ischemic injury of transplanted kidneys: new insights from experimental studies. American Journal of Physiology -Renal Physiology 287 , F181– F187 (2004). 6. A. Debout, Y. Foucher, K. Trébern-Launay, C. Legendre, H. Kreis, G. Mourad, V. Garrigue, E. Morelon, F. Buron, L. Rostaing, N. Kamar, M. Kessler, M. Ladrière, A. Poignas, A. Blidi, J.-P. Soulillou, M. Giral, E. Dantan, Each additional hour of cold ischemia time significantly increases the risk of graft failure and mortality following renal transplantation. Kidney Int. 87 , 343–349 (2015). 7. A. K. Salahudeen, H. Huang, P. Patel, J. K. Jenkins, MECHANISM AND PREVENTION OF COLD STORAGE-INDUCED HUMAN RENAL TUBULAR CELL INJURY12. 
+
+Transplantation 70 , 1424–1431 (2000). 8. A. K. Salahudeen, H. Huang, M. Joshi, N. A. Moore, J. K. Jenkins, Involvement of the Mitochondrial Pathway in Cold Storage and Rewarming-Associated Apoptosis of Human Renal Proximal Tubular Cells. American Journal of Transplantation 3, 273– 280 (2003). 9. A. K. Salahudeen, Cold ischemic injury of transplanted kidneys: new insights from experimental studies. American Journal of Physiology -Renal Physiology 287 , F181– F187 (2004). 10. A. R. Krishnan, G. Wong, J. R. Chapman, P. T. Coates, G. R. Russ, H. Pleass, C. Russell, B. He, W. H. Lim, Prolonged Ischemic Time, Delayed Graft Function, and Graft and Patient Outcomes in Live Donor Kidney Transplant Recipients. American 
+
+Journal of Transplantation 16 , 2714–2723 (2016). 11. L. Kayler, X. Yu, C. Cortes, M. Lubetzky, P. Friedmann, Impact of Cold Ischemia Time in Kidney Transplants From Donation After Circulatory Death Donors. Transplant. 
+
+Direct 3, e177 (2017). 12. J. Gill, C. Rose, Y. Jolres, M. Kadatz, J. Gill, Cold ischemia time up to 16 hours has little impact on living donor kidney transplant outcomes in the era of kidney paired donation. Kidney Int. 92 , 490–496 (2017). 13. G. K. Dube, C. Brennan, S. A. Husain, R. J. Crew, M. C. Chiles, D. J. Cohen, S. Mohan, Outcomes of kidney transplant from deceased donors with acute kidney injury and prolonged cold ischemia time - a retrospective cohort study. Transplant International 
+
+32 , 646–657 (2019). 14. S. G. Tullius, H. Rabb, Improving the Supply and Quality of Deceased-Donor Organs for Transplantation. N. Engl. J. Med. 379 , 693–694 (2018). 15. C. G. Williams, H. J. Lee, T. Asatsuma, R. Vento-Tormo, A. Haque, An introduction to spatial transcriptomics for biomedical research. Genome Med. 14 , 68 (2022). 16. M. Cheng, Y. Jiang, J. Xu, A.-F. A. Mentis, S. Wang, H. Zheng, S. K. Sahu, L. Liu, X. Xu, Spatially resolved transcriptomics: a comprehensive review of their technological 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+advances, applications, and challenges. Journal of Genetics and Genomics 50 , 625– 640 (2023). 17. L. Atta, J. Fan, Computational challenges and opportunities in spatially resolved transcriptomic data analysis. Nat. Commun. 12 , 5283 (2021). 18. E. L. Kean, P. H. Adams, R. W. Winters, R. E. Davies, Energy metabolism of the renal medulla. Biochim. Biophys. Acta 54 , 474–478 (1961). 19. Y. Chen, B. C. Fry, A. T. Layton, Modeling Glucose Metabolism in the Kidney. Bull. 
+
+Math. Biol. 78 , 1318–36 (2016). 20. E. E. Dixon, H. Wu, Y. Muto, P. C. Wilson, B. D. Humphreys, Spatially Resolved Transcriptomic Analysis of Acute Kidney Injury in a Female Murine Model. Journal of 
+
+the American Society of Nephrology 33 , 279–289 (2022). 21. E. L. Lum, P. Homkrailas, B. Abdalla, G. M. Danovitch, S. Bunnapradist, Cold Ischemia Time, Kidney Donor Profile Index, and Kidney Transplant Outcomes: A Cohort Study. Kidney Med. 5, 100570 (2023). 22. S. Gharaie, K. Lee, K. Noller, E. K. Lo, B. Miller, H. J. Jung, A. M. Newman-Rivera, J. T. Kurzhagen, N. Singla, P. A. Welling, J. Fan, P. Cahan, S. Noel, H. Rabb, Single cell and spatial transcriptomics analysis of kidney double negative T lymphocytes in normal and ischemic mouse kidneys. Sci. Rep. 13 , 20888 (2023). 23. I. Korsunsky, N. Millard, J. Fan, K. Slowikowski, F. Zhang, K. Wei, Y. Baglaenko, M. Brenner, P. Loh, S. Raychaudhuri, Fast, sensitive and accurate integration of single-cell data with Harmony. Nat. Methods 16 , 1289–1296 (2019). 24. M. S. Balzer, T. Rohacs, K. Susztak, How Many Cell Types Are in the Kidney and What Do They Do? Annu. Rev. Physiol. 84 , 507–531 (2022). 25. A. Ransick, N. O. Lindström, J. Liu, Q. Zhu, J.-J. Guo, G. F. Alvarado, A. D. Kim, H. G. Black, J. Kim, A. P. McMahon, Single-Cell Profiling Reveals Sex, Lineage, and Regional Diversity in the Mouse Kidney. Dev. Cell 51 , 399-413.e7 (2019). 26. Y. Kirita, H. Wu, K. Uchimura, P. C. Wilson, B. D. Humphreys, Cell profiling of mouse acute kidney injury reveals conserved cellular responses to injury. Proceedings of the 
+
+National Academy of Sciences 117 , 15874–15883 (2020). 27. A. J. Clark, S. M. Parikh, Mitochondrial Metabolism in Acute Kidney Injury. Semin. 
+
+Nephrol. 40 , 101–113 (2020). 28. I. Gallego Romero, A. A. Pai, J. Tung, Y. Gilad, RNA-seq: impact of RNA degradation on transcript quantification. BMC Biol. 12 , 42 (2014). 29. M. Salvadori, G. Rosso, E. Bertoni, Update on ischemia-reperfusion injury in kidney transplantation: Pathogenesis and treatment. World J. Transplant. 5, 52 (2015). 30. 10X Genomics (Accessed: March 2025), Xenium Platform, 
+
+https://www.10xgenomics.com/platforms/xenium .31. K. H. Chen, A. N. Boettiger, J. R. Molitt, S. Wang, X. Zhuang, Spatially resolved, highly multiplexed RNA profiling in single cells. Science (1979). 348 (2015). 32. B. F. Miller, D. Bambah-Mukku, C. Dulac, X. Zhuang, J. Fan, Characterizing spatial gene expression heterogeneity in spatially resolved single-cell transcriptomic data with nonuniform cellular densities. Genome Res. 31 , 1843–1855 (2021). 33. Jesse H. Krijthe (2015), Rtsne: T-Distributed Stochastic Neighbor Embedding using a Barnes-Hut Implementation, https://github.com/jkrijthe/Rtsne .
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+34. M. E. Ritchie, B. Phipson, D. Wu, Y. Hu, C. W. Law, W. Shi, G. K. Smyth, limma powers dilerential expression analyses for RNA-sequencing and microarray studies. Nucleic 
+
+Acids Res. 43 , e47–e47 (2015). 35. T. Wu, E. Hu, S. Xu, M. Chen, P. Guo, Z. Dai, T. Feng, L. Zhou, W. Tang, L. Zhan, X. Fu, S. Liu, X. Bo, G. Yu, clusterProfiler 4.0: A universal enrichment tool for interpreting omics data. The Innovation 2, 100141 (2021). 36. I. Dolgalev, msigdbr: MSigDB Gene Sets for Multiple Organisms in a Tidy Data Format. [Preprint] (2018). https://doi.org/10.32614/CRAN.package.msigdbr. 37. Yu G (2025), enrichplot: Visualization of Functional Enrichment Result. R package version 1.26.6, https://yulab -smu.top/biomedical -knowledge -mining -book/. 
+
+38. M. I. Love, W. Huber, S. Anders, Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biol. 15 , 550 (2014). 39. B. F. Miller, F. Huang, L. Atta, A. Sahoo, J. Fan, Reference-free cell type deconvolution of multi-cellular pixel-resolution spatially resolved transcriptomics data. Nat. 
+
+Commun. 13 , 2339 (2022). 40. D. Velazquez, J. Fan, scatterbar: an R package for visualizing proportional data across spatially resolved coordinates. Bioinformatics 41 (2025). 41. S. Durinck, Y. Moreau, A. Kasprzyk, S. Davis, B. De Moor, A. Brazma, W. Huber, BioMart and Bioconductor: a powerful link between biological databases and microarray data analysis. Bioinformatics 21 , 3439–3440 (2005). 42. S. Durinck, P. T. Spellman, E. Birney, W. Huber, Mapping identifiers for the integration of genomic datasets with the R/Bioconductor package biomaRt. Nat. Protoc. 4,1184–1191 (2009). 43. R. A. Fenton, A. Flynn, A. Shodeinde, C. P. Smith, J. Schnermann, M. A. Knepper, Renal Phenotype of UT-A Urea Transporter Knockout Mice. Journal of the American 
+
+Society of Nephrology 16 , 1583–1592 (2005). 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Spa%otemporal transcriptomic analysis during cold ischemic injury to the murine kidney reveals compartment-specific changes Supplemental Figures: 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Figure S1. Tissue specimens and quality control of cold ischemia injury kidneys. H&E-stained images of kidney 3ssue specimens subjected to (A) 0 hours (B) 12 hours (C) 24 hours and (D) 48 hours of cold ischemia injury. Histograms depic3ng distribu3on of (E-H) transcripts per spot and (I-L) spots per gene at 3me points 0 hours, 12 hours, 24 hours and 48 hours of cold ischemia injury respec3vely. Annota3ons highligh3ng the different compartments namely cortex (red), outer medulla (blue), inner medulla (green) and other (gray), within the normal control (CTRL) kidneys ( M) and 24-hours warm ischemia reperfusion (AKI24) injury ( N) 3ssue specimens. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Figure S2. Heatmap of top compartment-specific marker genes for cold ischemia (CIS), warm ischemia-reperfusion-induced acute kidney injury (AKI), normal control kidneys (CTRL) and 24-hours warm ischemia-reperfusion-induced acute kidney injury (AKI24) injury datasets. Heatmap of top compartment-specific marker genes expression within the different kidney 3ssue compartments namely 
+
+(A,B,C,D) inner medulla (I.medulla (green)), (E,F,G,H) outer medulla (O. medulla (blue)) and (I,J,K,L) cortex (red) belonging to different 3mepoints of cold ischemia (CIS) and warm ischemia-reperfusion (AKI) injury, normal control kidneys (CTRL) and 24-hours warm ischemic-reperfusion injury (AKI24) datasets respec3vely. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Figure S3. Spa%otemporal expression paWerns of compartment-specific marker genes in different experimental groups. Presenta3on of inner medulla marker genes ( Slc14a2 , Slc5a3 ); outer medulla marker genes ( Serpina1f, Slc22a7 ); cortex marker genes ( Slc34a1, Slc5a2 ) within the (A) cold ischemia injury (CIS), (B) warm ischemia-reperfusion injury (AKI), (C) normal control kidneys (CTRL) and (D) 24-hours warm ischemia-reperfusion injury (AKI24) kidney 3ssue specimens. Color coded annota3ons: red (cortex), blue (outer medulla), green (inner medulla) and other (gray), highlight the loca3on of the different compartments within respec3ve 3ssue specimens. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Figure S4. Compartment-specific propor%onal enrichment or deple%on of OXPHOS genes within cold ischemia kidney %ssue. Temporal change in total mRNA count within the (A) inner medulla (B) outer medulla and (C) cortex. Temporal change in OXPHOS related genes within the (D) inner medulla (E) outer medulla and (F) cortex. Temporal change in propor3on of OXPHOS related genes with (G) inner medulla 
+
+(H) outer medulla and (I) cortex. The regression slopes (Slope) and goodness of fit (R 2) of each of the plots is provided at the upper leX corner of the respec3ve plots. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Figure S5. Representa%ve genes demonstra%ng compartment-specific downward temporal trend in cold ischemic kidneys and deconvolved cell type changes. While (A) Kap demonstrated temporally downward trend in all three compartments with varying degrees, (B) Egf, (C) Gpx1 and (D) Chpt1 were confined to the inner medulla, outer medulla, and cortex respec3vely. The ribbon plots demonstrate the mean ± s.d. expression (CPM normalized) of the respec3ve genes within different compartments of the corresponding cold ischemic 3ssue at different 3me points. (E) Spa3al gene expression plots demonstra3ng spa3otemporal expression of deconvolved cell types (1-7) within cold ischemic kidney 3ssues. (F) 
+
+Compartment-specific deconvolved cell type composi3on changes during cold ischemia injury in kidneys. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Figure S6. Spa%otemporal transcrip%onal dynamics within female and male experimental models of warm ischemia-reperfusion injury (i.e., AKI and AKI24). Spa3al plots depic3ng the spa3otemporal expression of puta3ve AKI marker genes like (A) Havcr1 , (B) Lcn2 and (C) Spp1 within warm ischemia-reperfusion injury (AKI) kidney 3ssue specimens from female murine models. Sca]er plots depic3ng the correla3on analysis of the temporal transcrip3onal dynamics between the different compartments: (D) 
+
+cortex vs outer medulla (E) cortex vs inner medulla and (F) outer medulla vs inner medulla of the acute kidney injury (AKI) 3ssue. Genes exhibi3ng covarying (green) or divergent (purple) temporal trend within these compartments can be visualized along with their Pearson correla3on coefficients (PCC) and linear regression slopes (blue line). AKI marker genes like Spp1 , Havcr1 and Lcn2 within these compartments have been highlighted red. Spa3al plots depic3ng the spa3otemporal expression of (G) Havcr1 , (H) Lcn2 
+
+and (I) Spp1 within 24-hours warm ischemia-reperfusion injury (AKI24) kidney 3ssue specimens from male murine models. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint Figure S7. Compartment-specific enrichment of molecular pathways within acute kidney injury (AKI) %ssues. Bar plots highligh3ng all the enriched molecular pathways (Hallmark and KEGG) that demonstrated similar temporal dynamics (enrichment: posi3ve (red), nega3ve (cyan)) within the corresponding (A) inner medulla, (B) outer medulla and (C) cortex of warm ischemia-reperfusion injury (AKI) kidney 3ssue. Similar, bar plots highligh3ng all the enriched molecular pathways (KEGG) that demonstrated similar temporal dynamics (enrichment: posi3ve (red), nega3ve (cyan)) within the corresponding (D) inner medulla, (E) outer medulla and (F) cortex of warm ischemia-reperfusion injury (AKI) kidney 3ssue. (Note: Hallmark pathways have a prefix “HM_” and are in uppercase whereas KEGG pathways have a prefix “KEGG_”.) 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Figure S8. Differen%al spa%otemporal expression of OXPHOS genes between the control (CTRL) and warm ischemia injury (24 hours) male kidney. (A) Spa3al plots depic3ng the differen3al spa3otemporal expression of OXPHOS genes like Atp1b1, Atp5b and Cox8a between the control and warm ischemia-reperfusion injury (AKI24) kidney 3ssue specimens from male murine model. (B) Running enrichment score plots highligh3ng differen3al nega3ve enrichment of OXPHOS pathway (HALLMARK) within the inner medulla of warm ischemia-reperfusion injury (AKI24) male kidney 3ssue as compared to control male kidney. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Supplementary Table Legends 
+
+Supplementary Table 1. Temporally downregulated genes. List of genes that demonstrated a downward temporal trend during cold ischemia injury with the inner medulla (sheet 1), outer medulla (sheet 2) and cortex (sheet 3) of the kidney tissue. Genes are ordered according to their linear regression slopes with the gene demonstrating the maximum temporal change at the top and the minimum at the bottom. R2 represents the goodness of fit (R 2) values obtained from linear regression of the corresponding genes vs cold ischemia time. 
+
+Supplementary Table 2. Temporally upregulated genes. List of genes that demonstrated an upward temporal trend during cold ischemia injury with the inner medulla (sheet 1), outer medulla (sheet 2) and cortex (sheet 3) of the kidney tissue. Genes are ordered according to their linear regression slopes with the gene demonstrating the maximum temporal change at the top and the minimum at the bottom. R2 represents the goodness of fit (R 2) values obtained from linear regression of the corresponding genes vs cold ischemia time. 
+
+Supplementary Table 3. Temporally regulated genes shared across all kidney 
+
+compartments . List of genes that demonstrated a downward (sheet 1) or upward (sheet 2) temporal trend during cold ischemia injury shared across all compartments of the kidney tissue. 
+
+Supplementary Table 4. Temporally upregulated genes unique to a particular kidney 
+
+compart ment . List of genes that demonstrated an upward temporal trend during cold ischemia injury that was compartmentally confined to the inner medulla (sheet 1), outer medulla (sheet 2) and cortex (sheet 3) of the kidney tissue. Genes are ordered according to their linear regression slopes with the gene demonstrating the maximum temporal change at the top and the minimum at the bottom. 
+
+Supplementary Table 5. Temporally downregulated genes unique to a particular kidney 
+
+compartment. List of genes that demonstrated a downward temporal trend during cold ischemia injury that was compartmentally confined to the inner medulla (sheet 1), outer medulla (sheet 2) and cortex (sheet 3) of the kidney tissue. Genes are ordered according to their linear regression slopes with the gene demonstrating the maximum temporal change at the top and the minimum at the bottom. 
+
+Supplementary Table 6. Covarying transcriptional trends of genes between diDerent 
+
+compartments of kidney during cold ischemia (CIS) injury. List of genes that demonstrated covarying transcriptional trend within the diEerent compartments: cortex vs outer medulla (sheet1), cortex vs inner medulla (sheet2) and outer medulla vs inner medulla (sheet3) of the CIS kidney tissue. Each sheet contains the linear regression slope value of the genes within the compartments being compared. A positive slope value indicates upregulation while a negative value indicates a downregulation. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+Supplementary Table 7. Divergent transcriptional trends of genes between diDerent 
+
+compartments of kidney during cold ischemia (CIS) injury. List of genes that 
+
+demonstrated divergent transcriptional trend within the diEerent compartments: cortex vs 
+
+outer medulla (sheet1), cortex vs inner medulla (sheet2) and outer medulla vs inner medulla 
+
+(sheet3) of the CIS kidney tissue. Each sheet contains the linear regression slope value of 
+
+the genes within the compartments being compared. A positive slope value indic ates 
+
+upregulation while a negative value indicates a downregulation. 
+
+Supplementary Table 8. Ranked list of genes associated with major deconvoluted cell 
+
+types within kidney tissue during cold ischemia (CIS) injury. List of top 30 genes associated with the 7 major deconvoluted cell types within kidney tissue during cold ischemia injury. Gene list belonging to each deconvoluted cell types are provided within separate sheets named as CellTypeX (where X is the deconvoluted cell type ID). 
+
+Supplementary Table 9. Enriched molecular (GO) pathways within diDerent 
+
+compartments of kidney during cold ischemia (CIS) injury. List of enriched molecular pathways (GO) associated with top genes for 7 major deconvolved cell types within the kidney tissue during cold ischemia injury . Molecular pathways are ordered according to their normalized enrichment scores (NES) obtained from gene set enrichment analysis with pathways with highest NES at the top and minimum NES at the bottom. Corresponding adjusted p-values (p.adjust) and genes with significant contribution to the NES (Leading Edge Genes) for the respective enriched pathways are also provided. Pathways with p.adjust<0.05 are not included in the list. Enriched molecular pathways list belonging to each deconvoluted cell types are provided within separate sheets named as CellTypeX (where X is the deconvoluted cell type ID). 
+
+Supplementary Table 10 . Enriched molecular (KEGG) pathways within diDerent 
+
+compartments of kidney during cold ischemia (CIS) injury. List of enriched molecular pathways (KEGG) associated with genes that demonstrated a significant temporal trend (either upward or downward) during cold ischemia injury within the inner medulla (sheet 1), outer medulla (sheet 2) and cortex (sheet 3) of the CIS kidney tissue. Molecular pathways are ordered according to their normalized enrichment scores (NES) obtained from gene set enrichment analysis with pathways with highest NES at the top and minimum NES at the bottom. Corresponding adjusted p-values (p.adjust) and genes with significant contribution to the NES (Leading Edge Genes) for the respective enriched pathways are also provided. Pathways with p.adjust<0.05 are not included in the list. 
+
+Supplementary Table 11 . Enriched molecular ( Hallmark gene sets of MSigDB ) pathways 
+
+within diDerent compartments of kidney during cold ischemia (CIS) injury. List of enriched molecular pathways (Hallmark gene sets of MSigDB) associated with genes that demonstrated a significant temporal trend (either upward or downward) during cold ischemia injury within the inner medulla (sheet 1), outer medulla (sheet 2) and cortex (sheet 3) of the CIS kidney tissue. Molecular pathways are ordered according to their normalized 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted April 18, 2026. ;https://doi.org/10.1101/2025.05.25.654911 doi: bioRxiv preprint
+
+enrichment scores (NES) obtained from gene set enrichment analysis with pathways with 
+
+highest NES at the top and minimum NES at the bottom. Corresponding adjusted p -values 
+
+(p.adjust) and genes with significant contribution to the NES (Leading Edge Genes) f or the 
+
+respective enriched pathways are also provided. Pathways with p.adjust<0.05 are not 
+
+included in the list. 
+
+Supplementary Table 12. Enriched molecular (KEGG) pathways within diDerent 
+
+compartments of kidney during warm ischemia -reperfusion (AKI) injury. List of enriched molecular pathways (KEGG) associated with genes that demonstrated a significant temporal trend (either upward or downward) during warm ischemia-reperfusion injury within the inner medulla (sheet 1), outer medulla (sheet 2) and cortex (sheet 3) of the AKI kidney tissue. Molecular pathways are ordered according to their normalized enrichment scores (NES) obtained from gene set enrichment analysis with pathways with highest NES at the top and minimum NES at the bottom. Corresponding adjusted p-values (p.adjust) and genes with significant contribution to the NES (Leading Edge Genes) for the respective enriched pathways are also provided. Pathways with p.adjust<0.05 are not included in the list. 
+
+Supplementary Table 13. Enriched molecular (Hallmark gene sets of MSigDB) pathways 
+
+within diDerent compartments of kidney during warm ischemia -reperfusion (AKI) injury. 
+
+List of enriched molecular pathways (Hallmark gene sets of MSigDB) associated with genes that demonstrated a significant temporal trend (either upward or downward) during warm ischemia-reperfusion injury within the inner medulla (sheet 1), outer medulla (sheet 2) and cortex (sheet 3) of the AKI kidney tissue. Molecular pathways are ordered according to their normalized enrichment scores (NES) obtained from gene set enrichment analysis with pathways with highest NES at the top and minimum NES at the bottom. Corresponding adjusted p-values (p.adjust) and genes with significant contribution to the NES (Leading Edge Genes) for the respective enriched pathways are also provided. Pathways with p.adjust<0.05 are not included in the list. 
+
+Supplementary Table 14. Covarying molecular (KEGG and H allmark ) pathways within 
+
+corresponding compartments of CIS and AKI kidney tissue. List of enriched molecular pathways (KEGG and HALLMARK) within the CIS and AKI tissue that demonstrated covarying trend within the corresponding inner medulla (sheet1), outer medulla (sheet2) and cortex (sheet3) of the CIS and AKI tissue. Each sheet contains the normalized enrichment score (NES) of the covarying genes within the respective CIS and AKI tissue. Pathways with “HALLMARK_” as prefix belong to Hallmark geneset. 
+
+Supplementary Table 15. Div er gent molecular (KEGG and H allmark ) pathways within 
+
+corresponding compartments of CIS and AKI kidney tissue. List of enriched molecular pathways (KEGG and HALLMARK) within the CIS and AKI tissue that demonstrated divergent trend within the corresponding inner medulla (sheet1), outer medulla (sheet2) and cortex (sheet3) of the CIS and AKI tissue. Each sheet contains the normalized enrichment score (NES) of the divergent genes within the respective CIS and AKI tissue. Pathways with “HALLMARK_” as prefix belong to Hallmark geneset.

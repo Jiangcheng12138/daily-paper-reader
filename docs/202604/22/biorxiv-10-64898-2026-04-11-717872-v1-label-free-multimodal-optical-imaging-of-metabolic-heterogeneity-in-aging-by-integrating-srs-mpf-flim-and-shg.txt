@@ -1,0 +1,1316 @@
+Title: Label free multimodal optical imaging of metabolic heterogeneity in aging by integrating SRS, MPF, FLIM, and SHG
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.04.11.717872v1.full.pdf
+
+Number of Pages: 19
+
+Markdown Content:
+Label free multimodal optical imaging of metabolic heterogeneity in 1
+
+## aging by integrating SRS, MPF, FLIM, and SHG 2
+
+3
+
+Hongje Jang 1, Shuang Wu 2, Hyehyun Kim 3, Tong -You Wade Wei 4, Jian Kang 5, Ana hita Ataran 6,4
+
+Fangyuan Gao 8, Dorota Skowronska -Krawczyk 8, Kenneth B. Margulies 9, Ali Javaheri 6, 7 , Wei 5
+
+Sun 4, John Y-J Shyy 5, Erkin Seker 10 , Lingyan Shi 1*6
+
+7 1Dep artment of Bioengineering, University of California San Diego, La Jolla, CA 92093 8 2Biomedical Engineering, Northwestern University, Evanston, IL 60208 9 3Department of Biomedical Engineering, University of California - Davis, Davis, CA, 95616 10  4Division of Cardiology, Department of Medicine, University of California San Diego , La Jolla, 11 
+
+CA 92093 12  5Institute of Engineering in Medicine, University of California San Diego, La Jolla, CA 92093 13  6Department of Internal Medicine, Division of Cardiovascular Research, Washington University 14 
+
+School of Medicine , St. Louis, MO 63110 15  7John Cochran Veterans Affairs Hospital , St. Louis, MO 63106 16  8School of Medicine, University of California, Irvine, CA 92697 17  9Cardiovascular Institute, Perelman School of Medicine, University of Pennsylvania, 18 
+
+Philadelphia , PA 19104 19  10 Department of Electrical and Computer Engineering , University of California - Davis, Davis, 20 
+
+CA 95616 21 
+
+22 
+
+23 
+
+24 
+
+Correspon dence to  L2S hi@ucsd.edu 25 
+
+26 
+
+27 
+
+ABSTRACT 28 
+
+Cellular metabolism is governed by the coordinated organization of macromolecules, including 29 
+
+lipids and proteins, together with redox -active cofactors such as NADH and FAD. However, 30 
+
+resolving these biochemical features quantitatively and spatially at subcellular resolution remains 31 
+
+challenging because no single imaging modality can capture molecular composition, redox state, 32 
+
+and tissue architecture simultaneously without labeling. Here, we present MANIFEST (Multi -33 
+
+mod Al Nonlinear Imaging with Fluorescence Excitation and Statistical Temporal -resolved 34 
+
+spectroscopy), a label -free imaging platform that integrates stimulated Raman scattering (SRS), 35 
+
+second harmonic generation (SHG), multiphoton fluorescence (MPF), and fluorescence lifetime 36 
+
+imaging microscopy (FLIM). The MANIFEST combines chemical imaging of lipids with 37 
+
+autofluorescence - and lifetime -based quantification of NADH and FAD metabolism, enabling 38 
+
+spatially resolved analysis of metabolic heterogeneity at organelle and tissue -compartment levels. 39 
+
+We apply this framework to four distinct aging or disease models : amyloid -beta -treated tri -cultured 40 
+
+brain cells, high -fat diet mouse liver, human non -ischemic cardiomyopathy tissue, and aging 41 
+
+mouse retina. Across these systems, MANIFEST reveals disease -associated lipid remodeling, 42 
+
+redox imbalance, disrupted metabolic zonation, collagen reorganization, and layer -specific 43 
+
+metabolic changes. By integrating complementary nonlinear optical modalities into a single label -44 
+
+free platform, MANIFEST provides a generalizable approach for high -resolution metabolic 45 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+phenotyping in complex biological systems and offers new opportunities for studying disease 46 
+
+mechanisms, aging biology, and metabolism -driven tissue pathology. 47 
+
+Keywords: multimodal imaging , metabolic imaging, multiphoton fluorescence, stimulated Raman 48 
+
+scattering, second harmonic generation, fluorescence lifetime imaging, tissue imaging, cell 49 
+
+imaging 50 
+
+51 
+
+52 
+
+53 
+
+54 
+
+Metabolic heterogeneity is a defining feature of both normal physiology and disease progression. 55 
+
+Across aging tissues and pathological states, cells differ in their lipid composition, protein 56 
+
+organization, redox balance, and extracellular matrix remodeling . These differences often emerge 57 
+
+at subcellular, cellular, and tissue -compartment scales. Such biochemical variation is closely 58 
+
+linked to functional state and disease trajectory in diverse systems, including neurodegeneration, 59 
+
+metabolic disease, cardiovascular dysfunction, and retinal aging. However, directly visualizing 60 
+
+these metabolic features in situ remains challenging because no single imaging modality can 61 
+
+simultaneously resolve molecular composition, cofactor dynamics, and tissue structure with high 62 
+
+spatial resolution and without exogenous labeling (1).63 
+
+Current imaging strategies each capture only part of this landscape. Conventional 64 
+
+fluorescence microscopy offers high sensitivity and molecular specificity (2), but it often depends 65 
+
+on exogenous labels, is constrained in multiplexing capacity (3), and may perturb the biological 66 
+
+system under study. Super -resolution fluorescence imaging methods can achieve exceptional 67 
+
+spatial precision (4-11 ), yet this gain in specificity often comes at the expense of throughput, 68 
+
+molecular breadth, and compatibility with large -scale tissue analysis. By contrast, label -free 69 
+
+optical approaches offer the possibility of probing endogenous biochemical information directly, 70 
+
+but most single -modality methods remain limited in the range of molecular features they can 71 
+
+report. As a result, there is a substantial unmet need for imaging platforms that can quantitatively 72 
+
+integrate multiple endogenous contrasts and map them across intact biological samples in a 73 
+
+unified framework. 74 
+
+Nonlinear optical microscopy provides a powerful foundation for such integration because 75 
+
+distinct light –matter interactions generate complementary biochemical readouts (12 -14 ).76 
+
+Stimulated Raman scattering (SRS) microscopy enables label -free imaging of major biomolecular 77 
+
+classes, particularly lipids and proteins . Hyperspectral SRS (HS -SRS ) can further distinguish 78 
+
+molecular subtypes through vibrational spectral signatures (15 -18 ). Second harmonic generation 79 
+
+(SHG) selectively visualizes non -centrosymmetric structures such as collagen (19 , 20 ), providing 80 
+
+structural information on extracellular matrix organization. Multiphoton fluorescence (MPF) 81 
+
+detects endogenous fluorophores, including the metabolic cofactors NADH and FAD, while 82 
+
+fluorescence lifetime imaging microscopy (FLIM) resolves their microenvironment -dependent 83 
+
+lifetime states, enabling more detailed interpretation of redox and metabolic activity (21 -23 ).84 
+
+Together, these modalities are highly complementary: SRS reports chemical composition, SHG 85 
+
+captures structural organization, and MPF/FLIM provide functional readouts of metabolic 86 
+
+cofactors. Integrating them into a single analytical framework can therefore reveal relationships 87 
+
+between macromolecular composition and metabolic state that are inaccessible to any one 88 
+
+modality alone. 89 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+Recent advances in computational imaging have further expanded the utility of nonlinear 90 
+
+optical methods. HS -SRS analysis has enabled quantitative mapping of lipid subtypes, while 91 
+
+image processing approaches have improved the spatial resolution of SRS and MPF (18 , 24 -26 ).92 
+
+Nevertheless, most of these developments have emphasized macromolecular composition, 93 
+
+whereas small metabolic cofactors remain under -characterized in relation to surrounding lipids, 94 
+
+proteins, and tissue architecture. This limitation is especially important because NADH and FAD 95 
+
+are central reporters of cellular metabolism . In particular, NADH exists in multiple functional 96 
+
+states, including free NADH, enzyme -bound NADH, and NADPH -associated pools, each 97 
+
+reflecting distinct biochemical activities (27 -30 ). A multimodal strategy that quantitatively links 98 
+
+these cofactor states to endogenous molecular distributions would therefore provide a more 99 
+
+complete view of metabolic heterogeneity in cells and tissues. 100 
+
+Despite the strong potential of multimodal imaging approaches and advanced 101 
+
+computational imaging techniques for quantifying metabolic activities, their combined application 102 
+
+to metabolism studies has yet to be established. In the context of medical diagnostics, multimodal 103 
+
+imaging approaches have been employed to identify pathological regions within tissues based on 104 
+
+compositional contrast, without the need for exogenous labeling (31 -33 ). With a properly designed 105 
+
+measurement framework and suitable analytical methods, multimodal imaging can enable the 106 
+
+simultaneous characterization of multiple metabolic activities. Here, we present MANIFEST (Multi -107 
+
+mod Al Nonlinear Imaging with Fluorescence Excitation and Statistical Temporal -resolved 108 
+
+spectroscopy), a label -free multimodal imaging platform that integrates SRS, SHG, MPF, and 109 
+
+FLIM for spatially resolved metabolic profiling. MANIFEST combines SRS imaging of lipid 110 
+
+distributions with autofluorescence - and lifetime -based analysis of NADH and FAD, enabling 111 
+
+quantitative assessment of both macromolecular organization and cofactor -associated metabolic 112 
+
+state (anabolic versus. catabolic states) within the same biological specimen. By incorporating 113 
+
+phasor analysis together with fluorescence lifetime curve analysis, the platform resolves detailed 114 
+
+information from endogenous fluorophores and relates these measurements to lipid -rich 115 
+
+organelles and tissue compartments. We apply MANIFEST across four distinct models of disease 116 
+
+or aging : amyloid -beta -treated tri -cultured brain cells, high -fat diet mouse liver, human non -117 
+
+ischemic cardiomyopathy tissue, and aging mouse retina. Across these systems, MANIFEST 118 
+
+reveals spatially localized lipid remodeling, redox imbalance, altered collagen organization, 119 
+
+disrupted metabolic zonation, and tissue -specific structural reorganization. These results 120 
+
+establish MANIFEST as a generalizable framework for high -resolution, label -free analysis of 121 
+
+metabolic heterogeneity in complex biological systems. 122 
+
+123 
+
+124 
+
+RESULTS 125 
+
+Main concept of MANIFEST 126 
+
+As illustrated in Fig 1a, the whole setup for multimodal imaging of SRS, SHG, MPF, and FLIM is 127 
+
+based on an SRS microscope. Two laser beams, t he p ump beam and Stokes beam , are 128 
+
+illuminated on the sample stage with confocal configuration. SRS signal is generated by the 129 
+
+interaction between the pump laser, Stokes laser, and the sample. SRS signal can be detected 130 
+
+from the beam transmitted through sample and condenser lens . The photons travel back from the 131 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+sample are filtered by chromatic beam splitters and collected by different detectors . Using the 132 
+
+photomultiplier tube (PMT) , SHG and MPF signals can be recorded, and FLIM analysis can be 133 
+
+achieved by using the connected photon counter. By utilizing the Stokes beam, SHG signal is134 
+
+generated by minimizing two -photon excitation of NADH. By using the p ump beam, two -photon 135 
+
+excitations of NADH and FAD are available. The images of different imaging modalities were 136 
+
+collected sequentially. 137 
+
+Collected FLIM images were analyzed using two -step process of phasor analysis and exponential 138 
+
+decay curve fitting (Fig. S1) . After phasor analysis (23 ), every pixel wa s clustered into a few 139 
+
+numbers of groups having similar lifetime decay curve. The decay curves we re averaged, and a 140 
+
+representative decay curve wa s generated from the averag e. By fitting the curves with 141 
+
+bi exponential model, fluorescence lifetime values of each group were calculated. From the 142 
+
+clustering and initial fitting process, initial values for precise decay curve fitting were prepared. 143 
+
+After finding initial values for the fitting, pixel -by -pixel curve fitting was done. 144 
+
+Different analy tical approaches were used f or images of SRS, SHG, and MPF (Fig. 1b) . SRS 145 
+
+images were taken as a form of hyperspectral images. After taking hyperspectral images in the 146 
+
+C-H stretching region (wavenumber 2700 – 3120 cm -1) and cell silent region (wavenumber 2000 147 
+
+– 2300 cm -1), each representative image channel was extracted and divided into various 148 
+
+metabolic activity images, such as protein and lipid turnover rates. For precise HS -SRS image 149 
+
+analysis in the C -H stretching region, the water signal was removed by subtracting the Raman 150 
+
+spectrum of the PBS buffer (Fig. S2a). Following this subtraction, lipids were quantified by 151 
+
+calculating the lipid -to -water ratio, using a method similar to a previously established approach (17 )152 
+
+(Fig. S2b) . In addition, integrating Penalized Reference Matching algorithm with SRS (PRM -153 
+
+SRS )(18 ) for hyperspectral image analysis, lipid subtype distribution was investigated . For MPF 154 
+
+and SHG images , intensity -based direct analysis methods were used as in previous 155 
+
+research es (34 -36 ).156 
+
+Metabolic alterations in brain cells treated with Amyloid -beta 157 
+
+As a proof -of -concept, MANIFEST was employed to investigate the metabolic and compositional 158 
+
+changes in tri -cultured brain cells, including neurons, astrocytes, and microglia, following 159 
+
+treatment with amyloid -beta (Aβ) (37 ). HS -SRS microscopy provided insights into the chemical 160 
+
+composition of lipid structures, specifically , the ratios of unsaturated lipids, triacylglycerol (TAG), 161 
+
+cholesterol ester, and lipid amount . MPF and FLIM of NADH and FAD were used to assess key 162 
+
+metabolic indicators such as the redox state , the unbound NADH ratio, and the NADPH ratio, 163 
+
+offering a comprehensive view of cellular metabolic activity (Fig. 2a) .164 
+
+Detailed examination of individual lipid droplets (LDs) revealed significant heterogeneity and 165 
+
+distinct alterations induced by Aβ treatment (Fig. 2b) . In the Aβ -treated cells, LDs demonstrated 166 
+
+a notable shift in their composition, characterized by a n increase in TAG and cholesterol ester 167 
+
+content. This compositional change was accompanied by a clear shift in the metabolic state. 168 
+
+Specifically, these LDs exhibited a significantly higher redox ratio, a lower unbound NADH ratio, 169 
+
+and an elevated NADPH ratio (Fig. 2c) . These metabolic shifts collectively indicate an oxidized 170 
+
+and stressed cellular environment, highlighting the detrimental impact of Aβ on brain cell 171 
+
+metabolism and lipid homeostasis. 172 
+
+High fat diet induced metabolic changes in mouse liver 173 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+Next, MANIFEST was applied to examine metabolic and compositional alterations in mouse liver 174 
+
+tissue induced by high fat diet . By comparing liver tissues from mice on a high fat diet with those 175 
+
+on a regular (control) diet, significant differences in lipid distribution were visualized using 176 
+
+ratiometric images from SRS microscopy. In the control liver tissue, distinct gradients of 177 
+
+unsaturated lipids were observ ed near the veins, indicating organized metabolic zonation. 178 
+
+However, these well -defined spatial lipid gradients were absent in the high fat diet group, 179 
+
+suggesting a disruption of the normal metabolic organization (Fig. 3a) .180 
+
+Further analysis reveal ed more detailed diet -induced changes at the molecular level. HS -SRS 181 
+
+imaging showed that the high -fat diet led to a greater accumulation of both cholesterol and TAG 182 
+
+within lipid -dense areas. FLIM provide d insights into metabolic enzyme activity, indicating that the 183 
+
+high -fat diet result ed in reduced enzyme -binding activity for NADH. Additionally, SHG imaging 184 
+
+reveal ed that collagen wa s widely distributed near hepatocytes, but at a lower density in high -fat 185 
+
+diet samples (Fig. S3) . These combined findings illustrate that a high -fat diet not only increases 186 
+
+lipid storage but also induces significant metabolic stress and structural changes associated with 187 
+
+liver disease (Fig. 3b -d) .188 
+
+Metabolic alteration due to non -ischemic cardiomyopathy 189 
+
+MANIFEST was also employed for examining lipid and metabolic heterogeneity in cardiac tissue 190 
+
+affected by non -ischemic cardiomyopathy (NICM) . Using SRS microscopy, the spatial distribution 191 
+
+of lipids was visualized in both healthy and NICM cardiac tissue samples. High magnification 192 
+
+images reveal distinct patterns of lipids within individual cardiac cells, highlighting differences 193 
+
+between the se two conditions (Fig. 4) .194 
+
+A deeper, quantitative analysis of individual lipid droplets using FLIM uncover ed specific 195 
+
+metabolic and compositional shifts associated with NICM (Fig. 4c and d) . Within the LDs of NICM 196 
+
+tissue, there wa s a notable decrease in the ratios of unbound Flavin and unbound NADH. This 197 
+
+suggests that a larger fraction of these essential metabolic coenzymes is enzyme -bound, 198 
+
+indicating a potential alteration in cellular energy metabolism. Concurrently, an increase in 199 
+
+NADPH level wa s observed within these same LD s, which may point to changes in biosynthetic 200 
+
+and antioxidant pathways. Compositionally, the analysis also reveal ed a decrease in lipid amount 201 
+
+within the LDs of NICM tissue. In addition, SHG imaging observed dramatical changes in collagen 202 
+
+distribution , which was more widely distributed with highly ordered structures in NICM tissues (Fig. 203 
+
+S4). 204 
+
+Metabolic activity changes in aging mouse retina 205 
+
+Finally, we employed FLIM and SRS to analyze metabolic and compositional changes in aging 206 
+
+mouse retina . By comparing retinal tissue s between young (6 -month) and old (26 -month) mice, 207 
+
+distinct age -related shifts in metabolic activity were evident across various tissue compartments. 208 
+
+Ratiometric analysis of images from FLIM and SRS reveal ed alterations in key metabolic 209 
+
+indicators, including the ratio of free to enzyme -bound NADH , NADPH/NADH ratio, the 210 
+
+sphingosine -to -phosphatidylethanolamine (PE) ratio, and the rate of lipid turnover. These images 211 
+
+demonstrate that different layers of the retina, such as the rod cells and the retinal pigment 212 
+
+epithelium (RPE), exhibit unique metabolic signatures that change significantly with age. 213 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+Statistical analysis of the imaging data confirms clear, age -driven differences in the retina's 214 
+
+metabolic and chemical makeup (Fig. 5) . FLIM imaging reveal ed an increase in the proportion of 215 
+
+free NADH and NADPH in the outer nuclear layer of old mice, suggesting shifts in cellular energy 216 
+
+metabolism. SRS imaging integrated with heavy water (D 2O) treatment (DO -SRS ) show ed that 217 
+
+the lipid turnover rate increases in the rod cells of old mice, indicating altered lipid dynamics in 218 
+
+photoreceptors. Furthermore, PRM -SRS results point to an increase in sphingosine within the 219 
+
+RPE layer. These findings collectively illustrate a complex landscape of metabolic and structural 220 
+
+reorganization in the aging retina. 221 
+
+222 
+
+DISCUSSION 223 
+
+In this study, we developed a multimodal imaging and analysis platform of MANIFEST that 224 
+
+integrating SRS, SHG , MPF and FLIM for studying metabolic dynamics in a variety of organisms .225 
+
+In previous research , the capabilities of a multimodal imaging method incorporating SRS, SHG, 226 
+
+and MPF were demonstrated (34 ).Lipid subtype distributions and spatial information of metabolic 227 
+
+activities were imaged from single cells to human tissues (38 -44 ). By combining FLIM in this study ,228 
+
+chemical activities of small molecules (NADH, FAD) were further investigated , which could not be 229 
+
+achieved by previous methods. By demonstrating the combined measurement approach on 230 
+
+various sample types, MANIFEST shows the potential of a broad application in metabolic imaging. 231 
+
+As a showcase of MANIFEST, amyloid beta driven metabolic and lipid compositional alterations 232 
+
+were first examined in brain cells . Recent study observed LD accumulation and reactive oxygen 233 
+
+species ( ROS ) increase related to tauopathy neurons (43 ). Using the similar approach , we also 234 
+
+studied NADH metabolism and lipid subtype in individual LDs. As shown in the redox ratio images, 235 
+
+an increase in NADH was detected, and this shift indicates metabolic dysfunction that contributes 236 
+
+to increased ROS production. In addition, the reduced free NADH represents metabolic shift from 237 
+
+glycolysis to OXPHOS (45 ), and the increase in NADPH also represents the increased lipid 238 
+
+anabolism (46 , 47 ). The increased lipid amount, TAG and cholesterol ester , indicates that LDs are 239 
+
+synthesized and accumulated actively in amyloid beta treated cells. These findings suggest that 240 
+
+Aβ -induced neuroinflammation is closely coupled with metabolic reprogramming and lipid 241 
+
+remodeling across multiple brain cell types (48 , 49 ).242 
+
+In the liver tissue imaging , the role of SHG imaging is clearly visible. Due to the fibrosis induced 243 
+
+by high fat diet, collagen fiber distribution changes can be clearly measured. From the correlated 244 
+
+information of NADPH increase and lipid subtype analysis, active LD accumulation and oxidative 245 
+
+stress increase by lipid synthesis were detected in the same manner as the brain cell 246 
+
+measurements. Difference between the se two measurements is the increased free NADH in 247 
+
+hepatocytes. It represents the increased glycolysis by high fat diet (50 ).248 
+
+FLIM imaging revealed that NADPH level was increased in NICM samples, even though lipid 249 
+
+amount wa s decreased. While NADPH measurement can serve as an indicator of lipid synthesis 250 
+
+rate, the relationship between NADPH levels and lipid synthesis is not straightforward. Although 251 
+
+NADPH levels typically rise during active lipid synthesis, NADPH can also accumulate due to 252 
+
+other reasons, such as the defense against oxidative stress or the activation of specific signaling 253 
+
+pathways. Therefore, elevated NADPH level alone do es not necessarily indicate increased lipid 254 
+
+anabolic activity. In contrast to brain cell and liver tissue , LDs in NICM samples exhibited higher 255 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+NADPH levels but a lower amount of lipids. Under non -ischemic conditions, upregulation of 256 
+
+NADPH oxidase ( NOX ) enzymes may drive increased NADPH production to sustain NOX activity, 257 
+
+rather than to support lipid synthesis (51 ). The divergent causes of NADPH elevation observed 258 
+
+across these experiments underscore the importance of multimodal imaging: even when the same 259 
+
+molecular change is detected, its underlying cause may differ, and a multimodal approach can 260 
+
+provide complementary evidence from multiple perspectives to distinguish between these 261 
+
+possibilities. 262 
+
+Retina tissue imaging is also an important example of MANIFEST application in aging study. 263 
+
+Aging alters multiple metabolic activities in retina . Using MANIFEST , the information about 264 
+
+different metabolic pathways and where the alteration happens was revealed . The direct 265 
+
+correlation between increased lipid synthesis and NADPH increase was also revealed, 266 
+
+demonstrating the capability of MANIFEST approach. 267 
+
+MANIFEST demonstrates broad utility for measuring correlated metabolic signals and identifying 268 
+
+disease -associated metabolic signatures that may serve as biomarkers for specific diseases (34 ).269 
+
+and their subtypes. Rather than focusing solely on the presence of target molecules, our approach 270 
+
+is designed to interrogate disease mechanisms by capturing how metabolic pathways are 271 
+
+functionally altered. By integrating multiple complementary metabolic readouts, MANIFEST helps 272 
+
+reduce the ambiguity that can arise from the convergence of distinct biochemical pathways on 273 
+
+similar phenotypes. 274 
+
+A central strength of MANIFEST is its ability to simultaneously quantify multiple metabolic 275 
+
+activities. For fluorescence lifetime imaging microscopy (FLIM), we combined two complementary 276 
+
+analytical approaches —phasor analysis and biexponential fitting —to resolve and quantify three 277 
+
+distinct cofactor species: free NADH, enzyme -bound NADH, and NADPH. Quantitative 278 
+
+information from these species enables assessment of the metabolic processes governing their 279 
+
+relative balance. Although previous multimodal imaging approaches incorporating coherent anti -280 
+
+Stokes Raman scattering (CARS) have shown promise for biomedical applications ( 31 -33 ), they 281 
+
+have largely focused on general disease detection and diagnosis. In contrast, MANIFEST 282 
+
+incorporates stimulated Raman scattering (SRS) imaging, which provides quantitative functional -283 
+
+group -specific information and enables comparison with reference spectra from lipid subtypes. 284 
+
+Because SRS maintains a linear relationship with spontaneous Raman scattering, it supports 285 
+
+quantitative analysis of molecular structure and facilitates imaging of multiple lipid subtype 286 
+
+distributions. This quantitative chemical specificity is a key advantage of MANIFEST for metabolic 287 
+
+phenotyping. 288 
+
+Importantly, MANIFEST also leverages the high spatial resolution of optical microscopy to detect 289 
+
+compositional and metabolic alterations at the subcellular organelle level. This capability provides 290 
+
+a more refined view of disease progression and aging by revealing fundamental differences 291 
+
+between healthy and diseased cells. Ultimately, these insights may support the development of 292 
+
+more precise diagnostics and more effective therapeutic strategies. 293 
+
+294 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+295 
+
+Fig 1. Schematic of MANIFEST . a. A multimodal imaging system integrating SRS, SHG, MPF, 296 
+
+and FLIM is built upon an SRS microscope platform, in which pump and Stokes beams are 297 
+
+delivered to the sample in a confocal configuration. SRS signals, generated through the 298 
+
+interaction of both beams with the sample, are collected from the transmitted beam via a 299 
+
+condenser lens, while back -propagating photons are separated by chromatic beam splitters and 300 
+
+directed to dedicated detectors. SHG and MPF signals are recorded using a photomultiplier tube 301 
+
+(PMT), with FLIM analysis performed via a connected photon counter; the Stokes beam 302 
+
+selectively drives SHG generation while minimizing two -photon excitation of NADH, whereas the 303 
+
+pump beam enables two -photon excitation of both NADH and FAD. Images from all modalities 304 
+
+were acquired sequentially. b. C-H and C -D HS -SRS images enable the identification of lipid 305 
+
+subtypes and the quantification of anabolic activities of proteins and lipids. SHG images reveal 306 
+
+the spatial distribution of non -centrosymmetric molecules, including collagen fibers. MPF signals 307 
+
+from FAD and NADH allow direct calculation of the optical redox ratio. Phasor analysis and bi -308 
+
+exponential fitting of FLIM data enable the discrimination of distinct chemical states of NADH and 309 
+
+FAD. 310 
+
+311 
+
+312 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+313  Fig 2. Metabolic and compositional shifts in co -cultured brain cells treated with amyloid -314 
+
+beta (Aβ). a. A panel of multimodal images comparing healthy and Aβ -treated co -cultures of 315 
+
+neurons, astrocytes, and microglia cells. Images generated from hyperspectral stimulated Raman 316 
+
+scattering (HS -SRS) microscopy show the ratios of triacylglycerol (TAG), and cholesterol ester .317 
+
+Images from multiphoton fluorescence and fluorescence lifetime imaging (FLIM) display key 318 
+
+metabolic indicators, including the redox ratio, unbound NADH ratio, and NADPH ratio. Images 319 
+
+were taken from 3 different samples per each group and 5 ROIs per each sample . b. Enlarged 320 
+
+views of the white squared regions from panel a, providing a detailed visualization of lipid 321 
+
+composition and metabolic markers within individual lipid droplets (LDs). Significant heterogeneity 322 
+
+is observable among the LDs; those exhibiting the most representative trends are highlighted with 323 
+
+red circles. c. Histograms quantifying the average changes in LD properties between the healthy 324 
+
+and Aβ -treated conditions. In cells treated with Aβ, LDs exhibit a higher proportion of TAG ,325 
+
+Cholesterol ester, and total lipid amount . Metabolically, these LDs show a lower redox ratio 326 
+
+(Flavin/(Flavin+NADH)) , lower unbound NADH ratio, and an elevated NADPH ratio, indicating a 327 
+
+shift towards an oxidized and stressed metabolic state. (LD counts: 571 (control), 901 ( Aβ )), 328 
+
+329 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+330 
+
+Fig 3. Metabolic and compositional changes in liver tissue influenced by high fat diet . a. 331 
+
+Ratiometric images comparing unsaturated and saturated lipid SRS channels visualize shifts in 332 
+
+spatial lipid distribution between two dietary conditions. While unsaturated lipid gradients are 333 
+
+distinct near veins in the control sample, these gradients are absent in the high -fat diet sample b334 
+
+and c. Various image channels were acquired using a multimodal imaging approach from the 335 
+
+white squared ROIs in panel a. Hyperspectral SRS (HS -SRS) images were used to analyze the 336 
+
+relative quantities of cholesterol and triacylglycerol (TAG) in areas with high lipid signals (The 337 
+
+ROIs of white circles in HS -SRS image, and black circles in Cholesterol images). Fluorescence -338 
+
+lifetime imaging microscopy (FLIM) images provided analysis of enzyme binding activity related 339 
+
+to NADH and NADPH levels within the same regions of interest. Additionally, second -harmonic 340 
+
+generation (SHG) imaging revealed collagen distribution, showing a wider distribution of collagen 341 
+
+fibers in the high -fat diet samples d. Analysis of the images indicates that a high -fat diet leads to 342 
+
+increased accumulation of cholesterol and TAG, alongside reduced enzyme binding activity for 343 
+
+NADH. (n = 9, 3 different samples per each group, 3 ROIs per each sample) 344 
+
+345 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+346 
+
+Fig 4. Lipid and metabolic heterogeneity in non -ischemic cardiomyopathy (NICM) cardiac 347 
+
+tissue. a. Stimulated Raman Scattering (SRS) microscopy images showing lipid distribution in 348 
+
+healthy versus NICM cardiac tissue samples. (n = 15, 3 different samples per each group, 5 ROIs 349 
+
+per each sample) b. Enlarged views of the green squared regions from panel a, providing a 350 
+
+detailed visualization of lipid patterns within cardiac cells. c. High -magnification images of 351 
+
+individual lipid droplets (LDs) from the magenta squared regions in panel. The four channels 352 
+
+display key metabolic and compositional markers: unbound Flavin ratio, unbound NADH ratio, 353 
+
+NADPH ratio, and lipid amount . These images highlight significant heterogeneity among LDs. 354 
+
+d. Histograms quantifying the properties of individual LDs, comparing healthy and NICM tissues. 355 
+
+In NICM tissue, the reduced ratios of unbound Flavin and NADH suggest that a greater proportion 356 
+
+of these coenzymes are in their enzyme -bound states. Concurrently, an increase in NADPH levels 357 
+
+is observed within the LDs of NICM tissue. The analysis also shows a decrease in the lipid 358 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+subtypes TAG and CE in NICM LDs. Quantification of the averaged SRS signal from the lipid 359 
+
+channel shows that small portion of lipid droplets having low lipid contents (red dotted circle in 360 
+
+histogram) are generated in NICM tissues . (LD counts: 7398 (Donor), 2716 (NICM)), 361 
+
+362 
+
+Fig 5. Metabolic and compositional changes in aging mouse retina . a. Ratiometric images 363 
+
+comparing free NADH/enzyme bound NADH, NADPH/NADH, sphingosine/PE, and lipid turnover 364 
+
+rate were generated from MANIFEST. Each tissue compartment shows different metabolic activity 365 
+
+changes in two different ages of 6M and 26M. b. The statistical analysis results showed clear 366 
+
+aging driven metabolic and compositional difference in each tissue compartment. FLIM analysis 367 
+
+showed the free NADH increase in Outer nuclear layer (O NL ) of old mice. DO -SRS showed lipid 368 
+
+turnover rate increase in outer segments of rod cells of old mice. PRM -SRS result showed 369 
+
+sphingosine increase in RPE layer. (FLIM: n = 5, DO -SRS: n = 7, PRM -SRS: n = 9 (young) and 370 
+
+n = 8 (old), Images were taken from single ROIs from each sample.) 371 
+
+372 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+METHODS 373 
+
+Imaging Setup for MANIFEST 374 
+
+The system is based on a n SRS setup. A custom -built upright laser -scanning microscope 375 
+
+(Olympus) equipped with a 25× water -immersion objective (XLPLN, WMP2, 1.05 NA, Olympus) 376 
+
+was utilized for near -IR throughput. A synchronized pulsed pump beam (tunable 720 –990 nm 377 
+
+wavelength, 5 –6 ps pulse width, 80 MHz repetition rate) and a Stokes beam (1032 nm 378 
+
+wavelength, 6 ps pulse width, 80 MHz repetition rate) were supplied by a picoEmerald system 379 
+
+(Applied Physics & Electronics) and coupled into the microscope. The pump and Stokes beams 380 
+
+were collected in transmission by a high -NA oil condenser (1.4 NA). A high -O.D. shortpass filter 381 
+
+(950 nm, Thorlabs) was used to completely block the Stokes beam and transmit only the pump 382 
+
+beam onto a Si photodiode to detect the stimulated Raman loss signal. The output current from 383 
+
+the photodiode was terminated, filtered, and demodulated by a lock -in amplifier at 20 MHz. The 384 
+
+demodulated signal was fed into the FV3000 software module FV -OSR (Olympus) to reconstruct 385 
+
+images during laser scanning. Cardiac tissue and cell images were acquired at a resolution of 386 
+
+512 × 512 pixels, while liver and retinal tissues were imaged at 1024 × 1024 pixels. The pixel 387 
+
+dwell time was 20 μs. MPF, SHG, and FLIM were integrated into the SRS microscope to image 388 
+
+the same region of interest using different modalities. Signals were collected using a389 
+
+photomultiplier tube (PMT), and FLIM measurements were performed by adding a TCSPC 390 
+
+module to the computer for signal collection. 391 
+
+392 
+
+FLIM Analysis 393 
+
+The FLIM data were processed using custom -built Python scripts for phaosr plot (23 ) and lifetime 394 
+
+curve fitting. As described in Fig. S1, a two -step analysis approach was employed. First, an 395 
+
+uncalibrated phasor diagram was generate d. From this phasor diagram, pixels representing 396 
+
+different chemical environments were clustered using the Mean Shift algorithm (52 ). Following 397 
+
+clustering, the photon -counting histogram of each pixel cluster was averaged and fitted with a 398 
+
+biexponential decay model. By using these fitting results as initial values for the precise fitting of 399 
+
+individual pixel lifetime curves, a detailed two -component analysis of free and enzyme -bound 400 
+
+flavin and NADH was achieved. Finally, the lifetime of enzyme -bound NADH was used to 401 
+
+calculate the NADPH/NADH ratio (53 ).402 
+
+403 
+
+Image preprocessing and LD analysis 404 
+
+All acquired images, except for the FLIM data, were denoised using the PURE -Denoise filter (54 ).405 
+
+Following denoising, the water signal from the hyperspectral SRS images was removed according 406 
+
+to the method detailed in Fig. S2. The signal intensities in each image channel were then 407 
+
+analyzed. LD analysis, individual droplets were quantified using the 3D Objects Counter 408 
+
+plugin (55 ) in ImageJ. Based on parameters including position, volume, surface area, and mean 409 
+
+distance, LD masks were generated. Using these masks, the signals from each channel were 410 
+
+averaged and plotted in Figs. 2 and 4. 411 
+
+412 
+
+Image analysis for DO -SRS and PRM -SRS 413 
+
+Lipid subtype composition was determined using the PRM -SRS method (18 ). Hyperspectral 414 
+
+images covering the C -H vibration region (2700 -3120 cm -1) were acquired at 6 cm -1 intervals, 415 
+
+yielding a stack of 71 frames per field of view. Spectral similarities between the acquired data and 416 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+a reference library, identical to that used in the previous PRM -SRS study, were calculated to 417 
+
+identify the lipid subtypes present in each sample. The results were expressed as normalized 418 
+
+ratiometric images for each lipid subtype, computed as [target lipid] / ([target lipid] + [PE]). 419 
+
+Hyperspectral images in the C -D vibration region (2000 –2300 cm -1) were acquired at 6 cm -1420 
+
+intervals, producing 51 frames per stack. From these stacks, newly synthesized lipid images 421 
+
+(2135 cm -1) and background images (2000 cm -1) were extracted. To correct baseline intensity 422 
+
+offsets, the background images were subtracted from the newly synthesized lipid images. The 423 
+
+corrected images were then divided by the existing lipid channel image, derived from the C -H424 
+
+hyperspectral stack, to convert absolute new -lipid signals into lipid turnover rate maps. 425 
+
+426 
+
+Primary rat cortical tri -cultures and Aβ treatment 427 
+
+Primary cortical cells were isolated from postnatal day 0 -2 Sprague -Dawley rat pups and 428 
+
+maintained as previously described (37 ). Briefly, cells were plated on ply -L-lysine -coated surfaces 429 
+
+and maintained in Neurobasal -A-based plus media supplemented with B27 and GlutaMAX. A 430 
+
+neuron -glia co -culture medium was used as the base, and triculture conditions were established 431 
+
+by supplementing the medium with IL -34, TGF -β2, and cholesterol to support microglial survival, 432 
+
+following published protocols (37 ). FITC -tagged Aβ42 was prepared as previously reported [cite], 433 
+
+aliquoted, and stored at -80 °C . Prior to treatment, Aβ was incubated overnight at 4 °C to allow 434 
+
+aggregation. At DIV -10, cultures were treated by replacing half of the medium with Aβ -containing 435 
+
+medium at twice the final concentration, while vehicle controls received equivalent DMSO in 436 
+
+DPBS+. Cultures were maintained for 72h . All animal procedures were approved by the UC Davis 437 
+
+Institutional Animal Care and Use Committee. 438 
+
+439 
+
+Mouse Liver Tissue Preparation 440 
+
+Male apolipoprotein E -deficient (ApoE -/-) mice (B6.129P2 -Apoe tm1Unc /J; The Jackson Laboratory, 441 
+
+Strain #002052) on a C57BL/6J background, a well -established model of diet -induced 442 
+
+dyslipidemia and hepatic steatosis, were used in this study. At 8 weeks of age, mice were started 443 
+
+on dietary intervention and maintained for 12 weeks. Animals were randomly assigned to receive 444 
+
+either a high -fat diet (HFD; 40% kcal from fat; Research Diets, D12109C) or standard laboratory 445 
+
+chow, both provided ad libitum. After 12 weeks on diet, mice were euthanized for tissue 446 
+
+harvesting. Livers were excised, briefly rinsed in ice -cold PBS to remove residual blood, and 447 
+
+immediately processed as fresh tissue for multimodal imaging using stimulated Raman scattering 448 
+
+(SRS) and fluorescence lifetime imaging microscopy (FLIM), which provide label -free chemical 449 
+
+and metabolic contrast. Samples 1 to 6 corresponded to ApoE -/- mice fed on HFD, whereas 450 
+
+samples 7 to 12 corresponded to ApoE -/- mice fed on standard chow. Imaging acquisition and 451 
+
+quantitative analyses were performed with investigators blinded to group allocation. All animal 452 
+
+procedures were approved by the Institutional Animal Care and Use Committee of the University 453 
+
+of California San Diego (protocol S12263) and conducted in accordance with institutional and 454 
+
+national guidelines. 455 
+
+456 
+
+Mouse Retina Tissue Slice Preparation 457 
+
+All animal procedures were conducted with the approval of the Institutional Animal Care 458 
+
+Committee (IACUC) at the University of California, Irvine, under AUP #23 -074. For lipid 459 
+
+supplementation studies, male C57BL/6J mice, aged 6 and 26 months, were acquired from Jax 460 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+Laboratory. The mice were housed in the vivarium at the University of California, Irvine, under a 461 
+
+standard 12 -hour light (<150 lux)/12 -hour dark cycle. They were provided with a standard soy 462 
+
+protein -free rodent chow diet (Envigo Teklad 2020X) ad libitum .463 
+
+For D 2O probing experiments, mice that consumed 25% D 2O for a specified duration were 464 
+
+anesthetized using isoflurane and subsequently euthanized. Following euthanasia, mouse eyes 465 
+
+were enucleated and immersed in 4% paraformaldehyde (PFA) dissolved in phosphate -buffered 466 
+
+saline (PBS, pH 7.4) for 2 hours at 4°C. The cornea, lens, and vitreous were then meticulously 467 
+
+removed, and the remaining eyecups were fixed in 4% PFA overnight at 4°C. To facilitate 468 
+
+cryosectioning, eyecups underwent cryoprotection by sequential immersion in a sucrose gradient: 469 
+
+10% and 20% sucrose for 1 hour each at room temperature, followed by 30% sucrose overnight 470 
+
+at 4°C. The cryoprotected eyecups were then embedded in Tissue -Tek OCT (Sakura, Torrance, 471 
+
+CA) and rapidly frozen on a conductive metal block cooled by dry ice. Cryosectioning was 472 
+
+performed using a cryostat to obtain 10 μm-thick serial sections of the retina. 473 
+
+474 
+
+Ethical Approval for Human Specimens 475 
+
+The study is compliant with all relevant ethical regulations and was approved by the University of 476 
+
+Pennsylvania Institutional Review Board (IRB protocol #848421). Informed consent was obtained 477 
+
+from each patient prior to tissue collection by the Human Heart Tissue Bank, and no compensation 478 
+
+was provided for participation. Human heart tissue samples were obtained through the Human 479 
+
+Heart Tissue Bank from two groups: non -failing, brain -dead organ donors with no clinical history 480 
+
+of heart failure (Donor) and patients with end -stage heart failure undergoing transplant (NICM). 481 
+
+Heart tissue procurement followed a standardized protocol as previously described (56 ).482 
+
+483 
+
+484 
+
+FUNDING 485 
+
+We acknowledge NIH R01AG086548 , NIH U54DK134301, NIH R01GM149976, NIH 486 
+
+U01AI167892, NIH R01HL170107, NIH R01DK141973, NIH 5R01NS111039, NIH R21NS125395, 487 
+
+UCSD Startup funds, Sloan Research Fellow Award, and Scialog CZI Award. 488 
+
+489 
+
+ACKNOWLEDGEMENTS 490 
+
+We thank Wei Min, Christian Metallo, Uri Alon, Peter Adams, Rob Knight, and Shi Lab members 491 
+
+for meaningful discussions and feedback. 492 
+
+493 
+
+494 
+
+AUTHOR CONTRIBUTIONS 495 
+
+L. S. conceived the idea and designed the project; H. J. imaged tri -cultured cells, cardiac tissues, 496 
+
+and retina tissues; S. W. imaged liver tissues and retina tissues; H.J. analyzed the images and 497 
+
+generated figures with the input from L.S ; H. K. and E. S. prepared tri -cultured cell samples ; L.S.; 498 
+
+F. Y. D.S. prepared mice retina samples; T.W.W, J.K, W.S , and J.S prepared mice liver samples; 499 
+
+A.A and A.J prepared human cardiac samples; H. J. and L.S. wrote and revised the manuscript 500 
+
+with the input from all other authors. 501 
+
+502 
+
+503 
+
+504 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+References 505 
+
+506 
+
+507 
+
+1. Villazon J, Li Z, Fan A, Shi L. Multimodal Optical Imaging Platform for Studying Cellular 508 
+
+Metabolism: 1940 -087X; 2025. e67906 p. 509 
+
+2. Lichtman JW, Conchello J -A. Fluorescence microscopy. Nature Methods. 2005;2(12):910 -510 
+
+9. 511 
+
+3. de Souza N, Zhao S, Bodenmiller B. Multiplex protein imaging in tumour biology. Nature 512 
+
+Reviews Cancer. 2024;24(3):171 -91. 513 
+
+4. Hell S, Stelzer EHK. Properties of a 4Pi confocal fluorescence microscope. J Opt Soc Am 514 
+
+A. 1992;9(12):2159 -66. 515 
+
+5. Hell SW, Wichmann J. Breaking the diffraction resolution limit by stimulated emission: 516 
+
+stimulated -emission -depletion fluorescence microscopy. Opt Lett. 1994;19(11):780 -2. 517 
+
+6. Betzig E, Patterson GH, Sougrat R, Lindwasser OW, Olenych S, Bonifacino JS, et al. 518 
+
+Imaging intracellular fluorescent proteins at nanometer resolution. science. 2006;313(5793):1642 -519 
+
+5. 520 
+
+7. Rust MJ, Bates M, Zhuang X. Sub -diffraction -limit imaging by stochastic optical 521 
+
+reconstruction microscopy (STORM). Nature methods. 2006;3(10):793 -6. 522 
+
+8. Gustafsson MG. Surpassing the lateral resolution limit by a factor of two using structured 523 
+
+illumination microscopy. Journal of microscopy. 2000;198(2):82 -7. 524 
+
+9. Weber M, Leutenegger M, Stoldt S, Jakobs S, Mihaila TS, Butkevich AN, et al. MINSTED 525 
+
+fluorescence localization and nanoscopy. Nature Photonics. 2021;15(5):361 -6. 526 
+
+10. Dertinger T, Colyer R, Vogel R, Heilemann M, Sauer M, Enderlein J, et al. Superresolution 527 
+
+optical fluctuation imaging (SOFI). Nano -Biotechnology for Biomedical and Diagnostic Research. 528 
+
+2012:17 -21. 529 
+
+11. Ghosh A, Sharma A, Chizhik AI, Isbaner S, Ruhlandt D, Tsukanov R, et al. Graphene -530 
+
+based metal -induced energy transfer for sub -nanometre optical localization. Nature Photonics. 531 
+
+2019;13(12):860 -5. 532 
+
+12. Min W, Freudiger CW, Lu S, Xie XS. Coherent Nonlinear Optical Imaging: Beyond 533 
+
+Fluorescence Microscopy. Annual Review of Physical Chemistry. 2011;62(Volume 62, 534 
+
+2011):507 -30. 535 
+
+13. Parodi V, Jacchetti E, Osellame R, Cerullo G, Polli D, Raimondi MT. Nonlinear Optical 536 
+
+Microscopy: From Fundamentals to Applications in Live Bioimaging. Frontiers in Bioengineering 537 
+
+and Biotechnology. 2020;Volume 8 - 2020. 538 
+
+14. Li R, Wang X, Zhou Y, Zong H, Chen M, Sun M. Advances in nonlinear optical 539 
+
+microscopy for biophotonics. Journal of Nanophotonics. 2018;12(3):033007. 540 
+
+15. Freudiger CW, Min W, Saar BG, Lu S, Holtom GR, He C, et al. Label -free biomedical 541 
+
+imaging with high sensitivity by stimulated Raman scattering microscopy. Science. 542 
+
+2008;322(5909):1857 -61. 543 
+
+16. Fu D, Zhou J, Zhu WS, Manley PW, Wang YK, Hood T, et al. Imaging the intracellular 544 
+
+distribution of tyrosine kinase inhibitors in living cells with quantitative hyperspectral stimulated 545 
+
+Raman scattering. Nature chemistry. 2014;6(7):614 -22. 546 
+
+17. Oh S, Lee C, Yang W, Li A, Mukherjee A, Basan M, et al. Protein and lipid mass 547 
+
+concentration measurement in tissues by stimulated Raman scattering microscopy. Proceedings of 548 
+
+the National Academy of Sciences. 2022;119(17):e2117938119. 549 
+
+18. Zhang W, Li Y, Fung AA, Li Z, Jang H, Zha H, et al. Multi -molecular hyperspectral PRM -550 
+
+SRS microscopy. Nature Communications. 2024;15(1):1599. 551 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+19. Roth S, Freund I. Second harmonic generation in collagen. The Journal of chemical 552 
+
+physics. 1979;70(4):1637 -43. 553 
+
+20. Campagnola P. Second harmonic generation imaging microscopy: applications to diseases 554 
+
+diagnostics. Analytical chemistry. 2011;83(9):3224 -31. 555 
+
+21. Huang S, Heikal AA, Webb WW. Two -Photon Fluorescence Spectroscopy and 556 
+
+Microscopy of NAD(P)H and Flavoprotein. Biophysical Journal. 2002;82(5):2811 -25. 557 
+
+22. Kolenc OI, Quinn KP. Evaluating Cell Metabolism Through Autofluorescence Imaging of 558 
+
+NAD(P)H and FAD. Antioxidants & Redox Signaling. 2019;30(6):875 -89. 559 
+
+23. Torrado B, Pannunzio B, Malacrida L, Digman MA. Fluorescence lifetime imaging 560 
+
+microscopy. Nature Reviews Methods Primers. 2024;4(1):80. 561 
+
+24. Jang H, Li Z, Ackerstaff E, Koutcher JA, Shi L, editors. Super resolution multimodal 562 
+
+microscopy for studying spatially correlated metabolism in aging and diseases. Ultrafast Nonlinear 563 
+
+Imaging and Spectroscopy XI; 2023: SPIE. 564 
+
+25. Jang H, Li Y, Wu S, Shi L. Super -Resolution Stimulated Raman Scattering Microscopy 565 
+
+with Graphical User Interface –Supported A -PoD. Current Protocols. 2024;4(1):e970. 566 
+
+26. Jang H, Wu S, Li Y, Li Z, Shi L. Metabolic nanoscopy enhanced by experimental and 567 
+
+computational approaches. npj Imaging. 2024;2(1):55. 568 
+
+27. Skala MC, Riching KM, Gendron -Fitzpatrick A, Eickhoff J, Eliceiri KW, White JG, et al. 569 
+
+<i>In vivo</i> multiphoton microscopy of NADH and FAD redox states, fluorescence lifetimes, 570 
+
+and cellular morphology in precancerous epithelia. Proceedings of the National Academy of 571 
+
+Sciences. 2007;104(49):19494 -9. 572 
+
+28. Heikal AA. Intracellular Coenzymes as Natural Biomarkers for Metabolic Activities and 573 
+
+Mitochondrial Anomalies. Biomarkers in Medicine. 2010;4(2):241 -63. 574 
+
+29. Georgakoudi I, Quinn KP. Optical Imaging Using Endogenous Contrast to Assess 575 
+
+Metabolic State. Annual Review of Biomedical Engineering. 2012;14(Volume 14, 2012):351 -67. 576 
+
+30. Vergen J, Hecht C, Zholudeva LV, Marquardt MM, Hallworth R, Nichols MG. Metabolic 577 
+
+Imaging Using Two -Photon Excited NADH Intensity and Fluorescence Lifetime Imaging. 578 
+
+Microscopy and Microanalysis. 2012;18(4):761 -70. 579 
+
+31. Vogler N, Heuke S, Bocklitz TW, Schmitt M, Popp J. Multimodal imaging spectroscopy 580 
+
+of tissue. Annual Review of Analytical Chemistry. 2015;8(1):359 -87. 581 
+
+32. Schie IW, Stiebing C, Popp J. Looking for a perfect match: multimodal combinations of 582 
+
+Raman spectroscopy for biomedical applications. Journal of biomedical optics. 583 
+
+2021;26(8):080601 -.584 
+
+33. Lingxiao Y, Jaena P, Eric JC, Janet ES, Marina M, Heidi P, et al. Label -free multimodal 585 
+
+nonlinear optical imaging of needle biopsy cores for intraoperative cancer diagnosis. Journal of 586 
+
+Biomedical Optics. 2022;27(5):056504. 587 
+
+34. Li Z, Nguyen C, Jang H, Hoang D, Min S, Ackerstaff E, et al. Multimodal imaging of 588 
+
+metabolic activities for distinguishing subtypes of breast cancer. Biomed Opt Express. 589 
+
+2023;14(11):5764 -80. 590 
+
+35. Gorman BL, Li Z, Deutsch G, Huyck HL, Beishembieva N, Olson H, et al. A multimodal 591 
+
+imaging approach for imaging the metabolic changes resulting from bronchopulmonary dysplasia. 592 
+
+bioRxiv. 2025:2025.06.16.660017. 593 
+
+36. Fung AA, Li Z, Boote C, Markov P, Gaut JP, Jain S, et al. Label -free multimodal optical 594 
+
+biopsy reveals biomolecular and morphological features of diabetic kidney tissue in 2D and 3D. 595 
+
+Nature Communications. 2025;16(1):4509. 596 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+37. Kim H, Le B, Goshi N, Zhu K, Grodzki AC, Lein PJ, et al. Primary cortical cell tri -culture 597 
+
+to study effects of amyloid -β on microglia function and neuroinflammatory response. Journal of 598 
+
+Alzheimer’s Disease. 2024;102(3):730 -41. 599 
+
+38. Li Y, Bagheri P, Chang P, Zeng A, Hao J, Fung A, et al. Direct Imaging of Lipid Metabolic 600 
+
+Changes in Drosophila Ovary During Aging Using DO -SRS Microscopy. Frontiers in Aging. 601 
+
+2022;2. 602 
+
+39. Li Y, Zhang W, Fung AA, Shi L. DO -SRS imaging of diet regulated metabolic activities 603 
+
+in Drosophila during aging processes. Aging Cell. 2022;21(4):e13586. 604 
+
+40. Li Q, Chen Y, Feng W, Cai J, Gao J, Ge F, et al. Drainage of senescent astrocytes from 605 
+
+brain via meningeal lymphatic routes. Brain, Behavior, and Immunity. 2022;103:85 -96. 606 
+
+41. Bagheri P, Hoang K, Kuo CY, Trivedi H, Jang H, Shi L. Bioorthogonal Chemical Imaging 607 
+
+of Cell Metabolism Regulated by Aromatic Amino Acids. J Vis Exp. 2023(195). 608 
+
+42. Fung AA, Li Z, Boote C, Markov P, Jain S, Shi L. Label -Free Optical Biopsy Reveals 609 
+
+Biomolecular and Morphological Features of Diabetic Kidney Tissue in 2D and 3D. bioRxiv. 610 
+
+2024:2024.10.27.620507. 611 
+
+43. Li Y, Munoz -Mayorga D, Nie Y, Kang N, Tao Y, Lagerwall J, et al. Microglial lipid droplet 612 
+
+accumulation in tauopathy brain is regulated by neuronal AMPK. Cell Metabolism. 613 
+
+2024;36(6):1351 -70.e8. 614 
+
+44. Hoang K, Prayotamornkul S, Kuo C -y, Jang H, Shi L. Optical imaging of metabolic 615 
+
+dynamics in ALS under methionine regulation. Journal of Biomedical Optics. 616 
+
+2025;30(S2):S23906 -S. 617 
+
+45. Lone A, Harris RA, Singh O, Betts DH, Cumming RC. p66Shc activation promotes 618 
+
+increased oxidative phosphorylation and renders CNS cells more vulnerable to amyloid beta 619 
+
+toxicity. Scientific Reports. 2018;8(1):17081. 620 
+
+46. Morganti C, Bonora M, Ito K. Metabolism and HSC fate: what NADPH is made for. Trends 621 
+
+in Cell Biology. 2025;35(10):866 -79. 622 
+
+47. Ju H -Q, Lin J -F, Tian T, Xie D, Xu R -H. NADPH homeostasis in cancer: functions, 623 
+
+mechanisms and therapeutic implications. Signal Transduction and Targeted Therapy. 624 
+
+2020;5(1):231. 625 
+
+48. Prakash P, Manchanda P, Paouri E, Bisht K, Sharma K, Rajpoot J, et al. Amyloid -&#x3b2; 626 
+
+induces lipid droplet -mediated microglial dysfunction via the enzyme DGAT2 in 627 
+
+Alzheimer&#x2019;s disease. Immunity. 2025;58(6):1536 -52.e8. 628 
+
+49. Sánchez de Muniain L, Escalada P, Ramí rez MJ, Solas M. Astrocytes as Metabolic Sensors 629 
+
+Orchestrating Energy -Driven Brain Vulnerability in Alzheimer's Disease.  J Neurochem. 630 
+
+2025;169(10):e70252. 631 
+
+50.  Broadfield LA, Duarte JAG, Schmieder R, Broekaert D, Veys K, Planque M, et al.  Fat 632 
+
+Induces Glucose Metabolism in Nontransformed Liver Cells and Promotes Liver Tumorigenesis. 633 
+
+Cancer Res. 2021;81(8):1988 -2001. 634 
+
+51. Nabeebaccus A, Zhang M, Shah AM. NADPH oxidases and cardiac remodelling. Heart 635 
+
+Fail Rev. 2011;16(1):5 -12. 636 
+
+52. Yizong C. Mean shift, mode seeking, and clustering. IEEE Transactions on Pattern 637 
+
+Analysis and Machine Intelligence.  1995;17(8):790 -9. 638 
+
+53.  Blacker TS, Mann ZF, Gale JE, Ziegler M, Bain AJ, Szabadkai G, et al.  Separating NADH 639 
+
+and NADPH fluorescence in live cells and tissues using FLIM. Nature Communications. 640 
+
+2014;5(1):3936. 641 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 14, 2026. ;https://doi.org/10.64898/2026.04.11.717872 doi: bioRxiv preprint
+
+54. Li J, Luisier F, Blu T. PURE -LET image deconvolution. IEEE Transactions on Image 642 
+
+Processing. 2017;27(1):92 -105. 643 
+
+55. BOLTE S, CORDELIÈ RES FP. A guided tour into subcellular colocalization analysis in 644 
+
+light microscopy. Journal of Microscopy. 2006;224(3):213 -32. 645 
+
+56. Schulze PC, Drosatos K, Goldberg IJ. Lipid Use and Misuse by the Heart. Circulation 646 
+
+Research. 2016;118(11):1736 -51. 647 
+
+648
