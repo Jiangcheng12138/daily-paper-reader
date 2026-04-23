@@ -1,0 +1,609 @@
+Title: Drowsiness-Aware Adaptive Autonomous Braking System based on Deep Reinforcement Learning for Enhanced Road Safety
+
+URL Source: https://arxiv.org/pdf/2604.13878v2
+
+Published Time: Fri, 17 Apr 2026 00:56:52 GMT
+
+Number of Pages: 16
+
+Markdown Content:
+> 1
+
+# Drowsiness-Aware Adaptive Autonomous Braking System based on Deep Reinforcement Learning for Enhanced Road Safety 
+
+Hossem Eddine Hafidi , Elisabetta De Giovanni , Teodoro Montanaro , Ilaria Sergi ,Massimo De Vittorio , and Luigi Patrono 
+
+Abstract —Driver drowsiness significantly impairs the ability to accurately judge safe braking distances. According to the European Transport Safety Council, fatigue is a contributing factor in approximately 10% to 20% of road accidents across Europe. Traditional driver-assistance systems generally lack adaptability to real-time physiological states such as drowsiness. In this paper, we address this challenge by developing a deep reinforcement learning-based autonomous braking system that integrates vehicle and driver data. The system detects drowsiness using physiological data and adapts the braking behavior in response to real-time vehicle dynamics and traffic conditions. The entire framework is implemented and evaluated within a high-fidelity simulation environment. The reinforcement learning agent leverages the latest advancements in Deep Q-Network (DQN) technologies, particularly Double and Dual networks. To incorporate drowsiness, we apply exhaustive benchmark analysis on 2-minute drowsiness windows extracted from ECG signals, considering different configurations of window segmentation and overlapping to find the most effective setup. Moreover, we select a Recurrent Neural Network (RNN) architecture as the optimal model for our case scenario. The drowsiness output detected in real-time by our RNN model is used as input to the observable state space of the DQN agent, where the driver error during drowsiness is simulated by an action delay. The DQN agent with double-dual networks achieves a 99.99% success rate in adjusting brakes and evading accidents across both drowsy and non-drowsy scenarios. Our approach to integrating vehicle and driver data can contribute to building physiology-enhanced adaptive intelligent driving systems to enhance safety on the road. 
+
+Index Terms —Automotive safety, Driver physiology, Deep re-inforcement learning, Vehicle braking systems. 
+
+I. I NTRODUCTION 
+
+# DRIVING demands continuous attention and rapid decision-making, particularly when executing safety-critical maneuvers such as braking. The effectiveness of these maneuvers relies on the driver’s awareness, the vehicle’s dynamic capabilities, and the surrounding traffic context. One key factor affecting awareness is drowsiness, which is atransitional state between wakefulness and sleep. Drowsiness impairs cognitive performance and ultimately delays reac-tion times [1], [2]. According to the European Commission, drowsiness contributes to 15–20% of serious road accidents,   
+
+> Hossem Eddine Hafidi, Teodoro Montanaro, Ilaria Sergi, and Luigi Pa-trono are with the University of Salento, Lecce, Italy. (Emails: hossemed dine.hafidi@unisalento.it, hafhousedd@hotmail.com, teodoro.montanaro@u nisalento.it, ilaria.sergi@unisalento.it, luigi.patrono@unisalento.it.) Massimo De Vittorio and Hossem Eddine Hafidi are with Istituto Ital-iano di Tecnologia (IIT), Lecce, Italy. (Emails: massimo.devittorio@iit.it, hossem.hafidi@iit.it.) Elisabetta De Giovanni is with the Basque Center for Applied Mathematics (BCAM), Bilbao, Spain. (Email: edegiovanni@bcamath.org) Digital Object Identifier 00.0000/XYZ.0000.0000000
+
+with drowsy drivers experiencing a 29% higher crash risk than alert drivers [3]. Although traditional braking systems such as Anti-lock Braking Systems (ABS), Electronic Stability Control (ESC), and Adaptive Cruise Control (ACC) have substantially improved vehicle safety through dynamic modeling, they remain limited in their ability to adapt to real-time driver cognitive states during vehicle control [4]. To the best of our knowledge, current autonomous systems lack integration of physiological monitoring for adapting real-time braking under drowsy conditions. Nevertheless, the identification of drowsiness during driving has been extensively explored. Drowsiness detection in the automotive domain utilizes various methods, including visual sleep scoring and physiological signal analysis [5]. Among these signals, Electrocardiogram (ECG) is particularly effec-tive for identifying ’awake’ and ’asleep’ states due to its influence from the autonomous nervous system, and its non-invasive nature. It provides key physiological features such as Heart Rate Variability (HRV), whose temporal and sequential patterns are shaped by the signal segmentation process [2]. Optimizing temporal segmentation through sliding windows is therefore essential for accurate drowsiness detection. However, most existing approaches only focus on detection and do not directly influence braking actions. Integrating drowsiness detection into vehicle control is essential to mitigate impaired braking caused by delayed reaction times. In this work, we address these challenges by proposing a physiology-aware autonomous braking system designed for real-world deployment, integrating real-time drowsiness detec-tion into a Deep Reinforcement Learning (DRL) framework. Specifically, a Double Dual Deep Q-Network (DD-DQN) agent is trained to learn adaptive braking policies that account for vehicle dynamics, traffic conditions, and driver cognitive state. Training and evaluation take place in an environment designed to mirror real-world driving conditions. Our con-tributions include an optimized window-shifting method for ECG segmentation, where multiple temporal configurations are evaluated to identify the most effective strategy. The driver’s drowsiness state is inferred using a Recurrent Neural Network (RNN) trained on ECG-derived features. The learned drowsiness predictions are incorporated into the agent’s ob-servable state space, where the detected drowsiness status is designed to delay the execution of control actions to emulate an impaired driver. To the best of our knowledge, this is the first system to integrate ECG-based drowsiness detection with DRL braking and delayed action modeling, designed for scenarios representative of real-world cases. We benchmark the DD-DQN agent against three baseline architectures: vanilla 
+
+> arXiv:2604.13878v2 [cs.LG] 16 Apr 2026 2
+
+Deep Q-Network (DQN), Double Deep Q-Network (Double-DQN), and Dual Deep Q-Network (Dual-DQN). Our proposed agent achieves a 99.99% success rate in maintaining safe following distances and avoiding collisions under both alert and drowsy conditions. Across 30,000 seconds of testing, only 0.9 seconds of cumulative violations of safe distance were recorded, all occurring under drowsy states, which demon-strates the agent’s robustness and ability to adapt to impaired conditions. The rest of this paper is structured as follows. Section II reviews related works on drowsiness detection, HRV anal-ysis, and DRL for braking strategies. Section III presents the proposed drowsiness-aware braking system, describing its architecture and the problem formalization. Section IV details the preprocessing and classification of ECG signals for drowsiness detection, along with the training methodol-ogy of the RNN-based model. Section V explains the DD-DQN training framework, including the implementation of drowsiness-induced action delays. Section VI reports the ex-perimental setup and results evaluating the agent’s adaptive braking behavior. Finally, Section VII discusses the findings and limitations, followed by concluding remarks. II. B ACKGROUND AND RELATED WORKS 
+
+This section reviews the literature on intelligent braking systems and drowsiness detection, focusing on two main domains: quantified metrics of Drowsiness (Section II-A) and DRL for braking strategies (Section II-B). While substantial research exists in both areas independently, to the best of our knowledge, no prior work has directly integrated real-time physiological monitoring with reinforcement learning-based braking strategies. 
+
+A. Quantified Metrics of Drowsiness 
+
+Drowsiness in drivers results from alterations in the Au-tonomic Nervous System (ANS), which in turn affects mul-tiple physiological systems, including respiration, cardiovas-cular activity, skin conductance, and visual perception. These changes produce observable physiological signals and signs such as respiratory rate, heart rate, and pupil behavior, which can be monitored to assess the driver’s cognitive state [2]. Traditional methods for detecting driver drowsiness involve visual analysis of sleep stages, often using optical or infrared cameras to monitor indicators like eye closure [6]. A key metric is the Percentage of Eyelid Closure over the Pupil over Time (PERCLOS), which increases during drowsy conditions [7]. However, visual methods can be obstructed by factors like glasses or poor lighting [8]. To address this, alternative hard-ware solutions such as smart glasses have been proposed to reduce reliance on unobstructed visual cues [9]. Additionally, metrics like the Percentage of Yawning (POY) have been used when eye detection is unreliable [10]. Physiological analyses through Electroencephalography (EEG) can capture brain wave patterns associated with drowsi-ness, particularly in Theta, Alpha, and Beta bands [11]. In EEG-based monitoring systems, neural activity is typically acquired through a multi-electrode cap positioned on the scalp. Such configurations are prone to motion-induced artifacts, as driver movements can cause electrode displacement, thereby compromising signal integrity [12]. In contrast, ECG-based analysis offers a less intrusive alternative, as cardiac signals can be acquired using commercially available chest bands, without the need for specialized headgear. Moreover, the high amplitude of QRS complexes contributes to greater robustness against noise [13]. HRV refers to the variation in time intervals between con-secutive heartbeats, and it is commonly used as a physiological marker of autonomic nervous system activity. The use of HRV features calculated from ECG for drowsiness detection offers a practical approach, particularly when ECG is acquired using a chest-mounted sensor during seated driving. In this context, the relatively limited movement of the chest reduces the likelihood of motion artifacts compared to signals like EEG, which are more susceptible to movement due to their placement on the head. Studies leveraging HRV typically identify drowsiness patterns by applying time and frequency domain analysis to the series of RR intervals (i.e. peak-to-peak time difference), by extracting different well-known metrics such as SDNN, RMSSD, and pNN50, for the time-domain, and LFHF ratio from the Low Frequency (LF) and High Frequency (HF) bands [14], [15]. While these studies focus specifically on ECG-based drowsiness detection, many do not explicitly report window-shifting approaches to analyze the temporal trends of HRV features. Among the studies that discuss ECG window segmentation, Maftukhaturrizqoh et al. [16] used 30-second intervals, and Rachamalla et al. [17] adopted 1-minute window segments. Similarly, Arefnezhad et al. [18] employed a 40-second sliding window with a 30-second overlap, Xiong et al. [19] applied 1-minute windows with a 5-second step, and Xia et al. [20] segmented the signal into 30-second non-overlapping granules. However, most of these studies do not explicitly address the optimization strategies behind their chosen window-shifting parameters. This oversight limits the development of robust, data-driven models for drowsiness detection. It also highlights the need for a systematic approach to parameter tuning, such as the multi-configuration benchmarking methodology proposed in [21] on which we base our strategy for capturing the optimal feature trends for drowsiness detection. 
+
+B. Deep Reinforcement Learning and Braking Strategies 
+
+The advantage of DRL over supervised learning for adaptive braking strategies lies in its ability to explore and exploit behaviors through direct interaction with the environment. Supervised learning, on the other hand, is limited to pre-labeled datasets and struggles with unstructured or dynamic environments. In the context of DRL, an agent observes the current state of the environment, selects an action, and receives a reward signal that guides its learning process. The agent’s objective is to learn a policy that maximizes cumulative rewards. The DQN is a widely used DRL architecture that employs a neural network, referred to as the policy network, to approximate the Q-function used for evaluating actions. A core concept in DQN is the Q-value function Q(s, a ), which 3
+
+estimates the expected reward for taking action a in a state s.It is updated iteratively using the Bellman equation (1), where the target value y is defined as: 
+
+y = r + γ max  
+
+> a′
+
+Q(s′, a ′) (1) where r is the immediate reward, γ is the discount factor, which determines how much the agent values future rewards, and s′ and a′ are the next state and action, respectively. The network parameters are then optimized by minimizing the mean squared error between the predicted Q-value and the target, using the loss function: 
+
+L = ( y − Q(s, a )) 2 (2) This mechanism, with one neural network, enables action evaluation but leads to instability due to rapidly changing Q-values. To address this issue, Mnih et al. [22] proposed the use of a Fixed Q-Targets (FDQN) approach, commonly referred to as the standard DQN, which decouples the target from the rapidly fluctuating estimates and delays its update to stabilize learning. This is achieved by employing two neural networks: a policy network that estimates Q-values and a target network that is periodically updated with the weights of the policy network, thereby promoting training stability. A fundamental component in DQN is the replay memory that stores past experiences as transitions. The memory enables random batch selection during training, which helps prevent bias from consecutive states. During training, action selection is guided by exploration mechanisms. One common mecha-nism in the DQN agent’s training follows an epsilon-greedy strategy, where the probability of selecting a random action depends on ϵ; This parameter decays over training episodes to allow a gradual transition from exploration to exploitation [23]. Even when a seemingly optimal strategy is found, maintaining a small level of exploration through the ε-greedy mechanism allows the agent to discover alternative strategies that may yield equal or better performance, thereby improving policy robustness. Thus, while the ε-greedy strategy is widely used, it may be inefficient in exploring optimal policies due to its uniformly random action selection [24]. Nonetheless, this stochasticity serves as a necessary guidance mechanism in the early stages of training, enabling the agent to discover its first optimal strategy by preventing premature convergence to suboptimal behaviors. Preference-guided exploration can complement ϵ-greedy by adjusting the probability distribution over actions during the early training phase, which increases chances of exploring initial behavior such as acceleration. This guidance improves learning efficiency while preserv-ing exploration diversity and supporting better generaliza-tion. Several enhancements to DQN have been proposed to improve learning stability and overall performance. Among these, one notable method is the Double-DQN algorithm, which addresses the overestimation bias commonly observed in DQN by decoupling the action selection and evaluation processes [25]. In standard DQN, the target value is computed using the same network to both select and evaluate the next action, which can lead to overestimated Q-values. In contrast, Double-DQN modifies the target value by decoupling action selection and evaluation: 
+
+yDDQN = r + γQ target 
+
+
+
+s′, arg max  
+
+> a′
+
+Qpolicy (s′, a ′)
+
+
+
+(3) where Qpolicy and Qtarget denote the Q-value predictions for the next state s′, produced by the policy and target net-works, respectively. This separation mitigates overestimation bias, resulting in more accurate value updates and improved convergence. The loss function remains the same as in standard DQN, typically defined as the mean squared error between the predicted Q-value Q(s, a ) and the target value yDDQN . Another advancement is the Dual-DQN architecture [26], which sep-arates the evaluation of state values from action advantages. This design is particularly effective in scenarios where small variations in actions significantly impact performance, such as small variations of braking pressure to evade collisions. In Dual-DQN, the Q(s, a ) is decomposed into two separate estimators: the state value function V (s) and the advantage function A(s, a ), combined as: 
+
+Q(s, a ) = V (s) + A(s, a ) − 1
+
+|A| 
+
+X
+
+> a′
+
+A(s, a ′)
+
+!
+
+(4) Both V (s) and A(s, a ) are learned from a shared state repre-sentation, with the network separated into distinct outputs for value and advantage. The applications of DQN for braking strategies have aimed to approximate optimal braking levels. For instance, Chae et al. [27] utilized a DQN framework to optimize Time-to-collision (TTC) for pedestrian scenarios, reporting a 0% collision rate for TTC above 1.5s. Similarly, Liu et al. [28] proposed a DQN-based framework for trajectory planning and braking optimization in Vehicle-to-Infrastructure (V2I)-assisted autonomous driving, aiming to improve both driving safety and fuel efficiency through informed decision-making; They also utilize Double-DQN variant within the same con-text, reporting notable improvements in both safety and fuel economy compared to the baseline DQN model. For instance, a study by Liao et al. [29] used Dual-DQN to learn high-way environments and driving strategies while incorporating braking. Additionally, Hoel et al. [30] combined planning and DRL for tactical decision-making. Similarly, Isele et al. [31] employed a DQN framework which was enhanced by a Dual-DQN architecture to develop safe navigation strategies at intersections lacking traffic signals, where braking is critical to avoid collisions. Makantasis et al. [32] proposed a Double-DQN-based driving policy for highway scenarios, achieving 0% collision rate under rule-constrained settings, while in unconstrained configurations, the policy exhibited a 2–4% collision rate, emphasizing a trade-off between safety and gen-eralization in uncertain environments. This performance im-provement is attributed to the use of Double-DQN, which mit-igates Q-value overestimation and improves decision-making stability in complex driving conditions. More recently, Yousaf et al. [33] made a valuable contribution by introducing a stochastic rule-based speed adjustment mechanism within an EEG-informed DRL framework, demonstrating the potential 4Agent   
+
+> Drowsiness-Aware
+> Brake Control
+> Environement
+> Drowsiness Status
+> Brake Control
+> Brake
+> Controller
+> Sensors Data and
+> Drowsiness Status
+> ECG
+> Action State
+> Reward
+> Traffic Situation
+> Radar
+> Fig. 1. System architecture design for real-world drowsiness-aware brake control.
+
+of integrating physiological signals into autonomous decision-making. However, the speed adjustments are predefined and not learned through interaction with vehicle dynamics, traffic conditions, and driver physiology. As a result, the decoupled structure, which separates cognition from control, limits the agent’s ability to adaptively learn context-aware control be-havior which highlights the need for an integrated learning framework. Previous studies primarily focused on optimizing vehicle braking through DRL but did not account for the driver’s physiological state. Given that drowsiness increases reaction times and impairs responsiveness, neglecting such physio-logical factors in braking strategies poses significant safety risks. To bridge these research gaps, we train, evaluate, and integrate an ECG-based drowsiness detection RNN model into a DQN framework that leverages dueling and double DQN architectures for enhanced performance. These advancements enable dynamic braking strategies that adapt to driver state, improving both collision avoidance and overall driving safety. III. P ROPOSED DROWSINESS -A WARE BRAKING SYSTEM 
+
+In this section, we first present the architecture design of our proposed drowsiness-aware braking system. Then, we formalize the problem for the DRL approach. 
+
+A. System architecture 
+
+The proposed system is designed as a modular, real-world braking architecture that adapts vehicle behavior based on physiological and contextual input. Figure 1 illustrates the overall system design, highlighting the interaction between sensory input, drowsiness detection, decision-making, and control execution. At its core, a DQN-based agent receives information from the vehicle onboard sensors and a physio-logical monitoring module to assess the driving context and adjust braking decisions accordingly. The three main inputs to the agent include:  
+
+> •
+
+Drowsiness status inferred from ECG-derived features,  
+
+> •
+
+Environmental context from radar and traffic conditions,  
+
+> •
+
+Current braking state and vehicle dynamics. Drowsiness is detected via HRV features extracted from an ECG, which reflect ANS activity. This choice is motivated by the availability of commercial wearable devices, such as chest bands, capable of providing ECG and RR Interval (RRi) signals for real-time analysis. When drowsiness is detected, the agent accounts for the delayed driver responsiveness by adapting its control strategy, favoring smoother and earlier braking to mitigate collision risk. The system incorporates a dedicated brake controller module that translates the agent’s decision into actuation commands. The traffic situation is observed using the front radar mounted on the ego vehicle, which refers to the vehicle controlled by our braking agent. This radar collects velocity and depth information when a front vehicle is detected. As demonstrated in Chae et al. [27], brak-ing decisions primarily rely on velocity and depth. Therefore, only these two radar features are used for decision-making. To reduce noise and the dimensionality of the radar detections, the Density-Based Spatial Clustering of Applications with Noise (DBSCAN) algorithm [34] is employed. DBSCAN improves radar reliability by filtering out sensor noise and reflections. It organizes detections into dense clusters, enabling the DD-DQN agent to operate on cleaner, more structured inputs for braking decisions. 
+
+B. Formalization of the Problem 
+
+The agent’s objective is to maintain a safe stopping distance from the front vehicle, defined as dstop , to avoid collisions by adjusting the vehicle control inputs (i.e., braking pressure) while accounting for slower responses caused by a drowsy state. We model the drowsiness-aware adaptive braking agent as a Markov Decision Process (MDP). The MDP is represented with the 5-tuple ⟨S, A, P, R, γ ⟩, where:  
+
+> •
+
+S is the set of states.  
+
+> •
+
+A is the set of actions.  
+
+> •
+
+P is the state transition probability function.  
+
+> •
+
+R(s, a ) is the reward function.  
+
+> •
+
+γ ∈ [0 , 1] is the discount factor. The state st at time t encapsulates all necessary information for decision-making, including vehicle state, environmental state, and driver state. It is represented as: 
+
+st = [ vt, a t, d rel ,t , v rel ,t , θ t] (5) In this state vector:  
+
+> •
+
+vt denotes the current speed in m/s. 
+
+> •
+
+at is the current selected action.  
+
+> •
+
+drel ,t is the radar’s relative depth (i.e., distance to the front vehicle), computed as the centroid of clusters obtained via DBSCAN.  
+
+> •
+
+vrel ,t is the radar’s relative velocity, calculated similarly to drel ,t . 
+
+> •
+
+θt indicates the drowsy state, predicted by our proposed drowsiness classification model ( θt = 1 signifies active drowsiness). 5
+
+Formally, let μ(Ci) denote the centroid of cluster Ci. The representative cluster point pc is computed as: 
+
+pc = 1
+
+k
+
+> k
+
+X
+
+> i=1
+
+μ(Ci) (6) where μ(Ci) is the centroid of cluster Ci, calculated as: 
+
+μ(Ci) = 1
+
+|Ci|
+
+X
+
+> p∈Ci
+
+p (7) This approach ensures that the final detection point accurately reflects the central position of the most relevant clusters. If the radar returns only one detection point ( n = 1 ), that point is directly used without clustering. This centroid-based rep-resentation provides a compact and reliable representation of the lead vehicle, thereby reducing the state space complexity. Following the discretization strategy proposed by Chae et al. [27], the action space A is constructed using fixed pressure levels. This structure aligns with the DQN framework and supports stable policy learning through interpretable control signals. The action at in st represents the control input at time t, which may correspond to braking, acceleration, or a neutral command. It is discretized into a finite set of possible actions, formally defined as: 
+
+A = {a0, a 1, a 2, a 3, a 4, a 5} (8) where each action corresponds to a specific control input as follows:  
+
+> •
+
+a0: Braking with 100% pressure.  
+
+> •
+
+a1: Braking with 70% pressure.  
+
+> •
+
+a2: Braking with 40% pressure.  
+
+> •
+
+a3: Braking with 20% pressure.  
+
+> •
+
+a4: Neutral (no braking or acceleration).  
+
+> •
+
+a5: Full Acceleration with 100% pressure. Note that a5 is the only action that enables forward motion for exploration purposes. The remaining actions are dedicated to braking control. The transition function in the MDP determines the probabil-ity P (st+1 |st, a t) of transitioning to the next state st+1 given the current state st and action at. In model-free DRL methods like DQN, this probability is unknown and not explicitly modeled; instead, the agent learns how to act effectively through trial-and-error interactions, without learning the de-tailed behavior of the environment. The proposed framework enables the agent to engage with a control system driven by real-world vehicle behavior, enabling it to learn braking policies suitable for real-world deployment. Drowsiness effects (θt) are incorporated into the transition process to influence how states change and guide policy learning under impaired conditions. This forces the agent to adapt its decisions under different drowsiness conditions. When θt = 1 , a temporal delay ∆t is applied to represent increased driver reaction time dreaction , as reported in the empirical study [35]. For this implementation, the minimum delay of ∆t = 0 .5 seconds is adopted. The reward function in the MDP is designed to encourage safe and efficient driving while penalizing unsafe actions, and is formally defined as:                    
+
+> R(st, a t) =
+> 
+> −α·1(collision ),(collision penalty)
+> −β· | ∆pt|,(abrupt pressure change penalty)
+> −κ·1(dt< d min ),(unsafe distance penalty)
+> +δ·1(dmin ≤dt≤dmax ),(reward for safe distance)
+> +ϵ·1(smooth braking ),(reward for smooth braking)
+
+(9) The agent learns to adjust braking behavior to maximize cu-mulative reward, guided by penalties and rewards. The rewards parameters α, β, κ, δ, ϵ are constant weights that determine penalties and rewards associated with each driving behavior (c.f. Section V-A). The indicator function 1(·) evaluates to 1 when the specified condition is met and 0 otherwise. The term 
+
+∆pt represents the change in braking pressure at time t, and dt
+
+is the current following distance. The safe distance encouraged by the rewards is set to dmin = max(5 , 2vt), which is the minimum safe following distance based on the widely accepted two-second rule [36], with dmax = dmin + 10 introducing a buffer margin. The discount factor γ ∈ [0 , 1] in the MDP determines the importance of future rewards in decision-making. In this work, γ = 0 .9, following established literature [27], to ensure the agent considers long-term safety when selecting braking actions. Thus, the objective of the agent designed as MDP is to find an optimal policy π∗ that maximizes the expected cumulative reward: 
+
+π∗ = arg max  
+
+> π
+
+E
+
+" ∞X
+
+> t=0
+
+γtR(st, π (st)) 
+
+#
+
+(10) The stopping distance equation dstop acts as an implicit objective, not enforced through hard constraints but learned through the agent’s reward-guided interactions with its en-vironment. This MDP-based formulation provides a solid foundation for the DD-DQN agent to learn optimal braking strategies under varying cognitive states. IV. D ROWSINESS DETECTION VIA ECG As mentioned in Section III, part of the system detects the driver’s drowsy state to enhance the DRL-based braking strategies. This section describes our drowsiness detection via ECG signal, specifically using HRV features. We classify the data into normal sinus rhythm (non-drowsy) and drowsy states, which we label as Normal Sinus Rhythm Window (NSRW) and Drowsy Event Window (DEW). Since datasets with drowsy events are usually unbalanced, we select one window of NSRW for each DEW in the data. To extract the features, an “inner” window-shifting optimization approach was applied to the ECG signals, adapting the technique pre-sented in [21]. Our method divides each analyzed window into different configurations and selects the optimal combination of detection model and configuration, based on cross-validation to ensure robustness across different data partitions. 
+
+A. Extraction of DEWs and NSRWs 
+
+The drowsiness detection module begins with preprocessing the ECG signal. First, we extract the DEWs that are far enough 6 
+
+> Fig. 2. Raw and filtered ECG signals with R-peak detection for both normal sinus rhythm and drowsy event. The last 10 seconds of an ECG window from configuration C6400 N6 M72 are plotted. The first row presents the raw ECG signals, while the second row displays the filtered ECG signals with detected R-peaks.
+
+from each other, specifically at least two minutes between two drowsiness events [37]. We also chose two minutes based on visual inspection and to ensure sufficient duration for reliable HRV analysis, consistent with standard HRV practices (e.g., 
+
+>60s for frequency-domain features [15]). Then, based on the chosen minimum duration and the method from [21], we extract NSRWs from the segments between two events, ensuring that DEWs ∩ NSRWs = ∅. NSRWs are extracted using the same procedure as DEWs, with the condition that no drowsiness event occurs within the selected window. The second step is the ECG analysis to extract relevant HRV features from the resulting DEWs and NSRWs. Figure 2 and 3 shows an example of DEWs and NSRWs. Specifically, we show the ECG signal and the corresponding RR series, i.e., series of peak-to-peak intervals where the peak is commonly defined as ”R peak”. As expected, NSRWs show a rhythm variability consistent with normal conditions at rest. In con-trast, DEWs show patterns in the rhythm variability aligned with drowsiness-related physiological changes [13], [37]. 
+
+B. Capsule-Shifting for HRV features extraction 
+
+After extracting the windows, we divide them into shifting segments that we call ”capsules”. Capsule shifting is a Time Delay Embedding (TDE) technique that reconstructs temporal dynamics by capturing sequential dependencies across over-lapping segments. This technique is crucial for time-series models as it preserves the sequential nature of the data required to capture temporal dependencies while increasing the number of available samples for HRV. The capsule configuration defines how DEWs and NSRWs are segmented into sequences for the later HRV analysis. In our approach, which we call CNM, we define each configuration using three parameters: the capsule size C, expressed in number of samples; the capsule 
+
+> Fig. 3. RR Interval trend over the last capsule of a random DEW and NSRW from C6400 N6 M72 configuration. The figure compares sinus rhythm (blue) and drowsy event intervals (orange), illustrating changes over time.
+
+count N , which indicates the number of capsules per DEW or NSRW; and the capsule overlap M , expressed as a percentage of shared data between consecutive capsules. Additionally, we consider a window overlap ( M ′) used only during inference to apply a sliding mechanism for prediction across the full ECG signal. Then, within each capsule, we extract and analyze a set of HRV features to train the models. Figure 4 summarizes the selected HRV features, which include time-domain and frequency-domain metrics, following existing literature [13], [38]. The extracted features are evaluated using four different methods: Recursive Feature Elimination (RFE), Mutual Infor-mation (MI), Random Forest Feature Importance (RF), and Permutation Importance (PI). First, RFE recursively eliminates the least important features to identify the most relevant subset for classification. Second, MI quantifies the dependency between each feature and the target label by measuring shared information. Third, RF assesses feature importance based on its contribution to classification accuracy in a tree-based model. Finally, PI evaluates feature significance by randomly shuffling feature values and analyzing the impact on model performance. Figure 4 illustrates the selected feature impor-tance ranking across these four methods, which highlights the most discriminative features in drowsiness detection for our case study. A configuration is considered a candidate if the capsules are optimally sized and positioned to fit within the window L,i.e., DEW and NSRW. This method maintains data integrity and prevents distortions that could affect feature extraction and model performance. In CNM , the capsule-shifting process begins with the initialization of the search space, where 
+
+N range is defined in the range of [2, 200] and C range in the range of [40, 120]. The lower limit of 40 seconds is chosen as the minimum window length required for HRV frequency-domain feature extraction using NeuroKit-2 (NK2) [39]. The upper limit of 120 seconds corresponds to the maximum duration of DEWs and NSRWs considered for drowsiness detection. For each pair of capsule size C in samples and number of capsules N , the overlap fraction M is computed using the expression: 
+
+M = C × N − L
+
+(N − 1) × C (11) 7 
+
+> Fig. 4. Feature Importance Comparison Across Methods: RFE, MI, PI, and RF.
+
+To ensure that the capsules are evenly spaced and fully cover the window L without requiring padding or truncation, we only accept values of M in the open interval (0 , 1) that can be expressed with finite decimal precision (e.g., two decimal places). Once valid configurations are identified, we address the challenge of the high computational cost of calculating HRV features due to the large number of configurations. We use parallel computation with shared cloud memory, which has significantly reduced the total processing time. 
+
+C. Drowsiness Model Training: Recurrent Neural Network 
+
+Time-series classification tasks need models capable of capturing temporal dependencies. In this study, we evaluated several deep learning architectures including Long Short-Term Memory (LSTM), Gated Recurrent Unit (GRU), RNN, Con-volutional Neural Network (CNN)-LSTM, and Auto-Encoder (AE)-LSTM. Our objective was to identify the most effective model and optimal capsule-shifting configuration for drowsi-ness detection from ECG signals. Feature values were standardized to zero mean and unit variance using Scikit-learn’s StandardScaler. Early stopping was applied throughout training to prevent overfitting and to ensure consistent evaluation conditions across models. This technique monitors validation performance and stops training once the metric stops improving for a predefined number of epochs, thus avoiding unnecessary computation and per-formance degradation. A broad hyperparameter search was conducted to optimize each architecture individually. Each model-configuration pair was evaluated using k-fold cross-validation followed by testing on a separate hold-out set, with final results reported as the average performance across all k trained models (c.f. Table I). This rotation helped assess generalization and avoid overfitting to specific data segments. Based on the cross-validation analysis, the two configurations C10240 N2 M50 and C6400 N6 M72 were selected for further comparison due to their consistently high performance with all models. In a refined evaluation step, we focused on RNN and LSTM models, which achieved better performance and lower architectural complexity than CNN-LSTM, AE-LSTM, and GRU. The combination of RNN and C6400 N6 M72, which achieved an average CV test accuracy of 92.4% and average F1-score of 92.0%, was selected for final refinement due to its stable performance and longer sequence window compared to the pair RNN and C10240 N2 M50 (c.f Table I). The choice of capsule number N = 6 provided an ef-fective trade-off between capturing sufficient temporal context and maintaining training efficiency. The finalized architecture consists of three recurrent layers with 40 RNN units each, a dropout of 0.25, and an L2 regularization of 0.28 applied to the final dense layer. Training was performed for up to 100 epochs using the Adam optimizer with a learning rate of 0.002. V. D EEP REINFORCEMENT LEARNING FRAMEWORK 
+
+BASED ON DQN As described in Section III, our proposed system integrates multiple advanced modules to train a DD-DQN agent while considering drowsiness. This approach applies a Double-DQN and a Dual-DQN to train the agent. This enhances learning stability and yields more reliable Q-value estimates (cf. Sec-tion II). Figure 5 illustrates the complete DRL framework, com-prising three main modules: the driver drowsiness detection system (left), the dedicated DQN agent (center), and the traffic sensing module (right). The first block (Section IV) extracts HRV features from ECG using optimized window shifting, with the best RNN model selected via cross-validation to provide real-time drowsiness predictions. The third block (Section III) gathers radar-based detections, filtered using DBSCAN, to capture traffic context, along with the Controller Area Network (CAN) bus telemetry ( a standard vehicle communication protocol used to transmit real-time data such as speed, throttle, and brake pressure) that provides real-time vehicle dynamics. The center block receives this combined input, including centroid velocity, depth, throttle, brake, and drowsiness status, to construct the observable space. The agent then learns context-aware braking behavior through action control, reward shaping, and DQN logic, which enables adaptive responses to impaired cognitive states. 
+
+A. Step Function and Reward Structure 
+
+The step function is a key component of the proposed DQN framework, as it handles state transitions, reward computation, and scenario termination. We design this function to integrate these processes to enable dynamic interactions between the agent and the environment. Upon selecting an action at from the discrete action space A defined in Eq. 8 in Section III-B, the step function applies the selected action to the vehicle, transitioning the system from the current state st to the next state st+1 . If drowsiness is detected (θt = 1), the step function delays the selected action. The immediate reward rt8
+
+TABLE I PERFORMANCE COMPARISON OF OPTIMIZED DEEP LEARNING MODELS FOR DROWSINESS DETECTION USING CAPSULE -S HIFTING CONFIGURATIONS 
+
+Model Configuration Units Dropout Layers Learning Rate Batch Size Accuracy F1 Score LSTM C10240 N2 M50 100 0.20 1 0.001 80 0.9080 0.9105 C6400 N6 M72 40 0.25 1 0.001 64 0.8734 0.8734 GRU C10240 N2 M50 50 0.25 2 0.002 64 0.9360 0.9380 C6400 N6 M72 100 0.20 2 0.002 64 0.8924 0.8931 RNN C10240 N2 M50 150 0.15 2 0.002 80 0.9560 0.9569 
+
+C6400 N6 M72 40 0.25 3 0.002 48 0.9241 0.9200 B. Optimal      
+
+> Window Shifting
+> C. HRV Features
+> Analysis
+> 2. Optimization and
+> Model Training
+> B. Final
+> RNN model
+> 1. Features Extraction
+> A. Original
+> Dataset
+> Driver Drowsiness
+> Training System Traffic Condition
+> A. Cross Validation for
+> Model Selection
+> Dedicated DQN
+> For The Observable Space
+> Reward
+> Function
+> 4. DQN Utils
+> Action
+> Control
+> 3. Vehicle Sensors Data
+> Replay
+> Memory
+> Train-in-loop
+> A. Radar Detection
+> Drowsiness Status
+> Observable Space
+> Neural
+> Networks
+> B. Centroid
+> DBSCAN Point
+> Centroid Velocity
+> Centroid Depth
+> Vehicle
+> CAN Bus
+> Current Speed
+> Throttle Pressure
+> Brake Pressure
+
+Fig. 5. Overview of the proposed DRL framework, showing the interaction between the driver drowsiness detection system (left), the DQN agent (center), and the vehicle sensor modules (right). The framework integrates HRV-based drowsiness predictions, radar-based front vehicle detections (filtered with DBSCAN), and throttle, brake, and speed signals retrieved from the CAN bus to construct the observable state space. The agent uses this input to learn context-aware braking strategies under both alert and impaired cognitive conditions. 
+
+is then computed using the reward function defined in Eq. (9). When the tuple ⟨st, a t, r t, s t+1 ⟩ is composed, a step is considered complete, and the tuple is appended to the replay memory which follows the common practice in DQN of using a maximum size of 10 6 transitions [23]. A First-In-First-Out (FIFO) mechanism is applied when replay memory reaches 
+
+10 6 experiences, removing the oldest tuple to make space for a new transition. This ensures the agent learns from a continuously updated set of experiences and benefits from more recent transitions as its policy evolves. This interaction loop ensures that each action, including its potential delay under drowsiness, contributes to a meaningful experience tuple used during training. At each timestep t, the agent executes an action at that interacts with the environment and modifies the following parameters of the so-called “ego vehicle” (i.e., the vehicle where the drowsiness-aware adaptive braking strategy is applied):  
+
+> •
+
+The ego vehicle’s throttle, τego , where τego ∈ [0 , 1] . 
+
+> •
+
+The ego vehicle’s braking pressure, βego , where βego ∈
+
+[0 , 1] .The reward function rt, defined in Eq. 9 in Section III-B, promotes safe driving by assigning positive feedback to desir-able actions and penalties to unsafe behaviors. As shown in Fig. 6, the reward design is structured around three behavioral phases that guide the agent during DD-DQN training. In the first phase, the agent learns to initiate movement from a stand-still. This initial behavior is shaped by a reward signal that en-courages forward acceleration while discouraging unnecessary braking or remaining stationary. The second phase focuses on maintaining a safe following distance behind the lead vehicle. This distance is dynamically calculated using a two-second rule formulation [36], and the agent is rewarded for staying within this adaptive range. Additional feedback encourages appropriate braking when the front vehicle is critically close and penalizes excessive closing speeds to promote smoother adaptation. The final phase handles critical safety violations. Collisions are treated as the most severe outcome and are assigned a high penalty to dominate the episode’s cumulative reward. A small positive reward is granted for completing the scenario safely. To provide a structured overview of the agent’s reward feedback across different driving contexts, Fig. 7 presents a finite-state automaton representing the reward logic. Each node corresponds to a behavioral state (e.g., standstill, safe following, or collision), and the edges are labeled with the respective rewards or penalties. While the automaton does not capture the full complexity of the environment or state space encountered during training, it reflects the intended reward structure that shapes learning. The agent must ultimately adapt its strategy in response to dynamic environmental conditions, using this feedback to develop safe and effective driving behaviors. 9Far from the front vehicle  Adjusted Safe Stopping Distance 
+
+Unsafe Stopping Distance 
+
+Standstill 
+
+Acceleration  Braking for Safety 
+
+Braking in Safety 
+
+Front Vehicle 
+
+Ego Vehicle 
+
+Maximum 
+
+Safe Distance 
+
+Minimum 
+
+Safe Distance                                                                      
+
+> Fig. 6. Reward structure visualization: green labels indicate positive rewards; red labels indicate penalties based on distance and braking behavior. Vehicle
+> Stand-
+> still
+> Accelera-
+> tion
+> Out of
+> Safe
+> Distance
+> Safe
+> Distance
+> Braking
+> Vehicle
+> Collision
+> P1
+> R1
+> P1
+> R1
+> If C3And C4:R 2If C1:P2
+> If C2:P1
+> R2
+> If C1:P2
+> If C2:P1
+> R3P1
+> R4P2
+> Pf
+> If C5:P3
+> Scenario
+> Finished
+> Rf
+> P1=-2
+> P2=-10
+> P3=-0.5 ×Δv
+> (Δv = vego - v front )
+> Pf=-200
+> If C5:P3
+> R1=+1
+> R2=+10
+> R3=+2
+> R4=+5
+> Rf=+1
+> C1=dfront <dsafe,min
+> C2=dfront >dsafe,max
+> C3=dfront <dsafe,max
+> C4=dfront >dsafe,min
+> C5=vego >vfront
+> Fig. 7. Finite state automaton representing the reward structure across the considered states during braking. P denotes penalty, R denotes reward, and C denotes condition related to speed and safe distance.
+
+B. Double Dual DQN Training and Drowsiness Integration 
+
+An ECG-based drowsiness detection system is integrated into the braking scenario to simulate the effects of driver drowsiness on vehicle control. This system processes ECG data into windows and capsules, calculates HRV features, and predicts the driver’s drowsy state, as shown in the left block of Figure 5. The detection system runs in a separate thread to enable continuous monitoring without disrupting other processes. A study shows that drowsy reaction times range from 500 milliseconds to 20 minutes [35]. A 500-millisecond delay ∆t = 0 .5 is chosen corresponding to the lowest drowsy reaction times, to assess whether the DQN agent can detect and adapt to minimal impairment. When the drowsiness model detects a drowsy state, the last executed action is delayed by 0.5 seconds. The driver’s drowsy state is added to the observable state in the DQN, which also includes the parameters related to the ego vehicle and radar information (cf. Section III-B). This allows the agent to learn the relationship between delayed responses, drowsiness, and detected vehicles. To evaluate the agent’s ability to adapt under impaired conditions, a DD-DQN training strategy is applied. Initially, the agent lacks prior knowledge. Relying solely on an epsilon-greedy strategy (cf. Section II) in early episodes significantly delays the learning of acceleration, which is the primary cause of early collisions. This is addressed by using a guided exploration [24] for the first 50 episodes, encouraging the agent to select action 5 (acceleration) with an 80% probability. Full exploitation (100% acceleration) is avoided to maintain exposure to braking and neutral actions. This enables the agent to experience penalty-inducing crash scenarios, there-fore, accelerates learning by reinforcing the consequences of high-risk decisions, leading to faster reward convergence. After the guided phase, action selection reverts to a standard epsilon-greedy strategy, enabling a gradual transition toward exploitation. Each episode ends either upon collision or after a fixed duration of 30 seconds. During each step, the agent logs its experience tuple into a replay memory buffer. Training begins once the buffer reaches the minimum 10 6 threshold of samples. A minibatch of past transitions is then sampled to compute target Q-values based on the Bellman equation (cf. Eq. 1), using predictions from both the policy and target networks. Double DQN logic is applied: action selection is based on the policy network, while value estimation relies on the target network to reduce overestimation bias. The policy network is updated by minimizing the difference between the predicted Q-value for the selected action and the target Q-value, typically using a mean squared error loss. To ensure stable learning, a periodic synchronization of weights is performed from the policy to the target network after a fixed number of updates. Three braking phases are defined based on vrel ,t and drel ,t : 
+
+> •
+
+“acceleration” is identified when vrel ,t < 0, 
+
+> •
+
+“braking” when drel ,t < d safe,min and vrel ,t > 0, and  
+
+> •
+
+“following” when vrel ,t ≈ 0 while drel ,t ∈
+
+[dsafe,min , d safe,max ].Defining these three phases allows evaluation of the agent’s behavioral adaptation across different driving situations and cognitive conditions. In summary, the proposed DD-DQN 10 
+
+framework integrates vehicle sensing, physiological monitor-ing, and cognitive delay modeling to train an agent capable of adapting braking behavior to dynamic road and awareness conditions. VI. E XPERIMENTS AND RESULTS 
+
+This section presents the experimental evaluation of the proposed drowsiness detection system and adaptive braking strategy using a publicly available dataset and the Car Learn-ing to Act (CARLA) simulator [40]. After describing the experimental setup and the drowsiness dataset, we present the results of the optimal configuration-architecture evaluation for drowsiness detection through cross-validation and hyperpa-rameter tuning. Next, we analyze the performance of the DD-DQN agent in real-time drowsiness-aware driving scenarios. We then compare the performance of the proposed DD-DQN agent against standard DQN, DD-DQN, and Double-DQN variants to assess the benefit of each enhancement. Finally, we assess the system’s capability to adapt braking strategies under drowsy conditions. 
+
+A. Experimental Setup 
+
+To validate the theoretical formulation outlined in Sec-tion III-B, we instantiated the proposed system — comprising the adaptive braking strategy and drowsiness-aware agent — within a simulation environment designed to approximate real-world constraints while preserving control over behavioral variability. The CARLA simulator was selected as a formal ground to verify whether the modeled MDP (cf. Section III-B) enables the agent to operate effectively under realistic temporal and spatial conditions. Figure 8 illustrates the radar sensor placement and field of view used in the simulation of the drowsiness-aware au-tonomous braking scenario. A front-facing radar sensor is mounted on the ego vehicle’s front bumper. The radar’s pitch angle is set to +2°, enabling slightly elevated forward per-ception in line with road geometry. This sensor continuously captures distance, velocity, and angular position of detected objects with up to 1000 detection points per second. To extract meaningful lead-vehicle estimates, radar detections are clustered using the DBSCAN algorithm. The agent’s observable state vector in the simulation corresponds exactly to the formal state definition st =[vt, a t, d rel ,t , v rel ,t , θ t], combining ego speed, selected control action, radar-derived measurements, and driver drowsiness state (cf. Section III-B). This state is continuously updated throughout each step of an episode and serves as input to the agent’s action selection process. The action space A is discretized into six levels, each corresponding to a distinct actuator command:  
+
+> •
+
+a0: Full braking (brake = 1.0),  
+
+> •
+
+a1: Strong braking (brake = 0.7),  
+
+> •
+
+a2: Moderate braking (brake = 0.4),  
+
+> •
+
+a3: Light braking (brake = 0.2),  
+
+> •
+
+a4: Coasting (throttle = 0.0, brake = 0.0),  
+
+> •
+
+a5: Full acceleration (throttle = 1.0, brake = 0.0). +2.5°  
+
+> -2.5°
+> -5°
+> +5°
+> Radar Pitch:
+> +2°
+> Radar Offset:
+> (x = +2.0 m, z = +0.3 m) from vehicle center
+> Radar FOV (Horizontal): 10° (±5°)
+> Radar Range:
+> 100 Meters
+> Radar FOV (Vertical): 5° (±2.5°)
+> Fig. 8. Front-mounted radar sensor showing forward field of view and detection zone.
+
+These discrete control signals are mapped to throttle and brake pressure controls, applied to the simulated vehicle. Each simulation episode runs for 30 seconds or terminates prematurely in the event of a collision. It is configured with random initial conditions such as vehicle spacing and throttle settings, which are randomized to ensure generalization of the learned policy. This setup provides a variable environment that mirrors real-world complexities while supporting rigorous evaluation of braking behavior under cognitive impairment. The setup instantiates the proposed MDP, integrating percep-tion, cognitive state, and delayed responses to train safety-aware braking policies. 
+
+B. Drivers drowsiness database 
+
+We used the public Drivers Drowsiness Database (DD-DB) [41], which contains a comprehensive collection of physi-ological signals recorded from 10 healthy volunteers aged 20 to 50 years. The dataset was collected during simulated driving experiments designed to induce drowsiness under controlled conditions. The driving simulator experiments were conducted in a quiet, dark environment simulating a nighttime driving scenario on a straight route. Volunteers, partially sleep-deprived the night before, performed two 2-hour driving trials on separate days. This protocol ensured controlled drowsiness induction while collecting approximately 4 hours of physiolog-ical data per volunteer. Volunteers were instructed to press an event button upon feeling drowsy, and these annotations serve as reliable ground truth markers for drowsiness detection. The dataset includes two 2-hour-long ECG recordings with labels marking drowsiness events identified when volunteers pressed an event button during simulated driving. The ECG signals were acquired using a bipolar configuration in the DIII lead position with a sampling frequency of 128 Hz and a 16-bit resolution that accurately captures heart activity sensitive to drowsiness. Unlike preprocessed datasets, the DD-DB provides raw ECG recordings, allowing for custom preprocessing and feature extraction. Moreover, it includes real-time drowsiness annotations, unlike datasets that label entire sessions as uniformly drowsy or non-drowsy. During data preprocessing and training, a marked imbalance between DEW and NSRW introduced a significant risk of 11 
+
+TABLE II THE AVERAGE TEST OF THE FIRST CROSS -VALIDATION RESULTS FOR COMPARISON OF CAPSULE -S HIFTING CONFIGURATIONS AND DEEP LEARNING MODELS FOR DROWSINESS DETECTION .Configuration RNN CNN -L STM AE-L STM LSTM GRU                                                                                                                                            
+
+> ACC (%) F1 (%) ACC Diff (%) F1 Diff (%) ACC Diff (%) F1 Diff (%) ACC Diff (%) F1 Diff (%) ACC Diff (%) F1 Diff (%)
+> C6400 N6 M72 91.37 91.33 86.08 [-5.29] 86.33 [-5.00] 76.49 [-14.88] 76.01 [-15.32] 86.09 [-5.28] 86.24 [-5.09] 82.42 [-8.95] 82.58 [-8.75]
+> C5120 N6 M60 90.57 90.65 83.48 [-7.09] 83.78 [-6.87] 76.85 [-13.72] 77.85 [-12.80] 83.69 [-6.88] 84.03 [-6.62] 76.86 [-13.71] 77.03 [-13.62] C6144 N7 M75 90.30 90.16 84.24 [-6.06] 84.26 [-5.90] 75.91 [-14.39] 74.53 [-15.63] 86.82 [-3.48] 86.83 [-3.33] 83.03 [-7.27] 83.03 [-7.13] C5120 N11 M80 86.90 87.17 68.62 [-18.28] 68.75 [-18.42] 64.83 [-22.07] 67.20 [-19.97] 66.21 [-20.69] 66.56 [-20.61] 69.31 [-17.59] 69.83 [-17.34] C7680 N6 M80 86.49 86.17 71.77 [-14.72] 72.56 [-13.61] 67.73 [-18.76] 66.47 [-19.70] 72.98 [-13.51] 72.54 [-13.63] 65.71 [-20.78] 64.52 [-21.65] C6400 N5 M65 85.30 85.44 80.24 [-5.06] 79.72 [-5.72] 70.74 [-14.56] 69.84 [-15.60] 73.91 [-11.39] 73.77 [-11.67] 76.73 [-8.57] 76.34 [-9.10]
+> ... Additional 10 configurations ...
+> C6144 N6 M70 77.98 78.59 74.99 [-2.99] 75.16 [-3.43] 67.78 [-10.20] 70.61 [-7.98] 71.82 [-6.16] 73.70 [-4.89] 72.88 [-5.10] 74.10 [-4.49]
+> C10240 N2 M50 79.02 78.54 N/A N/A 81.53 [+2.51] 81.27 [+2.73] 88.85 [+9.83] 88.86 [+10.32] 79.31 [+0.29] 78.83 [+0.29]
+> C5120 N9 M75 78.11 77.91 83.00 [+4.89] 81.86 [+3.95] 73.76 [-4.35] 73.73 [-4.18] 77.14 [-0.97] 77.53 [-0.38] 68.20 [-9.91] 68.56 [-9.35]
+> ... Additional 38 configurations ...
+> C9600 N13 M95 55.86 55.50 56.55 [+0.69] 56.72 [+1.22] 51.03 [-4.83] 60.74 [+5.24] 56.55 [+0.69] 59.83 [+4.33] 56.90 [+1.04] 59.30 [+3.80] C6144 N151 M99 53.64 54.98 55.91 [+2.27] 55.34 [+0.36] 48.18 [-5.46] 49.77 [-5.21] 61.82 [+8.18] 61.21 [+6.23] 57.27 [+3.63] 56.56 [+1.58] C12800 N21 M99 55.88 54.73 55.55 [-0.33] 52.52 [-2.21] 55.59 [-0.29] 58.02 [+3.29] 57.12 [+1.24] 53.07 [-1.66] 55.55 [-0.33] 56.32 [+1.59] C9600 N61 M99 54.30 52.71 55.08 [+0.78] 57.57 [+4.86] 50.73 [-3.57] 49.47 [-3.24] 55.84 [+1.54] 59.18 [+6.47] 53.27 [-1.03] 52.62 [-0.09]
+
+Note: Green cells ( ) indicate a decrease in performance relative to the RNN baseline for the same configuration; red cells ( )indicate a performance increase. The values in square brackets represent the absolute difference from the RNN baseline for each configuration. N/A denotes configurations where evaluation for the corresponding model was not conducted. 
+
+overfitting. Although HRV features were extracted from all 
+
+CNM configurations, the classifier consistently favored the majority class. To mitigate this bias, we applied a class bal-ancing strategy that preserved an equal number of non-drowsy samples for each drowsy event, ensuring a representative and unbiased training set without overrepresenting either class. To integrate all components seamlessly, the entire pipeline, including data processing, training, and simulation control, was implemented in Python and integrated with the CARLA simulator through its Python 3.8.10Application Programming Interface (API). 
+
+C. Drowsiness detection performance 
+
+To identify the best configuration for each deep learning model, we conducted a 5-fold cross-validation. As shown in Table II, two configurations emerged as top perform-ers: C6400 N6 M72 with RNN, and C10240 N2 M50 with LSTM. We evaluated RNN, LSTM, GRU, CNN-LSTM, and AE-LSTM models, where simpler architectures such as the RNN consistently outperformed more complex ones. Based on cross-validation results, we selected C6400 N6 M72 and C10240 N2 M50 for a second tuning phase focused on op-timizing RNN, LSTM, and GRU hyperparameters. As re-ported in Table I, the RNN with C10240 N2 M50 achieved the highest accuracy (95.60%) and F1 score (95.69%), fol-lowed by the same configuration with GRU (93.60% /93.80%). C6400 N6 M72 also yielded strong results with RNN (92.41% / 92.00%). Despite its ability to model long-term patterns, LSTM remained less effective and this shows the importance of the proposed model–configuration bench-mark. Overall, the results demonstrate that simpler models such as RNN are more effective in both accuracy and computational efficiency, in this dataset. Consequently, we prioritized RNN-based configurations for further analysis and deployment. The confusion matrix in Table III illustrates the final test results for the selected RNN-C6400 N6 M72 model. 
+
+TABLE III CONFUSION MATRIX FOR THE SELECTED SIMPLE RNN MODEL USING CONFIGURATION C6400 N6 M72. M ODEL PERFORMANCE : A CCURACY =92%, P RECISION = 97%, R ECALL = 87%, F1-SCORE = 92%. 
+
+True Class Predicted Class Negative (0) Positive (1) Negative (0) 77 2
+
+Positive (1) 10 69 
+
+D. Performance of the physiology-enhanced adaptive braking strategy system 
+
+By integrating drowsiness into the state space, the DD-DQN agent effectively adapted to drowsy driving conditions, learning a braking strategy that responds appropriately across varying scenarios. The implemented Dual-DQN network uses three fully con-nected layers ( 128 , 256 , and 128 units) to extract a shared rep-resentation, followed by parallel value and advantage streams, each with two layers ( 128 and 64 units). Their outputs are combined using the standard Dual-DQN aggregation described in Section II. To assess learning effectiveness, we first compare the training results of our DD-DQN agent against the standard DQN agent, Double-DQN agent, and Dual-DQN agent. The plot in Figure 9 illustrates the average and minimum rewards over the first 500 training episodes, as this range is sufficient to observe differences in performance among the agents. A simple moving average is applied, where each cumulative rewards of episode data point is computed as the mean of the 12  
+
+> Fig. 9. Comparison of minimum and average rewards across training episodes.
+
+current and nine preceding values. This method reduces short-term fluctuations and facilitates the identification of overall trends. The minimum and average reward results highlight the effectiveness of the DD-DQN framework reaching approxi-mately 1500 and 500, respectively, by the 500th episode. For Double-DQN and standard DQN, both agents underperform compared to the DD-DQN framework, with minimum and average rewards stabilizing at lower values around -500 and 200, respectively. This indicates that while Double-DQN is designed to mitigate overestimation bias, it fails to leverage this advantage effectively in the given environment, resulting in a slower learning rate and suboptimal policy convergence. However, the combination of Double-DQN with Dual-DQN in the DD-DQN architecture addresses these shortcomings, as evidenced by its superior stability and rapid improvement in rewards during episodes from 100 to 200. The DD-DQN agent not only outperforms Double-DQN but also surpasses all other baselines, including Dual-DQN, which reaches an average reward plateau of around 700. The steep upward trend in DD-DQN’s minimum rewards further reinforces its robustness, indicating fewer instances of poor decision-making and a reduced risk of policy degradation. These findings suggest that while Double-DQN alone struggles to improve over DQN, its integration within the DD-DQN framework successfully enhances learning efficiency, leading to faster convergence and more reliable performance in complex environments. To evaluate the agent’s ability to recognize and adapt to drowsiness effects while maintaining safety, we tested the trained DD-DQN agent on 1000 randomly generated scenarios. These were sampled from a larger space of possible combi-nations, considering variations in throttle pressure and inter-vehicle distance. The experiment also compared the agent’s behavior under drowsy and non-drowsy conditions by ana-lyzing matched pairs of episodes (i.e., the same scenarios executed once during drowsiness and once without it) to assess the impact of drowsiness on decision-making. The agent demonstrated a remarkably low failure rate of 0.1%, with only one out of 1000 episodes failing to reach the 30-second brake test threshold, which aligns with the 30-second threshold described in Section VI-A. The 99.9% success rate shows the agent effectively avoided collisions, both in the presence and absence of induced drowsiness effects. Additionally, the agent achieved an average cumulative reward of 1220 and a median cumulative reward of 1217, values that reflect consistent success across most scenarios. These numbers align with the reward function, which assigns high positive values only within the adjusted safe stopping distance, confirming the DD-DQN agent’s adherence to the learned braking strategy. The general behavior of the agent across successful episodes is shown in Fig. 10, reflecting consistent performance with stable speed, safe following distance, and balanced control inputs under both drowsy and non-drowsy states. The plot highlights three key aspects: average vehicle speed with stan-dard deviation (top), relative following distance with min-max range (middle), and control inputs (throttle and brake) with the standard deviation (bottom). Speed consistency appears as a stable velocity profile throughout the episodes, with minimal variation between tests. The following distance plot shows steady adherence to safe spacing, keeping the relative distance within the expected range across drowsy and non-drowsy conditions. Control inputs reveal a balanced use of throttle and brake, indicating the agent’s adaptive response to changing driving contexts. These visualizations demonstrate that the DD-DQN agent’s learned strategy remains robust across diverse scenarios. The DD-DQN agent successfully adapts to drowsy condi-tions, despite the 0.5 s action delay. Based on the three phases acceleration, braking, and following described in Section V-B, the acceleration phase lasts 24.6% longer for drowsy episodes, yet the agent maintains safe control with no collisions even when actions are delayed. The DD-DQN agent kept an average safe distance of 22.89 m, nearly identical to the 22.90 m observed in non-drowsy cases, based on the average across all tested scenarios. In braking strategy, the agent compensates with a slightly higher average braking pressure (0.28 vs. 0.25) to correct deviations caused by impaired decision-making. Figure 11 compares the agent’s adaptive control strategy in two paired scenarios where (a) represents the baseline without drowsiness and (b) incorporates drowsiness-induced action delays. This scenario pair highlights the robustness of the learned policy in mitigating cognitive impairment effects on vehicle control dynamics while maintaining longitudinal 13 0     
+
+> 4
+> 8
+> 12
+> 16
+> Speed (m s −1 )
+> DDDQN • Vehicle speed
+> Speed ± 1σ
+> 25
+> 50
+> 75
+> 100
+> Distance (m)
+> DDDQN • Following distance
+> Distance ± 1σ
+> Min–Max range
+> 510 15 20 25
+> Time (s)
+> 0.0
+> 0.3
+> 0.6
+> 0.9
+> 1.2
+> Value
+> DDDQN • Control inputs
+> Throttle ± 1σ
+> Brake ± 1σ
+> Fig. 10. Analysis of the DDDQN agent’s behavior during 999 episodes including drowsy and non-drowsy scenarios. The figure presents the average ego vehicle speed with standard deviation (top), the relative following distance with min-max range (middle), and the control inputs (throttle and brake) with standard deviation (bottom). The plot highlights the agent’s adaptive behavior across varied driving conditions.
+
+stability and safe car-following behavior. Despite the delay perturbation in (b), the agent effectively regulates its following distance by adopting a low-variability control strategy, prior-itizing smoother throttle and braking adjustments to ensure stability. However, this adaptive response leads to greater difficulty in speed alignment with the front vehicle, as delayed actions reduce acceleration and deceleration responsiveness. These learned adjustments enable the agent to maintain a safe braking zone while minimizing the risk of instability. Although delayed responses impact reaction times, the policy compensates by dynamically adjusting braking intensities to mitigate deviations from the optimal car-following distance. To further quantify the effect of drowsiness on stability, we computed the total time spent by the agent in violated unsafe distance. Out of 30,000 seconds of testing, only 0.9 seconds of cumulative breaches occurred, exclusively under drowsy conditions. The results underscore the agent’s DD-DQN framework in accommodating human-like cognitive de-lays, demonstrating its ability to preserve safety and efficiency in realistic driving scenarios affected by drowsiness-induced delays. These findings reinforce the potential of intelligent driver-assist systems in enhancing road safety under cognitive impairment conditions. VII. D ISCUSSION AND CONCLUSION 
+
+Drowsy driving increases the risk of collisions due to delayed reactions. We propose an adaptive braking system that integrates drowsiness-aware signals into a DD-DQN agent. The agent learns effective braking strategies despite delayed actions, using ECG-based detection and discrete braking levels for closed-loop control. The results from the drowsiness detection module reveal that temporal models—particularly the RNN—are capable of achieving high discriminative performance with minimal archi-tectural complexity. Our proposed optimal capsule-shifting ap-proach reliably contributes to distinguish drowsy events, which supports the hypothesis that fine-grained short-term temporal dependencies in HRV signals are critical to detecting cognitive fluctuations. The comparative degradation observed in more complex models like CNN-LSTM or AE-LSTM across most configurations suggests that these architectures may suffer from overfitting in the presence of limited training variability or fail to capture short-term transient dynamics essential for drowsiness detection. The DD-DQN agent outperformed DQN, Double-DQN, and Dual-DQN baselines, demonstrat-ing robust collision avoidance and adaptive behavior. By embedding physiological signals, the agent compensated for delayed responses through smoother transitions and braking during drowsy episodes. Despite longer acceleration phases during drowsiness delays, safe distances were maintained by the agent. Episode rewards confirmed performance stability, validating the benefit of integrating cognitive delay directly into learning. However, several critical limitations constrain the scalability and external validity of this approach. On the physiological side, the drowsiness model is trained on a relatively con-strained ECG dataset using a fixed two-minute event window, which may not capture subtle or short-lived transitions in cognitive state. Consequently, the system may underperform in real-world deployments where driver behavior evolves dynam-ically and is influenced by multiple, overlapping sources of fatigue, distraction, or stress. Furthermore, the capsule-shifting strategy, while effective for event labeling, depends heavily on the structure and density of labeled events, which may limit its sensitivity under different sampling conditions. From an agent-centric perspective, a single lead vehicle and fixed-speed profiles limit the agent’s exposure to real-world traffic complexity. While this abstraction facilitates interpretability and accelerates training, it limits the model’s exposure to more nuanced driving interactions, such as sudden cut-ins, varying lane dynamics, or social negotiation behaviors typical in urban and multi-agent scenarios. Looking forward, two promising directions emerge. First, the physiological model can be improved by incorporating a broader set of biosignals, dynamic windowing techniques, and larger datasets that capture a wider spectrum of driver states and reactions. This would enable a more continuous and fine-grained representation of cognitive impairment, feed-ing richer context into the control agent. Second, expanding the simulation to support decentralized multi-agent settings with vehicle-to-vehicle communication and partial observabil-14 0     
+
+> 5
+> 10
+> 15
+> 20
+> Speed (m/s)
+> (a)
+> Without Drowsiness
+> 0
+> 1
+> Throttle / Brake
+> 510 15 20 25 30
+> Time (s)
+> 0
+> 5
+> 10
+> 15
+> 20
+> Speed (m/s)
+> (b)
+> With Drowsiness
+> 0
+> 1
+> Throttle / Brake
+> Radar Speed Detected (m/s)
+> Ego Vehicle Speed (m/s)
+> Ego Vehicle Throttle Pressure
+> Ego Vehicle Brake Pressure
+> Drowsy Period
+
+Fig. 11. Impact of drowsiness on the control behavior of the ego vehicle driven by the agent. (a) illustrates the agent’s control strategy under normal conditions, while (b) highlights the effect of drowsiness, showing drowsy periods (shaded regions) and variations in the ego vehicle’s throttle and brake inputs in response to the front vehicle’s speed. 
+
+ity could better approximate real-world constraints. In such settings, coordination becomes critical, and the agent would need to balance self-preservation with cooperative safety, particularly under asymmetric drowsiness across agents. In conclusion, this work presents a principled and effective framework for physiology-aware braking control using deep reinforcement learning. By integrating drowsiness recognition with an adaptive control policy, we demonstrate the potential to mitigate the risks of cognitive delay in longitudinal vehicle control. The observed results support the broader vision of em-bedding human-centered feedback loops within autonomous decision-making, paving the way for safer, more personalized, and cognitively adaptive intelligent driving systems. VIII. A CKNOWLEDGMENTS 
+
+This work has been partially funded by the “MUR, Min-istero dell’Universita e della Ricerca” Ministerial Decree n. 737 dated 25-06-2021 “Criteri di riparto e utilizzazione del Fondo per la promozione e lo sviluppo delle politiche del Programma Nazionale per la Ricerca (PNR)” under the project title: “IDAS – Innovazione Digitale in Am-bito Salute”- CUP: F84D22000270001. In addition, it has been partially funded by the grant RYC2021-032853-I from MCIN/AEI/ 10.13039/501100011033, the European Union NextGenerationEU/PRTR, and the European Union’s Horizon Europe research and innovation programme under the Marie Sklodowska-Curie actions (Grant Agreement 101202439 -SWEATHEART). Finally, authors would like to thank IIT (Istituto Italiano di Tecnologia) for its funding support of Hossem Eddine Hafidi. REFERENCES [1] Centers for Disease Control and Prevention (CDC), “Drowsy driving–19 states and the district of columbia, 2009–2010,” MMWR Morbidity and Mortality Weekly Report , vol. 61, no. 51-52, pp. 1033–1037, 2013. [2] Y. Wu, X. Jiang, Y. Guo, H. Zhu, C. Dai, and W. Chen, “Physiological measurements for driving drowsiness: A comparative study of multi-modality feature fusion and selection,” Computers in Biology and Medicine , vol. 167, p. 107590, 2023. [3] R. Fredriksson, M. G. Lenn´ e, S. van Montfort, and C. Grover, “European ncap program developments to address driver distraction, drowsiness and sudden sickness,” Frontiers in Neuroergonomics , vol. 2, p. 786674, 2021. [4] M. Capallera, L. Angelini, Q. Meteier, O. A. Khaled, and E. Mugellini, “Human-vehicle interaction to support driver’s situation awareness in automated vehicles: A systematic review,” IEEE Transactions on Intel-ligent Vehicles , vol. 8, no. 3, pp. 2551–2567, 2023. 15 
+
+[5] A. Chowdhury, R. Shankaran, M. Kavakli, and M. Haque, “Sensor applications and physiological features in drivers’ drowsiness detection: A review,” IEEE Sensors Journal , vol. 18, pp. 3055–3067, 2018. [6] H. Schulz, “Rethinking sleep analysis,” Journal of Clinical Sleep Medicine , vol. 4, no. 2, pp. 99–103, 2008. [7] T. Abe, “PERCLOS-based technologies for detecting drowsiness: current evidence and future directions,” SLEEP Advances , vol. 4, no. 1, p. zpad006, 01 2023. [8] M. Ramzan, H. Khan, S. M. Awan, A. Ismail, M. Ilyas, and A. Mah-mood, “A survey on state-of-the-art drowsiness detection techniques,” 
+
+IEEE Access , vol. 7, pp. 61 904–61 919, 2019. [9] W.-J. Chang, L.-B. Chen, and Y.-Z. Chiou, “Design and implemen-tation of a drowsiness-fatigue-detection system based on wearable smart glasses to increase road safety,” IEEE Transactions on Consumer Electronics , vol. 64, no. 4, pp. 461–469, 2018. [10] J. Wang, B. Li, Z. Li, P. Xu, and L. Li, “A real-time and lightweight driver fatigue detection model using anchor-free and visual-attention mechanisms,” Applied Intelligence , vol. 54, no. 20, pp. 9811–9829, 2024. [11] A. M. Strijkstra, D. G. Beersma, B. Drayer, N. Halbesma, and S. Daan, “Subjective sleepiness correlates negatively with global alpha (8–12 hz) and positively with central frontal theta (4–8 hz) frequencies in the human resting awake electroencephalogram,” Neuroscience Letters , vol. 340, no. 1, pp. 17—-20, Apr 2003. [12] A. Casson, D. Yates, S. J. M. Smith, J. S. Duncan, and E. Rodr´ ıguez-Villegas, “Wearable electroencephalography,” IEEE Engineering in Medicine and Biology Magazine , vol. 29, pp. 44–56, 2010. [13] K. Fujiwara, H. Iwamoto, K. Hori, and M. Kano, “Driver drowsiness detection using r-r interval of electrocardiogram and self-attention au-toencoder,” IEEE Transactions on Intelligent Vehicles , vol. 9, no. 1, pp. 2956—-2965, 2024. [14] M. Awais, N. Badruddin, and M. Drieberg, “A hybrid approach to detect driver drowsiness utilizing physiological signals to improve system performance and wearability,” Sensors (Switzerland) , vol. 17, no. 9, 2017. [15] T. F. of the European Society of Cardiology, the North American Soci-ety of Pacing, and Electrophysiology, “Heart rate variability: standards of measurement, physiological interpretation and clinical use,” Circulation ,vol. 93, no. 5, pp. 1043–1065, 1996. [16] O. Maftukhaturrizqoh, N. Nuryani, and D. Darmanto, “Drowsiness detection using radial basis function network with electrocardiographic rr interval statistical feature,” Journal of Physics: Conference Series , vol. 1153, no. 1, p. 012049, feb 2019. [17] A. R. Rachamalla and C. S. Kumar, “Ecg based driver drowsiness detection using scalograms and convolutional neural networks,” AIP Conference Proceedings , vol. 2725, no. 1, p. 020014, 04 2023. [18] S. Arefnezhad, A. Eichberger, M. Fr¨ uhwirth, C. Kaufmann, and M. Moser, “Driver drowsiness classification using data fusion of vehicle-based measures and ecg signals,” in 2020 IEEE International Conference on Systems, Man, and Cybernetics (SMC) . IEEE, 2020, pp. 451–456. [19] H. Xiong, Y. Yan, L. Sun, J. Liu, Y. Han, and Y. Xu, “Detection of driver drowsiness level using a hybrid learning model based on ecg signals,” 
+
+Biomedizinische Technik. Biomedical Engineering , vol. 69, no. 2, pp. 151–165, 2024. [20] Y. Wang, L. Jin, K. Li, B. Guo, Z. Yi, and S. Jian, “Drowsy driving detection based on fused data and information granulation,” IEEE Access , vol. 7, pp. 183 739–183 750, 2019. [21] E. De Giovanni, A. A. Vald´ es, M. Pe´ on-Quir´ os, A. Aminifar, and D. Atienza, “Real-time personalized atrial fibrillation prediction on multi-core wearable sensors,” IEEE Transactions on Emerging Topics in Computing , vol. 9, no. 4, pp. 1654–1666, 2021. [22] V. Mnih, K. Kavukcuoglu, D. Silver, A. A. Rusu, J. Veness, M. G. Bellemare, A. Graves, M. A. Riedmiller, A. K. Fidjeland, G. Ostrovski, S. Petersen, C. Beattie, A. Sadik, I. Antonoglou, H. King, D. Kumaran, D. Wierstra, S. Legg, and D. Hassabis, “Human-level control through deep reinforcement learning,” Nature , vol. 518, no. 7540, pp. 529–533, 2015. [23] W. Yuan, Y. Li, H. Zhuang, C. Wang, and M. Yang, “Prioritized experience replay-based deep q learning: Multiple-reward architecture for highway driving decision making,” IEEE Robotics & Automation Magazine , vol. 28, no. 4, pp. 21–31, 2021. [24] R. Ruffini, J. A. Rueda, M. Muccino, Y. Aimuratov, L. M. Becerra, C. L. Bianco, M. Kovacevic, R. Moradi, F. G. Oliveira, G. B. Pisani, and Y. Wang, “On the classification of grbs and their occurrence rates,” 
+
+The Astrophysical Journal , vol. 832, no. 2, p. 136, Nov. 2016. [25] H. van Hasselt, A. Guez, and D. Silver, “Deep reinforcement learning with double q-learning,” in Proceedings of the Thirtieth AAAI Confer-ence on Artificial Intelligence (AAAI’16) . AAAI Press, 2016, pp. 2094– 2100. [26] Z. Wang, T. Schaul, M. Hessel, H. Van Hasselt, M. Lanctot, and N. De Freitas, “Dueling network architectures for deep reinforcement learning,” in Proceedings of the 33rd International Conference on Inter-national Conference on Machine Learning - Volume 48 , ser. ICML’16. JMLR.org, 2016, pp. 1995—-2003. [27] H. Chae, C. M. Kang, B. Kim, J. Kim, C. C. Chung, and J. W. Choi, “Autonomous braking system via deep reinforcement learning,” in 
+
+2017 IEEE 20th International Conference on Intelligent Transportation Systems (ITSC) , 2017, pp. 1–6. [28] X. Liu, Y. Liu, Y. Chen, and L. Hanzo, “Enhancing the fuel-economy of v2i-assisted autonomous driving: A reinforcement learning approach,” 
+
+IEEE Transactions on Vehicular Technology , vol. 69, no. 8, pp. 8329– 8342, 2020. [29] J. Liao, T. Liu, X. Tang, X. Mu, B. Huang, and D. Cao, “Decision-making strategy on highway for autonomous vehicles using deep rein-forcement learning,” IEEE Access , vol. 8, pp. 177 804–177 814, 2020. [30] C.-J. Hoel, K. Driggs-Campbell, K. Wolff, L. Laine, and M. J. Kochen-derfer, “Combining planning and deep reinforcement learning in tactical decision making for autonomous driving,” IEEE Transactions on Intel-ligent Vehicles , vol. 5, no. 2, pp. 294–305, 2020. [31] D. Isele, R. Rahimi, A. Cosgun, K. Subramanian, and K. Fujimura, “Navigating occluded intersections with autonomous vehicles using deep reinforcement learning,” in Proceedings of the 2018 IEEE International Conference on Robotics and Automation (ICRA 2018) . Brisbane, Australia: IEEE, 2018, pp. 2034–2039. [32] K. Makantasis, M. Kontorinaki, and I. Nikolos, “Deep reinforcement-learning-based driving policy for autonomous road vehicles,” IET Intel-ligent Transport Systems , vol. 14, no. 1, pp. 13–24, 2020. [33] M. Yousaf, M. Farhan, Y. Saeed, M. J. Iqbal, F. Ullah, and G. Srivastava, “Enhancing driver attention and road safety through eeg-informed deep reinforcement learning and soft computing,” Applied Soft Computing ,vol. 167, p. 112320, 2024. [34] Y. Su, Z. Chen, L. Gong, X. Xu, and Y. Yao, “An improved adaptive radar signal sorting algorithm based on dbscan by a novel cvi,” IEEE Access , vol. 12, pp. 43 139—-43 154, 2024. [35] N. Goel, H. Rao, J. S. Durmer, and D. F. Dinges, “Neurocognitive consequences of sleep deprivation,” Seminars in Neurology , vol. 29, no. 4, pp. 320–339, Sep 2009. [36] P. G. Michael, F. C. Leeming, and W. O. Dwyer, “Headway on urban streets: observational data and an intervention to decrease tailgating,” 
+
+Transportation Research Part F: Traffic Psychology and Behaviour ,vol. 3, no. 2, pp. 55–64, 2000. [37] C. Zeng, J. Zhang, Y. Su, S. Li, Z. Wang, Q. Li, and W. Wang, “Driver fatigue detection using heart rate variability features from 2-minute electrocardiogram signals while accounting for sex differences,” Sensors ,vol. 24, no. 13, p. 4316, 2024. [38] U. Saleem, M. I. Butt, A. Ali, and A. Rehman, “A systematic review of physiological signals based driver drowsiness detection systems,” 
+
+Cognitive Computation and Systems , vol. 15, pp. 101—-118, 2023. [39] D. Makowski, T. Pham, Z. J. Lau, J. C. Brammer, F. Lespinasse, H. Pham, C. Sch¨ olzel, and S. H. A. Chen, “NeuroKit2: A python toolbox for neurophysiological signal processing,” Behavior Research Methods , vol. 53, no. 4, pp. 1689–1696, feb 2021. [Online]. Available: https://doi.org/10.3758%2Fs13428-020-01516-y [40] A. Dosovitskiy, G. Ros, F. Codevilla, A. Lopez, and V. Koltun, “CARLA: An open urban driving simulator,” in Proceedings of the 1st Annual Conference on Robot Learning , 2017, pp. 1–16. [41] L. Orosco, M. A. Garc´ es, G. E. C. Fragapane, C. Dell’Aquila, J. C. I. Gimeno, and E. L. Leber, “Drivers Drowsiness Database: A collection of physiological signals during the use of a driving simulator (DD-Database),” https://doi.org/10.5061/dryad.5tb2rbp9c, 2023, dataset pub-lished on Dryad. [42] J. McCall and M. Trivedi, “Driver behavior and situation aware brake assistance for intelligent vehicles,” Proceedings of the IEEE , vol. 95, pp. 374–387, 2007. [43] A. Spadoni, “Adaptive brake by wire: From human factors to adaptive implementation,” PhD dissertation, University of Trento, 2013. [44] E. De Giovanni, F. Montagna, B. W. Denkinger, S. Machetti, M. Pe´ on-Quir´ os, S. Benatti, D. Rossi, L. Benini, and D. Atienza, “Modular design and optimization of biomedical applications for ultralow power hetero-geneous platforms,” IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems , vol. 39, no. 11, pp. 3821–3832, 2020. [45] Y. Fu, C. Li, F. R. Yu, T. H. Luan, and Y. Zhang, “A decision-making strategy for vehicle autonomous braking in emergency via deep 16 
+
+reinforcement learning,” IEEE Transactions on Vehicular Technology ,vol. 69, no. 6, pp. 5876–5888, 2020. [46] K. Yang, X. Tang, S. Qiu, S. Jin, Z. Wei, and H. Wang, “Towards robust decision-making for autonomous driving on highway,” IEEE Transactions on Vehicular Technology , vol. 72, no. 9, pp. 11 251–11 263, 2023. 
+
+Hossem Eddine Hafidi is a PhD student jointly affiliated with the Istituto Italiano di Tecnologia (IIT) and the IDentification Automation Laboratory (IDA Lab), Department of Innovation Engineering, University of Salento, Italy. He earned his BSc in Computer Science in 2019 and his MSc in Software Engineering and Distributed Systems in 2021 from the University of Mohamed Khider Biskra, with a major in Software Engineering. His current research focuses on the integration and correlation of vehic-ular dynamics, physiological signals, and environ-mental context through IoT and Edge AI to support real-time healthcare monitoring in the automotive domain. 
+
+Elisabetta De Giovanni is an MSCA Postdoctoral Fellow at the Basque Center for Applied Mathemat-ics (BCAM) in Bilbao, Spain, focusing on energy-efficient wearable systems to monitor cardiorespira-tory effects in elite athletes. She holds a master’s degree in Bioengineering from the University of Pavia and earned her PhD in Electrical Engineering from ´Ecole Polytechnique F´ ed´ erale de Lausanne (EPFL) in 2021, specializing in adaptive ultra-low power wearable sensors for health monitoring. After a year-long career break in 2022, she worked as a postdoctoral fellow at the University of Salento, developing intelligent IoT solutions for health, sport, and safety. Elisabetta has authored multiple articles in top journals and conferences, received over 100 citations, peer-reviewed var-ious articles for international journals, and contributed to numerous research projects. 
+
+Teodoro Montanaro (Member, IEEE, since 2015) received the M.S. degree in Computer Engineering in 2014 and the Ph.D. degree in Computer and Control Engineering in 2018 from the Politecnico di Torino, Turin, Italy. From 2017 to 2020 he col-laborated with the Istituto Superiore Mario Boella (ISMB) and LINKS Foundation by cooperating to different researches funded by the European Com-mission like IoF2020, S4G, MONICA, MAESTRI that brought innovations in different fields (e.g., food and farm, grid, city, health). Since 2020, he collab-orates with the IDentification Automation Laboratory (IDA Lab), Department of Innovation Engineering, Universit` a del Salento. His current research interests include IoT applications specifically focused on the exploitation of fog computing, DLT, blockchain, AI and Federated Learning in different domains like smart grids, smart homes, smart cities, industrial processes, food traceability, and smart health. He has authored different papers on international journals and conferences. He has co-chaired some tracks, workshops, and symposia within the IEEE COMPSAC, the IEEE WF-IoT and the IEEE Splitech conferences. He has also contributed to review some papers in some important Journals. 
+
+Ilaria Sergi received the master’s degree in Automa-tion Engineering from the University of Salento, Lecce, Italy, in 2012. Her thesis focused on the track-ing of small laboratory animals, based on passive UHF RFID technology. Since 2012, she collaborates with the Identification Automation Laboratory (IDA Lab) of the Department of Engineering for Innova-tion, University of Salento. In 2019 she received the PhD in Engineering of Complex Systems from the University of Salento, Italy. Her research interests include RFID, Bluetooth, Internet of Things, smart environments, and homecare solutions. She has authored several papers on international journals and conferences. 
+
+Massimo de Vittorio (Senior Member, IEEE) is a Coordinator with the Center for Biomolecular Nanotechnologies, Italian Institute of Technology (IIT), Arnesano, Italy, and a Full Professor at Salento University, Lecce, Italy. He has authored 340 arti-cles in indexed journals, 14 patents, and 60 invited talks to international conferences. His research in-terests include activity deals with the development of nano-photonics and -electronics, micro-electro-mechanical systems, flexible sensors for healthcare, energy, and information and communication tech-nologies (ICT). 
+
+Luigi Patrono (Member, IEEE) received the M.S. degree in computer engineering from the University of Lecce, Lecce, Italy, in 1999, and the Ph.D. degree in innovative materials and technologies for satellite networks from the ISUFI-University of Lecce, Italy, in 2003. He is an Associate Professor of Computer Networks and Internet of Things at the University of Salento, Lecce, where he is also the Pro-Vice Chancellor for Digital Technologies. His research in-terests include RFID, IoT, wireless sensor networks, and embedded systems. He has authored more than 160 scientific papers published in international journals and conferences. He has been the Organizing Chair of some international symposia and workshops, technically co-sponsored by the IEEE Communication Society, focused on the Internet of Things.

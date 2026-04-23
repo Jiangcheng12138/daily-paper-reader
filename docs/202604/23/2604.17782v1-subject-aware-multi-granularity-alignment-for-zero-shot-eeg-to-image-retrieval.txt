@@ -1,0 +1,2240 @@
+Title: 2604.17782v1.pdf
+
+URL Source: https://arxiv.org/pdf/2604.17782v1
+
+Published Time: Tue, 21 Apr 2026 01:52:30 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+IEEE TRANSACTIONS AND JOURNALS TEMPLATE 1
+
+This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this 
+
+version may no longer be accessible. 
+
+# Subject-Aware Multi-Granularity Alignment for 
+
+# Zero-Shot EEG-to-Image Retrieval 
+
+Lin Jiang, Qingshan She, Jiale Xu, Haiqi Xu, Duanpo Wu , Zhenzhong Kuang 
+
+ Abstract —Zero-shot EEG-to-image retrieval aims to 
+
+decode perceived visual content from 
+
+electroencephalography (EEG) by aligning neural 
+
+responses with pretrained visual representations, providing 
+
+a promising route toward scalable visual neural decoding 
+
+and practical brain-computer interfaces. However, robust 
+
+EEG-to-image retrieval remains challenging, because prior 
+
+methods usually rely on either a single fixed visual target or 
+
+a subject-invariant target construction scheme. Such 
+
+designs overlook two important properties of visually 
+
+evoked EEG signals: they preserve information across 
+
+multiple representational scales, and the visual granularity 
+
+best matched to EEG may vary across subjects. To address 
+
+th ese issues, subject-aware multi-granularity alignment 
+
+(SAMGA) framework is proposed for zero-shot EEG-to-
+
+image retrieval. SAMGA first constructs a subject-aware 
+
+visual supervision target by adaptively aggregating multiple 
+
+intermediate representations from a pretrained vision 
+
+encoder, allowing the model to absorb subject-dependent 
+
+granularity deviations during training while preserving 
+
+subject-agnostic inference. Building on this adaptive target 
+
+construction, a coarse-to-fine cross-modal alignment 
+
+strategy is further designed with a shared encoder wherein 
+
+the coarse stage stabilizes the shared semantic geometry 
+
+and reduces subject-induced distribution shift, and the fine 
+
+stage further improves instance-level retrieval 
+
+discrimination. Extensive experiments on the THINGS-EEG 
+
+benchmark demonstrate that the proposed method 
+
+achieves 91.3% Top-1 and 98.8% Top-5 accuracy in the 
+
+intra-subject setting, and 34.4% Top-1 and 64.8% Top-5 
+
+accuracy in the inter-subject setting, outperforming recent 
+
+state-of-the-art methods. These results indicate that robust 
+
+EEG visual decoding depends not only on stronger neural 
+
+encoders, but also on how the visual supervision target is 
+
+constructed and adapted to the multi-scale, subject-variable 
+
+nature of EEG signals. 
+
+This work was supported in part by Zhejiang Provincial Natural 
+
+Science Foundation of China (No. LZ26F010007) and National Natural 
+
+Science Foundation of China (No. 62371172). (Corresponding author: 
+
+Qingshan She). 
+
+Lin Jiang , Qingshan She, Jiale Xu , Haiqi Xu , Duanpo Wu are with 
+
+the School of Automation, Hangzhou Dianzi University, and also with 
+
+Zhejiang Provincial Key Laboratory of Brain Computer Collaborative 
+
+Intelligence Technology and Applications, Hangzhou, Zhejiang 310018, 
+
+China (e-mail: 252060400@hdu.edu.cn ; qsshe@hdu.edu.cn; 
+
+22061130@hdu.edu.cn ; 232060231@hdu.edu.cn; 
+
+41711@hdu.edu.cn ). 
+
+Zhenzhong Kuang is with the College of Computer Science and 
+
+Technology, Hangzhou Dianzi University Hangzhou, Zhejiang 310018, 
+
+China (e-mail: zzkuang @hdu.edu.cn). 
+
+Code availability: 
+
+Code is publicly available at 
+
+https://github.com/LinJiang8/SAMGA 
+
+Index Terms —EEG-to-Image retrieval ,
+
+Electroencephalography (EEG), multi -granularity alignment ,
+
+zero-shot visual decoding 
+
+I. INTRODUCTION 
+
+NDERSTANDING how the brain represents visual 
+
+information is a long-standing goal in neuroscience 
+
+and artificial intelligence. Visual neural decoding, 
+
+which aims to infer perceived visual content from neural 
+
+activity, is important both for probing the mechanisms of 
+
+human perception and for enabling practical brain-computer 
+
+interfaces (BCIs) in assistive communication and intelligent 
+
+interaction [1] -[3] . With the rapid development of large-scale 
+
+representation learning, this problem has increasingly been 
+
+formulated as a cross-modal alignment task, where neural 
+
+responses are projected into a semantic space and matched 
+
+against visual representations through similarity-based 
+
+retrieval [4] -[8] . This formulation naturally enables zero-shot 
+
+decoding by leveraging pretrained visual spaces as 
+
+transferable semantic anchors for unseen categories. 
+
+Electroencephalography (EEG) is a particularly attractive 
+
+noninvasive modality for visual decoding, offering high 
+
+temporal resolution, portability, and low -cost relative to 
+
+alternatives like fMRI and MEG [3] , [9] , [10] . However, EEG -
+
+based visual decoding remains highly challenging. The signals 
+
+are inherently noisy, spatially coarse, and vulnerable to inter-
+
+subject variability, trial-wise fluctuations, and artifacts, making 
+
+it difficult to extract stable semantic information from transient 
+
+neural responses [9] -[11] . This difficulty is significantly 
+
+amplified in zero-shot settings, which require models to 
+
+generalize to unseen classes while maintaining robustness 
+
+across different subjects [5] , [7] , [12] .
+
+The convergence of large-scale benchmarks and pretrained 
+
+vision-language models has catalyzed significant advancements 
+
+in EEG-based visual decoding. Notably, THINGS-EEG is a
+
+large-vocabulary, rapid serial visual presentation (RSVP) 
+
+benchmark for EEG-to-image retrieval , which has emerged as 
+
+the standard testbed for zero-shot neural decoding [5] , [12] .
+
+Leveraging these resources, contrastive learning has become the 
+
+dominant paradigm for aligning EEG features with pretrained 
+
+visual embeddings [4] , [6] , [7] . Pioneering works like NICE 
+
+established the feasibility of self-supervised EEG-image 
+
+alignment for zero-shot retrieval, while its successor, NICE++, 
+
+enhanced semantic consistency through language-guided 
+
+contrastive learning [4] , [6] . Building on this foundation, 
+
+contemporary studies have introduced interpretable alignment 
+
+mechanisms, uncertainty-aware visual priors, cognitively 
+
+inspired augmentations, and shared semantic projections to 
+
+# U2
+
+·
+
+progressively bridge the modality gap between brain signals and 
+
+visual representations [7] , [8] , [13] .
+
+Despite this progress, robust EEG-to-image retrieval 
+
+remains challenging, especially in cross-subject settings. A key 
+
+limitation of existing methods is tha t they usually align EEG 
+
+features with either a single visual target, as in NICE/NICE++, 
+
+or a fixed aggregation of multiple views [4] , [6] as in 
+
+NeuroBridge, while UBP also still performs alignment against 
+
+pretrained visual targets under a fixed matching paradigm [8] ,
+
+[13] . Such designs implicitly assume that the visual granularity 
+
+best matched to EEG is largely shared across subjects. However, 
+
+prior studies have shown that EEG signals are inherently noisy, 
+
+exhibit substantial inter-subject variability [10] , and preserve 
+
+information across multiple representational scales rather than at 
+
+a single level of abstraction [6] , [8] , [14] . Consequently, forcing 
+
+all subjects to align with the same fixed visual target can leave a
+
+residual mismatch that becomes more pronounced under subject 
+
+shift. Recent work on granularity mismatch further shows that 
+
+directly aligning neural signals to highly abstract final-layer 
+
+visual embeddings can be suboptimal , and that intermediate 
+
+visual representations often provide a better match to the multi-
+
+scale nature of neural signals [14] . Nevertheless, even 
+
+intermediate-layer alignment is still commonly treated as 
+
+subject-invariant and shallow alignment itself still relies on 
+
+layer-wise search to identify the best alignment target, leaving 
+
+the subject-dependent aspect of target granularity insufficiently 
+
+addressed [14] .
+
+To tackle the above problems, a novel subject-aware multi-
+
+granularity alignment framework (SAMGA) is proposed for 
+
+EEG-to-image retrieval. SAMGA constructs a subject-aware 
+
+multi-granularity target by aggregating multiple intermediate 
+
+visual representations, allowing the model to better 
+
+accommodate subject-dependent granularity differences. 
+
+Motivated by the granularity mismatch identified in shallow 
+
+alignment that intermediate representations provide a more 
+
+suitable granularity match for neural signals than the final layer 
+
+embeddings of vision backbones, while also going beyond 
+
+existing intermediate layer methods by explicitly modeling the 
+
+subject-dependent nature of target granularity [14] . During 
+
+training, a subject-aware routing mechanism is introduced to 
+
+absorb subject-specific granularity deviations and to learn a
+
+more flexible target that better matches the multi-scale 
+
+information preserved in EEG signals. During inference, only 
+
+the global routing weights are used. Building on this adaptive 
+
+target construction, we further develop a coarse -to -fine cross-
+
+modal alignment strategy with a shared encoder. The coarse 
+
+stage first stabilizes the shared semantic geometry and reduces 
+
+subject-induced distribution shift, while the fine stage further 
+
+enhances instance level discriminability for retrieval. In this 
+
+way, SAMGA jointly improves target adaptability and 
+
+alignment robustness, leading to more reliable EEG-to-image 
+
+retrieval under both intra-subject and inter-subject settings. The 
+
+main contributions are summarized as follows. 
+
+1) A unified framework named SAMGA is proposed for 
+
+zero-shot EEG-to-image concept retrieval. The 
+
+framework explicitly addresses cross-subject decoding 
+
+from the perspective of subject-dependent granularity 
+
+mismatch and improves alignment robustness. 
+
+2) A subject-aware multi-granularity target construction 
+
+module is designed to adaptively aggregate multiple 
+
+visual representations to form a more flexible visual 
+
+target. By covering complementary granularity cues, 
+
+the design provides a better match to the multi-scale 
+
+information preserved in EEG signals. 
+
+3) A coarse-to-fine cross-modal alignment strategy with a
+
+shared encoder is applied to encourage stable shared-
+
+space formation under subject shift, whil e the fine 
+
+stage further improves instance-level discriminability 
+
+for retrieval. 
+
+II. RELATED WORK 
+
+A. EEG-to-Image Decoding in Pretrained Semantic 
+
+Spaces 
+
+Visual neural decoding aims to infer information about 
+
+perceived visual stimuli from patterns of brain activity, 
+
+typically by learning mappings between neural response 
+
+patterns and stimulus or condition labels [1] , [2] . Recent EEG-
+
+based studies have increasingly formulated this task as cross-
+
+modal retrieval within pretrained semantic spaces, where 
+
+individual EEG trials are projected into a shared embedding 
+
+space and decoded via similarity matching against candidate 
+
+image representations [4] , [6] -[8] . Large-vocabulary 
+
+benchmarks, such as THINGS-EEG, have played a pivotal 
+
+role in establishing this paradigm by enabling 200-way zero-
+
+shot concept retrieval that extends beyond traditional closed-
+
+set classification [5] . Meanwhile, newer benchmarks like 
+
+CrossPT-EEG further emphasize evaluation under cross-
+
+participant and cross-time generalization [12] . Within this 
+
+context, pretrained vision-language models provide a
+
+transferable organization of visual concepts and have emerged 
+
+as the dominant image-side semantic anchors for EEG-to-
+
+image retrieval [8] , [15] .
+
+Pioneering this approach, NICE demonstrated that self-
+
+supervised contrastive alignment between EEG and image 
+
+embeddings can support robust zero-shot retrieval, effectively 
+
+reframing EEG visual decoding as a representation alignment 
+
+problem rather than a purely supervised recognition task [4] .
+
+BraVL built upon this foundation by incorporating linguistic 
+
+supervision into a brain-visual-language framework to 
+
+improve semantic transfer under limited paired data [3] , while 
+
+NICE++ further strengthened semantic consistency through 
+
+language-guided contrastive learning [6] . Subsequent studies 
+
+have similarly explored more structured cross-modal 
+
+alignment strategies, including interpretable alignment 
+
+mechanisms [7] , semantic decoupling for improved visual-
+
+EEG consistency [16] , and multimodal semantic bridging via 
+
+contrastive representation learning [17] .
+
+Recent work has further broadened this retrieval-based 
+
+paradigm toward image reconstruction and target refinement. 
+
+For instance, ATM projects EEG signals into a CLIP-aligned 
+
+semantic subspace, supporting both retrieval and 
+
+reconstruction within a unified pipeline [18] , while 3
+
+·
+
+DreamDiffusion couples aligned EEG embeddings with 
+
+diffusion-based generation to enhance EEG-driven image 
+
+synthesis [19] . Concurrently, several methods have begun to 
+
+question the use of a fixed, final-layer visual target. UBP 
+
+reduces the vision-brain mismatch by suppressing fine-grained 
+
+visual details that are difficult to recover from noninvasive 
+
+neural signals [8] . Similarly, NeuroBridge enhances 
+
+robustness through cognitive prior augmentation and shared 
+
+semantic projection [13] , and Shallow Alignment 
+
+demonstrates that intermediate visual representations can 
+
+better match the granularity preserved in neural signals than 
+
+highly compressed final-layer embeddings [14] . More recently, 
+
+NeuroCLIP has explored prompt-based adaptation of the 
+
+pretrained CLIP space itself, rather than treating it as a static 
+
+target [20] . Taken together, these studies begin to shift 
+
+attention from encoder design alone to the construction of the 
+
+visual supervision target. 
+
+In parallel, representation-first EEG foundation models 
+
+suggest that large-scale self-supervised pretraining can 
+
+improve the stability and transferability of neural 
+
+representations prior to cross-modal alignment [21] , [22] .
+
+Nevertheless, most existing EEG-to-image decoding methods 
+
+still rely on a largely fixed semantic target and alignment 
+
+paradigm, which remains insufficiently adaptive to the noisy, 
+
+multi-scale, and subject-variable nature of EEG signals. This 
+
+limitation motivates the need for a more adaptive EEG-visual 
+
+alignment framework. 
+
+B. Visual Target Construction and Granularity Matching 
+
+for EEG-Visual Alignment 
+
+An ongoing challenge in EEG-to-image decoding is that 
+
+alignment quality depends not only on the EEG encoder, but 
+
+also on how the visual target is constructed. Earlier neural 
+
+decoding studies have established that brain activity can be 
+
+mapped to hierarchical visual features rather than being 
+
+restricted merely to class labels or raw pixels [23] , [24] . For 
+
+example, Horikawa and Kamitani [23] demonstrated that 
+
+arbitrary seen and imagined object categories can be decoded 
+
+by predicting multi-level deep visual features from brain 
+
+activity, while Shen et al. [24] further showed that image 
+
+reconstruction can be substantially improved by jointly 
+
+exploiting multiple levels of visual representations. These 
+
+findings suggest that target representations at different depths 
+
+preserve distinct mixtures of structural and semantic 
+
+information, and are therefore not interchangeable for neural 
+
+decoding. 
+
+Recent studies further underscore the pivotal role of the 
+
+target space itself in neural decoding . MindEye organizes 
+
+brain decoding around a pretrained multimodal latent space 
+
+and separates retrieval-oriented alignment from 
+
+reconstruction-oriented generation, revealing that the 
+
+geometry of the target space can directly affect semantic 
+
+retrieval and reconstruction fidelity [25] . Fang et al. [26] 
+
+explicitly addressed the semantic gap in generalized fMRI-to-
+
+image reconstruction, suggesting that stable decoding depends 
+
+not only on the brain-to-feature mapping, but also on how the 
+
+target semantic space is structured. Similarly, MinD-Vis 
+
+combines sparse masked brain modeling with double-
+
+conditioned latent diffusion, indicating that semantically 
+
+consistent decoding benefits from coupling neural 
+
+representation learning with carefully designed target-side 
+
+conditioning [27] . Collectively, these studies indicate that 
+
+visual targets should often be adapted, regularized, or 
+
+reparameterized for neural decoding, rather than treated as 
+
+static final-layer supervision. 
+
+A complementary line of work attempts to refine target 
+
+semantics more explicitly. BrainSem [28] learns a joint 
+
+semantic latent space between brain signals and machine 
+
+representations to improve cross-modal consistency, while 
+
+Mind Artist [29] further combines semantic modeling with 
+
+optimal transport and representation decoupling to enhance 
+
+semantic fidelity under limited supervision. Benchetrit et al. 
+
+[30] also showed that decoding performance depends strongly 
+
+on the choice of pretrained visual embedding family and 
+
+representational level, suggesting that target granularity itself 
+
+is a critical design variable rather than a fixed choice. In 
+
+summary, existing studies indicate that robust EEG-visual 
+
+alignment depends not only on stronger neural representations, 
+
+but also on how the visual target is organized, selected, and 
+
+calibrated. However, most current methods still rely on a fixed 
+
+target transformation or a globally chosen representation level, 
+
+thereby offering limited flexibility to adapt target granularity 
+
+to subject-dependent EEG variability. To address this 
+
+limitation, our method constructs a subject-aware multi-
+
+granularity visual target rather than using a globally fixed 
+
+target representation. 
+
+C. Cross-Subject Robust Alignment in Shared 
+
+Embedding Spaces 
+
+A critical bottleneck in EEG-to-image retrieval is that 
+
+cross-modal alignment must remain stable under subject shift. 
+
+Pioneering studies on brain decoding have shown that cross-
+
+subject transfer becomes more feasible when neural responses 
+
+are organized in a common representational space rather than 
+
+being treated as isolated subject-specific patterns. Haxby et al. 
+
+[31] demonstrated that fine-grained visual representations can 
+
+be embedded into a common high-dimensional space shared 
+
+across individuals, while Ho et al. [32] further illustrated that 
+
+hierarchical visual information can be preserved across 
+
+subjects through explicit neural code conversion for cross-
+
+subject decoding and reconstruction. These findings imply that 
+
+robust generalization depends not only on stronger subject-
+
+wise mappings, but also on whether a stable shared 
+
+representational geometry can be formed across individuals. 
+
+Recent visual brain decoding studies further substantiate 
+
+this perspective. Notably, MindEye2 maps multiple subjects 
+
+into a shared-subject latent space before decoding into CLIP-
+
+aligned image representations, revealing that shared-subject 
+
+modeling can substantially improve out-of-subject 
+
+generalization while reducing the amount of subject-specific 
+
+training data [33] . MindBridge extends this direction through a
+
+unified cross-subject decoding framework and subject-
+
+invariant representation learning, demonstrating that a single 
+
+model can support multiple subjects while remaining 4
+
+·
+
+competitive with subject-specific pipelines [34] . These studies 
+
+consistently indicate that cross-subject transfer benefits from 
+
+first stabilizing the shared latent structure prior to performing 
+
+downstream retrieval or reconstruction within that space. 
+
+A related line of inquiry focuses on optimizing how new 
+
+subjects are brought into the shared space. MindTuner 
+
+integrates multi-subject pretraining with lightweight subject 
+
+adaptation and semantic correction to improve cross-subject 
+
+visual decoding under scarce data [35] . MindAligner further 
+
+introduces explicit brain functional alignment and a brain 
+
+transfer matrix to project new subjects into a reusable 
+
+decoding space [36]. Similarly, MindLink emphasizes subject-
+
+agnostic cross-subject decoding through unified modeling 
+
+across individuals [37] . Overall, prior studies indicate that 
+
+robust cross-subject visual decoding depends not only on 
+
+better subject-specific fitting, but also on how a shared space 
+
+is constructed, aligned, and adapted across individuals. 
+
+However, most current methods still emphasize cross-subject 
+
+alignment at a single stage, or treat shared-space formation 
+
+and fine-grained cross-modal discrimination as a single 
+
+coupled objective, leaving limited room to progressively 
+
+stabilize global geometry and then refine retrieval 
+
+discrimination. To address this limitation, our method adopts a
+
+coarse-to-fine cross-modal alignment strategy with a shared 
+
+encoder. 
+
+III. PROPOSED METHOD 
+
+In this section, we present the proposed Subject-Aware 
+
+Multi-Granularity Alignment framework for EEG-to-Image 
+
+retrieval. Given a training set    1           
+
+> ,,N
+> EI
+> nnnn
+> Dxxs
+> 
+
+, where      
+
+> ECT
+> nxR
+> 
+
+denotes an EEG trial, I 
+
+> nx
+
+presents its corresponding 
+
+visual stimulus, and ns is the subject identity. A central 
+
+challenge in this task is that visually evoked EEG signals are 
+
+both multi-scale and highly variable across subjects, which 
+
+makes it difficult to define a visual supervision target that is 
+
+consistently well matched to EEG and to learn a shared 
+
+embedding space that remains stable under subject shift. To 
+
+address these challenges, SAMGA consists of two tightly 
+
+coupled components showed in Fig.1 : subject-aware multi-
+
+granularity target construction and coarse-to-fine cross-modal 
+
+alignment with a shared encoder. The first component builds a
+
+more flexible visual target by adaptively combining multiple 
+
+visual representations, so that the supervision can better 
+
+accommodate subject-dependent granularity differences. The 
+
+second component progressively learns a stable yet 
+
+discriminative shared space for retrieval, where the coarse 
+
+stage focuses on global cross-modal structure and the fine 
+
+stage improves instance-level discrimination. Through the 
+
+coordinated design of these two components, SAMGA 
+
+improves target adaptability, alignment stability, and cross-
+
+subject generalization. 
+
+A. Subject-Aware Multi-Granularity Target Construction 
+
+EEG signals elicited by visual stimuli usually preserve 
+
+information at multiple representational scales, while the 
+
+relative importance of structural and semantic cues may differ 
+
+across subjects. Therefore, a globally fixed visual target may 
+
+not provide equally suitable supervision for all subjects, 
+
+especially when the model is expected to generalize under 
+
+subject variation. To better match this property, we construct a
+
+subject-aware multi-granularity visual target by jointly 
+
+modeling multiple intermediate representations from a
+
+pretrained vision backbone and adaptively calibrating their 
+
+contributions during training. In this way, the target 
+
+representation is allowed to remain flexible enough to absorb 
+
+subject-dependent granularity differences, while still 
+
+preserving a unified representation space for retrieval. This 
+
+design provides a more suitable target for EEG-image 
+
+alignment than enforcing all subjects to match the same fixed 
+
+visual representation. Concretely , let  1 2, ,..., KL     denotes 
+
+the selected layers of a frozen vision encoder F 
+
+> 
+
+. For an input 
+
+image I 
+
+> nx
+
+, we extract the corresponding representations   
+
+> 
+
+#  , , 1,..., kI I       
+
+> n k nhFxkK
+> 
+> 
+
+(1)
+
+where , IdI
+
+> n k
+
+h R presents the feature from k -th layer. Since 
+
+features from different layers may reside in different 
+
+representation scales. Each layer feature is mapped by a layer-
+
+specific projector  kp  .        
+
+> ,,()II
+> n k kn k hph
+
+(2)
+
+where ,
+
+> I
+> n k
+
+h is the normalized layer-level candidate 
+
+representation used for subsequent fusion. In this way, all 
+
+selected layers are first brought into common comparison 
+
+space before subject-aware weighting is applied. 
+
+To adaptively determine how much each granularity 
+
+should contribute, a subject-aware router is introduced. Rather 
+
+than predicting target weights from EEG features on a per-
+
+sample basis, routing distribution is modeled as the 
+
+combination of a global granularity prior and a subject-
+
+specific deviation term. Let q denotes the learnable global 
+
+routing logits shared by all subjects and let nsb indicates the 
+
+bias associated with subject ns . During training, we further 
+
+apply sample-wise subject dropout to prevent the model from 
+
+over-relying on subject bias. ~ (1 )n sr Bernoulli p is drawn 
+
+while sp is the subject dropout rate and nr is a binary variable 
+
+to determine while the subject-specific bias is retained or 
+
+based on global logits. The preliminary routing weights for 
+
+sample n are computed as        
+
+> max nns
+> n
+> qr b
+> soft
+> 
+> 
+> 
+> 
+> 
+> 
+
+(3)
+
+where 
+
+> 
+
+ is a temperature parameter controlling the 
+
+smoothness of the routing distribution. 
+
+To further prevent the routing distribution from collapsing 
+
+into a small subset of layers, we introduce layer-level dropout 
+
+after softmax. Let , ~ (1 )n k m Bernoulli p  displays the mask 
+
+for the k-th layer, where p is the layer-dropout rate. The final 
+
+routing weights are defined as       
+
+> ,,
+> ,
+> ,,1
+> ˆn k n k
+> n k K
+> n j n j j
+> m
+> m
+
+
+
+   
+
+> 
+
+#  (4)5
+
+·       
+
+> Fig .1. Overall Framework of Subject-Aware Multi-Granularity Alignment
+
+Algorithm 1: Training Algorithm of SAMGA 
+
+Input: Paired training data    1           
+
+> ,,N
+> EI
+> nnnn
+> Dxxs
+> 
+
+; selected 
+
+visual layers L , total epochs T , Stage-1 epochs cT
+
+Output: Trained projector E 
+
+> nu
+
+, E
+
+> Iu
+
+For each batch    1          
+
+> ,,N
+> EI
+> nnntrain
+> n
+> xxsD
+> 
+> 
+
+do 
+
+1: Extract multi-layer visual features according to Eq. (1). 
+
+2:Project layer-wise visual features into a common space 
+
+according to Eq. (2). 
+
+3: Compute subject-aware routing weights according to 
+
+Eqs. (3) and (4). 
+
+4: Fuse the multi-granularity visual target according to 
+
+Eq. (5). 
+
+5: Encode EEG features according to Eq. (6) and map both 
+
+modalities into the shared space according to Eq. (7). 
+
+6: if epoch cT then 
+
+6.1:Compute the retrieval loss and MK-MMD loss 
+
+according to Eqs. (8) and (9). 
+
+6.2: Optimize the coarse- stage objective according to Eq. 
+
+(10). 
+
+6: else 
+
+6.1Freeze the shared encoder and optimize the fine-stage 
+
+objective according to Eq. (11). 
+
+end if 
+
+7. Update the model parameters 
+
+end for 
+
+where 
+
+ is a small constant for numerical stability, and ,ns k
+
+
+
+stands for the k-th routing weight for subject ns .
+
+The fused multi-granularity image target is then obtained 
+
+by         
+
+> ,,1ˆn
+> KII
+> nskn k k
+> uh
+
+ 
+
+> 
+
+#   (5)
+
+During inference, the subject-specific bias is discarded, 
+
+and global routing prior is applied so that the constructed 
+
+visual target remains applicable to unseen subjects without 
+
+requiring identity. In this way, subject dropout encourages the 
+
+router to learn a robust global granularity prior, while layer-
+
+level dropout prevents over-concentration on few layers, 
+
+jointly yielding a more stable subject-aware multi-granularity 
+
+target. 
+
+B. Coarse-to-Fine Cross Modal Alignment with a Shared 
+
+Encoder 
+
+After constructing the subject-aware visual target, the next 
+
+challenge is to learn a shared embedding space that is both 
+
+stable across subjects and discriminative for retrieval. For 
+
+EEG signals, this is nontrivial because subject variability and 
+
+signal noise can easily disturb cross-modal geometry during 
+
+training. If instance-level retrieval discrimination is 
+
+emphasized before a consistent shared space is formed, the 
+
+model may overfit pairwise matching patterns and suffer from 
+
+unstable transfer across subjects. To address this issue, we 
+
+introduce a shared encoder to impose a common 
+
+transformation on EEG and image representations, and further 
+
+optimize the model in a coarse-to-fine manner. The coarse 
+
+stage first stabilizes the global semantic geometry and reduces 
+
+cross-modal discrepancy, and the fine stage then refines 6
+
+·
+
+instance-level discrimination on top of the stabilized shared 
+
+space. By explicitly separating shared-space formation from 
+
+retrieval refinement, this design leads to more robust 
+
+optimization and better cross-subject generalization. 
+
+Specifically , given an EEG trial E 
+
+> nx
+
+, the EEG-side 
+
+representation is obtained through the EEG encoder  f  
+
+> 
+
+and 
+
+the EEG projector  Ep  ,
+
+#   E E      
+
+> nEnupfx
+> 
+
+(6)
+
+The image-side target I 
+
+> nu
+
+is obtained from the subject -aware 
+
+multi-granularity fusion described in the previous subsection. 
+
+We then map both modalities into the same latent space 
+
+through a shared encoder  g  
+
+> 
+
+,
+
+#    ,E E I I          
+
+> nnnnzguzgu
+> 
+
+(7)
+
+By applying the same transformation to the EEG and 
+
+image branches, the shared encoder encourages both 
+
+modalities to follow a common geometric rule, thereby 
+
+reducing modality-specific distortion and improving the 
+
+consistency of the learned retrieval space. Compared with 
+
+using fully independent projectors, this design establishes a
+
+more stable shared space before fine-grained retrieval 
+
+optimization is performed. 
+
+Based on the shared encoder, we further optimize SAMGA 
+
+in a coarse-to-fine manner. Here, “coarse-to-fine ” refers to the 
+
+progression of optimization granularity , the coarse stage 
+
+focuses on stabilizing the global cross-modal geometry, 
+
+whereas the fine stage refines instance-level retrieval 
+
+discrimination within the already formed shared space . A
+
+symmetric contrastive objective paired EEG-image embedding       
+
+> (,)EI
+> kkzz
+
+is employed to encourage match pairs to exhibit high 
+
+similarity while separating mismatched pairs within each 
+
+batch. The retrieval loss is defined as                       
+
+> ret
+> 11
+> exp( (,) / )1[log
+> 2exp( (,) / )
+> EIB
+> kk
+> MEI
+> kkkj
+> sim z z
+> Msim z z
+> 
+> 
+>   
+
+##                  
+
+> 
+> 1
+> exp( (,) / )
+> log exp( (,) / )
+> IE
+> kk
+> MIE
+> kkj
+> sim z z
+> sim z z
+> 
+> 
+
+##  (8)
+
+where  ;sim   is the cosine similarity, 
+
+ is a learnable 
+
+temperature parameter, and M is the number of paired samples 
+
+in the batch . This bidirectional formulation enforces consistent 
+
+alignment between EEG and image embeddings and serves as 
+
+the primary retrieval objective. To further reduce the 
+
+distribution gap between the two modalities in the shared 
+
+space, multi-kernel maximum mean discrepancy loss was 
+
+applied,                                        
+
+> mmd 2
+> iii,j
+> 112
+> (,)(,)(,)
+> (1) (1)
+> EEIIEI
+> ijijij
+> jj
+> Lk z zk z zk z z
+> M M M M M
+> 
+> 
+
+##    (9)
+
+where  ;k   denotes the multi-kernel radial basis function. 
+
+Accordingly, the objective in the coarse stage is defined as         
+
+> ( )
+> 1(1 )t
+> stage tmmd tret LLL
+
+   (10 )
+
+where t
+
+ is a stage-dependent coefficient that gradually 
+
+decays with the training epoch. In this way, the optimization 
+
+focus smoothly shifts from coarse shared space stabilization to 
+
+discriminative retrieval learning. After the global semantic 
+
+geometry becomes sufficiently stable, we enter the fine stage 
+
+and optimize the model only with the retrieval objective,    
+
+> 2stage ret LL
+
+(11 )
+
+At this stage, the shared encoder is frozen, and the learning 
+
+rate is reduced, so that the model refines instance-level 
+
+discriminability on top of an already stabilized shared space. 
+
+Therefore, the proposed strategy explicitly decouples global 
+
+shared-space formation from fine-grained retrieval refinement, 
+
+leading to more robust optimization and better cross-subject 
+
+generalization. 
+
+IV. EXPERIMENTS AND RESULTS 
+
+A. Datasets and Preprocessing 
+
+We evaluate the proposed method on two large-scale 
+
+neural decoding benchmarks built on object images from the 
+
+THINGS stimulus space, namely THINGS-EEG and 
+
+THINGS-MEG [5] , [38] . THINGS-EEG contains EEG 
+
+recordings from 10 subjects collected under a rapid serial 
+
+visual presentation (RSVP) paradigm. Following the standard 
+
+zero-shot retrieval protocol used in prior work, the training 
+
+split contains 1,654 concepts, each associated with 10 images 
+
+and 4 repetitions per image, while the test split contains 200 
+
+unseen concepts, each represented by one image repeated 80 
+
+times. The RSVP stream uses a 200 ms stimulus onset 
+
+asynchrony, consisting of 100 ms stimulus presentation 
+
+followed by a 100 ms blank screen. We further evaluate on 
+
+THINGS-MEG, which contains MEG recordings from 4
+
+subjects performing the same visual object recognition task. 
+
+Its training split comprises 1,854 concepts, each paired with 
+
+12 distinct images and one trial per image, whereas the test 
+
+split contains 200 unseen concepts, each represented by one 
+
+image repeated 12 times. To ensure zero-shot evaluation, the 
+
+200 test concepts are excluded from training. In the original 
+
+MEG acquisition, each trial includes a 500 ms stimulus 
+
+presentation followed by a 1000 ± 200 ms inter-stimulus 
+
+interval. 
+
+For fair comparison, we follow the same preprocessing 
+
+protocol as Song et al . [4] . For THINGS-EEG, the signals are 
+
+band-pass filtered to 0.1 –100 Hz, segmented into epochs from 
+
+0 to 1000 ms relative to stimulus onset, baseline-corrected 
+
+using the mean signal from the 200 ms pre-stimulus interval, 
+
+and downsampled to 250 Hz. Multivariate noise normalization 
+
+(MVNN) is then applied, and repetitions of the same image 
+
+are averaged to improve the signal-to-noise ratio. For 
+
+THINGS-MEG, signals from 271 sensors are processed using 
+
+the same 0–1000 ms epoch window and 0.1 –100 Hz band-pass 
+
+filter, followed by baseline correction with the 200 ms pre-
+
+stimulus window and downsampling to 200 Hz. Repeated test 
+
+trials are averaged, and channel-wise z-score normalization is 
+
+applied across trials .
+
+B. Experimental Setup 
+
+All experiments are implemented in PyTorch and 
+
+conducted on an NVIDIA RTX 3090 GPU. Unless otherwise 
+
+stated, the model is trained for 60 epochs using AdamW with 
+
+a batch size of 1024, an initial learning rate of 1e-4, and a
+
+weight decay of 1e-4. Early stop is also applied to avoid 
+
+overfitting. We report the mean performance over five random 7
+
+Table I.Comparison with baseline and mean performance averaged over 5 random seeds on THINGS-EEG 
+
+Intra-subject: train and test on one subject 
+
+Method Metric Sub1 Sub2 Sub3 Sub4 Sub5 Sub6 Sub7 Sub8 Sub9 Sub10 Avg 
+
+NICE Top-1 13.2 13.5 14.5 20.6 10.1 16.5 17.0 22.9 15.4 17.4 16.1 
+
+Top-5 39.5 40.3 42.7 52.7 31.5 44.0 42.1 56.1 41.6 45.8 43.6 
+
+ATM Top-1 25.6 22.0 25.0 31.4 12.9 21.3 30.5 38.8 34.4 29.1 27.1 
+
+Top-5 60.4 54.5 62.4 60.9 43.0 51.1 61.5 72.0 51.5 63.5 58.1 
+
+UBP Top-1 41.2 51.2 51.2 51.1 42.2 57.5 49.0 58.6 45.1 61.5 50.9 
+
+Top-5 70.5 80.9 82.0 76.9 72.8 83.5 79.9 85.8 76.2 88.2 79.7 
+
+Neuro-
+
+Bridge 
+
+Top-1 50.0 63.2 61.6 61.4 54.8 69.7 62.7 71.2 64.0 73.6 63.2 
+
+Top-5 77.6 90.6 91.1 90.0 85.0 92.9 88.8 95.1 91.0 97.1 89.9 
+
+Shallow Top-1 75. 4 87. 3 82.9 79. 1 74. 9 90.2 79.0 86.9 81.3 89.3 82.6 
+
+Top-5 94.3 99.0 98. 3 96. 5 96.4 99. 2 97.3 99.4 97.8 99. 2 97.7 
+
+Our 
+
+Method 
+
+Top-1 85.2 94.4 91.8 89.7 86.3 97.2 89.2 94.8 88.7 96.4 91.3 
+
+Top-5 95.5 99.8 98.2 98.7 98.4 99.9 98.7 99.8 99.2 99.8 98.8 
+
+Inter-subject: leave one subject out for test 
+
+Method Metric Sub1 Sub2 Sub3 Sub4 Sub5 Sub6 Sub7 Sub8 Sub9 Sub10 Avg 
+
+NICE Top-1 7.6 5.9 6.0 6.3 4.4 5.6 5.6 6.3 5.7 8.4 6.2 
+
+Top-5 22.8 20.5 22.3 20.7 18.3 22.2 19.7 22.0 17.6 28.3 21.4 
+
+ATM Top-1 10.5 7.1 11.9 14.7 7.0 11.1 16.1 15.0 4.9 20.5 11.9 
+
+Top-5 26.8 24.8 33.8 39.4 23.9 35.8 43.5 40.3 22.7 46.5 33.8 
+
+UBP Top-1 11.5 15.5 9.8 13.0 8.8 11.7 10.2 12.2 15.5 16.0 12.4 
+
+Top-5 29.7 40.0 27.0 32.3 33.8 31.0 23.8 32.2 40.5 43.5 33.4 
+
+Neuro-
+
+Bridge 
+
+Top-1 23.2 21.2 13.2 17.0 14.5 25.0 15.3 20.1 13.7 27.2 19.0 
+
+Top-5 52.4 49.3 36.5 45.3 37.7 55.0 45.1 44.9 36.5 56.3 45.9 
+
+Shallow Top-1 24.6 31.3 11.4 19. 9 19.0 24.1 18.6 17. 6 23. 3 34. 6 22.4 
+
+Top-5 54.7 61.5 31.1 48. 8 45. 5 49.8 51.6 46. 7 54. 9 63.2 50.8 
+
+Our 
+
+Method 
+
+Top-1 36.3 42.2 24.7 34.0 30.0 35.2 35.1 28.7 28.1 49.6 34.4 
+
+Top-5 69.8 71.7 50.7 66.7 64.3 67.7 61.0 59.5 57.0 79.4 64.8 
+
+seeds. Retrieval is performed by cosine similarity in the shared 
+
+embedding space, with ℓ2-normalization applied to image 
+
+features. For THINGS-EEG, we follow the prior channel 
+
+setting and use 17 occipital/parietal electrodes in the intra-
+
+subject setting and all 63 EEG channels in the inter-subject 
+
+setting. For THINGS-MEG, all 271 sensors are used [13] .
+
+C. Comparisons with Baseline Algorithms 
+
+We compare against representative EEG-to-image decoding 
+
+methods and all the results are showed in Table I, including 
+
+NICE [4] , ATM [18] and recent gap-aware or structured-
+
+alignment approaches such as UBP [8] , NeuroBridge [13] ,
+
+and Shallow Alignment [14] . On the zero-shot 200-way 
+
+concept retrieval task on THINGS-EEG, our method 
+
+reaches 91.3% Top-1 and 98.8% Top-5 accuracy under the 
+
+intra-subject setting, and 34.4% Top-1 and 64.8% Top-5 
+
+accuracy under the inter-subject setting. Relative to state-of-
+
+the-art method improves Top-1 accuracy by 8.7% and 
+
+12.0% in two settings. The same trend shows under the task 
+
+on THINGS-MEG, as it reaches 49.4% Top-1 and 74.8% 
+
+Top-5 accuracy under intra-subject setting and 6.1% Top-1 
+
+and 16.6% Top-5 accuracy under inter-subject setting. 
+
+Table II . Comparison with baseline and mean performance 
+
+averaged over 5 random seed on THINGS-MEG 
+
+Method Sub 1 Sub 2 Sub3 Sub 4 Avg. 
+
+Intra-subject: train and test on one subject 
+
+UBP Top-1 9.6 18.5 14.2 9.0 12.8 
+
+Top-5 27.8 47.8 41.6 26.6 36.0 
+
+Neuro 
+
+Bridge 
+
+Top-1 15.0 46.0 27.3 18.5 26.7 
+
+Top-5 38.0 80.5 59.0 43.5 55.2 
+
+Shallow Top-1 23.6 70.5 54.2 26.8 45.3 
+
+Top-5 46.3 90.4 85.0 54.9 71.1 
+
+Our 
+
+method 
+
+Top-1 26. 3 77.5 61.3 27.1 48.1 
+
+Top-5 53.6 94.9 86.2 55.1 72.5 
+
+Inter-subject: leave one subject for test 
+
+UBP Top-1 2.0 1.5 2.7 2.5 2.2 
+
+Top-5 5.7 17.2 10.5 8.0 10.4 
+
+Neuro 
+
+Bridge 
+
+Top-1 4.3 3.6 3.0 2.5 3.4 
+
+Top-5 13.1 15.6 11.2 11.3 12.8 
+
+Shallow Top-1 1. 4 6. 7 5. 6 1. 7 3. 8
+
+Top-5 8.7 18. 2 18.5 7. 6 13.3 
+
+Our 
+
+method 
+
+Top-1 5.6 9.0 6.3 3.7 6.1 
+
+Top-5 13.5 23.7 21.5 7.6 16.6 
+
+D. Experiment Analysis 
+
+(1) Ablation Study 
+
+(a) Ablation Study on the Multi-layer Fusion Mechanism 8
+
+·
+
+The routing module is initialized with a depth prior 
+
+centered at layer 28 according to the paper of [14] . For the 
+
+five-layer setting {20, 24, 28, 32, 36} , this corresponds to 
+
+initial global logits [-2, -1, 0, -1, -2] , which yielding an initial 
+
+routing distribution of approximately [0.067, 0.183, 0.498, 
+
+0.183, 0.067] .
+
+Table III compares the best single-layer baseline, uniform 
+
+multi-layer fusion, and learned multi-layer fusion. 
+
+Incorporating multiple visual layers consistently improves 
+
+performance over the single-layer baseline, and the learned 
+
+fusion strategy achieves the best results. This demonstrates 
+
+that the gain is not merely due to using more visual layers, but 
+
+also to adaptively combining representations at different visual 
+
+depths.  
+
+> Table
+
+III . Ablation of the multi-layer fusion mechanism            
+
+> Top-1 Top-5
+> Single best layer 87.8 98.4
+> uniform fusion 89.1 98.7
+> Learned fusion 91.3 98.8
+
+(b) Ablation Study on the Two-stage Alignment Strategy 
+
+Table IV evaluates several variants of the proposed two-
+
+stage alignment strategy. The full model consistently 
+
+outperforms the one-stage variant, the version without stage-
+
+specific learning rate adjustment, and the version without 
+
+freezing the shared encoder in Stage 2. This verifies that the 
+
+performance gain comes from the complete coarse-to-fine 
+
+optimization design rather than from any single component 
+
+alone.                          
+
+> Table IV .Ablation of the proposed two-stage alignment strategy
+> under the intra-subject setting.
+> Top-1 Top-5
+> One-stage 87.5 98.0
+> W/O stage-specific LR 89.0 98.3
+> W/O share freeze 91.0 98.7
+> Our method 91.3 98.8
+
+(c) Effect of Projector Design 
+
+We further study the impact of projector design on EEG –
+
+visual alignment. As shown in Fig.2 , the linear projector 
+
+consistently delivers the best performance, surpassing both the 
+
+projection-free direct variant and the MLP-based projector. This 
+
+indicates that a lightweight linear mapping is already sufficient 
+
+for effective cross-modal alignment, whereas stronger nonlinear 
+
+transformations are less effective in this setting.         
+
+> Fig .2.Comparison of different projector designs for EEG –visual
+> alignment.
+
+(2) Semantic Structure Analysis 
+
+To examine whether the aligned EEG representations 
+
+preserve meaningful semantic organization under cross-subject 
+
+evaluation, we visualize the inter-subject concept similarity 
+
+matrix of the 200 test concepts in Fig. 3. After reordering 
+
+concepts by coarse semantic categories and centering similarity 
+
+values, clearer local clustering emerges within categories such as 
+
+animal and food, whereas tool and others appear relatively more 
+
+dispersed. These results indicate that the aligned EEG 
+
+embeddings retain stable semantic structure across subjects, 
+
+rather than collapsing into category-insensitive representations.                             
+
+> Fig. 3.Inter-subject concept similarity matrix of EEG concept
+> embeddings on the 200 test concepts. Concepts are reordered by
+> coarse semantic categories, and similarity values are centered to
+> highlight relative semantic structure.
+
+To provide a more compact summary of semantic 
+
+organization, Fig .4 reports the category-level mean similarity 
+
+matrix under the inter-subject setting. The diagonal entries are 
+
+consistently higher than the off-diagonal entries, showing that 
+
+concepts within the same semantic category are more tightly 
+
+clustered than concepts across categories. Among them, animal, 
+
+food, and vehicle display stronger within-category consistency, 
+
+whereas tool and others remain relatively more heterogeneous.                    
+
+> Fig. 4. Category-level mean similarity matrix under the inter-subject
+> setting. Diagonal entries denote within-category similarity, whereas off-
+> diagonal entries denote between-category similarity.
+
+(3) Visual-depth Preference Analysis 
+
+Fig .5 visualizes subject-specific deviations from the learned 
+
+global visual-depth preference. Importantly, this figure does not 
+
+show absolute routing weights; instead, each entry measures how 
+
+much a subject-specific routing weight differs from the 
+
+corresponding global routing weight at the same visual layer. 9
+
+·
+
+Positive values indicate that a subject assigns more weight to that 
+
+layer than the global average, whereas negative values indicate 
+
+less. 
+
+A shared pattern can be clearly observed across subjects. 
+
+Most subjects assign lower-than-global weights to layer 24, 
+
+while allocating relatively higher weights to layers 32 and 36. 
+
+This indicates that, relative to the global baseline, deeper 
+
+intermediate layers tend to contribute more strongly than the 
+
+shallower intermediate layer. At the same time, the redistribution 
+
+pattern is not identical across subjects. Some subjects, such as 
+
+sub-01 and sub-09, retain positive deviations at layer 28, whereas 
+
+others, such as sub-03 and sub-07, shift more strongly toward 
+
+layers 32 and 36. Therefore, this figure should be interpreted as 
+
+evidence that visual-depth preference is globally consistent but 
+
+not strictly identical across subjects: the model learns a shared 
+
+preference for intermediate visual layers together with stable 
+
+subject-dependent refinements around that shared trend.                      
+
+> Fig. 5.Subject-specific deviation from global visual-depth
+> preference. Positive values indicate higher routing weight than
+> the global average, and negative values indicate lower routing
+> weight.
+
+To test whether visual-depth preference varies across 
+
+semantic categories, we report category-wise Top-1 retrieval 
+
+accuracy across visual layers in Figure 6. A clear category-
+
+dependent pattern emerges. While intermediate-to-deeper layers 
+
+are generally more effective for inter-subject EEG –image 
+
+alignment, the best-performing layer differs across categories: 
+
+animal, tool, and others favor layer 32, food shifts toward the 
+
+deeper layer 36, whereas vehicle performs best at the shallower 
+
+intermediate layers 24 and 28. This pattern indicates that 
+
+different semantic categories require different levels of visual 
+
+abstraction for effective EEG decoding.            
+
+> Fig. 6.Category-wise Top-1 retrieval accuracy across visual
+> layers under the inter-subject setting
+
+We further extend the analysis to fine-grained semantic 
+
+categories. Fig .7 further shows that visual-depth preference 
+
+remains category-dependent at a finer semantic granularity. 
+
+Vehicle is best aligned with layer 24, furniture peaks at layer 28, 
+
+animal, clothing accessory, electronics instrument, and sports 
+
+recreation favor layer 32, whereas food and tool utensil shift 
+
+toward the deeper layer 36. Plant prefers shallower layers, and 
+
+other objects exhibit a broader preference over intermediate-to-
+
+deeper representations. This pattern indicates that the optimal 
+
+visual abstraction level for EEG –image alignment is not only 
+
+category-dependent at the coarse level, but also remains 
+
+structured within finer semantic subclasses.             
+
+> Fig. 7.Fine-grained category-wise Top-1 retrieval accuracy
+> across visual layers under the inter-subject setting.
+
+V. DISCUSSION 
+
+The results of this study suggest that robust zero-shot 
+
+EEG-to-image retrieval depends not only on the design of the 
+
+EEG encoder, but also on how the visual supervision target is 
+
+constructed. Recent EEG visual decoding methods have 
+
+largely improved cross-modal alignment through stronger 
+
+encoders, semantic projectors, or prior-guided training 
+
+objectives. However, many of them still rely on a single fixed 10 
+
+·
+
+visual target or a globally shared target granularity. This 
+
+assumption is restrictive for EEG-based retrieval, because 
+
+visually evoked EEG signals are noisy, preserve information 
+
+across multiple representational scales, and exhibit substantial 
+
+inter-subject variability. In this context, the proposed SAMGA 
+
+framework provides a different perspective by explicitly 
+
+addressing subject-dependent granularity mismatch on the 
+
+target side of cross-modal alignment. 
+
+A key implication of our findings is that the visual depth 
+
+best aligned with EEG should not be treated as universally 
+
+fixed. Recent studies have shown that intermediate visual 
+
+representations can provide a better granularity match for 
+
+neural signals than highly compressed final-layer embeddings, 
+
+because noninvasive neural recordings preserve a mixture of 
+
+structural and semantic cues rather than purely abstract 
+
+category-level information. Our results are consistent with this 
+
+view, but further indicate that even intermediate-layer 
+
+supervision should not be assumed to be fully subject-
+
+invariant. By introducing subject-aware routing during 
+
+training and reverting to a global routing prior during 
+
+inference, SAMGA balances two competing goals: learning a
+
+flexible target that can absorb subject-specific deviations, 
+
+while still preserving generalization to unseen subjects without 
+
+requiring subject identity at test time. 
+
+The experimental and analytical results provide additional 
+
+support for this interpretation. The improvements observed 
+
+under both intra-subject and inter-subject settings suggest that 
+
+adaptive target construction benefits not only within-subject 
+
+retrieval, but also cross-subject generalization, where residual 
+
+mismatch is often amplified. Moreover, the routing analysis 
+
+indicates that visual-depth preference exhibits a shared global 
+
+trend with limited but stable subject-dependent deviations, 
+
+rather than being either completely fixed or entirely 
+
+idiosyncratic. This helps explain why fixed-target methods 
+
+may remain suboptimal under subject shift, and why learning 
+
+a flexible but regularized target is beneficial for EEG visual 
+
+decoding. 
+
+Another important observation is that the proposed coarse-
+
+to-fine alignment strategy appears to complement the target-
+
+side adaptation. Prior work has shown that retrieval 
+
+performance can be highly sensitive to the quality of the 
+
+shared representation space, and that inappropriate alignment 
+
+targets may weaken the informativeness of the supervision 
+
+signal. In our framework, the coarse stage first stabilizes the 
+
+global cross-modal geometry and reduces subject-induced 
+
+distribution shift, whereas the fine stage then refines instance-
+
+level discrimination within the stabilized shared space. This 
+
+progressive optimization scheme is especially meaningful for 
+
+EEG, where signal noise, trial fluctuation, and subject 
+
+variability make direct end-to-end retrieval optimization more 
+
+fragile. In this sense, SAMGA improves EEG-image retrieval 
+
+not merely by adding another fusion mechanism, but by 
+
+jointly coordinating target construction and alignment 
+
+dynamics. 
+
+Despite these advantages, the present work still has several 
+
+limitations. First, the current routing mechanism models 
+
+granularity adaptation at the subject level during training, but 
+
+does not explicitly capture finer trial-wise or state-dependent 
+
+variability. Second, although the current draft also outlines 
+
+evaluation on THINGS-MEG, the main reported evidence in 
+
+the present manuscript is still centered on THINGS-EEG, and 
+
+fuller cross-modality validation would further strengthen the 
+
+generality of the proposed framework. Third, the current 
+
+model reveals category-wise differences in preferred visual 
+
+depth, but does not yet explicitly incorporate category-aware 
+
+or sample-adaptive routing into the target construction process. 
+
+These limitations suggest several natural directions for future 
+
+work, including sample-adaptive granularity selection, 
+
+stronger uncertainty-aware routing, and unified target 
+
+adaptation across subjects, categories, and recording sessions. 
+
+VI .CONCLUSION 
+
+In this work, we proposed Subject-Aware Multi-
+
+Granularity Alignment (SAMGA) for zero-shot EEG-to-image 
+
+retrieval. SAMGA addresses subject-dependent granularity 
+
+mismatch by adaptively fusing multiple intermediate visual 
+
+representations into a subject-aware visual target and then 
+
+performing coarse-to-fine alignment in a shared embedding 
+
+space. Experiments on THINGS-EEG showed that the 
+
+proposed method achieved 91.3% Top-1 and 98.8% Top-5 
+
+accuracy in the intra-subject setting, and 34.4% Top-1 and 
+
+64.8% Top-5 accuracy in the inter-subject setting, 
+
+outperforming recent baselines. These results indicate that 
+
+robust EEG visual decoding depends not only on stronger 
+
+neural representations, but also on target construction that 
+
+better matches the multi-scale and subject-variable nature of 
+
+EEG signals. Future work will explore finer-grained adaptive 
+
+routing and broader validation across EEG/MEG settings. 
+
+REFERENCES                                                                                                                                                                                                                                                                       
+
+> [1] Kamitani, Y., &Tong, F. (2005). Decoding the visual and subjective
+> contents of the human brain. Nature neuroscience ,8(5), 679-685.
+> [2] Robinson, A. K., Quek, G. L., &Carlson, T. A. (2023). Visual
+> representations: insights from neural decoding. Annual Review of Vision
+> Science ,9(1), 313-335.
+> [3] Du, C., Fu, K., Li, J., &He, H. (2023). Decoding visual neural
+> representations by multimodal learning of brain-visual-linguistic
+> features. IEEE Transactions on Pattern Analysis and Machine
+> Intelligence ,45 (9), 10760-10777.
+> [4] Song, Y., Liu, B., Li, X., Shi, N., Wang, Y., &Gao, X. (2023). Decoding
+> natural images from EEG for object recognition. arXiv preprint
+> arXiv:2308.13234 .
+> [5] Gifford, A. T., Dwivedi, K., Roig, G., &Cichy, R. M. (2022). Alarge and
+> rich EEG dataset for modeling human visual object
+> recognition. NeuroImage ,264 ,119754.
+> [6] Song, Y., Wang, Y., He, H., &Gao, X. (2025). Recognizing natural
+> images from eeg with language-guided contrastive learning. IEEE
+> Transactions on Neural Networks and Learning Systems .
+> [7] Xiong, D., Hu, L., Jin, J., Ding, Y., Tan, C., Zhang, J., &Tian, Y. (2025).
+> Interpretable Cross-Modal Alignment Network for EEG Visual Decoding
+> With Algorithm Unrolling. IEEE Transactions on Neural Networks and
+> Learning Systems .
+> [8] Wu, H., Li, Q., Zhang, C., He, Z., &Ying, X. (2025). Bridging the vision-
+> brain gap with an uncertainty-aware blur prior. In Proceedings of the
+> IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp.
+> 2246-2257).
+> [9] He, B., Sohrabpour, A., Brown, E., &Liu, Z. (2018). Electrophysiological
+> source imaging: anoninvasive window to brain dynamics. Annual review
+> of biomedical engineering ,20 (1), 171-196.
+> [10] Kaplan, A. Y., Fingelkurts, A. A., Fingelkurts, A. A., Borisov, S. V., &
+> Darkhovsky, B. S. (2005). Nonstationary nature of the brain activity as
+> revealed by EEG/MEG: methodological, practical and conceptual
+> challenges. Signal processing ,85 (11), 2190-2212.
+
+11 
+
+·
+
+[11] Lawhern, V. J., Solon, A. J., Waytowich, N. R., Gordon, S. M., Hung, C. 
+
+P., & Lance, B. J. (2018). EEGNet: a compact convolutional neural 
+
+network for EEG-based brain –computer interfaces. Journal of neural 
+
+engineering , 15 (5), 056013. 
+
+[12] Zhu, S., Ye, Z., Ai, Q., & Liu, Y. (2024). CrossPT-EEG: A Benchmark 
+
+for Cross-Participant and Cross-Time Generalization of EEG-based 
+
+Visual Decoding. arXiv preprint arXiv:2406.07151 .
+
+[13] Zhang, W., Wang, S., Su, Y., Li, X., Zhang, C., & Zhong, S. (2025). 
+
+NeuroBridge: Bio-Inspired Self-Supervised EEG-to-Image Decoding via 
+
+Cognitive Priors and Bidirectional Semantic Alignment. arXiv preprint 
+
+arXiv:2511.06836 .
+
+[14] Du, Y., Dai, S., Song, Y., Thompson, P. M., Tang, H., & Zhan, L. (2026). 
+
+Deep Models, Shallow Alignment: Uncovering the Granularity Mismatch 
+
+in Neural Decoding. arXiv preprint arXiv:2601.21948 .
+
+[15] Radford, A., Kim, J. W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., ... 
+
+& Sutskever, I. (2021, July). Learning transferable visual models from 
+
+natural language supervision. In International conference on machine 
+
+learning (pp. 8748-8763). PmLR. 
+
+[16] Chen, H., He, L., Liu, Y., & Yang, L. (2024). Visual neural decoding via 
+
+improved visual-eeg semantic consistency. arXiv preprint 
+
+arXiv:2408.06788 .
+
+[17] Li, Y., Kang, Z., Gong, S., Dong, W., Zeng, W., Yan, H., ... & Wang, N. 
+
+(2025, June). Neural-MCRL: Neural multimodal contrastive 
+
+representation learning for EEG-based visual decoding. In 2025 IEEE 
+
+International Conference on Multimedia and Expo (ICME) (pp. 1-6). 
+
+IEEE. 
+
+[18] Li, D., Wei, C., Li, S., Zou, J., Qin, H., & Liu, Q. (2024). Visual decoding 
+
+and reconstruction via eeg embeddings with guided diffusion. arXiv 
+
+preprint arXiv:2403.07721 .
+
+[19] Bai, Y., Wang, X., Cao, Y. P., Ge, Y., Yuan, C., & Shan, Y. (2023). 
+
+Dreamdiffusion: Generating high-quality images from brain eeg 
+
+signals. arXiv preprint arXiv:2306.16934 .
+
+[20] Wang, J., Zhang, L., Lin, H., Liu, Q., Huang, G., Li, Z., ... & Wu, X. 
+
+(2025). NeuroCLIP: Brain-Inspired Prompt Tuning for EEG-to-Image 
+
+Multimodal Contrastive Learning. arXiv preprint arXiv:2511.09250 .
+
+[21] Shi, E., Zhao, K., Yuan, Q., Wang, J., Hu, H., Yu, S., & Zhang, S. (2024). 
+
+FoME: A foundation model for EEG using adaptive temporal-lateral 
+
+attention scaling. arXiv preprint arXiv:2409.12454 .
+
+[22] Xiao, Q., Cui, Z., Zhang, C., Chen, S., Wu, W., Thwaites, A., ... & Zhang, 
+
+C. (2025). Brainomni: A brain foundation model for unified eeg and meg 
+
+signals. arXiv preprint arXiv:2505.18185 .
+
+[23] Horikawa, T., & Kamitani, Y. (2017). Generic decoding of seen and 
+
+imagined objects using hierarchical visual features. Nature 
+
+communications , 8(1), 15037. 
+
+[24] Shen, G., Horikawa, T., Majima, K., & Kamitani, Y. (2019). Deep image 
+
+reconstruction from human brain activity. PLoS computational 
+
+biology , 15 (1), e1006633. 
+
+[25] Scotti, P., Banerjee, A., Goode, J., Shabalin, S., Nguyen, A., Dempster, 
+
+A., ... & Abraham, T. (2023). Reconstructing the mind's eye: fmri-to-
+
+image with contrastive learning and diffusion priors. Advances in Neural 
+
+Information Processing Systems , 36 , 24705-24728. 
+
+[26] Fang, T., Zheng, Q., & Pan, G. (2023). Alleviating the semantic gap for 
+
+generalized fmri-to-image reconstruction. Advances in Neural 
+
+Information Processing Systems , 36 , 15096-15107. 
+
+[27] Chen, Z., Qing, J., Xiang, T., Yue, W. L., & Zhou, J. H. (2023). Seeing 
+
+beyond the brain: Conditional diffusion model with sparse masked 
+
+modeling for vision decoding. In Proceedings of the IEEE/CVF 
+
+conference on computer vision and pattern recognition (pp. 22710-22720). 
+
+[28] Chen, J., Qi, Y., Wang, Y., & Pan, G. (2024, March). Bridging the 
+
+semantic latent space between brain and machine: Similarity is all you 
+
+need. In Proceedings of the AAAI conference on artificial 
+
+intelligence (Vol. 38, No. 10, pp. 11302-11310). 
+
+[29] Chen, J., Qi, Y., Wang, Y., & Pan, G. (2024). Mind artist: Creating 
+
+artistic snapshots with human thought. In Proceedings of the IEEE/CVF 
+
+Conference on Computer Vision and Pattern Recognition (pp. 27207-
+
+27217). 
+
+[30] Benchetrit, Y., Banville, H., & King, J. R. (2023). Brain decoding: toward 
+
+real-time reconstruction of visual perception. arXiv preprint 
+
+arXiv:2310.19812 .
+
+[31] Haxby, J. V., Guntupalli, J. S., Connolly, A. C., Halchenko, Y. O., 
+
+Conroy, B. R., Gobbini, M. I., ... & Ramadge, P. J. (2011). A common, 
+
+high-dimensional model of the representational space in human ventral 
+
+temporal cortex. Neuron , 72 (2), 404-416. 
+
+[32] Ho, J. K., Horikawa, T., Majima, K., Cheng, F., & Kamitani, Y. (2023). 
+
+Inter-individual deep image reconstruction via hierarchical neural code 
+
+conversion. NeuroImage , 271 , 120007. 
+
+[33] Scotti, P. S., Tripathy, M., Villanueva, C. K. T., Kneeland, R., Chen, T., 
+
+Narang, A., ... & Abraham, T. M. (2024). Mindeye2: Shared-subject 
+
+models enable fmri-to-image with 1 hour of data. arXiv preprint 
+
+arXiv:2403.11207 .
+
+[34] Wang, S., Liu, S., Tan, Z., & Wang, X. (2024). Mindbridge: A cross-
+
+subject brain decoding framework. In Proceedings of the IEEE/CVF 
+
+Conference on Computer Vision and Pattern Recognition (pp. 11333-
+
+11342). 
+
+[35] Gong, Z., Zhang, Q., Bao, G., Zhu, L., Xu, R., Liu, K., ... & Miao, D. 
+
+(2025, April). Mindtuner: Cross-subject visual decoding with visual 
+
+fingerprint and semantic correction. In Proceedings of the AAAI 
+
+conference on artificial intelligence (Vol. 39, No. 13, pp. 14247-14255). 
+
+[36] Dai, Y., Yao, Z., Song, C., Zheng, Q., Mai, W., Peng, K., ... & Wu, J. 
+
+(2025). Mindaligner: Explicit brain functional alignment for cross-subject 
+
+visual decoding from limited fmri data. arXiv preprint arXiv:2502.05034 .
+
+[37] Jung, S., Lee, D., & Kim, W. H. (2025, September). MindLink: Subject-
+
+Agnostic Cross-Subject Brain Decoding Framework. In International 
+
+Conference on Medical Image Computing and Computer-Assisted 
+
+Intervention (pp. 469-479). Cham: Springer Nature Switzerland. 
+
+[38] Hebart, M. N., Contier, O., Teichmann, L., Rockter, A. H., Zheng, C. Y., 
+
+Kidder, A., ... & Baker, C. I. (2023). THINGS-data, a multimodal 
+
+collection of large-scale datasets for investigating object representations 
+
+in human brain and behavior. Elife , 12 , e82580.

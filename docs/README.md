@@ -6,85 +6,82 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-22
-- 运行时间：2026-04-22 20:48:37 UTC
+- 最新运行日期：2026-04-23
+- 运行时间：2026-04-23 20:44:42 UTC
 - 运行状态：成功
-- 本次总论文数：21
-- 精读区：8
+- 本次总论文数：20
+- 精读区：7
 - 速读区：13
 
 ### 今日简报（AI）
-今日深度解析 21 篇脑科学前沿，重点突破睡眠稳态调控与神经退行性疾病的干预技术。
-满分论文展示了通过化学遗传学与闭环声刺激精准增强慢波睡眠、修复大脑稳态的里程碑进展。
-建议关注非侵入式物理干预手段，了解如何通过优化睡眠节律来主动对抗认知衰退。
-- 详情：[/202604/22/README](/202604/22/README)
+今日深度解析 20 篇睡眠与脑机前沿进展，重点攻克神经退行性疾病中的睡眠稳态修复。
+满分论文揭示了化学遗传学增强慢波睡眠的潜力，并证实闭环听觉刺激能双向调节神经退行性病变中的睡眠障碍。
+建议关注非侵入式听觉干预技术，这为改善睡眠质量及预防认知障碍提供了极具前景的家庭化方案。
+- 详情：[/202604/23/README](/202604/23/README)
 
 ### 精读区论文标签
-1. [Chronic chemogenetic slow-wave sleep enhancement in mice](/202604/22/biorxiv-10-1101-2025-01-23-634538-v2-chronic-chemogenetic-slow-wave-sleep-enhancement-in-mice)  
+1. [Chronic chemogenetic slow-wave sleep enhancement in mice](/202604/23/biorxiv-10-1101-2025-01-23-634538-v2-chronic-chemogenetic-slow-wave-sleep-enhancement-in-mice)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：小鼠化学遗传学慢波睡眠增强
-2. [Bidirectional restoration of sleep homeostasis in neurodegeneration via closed-loop auditory stimulation](/202604/22/biorxiv-10-64898-2026-04-13-718146-v1-bidirectional-restoration-of-sleep-homeostasis-in-neurodegeneration-via-closed-loop-auditory-stimulation)  
+   evidence：小鼠慢波睡眠的化学遗传学增强研究
+2. [Bidirectional restoration of sleep homeostasis in neurodegeneration via closed-loop auditory stimulation](/202604/23/biorxiv-10-64898-2026-04-13-718146-v1-bidirectional-restoration-of-sleep-homeostasis-in-neurodegeneration-via-closed-loop-auditory-stimulation)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：闭环听觉刺激用于恢复神经退行性疾病中的睡眠稳态
-3. [Hippocampus consolidates memory in the upstate of cortical sleep slow oscillations](/202604/22/biorxiv-10-64898-2026-04-17-719155-v1-hippocampus-consolidates-memory-in-the-upstate-of-cortical-sleep-slow-oscillations)  
+   evidence：通过闭环听觉刺激恢复神经退行性疾病中的睡眠稳态
+3. [Why the Sleeping Brain Clears](/202604/23/biorxiv-10-64898-2026-04-16-718904-v1-why-the-sleeping-brain-clears)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：非快速眼动睡眠慢波振荡期间的海马记忆巩固
-4. [Unsupervised domain transfer: Overcoming signal degradation in sleep monitoring by increasing scoring realism](/202604/22/2604.13988v1-unsupervised-domain-transfer-overcoming-signal-degradation-in-sleep-monitoring-by-increasing-scoring-realism)  
+   evidence：慢波睡眠与脑脊液振荡及大脑清除机制相关
+4. [Hippocampus consolidates memory in the upstate of cortical sleep slow oscillations](/202604/23/biorxiv-10-64898-2026-04-17-719155-v1-hippocampus-consolidates-memory-in-the-upstate-of-cortical-sleep-slow-oscillations)  
+   标签：评分：10.0/10、query:slp-ns
+   evidence：非快速眼动睡眠期间的皮层慢波振荡
+5. [Unsupervised domain transfer: Overcoming signal degradation in sleep monitoring by increasing scoring realism](/202604/23/2604.13988v1-unsupervised-domain-transfer-overcoming-signal-degradation-in-sleep-monitoring-by-increasing-scoring-realism)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：用于睡眠监测和睡眠图真实性的无监督领域迁移
-5. [Excitation-inhibition balance controls coupling stability and network reorganization in a plastic Kuramoto model](/202604/22/biorxiv-10-1101-2024-06-17-599234-v4-excitation-inhibition-balance-controls-coupling-stability-and-network-reorganization-in-a-plastic-kuramoto-model)  
+   evidence：提高移动睡眠监测中的信号真实性
+6. [Cholinergic recruitment of Chandelier cells during arousal](/202604/23/biorxiv-10-1101-2025-01-18-633708-v2-cholinergic-recruitment-of-chandelier-cells-during-arousal)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠和休息期间的同步神经元活动
-6. [Cholinergic recruitment of Chandelier cells during arousal](/202604/22/biorxiv-10-1101-2025-01-18-633708-v2-cholinergic-recruitment-of-chandelier-cells-during-arousal)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：觉醒和皮层环路的胆碱能调节
-7. [Myeloid-Driven Inflammation in Prodromal Parkinson's Disease](/202604/22/biorxiv-10-1101-2025-05-16-654530-v2-myeloid-driven-inflammation-in-prodromal-parkinsons-disease)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：快速眼动睡眠行为障碍作为帕金森病前驱期
-8. [Why the Sleeping Brain Clears](/202604/22/biorxiv-10-64898-2026-04-16-718904-v1-why-the-sleeping-brain-clears)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：慢波睡眠期间脑脊液清除的神经机制
+   evidence：胆碱能对觉醒和皮层回路的调节
+7. [Excitation-inhibition balance controls coupling stability and network reorganization in a plastic Kuramoto model](/202604/23/biorxiv-10-1101-2024-06-17-599234-v4-excitation-inhibition-balance-controls-coupling-stability-and-network-reorganization-in-a-plastic-kuramoto-model)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：睡眠和休息期间的同步神经元活动用于突触重组
 
 ### 速读区论文标签
-1. [Brain-DiT: A Universal Multi-state fMRI Foundation Model with Metadata-Conditioned Pretraining](/202604/22/2604.12683v1-brain-dit-a-universal-multi-state-fmri-foundation-model-with-metadata-conditioned-pretraining)  
+1. [Drowsiness-Aware Adaptive Autonomous Braking System based on Deep Reinforcement Learning for Enhanced Road Safety](/202604/23/2604.13878v1-drowsiness-aware-adaptive-autonomous-braking-system-based-on-deep-reinforcement-learning-for-enhanced-road-safety)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：包含睡眠状态的fMRI基础模型
-2. [Modeling of Self-sustained Neuron Population without External Stimulus](/202604/22/2604.13719v1-modeling-of-self-sustained-neuron-population-without-external-stimulus)  
+   evidence：通过ECG信号进行嗜睡检测，用于自适应自动制动系统
+2. [Drowsiness-Aware Adaptive Autonomous Braking System based on Deep Reinforcement Learning for Enhanced Road Safety](/202604/23/2604.13878v2-drowsiness-aware-adaptive-autonomous-braking-system-based-on-deep-reinforcement-learning-for-enhanced-road-safety)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：脑回路与神经元递归网络
-3. [NEMO: Neural Electro-Mechano-Optic Sensors for Multiplexed Neural Interfaces](/202604/22/2604.18384v1-nemo-neural-electro-mechano-optic-sensors-for-multiplexed-neural-interfaces)  
+   evidence：基于生理数据的嗜睡检测以提高道路安全
+3. [Subject-Aware Multi-Granularity Alignment for Zero-Shot EEG-to-Image Retrieval](/202604/23/2604.17782v1-subject-aware-multi-granularity-alignment-for-zero-shot-eeg-to-image-retrieval)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：用于神经记录探针的新型传感器
-4. [Astrocytes mediate the dopaminergic modulation of tonic GABAergic signaling in substantia nigra](/202604/22/biorxiv-10-1101-2024-03-27-586699-v3-astrocytes-mediate-the-dopaminergic-modulation-of-tonic-gabaergic-signaling-in-substantia-nigra)  
+   evidence：从EEG神经反应中解码视觉内容
+4. [NEMO: Neural Electro-Mechano-Optic Sensors for Multiplexed Neural Interfaces](/202604/23/2604.18384v1-nemo-neural-electro-mechano-optic-sensors-for-multiplexed-neural-interfaces)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：脑回路中GABA信号的多巴胺能调节
-5. [Gut microbiota as a modulator of circadian neural development in the honey bee model.](/202604/22/biorxiv-10-1101-2025-09-30-678393-v4-gut-microbiota-as-a-modulator-of-circadian-neural-development-in-the-honey-bee-model)  
+   evidence：用于电生理学的新型神经记录探针
+5. [Engineering elephant models of cold-adaptation and cancer resistance](/202604/23/biorxiv-10-1101-2024-09-07-611789-v4-engineering-elephant-models-of-cold-adaptation-and-cancer-resistance)  
+   标签：评分：7.0/10、query:tr-hb
+   evidence：北极适应和冷适应模型的遗传变化
+6. [sBOSC: A method for source-level identification of neural oscillations in electromagnetic brain signals](/202604/23/biorxiv-10-1101-2025-07-20-665618-v3-sbosc-a-method-for-source-level-identification-of-neural-oscillations-in-electromagnetic-brain-signals)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：昼夜节律机制与时钟神经元的发育
-6. [Longevity Bench: Are SotA LLMs ready for aging research?](/202604/22/biorxiv-10-64898-2026-01-12-698650-v3-longevity-bench-are-sota-llms-ready-for-aging-research)  
-   标签：评分：7.0/10、query:qll
-   evidence：针对衰老生物学和组学的大模型基准
-7. [Neural Population Models for EEG: From Canonical Models to Alternative Model Structures](/202604/22/biorxiv-10-64898-2026-04-10-717643-v1-neural-population-models-for-eeg-from-canonical-models-to-alternative-model-structures)  
+   evidence：脑信号中神经振荡识别的方法
+7. [Gut microbiota as a modulator of circadian neural development in the honey bee model.](/202604/23/biorxiv-10-1101-2025-09-30-678393-v4-gut-microbiota-as-a-modulator-of-circadian-neural-development-in-the-honey-bee-model)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：用于解释脑电图数据的神经群体模型
-8. [A dynamical system approach to modeling neural network activity in Drosophila orientation](/202604/22/2604.13411v1-a-dynamical-system-approach-to-modeling-neural-network-activity-in-drosophila-orientation)  
+   evidence：昼夜节律神经发育和时钟神经元的调节因子
+8. [NeuroAI and Beyond: Bridging Between Advances in Neuroscience and ArtificialIntelligence](/202604/23/2604.18637v1-neuroai-and-beyond-bridging-between-advances-in-neuroscience-and-artificialintelligence)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：果蝇神经网络活动建模
-9. [Spatiotemporal transcriptomic analysis during cold ischemic injury to the murine kidney reveals compartment-specific changes](/202604/22/biorxiv-10-1101-2025-05-25-654911-v2-spatiotemporal-transcriptomic-analysis-during-cold-ischemic-injury-to-the-murine-kidney-reveals-compartment-specific-changes)  
-   标签：评分：6.0/10、query:tr-hb
-   evidence：冷缺血损伤期间的分子变化
-10. [sBOSC: A method for source-level identification of neural oscillations in electromagnetic brain signals](/202604/22/biorxiv-10-1101-2025-07-20-665618-v3-sbosc-a-method-for-source-level-identification-of-neural-oscillations-in-electromagnetic-brain-signals)  
+   evidence：神经科学进展与神经调节控制
+9. [Dopamine synchronizes hippocampal-prefrontal networks](/202604/23/biorxiv-10-1101-2023-06-07-544112-v2-dopamine-synchronizes-hippocampal-prefrontal-networks)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：脑信号中神经振荡的识别
-11. [Galectin-8 regulates primary cilium in hypothalamic neurons through anL-type calcium channel/Aurora kinaseA/HDAC6 pathway impacting body energy balance](/202604/22/biorxiv-10-64898-2026-04-09-716665-v2-galectin-8-regulates-primary-cilium-in-hypothalamic-neurons-through-anl-type-calcium-channelaurora-kinaseahdac6-pathway-impacting-body-energy-balance)  
+   evidence：多巴胺对海马-前额叶网络同步性的调节
+10. [Sensory History Shapes Contrastive Neural Geometry in LP/Pulvinar-Prefrontal Cortex Circuits](/202604/23/biorxiv-10-1101-2024-11-16-623977-v2-sensory-history-shapes-contrastive-neural-geometry-in-lppulvinar-prefrontal-cortex-circuits)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：小鼠丘脑LP/枕核向扣带回前皮层的输入
+11. [Convergent genomic trajectories shape adaptation to life on land across animal lineages](/202604/23/biorxiv-10-1101-2025-10-02-680026-v2-convergent-genomic-trajectories-shape-adaptation-to-life-on-land-across-animal-lineages)  
    标签：评分：6.0/10、query:tr-hb
-   evidence：下丘脑神经元与能量平衡
-12. [Social Context Suppresses Food Anticipatory Activity and Associated Thermoregulation in Mice](/202604/22/biorxiv-10-64898-2026-04-10-717725-v1-social-context-suppresses-food-anticipatory-activity-and-associated-thermoregulation-in-mice)  
+   evidence：动物适应环境挑战的基因组基础
+12. [Galectin-8 regulates primary cilium in hypothalamic neurons through anL-type calcium channel/Aurora kinaseA/HDAC6 pathway impacting body energy balance](/202604/23/biorxiv-10-64898-2026-04-09-716665-v2-galectin-8-regulates-primary-cilium-in-hypothalamic-neurons-through-anl-type-calcium-channelaurora-kinaseahdac6-pathway-impacting-body-energy-balance)  
    标签：评分：6.0/10、query:tr-hb
-   evidence：小鼠的热调节与体温控制
-13. [Label free multimodal optical imaging of metabolic heterogeneity in aging by integrating SRS, MPF, FLIM, and SHG](/202604/22/biorxiv-10-64898-2026-04-11-717872-v1-label-free-multimodal-optical-imaging-of-metabolic-heterogeneity-in-aging-by-integrating-srs-mpf-flim-and-shg)  
-   标签：评分：6.0/10、query:qll
-   evidence：衰老中代谢异质性的多模态光学成像
+   evidence：下丘脑神经元与能量消耗调节
+13. [Elevating levels of neuronal MCU in the hippocampus enhances mitochondrial calcium uptake and respiratory efficiency proportional to demand](/202604/23/biorxiv-10-64898-2026-04-13-718264-v1-elevating-levels-of-neuronal-mcu-in-the-hippocampus-enhances-mitochondrial-calcium-uptake-and-respiratory-efficiency-proportional-to-demand)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：海马体中的神经元线粒体钙信号传导和呼吸效率
 
 
 <div class="dpr-home-promo-card">
