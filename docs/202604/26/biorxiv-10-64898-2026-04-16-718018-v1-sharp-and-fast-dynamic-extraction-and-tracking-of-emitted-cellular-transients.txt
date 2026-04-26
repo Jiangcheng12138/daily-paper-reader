@@ -1,0 +1,1760 @@
+Title: 95973204
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.04.16.718018v1.full.pdf
+
+Number of Pages: 32
+
+Markdown Content:
+1
+
+# Sharp and Fast Dynamic Extraction and Tracking of Emitted 
+
+# Cellular Transients 
+
+Wenli Niu 1∗, Yufan Chen 2∗, Xia Li 1# , Maïna Garnero 3,4# , Sambre Mach 1, Anna Verbe 1, Margaux 
+
+Le 5, Rémi Jousseaume 1, François David 3, José -Manuel Cancela 1, Michael Graupner 5, Claire 
+
+Eschbach 1, Nathalie Rouach 3, Sabir Jacquir 1, Micaela Galante 1,
+
+Matthieu Lerasle 6£, Glenn Dallérac 1£ 
+
+> 1
+
+Paris -Saclay Institute of Neuroscience, Université Paris -Saclay, CNRS UMR9197, 91400, Saclay, France. 
+
+> 2
+
+Karlsruhe Institute of Technology, Karlsruhe, Germany. 
+
+> 3
+
+Center for Interdisciplinary Research in Biology, Collège de France, CNRS UMR 7241, INSERM U1050. 
+
+> 4
+
+Doctoral School N° 158, Sorbonne Université, Paris, France 
+
+> 5
+
+Université Paris Cité, CNRS, Saints -Pères Paris Institute for the Neuroscien ces, F -75006 Paris, France. 
+
+> 6
+
+ENSAE, Institut Polytechnique de Paris, France.  
+
+> *
+
+co -first authors, #co -second authors, £co -last authors. 
+
+Correspondence:  glenn.dallerac@cnrs.fr , matthieu.lerasle@ensae.fr 
+
+Abstract 
+
+Understanding neural correlates of brain function in neuroscience now largely involves detecting and 
+
+analyzing transient signals from fluorescent sensors. Imaging technologies such as confocal and two -photon 
+
+microscopy, along with onboard miniscopes, enabl e the visualization of neural activities and capture 
+
+dynamic signals both ex vivo and in vivo . This includes monitoring Ca 2+ transients via the expression of 
+
+genetically encoded sensors such as GCaMP in specific brain cells. Additionally, the advent of GPCR -
+
+based neurotransmitter sensors allows for imaging the release of neurotransmitters including glutamate and 
+
+GABA, as well a s neuromodulators such as dopamine or noradrenaline. These approaches however 
+
+generate large, high -dimensional, spatiotemporally complex datasets, presenting significant challenges for 
+
+signal detection and analysis. To overcome these challenges, we develop ed a versatile pipeline of Dynamic 
+
+Extraction and Tracking of Emitted Cellular Transients (DETECT), which combines background 
+
+denoising, object segmentation, and multi -object tracking. Our user -friendly, Python -based GUI offers a 
+
+low -resource platform for efficient data analysis. Validated across various imaging modalities and 
+
+biological models, DETECT provides a robust and comprehensive solution for analyzing complex imaging 
+
+datasets in neuroscience research. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+2
+
+Introduction 
+
+Optical imaging has becom e a central approach for studying brain function, providing direct access to the 
+
+spatiotemporal dynamics of intracellular activity and extracellular transmitter release 1,2 . Imaging 
+
+approaches such as confocal and two -photon microscopy, as well as portable miniscopes, enable recordings 
+
+in acute slices, head -fixed animals, and freely moving preparations 3–7. A widely used example is the 
+
+detection of Ca²⁺ transients with gene tically encoded calcium indicators such as GCaMP in neurons and 
+
+glial cells, both ex vivo and in vivo 8,9 . More recently, GPCR -based fluorescent sensors have extended this 
+
+capacity to major neurotransmitters including glutamate and GABA, and to neuro modul ators such as 
+
+monoamines, neuropeptides, acetylcholine, and ATP 10 –15 . These tools open the possibility of mapping the 
+
+spatiotemporal dynamics of local transmitter release and neuronal activity in unprecedented details, and of 
+
+relating them directly to be havior 11,16 –20 . However, these approaches generate large, high -dimensional 
+
+datasets whose analysis remains technically demanding. 
+
+Several factors contribute to this complexity. Motion artefacts, hemodynamic signals, and unspecific 
+
+fluorescence changes can obscure neural activity, while long recordings are affected by baseline drift arising 
+
+from fluctuations in illumination, detector sensitivity, or environmental conditions 21 –23 . Repeated laser 
+
+exposure further introduces photobleaching, progressively reducing signal intensity and complicating 
+
+longitudinal measurements. Beyond these experimental constraints, the datasets themselves a re inherently 
+
+high -dimensional as each frame contains tens of thousands of pixels whose dynamics reflect both biological 
+
+activity and irrelevant signals. Disentangling genuine spatiotemporal events from these sources of 
+
+variability remains one of the major computational challenges in the field. 
+
+A range of analysis strategies have been developed to address these challenges. Region of interest (ROI) -
+
+based approaches such as Suite2P 24 or CaImAn 25 achieve efficiency and scalability but are inherently 
+
+limite d by their assumption of spatially static compartments, which restricts their ability to capture 
+
+propagating or irregular events. Event -based approaches instead model signals at the pixel level, offering 
+
+richer spatiotemporal fidelity and the possibility t o quantify transient phenomena beyond fixed ROIs. The 
+
+Activity Quantification and Analysis (AQuA) platform 26 and its successor AQuA2 27 represent important 
+
+steps in this direction, providing generalizable tools to quantify complex spatiotemporal signals across 
+
+modalities. Yet these approaches remain computationally demanding and are highly sensitive to 
+
+background fluctuations, making them difficult to apply to long recordings or datasets with low signal -to -
+
+noise ratio. Deep learning approaches have also s hown promise for segmentation and event detection 28,29 ,
+
+but they require extensive annotated training sets and carry high computational costs, while their limited 
+
+interpretability constrains adoption for exploratory studies. 
+
+To address these challenges, we developed a novel data -driven pipeline for automatic fluorescence signal 
+
+extraction and analysis, grounded in machine learning and image signal processing principles. Our Dynamic 
+
+Extraction and Tracking of Emitted Cellular Transients (DETECT) pipeline combines background 
+
+suppression, adaptive object segmentation, and multi -object tracking to identify fluorescence events in a 
+
+robust and efficient manner. By integrating denoising and adaptive tracking, DETECT retains the strengths 
+
+of both ROI - and event -ba sed methods while reducing their weaknesses. The aim of this pipeline is to 
+
+provide a comprehensive solution for fluorescence imaging research, enabling rapid and precise detection 
+
+of dynamic spatiotemporal signals. While broadly applicable to neurotransmi tter and calcium imaging, 
+
+DETECT is particularly well -suited for datasets where conventional methods face limitations, such as 
+
+recordings with low signal -to -noise ratios, unstable baselines, or dense overlapping events. Furthermore, to 
+
+facilitate use by ex perimental laboratories, we implemented DETECT in a Python -based graphical user 
+
+interface (GUI) that provides a user -friendly, resource -efficient environment for data processing. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+3
+
+We validated the versatility and efficacy of DETECT across multiple experimen tal paradigms, including 
+
+two -photon, confocal, and one -photon miniscope imaging in both ex vivo and in vivo preparations. 
+
+Applications to calcium imaging in neurons and astrocytes, as well as to fluorescent neurotransmitter 
+
+sensors such as GRAB -based indic ators, demonstrate that DETECT can reliably capture discrete and tonic 
+
+events under conditions that challenge existing pipelines. By enabling reliable detection of discrete and 
+
+sustained events across scales, DETECT broadens the scope of fluorescence imagi ng analysis and offers a 
+
+versatile framework for probing cellular and circuit dynamics in the brain. 
+
+Results 
+
+Structure of the DETECT pipeline 
+
+To introduce the DETECT pipeline and its capacity to handle diverse imaging conditions, we selected two 
+
+main prototypical representative examples characterized by high background and signal noise. The first 
+
+involves detection of spontaneous dopamine transients in acute prefrontal cortex slices, using ex vivo 
+
+expression of the genetically enc oded dopamine sensor GRAB DA2h (Fig. 1a). These events are sparse and 
+
+occur stochastically in space and time, superimposed on a fluorescent baseline that ranges from low (Fig. 
+
+1b; Video 1) to high intensity (Fig. 1c, e; Video 2). The second example involves in vivo calcium imaging 
+
+of hippocampal astrocytes in freely moving animals, achieved with GCaMP6f and one -photon miniature 
+
+microscopy (Fig. 1f, g; Video 3). These cases (Video 2 and 3) were chosen to represent common challenges 
+
+in fluorescence imaging, su ch as low signal -to -noise ratio, dynamic background fluctuations or sparse 
+
+events detection, and provide a basis for describing the full DETECT analysis pipeline. 
+
+In order to achieve efficient detection and tracking of dynamics signals in high dimensional datasets, we 
+
+structured the DETECT pipeline in two main parts: 1/extraction of pixel -level discrete dynamic signals in 
+
+complex backgrounds and 2/ segmentation and tracking of multiple signals (Fig. 1d). For extraction of 
+
+relevant signals from background an d noise, we used a hierarchical strategy comprising coarse and fine 
+
+stages. In the coarse stage, we applied Principal Component Analysis (PCA) to categorize signal dynamics 
+
+by reducing data dimensionality, thereby isolating dominant background and noise co mponents. Unlike 
+
+conventional PCA approaches that retain principal components, we here subtracted them to reveal the 
+
+underlying discrete signals. Low -pass filtering is then applied to further remove high -frequency noise. In 
+
+the finer stages, pixels were cl assified over time as signal or background by estimating background 
+
+probability distributions using unsupervised Gaussian mixture models (GMMs), thereby isolating the 
+
+foreground signals. This machine learning approach enables to distinguish sparse and disc rete sensor 
+
+signals (Fig. 1e, g) from background variations in fluorescence such as photobleaching and laser instability. 
+
+After successfully extracting dynamic signals, the second part of the DETECT pipeline consists in multi -
+
+target segmentation and tracki ng on the foreground objects. To this end, we use model -based object 
+
+detection techniques, allowing precise delineation of objects of interest. Finally, to analyze the propagation 
+
+of dynamic signals, we track each object’s movement path through correlations between consecutive frames 
+
+using time -series analysis. Overall, the DETECT pi peline provides a comprehensive pixel -to -object 
+
+analysis framework capable of processing and analyzing spatio -temporal dynamic data from complex 
+
+scenes. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+4
+
+Figure 1. Overview of the DETECT pipeline and representative imaging datasets. (a) Schematic of ex 
+
+vi vo two -photon imaging i n an acute prefrontal cortex slice used for dopamine imaging experiments. ACSF 
+
+continuously perfuses the recording chamber while fluorescence signals are acquired through the objective. 
+
+(b) Example frames from two -photon imaging of d opamine dynamics in prefrontal cortex slices expressing 
+
+the GRAB DA 2h sensor under low background fluorescence conditions. Transient dopamine release events 
+
+appear as small diffuse domains emerging from a dim background. Dashed circle indicates a representa tive 
+
+event. (c) Example frames from two -photon imaging of dopamine dynamics in prefrontal slices expressing 
+
+the GRAB DA 2h sensor under high background fluorescence conditions, illustrating conditions in which 
+
+dopamine events are barely detectable. Dashed circle indicates a representative event. (d) Schematic of the 
+
+DETECT analysis pipeline showing the sequential processing s tages: raw data input, signal extraction, 
+
+denoising, foreground segmentation, and multi -object tracking. (e) Stepwise outputs of the DETECT 
+
+pipeline applied to a representative two -photon GRAB DA 2h dataset, illustrating raw fluorescence data, 
+
+intermediate s ignal extraction and denoising stages, foreground segmentation (pink pixels) , and final 
+
+tracking of detected events (colored clusters of pixels) . (f) Schematic of one -photon miniscope imaging 
+
+performed in a freely moving mouse. (g) Stepwise outputs of the DETECT pipeline applied to a 
+
+representative miniscope calcium imaging dataset, showing raw fluorescence frames, signal extraction and 
+
+denoising, foreground segmentation, and tracking of detected Ca²⁺ events. 
+
+Hierarchical extraction isolates dynamic signal s from background 
+
+Coarse stages of background suppression 
+
+Fluorescence recordings often display substantial variability in baseline intensity and background dynamics 
+
+due to differences in sensor expression, illumination, and acquisition settings. In our representative datasets, 
+
+dopamine transients recorded with GRAB DA2h 30 in acute prefrontal cortex slices range from near -
+
+background to high saturation, while one -photon hippocampal astrocyte recordings with GCaMP6f in freely 
+
+moving mice show strong backgr ound and spatial inhomogeneities (Fig. 1b, c, g; Video 2-3). To make pixel 
+
+values comparable across frames and recordings, z-score scaling is first applied , thus n ormaliz ing signals 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint 5
+
+relative to their mean and variance, facilitating comparison across datasets with heterogeneous baselines 
+
+while discarding absolute intensity differences. 
+
+Beyond baseline and amplitude variability, a major source of variance arises from structured, low -frequency 
+
+background fluctuations , masking the discrete and spatially localized events of interest. In both datasets, 
+
+these background components arise from tissue -wide fluorescence changes, vascular shadows, or laser drift. 
+
+We address this using PCA to decompose the dataset into its main sources of variance (Fig. 2a). Unlik e
+
+conventional uses of PCA that retain the dominant components, we subtract the first components that 
+
+correspond to global background activity. This approach removes the variance -heavy background while 
+
+preserving the sparse and localized events. As a resul t, we uncover distinct hotspots in GRAB DA2h slices 
+
+and clearly delineated astrocytic Ca²⁺ microdomains in miniscope recordings (Fig. 2 b -c). 
+
+After removal of structured, low -frequency background components, residual high -frequency noise from 
+
+detector fluct uations or unstable pixels can still obscure the signal. We reduce this by applying a low -pass 
+
+temporal filter (Fig. 2d), selecting cut -off frequencies from the spectral profiles of representative foreground 
+
+and background pixels (Fig. 2e -n). This step rem oves jitter without distorting the onset and decay of events. 
+
+Together, these coarse -stage operations produce cleaner, more homogeneous datasets in which discrete 
+
+dynamic events can be reliably isolated in the fine stages of the DETECT pipeline. 
+
+Fine stages of signal extraction 
+
+Following suppression of global background components and removal of high -frequency noise, we refine 
+
+the detection process to distinguish genuine dynamic events from residual local background fluctuations. 
+
+As background activit y varies unpredictably across both space and time, relying on a single global threshold 
+
+or fixed probability distribution is inadequate. We therefore implement an adaptive Gaussian mixture model 
+
+(GMM) that estimates the probability distribution of each pix el’s intensity over the recording. At each time 
+
+point, the model computes the posterior probability that a given pixel belongs to foreground or background, 
+
+enabling the identification of brief, spatially restricted events even under unstable illumination o r motion -
+
+induced artifacts. Importantly, the model parameters, namely component means, variances, and weights, 
+
+are updated recursively, allowing the algorithm to accommodate gradual drifts, sudden background 
+
+changes, and the emergence of novel features. Pi xels whose estimated background probability falls below 
+
+an adaptive threshold are classified as foreground, generating a sparse and dynamically updated mask of 
+
+candidate events (Fig. 3a). 
+
+Because fluorescence baselines can drift substantially during long r ecordings due to photobleaching, 
+
+illumination fluctuations, or slow biological signals, we avoid classical sliding -window approaches to 
+
+baseline estimation. Instead, the transition detected by the GMM from background to foreground provides 
+
+a natural tempor al anchor for baseline estimation. For each pixel, the fluorescence value immediately 
+
+preceding this transition is used as the local reference level, enabling a dynamic ΔF/F calculation that 
+
+remains robust to baseline instability and does not assume a fixe d temporal window. 
+
+Applied to our lead datasets, this fine -stage approach reliably isolates discrete signals embedded in complex 
+
+backgrounds. In GRAB DA2h recordings from acute prefrontal cortex slices, dopamine transients emerge as 
+
+spatially localized fluorescence clusters that occur stochastically across the field of view (Fig. 3a). In one -
+
+photon miniscope recordings of hippocampal astrocytes, localized Ca²⁺ transients are resolved despite 
+
+superimposed slow baseline waves and spatially inhomogeneous fl uorescence (Fig. 3a). This adaptive 
+
+modeling ensures that only pixels exhibiting statistically distinct temporal dynamics are forwarded to the 
+
+segmentation and tracking stages, preserving event integrity and minimizing false detections. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+6
+
+Figure 2. DETECT coarse stages of background suppression. ( a) Conceptual illustration of principal component 
+
+analysis (PCA). High -dimensional fluorescence signals are projected onto orthogonal principal components (here 
+
+PC1 –PC3) that capture the dominant sources of variance in the data. (b) PCA decomposition of the one -photon 
+
+miniscope GCaMP6f dataset. Low -rank component s mainly capture large -scale background structures and 
+
+illumination gradients, while high -rank components contain faster fluorescence events corresponding to sparse 
+
+biological signals in addition to high -frequency noise . The first 3 principal components re presenting the dominant 
+
+background contributions are shown and subtracted to isolate discrete transient signals. (c) PCA decomposition 
+
+applied to the two -photon GRAB DA₂h dataset. The first principal components primarily represent the static background 
+
+cont ribution as well as slowly varying background structures , and are removed to isolate sparse transient signal event s.
+
+(d) Schematic illustration of low -pass filtering used to suppress high -frequency noise while preserving the temporal 
+
+dynamics characteristi c of biological fluorescence signals. (e) Example frame from the miniscope dataset showing 
+
+pixels classified using convex cone analysis. Pixels identified signal are shown in red , while randomly selected pixels 
+
+are shown in blue . One hundred pixels from each category were selected for subsequent spectral analysis. (f) Average 
+
+power spectra of fluorescence fluctuations for background (blue) and signal (red) pixels in the miniscope dataset. (g) 
+
+Frequency -dependent energy ratio deri ved from the spectral power of signal and background pixels. The peak of the 
+
+curve identifies the frequency range where signal fluctuations are maximally separated from background noise and is 
+
+used to determine the cutoff frequency for low -pass filtering ( dashed line). (h) Representative miniscope fluorescence 
+
+event illustrating the effect of low -pass filtering. The panel shows the spatial location of the event together with 
+
+successive frames before filtering (top row) and after filtering (bottom row), demo nstrating noise reduction while 
+
+preserving event structure. (i) Pixel -by -time representation of fluorescence dynamics across the miniscope recording 
+
+before filtering (left) and after filtering (right). (j) Example frame from the two -photon dataset showing pixels 
+
+classified using convex cone analysis. Pixels identified as background are shown in blue and pixels identified as signal 
+
+are shown in red. One hundred pixels from each category were selected for spectral analysis. (k) Average power 
+
+spectra of fluore scence fluctuations for background (blue) and signal (red) pixels in the two -photon dataset. (l) 
+
+Frequency -dependent energy ratio between signal and background spectra used to determine the optimal cutoff 
+
+frequency for low -pass filtering. (m) Representativ e two -photon fluorescence event showing the effect of low -pass 
+
+filtering, with successive frames displayed before (top row) and after filtering (bottom row). (n) Pixel -by -time 
+
+representation of fluorescence dynamics across the two -photon recording before f iltering (left) and after filtering 
+
+(right). 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+7
+
+Figure 3. DETECT fine stages of signal extraction . (a) Adaptive Gaussian mixture modeling (GMM) classifies 
+
+pixels as foreground or background based on their temporal intensity distribution. Each pixel is modeled as a mixture 
+
+of Gaussian components defined by their mean (μ), standard deviation (σ), and mixture weight (w), representing 
+
+average intensity, variability, and relative contribution to the signal. Pixels classified as foreground (shown in pink) 
+
+generate a sparse mask of candidate events. (b) Adaptive threshold -based segmentation separates spatially adj acent 
+
+signals while preserving event boundaries. Detected clusters are then associated across frames by matching predicted 
+
+cluster positions (dashed outlines) with newly detected clusters (solid shapes). (c) Optional memory function links 
+
+recurrent events arising from the same spatial location across time. When a signal temporarily disappears and later 
+
+reappears within the same region, it is assigned the same cluster identity. (d) Identification of splitting and merging 
+
+events during tracking. When a signal divides into multiple regions or neighboring domains overlap, the resulting 
+
+regions are associated with the same underlying source identity. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint 8
+
+Spatiotemporal segmentation and tracking preserves signal identities 
+
+After foreground extraction, the next step is to separate discrete events from one another and to preserve 
+
+their identity across time. In our representative datasets, dopamine release events in GRAB DA2h -labeled 
+
+prefrontal cortex slices and astrocytic Ca²⁺ domains in miniscope recordings often appea r as small, spatially 
+
+clustered sources surrounded by complex and fluctuating backgrounds. Without robust segmentation and 
+
+tracking, spatially adjacent sources can be merged, while single sources with intermittent activity can be 
+
+fragmented into multiple d etections. We address this with an adaptive thresholding approach that estimates 
+
+local thresholds within small neighborhoods, allowing detection sensitivity to adjust to the local intensity 
+
+context. This prevents bright structures from masking nearby dim e vents, as in the case of faint astrocytic 
+
+processes located near strongly active areas . The result is a segmentation that faithfully captures each 
+
+source’s spatial extent without leakage into neighboring regions (Video 4 -5, Fig. 3 a). Temporal tracking is 
+
+then performed with a multi -object association algorithm that links segmented sources across consecutive 
+
+frames by minimizing the global assignment cost (Video 6-7, Fig. 3b). 
+
+An optional memory function extends this process by recognizing when a signal rea ppears within the same 
+
+local region after a period of absence and assigning it the same identity (Fig. 3c). This ensures that recurrent 
+
+events from the same dopamine hotspot or astrocytic microdomain are integrated into a continuous temporal 
+
+record, preser ving the history of each source over the course of an experiment. By maintaining these 
+
+identities, DETECT allows a distinction between repeated activation of a single release site and activity 
+
+arising from distinct sites in close proximity. 
+
+In addition, t he tracking algorithm explicitly handles topological changes in event morphology. As signals 
+
+evolve, their spatial footprint may transiently split into multiple regions or merge with neighboring 
+
+domains. DETECT resolves these configurations during frame -to -frame tracking by computing a centroid -
+
+distance cost matrix and identifying optimal assignments using the Hungarian algorithm 31,32 . When several 
+
+regions appear near the previous centroid of a tracked signal, they are associated with the same source, 
+
+preserving identity during temporary splitting. Conversely, when regions converge, the merged signal 
+
+inherits the identity of the closest preceding centroid (Fig. 3d). 
+
+These tracking rules ensure that individual signal sources remain consistently identifie d despite 
+
+interruptions in activity or changes in spatial morphology. In our lead examples, this capability is critical 
+
+for interpreting patterns of dopamine release or astrocytic Ca²⁺ activity in terms of source -specific dynamics 
+
+rather than aggregated re gional signals. In both datasets, this approach preserves the individuality of signals 
+
+even in crowded regions, reconstructs their activity over extended periods, and provides a foundation for 
+
+spatiotemporal analyses of recurrence, synchrony, and propagati on within neural networks. 
+
+Additional modules for signal refinement 
+
+While the core DETECT pipeline is designed to operate without extensive preprocessing, certain datasets 
+
+benefit from additional corrections that improve stability and clarity. To accommo date this, we include 
+
+optional modules for motion correction and spatial filtering that can be activated as needed, depending on 
+
+the quality of the recordings. 
+
+Motion correction addresses the small but cumulative shifts that often occur during imaging. For example, 
+
+in GRAB DA2h recordings of spontaneous dopamine transients in the prefrontal cortex, slow drift of the field 
+
+of view can distort spatial alignment, causing recurrent sources to appear at different coordi nates over time 
+
+(e.g., Video 1) . DETECT can correct this via a motion correction module using an intensity -based 
+
+registration approach that maximizes the Enhanced Correlation Coefficient (ECC) between frames. ECC is 
+
+an iterative algorithm that finds the optimal alignment by maximizing the geometric correlation between 
+
+pixel intensity patterns, rather than relying on specific landmarks 33 . Unlike feature -based methods that rely 
+
+on the detection and matching of discrete keypoints, ECC directly operates on the full image intensity 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+9
+
+distribution, making it particularly well suited for fluorescence imaging data where stable structural features 
+
+are sparse or absent. In practice, each frame is iteratively aligned to a reference template by estimating an 
+
+optimal affine transformation that maximizes the correl ation between the reference and the transformed 
+
+frame. This formulation enables subpixel alignment and robust correction of translational, rotational, and 
+
+mild shear distortions without int roducing feature detection bias. This correction is especially crit ical for in 
+
+vivo recordings, where drift and motion artefacts can introduce apparent displacement of signals across 
+
+time. By enforcing gl obal intensity consistency, ECC -based correction stabilizes spatial coordinates and 
+
+preserves the continuity of signal trajectories. As a result, repeated activation of the same source is reliably 
+
+assigned to consistent locations, preventing misclassification due to mechanical or biologi cal drift (Video 
+
+8, Fig. 4 ). 
+
+Spatial filtering is also integrated into the DETECT pipeline as an optional processing to improve the 
+
+visibility of faint structures in datasets with low signal -to -noise ratios. In acute slice recordings of dopamine 
+
+transients, the fluorescent signal can be partly obscured by det ector noise or uneven illumination. Applying 
+
+moderate Gaussian -based smoothing reduces random pixel fluctuations without blurring the edges of 
+
+discrete sources, which is essential for accurate segmentation. When combined with the adaptive 
+
+thresholding in t he segmentation step, this produces clearer object boundaries and improves the detection 
+
+of small, low -intensity events that would otherwise be missed. 
+
+Although not required for the functioning of the pipeline, these optional modules extend its applicabili ty to 
+
+challenging datasets, increasing the robustness of downstream analyses. By stabilizing the field of view and 
+
+clarifying the spatial profile of sources, they provide a cleaner input for the core detection and tracking 
+
+stages, ultimately improving the accuracy of event identification and quantification in demanding 
+
+experimental conditions. This creates an optimal baseline for assessing DETECT’s performance against 
+
+existing analysis pipelines. 
+
+Figure 4. ECC based motion correctio n. (a) Reference frame (frame 0). (b) Moving frame (frame 4 5) prior to 
+
+alignment. (c) Displacement field estimated by the ECC algorithm, shown as a vector field indicating the direction of 
+
+pixel -wise shifts required to align the moving frame to the reference. (d) Corresponding displacement magnitude map, 
+
+showing the spatial distribution of displacement amplitudes across the field of view. (e) Overlay of the reference (red) 
+
+and moving frame (green) before correction, showing spatial misalignment between correspondi ng structures, visible 
+
+as separated red and green signals (inset). (f) Overlay of the reference (red) and aligned frame (green) after ECC 
+
+correction, showing improved spatial correspondence, with yellow regions indicating overlap between red and green 
+
+sign als (inset). (g) Pixel -wise difference between reference and moving frame (Ref − Moving), showing widespread 
+
+positive (red) and negative (blue) intensity differences across the field of view. (h) Pixel -wise difference between 
+
+reference and aligned frame (R ef − Aligned), showing reduced intensity differences and a difference map with 
+
+minimal residual contrast. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+10 
+
+Performance evaluation of DETECT 
+
+Comparison with state of the art detection pipelines 
+
+To evaluate the performance of DETECT relative to existing event -based analysis pipelines, we compared 
+
+it with AQuA and AQuA2, the current state -of -the -art event -based pipelines for extracting spatiotemporal 
+
+fluorescence signals 26,27 . Benchmarking was performed using synthetic datasets with known ground -truth 
+
+ev ents generated under controlled conditions designed to reproduce the variability and complexity of 
+
+modern fluorescence imaging recordings  (Video 9 ). Specifically, the  synthetic  datasets combined spatially 
+
+nonuniform background fluorescence derived from real imaging data with sparse background transients, 
+
+onto which agent -based fluorescence events were superimposed. These events varied in amplitude, size -
+
+change  odd , duration,  loc ation -change  odd,  and propagation, thereby reproducing irregular event 
+
+morphology and diverse spatiotemporal dynamics observed in experimental recordings. 
+
+Detection accuracy was quantified using the mean intersection -over -union (mIoU) between detected and 
+
+ground -truth events, which measures their spatial and temporal overlap. We also computed the F1 score, 
+
+i.e.  the harmonic mean of precision (the fraction of  detected events that are true positives) and recall (the 
+
+fraction of ground -truth events that were successfully detected) , providing a single measure that balances 
+
+both  metrics .
+
+Across the synthetic benchmark datasets, DETECT consistently achieved higher mIoU and F1 scores than 
+
+both AQuA and AQuA2 (Fig. 5 a, b ). This advantage was particularly evident in simulations where event 
+
+morphology evolved dynamically. Increasing the probability of event size changes, which produces 
+
+expanding or contracting domains  across time, led to a marked decline in AQuA2 accuracy, whereas 
+
+DETECT maintained higher performance across the tested range. Similarly, increasing the number of 
+
+propagation frames, which generates spatially spreading events, strongly impaired AQuA2 while  DETECT 
+
+preserved substantially better overlap with ground truth.  The same ranking was observed when varying 
+
+event location shifts, with DETECT maintaining the highest mIoU and F1 scores across the tested ranges, 
+
+followed by AQuA2 and then AQuA (Supplementa ry Fig. 1 a, b ).  We next examined the effect of 
+
+background fluctuations, a common challenge in fluorescence imaging. As background amplitude or 
+
+background fluctuation frequency increased, DETECT again retained higher mIoU and F1 values than both 
+
+AQuA2 and A QuA across the tested range (Fig. 5c, Supplementary Fig. 1 c). 
+
+Importantly,  in  addition to improved accuracy, DETECT also displayed substantially lower computational 
+
+cost. Runtime and memory usage remained low and largely stable across parameter sweeps, whe reas AQuA 
+
+required substantially longer processing times and larger memory allocation. AQuA2 showed intermediate 
+
+performance but remained consistently slower than DETECT across all simulated conditions. 
+
+Overall, these results show that DETECT combines high er segmentation accuracy with substantially 
+
+improved computational efficiency, providing a robust solution for analyzing complex spatiotemporal 
+
+fluorescence datasets. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+11 
+
+Figure 5. Performance comparison of DETECT with current event -based fluorescence analysis pipelines (a) 
+
+Performance across simulated conditions. Synthetic datasets were generated with controlled variations in event size 
+
+change probability, spatial propagation, and background fluctuation amplitude. Detection per formance was quantified 
+
+using F1 score (top) and mean intersection -over -union (mIoU; bottom) across increasing parameter values and signal -
+
+to -noise ratios (SNR). DETECT (green) consistently maintained higher detection accuracy than AQuA2 (magenta) 
+
+and AQuA (blue) across tested conditions. (b) Representative detection examples from synthetic datasets. 
+
+Comparisons between AQuA2 and DETECT under small versus large size -change probabilities, limited versus 
+
+extended propagation, and low versus high background am plitude. Colored overlays indicate detected events. (c) 
+
+Computational resource usage. Memory consumption (top) and runtime (bottom) measured across simulations with 
+
+increasing size -change probability, propagation length, and background amplitude. DETECT re quired substantially 
+
+less memory and processing time than AQuA2 and AQuA. 
+
+Validation across imaging modalities and models 
+
+We applied DETECT and AQuA2 to 6 experimental datasets spanning multiple species, brain regions and 
+
+imaging modalities. Each pipeline was run using the parameter configuration maximizing detection of 
+
+visually identifiable events for that dataset, and results were compared in terms of total number of detected 
+
+events and runtime . For AQuA2, we also ran the default parameter s et recommended for each data type 27 .
+
+The first group of datasets involved GRAB sensor imaging of spontaneous events, which is particularly 
+
+challenging due to the low signal -to -noise ratio of fluorescence transients and baseline instability over long 
+
+recordings. In two -photon imaging of dopamine dynamics in the mouse prefrontal cortex using GRAB DA2h 
+
+sensors, the signal consisted of transient dopamine events embedded in slowly varying baseline 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint 12
+
+fluorescence. DETECT detected 88 events, completing analysis in 26.7 s compared to 108 events with 
+
+adjusted parameters and 317 events with initial parameters, processed in 67.613 s with adjusted parameters 
+
+and 643.863 s with initial parameters for AQuA2 (Fig. 6a). Although both methods were sensitive to 
+
+parameter choice in this dataset, DETECT maintained stable detection across a wider parameter range, 
+
+whereas AQuA2 configurations either missed a substantial fraction of visually apparent events or produced 
+
+numerous additional detections not readily attributable to identifiable fluorescence transients (Fig. 6a, 
+
+Video 10) .
+
+In mouse cerebellar cortex slices expressing the GRAB NE sensor and imaged with two -photon microscopy, 
+
+neuromodulatory transients were superimposed on slow baseline drift, with DETECT yielding 52 eve nts 
+
+and a runtime of 41.47 s compared to 33 events with adjusted parameters and 155 events with default 
+
+parameters, processed in 52 s with adjusted parameters and 99.828 s with default parameters for AQuA2 
+
+(Fig. 6b). Here again, both pipelines efficiency rely on parameter selection, but DETECT preserved 
+
+detection of genuine events with limited false positives across a broader parameter range, whereas AQuA2 
+
+did not yield a parameter configuration that simultaneously captured genuine events while limiting false 
+
+detections (Video 11) .
+
+The same limitation was observed in hippocampal calcium imaging using a head -mounted miniscope, 
+
+where low signal -to -noise ratio, substantial motion artefacts and strong background fluorescence from out -
+
+of -focus plane s further complicate detection (Fig. 6c , Video 12 ). DETECT identified 239 events in 270.52 
+
+s, while AQuA2 measured 216 events with adjusted parameters and 94 events with default parameters, 
+
+processed in 483.871 s with adjusted parameters and 237.958 s with default parameters , and did not provide 
+
+a parameter configuration that both limited spurious detections arising from background fluctuations and 
+
+preserved genuine events. 
+
+In ex vivo confocal recordings of GCaMP6f activity in the mouse hypothalamus, calcium events were sparse 
+
+but high -amplitude, with low background fluorescence (Video 13). DETECT isolated 182 events in 27.48 
+
+s, while AQuA2 measured 284 events with adjusted parameters and 261 events with initial parameters, 
+
+processed in 72.408 s with a djusted parameters and 84.029 s with initial parameters. Performance was thus 
+
+closer between the two pipelines for this dataset (Fig. 6d). 
+
+In vivo two -photon recordings of molecular layer intern euron s activity in the cerebellar cortex displayed 
+
+di screte s omatic calcium transients. DETECT captured 58 events in 196.87 s, while AQuA2 measured 4 
+
+events with adjusted parameters in 217.428 s and 304 events with default parameters in 228.617 s. A cross 
+
+parameter configurations, Across parameter configurations, AQuA2 did not reliably capture these somatic 
+
+events, showing both substantial missed detections and additional detections not spatially associated with 
+
+visually identifiable somata, whereas DETECT detections were consistent ly localized to cell bodies (Video 
+
+14, Fig. 6e). 
+
+Finally, two -photon recordings of Drosophila larvae expressing genetically encoded calcium indicators 
+
+were comparable in spatial dimensions to slice datasets but contained higher event propagation speeds and 
+
+more frequent overlaps. DETECT measured 89 events in 43 s, while AQuA2 measured 15 events with 
+
+adjusted parameters in 58.2 s and 66 events with initial parameters in 1675.933 s. AQuA2 was likewise 
+
+limited in resolving rapidly propagating and overlapping e vents in this dataset, whereas DETECT preserved 
+
+coherent event structure under these conditions ( Video 15, Fig. 6f). 
+
+Taken together, these dataset analyses indicate that while AQuA2 performs well on favorable recordings 
+
+with strong signals and stable backgrounds, it can be difficult to tune to a parameter regime that reliably 
+
+detects genuine events in more challenging datasets. In contrast, DETECT maintained stable detection 
+
+performance across imaging modalities and consistently required substantially shorter processing times. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+13 
+
+Figure 6. DETECT performance across imaging modalities and models. (a) Ex vivo two -photon GRAB DA2h 
+
+imaging in mouse prefrontal cortex. Representative detection outputs obtained with AQuA2 using standard 
+
+parameters, AQuA2 using optimized parameters, and DETECT. (b) Ex vivo two -photon GRAB NE2h imaging in mouse 
+
+cerebellar cortex. Representative detection outputs obtained with AQuA2 using standard parameters, AQuA2 using 
+
+optimized parameters, and DETECT. (c) In vivo one -photon miniscope astroglial GCaMP6f imaging in mouse 
+
+hippocampus. Representative detection outputs obtained with AQuA2 using standard para meters, AQuA2 using 
+
+optimized parameters, and DETECT. (d) Ex vivo one -photon astroglial GCaMP6f imaging in mouse hypothalamus. 
+
+Representative detection outputs obtained with AQuA2 using standard parameters, AQuA2 using optimized 
+
+parameters, and DETECT. (e) In vivo two -photon neuronal GCaMP 7b imaging in mouse cerebellar cortex. 
+
+Representative detection outputs obtained with AQuA2 using standard parameters, AQuA2 using optimized 
+
+parameters, and DETECT. (f) In vivo two -photon GCaMP6f imaging of a dopaminergic neuro n the Drosophila larvae 
+
+central brain . Representative detection outputs obtained with AQuA2 using standard parameters, AQuA2 using 
+
+optimized parameters, and DETECT. 
+
+Discussion 
+
+The increasing complexity of fluorescence imaging experiments demands analysis pipelines that operate 
+
+reliably across modalities, species, and brain regions. DETECT meets this need with a unified, resource -
+
+efficient framework that preserves detection accuracy under conditions that challenge existing methods, 
+
+particularly low signal -to -noise ratios and heterogeneous baseline dynamics. Traditional ROI -based 
+
+methods are efficient but lack the spatial and temporal resolution to capture events with irregular 
+
+morphologies or rapid propagation 34 . Event -based approaches such as AQuA and its derivatives 26,27,35 
+
+improve temporal fidelity but are computationally intensive and sensitive to background drift or motion 
+
+artefacts. DETECT integrates PCA -based background suppression with adaptive pixel -wise classification 
+
+and multi -objec t tracking, retaining the strengths of both paradigms while mitigating their limitations. 
+
+Removing dominant background components at the coarse stage facilitates the extraction of spatially 
+
+consistent events even in the presence of strong baseline fluctuat ions. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint 14
+
+Benchmarking on synthetic datasets that systematically varied event size -change probability, spatial 
+
+propagation, location shifts, background dynamics, and signal -to -noise ratio showed that DETECT 
+
+consistently achieved higher segmentation accuracy th an AQuA and AQuA2. Perf ormance differences 
+
+were most pronounced when event morphology evolved across frames, such as during size changes or 
+
+spatial propagation, conditions under which AQuA2 rapidly lost spatial overlap with ground truth whereas 
+
+DETECT main tained stable mIoU and F1 scores. DETECT also required substantially less runtime and 
+
+memory across all tested conditions. We focused comparisons on AQuA -based pipelines because AQuA 
+
+and AQuA2 are the most widely used event -based approaches designed to det ect spatially extended 
+
+fluorescence signals. ROI - and constrained non -negative matrix factorization (CNMF) based approaches 
+
+such as Suite2P 24 , CaImAn 25 , and CNMF -E (CNMF for Endoscopic data) 36 remain highly effective for 
+
+high -SNR calcium imaging wi th compact somatic signals, but their underlying assumptions make them ill -
+
+suited to low -SNR, spatially diffuse, or morphologically complex events. Event -based methods therefore 
+
+provide the most relevant benchmark for spatially extended fluorescence signal s. 
+
+Beyond benchmarking, our analyses highlight DETECT’s versatility across diverse experimental 
+
+paradigms. All GRAB sensor datasets and the hippocampal miniscope recordings presented the combined 
+
+challenges of low SNR and baseline instability, conditions under which AQuA2 could not operate in a 
+
+parameter range that detected all genuine events without admitting large numbers of artefacts. In other 
+
+calcium imaging d atasets, AQuA2 performance was closer to DETECT’s but with less precise spatial event 
+
+boundaries. DETECT maintained stable performance across all datasets with dataset -specific parameter 
+
+settings and was consistently faster. 
+
+In addition to its broad applic ability for fluorescence imaging, DETECT provides a powerful approach for 
+
+the spatiotemporal characterization of neurotransmitter release in the brain. While it can be applied to 
+
+classical fast transmitters such as glutamate and GABA, its strengths are par ticularly valuable for 
+
+monoamines, for which both phasic and tonic dynamics can be resolved. Sustained monoaminergic release 
+
+has been especially challenging to study due to its diffuse spatial distribution and slow kinetics, which 
+
+cannot be adequately capt ured with conventional techniques such as microdialysis that lack temporal 
+
+precision and spatial mapping 37,38 . By accurately extracting the dynamics of fluorescent indicators for 
+
+dopamine, noradrenaline, and other monoamines, DETECT enabled us to report for the first time tonic 
+
+dopamine and noradrenaline release with GRAB sensors, which have previously been used almost 
+
+exclusively to meas ure evoked phasic release. This capacity to detect both discrete and spatially extende d
+
+events across heterogeneous cellular and subcellular domains, without the constraints of predefined regions 
+
+of interest or high SNR, opens new opportunities to examine how pharmacological, genetic, and optogenetic 
+
+manipulations influence release modes, spatial spread, and local circuit modulation. Such analyses could 
+
+inform mechanistic models of neuromodulatory control that have so far remained inaccessible due to 
+
+method ological limitations. 
+
+Methods 
+
+Animals 
+
+All experiments were conducted in accordance with the European Community Council Directive 
+
+2010/63/EU and approved by the local animal welfare committee (certificate B91272108, Ministère de 
+
+l’Agriculture et de la Pêche). Male a nd female C57BL/6J mice aged 8 –26 weeks were used. Mice were 
+
+housed under a 12 h light/dark cycle with ad libitum access to food and water. 
+
+Drosophila experiments were performed in accordance with standard genetic and husbandry procedures 
+
+app roved by the local institutional biosafety committee. Third -instar larvae of both sexes were obtained 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+15 
+
+from established stocks ( SS01716 -Split GAL4 > UAS -GCaMP6f) and reared at 25 °C on standard cornmeal 
+
+medium under a 12 h light/dark cycle. 
+
+Viral injections for GRAB imaging 
+
+C57BL/6J mice (P30 –P100) were anesthetized with isoflurane and placed in a stereotaxic frame. Adeno -
+
+associated viruses encoding genetically encoded monoamine sensors were injected using a glass capillary 
+
+connected to a Hamilton syringe a t controlled rates. The capillary was left in place for 5 min before slow 
+
+withdrawal to allow diffusion and minimize reflux. For dopamine imaging, AAV9 -hSyn -GRAB DA2h (1 μL, 
+
+0.2 μL/min) was delivered into the medial prefrontal cortex (AP +2.0 mm, ML ±0.3 mm , DV −2.0 mm 
+
+relative to bregma). Coronal slices (400 μm) containing the PFC were prepared after 3 –4 weeks of 
+
+expression. For noradrenaline imaging, AAV9 -hSyn -GRAB NE2h (500 nL per site, 0.1 μL/min) was injected 
+
+bilaterally into cerebellar lobule VI (AP −6.8 mm, ML 0 mm, DV −1.4 mm). Parasagittal slices (400 μm) 
+
+containing lobule VI were obtained 3 –4 weeks later for two -photon imaging. 
+
+Ex vivo preparation and imaging 
+
+- GRAB DA imaging in prefrontal cortex slices 
+
+Brains were rapidly removed following isoflurane anesthesia and cervical dislocation. Coronal slices (400 
+
+μm) containing the medial prefrontal cortex were cut in ice -cold ACSF containing (in mM): 123 NaCl, 2.5 
+
+KCl, 1 N a₂HPO₄, 26.2 NaHCO₃, 1.3 MgCl₂, 2.5 CaCl₂, and 10 D -glucose equilibrated with (pH 7.4; 295 –
+
+300 mOsm). Slices recovered for 45 min at 30°C in oxygenated ACSF before being transferred to a 
+
+recording chamber and continuously perfused at 2 ml/min. Imaging was performed on a two -photon 
+
+microscope (Femtonics) with a 20× water -immersion objective (NA 1.0 ) at 920 nm, 512 × 502 μm ,
+
+acquisition rate 30 Hz. 
+
+- GRAB NE imaging in cerebellar slices 
+
+Mice at P60 -P130 were deeply anesthetized with isoflurane and sacrificed . The cerebellar vermis was 
+
+collected after removal of the brain and placed in cold (4°C), oxygenated (95% O2 + 5% CO2) cutting 
+
+artificial cerebrospinal fluid (ACSF, in mM: 110 NaCl, 5 KCl, 2.5 CaCl2, 1.5 MgSO4, 1.24 KH2PO4, 10 
+
+D-glucose, 27.4 NaHCO 3, 0.05 D -AP5). The vermis was then parasagitally cut at 400 μm for two -photon 
+
+imaging. Slices were then transferred to room temperature ACSF for 1h to recover prior to recordings 
+
+(ACSF, in mM: 110 NaCl, 5 KCl, 2.5 CaCl2, 1.5 MgSO4, 1.24 KH2PO4, 10 D -glucos e, 27.4 NaHCO3). 
+
+Imaging was carri ed out on a two -photon microscope (Femtonics) with a 20× water -immersion objective 
+
+(NA 1.0) at 920 nm, 512 × 502 μm, acquisition rate 30 Hz. 
+
+- Calcium imaging in hypothalamic astrocytes 
+
+GFAP -CreERT2:Ai95 mice ( P110 - P140) in which GCaMP6f expression had been induced by tamoxifen 
+
+(100 mg/kg, i.p., once daily for three consecutive days at P100) were deeply anesthetized with isoflurane 
+
+and sacrificed. Brains were rapidly removed and placed in cold, oxygenated ACSF containing (in mM): 
+
+126 NaCl, 1.5 KCl, 10 HEPES, 21 NaHCO₃, 1.25 MgCl₂, 2 CaCl₂, and 10 D -glucose (pH 7.4; 295 –300 
+
+mOsm). Coronal slices (300 μm) containing the hypothalamus were cut and transferred to oxygenated 
+
+ACSF at room temperature for 1 h prior to recordings. Imaging was performed using a confocal microscope 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+16 
+
+(Nikon Eclipse FN1 -A1R) with a 40× water -immersion objective (NA 0.8 ). GCaMP6f was excited at 488 
+
+nm and emission collected between 500 –550 nm. Images were acquired at 2 Hz with a field of view of 512 
+
+× 502 μm .
+
+- Drosophila larvae brain preparation and imaging 
+
+Central nervous systems of thir d-instar Drosophila larvae (SS01716 -Split GAL4 > UAS -GCaMP6f) were 
+
+dissected in a cold buffer containing (in mM): 135 NaCl, 5 KCl, 4 MgCl₂·6H₂O, 2 CaCl ₂·2H₂O, 5 TES, 
+
+and 36 sucrose, pH 7.15 as in 39 , and adhered to poly -L-lysine (SIGMA, P1524) -coated cover glass in small 
+
+Sylgard (Dow Corning) plates. Imaging was performed in the central brain, in a field centered on a 
+
+dopaminergic neuron innervating the mushroom body. Two -photon recordings were acquired using a Leica 
+
+SP8 microscope at 920 nm with a 25× wate r-immersion objective ( NA 0.95). Recordings were acquired at 
+
+51 Hz with a field of view of 40.4 × 40.4 μm and a spatial resolution of 0.1579 × 0.1 579 μm per pixel. 
+
+In vivo imaging 
+
+- Hippocampal astrocytes imaging 
+
+GFAP -CreERT2:Ai95 mice received tamoxifen (100 mg/kg, i.p., three consecutive days at P50) to induce 
+
+GCaMP6f expression specifically in astrocytes. At P90 -P180, a GRIN lens (1×4 mm, ProView™, Inscopix) 
+
+was implanted above dorsal CA1 (AP −2.0 mm, ML −2.1 mm, DV −1.35 mm, 9° angle). After 2 weeks of 
+
+recovery and habituation, imaging was performed in freely behaving mice during sleep using a head -
+
+mounted miniscope (nVista 3.0, Inscopix) at 15 fps, excitation 0.8 –1.2 mW/mm², gain 5 -6, field of view 
+
+1200 × 800 pixels (1628 × 1018 μm). 
+
+- In vivo two -photon calcium imaging of cerebellar molecular layer interneurons 
+
+Pvalb -Cre mice (P30 –P50; B6.129P2 -Pvalbtm1(cre)Arbr /J) were used to enable preferential targeting of 
+
+cerebellar molecular layer interneurons. Experimental procedures were performed as previously 
+
+described 40 . Briefly, mice were injected in the left lobulus simplex (AP −6 mm, ML +2 mm relative to 
+
+bregma) with jGCaMP7b -mRuby3 (ssAAV1/2 -hSyn1 -dlox -jGCaMP7b -2A -mRuby3(rev) -dlox -WPRE -
+
+hGHp(A), diluted 1:5; 3 injections of 300 nL at 200 μm depth). During the same surgical session, a chronic 
+
+cranial window was implanted over the injection site and a custom stainles s steel head post was affixed to 
+
+the skull. Two to four weeks later, awake mice were habituated to head fixation on a spherical treadmill 
+
+and underwent in vivo two -photon calcium imaging. Recordings consisted of five 60 s trials separated by 2 
+
+min interval s during a controlled locomotion paradigm comprising baseline, acceleration, steady 
+
+locomotion (10 cm/s), and deceleration phases. Two -photon imaging was performed in the molecular layer 
+
+of the lobulus simplex (20 –100 μm below the brain surface) using a cu stom -built microscope 41 with a 
+
+Ti:Sapphire laser (Mai Tai, Spectra Physics) tuned to 910 nm and a 20× water -immersion objective (NA 
+
+1.0, Olympus XLUMPlanFl N). Fields of view of 400 × 400 μm were acquired at 30 Hz with a spatial 
+
+resolution of 0.78 × 0.78 μm per pixel using ScanImage software 42 .
+
+Simulated dataset 
+
+Simulated datasets were generated to benchmark DETECT under co ntrolled conditions. Each synthetic 
+
+video comprised 260 frames with ( 800, 1280) pixels and 200 events superimposed on a normalized real 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+17 
+
+background image. Events were generated using an agent -based cluster model rather t han a single blob 
+
+model, with 1 200 -3500 agents per event, peak amplitudes spanning 35 -95% ΔF/F, rapid -rise and 
+
+exponential -decay temporal waveforms, and event durations of 20 -45 frames. Event centers and onset times 
+
+were distributed across the field of view and recording using a fixed seed for reproducibility, yielding 200 
+
+events per video, i.e., 0.77 event onsets per frame on average and up to approx imately 42 simultaneously 
+
+active events within a frame. To increase spatial and temporal heterogeneity, clusters included amplitude 
+
+jitter, center noise, and per -agent diffusion. Challenge conditions were further introd uced by varying cluster 
+
+size -change odd , location -change odd , and propagation delay. Event propagation was modeled either as 
+
+cluster translation and as isotropic growth. Background fluctuations were simulated by combining the real 
+
+background frame with spa rse low -amplitude background perturbations and amplitudes of the normalized 
+
+intensity range. Gaussian white noise was added to produce nominal SNRs of 0 -20 dB. 
+
+DETECT pipeline 
+
+- Background suppression 
+
+Pixel values were standardized by z -score normalization such that each frame was rescaled to zero mean and 
+
+unit variance: 
+
+where xi, j denotes the intensity of pixel (i , j) , and where μ and σ denote mean and standard deviation of the 
+
+frame , respectively. 
+
+To isolate background fluorescence, singular value decomposition (SVD) was applied to the centered data 
+
+matrix: 
+
+where X is the centered data matrix, U and V are orthogonal matrices containing the left and right singular 
+
+vectors, respectively, VT denotes the transpose of V, and  Σ is the diagonal matrix of singular values. Dominant 
+
+low -rank components corresponding to background signals were subtracted from the reconstructed dataset. 
+
+Residual noise was further reduced by low -pass filtering, with the cut -off frequency estimated using Subspace 
+
+Convex Cone Analysis (SCCA). Pixels exhibiting high spatiotemporal energy were Fourier -transformed and 
+
+compared to background pixels to determine the optimal filtering threshold. 
+
+- Adaptive signal extraction 
+
+Each pixel was modeled by a Gaussian mixture distribution, 
+
+where x denotes the pixel intensity value, M is the number of Gaussian mixture components, 𝜋 ̂𝑚 is the 
+
+weight of component m, 𝜇 ̂ 𝑚 is the corresponding mean, 𝜎 ̂𝑚  
+
+> 2
+
+is the variance, and I is the identity matrix. 
+
+The model estimates the probability that each pixel belongs to either background (BG) or foreground (FG) 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+18 
+
+classes over the temporal window XT. Mixture weights, means, and variances were recursively updated 
+
+over time to adapt to bas eline drifts, illumination changes, and gradual shifts in fluorescence intensity. 
+
+- Segmentation and tracking 
+
+Foreground probability maps were segmented using an adaptive Gaussian thresholding method. For each 
+
+pixel (x,y) the local threshold was defined as: 
+
+where N(x,y) denotes a local neighborhood of size blockSize × blockSize centered on pixel (x, y ), I(i, j) is 
+
+the intensity of pixel (i, j) , and C is a constant used to fine -tune threshold sensitivity. 
+
+The Gaussian weighting kernel applied across the neighborhood was defined as: 
+
+where  α is a normalization constant and  γ controls the Gaussian spread. To ensure scale -consistent smoothing 
+
+across neighborhood sizes,  γ was defined  as a linear function of the neighborhood radius  R:
+
+γ=AR + B 
+
+with 
+
+𝑅  = 𝑘𝑠𝑖𝑧𝑒  − 1
+
+2
+
+where ksize denotes the kernel size, A controls the rate at which smoothing increases with neighborhood size, 
+
+and B B sets a minimum level of smoothing independent of neighborhood size (offset) . In our implementation, 
+
+parameters were set to A=0.3 and B=0.8 to provide moderate scaling of the Gaussian spread while maintaining 
+
+stable baseline smoothing. 
+
+Once fluorescence clusters were segmented in each frame, spatiotemporal tracking was achieved using an 
+
+optimal assignment strategy. For every pair of consecutive frames at t and t+1 , a cost matrix Ci,j was constructed 
+
+from the Euclidean distances between the geometric centers (centroids) of detected clusters: 
+
+where and denote the centroid coordinates of clusters in the respective frames. The Hungarian 
+
+algorithm was then applied to minimize the global cost, yielding the optimal one -to -one assignment of clusters 
+
+across frames. Signals that failed to match within the predefined temporal or spatial range were classified as 
+
+new events, whereas clusters that disappeared were marked as terminated. If a cluster reappeared within a set 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+19 
+
+distance of the centroid from its most recent occurrence, it was re -associated with the same signal, thereby 
+
+allowing continuation across intermittent frames. 
+
+Merging and splitting events were handled expli citly. When multiple clusters converged, the merged signal 
+
+was assigned to the cluster with the closest preceding centroid (“fusion”), while newly merged components 
+
+were flagged as descendants. Conversely, when one cluster split into multiple subclusters, the offspring 
+
+were classified as distinct tracks with ancestry preserved. This procedure ensured consistent signal identity 
+
+across time while accommodating the dynamics of splitting, merging, appearance, and disappearance. 
+
+- Dynamic ΔF/F calculation. 
+
+For each pixel, the reference fluorescence was defined as the frame immediately preceding the transition 
+
+timepoint from background to foreground. At event onset, the reference value was set as ：
+
+Fref = F (tt-1) 
+
+with tt the transition timepoint. 
+
+The fluorescence change was then computed as: 
+
+𝛥𝐹 
+
+𝐹 = 𝐹 (𝑡 ) − 𝐹 𝑟𝑒𝑓 
+
+𝐹 𝑟𝑒𝑓 
+
+This reference was retained until the pixel returned to background ensuring baselines were anchored locally 
+
+to each event onset. 
+
+Video s
+
+Video1. GRAB DA dopamine transients in the prefrontal cortex under low -background conditions .
+
+DOI:  https://doi.org/10.5281/zenodo.19594719 
+
+Video 2. GRAB DA dopamine transients in the prefrontal cortex under high -background conditions .
+
+DOI:  https://doi.org/10.5281/zenodo.19595843 
+
+Video 3 . In vivo astrocytic calcium imaging with miniscope .
+
+DOI:  https://doi.org/10.5281/zenodo.19596018 
+
+Video 4. Adaptive segmentation of neighboring dopamine transients in the prefrontal cortex .
+
+DOI:  https://doi.org/10.5281/zenodo.19596093 
+
+Video 5. Adaptive segmentation of neighboring calcium signals in miniscope imaging. 
+
+DOI:  https://doi.org/10.5281/zenodo.19596200 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+20 
+
+Video 6 . Multi -object tracking of dopamine transients in p refrontal cortex. 
+
+DOI:  https://doi.org/10.5281/zenodo.19596327 
+
+Video 7. Multi -object tracking of calcium signals in miniscope imaging .
+
+DOI:  https://doi.org/10.5281/zenodo.19596485 
+
+Video 8 . Motion correction using ECC alignment. 
+
+DOI:  https://doi.org/10.5281/zenodo.19596560 
+
+Video 9. Synthetic benchmark dataset for performance evaluation 
+
+DOI:  https://doi.org/10.5281/zenodo.19596625 
+
+Video 10. DETECT and AQuA2 comparison in ex vivo prefrontal cortex GRAB DA imaging. 
+
+DOI:  https://doi.org/10.5281/zenodo.19596752 
+
+Video 11. DETECT and AQuA2 comparison in ex vivo cerebellar cortex GRAB NE imaging. 
+
+DOI:  https://doi.org/10.5281/zenodo.19596853 
+
+Video 12. DETECT and AQuA2 comparison in miniscope calcium imaging of hippocampal 
+
+astrocyte s.
+
+DOI:  https://doi.org/10.5281/zenodo.19596967 
+
+Video 13. DETECT and AQuA2 comparison in calcium imaging of hypothalamic astrocytes .
+
+DOI:  https://doi.org/10.5281/zenodo.19597075 
+
+Video 14. DETECT and AQuA2 comparison in calcium imaging of cerebellar interneuron s.
+
+DOI:  https://doi.org/10.5281/zenodo.19597151 
+
+Video 15. DETECT and AQuA2 comparison in calcium imaging of Drosophila larva e central brain 
+
+dopaminergic neurons .
+
+DOI:  https://doi.org/10.5281/zenodo.19597254 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+21 
+
+Video legends 
+
+Video 1. GRAB DA dopamine transients in the prefrontal cortex under low -background conditions .
+
+Two -photon imaging of spontaneous GRAB DA2h fluorescence in acute mouse prefrontal cortex under ex 
+
+vivo baseline conditions. Sparse, spatially restricted dopamine transients appear as discrete and diffuse 
+
+fluorescence domains emerging from a dim background, illustrating favorable signal -to -noise conditions 
+
+for event detection. Displayed at 20× real -time speed. 
+
+Video 2. GRAB DA dopamine transients in the prefrontal cortex under high -background conditions .
+
+Two -photon imaging of spontaneous GRAB DA2h fluorescence in acute mouse prefrontal cortex under ex 
+
+vivo baseline conditions. Dopamine events are barely distinguishable from the background, highlighting 
+
+the need for a robust extraction method. Displayed at 20× real -time speed. 
+
+Video 3. In vivo astrocytic calcium imaging with miniscope . One -photon miniscope recording of 
+
+GCaMP6f -express ing hippocampal astrocytes in a freely behaving (here sleeping) mouse. Most calcium 
+
+events are obscured by strong, spatially heterogeneous background fluorescence, and the remaining events 
+
+are only marginally distinguishable , illustrating the low signal -to -noise conditions of the dataset, hence the 
+
+need for a robust extraction method. Displayed at 20× real -time speed. 
+
+Video 4. Adaptive segmentation of neighboring dopamine transients in the prefrontal cortex . Output 
+
+of the DETECT pipeline after Gaussian mixture model -based foreground extraction and segmentation 
+
+showing separation of spatially adjacent fluorescence events, with detected foreground pixels highlighted 
+
+in pink. Local adaptive thresholding preserves event boundaries and prevents merging of nearby sources 
+
+despite heterogeneous background intensity. Displayed at 20× real -time speed. 
+
+Video 5. Adaptive segmentation of neighboring calcium signals in miniscope imaging. Output of the 
+
+DETECT pipeline after Gaussian mixture model -based foreground extraction and segmentation in 
+
+hippocampal astrocyte miniscope recordings, with detected foreground pixels highlighted in pink. Local 
+
+adaptive thresholding separates spatially adja cent fluorescence events while preserving event boundaries 
+
+despite heterogeneous background intensity. Displayed at 20× real -time speed. 
+
+Video 6. Multi -object tracking of dopamine transients in p refrontal cortex. Tracking of segmented 
+
+spontaneous dopamine transients in ex vivo two -photon GRABDA2h recordings from mouse prefrontal 
+
+cortex. DETECT preserves source identity across frames and reconstructs the temporal dynamics of 
+
+recurrent dopamine hotspots. Displayed at 20× real -time speed. 
+
+Video 7. Multi -object tracking of calcium signals in miniscope imaging . Tracking of segmented 
+
+fluorescence events across consecutive frames in hippocampal astrocyte miniscope recordings. Individual 
+
+sources are assigned consistent identities over time, allowing re construction of their temporal dynamics and 
+
+spatial trajectories. Displayed at 20× real -time speed. 
+
+Video 8 . Motion correction using ECC alignment. Example of motion correction applied to applied to 
+
+the two -photon recording shown in Video 1 , depicting sp ontaneous dopamine transients in acute mouse 
+
+prefrontal cortex slices using the GRAB DA2h sensor . Left, original video s howing progressive lateral 
+
+displacement of the field of view over time. Right, the same recording after Enhanced Correlation 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+22 
+
+Coefficient (ECC) -based motion correction, in which frame -to -frame registration stabilizes the imaging 
+
+field and eli minates apparent displacement across frames . Displayed at 20× real -time speed. 
+
+Video 9. Synthetic benchmark dataset for performance evaluation. Simulated fluorescence dataset with 
+
+realistic background fluctuations and ground -truth spatiotemporal events varying in size, propagation, and 
+
+overlap, used to quantitatively compare the detection accuracy and robustness of DETECT (green) , AQuA 
+
+(blue) , and AQuA2 (magenta ).
+
+Video 10. DETECT and AQuA2 comparison in ex vivo prefrontal cortex GRAB DA imaging. 
+
+Comparison of DETECT and AQuA2 outputs obtained using optimized parameter settings maximizing 
+
+visually identifiable event detection for each dataset, alongside default AQuA2 parameters recommended 
+
+for that imaging modality, applied to ex vivo two -photon GRABDA2h imaging in acute mouse prefrontal 
+
+cortex. Displayed at 20× real -time speed. 
+
+Video 11. DETECT and AQuA2 comparison in ex vivo cerebellar cortex GRAB NE imaging. 
+
+Comparison of DETECT and AQuA2 outputs obtained using optimized parameter settings maximizing 
+
+visually identifiable event detection for each dataset, alongside default AQuA2 parameters recommended 
+
+for that imaging modality, applied to ex v ivo two -photon GRABNE imaging in acute mouse cerebellar 
+
+cortex. Displayed at 20× real -time speed. 
+
+Video 12. DETECT and AQuA2 comparison in miniscope calcium imaging of hippocampal 
+
+astrocyte s. Comparison of DETECT and AQuA2 outputs obtained using optimized parameter settings 
+
+maximizing visually identifiable event detection for each dataset, alongside default AQuA2 parameters 
+
+recommended for that imaging modality, applied to in vivo one -photon mi niscope recordings of 
+
+hippocampal astrocytic calcium activity. Displayed at 20× real -time speed. 
+
+Video 13. DETECT and AQuA2 comparison in calcium imaging of hypothalamic astrocytes .
+
+Comparison of DETECT and AQuA2 outputs obtained using optimized parameter settings maximizing 
+
+visually identifiable event detection for each dataset, alongside default AQuA2 parameters recommended 
+
+for that imaging modality, applied to ex vivo confocal recordings of GCaMP6f activity in the mouse 
+
+hypothalamus. Displayed at 20× re al -time speed. 
+
+Video 14. DETECT and AQuA2 comparison in calcium imaging of cerebellar interneuron s.
+
+Comparison of DETECT and AQuA2 outputs obtained using optimized parameter settings maximizing 
+
+visually identifiable event detection for each dataset, along side default AQuA2 parameters recommended 
+
+for that imaging modality, applied to in vivo two -photon recordings of cerebellar molecular layer 
+
+interneuron calcium activity monitored using the GCaMP7b sensor . Displayed at real -time speed. 
+
+Video 15. DETECT and AQuA2 comparison in calcium imaging of Drosophila larva e central brain 
+
+dopaminergic neuron s. Comparison of DETECT and AQuA2 outputs obtained using optimized parameter 
+
+settings maximizing visually identifiable event detection for each dataset, alongside default AQuA2 
+
+parameters recommended for that imaging modality, applied to ex vivo two -photon re cordings of calcium 
+
+activity in Drosophila larva e dopaminergic afferences in the mushroom body, monitored using the 
+
+GCaMP6f sensor . Displayed at real -time speed. 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+23 
+
+Data availability 
+
+All datasets generated and analyzed during this study are available from the corresponding authors upon 
+
+reasonable request. Representative raw imaging video s from each experimental preparation are included. 
+
+Source data underlying the figures in this manuscript will be provided with the online version of the article. 
+
+Code availability and graphical user interface 
+
+The DETECT pipeline and graphical user interface , s cripts used for benchmarking and figure generation 
+
+are available upon reasonable request. 
+
+Acknowledgements 
+
+We thank Jérôme Ribot for helpful discussions. This work was funded by Fondation pour la Recherche 
+
+Médicale (FRM, AJE20181039590), Fondation pour la Recherche sur le Cerveau (FRC , UNAFAM ),
+
+CNRS, Agence Nationale de la Recherche (ANR -20 -CE37 -0024, ANR -22 -CE16 -0009, ANR -22 -CE16 -
+
+0027 -01 , ANR -23 -CE34 -0013 -04 , , ANR -24 -CHBS -0007 ), the Major Research Program of PSL Research 
+
+University "PSL -Neuro" launched by PSL Research University and implemented by ANR (ANR -10 -IDEX -
+
+0001) , Institut pour la Recherche en San té Publique (IReSP, 201134 -00), the Sorbonne University doctoral 
+
+school ED3C and the Chinese Scholarship Council. 
+
+References 
+
+1. Markicevic, M., Savvateev, I., Grimm, C. & Zerbi, V. Emerging imaging methods to study whole -brain 
+
+function in rodent models. Translational Psychiatry 2021 11:1 11 , 1 –14 (2021). 
+
+2. Daria, V. R., Castañares, M. L. & Bachor, H. A. Spatio -temporal parameters for optical probing of 
+
+neuronal activity. Biophysical Reviews 2021 13:1 13 , 13 –33 (2021). 
+
+3. Cramer, S. W. et al. Through the looking glass: a review of cranial window technology for optical access 
+
+to the brain. J. Neurosci. Methods 354 , 109100 (2021). 
+
+4. Ait Ouares, K., Jaafari, N., Kuczewski, N. & Canepari, M. Imaging Native Calcium Currents in Brain 
+
+Slices. Adv. Exp. Med. Biol. 1131 , 73 –91 (2020). 
+
+5. Cheng, J., McMahon, S. M., Piston, D. W. & Jackson, M. B. Comparing confocal and two -photon Ca2+ 
+
+imaging of thin low -scattering preparations. Biophysical Reports 3, 100109 (2023). 
+
+6. Chen, K., Tian, Z. & Kong, L. Advances of optical miniscopes for in vivo imaging of neural activity in 
+
+freely moving animals. Front. Neurosci. 16 , 994079 (2022). 
+
+7. Knöpfel, T. & Song, C. Optical voltage imaging in neurons: moving from technology development to 
+
+practical tool. Nat. Rev. Neurosci. https://doi.org/10.1038/s41583 -019 -0231 -4 doi:10.1038/s41583 -019 -
+
+0231 -4. 
+
+8. Tian, L., Akerboom, J., Schreiter, E. R. & Looger, L. L. Neural activity imaging with genetically encoded 
+
+calcium indicators. Prog. Brain Res. 196 , 79 –94 (2012). 
+
+9. Nasu, Y., Shen, Y., Kramer, L. & Campbell, R. E. Structure - and mechanism -guided design of single 
+
+fluorescent protein -based biosensors. Nature Chemical Biology 2021 17:5 17 , 509 –518 (2021). 
+
+10. Sun, F. et al. Next -generation GRAB sensors for monitoring dopaminergic activity in vivo . Nat. Methods 
+
+17 , 1156 –1166 (2020). 
+
+11. Patriarchi, T. et al. Ultrafast neuronal imaging of dopamine dynamics with designed genetically encoded 
+
+sensors. Science 360 , (2018). 
+
+12. Chen, J. et al. The Property -Based Practical Applications and Solutions of Genetically Encoded 
+
+Acetylcholine and Monoamine Sensors. J. Neurosci. 41 , 2318 –2328 (2021). 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint 24
+
+13. Zheng, Y. & Li, Y. Past, Present, and Future of Tools for Dopamine Detection. Neuroscience 525 , 13 –
+
+25 (2023). 
+
+14. Qian, T., Wang, H., Xia, X. & Li, Y. Current and emerging methods for probing neuropeptide 
+
+transmission. Curr. Opin. Neurobiol. 81 , 102751 (2023). 
+
+15. Feng, J. et al. Monitoring norepinephrine release in vivo using next -generation GRABNE sensors. 
+
+Neuron  11 2, 1930 -1942.e6 (2024). 
+
+16. Simpson, E. H. et al. Lights, fiber, action!  A primer on  in vivo  fiber photometry.  Neuron  112 , 718 –739 
+
+(2024). 
+
+17. Sabatini, B. L. & Tian, L. Imaging Neurotransmitter and Neuromodulator Dynamics In vivo with 
+
+Genetically Encoded Indicators. Neuron 108 , 17 –32 (2020). 
+
+18. Xia, X. & Li, Y. A high -performance GRAB sensor reveals differences in the dynamics and molecular 
+
+regulation between neuropeptide and neurotransmitter release. Nature Communications 2025 1 6:1 16 ,
+
+1–17 (2025). 
+
+19. Wright, E. C., Scott, E. & Tian, L. Applications of functional neurotransmitter release imaging with 
+
+genetically encoded sensors in psychiatric research. Neuropsychopharmacology 2024 50:1 50 , 269 –273 
+
+(2024). 
+
+20. Sun, F. et al. A Genetically Encoded Fluorescent Sensor Enables Rapid and Specific Detection of 
+
+Dopamine in Flies, Fish, and Mice. Cell 174 , 481 -496.e19 (2018). 
+
+21. Benisty, H., Song, A., Mishne, G. & Charles, A. S. Review of data processing of functional optical 
+
+micros copy for neuroscience. Neurophotonics 9, 041402 (2022). 
+
+22. Bisht, A., Simone, K., Bains, J. S. & Murari, K. Distinguishing motion artifacts during optical fiber -
+
+based in -vivo hemodynamics recordings from brain regions of freely moving rodents. Neurophoton ics 
+
+11 , S11511 (2024). 
+
+23. Yogesh, B., Heindorf, M., Jordan, R. & Keller, G. B. Quantification of the effect of hemodynamic 
+
+occlusion in two -photon imaging of mouse cortex. Elife 14 , RP104914 (2025). 
+
+24. Pachitariu, M. et al. Suite2p: beyond 10,000 neurons with standard two -photon microscopy. bioRxiv 
+
+061507 (2017) doi:10.1101/061507. 
+
+25. Giovannucci, A. et al. Caiman an open source tool for scalable calcium imaging data analysis. Elife 8,
+
+(2019). 
+
+26. Wang, Y. et al. Accurate quantification of astrocyte and neurotransmitter fluorescence dynamics for 
+
+single -cell and population -level physiology. Nat. Neurosci. 22 , 1936 (2019). 
+
+27. Mi, X. et al. Fast, accurate, and versatile data analysis platform for the quantification of molecular 
+
+spatiotemporal signals. Cell 188 , 2794 -2809.e21 (2025). 
+
+28. Eom, M. et al. Statistically unbiased prediction enables accurate denoising of voltage imaging data. Nat. 
+
+Methods 20 , 1581 –1592 (2023). 
+
+29. Islam, M. S., Suryavanshi, P., Baule, S. M., Baek, S. & Glykys , J. A Deep Learning Approach for 
+
+Neuronal Cell Body Segmentation in Neurons Expressing GCaMP Using a Swin Transformer. eNeuro 
+
+10 , (2023). 
+
+30. Sun, F. et al. Next -generation GRAB sensors for monitoring dopaminergic activity in vivo . Nat. Methods 
+
+17 , 1156 –1166 (2020). 
+
+31. Kuhn, H. W. The Hungarian method for the assignment problem. Naval Research Logistics Quarterly 2,
+
+83 –97 (1955). 
+
+32. Virtanen, P. et al. SciPy 1.0: fundamental algorithms for scientific computing in Python. Nat. Methods 
+
+17 , 261 (2020). 
+
+33. Evangelidis, G. D. & Psarakis, E. Z. Parametric Image Alignment Using Enhanced Correlation Coef -
+
+ficient Maximization. IEEE Trans. Pattern Anal. Mach. Intell. 30 , 1858 –1865 (2008). 
+
+34. Mukamel, E. A., Nimmerjahn, A. & Schnitzer, M. J. Automated analysis of cellular signals from large -
+
+scale calcium imaging data. Neuron 63 , 747 –760 (2009). 
+
+35. Wu, Y., Dai, Y., Lefton, K. B., Holy, T. E. & Papouin, T. STARDUST: A pipeline for the unbiased 
+
+analysis of astrocyte regional calcium dynamics. STAR Protoc. 5, (2024). 
+
+36. Zhou, P. et al. Efficient and accurate extraction of in vivo calcium signals from microendoscopic video 
+
+data. Elife 7, (2018). 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 20, 2026. ;https://doi.org/10.64898/2026.04.16.718018 doi: bioRxiv preprint
+
+25 
+
+37. Liu, C., Goel, P. & Kaeser, P. S. Spatial and temporal scales of dopamine transmission. Nat. Rev. 
+
+Neurosci. 22 , 345 (2021). 
+
+38. Özçete, Ö. D., Banerjee, A. & Kaeser, P. S. Mechanisms of neuromodulatory volume transmission. 
+
+Molecular Psychiatry 2024 29:11 29 , 3680 –3693 (2024). 
+
+39. Marley, R. & Baines, R. A. Dissection of third -instar Drosophila larvae for electrophysiolo gical 
+
+recording from neurons. Cold Spring Harb. Protoc. 2011 , 1120 –1123 (2011). 
+
+40. Bao, J. et al. Synergism of type 1 metabotropic and ionotropic glutamate receptors in cerebellar molecular 
+
+layer interneurons in vivo . Elife 9, 1 –22 (2020). 
+
+41. Franconvill e, R., Revet, G., Astorga, G., Schwaller, B. & Llano, I. Somatic calcium level reports 
+
+integrated spiking activity of cerebellar interneurons in vitro and in vivo . J. Neurophysiol. 106 , 1793 –
+
+1805 (2011). 
+
+42. Pologruto, T. A., Sabatini, B. L. & Svoboda, K. ScanImage: Flexible software for operating laser 
+
+scanning microscopes.  Biomed. Eng. Online  2, 13 - (2003).
