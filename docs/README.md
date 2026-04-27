@@ -6,85 +6,88 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-04-26
-- 运行时间：2026-04-26 20:34:34 UTC
+- 最新运行日期：2026-04-27
+- 运行时间：2026-04-27 20:15:09 UTC
 - 运行状态：成功
-- 本次总论文数：21
-- 精读区：8
+- 本次总论文数：22
+- 精读区：9
 - 速读区：13
 
 ### 今日简报（AI）
-今日精选 21 篇前沿文献，深度解析人类全脑睡眠节律激活与慢波睡眠的化学遗传学增强机制。
-满分研究证实了长期干预慢波睡眠的可行性，并揭示了睡眠质量对 AI 记忆巩固及人体脂肪代谢的关键调节作用。
-建议关注睡眠对认知表现的独立影响，通过科学管理慢波睡眠来优化大脑健康与代谢水平。
-- 详情：[/202604/26/README](/202604/26/README)
+今日深度解析 22 篇脑科学前沿成果，重点聚焦人类全脑睡眠节律激活与慢波睡眠的生物干预机制。
+满分论文揭示了全脑范围睡眠节律的同步化特征，并证实了通过化学遗传学手段长期增强慢波睡眠的可行性。
+建议关注睡眠质量与多巴胺、去甲肾上腺素等神经递质的动态关联，以科学视角理解生物钟对认知与情绪的底层调控。
+- 详情：[/202604/27/README](/202604/27/README)
 
 ### 精读区论文标签
-1. [Human Brain-Wide Activation of Sleep Rhythms](/202604/26/biorxiv-10-1101-2024-10-14-618165-v3-human-brain-wide-activation-of-sleep-rhythms)  
+1. [Human Brain-Wide Activation of Sleep Rhythms](/202604/27/biorxiv-10-1101-2024-10-14-618165-v3-human-brain-wide-activation-of-sleep-rhythms)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：睡眠节律的全脑激活以及NREM睡眠中的慢波-纺锤波耦合
-2. [Chronic chemogenetic slow-wave sleep enhancement in mice](/202604/26/biorxiv-10-1101-2025-01-23-634538-v2-chronic-chemogenetic-slow-wave-sleep-enhancement-in-mice)  
+   evidence：非快速眼动睡眠节律期间的全脑激活
+2. [Chronic chemogenetic slow-wave sleep enhancement in mice](/202604/27/biorxiv-10-1101-2025-01-23-634538-v2-chronic-chemogenetic-slow-wave-sleep-enhancement-in-mice)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：小鼠慢波睡眠的化学遗传学增强研究
-3. [Identification of a neural circuit that enables safe, long-term torpor in mice](/202604/26/biorxiv-10-64898-2026-04-22-719582-v1-identification-of-a-neural-circuit-that-enables-safe-long-term-torpor-in-mice)  
+   evidence：通过化学遗传学激活脑干神经元以增强慢波睡眠（NREM）
+3. [Identification of a neural circuit that enables safe, long-term torpor in mice](/202604/27/biorxiv-10-64898-2026-04-22-719582-v1-identification-of-a-neural-circuit-that-enables-safe-long-term-torpor-in-mice)  
    标签：评分：10.0/10、query:tr-hb
-   evidence：鉴定出诱导和维持长期休眠的视前区神经元群
-4. [Walk-sum theoretical generators predict medial-temporal coupling driven by empirical cross-frequency generators: a novel joint cortical-subcortical approach in human sleep EEG](/202604/26/biorxiv-10-64898-2026-04-18-719385-v1-walk-sum-theoretical-generators-predict-medial-temporal-coupling-driven-by-empirical-cross-frequency-generators-a-novel-joint-cortical-subcortical-approach-in-human-sleep-eeg)  
+   evidence：鉴定出对诱导和维持休眠至关重要的视前区神经元群
+4. [Sleep Renormalizes Negative Emotional Generalization](/202604/27/biorxiv-10-1101-2025-08-18-670780-v2-sleep-renormalizes-negative-emotional-generalization)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：人类睡眠脑电图中的皮层-皮层下联合研究方法
-5. [HSF1-mediated Proteostasis Decline Links Aging and Sleep Disruption](/202604/26/biorxiv-10-64898-2026-04-21-719983-v1-hsf1-mediated-proteostasis-decline-links-aging-and-sleep-disruption)  
+   evidence：研究睡眠如何影响情绪泛化和神经处理
+5. [Sleep and mental health independently affect cognitive performance in university students](/202604/27/biorxiv-10-1101-2025-09-30-679650-v2-sleep-and-mental-health-independently-affect-cognitive-performance-in-university-students)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：连接衰老与睡眠中断的分子机制
-6. [Integral membrane protein, anchor, is expressed in the Drosophila insulin-producing cells and is a novel modulator of homeostatic behaviors, including sleep, feeding, and sedation](/202604/26/biorxiv-10-64898-2026-04-22-720032-v1-integral-membrane-protein-anchor-is-expressed-in-the-drosophila-insulin-producing-cells-and-is-a-novel-modulator-of-homeostatic-behaviors-including-sleep-feeding-and-sedation)  
+   evidence：年轻人的睡眠监测与认知表现
+6. [Arousal modulates functional connectivity through structured and hemispherically asymmetric community architecture during wakefulness](/202604/27/biorxiv-10-64898-2026-01-06-697875-v2-arousal-modulates-functional-connectivity-through-structured-and-hemispherically-asymmetric-community-architecture-during-wakefulness)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：觉醒期间觉醒水平对功能连接的调节
+7. [Walk-sum theoretical generators predict medial-temporal coupling driven by empirical cross-frequency generators: a novel joint cortical-subcortical approach in human sleep EEG](/202604/27/biorxiv-10-64898-2026-04-18-719385-v1-walk-sum-theoretical-generators-predict-medial-temporal-coupling-driven-by-empirical-cross-frequency-generators-a-novel-joint-cortical-subcortical-approach-in-human-sleep-eeg)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：人类睡眠脑电图中的皮层-皮层下联合方法及跨频率发生器
+8. [HSF1-mediated Proteostasis Decline Links Aging and Sleep Disruption](/202604/27/biorxiv-10-64898-2026-04-21-719983-v1-hsf1-mediated-proteostasis-decline-links-aging-and-sleep-disruption)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：通过蛋白质稳态和HSF1通路将衰老与睡眠中断联系起来
+9. [Integral membrane protein, anchor, is expressed in the Drosophila insulin-producing cells and is a novel modulator of homeostatic behaviors, including sleep, feeding, and sedation](/202604/27/biorxiv-10-64898-2026-04-22-720032-v1-integral-membrane-protein-anchor-is-expressed-in-the-drosophila-insulin-producing-cells-and-is-a-novel-modulator-of-homeostatic-behaviors-including-sleep-feeding-and-sedation)  
    标签：评分：9.0/10、query:slp-ns
    evidence：包括睡眠在内的稳态行为调节因子
-7. [Polycomb shapes active chromatin and promoter bivalency during ovarian reserve formation and activation](/202604/26/biorxiv-10-64898-2026-04-22-720278-v1-polycomb-shapes-active-chromatin-and-promoter-bivalency-during-ovarian-reserve-formation-and-activation)  
-   标签：评分：9.0/10、query:qll
-   evidence：卵巢储备形成与卵母细胞静止
-8. [HIPK2-and IKKβ-dependent phosphorylation stabilizes TAp63α during the oocyte DNA damage response](/202604/26/biorxiv-10-64898-2026-04-17-719163-v1-hipk2-and-ikk-dependent-phosphorylation-stabilizes-tap63-during-the-oocyte-dna-damage-response)  
-   标签：评分：8.0/10、query:qll
-   evidence：卵母细胞质量控制和DNA损伤反应机制
 
 ### 速读区论文标签
-1. [Orai1-mediated Ca2+ Entry Regulates Lipolysis and Mitochondrial Activation in Brown Adipose Thermogenesis](/202604/26/biorxiv-10-64898-2026-04-24-718619-v1-orai1-mediated-ca2-entry-regulates-lipolysis-and-mitochondrial-activation-in-brown-adipose-thermogenesis)  
-   标签：评分：8.0/10、query:tr-hb
-   evidence：冷诱导产热与极端寒冷的生理适应
-2. [SCM: Sleep-Consolidated Memory with Algorithmic Forgetting for Large Language Models](/202604/26/2604.20943v1-scm-sleep-consolidated-memory-with-algorithmic-forgetting-for-large-language-models)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：包含NREM和REM阶段的睡眠巩固机制
-3. [Sleep and mental health independently affect cognitive performance in university students](/202604/26/biorxiv-10-1101-2025-09-30-679650-v2-sleep-and-mental-health-independently-affect-cognitive-performance-in-university-students)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：年轻人的睡眠监测与认知表现
-4. [Inferring norepinephrine dynamics from partial observations reveals the temporal structure of elevations during arousal](/202604/26/biorxiv-10-64898-2026-03-29-715097-v2-inferring-norepinephrine-dynamics-from-partial-observations-reveals-the-temporal-structure-of-elevations-during-arousal)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：觉醒过程中的去甲肾上腺素动态
-5. [Sharp and Fast Dynamic Extraction and Tracking of Emitted Cellular Transients](/202604/26/biorxiv-10-64898-2026-04-16-718018-v1-sharp-and-fast-dynamic-extraction-and-tracking-of-emitted-cellular-transients)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：神经科学中瞬态信号的检测与分析
-6. [Beyond Histology: A Validated CUBIC-Based Workflow for Volumetric Analysis of Follicles and Cortical Vasculature in Human Ovarian Tissue](/202604/26/biorxiv-10-64898-2026-04-16-718954-v1-beyond-histology-a-validated-cubic-based-workflow-for-volumetric-analysis-of-follicles-and-cortical-vasculature-in-human-ovarian-tissue)  
+1. [Inferring norepinephrine dynamics from partial observations reveals the temporal structure of elevations during arousal](/202604/27/biorxiv-10-64898-2026-03-29-715097-v2-inferring-norepinephrine-dynamics-from-partial-observations-reveals-the-temporal-structure-of-elevations-during-arousal)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：觉醒过程中的去甲肾上腺素动力学
+2. [A transcriptomic analysis reveals shared and inducer-specific expression patterns of cellular senescence](/202604/27/biorxiv-10-64898-2026-04-20-719721-v1-a-transcriptomic-analysis-reveals-shared-and-inducer-specific-expression-patterns-of-cellular-senescence)  
+   标签：评分：8.0/10、query:qll
+   evidence：不同压力源下细胞衰老的转录组分析
+3. [Circadian modulation of spontaneous dopamine release shapes reward-evoked signaling in the nucleus accumbens](/202604/27/biorxiv-10-64898-2026-04-22-720003-v1-circadian-modulation-of-spontaneous-dopamine-release-shapes-reward-evoked-signaling-in-the-nucleus-accumbens)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：多巴胺释放和奖励行为的昼夜节律调节
+4. [Endogenous nucleophilic scavengers of reactive acyl-species neutralize carbon stress](/202604/27/biorxiv-10-64898-2026-04-06-716549-v2-endogenous-nucleophilic-scavengers-of-reactive-acyl-species-neutralize-carbon-stress)  
    标签：评分：7.0/10、query:qll
-   evidence：对育龄捐赠者人类卵巢组织中卵泡的体积分析
-7. [Translational toolkit for reproducible, cross-study profiling of human ageing hallmarks in human blood and tissue](/202604/26/biorxiv-10-64898-2026-04-20-719545-v1-translational-toolkit-for-reproducible-cross-study-profiling-of-human-ageing-hallmarks-in-human-blood-and-tissue)  
+   evidence：蛋白质酰化作为衰老的驱动因素
+5. [Sharp and Fast Dynamic Extraction and Tracking of Emitted Cellular Transients](/202604/27/biorxiv-10-64898-2026-04-16-718018-v1-sharp-and-fast-dynamic-extraction-and-tracking-of-emitted-cellular-transients)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：追踪细胞瞬态以理解大脑功能的神经相关性
+6. [Pseudouridylation of rRNA by specific snoRNA disrupts ribosomal machinery and consequently affects metabolism, longevity and neurodegeneration](/202604/27/biorxiv-10-64898-2026-04-17-719250-v1-pseudouridylation-of-rrna-by-specific-snorna-disrupts-ribosomal-machinery-and-consequently-affects-metabolism-longevity-and-neurodegeneration)  
    标签：评分：7.0/10、query:qll
-   evidence：分析包括细胞衰老在内的人类衰老特征
-8. [ZDHHC13 is a likely pseudoenzyme protein S-acyltransferase that functions via a non-canonical mechanism](/202604/26/biorxiv-10-64898-2026-04-20-719575-v1-zdhhc13-is-a-likely-pseudoenzyme-protein-s-acyltransferase-that-functions-via-a-non-canonical-mechanism)  
+   evidence：snoRNA影响代谢、长寿和神经退行性变
+7. [Lateral hypothalamic melanin-concentrating hormone neuron dynamics in rats during sensory stimulation and sugar sweetened alcoholic cocktail drinking](/202604/27/biorxiv-10-64898-2026-04-17-719280-v1-lateral-hypothalamic-melanin-concentrating-hormone-neuron-dynamics-in-rats-during-sensory-stimulation-and-sugar-sweetened-alcoholic-cocktail-drinking)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：外侧下丘脑MCH神经元动态
+8. [Wdr62 and Patronin cooperate to organize distinct acentrosomal microtubule networks during Drosophila oogenesis](/202604/27/biorxiv-10-64898-2026-04-19-719433-v1-wdr62-and-patronin-cooperate-to-organize-distinct-acentrosomal-microtubule-networks-during-drosophila-oogenesis)  
    标签：评分：7.0/10、query:qll
-   evidence：ZDHHC13蛋白S-酰基转移酶机制
-9. [Specification of the interstitial cell lineage in the fetal mouse ovary requires balanced Notch signaling](/202604/26/biorxiv-10-64898-2026-04-20-719649-v1-specification-of-the-interstitial-cell-lineage-in-the-fetal-mouse-ovary-requires-balanced-notch-signaling)  
+   evidence：果蝇卵子发生过程中的微管组织和卵母细胞极性
+9. [Translational toolkit for reproducible, cross-study profiling of human ageing hallmarks in human blood and tissue](/202604/27/biorxiv-10-64898-2026-04-20-719545-v1-translational-toolkit-for-reproducible-cross-study-profiling-of-human-ageing-hallmarks-in-human-blood-and-tissue)  
    标签：评分：7.0/10、query:qll
-   evidence：胎儿卵巢中颗粒细胞谱系的规范
-10. [NEMO: Neural Electro-Mechano-Optic Sensors for Multiplexed Neural Interfaces](/202604/26/2604.18384v1-nemo-neural-electro-mechano-optic-sensors-for-multiplexed-neural-interfaces)  
+   evidence：用于分析包括细胞衰老在内的人类衰老特征的工具包
+10. [Intrinsic Neuro-Synaptic Spiking Dynamics and Resonance in Memristive Networks](/202604/27/2604.18015v1-intrinsic-neuro-synaptic-spiking-dynamics-and-resonance-in-memristive-networks)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：用于多路神经记录接口的新型传感器
-11. [NeuroAI and Beyond: Bridging Between Advances in Neuroscience and ArtificialIntelligence](/202604/26/2604.18637v1-neuroai-and-beyond-bridging-between-advances-in-neuroscience-and-artificialintelligence)  
+   evidence：忆阻网络中的神经元群体脉冲动力学
+11. [DSAINet: An Efficient Dual-Scale Attentive Interaction Network for General EEG Decoding](/202604/27/2604.18095v1-dsainet-an-efficient-dual-scale-attentive-interaction-network-for-general-eeg-decoding)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：通过神经调节控制和分布式架构连接神经科学与人工智能
-12. [FSFM: A Biologically-Inspired Framework for Selective Forgetting of Agent Memory](/202604/26/2604.20300v2-fsfm-a-biologically-inspired-framework-for-selective-forgetting-of-agent-memory)  
+   evidence：针对多种任务的脑电图解码
+12. [NEMO: Neural Electro-Mechano-Optic Sensors for Multiplexed Neural Interfaces](/202604/27/2604.18384v1-nemo-neural-electro-mechano-optic-sensors-for-multiplexed-neural-interfaces)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：受人类认知过程和巩固理论启发
-13. [Learning Hippo: Multi-attractor Dynamics and Stability Effects in a Biologically Detailed CA3 Extension of Hopfield Networks](/202604/26/2604.20679v1-learning-hippo-multi-attractor-dynamics-and-stability-effects-in-a-biologically-detailed-ca3-extension-of-hopfield-networks)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：具有胆碱能编码/巩固周期的生物学详细CA3扩展模型
+   evidence：用于多路神经接口和记录的新型传感器
+13. [Energy allocation explains how protozoan phenotypic traits change in response to temperature and resource supply](/202604/27/biorxiv-10-1101-2023-07-25-550219-v8-energy-allocation-explains-how-protozoan-phenotypic-traits-change-in-response-to-temperature-and-resource-supply)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：响应温度的代谢率和能量分配
 
 
 <div class="dpr-home-promo-card">
