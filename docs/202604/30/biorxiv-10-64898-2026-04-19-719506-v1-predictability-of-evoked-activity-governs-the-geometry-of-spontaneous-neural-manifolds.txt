@@ -1,0 +1,1400 @@
+Title: Predictability of evoked activity governs the geometry of spontaneous neural manifolds
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.04.19.719506v1.full.pdf
+
+Number of Pages: 26
+
+Markdown Content:
+1
+
+# Predictability of evoked activity governs the geometry of 1
+
+# spontaneous neural manifolds 2
+
+Toshitake Asabuki 1,2,3 * & Claudia Clopath 4*3 
+
+> 1
+
+Hierarchical Neural Computation RIKEN ECL Research Unit, RIKEN Center for Brain Science , Saitama, Japan. 4 
+
+> 2
+
+RIKEN Pioneering Research Institute, Saitama, Japan. 5 
+
+> 3
+
+Department of Life Science and Medical Bioscience, Waseda University, Tokyo, Japan. 6 
+
+> 4
+
+Department of Bioengineering, Imperial College London, London, UK. 7
+
+* Lead contact: E-mail: toshitake.asabuki@riken.jp (TA); c.clopath@imperial.ac.uk (C.C.) 8
+
+9
+
+# Abstract 10 
+
+Spontaneous neural activity reflects sensory experience yet occupies a lower-dimensional 11 
+
+subspace than evoked responses. However, the principle governing which components of 12 
+
+experience are incorporated into this intrinsic activity has remained unknown. Here, we 13 
+
+propose that temporal predictability is one of the organizing principles that selects which 14 
+
+evoked dimensions enter spontaneous neural manifolds. We show that local predictive 15 
+
+synaptic plasticity provides a circuit mechanism that selectively embeds components of 16 
+
+evoked activity that are predictable on the intrinsic timescale of recurrent dynamics, while 17 
+
+excluding unpredictable fluctuations. As a consequence, the dimensionality of spontaneous 18 
+
+activity is not fixed but depends on environmental timescales: rapidly fluctuating inputs are 19 
+
+excluded, whereas slowly varying components are retained as contextual dimensions. This 20 
+
+framework reproduces on- and off-manifold coding observed in visual cortex, and reconciles 21 
+
+apparently conflicting developmental observations that spontaneous and evoked activity 22 
+
+become both more similar and more geometrically distinct over maturation. Together, these 23 
+
+results identify temporal predictability as a key principle linking environmental statistics to 24 
+
+the geometry of intrinsic population dynamics. 25 
+
+26 
+
+# Introduction 27 
+
+Spontaneous neural activity, also known as ongoing activity, observed even in the absence of 28 
+
+sensory input, is now recognized as a fundamental component of neural computation rather 29 
+
+than mere background noise (Arieli et al., 1996; Tsodyks et al., 1999; Raichle, 2006; Fox & 30 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+2
+
+Raichle, 2007; Ringach, 2009; Uddin, 2020; Pezzulo et al., 2021). Across neural circuits, 31 
+
+ongoing population activity exhibits highly structured spatiotemporal patterns that 32 
+
+recapitulate key aspects of stimulus-evoked responses (Luczak et al., 2009; Luczak et al., 2013; 33 
+
+Marguet & Harris, 2011). These findings suggest that neural circuits continuously generate 34 
+
+internally organized activity that reflects learned models of the environment, even in the 35 
+
+absence of sensory drive (Friston, 2010; Uddin, 2020; Pezzulo et al., 2021). Understanding 36 
+
+how such intrinsic activity emerges from local circuit mechanisms is therefore crucial for 37 
+
+explaining how the brain represents and predicts the world (Runfola et al., 2025). 38 
+
+39 
+
+A growing body of work suggests that spontaneous activity reflects internal models acquired 40 
+
+through prior experience. In visual cortex, spontaneous activity occupies structured 41 
+
+subspaces that overlap with those engaged during natural image processing (Kenet et al., 42 
+
+2003; Ringach, 2009). In the motor cortex, population activity is organized along low-43 
+
+dimensional manifolds that structure movement trajectories and constrain learning 44 
+
+(Churchland et al., 2012; Shenoy et al., 2013; Gallego et al., 2017; Sadtler et al., 2014). In the 45 
+
+hippocampus, place-cell ensembles re-express paths explored during behavior (Wilson & 46 
+
+McNaughton, 1994; Foster & Wilson, 2006). Together, these studies suggest that recurrent 47 
+
+circuits internalize structured regularities from sensory and behavioral experience through 48 
+
+experience-dependent plasticity. Such internally organized dynamics may support replay 49 
+
+and memory consolidation in some systems (Wilson & McNaughton, 1994; Foster & Wilson, 50 
+
+2006), and have also been interpreted as signatures of predictive coding or internal models 51 
+
+of the environment (Rao & Ballard, 1999; Koren & Denève, 2017; Pezzulo et al., 2021; 52 
+
+Dimakou et al., 2025). 53 
+
+54 
+
+Nevertheless, spontaneous patterns occupy a lower-dimensional subspace than evoked 55 
+
+responses, even though both reflect the environment (Cunningham & Yu, 2014; Saxena & 56 
+
+Cunningham, 2019; Stringer et al., 2019; Song et al., 2023; Iyer et al., 2022; Runfola et al., 2025). 57 
+
+Intriguingly, several developmental studies present seemingly contradictory pictures of how 58 
+
+spontaneous and evoked activity relate: spontaneous activity increasingly resembles evoked 59 
+
+responses over postnatal development (Berkes et al., 2011), yet the two subspaces become 60 
+
+more geometrically orthogonal with maturation (Avitan et al., 2021). This observation raises 61 
+
+a deeper theoretical question: if spontaneous activity embodies an internal model of 62 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+3
+
+experience, what determines which components of experience are incorporated into 63 
+
+spontaneous dynamics? Existing accounts based on metabolic efficiency or noise suppression 64 
+
+(Sengupta et al., 2013) explain why dimensionality reduction may be advantageous, but do 65 
+
+not specify the selection principle that determines which components of experience are 66 
+
+incorporated and which are excluded. 67 
+
+68 
+
+Here, we propose that temporal predictability is a fundamental selection principle governing 69 
+
+which components of evoked activity become incorporated into spontaneous neural 70 
+
+manifolds. Prior work has shown that predictive learning can extract low-dimensional latent 71 
+
+structure from the complex environment (Recanatesi et al., 2021; Levenstein et al., 2024; 72 
+
+Asabuki & Fukai, 2020; Asabuki & Clopath, 2025). However, these frameworks did not 73 
+
+address which subset of experience is selectively internalized into spontaneous activity—nor 74 
+
+why spontaneous dimensionality is systematically lower than evoked dimensionality. We 75 
+
+show that predictive plasticity selectively incorporates into spontaneous manifolds those 76 
+
+components of input that are predictable on the intrinsic timescale of recurrent dynamics, 77 
+
+while excluding fluctuations that cannot be recurrently reconstructed. This filtering principle 78 
+
+explains why spontaneous and evoked activity can become more similar within the 79 
+
+predictive subspace yet more geometrically separated in the full neural state space, thereby 80 
+
+resolving the developmental paradox noted above. More broadly, our results reframe 81 
+
+spontaneous population geometry as a direct readout of the brain's implicit model of 82 
+
+environmental timescales. 83 
+
+84 
+
+# Results 85 
+
+Predictive learning selectively incorporates evoked dimensions into 86 
+
+spontaneous manifolds 87 
+
+Spontaneous neural activity resembles stimulus-evoked responses yet occupies a lower-88 
+
+dimensional subspace, suggesting that it reflects only a subset of sensory experience. We 89 
+
+hypothesized that this dimensional reduction arises from predictive learning, which 90 
+
+selectively embeds predictable structure into recurrent dynamics while filtering out 91 
+
+unpredictable fluctuations (Fig. 1A). 92 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+4
+
+To test this hypothesis, we trained a rate-based recurrent neural network (RNN; Fig. 1B) 93 
+
+using a local predictive plasticity rule (Asabuki & Clopath, 2025). The network consists of a 94 
+
+fixed, strong random connectivity that generates high-dimensional chaotic dynamics, and a 95 
+
+plastic recurrent component that is modified during learning. External inputs drive stimulus-96 
+
+evoked responses, and synaptic updates minimize the mismatch between these responses 97 
+
+and recurrent predictions (Fig. 1C). 98 
+
+More precisely, synaptic changes are driven by the product of a prediction-error term (the 99 
+
+difference between a neuron’s current activity and its recurrent prediction) and a presynaptic 100 
+
+activity term. Importantly, both signals are locally available at each synapse: the prediction 101 
+
+error is computed at the postsynaptic neuron based on its own activity and the recurrent 102 
+
+inputs it receives, while the presynaptic activity reflects the input from the corresponding 103 
+
+afferent neuron. Both signals undergo temporal filtering prior to influencing plasticity, 104 
+
+analogous to postsynaptic and presynaptic integration in biological neurons. The recurrent 105 
+
+prediction integrates recent recurrent input over a short period, and the presynaptic activity 106 
+
+is converted into an eligibility trace. This learning rule is fully local, consistent with biological 107 
+
+constraints on synaptic plasticity. 108 
+
+109 
+
+Figure 1. Predictive plasticity selectively embeds predictable dynamics into recurrent manifolds. A110 
+
+Conceptual illustration of predictable and unpredictable stimulus components. Sensory-evoked activity spans 111 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+5
+
+high-dimensional neural space (N1–Nm). Predictable components (blue) are embedded into a low-dimensional 112 
+
+manifold that can be replayed during spontaneous activity. In contrast, unpredictable components (red) fail to 113 
+
+stabilize within recurrent dynamics and are absent during spontaneous activity. B Network architecture. 114 
+
+External inputs consist of predictable (z_pred, blue) and unpredictable (z_unpred, red) components. These 115 
+
+inputs drive a recurrent network composed of a fixed connectivity G and plastic recurrent weights M. Only M 116 
+
+is modified during learning, while G provides rich background dynamics. C Predictive learning rule. Each 117 
+
+neuron forms a recurrent prediction (y i). The prediction error (r i - y i) drives synaptic weight update according 118 
+
+to the error-driven rule. This local plasticity rule embeds predictable temporal structure within recurrent 119 
+
+connectivity while filtering out unpredictable fluctuations. 120 
+
+121 
+
+We first considered a three-dimensional input signal. Two dimensions, 𝑧 ! and 𝑧 ", traced a 122 
+
+structured trajectory representing canonical predictable dynamics, whereas the third 123 
+
+dimension, 𝑧 # , followed an irregular, unpredictable time course (Fig. 2A, top). During 124 
+
+training, the prediction error decreased monotonically (Supplementary Fig. 1), indicating 125 
+
+convergence. After learning, we removed the external drive and examined spontaneous 126 
+
+activity. Structured spontaneous activity persisted following removal of the external inputs 127 
+
+and remained highly similar to the pattern observed during evoked conditions (Fig. 2A, 128 
+
+bottom; Fig. 2B). The network spontaneously generated a trajectory confined almost entirely 129 
+
+to the two-dimensional subspace defined by the predictable inputs, whereas activity along 130 
+
+the unpredictable dimension decayed to baseline (Fig. 2C). 131 
+
+To quantify how stimulus presentation reshaped the geometry of population activity, we 132 
+
+compared the fraction of the variance along predictable and unpredictable input dimensions 133 
+
+during evoked and spontaneous activity. Across 10 independent simulations, predictable 134 
+
+dimensions exhibited minimal change in explained variance between spontaneous and 135 
+
+evoked states, indicating that these components were already embedded within the 136 
+
+spontaneous manifold (Fig. 2D). In contrast, unpredictable dimensions showed a significant 137 
+
+increase in variance during evoked activity, reflecting a transient expansion beyond the 138 
+
+spontaneous subspace. 139 
+
+Next, we tested how temporal filtering in the plasticity rule contributes to the formation of 140 
+
+spontaneous dynamics that reflects the predictable part of evoked activity. To this end, we 141 
+
+removed each low-pass component in turn and examined the resulting network behavior. 142 
+
+When postsynaptic integration was removed, recurrent prediction followed current activity 143 
+
+too quickly, preventing the network from capturing slowly varying temporal regularities in 144 
+
+the input. The resulting spontaneous activity became high-dimensional and irregular, with 145 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+6
+
+no trace of previously experienced trajectories (Supplementary Fig. 2A). A similar disruption 146 
+
+occurred when the presynaptic low-pass filter was removed. Because synaptic updates 147 
+
+responded to instantaneous fluctuations rather than stable correlations, the network learned 148 
+
+a distorted internal model. Although spontaneous activity retained low-dimensional 149 
+
+structure, it failed to align with the evoked manifold (Supplementary Fig. 2B). Only when 150 
+
+both filters were present did the network successfully internalize predictable temporal 151 
+
+structure and autonomously reproduce it after training. 152 
+
+Together, these results demonstrate that predictive learning embeds externally driven 153 
+
+dynamics within spontaneous activity confined to a low-dimensional manifold that captures 154 
+
+the predictable aspects of sensory experience while discarding unpredictable signals. 155 
+
+Temporal predictability determines the dimensionality of spontaneous 156 
+
+manifolds 157 
+
+The above results suggest that the network learns to distinguish predictable signals from 158 
+
+unpredictable noise. However, when apparently irregular signals contain slow temporal 159 
+
+correlations, they may still influence the structure of the learned spontaneous activity. We 160 
+
+161 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+7
+
+Figure 2. Predictive plasticity selectively stabilizes predictable population modes. A Example input signals 162 
+
+and network activity after learning. During the spontaneous phase (left), no external inputs are present and the 163 
+
+network evolves autonomously. During the evoked phase (right), temporally structured inputs are given to the 164 
+
+network. Top: example input signals. Bottom: representative neural activities from multiple neurons after 165 
+
+learning. B Pairwise correlation structure during spontaneous and evoked activity. Neurons are sorted 166 
+
+according to spontaneous activity correlations. The block structure observed during spontaneous activity is 167 
+
+partially preserved during evoked responses, indicating stabilization of intrinsic population modes. C Low-168 
+
+dimensional population dynamics. Left: trajectories projected onto the three neural modes during spontaneous 169 
+
+(blue) and evoked (orange) activity. Right: projection onto the first two neural modes. Within this subspace, 170 
+
+spontaneous and evoked trajectories exhibit similar dynamical structure, indicating that predictable 171 
+
+components are embedded within intrinsic population modes. D Change in variance fraction between evoked 172 
+
+and spontaneous activity for predictable (Pred.) and unpredictable (Unpred.) input components across 10 173 
+
+independent simulations. Predictable dimensions show minimal variance change, whereas unpredictable 174 
+
+components exhibit significant expansion beyond the spontaneous manifold. P values were calculated using a 175 
+
+two-sided Welch’s t test (***P < 0.001). 176 
+
+therefore hypothesized that the timescale of input fluctuations determines whether a signal 177 
+
+component is incorporated into or excluded from the network’s spontaneous repertoire. 178 
+
+To test this hypothesis, we used the same three-dimensional input structure as before. We 179 
+
+varied the timescale of fluctuations in the irregular component, z ₃(t), while keeping its overall 180 
+
+statistics and amplitude constant. To simplify the analysis, we replaced the predictable 181 
+
+component (z ₁, z ₂) with a circular trajectory rather than the more complex structured pattern 182 
+
+used previously. The unpredictable component, z ₃(t), was generated with two frequencies, 183 
+
+one fast (Fig. 3A) and one slow (Fig. 3B). The high-frequency condition corresponded to the 184 
+
+setting used in the previous experiment. 185 
+
+After training the network under each condition, we removed the external drive and 186 
+
+initialized it from multiple initial states. When trained with high-frequency fluctuations, the 187 
+
+network’s spontaneous activity always converged on the same two-dimensional manifold 188 
+
+defined by the predictable circular drive (Fig. 3C). In contrast, when the input fluctuations 189 
+
+were slow, the learned spontaneous activity retained the initial offset along the z ₃ axis while 190 
+
+still following the circular trajectory in (z ₁, z ₂) (Fig. 3D). Thus, different initial conditions led 191 
+
+to parallel circular trajectories displaced along z ₃, forming a three-dimensional cylindrical 192 
+
+manifold. 193 
+
+Taken together, these results demonstrate that the dimensionality of spontaneous dynamics 194 
+
+is not fixed but rather adapts to the timescale of external inputs. The network selectively 195 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+8
+
+internalizes predictable signal components on its intrinsic timescale, preserving slowly 196 
+
+varying inputs as stable contextual dimensions. 197 
+
+Geometric separation enables multiple predictable manifolds to coexist with 198 
+
+minimal interference 199 
+
+Having shown that predictive plasticity selects which evoked dimensions are incorporated 200 
+
+into a spontaneous manifold, we next asked whether the same principle can organize 201 
+
+multiple predictable structures within a single recurrent circuit. If predictability indeed 202 
+
+organizes spontaneous population geometry, then distinct predictable structures should be 203 
+
+stored as separable manifolds whose retrieval depends on their geometric separation. To test 204 
+
+this idea, we trained the network on two distinct trajectories presented in alternating blocks. 205 
+
+One input traced a circular trajectory confined to a specific two-dimensional subspace (z ₁, z ₂), 206 
+
+and the other followed a different trajectory confined to a separate, orthogonal subspace (z 4,207 
+
+z5) (Fig. 4A). Each trajectory was combined with an unpredictable component along z 3 or z 6,208 
+
+respectively. During training, these two input patterns alternated across epochs (Fig. 4B). By 209 
+
+embedding the dynamics in orthogonal subspaces, we hypothesized that the learning rule 210 
+
+would modify largely independent sets of synaptic weights, thereby minimizing interference 211 
+
+between the two learned internal models. 212 
+
+213 
+
+Figure 3. Embedding of unpredictable signals depends on their temporal timescale. A-B Example input 214 
+
+signals in which the unpredictable component varies on a slower (A) or faster (B) timescale relative to the 215 
+
+predictable component. Colored traces illustrate different initial values along the third population mode. C-D 216 
+
+Low-dimensional population trajectories projected onto the first three principal modes after learning. Colors 217 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+9
+
+indicate different initial values along mode 3. When the unpredictable signal varies rapidly (C), it becomes 218 
+
+excluded from the low-dimensional spontaneous population structure. In contrast, when the unpredictable 219 
+
+signal varies slowly (D), it becomes embedded within intrinsic dynamics and induces expansion along 220 
+
+additional dimensions. 221 
+
+After training, we tested whether the network’s spontaneous activity could distinctly 222 
+
+represent these two trajectories. To this end, we briefly perturbed the trained network with 223 
+
+a transient pulse along one of the predictable dimensions. Strikingly, the network could 224 
+
+rapidly and reliably switch between the two internally generated dynamical states based 225 
+
+solely on such a transient cue (Fig. 4C). In the spontaneous regime, presenting the pulse 226 
+
+associated with the circular trajectory initiated self-sustained replay of the corresponding 227 
+
+dynamics with minimal activation in the orthogonal subspace representing the other 228 
+
+trajectory (see Fig. 4C, left), and vice versa (see Fig. 4C, right). 229 
+
+To examine how the separability of learned subspaces influences memory interference 230 
+
+further, we systematically varied the degree of overlap between the two trajectory subspaces. 231 
+
+For convenience, we refer to the subspaces corresponding to (z ₁, z ₂) and (z ₄, z ₅) as space 1 232 
+
+and space 2, respectively. We gradually increased the overlap between the two subspaces by 233 
+
+234 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+10 
+
+Figure 4. Predictive plasticity organizes multiple spontaneous manifolds through geometric separation. A235 
+
+Low-dimensional population trajectories for two learned patterns (Pattern 1 and Pattern 2). Each pattern 236 
+
+contains both predictable and unpredictable components. After learning, the predictable component of each 237 
+
+pattern is embedded within a distinct population subspace (Space 1 and Space 2). B Alternating presentation of 238 
+
+Pattern 1 and Pattern 2 during training. C Pattern switching via subspace-specific perturbation. During 239 
+
+spontaneous activity, the network autonomously replays the predictable component of one learned pattern (e.g., 240 
+
+Pattern 1). A brief pulse perturbation delivered along the predictable axis of Pattern 2 induces a transition of 241 
+
+population activity into the manifold corresponding to Pattern 2, where its predictable component is replayed. 242 
+
+D Dynamics of variance ratio (VR) quantifying subspace dominance during spontaneous switching. When the 243 
+
+two predictable manifolds are orthogonal, VR alternates between values near 0 and 1, indicating that population 244 
+
+activity switches cleanly between the two manifolds. In contrast, when the manifolds are aligned, VR remains 245 
+
+near 0.5, reflecting mixed activity and reduced subspace separation. E Dependence of variance ratio separation 246 
+
+on subspace alignment. Alignment between the two predictable manifolds was systematically varied. Error 247 
+
+bars indicate mean ± s.e.m. across 10 independent simulations. Increasing alignment reduces subspace 248 
+
+separation and increases interference. 249 
+
+blending space 2 toward space 1 while keeping the additional dimensions (z ₃, z ₆) orthogonal 250 
+
+to both. This manipulation allowed us to control the amount of shared structure between the 251 
+
+two learned manifolds continuously. 252 
+
+After training under each overlap condition, we evaluated the network’s performance to 253 
+
+switch between the two spontaneous trajectories. When the two subspaces were fully 254 
+
+orthogonal, the network robustly maintained and switched between both manifolds (Fig.4D, 255 
+
+top). In contrast, when the subspaces completely overlapped, spontaneous switching was no 256 
+
+longer possible; the network’s activity converged to a single shared attractor (Fig.4D, bottom). 257 
+
+As the overlap increased, switching performance remained stable for small overlaps but 258 
+
+gradually declined beyond a certain range (Fig. 4E). Note that, performance declined steeply 259 
+
+beyond moderate overlap, suggesting limited tolerance for representational interference 260 
+
+between stored manifolds. 261 
+
+Together, these results show that predictive plasticity can organize multiple internal models 262 
+
+as distinct spontaneous manifolds within a single recurrent network. This capacity depends 263 
+
+critically on the geometric separability of their predictable subspaces, revealing how 264 
+
+population geometry controls both retrieval and interference between learned dynamical 265 
+
+states. 266 
+
+Predictive manifold selection explains on- and off-manifold coding in cortex 267 
+
+So far, we have shown that predictive plasticity selectively embeds temporally predictable 268 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+11 
+
+dynamics into low-dimensional spontaneous manifolds. We next asked whether this 269 
+
+principle of predictive manifold selection can account for the experimentally observed 270 
+
+dissociation between on- and off-manifold coding in visual cortex, where spontaneous 271 
+
+population activity during slow-wave sleep (SWS) defines an intrinsic manifold, whereas 272 
+
+awake activity recruits within-manifold dimensions for behavior-related signals and 273 
+
+orthogonal dimensions for stimulus-related signals (Fig. 5A; de Oliveira et al., 2022). 274 
+
+275 
+
+To test whether our model can explain this experimental finding, we trained the network on 276 
+
+a higher-dimensional input structure. Behavioral signals consisted of four temporally 277 
+
+predictable components, whereas stimulus signals contained two predictable and two 278 
+
+unpredictable components (Fig. 5B). This design allowed us to assess whether the learned 279 
+
+spontaneous manifold selectively captures predictable structure while evoked responses 280 
+
+recruit additional dimensions to represent unpredictable stimulus variability. 281 
+
+282 
+
+283 
+
+Figure 5. Predictive plasticity reproduces on- and off-manifold coding signatures. A Experimental setting of 284 
+
+de Oliveira et al., 2022. During slow-wave sleep (SWS), spontaneous activity defines an intrinsic low-285 
+
+dimensional manifold. During wakefulness, behavior- and stimulus-related activity are expressed relative to 286 
+
+this intrinsic manifold. B Modeled behavioral and stimulus signals used as inputs. Movements consist of 287 
+
+predictable components. Stimulus signals contain both predictable and unpredictable components. C288 
+
+Comparison of variance between spontaneous (SWS-like) and evoked (awake) activity for individual 289 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+12 
+
+population modes. Each point represents a mode. Predictable (on-manifold) modes show similar variance 290 
+
+during spontaneous and evoked activity, whereas additional variance emerges in off-manifold dimensions 291 
+
+during evoked responses. D Variance index (Awake - SWS) for on-manifold and off-manifold dimensions. On-292 
+
+manifold dimensions exhibit minimal variance change, whereas off-manifold dimensions show increased 293 
+
+variance during evoked activity. E Decoding performance (R ² score) from on- and off-manifold projections for 294 
+
+behavioral and stimulus signals. Behavioral signals are predominantly decodable from on-manifold dimensions, 295 
+
+whereas stimulus signals engage both on- and off-manifold subspaces. In D and E, data are shown as mean ± 296 
+
+s.e.m.; ***P < 0.001 over 20 independent simulations. 297 
+
+298 
+
+After training, we extracted the spontaneous manifold from autonomous network activity 299 
+
+and defined the on-manifold subspace using its leading principal components. For 300 
+
+comparison, an equal number of low-variance components defined the off-manifold 301 
+
+subspace (Methods). We then examined how variance along individual population modes 302 
+
+changed between spontaneous (SWS-like) and evoked (awake-like) activity (Fig. 5C). 303 
+
+Predictable, on-manifold modes exhibited comparable variance across states, indicating that 304 
+
+these dimensions were already embedded within the spontaneous dynamics. In contrast, 305 
+
+additional variance emerged selectively in off-manifold modes during evoked activity, 306 
+
+reflecting a state-dependent expansion beyond the intrinsic manifold. To quantify this effect, 307 
+
+we computed a variance index (Awake - SWS) separately for on- and off-manifold 308 
+
+dimensions (Fig. 5D). On-manifold dimensions showed minimal variance change, whereas 309 
+
+off-manifold dimensions displayed a significant increase during evoked responses. Thus, 310 
+
+evoked activity showed a structured expansion: variance was largely preserved within the 311 
+
+spontaneous manifold while increasing preferentially in off-manifold dimensions. 312 
+
+313 
+
+To test the functional content carried by each subspace, we next assessed decoding 314 
+
+performance using linear readouts (Fig. 5E). Behavioral signals were robustly decodable 315 
+
+from the on-manifold projection but not from the off-manifold projection, indicating that 316 
+
+predictable self-generated dynamics are embedded within the spontaneous manifold. In 317 
+
+contrast, stimulus signals required both subspaces for accurate reconstruction: decoding 318 
+
+performance was highest when including off-manifold dimensions, consistent with the 319 
+
+recruitment of orthogonal directions by unpredictable stimulus components. 320 
+
+321 
+
+Together, these results demonstrate that predictive plasticity reproduces the experimentally 322 
+
+observed dissociation between on- and off-manifold coding. Predictable behavioral structure 323 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+13 
+
+remains confined within the spontaneous manifold, whereas unpredictable stimulus 324 
+
+variability selectively engages additional dimensions beyond it. 325 
+
+326 
+
+# Discussion 327 
+
+Spontaneous neural activity is not a passive echo of prior sensory input, but a geometrically 328 
+
+organized internal model of the subset of experience that recurrent circuits can 329 
+
+autonomously sustain. Here we show that predictive synaptic plasticity provides a circuit-330 
+
+level principle that sculpts this geometry. By selectively stabilizing temporally predictable 331 
+
+components of sensory input, recurrent networks compress high-dimensional experience 332 
+
+into low-dimensional manifolds that can be autonomously sustained. Rather than 333 
+
+minimizing dimensionality for efficiency alone, predictive learning allocates population 334 
+
+activity into a self-consistent predictive subspace while excluding unpredictable fluctuations. 335 
+
+Importantly, the exclusion of unpredictable components is not a design choice but an 336 
+
+inevitable consequence of predictive learning operating on finite timescales. Thus, 337 
+
+population geometry reflects not the full structure of sensory inputs, but the subset that can 338 
+
+be internally predicted and sustained by recurrent dynamics. 339 
+
+This dependence arises because spontaneous activity can internalize only those components 340 
+
+of past input that are predictable on the intrinsic timescale of recurrent dynamics. The 341 
+
+dimensionality of spontaneous manifolds is therefore not fixed, but selected by the temporal 342 
+
+statistics of environmental variability. Rapid fluctuations are excluded because they cannot 343 
+
+be recurrently reconstructed, whereas slowly varying inputs are retained as contextual 344 
+
+dimensions. Spontaneous manifold geometry thus reflects not only the complexity of past 345 
+
+inputs but also the temporal structure of uncertainty present during learning, consistent with 346 
+
+theoretical views linking neural dynamics to prediction and environmental statistics (Huang 347 
+
+& Rao, 2011; Chalk et al., 2018; Koren & Denève, 2017). In this sense, population geometry 348 
+
+encodes predictability structure rather than stimulus identity per se. 349 
+
+Our framework makes experimentally tractable predictions about how environmental 350 
+
+statistics shape spontaneous population geometry. If spontaneous manifold dimensionality 351 
+
+depends on the temporal structure of sensory noise encountered during learning, then 352 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+14 
+
+manipulating environmental noise correlations should systematically reshape spontaneous 353 
+
+activity. This prediction resonates with prior views that spontaneous activity reflects learned 354 
+
+environmental statistics. Animals exposed to slowly varying structured noise should exhibit 355 
+
+higher-dimensional spontaneous manifolds than those trained under rapidly fluctuating 356 
+
+noise conditions (Berkes et al., 2011; Orbán et al., 2016; Fiser et al., 2010; Recanatesi et al., 357 
+
+2021). Such experiments would provide a direct test of whether temporal predictability, 358 
+
+rather than coding efficiency alone, determines which evoked dimensions are incorporated 359 
+
+into spontaneous manifolds. Likewise, altering sensory experience should reshape the 360 
+
+balance between on- and off-manifold representations observed during evoked activity, by 361 
+
+changing the relationship between predictable and unpredictable stimulus components 362 
+
+(Fiser et al., 2004; Stringer et al., 2019). Together, these experiments would directly test 363 
+
+whether spontaneous geometry tracks environmental predictability. 364 
+
+Our framework reconciles seemingly contradictory developmental observations. Berkes et al. 365 
+
+(2011) reported that spontaneous activity increasingly resembles evoked responses over 366 
+
+development, whereas Avitan et al. (2021) found that the two become more orthogonal. We 367 
+
+propose that predictive plasticity selectively embeds temporally predictable components of 368 
+
+sensory experience into recurrent connectivity. Within the low-dimensional predictive 369 
+
+subspace defined by these stable regularities, spontaneous activity converges toward evoked 370 
+
+structure. At the same time, unpredictable and fast-varying components are excluded from 371 
+
+recurrent dynamics, producing geometric divergence in the full neural state space. Cortical 372 
+
+development therefore might reflect geometric refinement of predictive structure, with 373 
+
+predictable components stabilized and unpredictable variability progressively excluded. 374 
+
+Our framework also provides a geometric account of on- and off-manifold coding reported 375 
+
+in cortex. Because spontaneous activity reflects a stabilized predictive subspace, behavior-376 
+
+related signals that can be internally generated remain largely confined within this manifold. 377 
+
+In contrast, stimulus-driven variability that cannot be reconstructed from recurrent dynamics 378 
+
+necessarily recruits additional dimensions. This separation arises as a consequence of 379 
+
+predictive learning rather than from an explicit routing mechanism, offering a380 
+
+complementary perspective to hierarchical predictive coding theories that emphasize error 381 
+
+propagation (Friston, 2010; Huang & Rao, 2011; Bastos et al., 2012), as well as to population 382 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+15 
+
+geometry studies demonstrating orthogonal subspaces for distinct computations (Elsayed et 383 
+
+al., 2016). 384 
+
+At the physiological level, the proposed mechanism is consistent with known properties of 385 
+
+cortical microcircuits. The dual temporal filtering of pre- and postsynaptic signals resembles 386 
+
+dendritic and synaptic integration processes and may arise from biophysical mechanisms 387 
+
+such as NMDA receptor-dependent currents, membrane time constants, and local inhibitory 388 
+
+control of recurrent excitation. In this view, spontaneous manifolds arise through continuous 389 
+
+local prediction within recurrent networks, without requiring replay or global coordination. 390 
+
+Such a mechanism may contribute to the emergence of intrinsic timescales, metastable state 391 
+
+transitions, and context-dependent reactivation observed in cortical dynamics (Deco et al., 392 
+
+2013; Rabinovich et al., 2008; Litwin-Kumar & Doiron, 2012; Breakspear, 2017; Mazzucato et 393 
+
+al., 2019). 394 
+
+Together, these findings suggest that spontaneous neural activity represents the self-395 
+
+consistent core of prior experience: the subset of environmental dynamics that a circuit can 396 
+
+internally sustain. Predictive plasticity may therefore provide a general circuit principle by 397 
+
+which environmental statistics determine which evoked dimensions are consolidated into 398 
+
+spontaneous population geometry. 399 
+
+# Methods 400 
+
+Neural network model 401 
+
+Our network consists of 𝑁 rate-based neurons, mutually connected with the recurrent 402 
+
+connections. Here, we considered two types of recurrent connections: strong and fixed 403 
+
+connectivity G and initially weak yet plastic connectivity M (Asabuki and Clopath, 2025). 404 
+
+The strength of each connection was generated by a Gaussian distribution, and unless other 405 
+
+specified, with zero-mean and the standard deviation of 𝑔 /%𝑝𝑁 , with ( 𝑝 , 𝑔 ) = (0.1, 1.2) for 406 
+
+G and ( 𝑝 , 𝑔 ) = (1.0, 0) for initial strength of M. Here, 𝑔 is a gain of connection, leading 407 
+
+chaotic spontaneous activity with 𝑔 > 1 (Sompolinsky et al., 1988), thus the fixed recurrent 408 
+
+connectivity G generates initial chaotic spontaneous activity. The dynamics of membrane 409 
+
+potential with the external input 𝑰 was governed by the following equation: 410 
+
+411 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+16 
+
+𝜏 𝒙 ̇ = −𝒙 + (𝑮 + 𝑴)𝒓 + 𝑰, (1) 412 
+
+413 
+
+where 𝒙 is a membrane potential and 𝒓 is a firing rate of neuron, defined as: 414 
+
+𝒓 = 𝜙 (𝒙), (2) 415 
+
+𝜙 (𝒙) = tanh(𝒙). (3) 416 
+
+The parameter 𝜏 is a membrane time constant, which we set as 𝜏 = 10 (ms). 417 
+
+418 
+
+Input signals 419 
+
+The external input 𝑰 (𝑡) ∈ ℝ $ was defined as a linear projection of a low-dimensional signal 420 
+
+vector 𝑧 (𝑡) = [z !(𝑡), z "(𝑡), 𝑧 #(𝑡)] % onto the neural population through a fixed input matrix 421 
+
+𝑊 & ∈ ℝ'×#:422 
+
+𝑰 (𝑡) = 𝑊 & ∙ 𝑧(𝑡). (4) 423 
+
+Each column of 𝑊 & represented an orthogonal input channel. In all figures except Figure 4, 424 
+
+we constructed the input weight matrix 𝑊 & as follows. We first generated a random matrix 425 
+
+𝑅 ∈ ℝ'×# with uniformly distributed elements in [-0.5, 0.5] and performed QR 426 
+
+decomposition, obtaining an orthogonal basis 𝑄 (𝑄 )𝑄 = 𝐼 #). We then defined the input 427 
+
+weight matrix as 428 
+
+𝑊 & = √𝑁𝑄diag(1,1,1.5) , (5)429 
+
+where diag is a diagonal matrix. The three components of 𝑧 (𝑡 ) corresponded to distinct 430 
+
+temporal features of the environment: z!(𝑡) and z"(𝑡) represented predictable, structured 431 
+
+dynamics, whereas z#(𝑡) carried irregular, unpredictable fluctuations. 432 
+
+433 
+
+For the simulations shown in Fig. 2, the predictable components traced a structured yet 434 
+
+nontrivial trajectory in the z! − z" plane: 435 
+
+z!(𝑡) = sin S 4𝑡 25𝜋 U , z "(𝑡) = sin S 6𝑡 25𝜋 U, (6) 436 
+
+while the unpredictable component z#(𝑡) followed a slowly varying and irregular function, 437 
+
+z#(𝑡) = sin W10 *+ Xsin X √3𝑡 5𝜋 Y + sin X √5𝑡 5𝜋 Y 2 Z Y[ . (7) 438 
+
+This combination yielded a complex input trajectory containing both temporally regular and 439 
+
+irregular components, allowing the network to learn the predictable portion of the dynamics 440 
+
+while ignoring the unpredictable component. 441 
+
+442 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+17 
+
+For Figs. 3–5, we used a simplified input structure in which the predictable components 443 
+
+formed a circular trajectory: 444 
+
+z!(𝑡) = sin S 4𝑡 25𝜋 U , z "(𝑡) = cos S 4𝑡 25𝜋 U, (8) 445 
+
+446 
+
+and the same irregular signal was used for z#(𝑡) as above. 447 
+
+448 
+
+The learning rule 449 
+
+The synaptic plasticity rule was designed to predict the externally driven network dynamics. 450 
+
+To this end, we defined the recurrent prediction 𝒚 evolve as a low-pass filtered version of 451 
+
+recurrent synaptic current 𝑴𝒓 :452 
+
+𝜏 𝒚 ̇ = −𝒚 + 𝑴𝒓 . (9)453 
+
+The learning rule aimed to minimize the mismatch between the recurrent prediction and the 454 
+
+actual neural activity: 455 
+
+Δ𝑴 = 𝜂 , [𝒓 − tanh ( 𝒚 )]𝒔 %, (10 )456 
+
+where 𝒔 denotes the low-pass filtered presynaptic activity: 457 
+
+𝜏 𝒔 ̇ = −𝒔 + 𝒓 . (11 )458 
+
+Here, 𝜂 , is the learning rate. This rule drives 𝑴 to generate recurrent predictions that match 459 
+
+the input-driven responses, thereby filtering out the unpredictable components from the 460 
+
+external drive. After training, only the internally generated dynamics that capture the 461 
+
+predictable structure of the inputs persist in the spontaneous activity. 462 
+
+Analysis of effect of timescales 463 
+
+To examine how the timescale of input fluctuations influences the formation of spontaneous 464 
+
+manifolds (Fig. 3), we reduced the frequency of z#(𝑡) :465 
+
+z#(𝑡) = sin W10 *+ Xsin X √3𝑡 500𝜋 Y + sin X √5𝑡 500𝜋 Y 2 Z Y[ . (12) 466 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+18 
+
+This modification preserved the amplitude of the signal while producing slow, quasi-467 
+
+stationary fluctuations. After training, we tested how the network’s spontaneous dynamics 468 
+
+depended on the initial value of z#. We initialized the network from ten distinct starting 469 
+
+conditions, where z# took equally spaced values between -1 and +1 while z! and z" were 470 
+
+set to 1 and 0, respectively. 471 
+
+Learning multiple subspaces 472 
+
+The network received six external input channels: three for manifold 1 ( z!(𝑡), z "(𝑡), 𝑧 #(𝑡) )473 
+
+and three for manifold 2 ( z+(𝑡), z -(𝑡), 𝑧 .(𝑡) ). Each channel projected onto the network via an 474 
+
+input vector 𝑤 / ∈ ℝ$(𝑖 = 1, … ,6)). We generated six random vectors, orthogonalized them, 475 
+
+and used the first three ( w!, w", 𝑤 # ) as the basis of manifold 1. The remaining three 476 
+
+(w+, w-, 𝑤 . ) were constructed to share a controlled degree of overlap with manifold 1, 477 
+
+defined by a mixing coefficient 𝛼 (0 = orthogonal, 1 = identical): 478 
+
+w+,-,. = (1 − 𝛼)w +,-,. 
+
+> 1
+
++ 𝛼w !,",#, (13 )479 
+
+where w+,-,. 
+
+> 1
+
+denote the orthogonalized components relative to w!,",#. All weight vectors 480 
+
+were normalized to have ‖𝑤 /‖ = √𝑁 .481 
+
+During learning, the two input sets alternated every 10 s. For manifold 1, the external signals 482 
+
+were Eq.(8) and Eq.(6) for manifold 2. During testing, the network initially evolved under 483 
+
+spontaneous conditions. We then applied a brief 50-ms pulse to one of the input subspaces 484 
+
+to cue the corresponding manifold. After cue removal, all inputs were set to zero. 485 
+
+We quantified subspace dominance by computing a variance ratio within 100 ms sliding 486 
+
+windows of the network activity r2 , capturing how the relative variance across the two 487 
+
+manifolds evolved over time: 488 
+
+VR (𝑡) = Var(r 2:24!55 ∙ [w !, w ", 𝑤 #]) Var(r 2:24!55 ∙ [w !, w ", 𝑤 #]) + Var(r 2:24!55 ∙ [w +, w -, 𝑤 .]) . (14 )489 
+
+An increase in the variance ratio indicated that network activity was confined within 490 
+
+manifold 1, whereas a decrease reflected a transition toward manifold 2. 491 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+19 
+
+Analysis of on- and off-manifold coding 492 
+
+We quantified how the network represented predictable and unpredictable information 493 
+
+across on- and off-manifold subspaces. The input signals consisted of three components: 494 
+
+z1(predictable behavioral dynamics), z2 (predictable sensory component of visual stimuli), 495 
+
+and z3 (unpredictable sensory fluctuations). 496 
+
+After training, we simulated the network in two conditions—spontaneous (SWS-like) with 497 
+
+all inputs set to zero, and evoked (awake-like) with all inputs active. We defined the 498 
+
+spontaneous manifold by applying principal component analysis (PCA) to spontaneous 499 
+
+population activity. The top principal components explaining 99% of cumulative variance 500 
+
+were defined as the on-manifold subspace, and an equal number of components from the tail 501 
+
+of the variance spectrum were defined as the off-manifold subspace, matched in 502 
+
+dimensionality. 503 
+
+We projected evoked activity onto these two subspaces and used ridge regression 504 
+
+(regularization coefficient = 10) to decode each input signal from the neural population 505 
+
+activity. Decoding accuracy was quantified by the coefficient of determination ( 𝑅 ") for (i) the 506 
+
+behavioral signal ( z1) and (ii) the sensory signal, computed as the average decoding accuracy 507 
+
+for z2 and z3. We compared decoding performance between on- and off-manifold subspaces 508 
+
+using Welch’s two-tailed t-tests. 509 
+
+To visualize variance changes between spontaneous and evoked states, we computed the 510 
+
+log-transformed variance of each PCA dimension and defined a variance index as 511 
+
+log !5 Var 67896: − log !5 Var ;<8=> . (15 )512 
+
+We compared the distributions of variance indices between on- and off-manifold dimensions. 513 
+
+We also performed Welch’s two-tailed t-tests to assess group-level differences in decoding 514 
+
+accuracy and variance indices. 515 
+
+516 
+
+Simulation details 517 
+
+All simulations were performed in customized Python3 code written by TA with numpy 2.3.5 518 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+20 
+
+and scipy 1.17.0. Differential equations were numerically integrated using an Euler method 519 
+
+with integration time steps of 1 ms. 520 
+
+Acknowledgments 521 
+
+The authors thank Juan Alvaro Gallego for their valuable comments on our manuscript. This 522 
+
+work was supported by Wellcome Trust 200790/Z/16/Z, Simons Foundation 564408, EPSRC 523 
+
+EP/R035806/1, ERC MotorAdapt 101169605 to C.C. 524 
+
+525 
+
+Author Contributions 526 
+
+T.A. and C.C. conceived the study and wrote the paper. T.A. performed the simulations and 527 
+
+data analyses. 528 
+
+Competing Interest Statement 529 
+
+The authors declare no competing interests. 530 
+
+References 531 
+
+1. Arieli, A., Sterkin, A., Grinvald, A., & Aertsen, A. (1996). Dynamics of ongoing activity: 532 
+
+explanation of the large variability in evoked cortical responses. Science, 273(5283), 1868–1871. 533 
+
+2. Asabuki, T., & Clopath, C. (2025). Taming the chaos gently: a predictive alignment learning rule 534 
+
+in recurrent neural networks. Nature Communications, 16(1), 6784. 535 
+
+3. Asabuki, T., & Fukai, T. (2020). Somatodendritic consistency check for temporal feature 536 
+
+segmentation. Nature Communications, 11(1), 1554. 537 
+
+4. Avitan, L., Pujic, Z., Mölter, J., Zhu, S., Sun, B., & Goodhill, G. J. (2021). Spontaneous and evoked 538 
+
+activity patterns diverge over development. Elife, 10, e61942. 539 
+
+5. Bastos, A. M., Usrey, W. M., Adams, R. A., Mangun, G. R., Fries, P., & Friston, K. J. (2012). 540 
+
+Canonical microcircuits for predictive coding. Neuron, 76(4), 695-711. 541 
+
+6. Berkes, P., Orbán, G., Lengyel, M., & Fiser, J. (2011). Spontaneous cortical activity reveals 542 
+
+hallmarks of an optimal internal model of the environment. Science, 331(6013), 83–87. 543 
+
+7. Breakspear, M. (2017). Dynamic models of large-scale brain activity. Nature Neuroscience, 20(3), 544 
+
+340–352. 545 
+
+8. Chalk, M., Marre, O., & Tka čik, G. (2018). Toward a unified theory of efficient, predictive, and 546 
+
+sparse coding. Proceedings of the National Academy of Sciences (USA), 115(1), E859–E868. 547 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+21 
+
+9. Churchland, M. M., Cunningham, J. P., Kaufman, M. T., Foster, J. D., Nuyujukian, P., Ryu, S. I., & 548 
+
+Shenoy, K. V. (2012). Neural population dynamics during reaching. Nature, 487(7405), 51-56. 549 
+
+10. Cunningham, J. P., & Yu, B. M. (2014). Dimensionality reduction for large-scale neural recordings. 550 
+
+Nature neuroscience, 17(11), 1500-1509. 551 
+
+11. Deco, G., Jirsa, V. K., & McIntosh, A. R. (2013). Emerging concepts for the dynamical organization 552 
+
+of resting-state activity in the brain. Nature Reviews Neuroscience, 14(5), 336–349. 553 
+
+12. Dimakou, A., Pezzulo, G., Zangrossi, A., & Corbetta, M. (2025). The predictive nature of 554 
+
+spontaneous brain activity across scales and species. Neuron, 113(9), 1310-1332. 555 
+
+13. Elsayed, G. F., Lara, A. H., Kaufman, M. T., Churchland, M. M., & Cunningham, J. P. (2016). 556 
+
+Reorganization between preparatory and movement population responses in motor cortex. 557 
+
+Nature communications, 7(1), 13239. 558 
+
+14. Fiser, J., Berkes, P., Orbán, G., & Lengyel, M. (2010). Statistically optimal perception and learning: 559 
+
+from behavior to neural representations. Trends in cognitive sciences, 14(3), 119-130. 560 
+
+15. Fiser, J., Chiu, C., & Weliky, M. (2004). Small modulation of ongoing cortical dynamics by sensory 561 
+
+input during natural vision. Science, 303(5664), 967–972. 562 
+
+16. Foster, D. J., & Wilson, M. A. (2006). Reverse replay of behavioural sequences in hippocampal 563 
+
+place cells during the awake state. Nature, 440(7084), 680-683. 564 
+
+17. Fox, M. D., & Raichle, M. E. (2007). Spontaneous fluctuations in brain activity observed with 565 
+
+functional magnetic resonance imaging. Nature reviews neuroscience, 8(9), 700-711. 566 
+
+18. Friston, K. (2010). The free-energy principle: a unified brain theory? Nature Reviews 567 
+
+Neuroscience, 11(2), 127–138. 568 
+
+19. Gallego, J. A., Perich, M. G., Miller, L. E., & Solla, S. A. (2017). Neural manifolds for the control of 569 
+
+movement. Neuron, 94(5), 978–984. 570 
+
+20. Huang, Y., & Rao, R. P. N. (2011). Predictive coding. Neuron, 72(4), 557–576. 571 
+
+21. Iyer, K. K., Hwang, K., Hearne, L. J., Muller, E., D’Esposito, M., Shine, J. M., & Cocchi, L. (2022). 572 
+
+Focal neural perturbations reshape low-dimensional trajectories of brain activity supporting 573 
+
+cognitive performance. Nature communications, 13(1), 4. 574 
+
+22. Kenet, T., Bibitchkov, D., Tsodyks, M., Grinvald, A., & Arieli, A. (2003). Spontaneously emerging 575 
+
+cortical representations of visual attributes. Nature, 425(6961), 954–956. 576 
+
+23. Koren, V., & Denève, S. (2017). Computational account of spontaneous activity as a signature of 577 
+
+predictive coding. PLoS Computational Biology, 13(1), e1005355. 578 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+22 
+
+24. Levenstein, D., Efremov, A., Eyono, R. H., Peyrache, A., & Richards, B. (2024). Sequential 579 
+
+predictive learning is a unifying theory for hippocampal representation and replay. BioRxiv, 2024-580 
+
+04. 581 
+
+25. Litwin-Kumar, A., & Doiron, B. (2012). Slow dynamics and high variability in balanced cortical 582 
+
+networks with clustered connections. Nature neuroscience, 15(11), 1498-1505. 583 
+
+26. Luczak, A., Bartho, P., & Harris, K. D. (2009). Spontaneous events outline the realm of possible 584 
+
+sensory responses in neocortical populations. Neuron, 62(3), 413–425. 585 
+
+27. Luczak, A., Bartho, P., & Harris, K. D. (2013). Gating of sensory input by spontaneous cortical 586 
+
+activity. Journal of Neuroscience, 33(4), 1684-1695. 587 
+
+28. Luczak, A., McNaughton, B. L., & Kubo, Y. (2022). Neurons learn by predicting future activity. 588 
+
+Nature Machine Intelligence, 4(1), 62–72. 589 
+
+29. Marguet, S. L., & Harris, K. D. (2011). State-dependent representation of amplitude-modulated 590 
+
+noise stimuli in rat auditory cortex. Journal of Neuroscience, 31(17), 6414-6420. 591 
+
+30. Mazzucato, L., Fontanini, A., & La Camera, G. (2019). Stimuli-response variability in cortical 592 
+
+networks with multiple stable states. Current Opinion in Neurobiology, 58, 60–69. 593 
+
+31. Orbán, G., Berkes, P., Fiser, J., & Lengyel, M. (2016). Neural variability and sampling-based 594 
+
+probabilistic representations in the visual cortex. Nature Neuroscience, 19(1), 58–64. 595 
+
+32. Pezzulo, G., Zorzi, M., & Corbetta, M. (2021). The secret life of predictive brains: what’s 596 
+
+spontaneous activity for? Trends in Neurosciences, 44(9), 775–788. 597 
+
+33. Rabinovich, M. I., Huerta, R., & Laurent, G. (2008). Transient dynamics for neural processing. 598 
+
+Science, 321(5885), 48–50. 599 
+
+34. Raichle, M. E. (2006). The brain's dark energy. Science, 314(5803), 1249-1250. 600 
+
+35. Rao, R. P., & Ballard, D. H. (1999). Predictive coding in the visual cortex: a functional 601 
+
+interpretation of some extra-classical receptive-field effects. Nature neuroscience, 2(1), 79-87. 602 
+
+36. Recanatesi, S., Farrell, M., Lajoie, G. et al. Predictive learning as a network mechanism for 603 
+
+extracting low-dimensional latent space representations. Nat Commun 12, 1417 (2021). 604 
+
+37. Ringach, D. L. (2009). Spontaneous and driven cortical activity: implications for computation. 605 
+
+Current opinion in neurobiology, 19(4), 439-444. 606 
+
+38. Runfola, C., Petkoski, S., Sheheitli, H., Bernard, C., McIntosh, A. R., & Jirsa, V. (2025). A 607 
+
+mechanism for the emergence of low-dimensional structures in brain dynamics. npj Systems 608 
+
+Biology and Applications, 11(1), 32. 609 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+23 
+
+39. Sadtler, P. T., Quick, K. M., Golub, M. D., Chase, S. M., Ryu, S. I., Tyler-Kabara, E. C., ... & Batista, 610 
+
+A. P. (2014). Neural constraints on learning. Nature, 512(7515), 423-426. 611 
+
+40. Saxena, S., & Cunningham, J. P. (2019). Towards the neural population doctrine. Current opinion 612 
+
+in neurobiology, 55, 103-111. 613 
+
+41. Sengupta, B., Laughlin, S. B., & Niven, J. E. (2013). Balanced excitatory and inhibitory currents 614 
+
+underlie efficient coding and metabolic efficiency. PLoS Computational Biology, 9(10), e1003263. 615 
+
+42. Shenoy, K. V., Sahani, M., & Churchland, M. M. (2013). Cortical control of arm movements: a 616 
+
+dynamical systems perspective. Annual review of neuroscience, 36(1), 337-359. 617 
+
+43. Sompolinsky, H., Crisanti, A., & Sommers, H. J. (1988). Chaos in random neural networks. 618 
+
+Physical review letters, 61(3), 259. 619 
+
+44. Song, H., Shim, W. M., & Rosenberg, M. D. (2023). Large-scale neural dynamics in a shared low-620 
+
+dimensional state space reflect cognitive and attentional dynamics. Elife, 12, e85487. 621 
+
+45. Stringer, C., Pachitariu, M., Steinmetz, N., Carandini, M., & Harris, K. D. (2019). High-dimensional 622 
+
+geometry of population responses in visual cortex. Nature, 571(7765), 361-365. 623 
+
+46. Tsodyks, M., Kenet, T., Grinvald, A., & Arieli, A. (1999). Linking spontaneous activity of single 624 
+
+cortical neurons and the underlying functional architecture. Science, 286(5446), 1943-1946. 625 
+
+47. Uddin, L. Q. (2020). Bring the noise: reconceptualizing spontaneous neural activity. Trends in 626 
+
+cognitive sciences, 24(9), 734-746. 627 
+
+48. Wilson, M. A., & McNaughton, B. L. (1994). Reactivation of hippocampal ensemble memories 628 
+
+during sleep. Science, 265(5172), 676-679. 629 
+
+49. Yu, B. M., Cunningham, J. P., Santhanam, G., Ryu, S., Shenoy, K. V., & Sahani, M. (2008). 630 
+
+Gaussian-process factor analysis for low-dimensional single-trial analysis of neural population 631 
+
+activity. Advances in neural information processing systems, 21. 632 
+
+50. de Oliveira, E. F., Kim, S., Qiu, T. S., Peyrache, A., Batista-Brito, R., & Sjulson, L. (2022). Off-633 
+
+manifold coding in visual cortex revealed by sleep. Biorxiv, 2022-06. 634 
+
+635 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint
+
+## Supplementary Figures 
+
+Supplementary Figure 1. Model performance during learning. Supplementary Figure 2. Effect of temporal filter ablations on spontaneous network dynamics. 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 22, 2026. ;https://doi.org/10.64898/2026.04.19.719506 doi: bioRxiv preprint 0 100 200 300 400 500 Time (s) 0.0 1.0 2.0 3.0 Prediction error (RMSE) 
+
+×10 -2 
+
+Supplementary Figure 1: Model performance during learning. Performance of our model during learning, quantified as the root mean squared error, is shown by the dashed line. Error bars (invisi-ble) stand for s.d.s over 20 independent simulations. Mode 1 Mode 2  Spont. Evkd. Mode 1 Mode 2  Spont. Evkd. 
+
+A B
+
+Supplementary Figure 2: Effect of temporal filter ablations on spontaneous network dynamics. 
+
+Low-dimensional population dynamics of evoked activity (orange) and spontaneous activity (blue). (A) Removal of the postsynaptic integration filter resulted in high-dimensional, irregular sponta-neous trajectories with no resemblance to the evoked manifold. (B) Removal of the presynaptic low-pass filter preserved low-dimensional structure in spontaneous activity but caused a misalign-ment with the evoked trajectories.
