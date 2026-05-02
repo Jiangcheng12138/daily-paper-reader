@@ -1,0 +1,23 @@
+---
+title: "Greater hypoxic burden predicts weaker gray matter-CSF coordination independent of non-hypoxic arousals: Implications for glymphatic activity"
+title_zh: 较高的缺氧负担预示着较弱的灰质-脑脊液协调，且独立于非缺氧性觉醒：对类淋巴活动的意义
+authors: "Cho, G., Kam, K., Chen, A., Benveniste, H., Mecca, A. P., Valencia, D. I., Martillo, K. R., Chu, S. S., Kumar, A., Bubu, O. M., Osorio, R. S., Ayappa, I., Miner, B., Varga, A. W."
+date: 2026-04-29
+pdf: "https://www.biorxiv.org/content/10.64898/2026.04.25.720853v1.full.pdf"
+tags: ["query:slp-ns"]
+score: 8.0
+evidence: 阻塞性睡眠呼吸暂停中的缺氧负荷与睡眠碎片化
+tldr: 本研究探讨了阻塞性睡眠呼吸暂停（OSA）中缺氧负荷与脑脊液（CSF）动力学之间的关系。通过对28名OSA患者和8名对照组进行7T静息态磁共振成像，研究发现缺氧负荷（T90）而非睡眠碎片化（RERAs）是导致灰质与脑脊液耦合减弱的主要因素。这种耦合减弱反映了类淋巴系统功能的受损，揭示了缺氧通过干扰大脑废物清除机制，从而增加神经退行性疾病风险的独特病理路径。
+source: biorxiv
+selection_source: fresh_fetch
+motivation: 旨在明确OSA中导致类淋巴系统功能障碍的主要病理特征是缺氧负荷还是呼吸努力相关的睡眠碎片化。
+method: 利用7T高场磁共振成像技术，对36名受试者的灰质-脑脊液耦合及血管舒缩频率区域搏动振幅进行定量分析与回归建模。
+result: 较高的缺氧负荷（T90）显著预测了更弱的灰质-脑脊液耦合，且该关联独立于年龄、性别及非缺氧性呼吸觉醒的影响。
+conclusion: 缺氧负荷是OSA导致类淋巴功能受损的核心驱动力，这为OSA通过损害废物清除机制诱发神经退行性疾病提供了重要证据。
+---
+
+## 摘要
+目的：探讨缺氧负担是否与灰质搏动及其与脑脊液（CSF）流动的协调性受损具有独特相关性（两者共同支持类淋巴活动），且独立于呼吸努力相关的觉醒。背景：阻塞性睡眠呼吸暂停（OSA）是包括阿尔茨海默病在内的多种神经退行性疾病的强风险因素，这种关联可能部分由类淋巴活动介导。然而，OSA 的不同病理特征（包括缺氧负担和睡眠碎片化）是否与大脑搏动及其与脑脊液流动的协调性存在差异性关联尚不清楚。方法：28 名新诊断的 OSA 患者和 8 名非 OSA 健康对照者完成了实验室多导睡眠监测或 WatchPAT，提供了血氧饱和度低于 90% 的时间（T90）和非缺氧性呼吸努力相关觉醒（RERAs）的评估。参与者还在 7T 扫描仪上完成了静息态 fMRI，以量化灰质-脑脊液耦合和血管舒缩频率（<0.1 Hz）的区域搏动幅度。使用分层回归分析灰质-脑脊液耦合与睡眠指标之间的关联。使用 Pearson 相关分析区域搏动幅度与缺氧负担之间的关联。结果：在控制年龄、性别、种族和 RERAs 后，较高的 T90 显著预示了较弱的灰质-脑脊液耦合（β=0.003, p=0.01）。加入 T90 还显著提高了全局灰质-脑脊液耦合模型的解释方差（ΔR2=0.18, p=0.01）。在感兴趣区（ROI）水平，较高的 T90 与多个额叶、颞叶和顶上区域的血管舒缩频率搏动幅度增加相关，但与枕叶皮层无关。在 T90 相关搏动幅度升高的 ROI 中，在调整 RERAs 后，重度 OSA 患者（即 AHI4% ≥ 15）中较大的搏动幅度预示了较弱的 ROI 特异性灰质-脑脊液耦合（β=0.0007, p=0.001）。这一模式与非重度 OSA 患者（Z=2.42, p=0.02）以及 T90 相关搏动幅度未升高的 ROI 显著不同。结论：OSA 与支持类淋巴功能的流体动力学受损有关，缺氧负担而非呼吸努力相关的睡眠碎片化是主要驱动因素。较高的缺氧负担可能通过减少大脑搏动引起的补偿性脑脊液流入，从而削弱灰质-脑脊液耦合，这代表了将 OSA 与脑脊液介导的废物运输受损及神经退行性疾病联系起来的独特路径。
+
+## Abstract
+Objective. To examine whether hypoxic burden is distinctly associated with deficits in gray matter pulsation and its coordination with CSF flow, which together support glymphatic activity, independent of respiratory effort-related arousals. Background. OSA is a robust risk factor for multiple neurodegenerative conditions, including Alzheimers disease, and this association may be mediated in part by glymphatic activity. However, whether distinct pathological features of OSA, including hypoxic burden and sleep fragmentation, are differentially associated with brain pulsations and their coordination with CSF flow remains unknown. Methods. Twenty-eight individuals with newly identified OSA and 8 non-OSA healthy controls completed either in-lab polysomnography or WatchPAT, providing estimates of time spent below 90% oxygen saturation (T90) and non-hypoxic respiratory effort-related arousals (RERAs). Participants also completed resting-state fMRI on a 7T scanner to quantify gray matter-CSF coupling and vasomotion-frequency (<0.1 Hz) regional pulsation amplitude. Associations between gray matter-CSF coupling and sleep measures were examined using hierarchical regression. Associations between regional pulsation amplitude and hypoxic burden were examined using Pearson correlations. Results. Greater T90 significantly predicted weaker gray matter-CSF coupling after controlling for age, sex, race, and RERAs (Table 2; {beta}=0.003, p=0.01). Adding T90 also significantly improved model-explained variance in global gray matter-CSF coupling (Table 2; {triangleup}R2=0.18, p=0.01). At the ROI level, higher T90 was associated with greater pulsation amplitude in the vasomotion frequency across multiple frontal, temporal, and superior parietal regions, but not the occipital cortex. Among ROIs with T90-linked elevations in pulsation amplitude, greater pulsation amplitude predicted weaker ROI-specific gray matter-CSF coupling in individuals with severe OSA (i.e., AHI4% [&ge;] 15), after adjustments for RERAs ({beta}=0.0007, p=0.001). This pattern differed significantly from individuals without severe OSA (Z=2.42, p=0.02) and from ROIs without T90-linked elevations in pulsation amplitude. Conclusions. OSA is associated with deficits in fluid dynamics that support glymphatic function, with hypoxic burden, rather than respiratory effort-related sleep fragmentation, emerging as the primary driver. Greater hypoxic burden may weaken gray matter-CSF coupling by reducing compensatory CSF inflow in response to brain pulsations, representing a distinct pathway linking OSA to impaired CSF-mediated waste transport and neurodegenerative disorders.
