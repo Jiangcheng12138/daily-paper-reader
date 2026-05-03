@@ -1,0 +1,3583 @@
+Title: CARhy: Comprehensive Analyses of Circadian Rhythms in Transcriptomic Experiments with Multiple Conditions
+
+URL Source: https://arxiv.org/pdf/2604.26765v1
+
+Published Time: Thu, 30 Apr 2026 01:00:28 GMT
+
+Number of Pages: 52
+
+Markdown Content:
+CARhy: Comprehensive Analyses of Circadian Rhythms in Transcriptomic Experiments with Multiple Conditions 
+
+Weiyi Huang 1,3 , Jerome S. Menet 2, Samiran Sinha 1,* 1 Department of Statistics, Texas A&M University, College Station, Texas, USA  
+
+> 2
+
+Department of Biology, Center for Biological Clock Research, Texas A&M University, College Station, Texas, USA  
+
+> 3
+
+Department of Biostatistics and Data Science, University of Texas Health Science Center at Houston, Houston, Texas, USA Contact email: sinha@stat.tamu.edu 1
+
+> arXiv:2604.26765v1 [stat.ME] 29 Apr 2026
+
+# Abstract 
+
+Circadian rhythms are endogenous oscillations that regulate various physiological processes and their disruption has been linked to many diseases, making it important to determine how gene-expression rhythms are altered across genotypes, treatments, or environmental exposures. Existing approaches for circadian transcriptomic analysis are often limited to pairwise comparisons or to a single aspect of rhythmic behavior, making them inadequate for comprehensive inference in multi-condition experimental designs. We propose CARhy (Com-prehensive Analysis of Rhythmicity), a unified statistical framework for transcriptomic data collected under more than two conditions. Based on first-harmonic Fourier regression, CARhy provides formal tests for the presence of rhythmicity and for differences across conditions in rhythmicity, amplitude, phase, and baseline level. By allowing condition-specific variances and accommodating unbalanced designs, the framework remains reliable under heteroscedastic noise and realistic sampling constraints. Simulations show that CARhy controls type I error and false discovery rates well while achieving higher power than existing approaches in challenging settings. In mouse liver transcriptomic data, CARhy offers an interpretable and practical tool for characterizing how circadian rhythms differ across multiple experimental conditions. CARhy is implemented as an R package and is publicly available at: https:// github.com/DrHuang123/Comprehensive-Analyses-of-Circadian-Rhythms-CARhy.git .
+
+Keywords: Chi-square distribution, Circadian rhythms, Differential rhythmicity, F-test, Heteroskedasticity, Satterthwaite–Welch approximation. 21 Introduction 
+
+Circadian rhythm is an endogenous physiological process widely present in living organisms and characterized by 24-hours periodic changes. The disruption of this process is closely associated with the onset of multiple diseases, including metabolic disorders (Schrader et al. 2024), cardiovascular diseases (Crnko et al. 2019), and cancer (Lee 2021). Consequently, the factors that influence circadian rhythms and the molecular mechanisms involved have become an active focus of research in recent years. Circadian rhythms are found in almost all organisms and in most somatic cells throughout the body (Rijo-Ferreira and Takahashi 2019). Among the available model systems, mouse liver (Brooks et al. 2023) and Drosophila melanogaster (Hughes et al. 2012) have been investigated most extensively. In mouse liver, a large number of transcripts exhibit significant rhythmic changes in abundance, thereby exerting important effects on cellular activities, energy metabolism, and diverse physiological processes (Greenwell et al. 2019; Hurni et al. 2022). By comparing transcriptomic expression profiles across two or more conditions that differ in genotype, treatment regimen, or environmental exposure, researchers can in principle assess how external interventions or physiological perturbations reshape circadian rhythms and identify genes with differential rhythmic expression between conditions, thereby providing insight into underlying molecular mechanisms. However, despite the growing availability of such multi-condition circadian transcriptomic studies, there is currently no unified statistical framework or dedicated software that provides a comprehensive, principled analysis of rhythmicity across multiple conditions while simulta-neously disentangling distinct aspects of circadian behavior (such as changes in amplitude, phase, and overall rhythmic structure). Existing approaches are typically limited to pairwise comparisons or focus on individual components of rhythmicity in isolation, leaving a critical gap in the analysis of complex experimental designs. To address this need, we propose a statistically principled and comprehensive framework for analyzing rhythmicity in such data, termed CARhy, where CA stands for Comprehensive Analysis and Rhy stands for Rhythmicity . This method is designed to fill the existing gap by enabling an integrated analysis of circadian patterns across multiple conditions within a 3single coherent modeling framework. When analyzing circadian transcriptomic data, the key challenge is identifying which genes show evidence of differential rhythmic expression between experimental conditions. To address this, a variety of strategies have been employed. Early studies commonly used Venn diagram-based differential rhythmicity analysis (Pelikan et al. 2022), in which rhythmic genes are first detected separately in each condition and then compared to identify gains or losses of rhythmicity; however, this procedure does not directly test the null hypothesis that rhythmic patterns are unchanged between conditions and tends to overestimate the number of differentially rhythmic genes. Subsequently, several dedicated statistical methods were developed, including parametric approaches for differential analysis of rhythmicity, such as DODR (Thaben and Westermark 2016), CircaCompare (Parsons et al. 2020), compareRhythms (Pelikan et al. 2022) and LimoRhyde (Singer and Hughey 2019), as well as nonparametric approaches for detecting rhythmicity, such as JTK CYCLE (Hughes et al. 2010) and RAIN (Thaben and Westermark 2014). These methods have improved statistical rigor and power to some extent, but important limitations remain. First, most are restricted to pairwise comparisons and provide the test for overall difference in rhythmicity, making it difficult to disentangle changes in amplitude and phase (Thaben and Westermark 2016; Parsons et al. 2020). Second, their performance can be sensitive to the number of sampling time points, the number of biological replicates, and the noise level (Thaben and Westermark 2016; Hughes et al. 2010; Thaben and Westermark 2014); as a result, different algorithms often yield markedly different counts of differentially rhythmic genes under the same statistical threshold, and type I error control is not always satisfactory. Weger et al. (2021) proposed a Bayesian model selection approach that flexibly accommodates more than two conditions for detecting differential rhythmicity of genes across multiple settings. Their framework bases inference on posterior model probabilities approximated using the Bayesian Information Criterion (BIC). While this strategy is powerful and general, it requires fitting a relatively large number of candidate models for each gene, which can lead to substantial computational cost. In addition, as is well known, the strong penalty term in BIC (proportional to the logarithm of the sample size) may favor simpler models, particularly 4when the true data-generating mechanism is not included among the candidate set. We develop a general and computationally efficient method for testing differential rhythmicity, including separate tests for differences in amplitude and in phase across multiple conditions. Specifically, we model a gene’s smoothly varying expression profile {Y (t)}, t ∈ [0 , 24] } with a (first-order) harmonic regression. We fit the proposed model separately under each experimental condition and construct hypothesis-specific novel test statistics based on the estimated model parameters. The choice of the key components of the test statistics is guided by established principles of mathematical statistics. To obtain valid p-values, we derive the null (reference) distributions of these statistics that verify differential effects, using the Satterthwaite-type approximation framework (Satterthwaite 1946; Welch 1951), which enables accurate inference without relying on equal-variance assumptions. The resulting p-values can then be adjusted for multiplicity using established false discovery rate (FDR) control procedures (Benjamini and Hochberg 1995; Storey and Tibshirani 2003). For identifying rhythmicity under a condition, not only we use a novel test statistic but also a novel Monte Carlo method to assess its reference distribution. From a statistical perspective, the key methodological contribution of this work is to eliminate the commonly imposed homoskedasticity assumption in circadian transcriptomic analysis. This extension is particularly important in practice, where variability can differ substantially across experimental conditions and sample sizes within each group are often limited. In addition, the proposed framework naturally accommodates unbalanced experimental designs, making it applicable to realistic biological studies in which equal allocation across conditions is rarely achieved. The methodology is computationally efficient and is designed to scale to high-dimensional transcriptomic settings. Across extensive simulation studies, the proposed procedure maintains type-I error rates close to their nominal levels, achieves strong statistical power, and provides reliable false discovery rate control under a wide range of challenging scenarios. From an applied perspective, the framework provides a unified and statistically principled toolkit for circadian rhythm analysis. It enables formal testing for the presence of rhythmicity 5and supports targeted, hypothesis-driven inference on differential rhythmic characteristics across conditions, including changes in mesor, amplitude, and phase. Importantly, in settings characterized by limited sample sizes—a common constraint in circadian experiments—we carefully construct the test statistics and their key components to ensure stable and reliable inference, addressing an aspect that has received limited attention in the existing litera-ture. To the best of our knowledge, no existing methodology provides a unified framework that simultaneously supports these multiple layers of differential rhythmic inference while maintaining rigorous statistical guarantees under practical design constraints. To promote reproducibility and broad accessibility, we have implemented the proposed methodology in an open-source R package. 
+
+# 2 Methods 
+
+2.1 Experimental Data Oriented Models and Assumptions 
+
+We develop our modeling framework in the context of a motivating RNA-seq experiment (Greenwell et al. 2019), while keeping the formulation sufficiently general to accommodate a broad class of circadian transcriptomic studies. In this experiment, 54 wild-type mice maintained under a standard 12-hour light/12-hour dark cycle were assigned to one of three feeding regimens: nighttime feeding (NF), ad libitum feeding (AL), and arrhythmic feeding (AF). Liver tissues were collected at six Zeitgeber times (ZT02, ZT06, ZT10, ZT14, ZT18, ZT22), corresponding to 2, 6, 10, 14, 18, and 22 hours after lights on, respectively, with three biological replicates per time point within each feeding condition. Within this setting, our analysis intends to address following statistical objectives: (i) to identify genes that exhibit significant rhythmicity within each experimental condition; (ii) to detect genes that display differential rhythmicity across conditions; (iii) to identify genes with differences in mesor (baseline expression level) across conditions; (iv) to detect genes with differential amplitudes, reflecting changes in the magnitude of oscillation; and (v) to identify genes with differential phases, corresponding to shifts in the timing of peak expression. Collectively, these objectives enable a comprehensive characterization of how experimental 6conditions modulate circadian gene expression dynamics. Motivated by this design, but not restricted to it, we adopt a general notation to describe multi-condition circadian experiments. Let Yg,j,k (t) denote the appropriately normalized, log 2-transformed, and batch-adjusted expression level of the gth gene measured from the 
+
+jth sample at circadian time t under condition k. We use g = 1 , . . . , G to index genes and 
+
+k = 1 , . . . , K to index experimental conditions. The sampling times (Zeitgeber times) may differ across conditions; accordingly, for condition k, let 0 < t 1,k < · · · < t Ik ,k < 24 denote the observed time points. Furthermore, the number of biological replicates at each time point may vary, so that for time ti,k under condition k, samples are indexed by j = 1 , . . . , Ji,k .This formulation captures the key features of the motivating experiment—multiple conditions, discrete sampling times, and limited replicates—while remaining flexible enough to accom-modate unbalanced designs and heterogeneous sampling schemes commonly encountered in circadian studies. We assume the following model for the expression of a given gene (dropped the suffix g)under condition k based on the Fourier basis expansion of order one, 
+
+Yj,k (ti,k ) = δk + αk cos 
+
+
+
+2π ti,k 
+
+24 
+
+
+
++ βk sin 
+
+
+
+2π ti,k 
+
+24 
+
+
+
++ ϵi,j,k , (1) where the noise {ϵi,j,k , j = 1 , . . . , Ji,k , i = 1 , . . . , Ik} are assumed to be independent and identically distributed (iid) normal variables with zero mean and variance σ2
+
+> k
+
+. Here δk denotes rhythm adjusted mean for a 24h period, called mesor. The amplitude representing the distance between the mesor to the peak, is Ak = pα2 
+
+> k
+
++ β2 
+
+> k
+
+and the phase, where the peak happens, is ϕk = atan2 ( βk, α k), which carries the quadrant information. This phase is a measure of the angle in radians and it lies in [ −π, π ]. Since the frequency is fixed, the rhythmicity depicting amplitude and phase, is fully characterized by ( αk, β k). Now, using model (1), all expressions on the given mRNA from condition k can be compactly expressed as 
+
+Yk = Xkγk + ϵk, (2) 7where both the observed data Yk and unobserved noise ϵk are vectors of length nk =
+
+J1,k + · · · + JIk ,k , which represents the sample size for the kth condition and Xk is the design matrix of order nk × 3 and γk = (δk, α k, β k)⊤. For example, we can set 
+
+Yk = ( Y1,k (t1,k ), . . . , Y J1,k ,k (t1,k ), . . . , Y 1,k (tIk ,k ), . . . , Y JIk ,k ,k (tIk ,k )) ⊤, then the row of Xk corre-sponding to a component of Yk will consists of one and the allied harmonic terms. We assume, for any k, rank (Xk) = 3 and ϵk|Xk ∼ Normal (0 , σ 2
+
+> k
+
+Ink ), where Ink denotes the identity matrix of order nk.The least square estimator of γk is bγk = ( X⊤ 
+
+> k
+
+Xk)−1X⊤ 
+
+> k
+
+Yk, and the estimated covariance matrix of bγk is bΣk = bσ2
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1, bσ2 
+
+> k
+
+= ( Yk − Xkbγk)⊗2/(nk − 3), where a⊗2 = a⊤a, for any generic vector a. Let Γ = ( γ⊤ 
+
+> 1
+
+, . . . , γ ⊤K )⊤ and bΓ = ( bγ⊤ 
+
+> 1
+
+, . . . , bγ⊤K )⊤. Denote the estimated covariance of 
+
+bΓ by bΣ which is Diag( bΣ1, . . . , bΣK). 
+
+2.2 Inference Methodology 
+
+2.2.1 Test for differential rhythmicity (CARhy-TDR) 
+
+To test if the rhythmicity of the gene varies across the conditions (e.g., varies across the feeding patterns for the wild-type mice), we test H0 : ( α1, β 1) = · · · = ( αK, β K) versus Ha : at least one of ( αk, β K )-parameter vector is different from the rest. Define the 2( K − 1) × 3K
+
+contrast matrix 
+
+L =
+
+
+
+0 1 0 0 −1 0 · · · 0 0 0...0 1 0 0 0 0 · · · 0 −1 00 0 1 0 0 −1 · · · 0 0 0...0 0 1 0 0 0 · · · 0 0 −1
+
+
+
+and the hypothesis can be expressed as 
+
+H0 : LΓ = 0 versus LΓ̸ = 0 .
+
+8Our proposed test statistic for assessing differential rhythmicity (DR) is given by 
+
+TDR = 1
+
+ρ(LˆΓ) ⊤(L ˆΣL⊤)−1(LˆΓ) ,
+
+where ρ denotes the rank of L. A standard but naive approach would be to approximate 
+
+ρT DR by a χ2 
+
+> ρ
+
+distribution. However, this approximation relies on large-sample asymptotics and is generally unreliable in the moderate to small-sample regimes that are typical of in vivo circadian experiments. For instance, in our motivating dataset there are six time points with three biological replicates per time point, resulting in a total sample size of only nk = 18. In such settings, the sampling variability of the estimated quantities can be substantial, and the resulting χ2-based approximation may lead to non-negligible distortions in inference. Moreover, TDR does not follow a straightforward F distribution as the homogeneity assumption on the variances is not adopted. A central contribution of this work is that we avoid this reliance on asymptotic arguments by deriving the exact finite-sample null distribution of TDR . This result provides a fully justified reference distribution that is valid under the sampling regimes encountered in practical circadian studies, thereby enabling accurate and principled inference without requiring large-sample approximations. 
+
+Theorem 1. Under the stated assumptions, the distribution of a constant c times TDR is approximately F with the numerator degree of freedom ρ and the denominator degree of freedom df , where 
+
+df = ρ − 2 + 2 ρμ 2/μ 21
+
+ρμ 2/2μ21 − 1 and c = ρdf μ1(df − 2) 
+
+with 
+
+μ1 = ρ +
+
+> K
+
+X
+
+> k=1
+
+2bσ4
+
+> k
+
+(nk − 3) trace( BkBk),
+
+9μ2 = 2ρ +
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)
+
+
+
+{trace( Bk)}2 + 6trace( BkBk)
+
+
+
+−
+
+> K
+
+X
+
+> k=1
+
+E{(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3}
+
+
+
+2trace( Bk)trace( BkBk) + 4trace( BkBkBk)
+
+
+
++
+
+> K
+
+X
+
+> k=1
+
+E{(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4}
+
+
+
+{trace( BkBk)}2 + 2trace( BkBkBkBk)
+
+
+
+−
+
+> K
+
+X
+
+> k=1
+
+var 2(bσ2
+
+> k
+
+){trace( BkBk)}2
+
++ X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+)
+
+
+
+{trace( BkBs + BsBk)}2 + 4trace( BkBkBsBs)+2trace {(BkBs + BsBk)( BkBs + BsBk)
+
+
+
+,B1 = LDiag(( X⊤ 
+
+> 1
+
+X1)−1, · · · , 0) L⊤Ω−1, · · · , B K = LDiag(0 , · · · , (X⊤K XK)−1)L⊤Ω−1,
+
+and Ω = LΣL⊤.
+
+The proof of this result is given in the Supplementary Appendix A.1. This result helps us calculating the p-value of the test. Specifically, for a gene, the p-value is then estimated by 
+
+P (Fρ,df > cT DR ), where Fρ,d 2 denotes the F random variable with degrees of freedom ( ρ, df ), 
+
+df and c are calculated using the formula given in Theorem 1, and TDR is the observed value of the test statistic. Now, we discuss how to compute expression μ2 of Theorem 1 that involves several moments of bσ2
+
+> k
+
+, k = 1 , · · · , K and Ω = LΣL⊤. First, we replace Σ by bΣ in Ω. Next, since bσ2 
+
+> k
+
+∼
+
+σ2
+
+> k
+
+(nk − 3) −1χ2 
+
+> nk−3
+
+, var (bσ2
+
+> k
+
+) = σ4
+
+> k
+
+(nk − 3) −2 × 2( nk − 3) = 2 σ4
+
+> k
+
+(nk − 3) −1, E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3 =
+
+σ6
+
+> k
+
+(nk −3) −3 ×E{χ2  
+
+> nk−3
+
+−E(χ2 
+
+> nk−3
+
+)}3 and E(bσ2 
+
+> k
+
+−σ2
+
+> k
+
+)4 = σ8
+
+> k
+
+(nk −3) −4 ×E{χ2  
+
+> nk−3
+
+−E(χ2 
+
+> nk−3
+
+)}4.For a χ2 random variable with degrees of freedom r, the sth order raw moment is μ′ 
+
+> s
+
+=2sΓ (r/2 + s)/Γ(r/2) . So, μ′ 
+
+> 1
+
+= r, μ′ 
+
+> 2
+
+= 4( r/2 + 1) r/2, μ′ 
+
+> 3
+
+= 8( r/2 + 2)( r/2 + 1) r/2, μ′ 
+
+> 4
+
+=16( r/2 + 3)( r/2 + 2)( r/2 + 1) r/2, and these can be used to compute E{χ2 − E(χ2)}3 =
+
+μ′ 
+
+> 3
+
+− 3μ′
+
+> 2
+
+μ′ 
+
+> 1
+
++ 2( μ′
+
+> 1
+
+)3 and E{χ2 − E(χ2)}4 = μ′ 
+
+> 4
+
+− 4μ′
+
+> 3
+
+μ′ 
+
+> 1
+
++ 6 μ′
+
+> 2
+
+(μ′
+
+> 1
+
+)2 − 4μ′
+
+> 1
+
+(μ′
+
+> 1
+
+)3 + ( μ′
+
+> 1
+
+)4 =
+
+μ′ 
+
+> 4
+
+− 4μ′
+
+> 3
+
+μ′ 
+
+> 1
+
++ 6 μ′
+
+> 2
+
+(μ′
+
+> 1
+
+)2 − 3( μ′
+
+> 1
+
+)4. Moreover, in the final expression of μ1 and μ2, we replace σ2
+
+> k
+
+by its estimator bσ2
+
+> k
+
+.10 In rare cases, df or c could be negative when computed using the formula of Theorem 1. In that case, we propose to solve df and c by minimizing arg min 
+
+> c> 0,df > 4
+
+cμ 1
+
+ρ − df df − 2
+
+2
+
++
+
+c2μ2
+
+ρ2 − 2df 2
+
+ρ(df − 2) 2(df − 4) 
+
+2
+
+.
+
+When we conduct such a test for a large number of genes and each test is carried out at α
+
+level of significance, the familywise error rate could be much higher than α, consequently the false discovery rate (FDR) could be high. Therefore, after calculating the p-value of the test for every gene in a set of a large number of genes, one may use the Benjamini-Hochberg method (Benjamini and Hochberg 1995) or the qvalue method (Storey and Tibshirani 2003) to obtain adjusted p-values. 
+
+2.2.2 Test for differential mesor (CARhy-TDM) 
+
+For this test, we set H0 : δ1 = · · · = δK against Ha : at least one of δk is different from the rest. We use the same form of test as TDR with L being replaced by 
+
+LDM =
+
+
+
+1 0 0 −1 0 0 · · · 0 0 0...1 0 0 0 0 0 · · · −1 0 0
+
+
+
+and ρ by K − 1 and call this test statistic as TDM . The reference distribution of TDM can be obtained from Theorem 1 after necessary changes of L and ρ.
+
+2.2.3 Test for rhythmicity (CARhy-TR) 
+
+Suppose that we are interested in the presence of rhythmicity of a gene’s expression under a given condition, k, which can be tested by setting H0 : α2 
+
+> k
+
++ β2 
+
+> k
+
+= 0 versus H0 : α2 
+
+> k
+
++ β2 
+
+> k
+
+> 0. The test statistic is TR = bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+. Note that ( bαk, bβk)⊤ follows normal (0 , Λk), where Λ k =11 Aσ 2
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1A⊤, where 
+
+A =
+
+
+
+0 0 00 1 00 0 1
+
+ .
+
+Let Pk be an orthonormal matrix of order 2, then according to the spectral decomposition Λ k =
+
+PkDiag (τk, 1, τ k, 2)P ⊤ 
+
+> k
+
+. Then bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+= ( bαk, bβk)⊤PkP ⊤ 
+
+> k
+
+(bαk, bβk) = {P ⊤ 
+
+> k
+
+(bαk, bβk)}⊤P ⊤ 
+
+> k
+
+(bαk, bβk). Observe that, under H0, ( Uk, 1, U k, 2)⊤ = P ⊤ 
+
+> k
+
+(bαk, bβk) follows Normal (0 , Diag (τk, 1, τ k, 2)). So, 
+
+bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+= U 2 
+
+> k, 1
+
++ U 2
+
+> k, 2
+
+, where U 2
+
+> k, 1
+
+/τ k, 1 and U 2
+
+> k, 2
+
+/τ k, 2 follow independent χ21 distribution ( χ2
+
+distribution with degrees of freedom one). So, under H0, bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+follows a weighted sum of two independent χ21 distributions with weights τk, 1 and τk, 2. So, TR is equivalent to 
+
+χ21τk, 1 + χ∗,21 τk, 2
+
+in distribution, where χ21 and χ∗,21 are two independent χ21 random variables. However, enumeration of the above is difficult as τk, 1 and τk, 2 are unknown. Since ( nk − 3) bτk, 1 ∼
+
+τk, 1χ2  
+
+> nk−3
+
+and ( nk − 3) bτk, 2 ∼ τk, 2χ2 
+
+> nk−3
+
+, after replacing τk, 1 and τk, 2 by ( nk − 3) bτk, 1/χ 2  
+
+> nk−3
+
+and (nk − 3) bτk, 2/χ 2 
+
+> nk−3
+
+, under H0,
+
+bα2 
+
+> k
+
++ bβ2
+
+> kd
+
+= χ21τk, 1 + χ∗,21 τk, 2≈χ21(nk − 3) bτk, 1
+
+χ2 
+
+> nk−3
+
++ χ∗,21 (nk − 3) bτk, 2
+
+χ2 
+
+> nk−3
+
+.
+
+Monte Carlo p-value computation. Generate Ui ∼ χ21 for i = 1 , . . . , 2N and U ∗ 
+
+> i
+
+∼ χ2 
+
+> nk−3
+
+for i = 1 , . . . , N . For i = 1 , . . . , N , compute 
+
+Vi = (nk − 3)  Uibτk, 1 + Ui+N bτk, 2
+
+
+
+U ∗
+
+> i
+
+.
+
+The p-value is then estimated by N −1 PNi=1 I
+
+
+
+Vi > bα2 
+
+> k
+
++ bβ2
+
+> k
+
+
+
+, where I denotes the indicator function. Although we did not find any indication of inflated type-I error rate in our simulation studies, the estimated p-value from this Monte Carlo procedure is likely to be slightly conservative, in the sense that it tends to be larger than the true p-value. This occurs because the simulated test statistic incorporates additional sources of variability beyond those 12 present in TR = bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+, resulting in a null distribution with inflated variance. Consequently, the Monte Carlo-generated distribution is likely to place more mass in the tails, making the observed value of TR appear less extreme than it would under its true sampling distribution. 
+
+2.2.4 Tests for differential amplitude and differential phase 
+
+If a gene exhibits differential rhythmicity across conditions, we may further investigate whether this difference is attributable to differential amplitude (DA) or differential phase (DP). 
+
+Differential Amplitude (CARhy-TDA) 
+
+To test for differential amplitude, we consider the hypotheses 
+
+H0 : θ1 = · · · = θK versus Ha : at least one θk differs ,
+
+where θ = ( θ1, . . . , θ K)⊤ and θk = ( α2 
+
+> k
+
++ β2 
+
+> k
+
+)1/3. We adopt the cube-root transformation instead of the conventional amplitude ( α2 
+
+> k
+
++ β2 
+
+> k
+
+)1/2 because the estimator ( bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+)1/3 exhibits improved convergence to a normal distribution (Wilson and Hilferty 1931). The estimator of 
+
+θk is bθk = ( bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+)1/3, and an approximate variance of bθk is D⊤ 
+
+> k
+
+bΣkDk, where 
+
+Dk =
+
+
+
+0, 23 αk(α2 
+
+> k
+
++ β2 
+
+> k
+
+)−2/3, 23 βk(α2 
+
+> k
+
++ β2 
+
+> k
+
+)−2/3
+
+⊤
+
+.
+
+In practice, Dk is replaced by its plug-in estimator obtained by substituting ( αk, β k) with (bαk, bβk). The differential amplitude (DA) test statistic is 
+
+TDA = 1
+
+ρ(Lbθ)⊤
+
+n
+
+L Diag  D⊤ 
+
+> 1
+
+bΣ1D1, . . . , D ⊤K bΣKDK
+
+L⊤
+
+o−1
+
+(Lbθ),
+
+13 where bθ = ( bθ1, . . . , bθK)⊤ and L is a ( K − 1) × K contrast matrix defined as 
+
+L =
+
+
+
+1 −1 0 · · · 01 0 −1 · · · 0... . . . 1 0 0 · · · −1
+
+
+
+, (3) and ρ = rank( L) = K − 1. 
+
+Differential Phase (CARhy-TDP) 
+
+To test for differential phase, we consider the same hypotheses, H0 : θ1 = · · · = θK versus 
+
+Ha : at least one θk differs , but define θk = atan2 (βk, α k). The DP test statistic, denoted by 
+
+TDP , is obtained from TDA after replacing bθk by atan2( bβk, bαk) and 
+
+Dk =
+
+
+
+0, − bβk(bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+)−1, bαk(bα2 
+
+> k
+
++ bβ2 
+
+> k
+
+)−1
+
+⊤
+
+.
+
+The contrast matrix L remains unchanged. 
+
+Null Distribution 
+
+Importantly, in both settings, the inferential problem is substantially more complex than a routine plug-in procedure. Without invoking large-sample theory or homoskedastic error structures, the sampling distribution of these statistics must be derived with care, accounting for condition-specific variability and the nonlinear dependence of the parameters on the underlying regression coefficients. The null distributions of TDA and TDP are given in the following result. 
+
+Theorem 2. Under the stated assumptions and when α2 
+
+> k
+
++ β2 
+
+> k
+
+> 0 for all k, the distribution of c T DA or c T DP is approximately an F distribution with numerator degrees of freedom ρ
+
+and denominator degrees of freedom df , where 
+
+df = ρ − 2 + 2 ρμ 2/μ 21
+
+ρμ 2/(2 μ21) − 1 , c = ρ df μ1(df − 2) .
+
+14 Here, 
+
+μ1 = ρ +
+
+> K
+
+X
+
+> k=1
+
+2bσ4
+
+> k
+
+nk − 3 tr( GkGk),
+
+and 
+
+μ2 = 2 ρ +
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)
+
+h
+
+{tr( Gk)}2 + 6 tr( GkGk)
+
+i
+
+−
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3
+
+h
+
+2 tr( Gk)tr( GkGk) + 4 tr( GkGkGk)
+
+i
+
++
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4
+
+h
+
+{tr( GkGk)}2 + 2 tr( GkGkGkGk)
+
+i
+
+−
+
+> K
+
+X
+
+> k=1
+
+var 2(bσ2
+
+> k
+
+){tr( GkGk)}2
+
++ X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+)
+
+h
+
+{tr( GkGs + GsGk)}2 + 4 tr( GkGkGsGs)+ 2 tr (GkGs + GsGk)2
+
+i
+
+.
+
+The matrices Gk are defined as 
+
+Gk = L Diag(0 , . . . , D ⊤ 
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1Dk, . . . , 0) L⊤ Ψ−1,
+
+where 
+
+Ψ = L Diag  D⊤ 
+
+> 1
+
+Σ1D1, . . . , D ⊤K ΣKDK
+
+L⊤.
+
+The proof of Theorem 2 is provided in Supplementary Appendix A.2. The vectors Dk
+
+take different forms depending on whether TDA or TDP is considered. Both tests should be conducted only when rhythmicity is present under all conditions. The presence of rhythmicity can be checked via the technique of Section 2.2.3. 15 3 Simulation Studies 
+
+3.1 Simulation design 
+
+We assessed and compared our methods against two competing methods: DODR, based on hierarchical ANOVA, and dryR based on a Bayesian framework. First we focus was on the test of differential rhythmicity (TDR). To assess the type-I error rate for the test of DR, we simulated a gene’s expression data under 
+
+H0 that there is no differentially rhythmicity across two and three experimental conditions, separately. We repeated this procedure for R = 10 , 000 times. Every time, we calculated the test statistic and estimated the p-value using the proposed method, and recorded the proportion of times H0 was rejected out of R replications. For checking power, we simulated data under Ha, where the gene expression followed differentially rhythmicity. Following our real data, we simulated expression profile from the model 
+
+Yj,k (t) = 1 + Ak cos 
+
+2π
+
+24 (t − ϕk)
+
+
+
++ ϵj,k (t) (4) at time points t = 0 , 4, 8, 12 , 16 , 20 hr, for k = 1 , . . . , K and j = 1 , · · · , Ji,k . We simulated 
+
+ϵj,k (t) iid 
+
+∼ Normal (0 , σ 2
+
+> k
+
+). We considered scenarios 1) where σ2 
+
+> k
+
+was varying over conditions and 2) where σ2 
+
+> k
+
+was fixed over different conditions. The parameter values for simulation are given in Tables 1 and 2. Additionally, we considered unbalanced sampling scenarios, as shown in Figures 1 and 2. To assess the robustness of our method to heteroskedastic noise, we simulated data where ϵ
+
+follows homoscedastic Gaussian distribution (Cases 1, 5 of Table 1 and Case 9, 13 of Table 2) or a heteroskedastic Gaussian distribution (Cases 2, 6 of Table 1 and Case 10, 14 of Table 2). To assess the sensitivity of our method to the normality assumption of noise, we simulated data where ϵ follows a Student’s t-distribution with 3 or 4 degrees of freedom (Cases 3, 4, 7, 8 of Table 1 and Case 11, 12, 15, 16 of Table 2). 16 Table 1: Parameter values for non-differential rhythmicity scenarios in the simulation. Group Case Amplitude Phase Normal dist. Student’s t dist. 
+
+A1 A2 A3 ϕ1 ϕ2 ϕ3 σ1 σ2 σ3 df 1 df 2 df 3
+
+3-conditions 1 1 1 1 5 5 5 1 1 1 – – –2 1 1 1 5 5 5 0.5 2 2 – – –3 1 1 1 5 5 5 1 – – – 0.4t3 0.4t3
+
+4 1 1 1 5 5 5 – – – t4 0.1t4 0.5t4
+
+2-conditions 5 1 1 – 5 5 – 1 1 – – – –6 1 1 – 5 5 – 0.5 2 – – – –7 1 1 – 5 5 – 1 – – – 0.4t3 –8 1 1 – 5 5 – – – – t4 0.5t4 –Table 2: Parameter values for differential rhythmicity scenarios in the simulation. Model Case Amplitude Phase Normal dist. Student’s t dist. 
+
+A1 A2 A3 ϕ1 ϕ2 ϕ3 σ1 σ2 σ3 df 1 df 2 df 3
+
+3-conditions 9 1 1 1.5 5 2.5 5 1 1 1 – – –10 1 1 1.5 5 2.5 5 0.5 2 2 – – –11 1 1 1.5 5 2.5 5 1 – – – 0.4t3 0.4t3
+
+12 1 1 1.5 5 2.5 5 – – – t4 0.1t4 0.5t4
+
+2-conditions 13 1 1.5 – 5 2.5 – 1 1 – – – –14 1 1.5 – 5 2.5 – 0.5 2 – – – –15 1 1.5 – 5 2.5 – 1 – – – 0.4t3 –16 1 1.5 – 5 2.5 – – – – t4 0.5t4 –17 3.2 Type I error rate and power analysis 
+
+DODR tests differential rhythmicity between two groups by fitting harmonic regressions and applying nested ANOVA to compare the model with shared rhythm to a model with both shared rhythm and differential rhythm. dryR performs model selection over a candidate set using Bayesian Information Criterion weights (BICW), and the model with highest BIC weight is selected. It classifies a gene as differentially rhythmic if the selected model is outside the null model set and its BIC weight is greater than a specific threshold (0.95 for 2 conditions as reported by Weger et al.). We employed three thresholds of 0.7, 0.8, and 0.9 in this simulation study, which were respectively named dryR 0.7, dryR 0.8 and dryR 0.9. Figure 1 presents the type I error rates for the cases (simulation scenarios) of Table 1. CARhy-TDR maintains the type I error rate close to the nominal level of 0.05 across all cases with both homoscedastic and heteroscedastic noise, both equal and unequal sample size scenarios (i.e., unbalanced design), and both Gaussian and heavy-tailed noise, indicating strong robustness to heteroscedastic noise, heavy-tailed noise, and unbalanced sampling. By contrast, under two conditions, DODR shows a significantly inflated Type I error rate in the unequal sample size scenario with heavy-tailed noise; the same pattern is also observed for dry.R when a BICW threshold of 0.7 is used (Case 7 and Case 8). Under three conditions, BICW thresholds of 0.7 and 0.8 provide acceptable control of the Type I error rate under homoscedasticity, but show substantial inflation of the Type I error rate under heteroscedasticity and unequal sampling (Case 3 and Case 4). Choosing a BICW threshold of 0.9 keeps the Type I error rate below 0.05 in most cases; however, under heteroscedasticity with unbalanced sampling, the Type I error rate is still inflated (Case 4). Figure 2 presents the powers for the cases of Table 2. Under three experimental conditions, CARhy-TDR achieves the highest power in all cases, outperforming dryR at any prespecified BICW threshold, with a particularly advantage under heavy-tailed noise (Case 11 and Case 12); meanwhile, its type I error rate remains close to the nominal 0.05 level (Case 3 and Case 4). Under two experimental conditions with equal sample size, CARhy-TDR and DODR have the highest and comparable power; however, under unequal sample sizes with heteroscedastic noise (Case 14), CARhy-TDR performs more powerful. Under unequal sample size with 18 heavy-tailed noise, DODR shows higher power but at the cost of a markedly inflated type I error rate above the nominal 0.05 level (Case 7 and Case 8). equal sample size unequal sample size             
+
+> 0.00 0.05 0.10 0.15 0.20
+> 1234
+> Type−I error rates
+> n1 = n2 = n3 = 18
+> 0.00 0.05 0.10 0.15 0.20
+> 1234
+> n1 = 12; n2 = n3 = 18
+> 0.00 0.05 0.10 0.15 0.20
+> 5678
+> Type−I error rates
+> n1 = n2 = 18
+> 0.00 0.05 0.10 0.15 0.20
+> 5678
+> n1 = 12; n2 = 18
+> Method
+> DODR
+> CARhy−TDR
+> dryR_0.7
+> dryR_0.8
+> dryR_0.9
+
+Figure 1: Type-I error rates for Cases 1-8 of Table 1. 
+
+3.3 FDR control and F1 score analysis for the differential rhyth-micity test 
+
+We conducted simulations with 2,000 genes, of which 10% were designated as truly differentially rhythmic (DR) and the remaining genes as non-DR. We evaluated performance under both two experimental conditions (group 1 vs. group 2) and three experimental conditions (group 1 vs. group 2 vs. group 3), using the parameter settings as in Table 3. For each condition, gene expression was generated from model (4) with heteroscedastic Gaussian noise with a mean of zero. Measurements were taken at six time points and replication at each time point was unbalanced across conditions. Non-DR genes shared identical rhythmic parameters (amplitude and phase) across all conditions, whereas DR genes used condition-specific rhythmic parameters across all conditions. We applied CARhy-TDR 19 equal sample size unequal sample size    
+
+> 0.00 0.25 0.50 0.75 1.00
+> 910 11 12
+> Power
+
+n1 = n2 = n3 = 18    
+
+> 0.00 0.25 0.50 0.75 1.00
+> 910 11 12
+
+n1 = 12; n2 = n3 = 18    
+
+> 0.00 0.25 0.50 0.75 1.00
+> 13 14 15 16
+> Power
+
+n1 = n2 = 18    
+
+> 0.00 0.25 0.50 0.75 1.00
+> 13 14 15 16
+
+n1 = 12; n2 = 18 
+
+> Method
+> DODR
+> CARhy−TDR
+> dryR_0.7
+> dryR_0.8
+> dryR_0.9
+
+Figure 2: Power for Cases 9-16 of Table 2. Table 3: Parameter values for the simulation scenarios for FDR and F1 evaluations. 
+
+Parameter Value Description 
+
+sd 1 0.5 noise standard deviation for group 1 
+
+sd 2 = sd 3 1.0 noise standard deviation for group 2, 3 
+
+ADR(1) 1.0 differential amplitude for group 1 
+
+ADR(2) = ADR(3) 2.0 differential amplitude for group 2, 3 
+
+ϕDR(1) 5.0 differential phase for group 1 
+
+ϕDR(2) = ϕDR(3) 10.0 differential phase for group 2, 3 
+
+AnonDR 1.0 shared amplitude for non-DR 
+
+ϕnonDR 5.0 shared phase for non-DR 
+
+Ji, 1 2 replicates per time point for group 1 
+
+Ji, 2 = Ji, 3 3 replicates per time point for group 2, 3 Sampling time points 0, 4, 8, 12, 16, 20 measurement time points 20 and DODR to the data and p values were adjusted by Benjamini-Hochberg method. We also applied dryR with three thresholds, 0.7 (dryR 0.7), 0.8 (dryR 0.8), and 0.9 (dryR 0.9). We repeated this simulation 30 times, and each simulated data contained 2000 genes. For each simulated data we calculated the false discovery rate (FDR) and F1 score: FDR = FP TP + FP , F1 = 2 TP 2 TP + FP + FN ,
+
+under each method, where FP, FN, TP denote the number of false positives, the number of false negatives, and the number of true positives. Figure 3 shows the performance of the methods under these metrics. CARhy-TDR exhibited the best performance compared to dryR under all preset BICW thresholds, achieving the highest F1 score while maintaining the lowest FDR, indicating a robust balance between sensitivity and false positive control under the scenario where genes are independent. A similar trend was observed under the design of two experimental conditions. CARhy-TDR achieved a higher F1 score than DODR while keeping the FDR around 0.05, indicating a favorable balance between detection performance and false discovery control. The results highlight opportunities for improvement in the dryR method, suggesting that its decision rule (e.g., the BIC-weight threshold) could benefit from further calibration to enhance performance. 
+
+3.4 Performance of other tests 
+
+3.4.1 Design 
+
+To evaluate the performance of the test of rhythmicity (CARhy-TR) and compare with the nonparametric test JTK CYCLE (Hughes et al. 2010) for a single gene under one condition. Data were generated according to Yj (ti) = 1 + A cos 2π 
+
+> 24
+
+(ti − ϕ) + ϵi,j , with varying signal strengths, A = 0 , 0.5, 1, 2, ϕ = 5, ϵi,j iid 
+
+∼ Normal (0 , 1) and ϵi,j iid 
+
+∼ t3 (for heavy tail) for two sample sizes 12 ( nk = 6 × 2 = 12) and 18 ( nk = 6 × 3 = 18). To assess type I error rates and power for testing differential mesor (CARhy-TDM), we conducted simulation studies under two- and three-condition experimental designs. For each setting, 10,000 datasets were generated using the model Yj,k (ti) = δk + A cos 2π 
+
+> 24
+
+(ti − ϕ) +21 3−conditions 2−conditions         
+
+> F1  FDR
+> CARhy−TDR dryR_0.7 dryR_0.8 dryR_0.9 DODR CARhy−TDR dryR_0.7 dryR_0.8 dryR_0.9
+> 0.00 0.25 0.50 0.75 1.00
+> 0.00 0.25 0.50 0.75 1.00
+
+Figure 3: F1 scores (upper panel) and FDR (lower panel) for different methods. For DODR and CARhy-TDR, we adjusted the p-values using the Benjamini-Hochberg method. 
+
+ϵj,k (ti), where k indexes experimental conditions, i denotes sampling times (in hours) over a 24-hour cycle, and j indexes replicates. Parameter values are provided in Table S1, and simulations were performed for both sample size settings ( nk = 12 and nk = 18). Empirical rejection rates across simulations were used to estimate type I error under the null hypothesis and power under the alternative. For testing differential amplitude (CARhy-TDA), simulations were conducted using parameter settings in Table S2, with gene expression generated from Yj,k (ti) = 1 + Ak cos 2π 
+
+> 24
+
+(ti − ϕ) +
+
+ϵi,j,k . Finally, to assess performance for testing differential phase (CARhy-TDP), simulations were conducted using parameter settings in Table S3. Gene expression data were generated as Yj,k (ti) = 1 + A cos 2π 
+
+> 24
+
+(ti − ϕk) + ϵi,j,k .
+
+3.4.2 Results and discussion 
+
+Figure 4 illustrates the performance of the proposed test for detecting rhythmicity (CARhy-TR). Under the null setting, CARhy-TR maintained the type I error rate close to the nominal level of 0.05, whereas JTK CYCLE was more conservative. For all the weak, moderate and 22 strong rhythmic signals, CARhy-TR showed higher detection power than JTK CYCLE with both sample sizes 12 and 18; and it even showed higher power when testing signals with heavy-tail noises, especially weak and moderate signals. Figure S1 shows the performance of testing differential mesor (CARhy-TDM). In both two-and three-condition designs, CARhy-TDM maintained the type I error close to the nominal level of 0.05, under both homoskedastic and heteroskedastic noise scenarios; meanwhile CARhy-TDM exhibits high power for all scenarios with both sample sizes 12 and 18. Figure S2 summarizes the performance of the proposed test for differential amplitude (CARhy-TDA). We compared CARhy-TDA with DODR, dryR, and CARhy-TDR that assess differ-ential rhythmicity without distinguishing between amplitude and phase effects. For dryR, we used three BICW thresholds (0.7, 0.8, and 0.9), denoted as dryR 0.7, dryR 0.8, and dryR 0.9, respectively. In the three-condition scenarios, CARhy-TDA maintained the type I error rate close to the nominal 0.05 level and was slightly lower than that of CARhy-TDR. In terms of power, CARhy-TDA was slightly more powerful than CARhy-TDR and consistently outperformed dryR at all preset BICW thresholds. This advantage was particularly pro-nounced under heteroscedasticity (Case 4 and Case 8). Compared with DODR, CARhy-TDA exhibited a comparable type I error rate but achieved higher power across all settings, with the largest gains observed under heteroskedastic noise and unequal sample sizes (Case 8). Figure S3 shows the performance of testing differential phase (CARhy-TDP). Across the three-condition scenarios, CARhy-TDP maintained the type I error rate well and had a slightly lower type I error rate than CARhy-TDR. In terms of power, CARhy-TDP was slightly more powerful than CARhy-TDR and consistently outperformed dryR at all preset BICW thresholds. This advantage was particularly pronounced under heteroscedasticity (Case 12 and Case 16). Compared to DODR, CARhy-TDP exhibited similar type I error control but consistently higher power across all scenarios, with the advantage being most evident under heteroskedastic and unbalanced setting (Case 16). Overall, these results indicate that CARhy provides well-controlled type I error and superior power across a range of scenarios, especially in more complex or realistic settings, making it a robust and reliable choice for detecting differential rhythmicity, particularly differences in 23 null  weak  moderate  strong 
+
+> Gaussian noise n = 18
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> 0.05 0.21 0.68 1.00 0.03 0.14 0.54 0.99
+> null  weak  moderate  strong
+> Gaussian noise n = 12
+> 0.05 0.15 0.44 0.96 0.03 0.10 0.31 0.87
+> null  weak  moderate  strong
+> t3 noise n = 18
+> 0.04 0.11 0.38 0.86 0.03 0.10 0.34 0.86
+> null  weak  moderate  strong
+> t3 noise n = 12
+> 0.04 0.09 0.25 0.70 0.03 0.07 0.21 0.63
+> Rhythmic signal strength Rejection rate
+> CARhy−TR JTK_CYCLE
+
+Figure 4: Type-I error rate and power for testing rhythmicity. Black: CARhy-TR, Gray: JTK CYCLE 24 rhythmic components such as amplitude and phase. 
+
+# 4 Application and Assessment on Transcriptomic Data 
+
+We have introduced the dataset in Section 2.1, which consists of three experimental conditions (K = 3), common sampling times t1,k = 2, t2,k = 6, t3,k = 10, t4,k = 14, t5,k = 18, and 
+
+t6,k = 22, and a balanced design with Ji,k = 3 biological replicates at each time point for 
+
+i = 1 , . . . , 6 and k = 1 , 2, 3, and objectives. In the dataset, sequenced reads were pre-processed, aligned to the mouse genome, and gene expression was quantified using transcripts per million (TPM) normalization. Normalization to gene length was not performed because reads originate from 3’-mRNA sequencing. Genes with TPM > 1 in at least half of the samples were retained, and TPM values were transformed into log2(TPM + 1) for all analyses. After pre-processing, we are left with 12,365 genes shared across all conditions. We analyzed these genes using CARhy. Figure 5 illustrates the logic diagram of CARhy, including its main functions for testing rhythmicity (CARhy-TR) and differential rhythmicity (CARhy-TDR), as well as modules for testing differential amplitude (CARhy-TDA), differential phase (CARhy-TDP), and other related features. Detailed statistical results are summarized in the Table S4, including gene-specific raw p-values for all the statistical tests in CARhy, along with mesor, amplitude, and phase estimates for each condition. Among these 12,365 genes, CARhy-TR identified 4,606 (NF), 3,870 (LB), and 3,242 (AF) rhythmic genes. Of these 12,365 genes, 1,193 genes showing rhythmicity under all three conditions with a p-value < 0.05. Among the 1,193 genes, CARhy-TDR identified 469 differential rhythmic (DR) genes with a p-value < 0.05 and 724 non-differential rhythmic (NDR) with a p-value ≥ 0.05. Figure S4 illustrates the standardized temporal expression profiles of these DR and NDR genes. NDR genes exhibited relatively similar profiles across conditions, whereas DR genes exhibited very mild rhythmicity in AF. For validating the proposed method for the real data analysis, we compare between-condition differences of rhythmic features for DR genes and NDR genes. To assess the consistency 25 CARhy Rhythmicity Test: test whether a gene shows rhythmicity under a given condition. Differential Rhythmicity Test: test whether a gene shows differential rhythmicity across multiple conditions. Differential Mesor Test: test whether a gene shows differential mesor across multiple conditions. Differential Amplitude Test: test whether a gene that shows rhythmicity across all conditions has differential amplitude across conditions. Differential Phase Test: test whether a gene that shows rhythmicity across all conditions has differential phase across conditions. The gene is rhythmic across all conditions Figure 5: CARhy’s logic diagram. 26 of temporal expression patterns across conditions, we converted gene expression profiles to z-score for each gene within each condition across the six time points. For each gene, Pearson correlation coefficients were then calculated for all three pairwise condition comparisons (NF-LB, NF-AF, and LB-AF) and the mean of the three correlation coefficients was used as the overall temporal expression similarity metric for each gene. To quantify the amplitude divergence, absolute differences in the estimated amplitude were calculated for the three pairwise condition comparisons, and their mean was used as the overall amplitude difference metric for each gene. To quantify phase dispersion, pairwise phase differences were calculated using circular distance with a 24-hour period (the minimal circular distance), and the mean of the three pairwise differences was used as the overall phase difference metric for each gene. For the amplitude and phase dispersion, we use the model-based estimates in terms of α
+
+and β parameters. The distributions of these three metrics were compared between DR and NDR genes using two-sided Wilcoxon rank-sum tests. Finally, to compare average expression trajectories, the three biological replicates were first averaged at each time point within each condition. The resulting 18 values (6 time points × 3 conditions) for each gene were then standardized using z-scores, and the mean ± standard error of the mean was calculated across genes at each time point separately for the DR and NDR groups. As shown in Figure 6, compared to NDR genes, DR genes showed significantly lower temporal expression profile similarity across conditions (Panel A), but significantly greater amplitude difference (Panel B) and phase difference (Panel C). In the two-dimensional landscapes, DR genes were shifted toward lower temporal expression profile similarity and higher phase difference (Panel D), as well as lower expression profile similarity and higher amplitude difference (Panel E), whereas NDR genes were more concentrated in regions of high similarity and low divergence. Consistently, average expression trajectories revealed more pronounced condition-dependent separation among DR genes, while NDR genes displayed more concordant temporal patterns across conditions (Panel F). These results indicate that DR genes exhibit greater divergence in rhythmic features across conditions, whereas NDR genes maintain relatively similar expression patterns. Additionally, of these 1,193 rhythmic genes, CARhy-TDA identified 222 genes that were differential in amplitude, and CARhy-TDP identified 506 genes that were differential in phase. Specifically, 90 genes showed differential amplitude only, 27 374 genes showed differential phase only, and 132 genes showed both differential amplitude and phase (Figure S5). To validate our statistical framework, we compared CARhy’s performance with some existing methods. We retrieved experimentally identified rhythmic genes in mouse liver from the CGDB database (February 2026; http://cgdb.biocuckoo.org) under a light–dark design and found that 3,446 of 12,365 genes were validated as circadian genes (Table S5). We then assessed rhythmicity of the 12,365 genes for each feeding paradigm using CARhy-TR (Section 2.2.3) and JTK CYCLE, respectively. The numbers of rhythmic genes detected by each method, as well as their overlap with the 3,446 rhythmic genes reported in the CGDB database are shown in the Venn diagram (Figure 7). CARhy-TR detected rhythmicity in more of these 3,446 genes than JTK CYCLE did. Figure S6 shows the density of p-values from CARhy-TR and JTK CYCLE. CARhy-TR exhibits more enrichment of small p-values, suggesting higher detection power, whereas JTK CYCLE is more conservative, with p-values shifted toward larger values. This is consistent with our simulation results. We used JTK CYCLE to assess rhythmicity of the 12,365 genes in NF and AF separately. For each condition, p-values across the 12,365 genes were adjusted using the Benjamini–Hochberg (BH) method at an FDR threshold of 0.05. Genes were defined as differentially rhythmic if they were rhythmic in one condition (BH.Q < 0.05) but not rhythmic in the other (BH.Q ≥
+
+0.05). Using this criterion, 2,074 genes were classified as differentially rhythmic and were used as the reference set for subsequent analyses. Figure S7 illustrates the standardized temporal expression profiles of these differential rhythmic genes. Using these 2,074 differential rhythmic genes as the reference set, we compared CARhy-TDR (Section 2.2.1) with DODR and dryR for detecting differential rhythmicity. We compared their coverage rates and Jaccard indices across a range of P-value thresholds (and BICW thresholds for dryR). Overall, compared with DODR and dryR, CARhy-TDR achieved higher coverage rates, indicating improved recall of differential rhythmic genes, and higher Jaccard indices, indicating greater overlap with the reference set (Figure 8). Moreover, CARhy-TDR runs substantially faster than dryR (Table 4), and it provides raw p-values, enabling flexible post hoc selection of significance thresholds, whereas dryR requires an additional step to 28 Wilcoxon p < 2.2e−16 −1.0 −0.5 0.0 0.5 1.0 
+
+> DR (n = 469) NDR (n = 724)
+> Mean Pearson r
+> Group
+> DR
+> NDR
+> Temporal expression profile similarity
+> A
+> Wilcoxon p < 2.2e−16
+> 0.0 0.3 0.6 0.9
+> DR (n = 469) NDR (n = 724)
+> Mean absolute amplitude difference
+> Group
+> DR
+> NDR
+> Amplitude difference across conditions
+> B
+> Wilcoxon p < 2.2e−16
+> 02468
+> DR (n = 469) NDR (n = 724)
+> Mean circular phase difference
+> Group
+> DR
+> NDR
+> Phase difference across conditions
+> C
+> 02468
+> 0.0  0.5  1.0
+> Temporal expression profile similarity
+> Mean circular phase difference
+> Phase difference landscape
+> D
+> 0.00 0.25 0.50 0.75 1.00
+> 0.0  0.5  1.0
+> Temporal expression profile similarity
+> Mean absolute amplitude difference
+> Amplitude difference landscape
+> E
+> DR (n = 469)
+> NDR (n = 724)
+> 2 6 10  14  18  22  2 6 10  14  18  22
+> −0.50 −0.25 0.00 0.25 0.50
+> Time
+> Mean standardized expression (z−score)
+> Average trajectories
+> F
+> Group
+> DR
+> NDR
+> Condition
+> NF
+> LB
+> AF
+
+Figure 6: Rhythmic expression differences of DR and NDR genes identified by CARhy-TDR 29 NF  LB  AF 
+
+> BH.Q<0.05
+> BH.Q<0.10
+> CARhy−TR  JTK_CYCLE CGDB
+> 521  36 2027 992 300  22 1097
+> CARhy−TR  JTK_CYCLE CGDB
+> 412  32 2384 656 269  20 773
+> CARhy−TR  JTK_CYCLE CGDB
+> 246  30 2769 331 193  17 467
+> CARhy−TR JTK_CYCLE CGDB
+> 778 41 1702 1459 370  16 1358
+> CARhy−TR  JTK_CYCLE CGDB
+> 575 36 2117 1038 308  13 1008
+> CARhy−TR  JTK_CYCLE CGDB
+> 420  43 2435 663 258  15 738
+
+Figure 7: Venn diagram showing overlaps among rhythmic genes detected by CARhy-TR and JTK CYCLE and the circadian gene databas (external reference set). 30 choose the BICW cutoff, which can be challenging to determine in practice. Compared with DODR, CARhy is not only faster but also supports experimental designs with more than two conditions and outputs rhythmic components for interpretation. 0.0 0.1 0.2 0.3 0.4                  
+
+> 0.00 0.05 0.10 0.15 0.20
+> BH.Q threshold
+> Coverage
+> CARhy vs DODR
+> 0.0 0.1 0.2 0.3 0.4
+> 0.5 0.6 0.7 0.8 0.9
+> BICW threshold
+> dryR
+> 0.0 0.1 0.2 0.3
+> 0.00 0.05 0.10 0.15 0.20
+> BH.Q threshold
+> Jaccard
+> 0.0 0.1 0.2 0.3
+> 0.5 0.6 0.7 0.8 0.9
+> BICW threshold
+> DODR DRT
+
+Figure 8: Coverage and Jaccard index of CARhy, DODR and dryR across thresholds. Table 4: Performance comparison among CARhy, DODR and dryR. metrics condition discoveries amplitude phase mesor p-value runtime* capacity (# genes †) output output output output CARhy ≥ 2 303 Yes Yes Yes Yes 3.7s (0.1s) DODR 2 106 No No No Yes 19.8s (1.3s) dryR ≥ 2 33 Yes Yes Yes No 32.3s (0.1s) 
+
+*Runtime is reported as median (IQR) elapsed seconds over 5 runs when comparing two conditions on a 4-vCPU Intel Xeon (2.20 GHz) Linux environment with 31 GiB RAM. 
+
+> †
+
+CARhy/DODR at BH.Q=0.05; dryR at BICW=0.95. 
+
+# 5 Discussion 
+
+We propose an inferential framework based on a first-harmonic Fourier regression, fitting each condition separately and testing differential rhythmicity via contrast matrices. This framework 31 allows the error variances to differ across conditions, avoiding the homoscedasticity assumption that is often violated in practice. Moreover, extensive simulation studies demonstrate excellent performance of the proposed methods under unbalanced designs. Given the limited sample sizes in typical in vivo biological experiments, we derive finite-sample approximate reference distributions for our quadratic-form statistics via a Satterthwaite type approximation, which makes use of the moment matching technique. Although approximate, the proposed tests for checking differential effects work beautifully in all different simulation scenarios. The proposed rhythmicity test uses a novel numerical technique to approximate the p-value. Our framework accommodates a general linear model with multidimensional contrasts, enabling differential rhythmicity analyses in transcriptomic studies involving multiple experimental conditions. Most existing parametric approaches for detecting differential rhythmic genes are designed for two-condition comparisons, which limit their use in studies with more complex experimental designs. Additionally, these tools, such as DODR (Thaben and Westermark 2016) and compareRhythms (Pelikan et al. 2022), provide an overall differential rhythmicity test but do not cleanly attribute the rhythmicity change to specific rhythm components (amplitude or phase). Some tools, such as CircaCompare (Parsons et al. 2020), diffCircadian (Ding et al. 2021) and DiffCircaPipeline (Xue et al. 2023), can test specific differences in rhythmic components, but they rely on strong noise assumptions (e.g., homogeneous error variance), which is difficult to satisfy in real omics data. Our comprehensive approach provides separate tests for overall differential rhythmicity as well as for differential amplitude and phase, and it accommodates more than two conditions without requiring homoskedasticity. Moreover, we also provide the test of rhythmicity under any experimental condition as well as the differential mesor test. All these are new in the literature. We applied the proposed inferential framework to transcriptomic data from mouse liver. We compared CARhy’s performance of detecting rhythmicity with JTK CYCLE, the most widely used nonparametric approach of detecting rhythmicity in transcriptomic data. CARhy achieved higher detection power, whereas JTK CYCLE was more conservative, consistent with our simulation results. We then evaluated CARhy for differential rhythmicity detection 32 against two commonly used parametric methods, DODR and dryR, and found that CARhy was more powerful and identified more differentially rhythmic genes than either method, also consistent with our simulation results. DODR’s HANOVA model fits gene expression across two conditions with a single shared mesor (baseline). If the two groups have big difference in mesor, forcing them to share one baseline will cause larger residuals, which reduces the signal-to-noise ratio and thereby lowers the detection power. Weger et al. developed dryR for differential rhythmicity analysis across multiple conditions. It assigned genes to the model with maximum BICW and applied additional filters to label uncertain cases as ambiguous (e.g., “ambiguous” if the preferred model does not exceed a cutoff value (minimum BICW), with different BICW cutoffs used depending on the number of conditions, and using Cook’s distance to flag influential outliers). When comparing NF and AF, we used the recommended BICW threshold of 0.95, yet detected very few differentially rhythmic genes, indicating limited power. Simulation studies demonstrated that its statistical power of testing differential rhythmicity is highly sensitive to the chosen threshold. Such a cutoff is subjective, does not directly correspond to a controlled error rate (e.g., FDR), and therefore is challenging for biologists to implement in practice. The existing literature along with the proposed method, appears to focus on the marginal expression of the transcriptomics. The next phase of the research is to incorporate mean-ingful correlations among genes (perhaps those within the same biological pathways) when discovering biologically important markers. Extending the methodology to single-cell data, where zero counts are prevalent, also represents an important direction for future research. Additionally, a promising extension is to develop a statistical framework for the joint analysis of transcriptomic and proteomic data, which would help link gene expression changes to protein-level regulation and thereby better connect molecular alterations with functional phenotypes and disease mechanisms. 33 Data and Code Availability 
+
+The experimental data are available in the Gene Expression Omnibus (GEO) under accession GSE118967 Greenwell et al. (2019) and the R package for the computation CARhy is publicly available at: 
+
+https://github.com/DrHuang123/Comprehensive-Analyses-of-Circadian-Rhythms-CARhy .
+
+# Supplementary information 
+
+Proofs of all theorems, as well as all tables and figures labeled with “S”, are provided in the supplementary material. The real data analysis results referenced in paragraph 2 of Section 4 are available in the ancillary Excel file (Table S4). The rhythmic genes in the external reference set are provided in the ancillary CSV file (Table S5). 
+
+# Funding 
+
+This research was supported by a grant from the National Heart, Lung, and Blood Institute (NHLBI) at the National Institutes of Health (NIH) (R21HL181700; to SS and JSM). Work in the lab of JSM was also supported by grants from the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK) at NIH (R01DK128133) and the National Institute of General Medical Sciences (NIGMS) at NIH (R01GM145737). 
+
+# Conflict of Interest 
+
+The authors declare no conflict of interest. 
+
+# References 
+
+Benjamini, Y., and Hochberg, Y. (1995), “Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing,” Journal of the Royal Statistical Society. Series B (Methodological) , 57(1), 289–300. DOI: 10.1111/j.2517-6161.1995.tb02031.x. 34 Brooks, T. G., Manjrekar, A., Mrcˇ cela, A., and Grant, G. R. (2023), “Meta-Analysis of Diurnal Transcriptomics in Mouse Liver Reveals Low Repeatability of Rhythm Analyses,” 
+
+Journal of Biological Rhythms , 38(6), 556–570. DOI: 10.1177/07487304231179600. Crnko, S., du Pr´ e, B. C., Sluijter, J. P. G., and van Laake, L. W. (2019), “Circadian Rhythms and the Molecular Clock in Cardiovascular Biology and Disease,” Nature Reviews Cardiology , 16(7), 437–447. DOI: 10.1038/s41569-019-0167-4. Ding, H., Meng, L., Liu, A. C., Gumz, M. L., Bryant, A. J., McClung, C. A., Tseng, G. C., Esser, K. A., and Huo, Z. (2021), “Likelihood-based tests for detecting circadian rhythmicity and differential circadian patterns in transcriptomic applications,” Briefings in Bioinformatics , 22(6), bbab224. DOI: 10.1093/bib/bbab224. Greenwell, B. J., Trott, A. J., Beytebiere, J. R., Pao, S., Bosley, A., Beach, E., Finegan, P., Hernandez, C., and Menet, J. S. (2019), “Rhythmic food intake drives rhythmic gene expression more potently than the hepatic circadian clock in mice,” Cell Reports ,27(3), 649–657.e5. DOI: 10.1016/j.celrep.2019.03.064. Hughes, M. E., Grant, G. R., Paquin, C., Qian, J., and Nitabach, M. N. (2012), “Deep sequencing the circadian and diurnal transcriptome of Drosophila brain,” Genome Research ,22(7), 1266–1281. DOI: 10.1101/gr.128876.111. Hughes, M. E., Hogenesch, J. B., and Kornacker, K. (2010), “JTK CYCLE: An efficient nonparametric algorithm for detecting rhythmic components in genome-scale data sets,” 
+
+Journal of Biological Rhythms , 25(5), 372–380. DOI: 10.1177/0748730410379711. Hurni, C., Weger, B. D., Gobet, C., and Naef, F. (2022), “Comprehensive analysis of the circadian nuclear and cytoplasmic transcriptome in mouse liver,” PLOS Genetics ,18(8), e1009903. DOI: 10.1371/journal.pgen.1009903. Lee, Y. (2021), “Roles of Circadian Clocks in Cancer Pathogenesis and Treatment,” Experi-mental and Molecular Medicine , 53(10), 1529–1538. DOI: 10.1038/s12276-021-00681-0. Parsons, R., Parsons, R., Garner, N., Oster, H., and Rawashdeh, O. (2020), “CircaCompare: A Method to Estimate and Statistically Support Differences in Mesor, Amplitude and Phase 35 Between Circadian Rhythms,” Bioinformatics , 36(4), 1208–1212. DOI: 10.1093/bioinfor-matics/btz730. Pelikan, A., Herzel, H., Kramer, A., and Ananthasubramaniam, B. (2022), “Venn Diagram Analysis Overestimates the Extent of Circadian Rhythm Reprogramming,” The FEBS Journal , 289(21), 6605–6621. DOI: 10.1111/febs.16095. Rijo-Ferreira, F., and Takahashi, J. S. (2019), “Genomics of Circadian Rhythms in Health and Disease,” Genome Medicine , 11(1), 82. DOI: 10.1186/s13073-019-0704-0. Satterthwaite, F. E. (1946), “An Approximate Distribution of Estimates of Variance Compo-nents,” Biometrics Bulletin , 2(6), 110–114. DOI: 10.2307/3002019. Schrader, L. A., Ronnekleiv-Kelly, S. M., Hogenesch, J. B., Bradfield, C. A., and Malecki, K. M. C. (2024), “Circadian Disruption, Clock Genes, and Metabolic Health,” Journal of Clinical Investigation , 134(14), e170998. DOI: 10.1172/JCI170998. Singer, J. M., and Hughey, J. J. (2019), “LimoRhyde: A flexible approach for differential analysis of rhythmic transcriptome data,” Journal of Biological Rhythms , 34(1), 5–18. DOI: 10.1177/0748730418813785. Storey, J. D., and Tibshirani, R. (2003), “Statistical Significance for Genomewide Stud-ies,” Proceedings of the National Academy of Sciences of the United States of America ,100(16), 9440–9445. DOI: 10.1073/pnas.1530509100. Thaben, P. F., and Westermark, P. O. (2014), “Detecting Rhythms in Time Series with RAIN,” Journal of Biological Rhythms , 29(6), 391–400. DOI: 10.1177/0748730414553029. Thaben, P. F., and Westermark, P. O. (2016), “Differential Rhythmicity: Detecting Altered Rhythmicity in Biological Data,” Bioinformatics , 32(18), 2800–2808. DOI: 10.1093/bioin-formatics/btw410. Weger, B. D., Gobet, C., David, F. P. A., Atger, F., Martin, E., Phillips, N. E., Charpagne, A., Weger, M., Naef, F., and Gachon, F. (2021), “Systematic Analysis of Differential Rhythmic Liver Gene Expression Mediated by the Circadian Clock and Feeding Rhythms,” Proceedings 
+
+36 of the National Academy of Sciences of the United States of America , 118(3), e2015803118. DOI: 10.1073/pnas.2015803118. Welch, B. L. (1951), “On the Comparison of Several Mean Values: An Alternative Approach,” 
+
+Biometrika , 38(3/4), 330–336. DOI: 10.1093/biomet/38.3-4.330. Wilson, E. B., and Hilferty, M. M. (1931), “The distribution of Chi-square,” Proceedings of the National Academy of Sciences of the United States of America , 17(12), 684–688. DOI: 10.1073/pnas.17.12.684. Xue, X., Zong, W., Huo, Z., Ketchesin, K. D., Scott, M. R., Petersen, K. A., Logan, R. W., Seney, M. L., McClung, C., and Tseng, G. (2023), “DiffCircaPipeline: a framework for multifaceted characterization of differential rhythmicity,” Bioinformatics , 39(1), btad039. DOI: 10.1093/bioinformatics/btad039. 37 Supplementary material for “CARhy: Comprehensive Analyses of Circadian Rhythms in Transcriptomic Experiments with Multiple Conditions” 
+
+# Appendix A.1 Proof of Theorem 1 
+
+Under the stated assumptions, LbΓ follows multivariate-Normal( LΓ, Ω), where Ω = LΣL⊤,and cov (bΓ) = Σ. Define A = ( LbΣL⊤)−1. Let us calculate moments of ρT = ( LbΓ)⊤AL bΓ.Under H0, LbΓ ∼ Normal(0 , Ω), so, 
+
+E{(LbΓ) ⊤A(LbΓ) } = E[trace {(LbΓ) ⊤A(LbΓ) }] (a)
+
+= E[trace {AL bΓ( LbΓ) ⊤}]= trace[ E{AL bΓ( LbΓ) ⊤}]= trace[ E{AE {LbΓ( LbΓ) ⊤|A}]
+
+> H0
+
+= trace {E(AΩ) }
+
+= trace {E(A)Ω) }
+
+= E{trace(Ω A)},
+
+where ( a) holds due to the cyclic property of trace. Recall that the random matrix A = ( LbΣL⊤)−1 is a function of bσ21 , . . . , bσ2 
+
+> K
+
+and Ω −1 =(LΣL⊤)−1. In the following calculation, we will apply the second order Taylor series expansion to A. So, we shall apply the following formula for the derivative a matrix of inverse, 
+
+dA = d(LbΣL⊤)−1 = −(LbΣL⊤)−1(Ld bΣL⊤)( LbΣL⊤)−1 = −A(Ld bΣL⊤)A and 
+
+d2A = d2(LbΣL⊤)−1
+
+= −d{A(Ld bΣL⊤)A}
+
+= −dA (Ld bΣL⊤)A − A(Ld 2 bΣL⊤)A − A(Ld bΣL⊤)dA 
+
+= A(Ld bΣL⊤)A(Ld bΣL⊤)A − A(Ld 2 bΣL⊤)A + A(Ld bΣL⊤)A(Ld bΣL⊤)A
+
+38 = 2A(Ld bΣL⊤)A(Ld bΣL⊤)A − A(Ld 2 bΣL⊤)A. 
+
+Define σ2 = ( σ21 , · · · , σ 2
+
+> K
+
+), bσ2 = ( bσ21 , · · · , bσ2
+
+> K
+
+). With bΣk = bσ2
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1, bΣ = Diag (bΣ1, . . . , bΣK), 
+
+B1 = LDiag(( X⊤ 
+
+> k
+
+Xk)−1, · · · , 0) L⊤Ω−1, · · · , B K = LDiag(0 , · · · , (X⊤ 
+
+> k
+
+Xk)−1)L⊤Ω−1. Then 
+
+ddbσ2
+
+> k
+
+A |bσ2=σ2 = −Ω−1LDiag(0 , · · · , 0, (X⊤X)−1, 0, · · · , 0) L⊤Ω−1
+
+= −Ω−1Bk,d2
+
+d(bσ2
+
+> k
+
+)2 A |bσ2=σ2 = 2Ω −1LDiag(0 , · · · , 0, (X⊤ 
+
+> k
+
+Xk)−1, 0, · · · , 0) L⊤Ω−1
+
+×LDiag(0 , · · · , 0, (X⊤ 
+
+> k
+
+Xk)−1, 0, · · · , 0) L⊤Ω−1
+
+−Ω−1LDiag(0 , · · · , 0, 0, 0, · · · , 0) L⊤Ω−1
+
+= 2Ω −1BkBk,d2
+
+d(bσ2
+
+> k
+
+)d(bσ2 
+
+> s
+
+)A |bσ2=σ2 = Ω−1LDiag(0 , · · · , 0, (X⊤ 
+
+> k
+
+Xk)−1, 0, · · · , 0) L⊤Ω−1
+
+×LDiag(0 , · · · , 0, 0, · · · , 0, (X⊤ 
+
+> s
+
+Xs)−1, 0, · · · , 0) L⊤Ω−1
+
++Ω −1LDiag(0 , · · · , 0, 0, · · · , 0, (X⊤ 
+
+> s
+
+Xs)−1, 0, · · · , 0) L⊤Ω−1
+
+×LDiag(0 , · · · , 0, (X⊤ 
+
+> k
+
+Xk)−1, 0, · · · , 0) L⊤Ω−1
+
+= Ω−1BkBs + Ω −1BsBk.
+
+Now, E {trace(Ω A)} = μ1 + o(n−1), where 
+
+μ1 = E
+
+
+
+trace 
+
+
+
+Ω
+
+
+
+Ω−1 −
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1Bk +
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2
+
+2 2Ω −1BkBk
+
++ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)
+
+ 
+
+> (c)
+
+= ρ + E
+
+
+
+trace 
+
+ KX
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2BkBk
+
+ 
+
+= ρ +
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2trace( BkBk)
+
+> (d)
+
+= ρ +
+
+> K
+
+X
+
+> k=1
+
+2σ4
+
+> k
+
+(nk − 3) trace( BkBk).
+
+39 Equality ( c) follows ρ = trace (ΩΩ −1) = rank (Ω), and the first order terms disappear as 
+
+E(bσ2
+
+> k
+
+) = σ2
+
+> k
+
+. Equality (d) follows as bσ2 
+
+> k
+
+∼ σ2
+
+> k
+
+(nk − 3) −1χ2 
+
+> nk−3
+
+. Next, consider 
+
+μ2 = var 
+
+n
+
+(LbΓ) ⊤A(LbΓ) 
+
+o
+
+= var 
+
+h
+
+E{(LbΓ) ⊤A(LbΓ) | A}
+
+i
+
++ E
+
+h
+
+var {(LbΓ) ⊤A(LbΓ) | A}
+
+i
+
+= var {trace(Ω A)} + 2 E{trace( AΩAΩ) }, (A.1) where the last equality holds due to some steps considered earlier and under H0, LbΓ follows the mean zero multivariate normal distribution with covariance Ω, so var {(LbΓ)⊤A(LbΓ ) |
+
+A} = 2 trace (AΩAΩ). Now we will calculate each of the terms separately. First, using the second order Taylor series expansion to A,var {trace(Ω A)}≈ var 
+
+
+
+trace 
+
+
+
+Ω
+
+
+
+Ω−1 −
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1Bk +
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBk
+
++ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)
+
+ 
+
+= var 
+
+
+
+trace 
+
+ 
+
+I −
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Bk +
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2BkBk
+
++ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)( BkBs + BsBk)
+
+ 
+
+=
+
+> K
+
+X
+
+> k=1
+
+
+
+var( bσ2
+
+> k
+
+){trace( Bk)}2 + {trace( BkBk)}2
+
+
+
+E{(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4} − var 2(bσ2
+
+> k
+
+)
+
+
+
+−2trace( Bk)trace( BkBk)E{(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3}
+
+
+
++ X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+){trace( BkBs + BsBk)}2.
+
+Since bσ2 
+
+> k
+
+∼ σ2
+
+> k
+
+(nk−3) −1χ2 
+
+> nk−3
+
+, var (bσ2
+
+> k
+
+) = σ4
+
+> k
+
+(nk−3) −2×2( nk−3) = 2 σ4
+
+> k
+
+(nk−3) −1, E(bσ2
+
+> k
+
+−σ2
+
+> k
+
+)3 =
+
+σ6
+
+> k
+
+(nk −3) −3 ×E{χ2  
+
+> nk−3
+
+−E(χ2 
+
+> nk−3
+
+)}3 and E(bσ2 
+
+> k
+
+−σ2
+
+> k
+
+)4 = σ8
+
+> k
+
+(nk −3) −4 ×E{χ2  
+
+> nk−3
+
+−E(χ2 
+
+> nk−3
+
+)}4.For a χ2 random variable with degrees of freedom r, the sth order raw moment is μ′ 
+
+> s
+
+=2sΓ (r/2 + s)/Γ(r/2) . So, μ′ 
+
+> 1
+
+= r, μ′ 
+
+> 2
+
+= 4( r/2 + 1) r/2, μ′ 
+
+> 3
+
+= 8( r/2 + 2)( r/2 + 1) r/2, μ′ 
+
+> 4
+
+=16( r/2 + 3)( r/2 + 2)( r/2 + 1) r/2, and these can be used to compute E{χ2 − E(χ2)}3 =40 μ′ 
+
+> 3
+
+− 3μ′
+
+> 2
+
+μ′ 
+
+> 1
+
++ 2( μ′
+
+> 1
+
+)3 and E{χ2 − E(χ2)}4 = μ′ 
+
+> 4
+
+− 4μ′
+
+> 3
+
+μ′ 
+
+> 1
+
++ 6 μ′
+
+> 2
+
+(μ′
+
+> 1
+
+)2 − 4μ′
+
+> 1
+
+(μ′
+
+> 1
+
+)3 + ( μ′
+
+> 1
+
+)4 =
+
+μ′ 
+
+> 4
+
+− 4μ′
+
+> 3
+
+μ′ 
+
+> 1
+
++ 6 μ′
+
+> 2
+
+(μ′
+
+> 1
+
+)2 − 3( μ′
+
+> 1
+
+)4.Next, again using the Taylor’s expansion to A,
+
+E{trace( AΩAΩ) }≈ E
+
+
+
+trace 
+
+ 
+
+Ω−1 −
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1Bk +
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBk
+
++ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)
+
+
+
+Ω
+
+×
+
+
+
+Ω−1 −
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1Bk +
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBk
+
++ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)
+
+
+
+Ω
+
+ 
+
+= E
+
+
+
+trace 
+
+ 
+
+I −
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ + 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ+ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω 
+
+
+
+×
+
+
+
+I −
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ + 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ+ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω 
+
+ 
+
+= E
+
+
+
+trace 
+
+
+
+I − 2
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ + 2 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ+2 X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω +{
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ}{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ}
+
++{
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ}{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ}
+
++{X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω }×{ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω }
+
+41 −{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ}{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ}−{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ}{ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω }−{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ}{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ}−{ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω }{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)Ω −1BkΩ}
+
++{
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ}{ X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω }
+
++{X
+
+> s>k
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)( bσ2 
+
+> s
+
+− σ2 
+
+> s
+
+)Ω −1(BkBs + BsBk)Ω }{ 
+
+> K
+
+X
+
+> k=1
+
+(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)2Ω−1BkBkΩ}
+
+ 
+
+.
+
+Next, we will calculate trace and expectations and we will omit the terms whose expectation is zero. So, 
+
+E{trace( AΩAΩ) }≈ ρ + 2 
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)trace(Ω −1BkBkΩ) +
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)trace(Ω −1BkΩΩ −1BkΩ) +
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4trace(Ω −1BkBkΩΩ −1BkBkΩ) +2 X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+)trace(Ω −1BkBkΩΩ −1BsBsΩ) + X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+)trace {Ω−1(BkBs + BsBk)ΩΩ −1(BkBs + BsBk)Ω }−
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3trace(Ω −1BkΩΩ −1BkBkΩ) 
+
+−
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3trace(Ω −1BkBkΩΩ −1BkΩ) = ρ + 2 
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)trace( BkBk)42 +
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)trace( BkBk)+
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4trace( BkBkBkBk)+2 X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+)trace( BkBkBsBs)+ X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+)trace {(BkBs + BsBk)( BkBs + BsBk)}−
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3trace( BkBkBk)
+
+−
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3trace( BkBkBk)= ρ + 3 
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)trace( BkBk)+
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4trace( BkBkBkBk)+ X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+){2trace( BkBkBsBs) + trace {(BkBs + BsBk)( BkBs + BsBk)}−2
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3trace( BkBkBk).
+
+Now, placing all the terms in (A.1), we obtain 
+
+μ2 =
+
+> K
+
+X
+
+> k=1
+
+
+
+var( bσ2
+
+> k
+
+){trace( Bk)}2 + {trace( BkBk)}2
+
+
+
+E{(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4} − var 2(bσ2
+
+> k
+
+)
+
+
+
+−2trace( Bk)trace( BkBk)E{(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3}
+
+
+
++ X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+){trace( BkBs + BsBk)}2
+
++2 ρ + 6 
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)trace( BkBk)+2 
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4trace( BkBkBkBk)+2 X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+){2trace( BkBkBsBs) + trace {(BkBs + BsBk)( BkBs + BsBk)}
+
+43 −4
+
+> K
+
+X
+
+> k=1
+
+E(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3trace( BkBkBk)= 2ρ
+
++
+
+> K
+
+X
+
+> k=1
+
+var( bσ2
+
+> k
+
+)
+
+
+
+{trace( Bk)}2 + 6trace( BkBk)
+
+
+
+−
+
+> K
+
+X
+
+> k=1
+
+E{(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)3}
+
+
+
+2trace( Bk)trace( BkBk) + 4trace( BkBkBk)
+
+
+
++
+
+> K
+
+X
+
+> k=1
+
+E{(bσ2 
+
+> k
+
+− σ2
+
+> k
+
+)4}
+
+
+
+{trace( BkBk)}2 + 2trace( BkBkBkBk)
+
+
+
+−
+
+> K
+
+X
+
+> k=1
+
+var 2(bσ2
+
+> k
+
+){trace( BkBk)}2
+
++ X
+
+> s>k
+
+var( bσ2
+
+> k
+
+)var( bσ2 
+
+> s
+
+)
+
+
+
+{trace( BkBs + BsBk)}2 + 4trace( BkBkBsBs)+2trace {(BkBs + BsBk)( BkBs + BsBk)
+
+
+
+.
+
+Assuming cT = c(LbΓg)⊤A(LbΓg)/ρ with c being a constant and ρ being the rank of L, follows 
+
+Fρ,df , its theoretical first moment and variance are df / (df − 2) and 2 df 2(df + ρ − 2) /ρ (df −
+
+2) 2(df − 4), respectively. Now, equating the moments we have two equations 
+
+df df − 2 = cμ 1
+
+ρ ,
+
+2df 2(df + ρ − 2) 
+
+ρ(df − 2) 2(df − 4) = c2μ2
+
+ρ2 ,
+
+and solving these two we obtain the following 
+
+df = ρ − 2 + 2 ρμ 2/μ 21
+
+ρμ 2/2μ21 − 1 ,
+
+and 
+
+c = ρdf μ1(df − 2) .
+
+44 A.2 Proof of Theorem 2 
+
+Under the stated assumptions, Lbθ follows multivariate-Normal( Lθ, Ψ), where the covari-ance Ψ = LDiag (D⊤ 
+
+> 1
+
+Σ1D1, · · · , D ⊤K ΣKDK)L⊤. Under H0 (no differential amplitude or no differential phase depending on the hypothesis), Lθ = 0, and Lbθ ∼ multivariate-Normal (0 , Ψ). Define Λ = {LDiag (D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}−1. Let us calculate the first two moments of ( Lbθ)⊤Λ( Lbθ), which is ρT . With the mean-zero multivariate normal distribution for Lbθ
+
+under H0,
+
+E{(Lbθ)⊤Λ( Lbθ)} = E{trace(ΨΛ) }.
+
+Recall that the random matrix Λ is a function of bσ21 , . . . , bσ2
+
+> K
+
+, and we obtain Ψ −1 when 
+
+bσ21 , . . . , bσ2 
+
+> K
+
+are replaced with σ21 , . . . , σ 2 
+
+> K
+
+in Λ. As in Theorem 1, we apply the second order Taylor series expansion to Λ. So, we shall apply the following formula for the derivative a matrix of inverse, 
+
+dΛ = d{LDiag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}−1
+
+= −Λ{Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λand 
+
+d2Λ = −d[Λ {Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ] = −dΛ{Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ
+
+−Λ{Ld 2Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ
+
+−Λ{Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}dΛ= Λ{Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ{Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ
+
+−Λ{Ld 2Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ+Λ {Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ{Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ= 2Λ {Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ{Ld Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ
+
+−Λ{Ld 2Diag( D⊤ 
+
+> 1
+
+bΣ1D1, · · · , D ⊤K bΣKDK)L⊤}Λ.
+
+45 Now, 
+
+ddbσ2
+
+> k
+
+Λ |bσ2=σ2 = −Ψ−1LDiag(0 , · · · , 0, D ⊤ 
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1Dk, 0, · · · , 0) L⊤Ψ−1
+
+= −Ψ−1Gk,d2
+
+d(bσ2
+
+> k
+
+)2 Λ |bσ2=σ2 = 2Ψ −1LDiag(0 , · · · , 0, D ⊤ 
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1Dk, 0, · · · , 0) L⊤Ψ−1
+
+×LDiag(0 , · · · , 0, D ⊤ 
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1Dk, 0, · · · , 0) L⊤Ψ−1
+
+−Ψ−1LDiag(0 , · · · , 0, 0, 0, · · · , 0) L⊤Ψ−1
+
+= 2Ψ −1GkGk,d2
+
+d(bσ2
+
+> k
+
+)d(bσ2 
+
+> s
+
+)Λ |bσ2=σ2 = Ψ−1LDiag(0 , · · · , 0, D ⊤ 
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1Dk, 0, · · · , 0) L⊤Ψ−1
+
+×LDiag(0 , · · · , 0, 0, · · · , 0, D ⊤ 
+
+> s
+
+(X⊤ 
+
+> s
+
+Xs)−1Ds, 0, · · · , 0) L⊤Ψ−1
+
++Ψ −1LDiag(0 , · · · , 0, 0, · · · , 0, D ⊤ 
+
+> s
+
+(X⊤ 
+
+> s
+
+Xs)−1Ds, 0, · · · , 0) L⊤Ψ−1
+
+×LDiag(0 , · · · , 0, D ⊤ 
+
+> k
+
+(X⊤ 
+
+> k
+
+Xk)−1Dk, 0, · · · , 0) L⊤Ψ−1
+
+= Ψ−1(GkGs + GsGk).
+
+Calculation of μ1 and μ2 follow the same steps as in Theorem 1. 46 Table S1: Simulation scenarios for testing differential mesor. Conditions Case Mesor Noise (normal dist.) 
+
+δ1 δ2 δ3 σ1 σ2 σ3
+
+3 conditions 1 1 1 1 1 1 12 1 1 1 0.5 2 23 1 3 5 1 1 14 1 3 5 0.5 2 22 conditions 5 1 1 – 1 1 –6 1 1 – 0.5 2 –7 1 3 – 1 1 –8 1 3 – 0.5 2 –Table S2: Simulation scenarios for testing differential amplitude. Model Case Amplitude Phase Noise (normal dist.) 
+
+A1 A2 A3 ϕ1 ϕ2 ϕ3 σ1 σ2 σ3
+
+3-conditions 1 4 4 4 5 5 5 1 1 12 4 4 4 5 5 5 0.5 2 23 2 2 4 5 5 5 1 1 14 2 2 4 5 5 5 0.5 2 22-conditions 5 4 4 – 5 5 – 1 1 –6 4 4 – 5 5 – 0.5 2 –7 2 4 – 5 5 – 1 1 –8 2 4 – 5 5 – 0.5 2 –47 Table S3: Simulation scenarios for testing differential phase. Model Case Amplitude Phase Noise (normal dist.) 
+
+A1 A2 A3 ϕ1 ϕ2 ϕ3 σ1 σ2 σ3
+
+3-conditions 9 4 4 4 5 5 5 1 1 110 4 4 4 5 5 5 0.5 2 211 4 4 4 5 3 5 1 1 112 4 4 4 5 3 5 0.5 2 22-conditions 13 4 4 – 5 5 – 1 1 –14 4 4 – 5 5 – 0.5 2 –15 4 4 – 5 3 – 1 1 –16 4 4 – 5 3 – 0.5 2 –Table S4: Summary of CARhy statistical results for genes in mouse live. This table is provided as a separate Excel file and contains two sheets: CARhy results ,which reports the p values from all statistical tests implemented in CARhy for each gene, together with the estimated mesor, amplitude, and phase under each condition; and Column -descriptions , which provides explanations for all columns included in the Results sheet. Table S5: Experimentally identified rhythmic genes in mouse live from CGDB. This table is provided as a separate CSV file and contains the gene symbols of the 3,446 genes validated as circadian genes in CGDB database, based on evidence from RT-PCR, Northern blot, in situ hybridization, and microarray or RNA-sequencing studies. 48 case1 case2 case3 case4 case5 case6 case7 case8 
+
+> Rejection rate
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+sample size = 18 
+
+0.049 0.053 1.000 1.000 0.049 0.048 1.000 0.973 
+
+> case1 case2 case3 case4 case5 case6 case7 case8
+> Rejection rate
+
+0.0 0.2 0.4 0.6 0.8 1.0 
+
+sample size = 12 
+
+0.055 0.063 1.000 1.000 0.048 0.056 0.996 0.870 Figure S1: Type-I error rates and power for testing differential mesor (Table S1). equal sample size unequal sample size  
+
+> 0.000 0.025 0.050 0.075 0.100
+> 12
+> Rejection rate
+
+n1 = n2 = n3 = 18  
+
+> 0.00 0.25 0.50 0.75 1.00
+> 34
+
+n1 = n2 = n3 = 18  
+
+> 0.000 0.025 0.050 0.075 0.100
+> 12
+
+n1 = 12; n2 = n3 = 18  
+
+> 0.00 0.25 0.50 0.75 1.00
+> 34
+
+n1 = 12; n2 = n3 = 18  
+
+> 0.000 0.025 0.050 0.075 0.100
+> 56
+> Rejection rate
+
+n1 = n2 = 18  
+
+> 0.00 0.25 0.50 0.75 1.00
+> 78
+
+n1 = n2 = 18  
+
+> 0.000 0.025 0.050 0.075 0.100
+> 56
+
+n1 = 12; n2 = 18  
+
+> 0.00 0.25 0.50 0.75 1.00
+> 78
+
+n1 = 12; n2 = 18 
+
+Method 
+
+> DODR
+> CARhy−TDR
+> CARhy−TDA
+> dryR_0.7
+> dryR_0.8
+> dryR_0.9
+
+Figure S2: Type-I error rate and power for testing differential amplitude (Table S2). 49 equal sample size unequal sample size 
+
+0.000 0.025 0.050 0.075 0.100 
+
+9 10 
+
+> Rejection rate
+
+n1 = n2 = n3 = 18 
+
+0.00 0.25 0.50 0.75 1.00 
+
+11 12 
+
+n1 = n2 = n3 = 18 
+
+0.000 0.025 0.050 0.075 0.100 
+
+9 10 
+
+n1 = 12; n2 = n3 = 18 
+
+0.00 0.25 0.50 0.75 1.00 
+
+11 12 
+
+n1 = 12; n2 = n3 = 18 
+
+0.000 0.025 0.050 0.075 0.100 
+
+13 14 
+
+> Rejection rate
+
+n1 = n2 = 18 
+
+0.00 0.25 0.50 0.75 1.00 
+
+15 16 
+
+n1 = n2 = 18 
+
+0.000 0.025 0.050 0.075 0.100 
+
+13 14 
+
+n1 = 12; n2 = 18 
+
+0.00 0.25 0.50 0.75 1.00 
+
+15 16 
+
+n1 = 12; n2 = 18 
+
+Method 
+
+DODR 
+
+CARhy−TDR 
+
+CARhy−TDP 
+
+dryR_0.7 
+
+dryR_0.8 
+
+dryR_0.9 Figure S3: Type-I error rate and power for testing differential phase (Table S3). DR 
+
+Time 
+
+Condition 
+
+NDR 
+
+Time 
+
+Condition 
+
+Z−score 
+
+−2 −1 012
+
+Time 
+
+2610 14 18 22 
+
+Condition 
+
+NF LB AF 
+
+Figure S4: Heatmap of differential rhythmic (DR) non-differential rhythmic (NDR) genes identified by CARhy-TDR. 50 45679.6 9.9 10.2 10.5 7.5 8.0 8.5 9.0 9.5 23
+
+Chordc1 Gm42067 Hsp90aa1 Hsp90ab1 Hsph1 
+
+5.0 5.5 6.0 6.5 log2(TPM+1) 
+
+di ff erential amplitude only (n = 90) 
+
+5.00 5.25 5.50 2.0 2.5 3.0 3.5 4564.0 4.4 4.8 
+
+Slc19a1 Ifrd1 Angptl4 Tbc1d8 Sra1 
+
+1.5 2.0 2.5 3.0 log2(TPM+1) 
+
+di ff erential phase only (n = 374) 
+
+567893.0 3.5 4.0 5.5 6.0 6.5 7.0 7.5 6.5 7.0 7.5 8.0 8.5 
+
+Cpt1a Dnaja1 Gys2 Crybg1 Alas1 
+
+ZT2 ZT6 ZT10 ZT14 ZT18 ZT22 ZT2 ZT6 ZT10 ZT14 ZT18 ZT22 ZT2 ZT6 ZT10 ZT14 ZT18 ZT22 ZT2 ZT6 ZT10 ZT14 ZT18 ZT22 ZT2 ZT6 ZT10 ZT14 ZT18 ZT22 6.0 6.5 7.0 7.5 8.0 log2(TPM+1) 
+
+di ff erential in both amplitude and phase (n = 132) 
+
+NF LB AF Figure S5: CARhy-identified genes with differential amplitude only ( n = 90), differential phase only ( n = 374), or both differential amplitude and phase ( n = 132) across NF, IB, and AF. The plots show representative genes and their expression patterns. 0.0 0.2 0.4 0.6 0.8 1.0 0 1 2 3 4
+
+NF 
+
+p-value Density CARhy-TR JTK_CYCLE 0.0 0.2 0.4 0.6 0.8 1.0 0.0  0.5  1.0  1.5  2.0  2.5  3.0 
+
+LB 
+
+p-value Density 0.0 0.2 0.4 0.6 0.8 1.0 0.0  0.5  1.0  1.5  2.0  2.5  3.0  AF 
+
+p-value Density 
+
+Figure S6: P-value distributions for CARhy-TR and JTK CYCLE across conditions. 51 DR 
+
+Time 
+
+Condition Z−score 
+
+> −2 −1 012
+> Time
+> 2610 14 18 22
+> Condition
+> NF AF
+
+Figure S7: Heatmap of differential rhythmic genes in reference set. 52

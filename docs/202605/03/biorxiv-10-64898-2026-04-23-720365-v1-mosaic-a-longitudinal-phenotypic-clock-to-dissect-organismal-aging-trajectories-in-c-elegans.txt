@@ -1,0 +1,3017 @@
+Title: MOSAIC: a longitudinal phenotypic clock to dissect organismal aging trajectories in C. elegans
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.04.23.720365v1.full.pdf
+
+Number of Pages: 55
+
+Markdown Content:
+1
+
+# MOSAIC : a longitudinal phenotypic clock to dissect organismal aging 1
+
+# trajectories in C. elegans 2
+
+3
+
+Authors list: Alexandre P ierre Vaudano 1,2, Marie Pierron 2, Lazar Stojkovíc 2, Mathieu Membrez 3,4
+
+Morgane Bourgeois 2, Christopher Neal 3, Myriam Chimen 3, Lina Verbakel 2, Matteo Cornaglia 2,5
+
+Florence Solari 1,@, Laurent Mouchiroud 2,@
+
+6
+
+Affiliations: 7 
+
+> 1
+
+Université de Lyon, Université Claude Bernard Lyon 1, CNRS UMR5284, INSERM  U1314, Institut 8
+
+NeuroMyoGène,  MeLiS , Lyon,  France 9 
+
+> 2
+
+Nagi Bioscience SA, Rue des Jordils 1A, St -Sulpice, Switzerland 10  
+
+> 3
+
+Nestlé Institute of Health Sciences, Nestlé Research, Lausanne, Switzerland 11 
+
+12 
+
+@ corresponding authors : florence.solari@inserm.fr  ; laurent.mouchiroud@nagibio.ch 13 
+
+# Abstract 14 
+
+Interventions that extend lifespan do not necessarily preserve healthspan, the portion of life 15 
+
+spent in good health. This disconnect has intensified interest in biological aging clocks as 16 
+
+quantitative proxies of organismal health. However, most existing clocks rely on invasive or 17 
+
+endpoint measurements, providing static estimates that capture biological age at a single time 18 
+
+point and offer limited insight into aging trajectories – the dynamic patterns through which 19 
+
+physiological resilience and functional capacity change within individuals over time. 20 
+
+Here we combine standardized, high -frequency imaging of individual Caenorhabditis 21 
+
+elegans across the lifespan with machine learning to develop MOSAIC (Modular Organismal 22 
+
+Signature of Aging In C. elegans ), a non -invasive phenotypic clock that estimates biological age 23 
+
+longitudinally at single -organism resolution. Leveraging ~3 ’750 animals, ~230 ’000 observations 24 
+
+and 29 phenotypic features, MOSAIC predicts biological age with high accuracy and resolves 25 
+
+organism -wide aging trajectories at high temporal resolution. Beyond age prediction, MOSAIC 26 
+
+decomposes biological age into contributions from distinct physiological modules, enabling 27 
+
+mechanistic interpretation of organismal decline. 28 
+
+Applying MOSAIC to natural lifespan variation, dietary restriction, longevity mutants and 29 
+
+pharmacological interventions reveals that lifespan extension can emerge through distinct, time -30 
+
+dependent phenotypic trajectories rather than a uniform slowing of aging. Interventions with 31 
+
+similar effects on longevity produce divergent biological -age trajectories and distinct 32 
+
+combinations of younger and older traits, highlighting context -dependent physiological trade -33 
+
+offs. MOSAIC provides a scalable, non -invasive framework to repeatedly quantify biological age 34 
+
+across the lifespan and to compare interventions based on how they reshape aging trajectories .35 
+
+# Keywords 36 
+
+Aging Clocks, Biological age, Lifespan, Healthspan, Machine Learning, C. elegans ,37 
+
+Geroprotectors , Dietary Restriction 38 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+2
+
+# Introduction 39 
+
+With populations aging worldwide, identifying genetic, dietary and pharmacological 40 
+
+interventions that extend not only lifespan but also healthspan has become a major biomedical 41 
+
+priority 1. Numerous lifespan -extending interventions have been reported across species, 42 
+
+from Caenorhabditis elegans to humans 2–6. However, longer life does not necessarily mean 43 
+
+healthier life. In C. elegans , several long -lived mutants exhibit extended periods of frailty, and the 44 
+
+relationship between lifespan and healthspan varies across interventions and genetic 45 
+
+backgrounds 7,8 . In humans, gains in life expectancy have likewise outpaced improvements in 46 
+
+healthy life expectancy 9,10 . Together, these findings highlight a key limitation of lifespan as a sole 47 
+
+metric of aging and underscore the need to understand how interventions reshape aging 48 
+
+trajectories – the dynamic progression of physiological decline within individuals. 49 
+
+Tracking healthspan requires quantifying biological age, a measure of functional state that 50 
+
+captures organismal condition more accurately than chronological time. Over the past decade, 51 
+
+machine -learning -based aging clocks have emerged as powerful tools to estimate biological age 52 
+
+from molecular, clinical and phenotypic data 11 –15 , often predicting morbidity, functional decline 53 
+
+and mortality risk better than chronological age 16 . Yet most existing clocks rely on cross -54 
+
+sectional or endpoint measurements collected in cohorts, capturing population -level variation 55 
+
+rather than the dynamics of aging within individuals 17,18 . As a result, these approaches provide 56 
+
+limited insight into whether interventions slow the pace of aging, alter its trajectory, or both – key 57 
+
+distinctions for understanding mechanisms that promote healthspan. 58 
+
+The nematode C. elegans , with its short lifespan (~3 weeks) and optical transparency, provides 59 
+
+a tractable system for longitudinal, non -invasive measurement of aging. Several molecular aging 60 
+
+clocks based on transcriptomic data have achieved accurate prediction of biological age in this 61 
+
+organism 19 –21 , but require destructive sampling and therefore cannot track individuals 62 
+
+continuously across life. Phenotypic clocks based on functional or morphological traits offer a 63 
+
+complementary strategy for longitudinal assessment 22 –26 , but require large standardized 64 
+
+datasets that are difficult to generate reproducibly across laboratories and experimental 65 
+
+conditions, as highlighted by initiatives such as the Caenorhabditis Intervention Testing 66 
+
+Program²⁷ ˒²⁸ . Here we combine standardized high -frequency imaging with machine learning to 67 
+
+develop MOSAIC (Modular Organismal Signature of Aging in C. elegans ), a longitudinal 68 
+
+phenotypic clock that predicts biological age at the level of individuals with high accuracy 69 
+
+(median R² = 0.84) and resolves organism -wide aging trajectories from ~230 ’000 observations 70 
+
+across 29 phenotypic features in ~3 ’750 animals. Applying MOSAIC across genetic, dietary and 71 
+
+pharmacological interventions reveals that comparable lifespan extensions can arise from 72 
+
+distinct, nonlinear biological age trajectories, reflecting independent dynamics of physiological 73 
+
+modules. Our work establishes a non -invasive framework to quantify aging trajectories across 74 
+
+the lifespan and reveals unexpected diversity in organismal aging dynamics. 75 
+
+# Results 76 
+
+Automatic worm monitoring with a microfluidics -based device 77 
+
+To systematically profile phenotypic trajectories across the lifespan of C. elegans , we used 78 
+
+SydLab ™ One, a microfluidics -based platform integrating custom -designed chips, automated 79 
+
+fluid handling, temperature control, and scheduled imaging at 6x magnification under tightly 80 
+
+standardized conditions (Fig. S1a) . Each chip comprises 128 microchambers delimited by PDMS 81 
+
+pillar filters (Fig. 1a ,b ). At the start of each experiment, synchronized L4 -stage worms were 82 
+
+introduced into the microchannels using an optimized loading procedure that confined one to 83 
+
+four individuals per chamber. During loading, controlled liquid flow transiently deforms the 84 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+3
+
+PDMS pillars, enabling uniform distribution of worms across chambers; upon cessation of flow, 85 
+
+the pillars return to their initial spacing, effectively trapping the animals. To maintain stable 86 
+
+environmental conditions and prevent progeny accumulation, a bacterial suspension consisting 87 
+
+of freeze -dried bacteria was delivered automatically every hour, while newly hatched L1 larvae 88 
+
+were flushed out of the device. Images were acquired every 6 hours at a fixed interval (30s) 89 
+
+following feeding, ensuring consistent physiological context for longitudinal phenotypic 90 
+
+measurement. 91 
+
+High -temporal resolution analysis of C. elegans physiological changes during aging 92 
+
+Using this microfluidic s-based system, we generated an initial longitudinal dataset comprising 93 
+
+2s bright -field (BF) videos acquired every 6 h ours from 366 individually housed wild -type (WT) N2 94 
+
+worms, followed from the late L4 stage until death (Fig. S1b, Fig. S2). These videos were analyzed 95 
+
+using deep -learning (DL) algorithms to segment worms, eggs, and larvae , from which we 96 
+
+extracted 29 quantitative phenotypic features ( Fig. 1c, Fig. S1 c-e; see methods) that differ in their 97 
+
+rate and direction of changes over time . Among them, motility and postural dynamics declined 98 
+
+progressively throughout adulthood, reflecting reduced activity and a shift toward straighter body 99 
+
+postures , with worms transition ing from active C- and S -shaped postures (shape 2 and 3) to an100 
+
+inactive rod -like shape (shape 1) (Fig. S3a -b) . Reproduction followed the expected biphasic 101 
+
+pattern, with egg output peaking around day 3 of adulthood before d eclining sharply, leading to 102 
+
+most eggs being laid before day 7 (Fig. S3c). Body size increased during early adulthood and 103 
+
+reached a plateau around day 8 (Fig. S3d ). Optical t ransparency exhibited a biphasic trajectory, 104 
+
+with rapid early darkening followed by a slow continuous dec line (Fig. S3e) , likely representing 105 
+
+fat accumulation 27,28 . Intestinal traits displayed multiphasic dynamics . Absolute intestinal size 106 
+
+increased until day 5 in parallel with the overall worm growth, then declined ; (Fig. S3f ) while s ize -107 
+
+normalized intestinal metrics decreased steadily with age, consistent with progressive intestinal 108 
+
+atrophy (Fig. S3g ). Finally, low -level features (LLFs ) followed similar kinetics to either motility 109 
+
+(orientation SD, solidity SD) or posture (eccentricity, solidity) (Fig. S3h) . Feature -to -feature 110 
+
+correlation across lifespan re vealed distinct clusters of positively and negatively associated 111 
+
+traits , (Fig. 1 d) which identified seven physiological traits (motility, posture, reproduction, 112 
+
+growth, transparency, intestine and LLFs) monitored by our pipeline .113 
+
+We next asked whether age -dependent changes in extracted features could serve as proxies for 114 
+
+organismal health and thereby predict life expectancy at any point across the lifespan. We 115 
+
+therefore computed the relative age of each worm at each observation time, defined as the ratio 116 
+
+of chronological age to individual lifespan (time of death) (see Methods). At the population level, 117 
+
+most features were significantly correlated with relative age (Fig. 1 e; mean absolute Spearman’s 118 
+
+rho = 0.40 ± 0.12 SD), indicating that many phenotypes report progression through the lifespa n.119 
+
+We then assessed the predictive value of each feature separately by fitting spline regression 120 
+
+models to estimate the relative age of a worm from single observations (see Methods). Total 121 
+
+number of eggs was the most informative single feature predictor (mean R² = 0.36 ± 0.14 SD in 5 -122 
+
+fold cross -validation ), followed by displacement speed (0.30 ± 0.05) and worm volume (0.30 ± 123 
+
+0.04) (Fig. 1 e). These results indicate that, although many traits vary with relative age at the 124 
+
+population level, no single phenotype captures individual s’ relative age with high accuracy. 125 
+
+Different machine learning architectures accurately quantify relative age across the 126 
+
+lifespan 127 
+
+To capture organismal state in a multidimensional manner, we combined multiple phenotypic 128 
+
+features. We first applied principal component analysis (PCA) to an expanded longitudinal 129 
+
+dataset (n = 2 ’049 worms, ~140 ’000 observations, N exp = 33). Principal component 1 (PC1) 130 
+
+explained 24.9% of total phenotypic variance (Fig. S4a). Data points progressively shifted along 131 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+4
+
+the PC1 axis with increasing relative age (Fig. 2a), indicating that aging is a major driver of 132 
+
+phenotypic variation. Features declining with age showed negative loadings on PC1, whereas 133 
+
+those increasing with age showed positive loadings (Fig. S4b). PC1 also captured aging 134 
+
+trajectories at the level of individual worms (Fig. 2b). However, its limited predictive accuracy 135 
+
+suggested that non -linear feature dynamics contribute substantially to age -related phenotypic 136 
+
+variation (Fig. 2c, Fig. S4 c-d) .137 
+
+We next implemented supervised machine learning (ML) models to predict each worm’s relative 138 
+
+age at any given time point. Models were trained using longitudinal phenotypic measurements 139 
+
+collected over four consecutive recordings (6h intervals; 24h window), concatenated into a 140 
+
+single feature vector, with relative age at the final time point as the target variable. We evaluated 141 
+
+four model classes: Elastic Net (ElNet), a regularized linear approach frequently used in aging 142 
+
+clocks 29 ; eXtreme Gradient Boosting (XGB), a tree -based ensemble method 30 ; and two 143 
+
+sequence -aware neural network architectures, recurrent neural networks (RNN) 31 and long 144 
+
+short -term memory networks (LSTM). All models trained on 24h windows substantially 145 
+
+outperformed the PC 1 + linear regression baseline, explaining >80% of the variance in relative 146 
+
+age on average (RMSE ~0.12) (Fig. 2c, Fig. S4d -e, Table S1). 147 
+
+To determine whether temporal context was required for accurate prediction, we trained models 148 
+
+using single time -point measurements. Predictive performance remained comparable to that of 149 
+
+24h -window s models (median R² = 0.79 -0.85; RMSE = 0.12 -0.13) (Fig. 2c, Fig. S4d, Table S1), 150 
+
+indicating that multidimensional phenotypic measurements contain sufficient information to 151 
+
+estimate relative age across the lifespan. We therefore examined whether the predictive 152 
+
+contribution of individual traits varies across life stages. Feature importance analysis revealed 153 
+
+stage -specific predictors (see Methods). Early adulthood (0 –8 days, encompassing the 154 
+
+reproductive period 32 ) was primarily characterized by reproductive output, body size metrics 155 
+
+(perimeter and volume), and optical transparency, whereas motility contributed minimally (Fig. 156 
+
+2d). In later life (>8 days), movement -related features, including displacement speed, body 157 
+
+curvature, and solidity, became dominant predictors. 158 
+
+These results show that diverse supervised ML architectures accurately estimate relative age 159 
+
+from phenotypic trajectories, consistently outperforming a PCA -based baseline. Similar 160 
+
+performance across linear, tree -based, and neural network models indicates that predictive 161 
+
+accuracy primarily reflects the information content of the phenotypic feature set rather than 162 
+
+model choice. We selected the RNN trained on 24 h windows for subsequent analyses because 163 
+
+it achieved the lowest median RMSE while remaining computationally efficient; we refer to its 164 
+
+predictions as phenotypic age .165 
+
+Divergent phenotypic aging trajectories emerge within an isogenic population 166 
+
+C. elegans are self -fertilizing hermaphrodites that generate genetically identical populations. 167 
+
+Despite this genetic homogeneity, substantial inter -individual variability in lifespan persists even 168 
+
+under tightly controlled environmental conditions 33 . Whether long -lived individuals simply 169 
+
+experience delayed aging or instead follow qualitatively distinct aging trajectories remains 170 
+
+debated 22,33 –36 .To address this question, we stratified the single -worm N2 dataset ( from Fig. 1) 171 
+
+into three equally sized lifespan groups (short -, intermediate -, and long -lived) and compared 172 
+
+phenotypic dynamics between the shortest -lived (4 -16.5 days) and longest -lived (19.5 -28 days) 173 
+
+subgroups. Predicted phenotypic age followed similar trajectories in both groups until 174 
+
+approximately day 6 of adulthood (Fig. 3a,b). However, divergence in specific phenotypic traits 175 
+
+emerged earlier. As early as day 2 of adulthood, long -lived worms displayed reduced total egg 176 
+
+production, smaller absolute intestinal area, and increased body length compared with short -177 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+5
+
+lived individuals (Fig. 3 c-e, Fig. S5a). By day 6, additional differences became apparent, including 178 
+
+larger intestine area normalized to body size and increased tail movement amplitude (Fig. 3f,g). 179 
+
+Phenotypic divergence continued to widen with chronological age (Fig. S5b,c). From day 8 180 
+
+onward, long -lived worms exhibited higher motility, improved late -life posture, and prolonged 181 
+
+growth trajectories relative to short -lived animals. These observations indicate that phenotypic 182 
+
+differences emerge at distinct chronological ages depending on the physiological system 183 
+
+considered. 184 
+
+To determine whether these differences reflect delayed aging or temporal scaling relationships 185 
+
+with lifespan, we analyzed phenotypic traits as a function of relative age. Motility -related features 186 
+
+(including late -life features), reproduction, transparency, and growth displayed largely 187 
+
+synchronized trajectories between lifespan groups when normalized to lifespan (Fig. 3i -l, Fig. S7 -188 
+
+S12). Consequently, relative to total lifespan, long -lived worms reproduced over a shorter 189 
+
+fraction of life, continued growing over a longer fraction, and remained in low -motility states for 190 
+
+longer than short -lived individuals. In contrast, intestine -related traits scaled proportionally with 191 
+
+lifespan (Fig. S10). Notably, at equivalent fractions of lifespan, long -lived worms appeared 192 
+
+phenotypically older than short -lived worms (Fig. 3 l). 193 
+
+These results indicate that phenotypic aging trajectories do not simply scale with lifespan. Rather 194 
+
+than exhibiting a uniform delay in aging, long -lived worms experience extended periods of late -195 
+
+life decline relative to their lifespan. These findings support a model in which genetically identical 196 
+
+individuals follow distinct trait -specific aging trajectories. Importantly, our phenotypic clock 197 
+
+captures these lifespan -associated differences in aging dynamics within an isogenic population. 198 
+
+Dietary Restriction (DR) modalities converge on a shared phenotypic aging signature 199 
+
+Dietary restriction (DR) is a robust lifespan -extending intervention conserved across taxa 37 . In C. 200 
+
+elegans , DR can be achieved by reducing bacterial food availability or through genetic 201 
+
+perturbations that mimic reduced nutrient intake or activate DR -associated pathways 38,39 . We 202 
+
+leveraged three complementary DR paradigms: reduced bacterial density (12.5% of ad libitum; 203 
+
+N2 DR), the feeding -defective mutant eat -2(ad465) , characterized by reduced pharyngeal 204 
+
+pumping 40 , and slcf -1(tm22 58 ), in which loss of the monocarboxylate transporter SLCF -1205 
+
+activates DR -associated molecular programs 41,42 . These independent modalities allowed us to 206 
+
+test whether our phenotypic clock detects intervention -dependent changes in aging trajectories 207 
+
+and whether distinct DR paradigms converge on a common phenotypic signature. 208 
+
+Consistent with prior work, DR significantly extended lifespan (Fig. 4a). Wild -type animals 209 
+
+exposed to reduced bacterial density from the L4 stage throughout adulthood exhibited a 31% 210 
+
+increase in median lifespan and a 46% increase in maximal survival (95th percentile; p < 0.0001) 211 
+
+relative to ad libitum (AL) controls (Fig. 4a). Genetic DR models also showed increased longevity, 212 
+
+albeit to a lesser extent: median lifespan increased by 21% in eat -2(ad465) and 18% in slcf -213 
+
+1(tm2286) , while maximal survival increased by 46% and 24%, respectively (Fig. 4 a) .214 
+
+Our phenotypic clock detected consistent reductions in phenotypic age across DR conditions 215 
+
+(Fig. 4 b). Wild -type animals subjected to DR displayed younger phenotypic ages than AL controls 216 
+
+across most of adulthood, with divergence emerging shortly after intervention onset (Fig. 4 b, Fig. 217 
+
+S13 ). Similarly, eat -2(ad465) and slcf -1(tm22 58 ) mutants exhibited reduced phenotypic age 218 
+
+compared with wild -type animals under AL condition. The magnitude and kinetics of phenotypic 219 
+
+age reduction varied between modalities, with weaker effects observed in slcf -1(tm22 58 ) and 220 
+
+delayed divergence in eat -2(ad465) relative to AL . These differences paralleled variation in 221 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+6
+
+lifespan extension, indicating that the phenotypic clock captures graded intervention effects on 222 
+
+organismal aging dynamics. 223 
+
+To determine whether distinct DR paradigms share a common phenotypic signature, we 224 
+
+quantified feature -level contributions to phenotypic age using SHAP (SHapley Additive 225 
+
+exPlanations) values (see Methods). Principal component analysis of SHAP values revealed clear 226 
+
+separation between DR conditions (N2 DR, eat -2(ad465) , slcf -1(tm22 58 )) and AL controls (Fig. 227 
+
+4c). Hierarchical clustering confirmed segregation into DR versus non -DR groups (Fig. S14), 228 
+
+indicating convergence toward a shared phenotypic space despite mechanistic differences 229 
+
+between interventions. 230 
+
+Although DR conditions were globally associated with younger phenotypic age, SHAP analysis 231 
+
+revealed trait -specific remodeling rather than uniform rejuvenation (Fig. 4 d). Individual traits 232 
+
+shifted in both directions relative to AL controls, with some traits adopting younger states and 233 
+
+others older states. The amplitude of traits -level changes was smallest in slcf -1(tm22 58 ),234 
+
+consistent with its weaker phenotypic and survival effects. For example, reproductive traits were 235 
+
+less strongly altered in slcf -1(tm22 58 ) than in eat -2(ad465) mutants, in agreement with previous 236 
+
+observations 41 .237 
+
+Thus, our phenotypic clock robustly captures DR -dependent modulation of aging trajectories 238 
+
+across multiple intervention modalities. Distinct DR paradigms converge on a shared phenotypic 239 
+
+signature characterized by an overall younger phenotypic age arising from coordinated but trait -240 
+
+specific remodeling of physiological features. 241 
+
+Distinct phenotypic aging trajectories underlie similar lifespan extension after early - and late -242 
+
+onset DR 243 
+
+The timing of geroprotective interventions can critically influence their impact on aging 244 
+
+trajectories, yet whether comparable lifespan extensions arise from similar or distinct 245 
+
+organismal states remains unclear. To address this, we implemented four feeding regimens 246 
+
+differing in the timing of DR: ad libitum feeding throughout adulthood (AL), lifelong DR at 20% 247 
+
+food availability (DR), ad libitum feeding followed by DR initiated on day 6 of adulthood (AL -DR), 248 
+
+and early -life DR followed by a return to ad libitum feeding from day 6 onward (DR -AL) (Fig. 5a). 249 
+
+Lifelong DR produced the strongest lifespan extension, increasing median lifespan by 49% 250 
+
+relative to AL controls (Fig. 5b). In contrast, DR limited to early adulthood (DR -AL) or initiated 251 
+
+post -reproduction (AL -DR) resulted in smaller but comparable increases in median lifespan 252 
+
+(+18% relative to AL), indicating that distinct intervention schedules can yield similar survival 253 
+
+outcomes. 254 
+
+Analysis of phenotypic age trajectories revealed pronounced differences in organismal 255 
+
+responses to DR timing (Fig. 5c,d). Worms exposed to early -life DR (DR -AL) closely followed the 256 
+
+phenotypic trajectory of lifelong DR animals until approximately day 12 of adulthood and 257 
+
+remained phenotypically younger than AL controls until day 17. In contrast, worms switched from 258 
+
+AL to DR at day 6 (AL -DR) exhibited a delayed and transient reduction in phenotypic age, 259 
+
+appearing younger than AL controls between days 8 and 16. However, neither phenotypic age 260 
+
+trajectories nor SHAP feature profiles converged toward those observed under lifelong DR (Fig. 261 
+
+5c -e), indicating that late -onset DR only partially recapitulates the phenotypic effects of 262 
+
+continuous DR .263 
+
+Together, these findings show that DR reshapes aging trajectories in a time -dependent manner. 264 
+
+Notably, early - and late -onset DR produced similar extensions in lifespan despite inducing 265 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+7
+
+distinct phenotypic aging dynamics. These results demonstrate that comparable survival 266 
+
+outcomes can arise from divergent organismal states, highlighting the importance of longitudinal 267 
+
+phenotypic measurements to resolve how intervention timing modulates biological aging 268 
+
+trajectories. 269 
+
+Longitudinal phenotyping reveals time -dependent genetic interactions shaping aging 270 
+
+trajectories 271 
+
+We next asked whether longitudinal phenotypic age measurements could resolve epistatic 272 
+
+interactions in aging pathways that are not apparent from survival outcomes alone. To address 273 
+
+this question, we analyzed slcf -1(tm22 58 ) and daf -18(e1375) mutants and their corresponding 274 
+
+double mutant. In C. elegans , daf -18 , the ortholog of the tumor suppressor PTEN, is required for 275 
+
+normal lifespan and contributes to hormetic stress responses induced by slcf -1276 
+
+downregulation 41,42 . However, the extent to which daf -18 contributes to slcf -1-mediated 277 
+
+longevity remains unclear. 278 
+
+Lifespan measurements obtained in our microfluidic system recapitulated previous 279 
+
+observations (Fig. 6a). Loss of daf -18 shortened lifespan relative to wild type, whereas mutation 280 
+
+of slcf -1 increased median lifespan by ~20% in both wild -type and daf -18 mutant backgrounds. 281 
+
+These results suggest that lifespan extension conferred by slcf -1 is largely independent of DAF -282 
+
+18 activity when evaluated at the level of survival. 283 
+
+To determine whether these mutations different ial ly influence biological age , we compared two 284 
+
+complementary measure ments : transcriptomic age and phenotypic age. Transcriptomic age 285 
+
+was estimated using the BiT age clock 19 . In young adults, all genotypes exhibited similar 286 
+
+transcriptomic ages (Fig. 6b). By day 7, however, daf -18 mutants were predicted to be 287 
+
+biologically older than wild -type animals, whereas slcf -1 mutants appeared younger. These 288 
+
+trends were recapitulated by our phenotypic clock, which detected significant genotype -289 
+
+dependent differences in biological age (Fig. 6c). In double mutants, the two clocks showed 290 
+
+partially divergent predictions: transcriptomic age more closely resembled the daf -18 profile, 291 
+
+whereas phenotypic age was intermediate between the two single mutants. These single time -292 
+
+point measurements suggest partial suppression of the slcf -1 phenotype by daf -18 , but do not 293 
+
+reveal when divergence in aging trajectories emerges. 294 
+
+Longitudinal phenotypic trajectories provided additional temporal resolution (Fig. 6d). 295 
+
+Consistent with earlier results, slcf -1 mutants exhibited slower phenotypic aging than wild -type 296 
+
+animals from early adulthood onward. In contrast, daf -18 mutants initially followed a trajectory 297 
+
+similar to wild type until approximately day 5 of adulthood, after which phenotypic aging 298 
+
+accelerated. In daf -18; slcf -1 double mutants, divergence from the slcf -1 trajectory emerged as 299 
+
+early as day 3, earlier than in the wild -type background, and was followed by accelerated 300 
+
+phenotypic aging relative to slcf -1single mutants. These results indicate an early genetic 301 
+
+interaction between daf -18 and slcf -1 that alters the temporal dynamics of phenotypic aging. 302 
+
+Notably, when trajectories were expressed as a function of relative age, the double mutant 303 
+
+aligned with daf -18 single mutants (Fig. 6e), indicating that daf -18 phenotype predominates in 304 
+
+shaping the aging trajectory of slcf -1 mutants across the lifespan. 305 
+
+Hence , these analyses show that phenotypic age trajectories broadly correlate with 306 
+
+transcriptomic age while providing substantially higher temporal resolution. Although slcf -307 
+
+1 extends lifespan in a daf -18 mutant background, DAF -18 is required for the characteristic 308 
+
+temporal pattern of slcf -1-mediated slowing of aging. More broadly, these results illustrate how 309 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+8
+
+longitudinal phenotypic measurements can reveal time -dependent epistatic interactions that 310 
+
+are not detectable using lifespan alone 311 
+
+Phenotypic clock enables early detection of multidimensional effects of candidate 312 
+
+geroprotectors 313 
+
+Lifestyle interventions such as dietary restriction (DR) robustly extend lifespan, yet their long -314 
+
+term implementation in humans remains challenging, motivating the identification of 315 
+
+pharmacological alternatives (geroprotectors) 43 . However, candidate geroprotective 316 
+
+compounds often produce modest lifespan extensions that approach the intrinsic variability of 317 
+
+survival measurements, making their evaluation slow, costly, and frequently inconclusive when 318 
+
+relying solely on lifespan. We therefore applied our longitudinal phenotyping framework to 319 
+
+pharmacological interventions expected to produce subtler effects than the aging mutants 320 
+
+described above , t he biguanide metformin and the NAD ⁺ precursors nicotinamide riboside (NR) 321 
+
+and nicotinamide (NAM ). 322 
+
+Metformin has been shown to extend lifespan in C. elegans and mice 44,45 and recent work 323 
+
+indicates that it can slow transcriptomic aging clocks in non -human primate s3. Age -associated 324 
+
+depletion of nicotinamide adenine dinucleotide (NAD ⁺) has been linked to multiple age -related 325 
+
+pathologies, including sarcopenia, prompting interest in interventions that restore NAD ⁺326 
+
+homeostasis 46,47 . We first evaluated metformin hydrochloride at 25 mM and 50 mM, 327 
+
+concentrations previously reported to increase C. elegans lifespan 44 . Under our experimental 328 
+
+conditions, both doses produced modest increases in median lifespan (+13.5% and +8.6%, 329 
+
+respectively; Fig. 7a) . In contrast, longitudinal phenotypic analysis revealed consistent 330 
+
+reductions in phenotypic age under both metformin treatments (Fig. 7b,c). Metformin -treated 331 
+
+animals could be distinguished from untreated controls as early as day 4 of adulthood, well 332 
+
+before differences in survival outcomes became apparent. The highe r concentration produced a 333 
+
+more sustained shift toward younger phenotypic age across adulthood. SHAP decomposition 334 
+
+indicated that th is reduction was primarily driven by improvements in motility, transparency, and 335 
+
+reproductive output, whereas intestine -associated traits shifted toward relatively older states, 336 
+
+yielding a multidimensional profile partially reminiscent of DR -associated phenotypic 337 
+
+remodeling (Fig . 7d and Fig 4d ). 338 
+
+We next examined NAD ⁺-boosting compounds by testing NAM and NR across three 339 
+
+concentrations each. None of the tested conditions significantly reduced overall phenotypic age. 340 
+
+Nevertheless , high er doses induced selective functional improvements, most prominently 341 
+
+increased motility and transparency at 2 mM NR (Fig. S15), demonstrating that longitudinal 342 
+
+phenotyping can detect domain -specific physiological effects even in the absence of 343 
+
+measurable lifespan extension. 344 
+
+To directly compare pharmacological interventions with established longevity paradigms, we 345 
+
+projected SHAP -derived trait differences induced by drug treatments together with those 346 
+
+associated with DR conditions (DR, eat -2, slcf -1) and daf -18 mutants into a shared phenotypic 347 
+
+space using PCA (Fig. 7e). NAD ⁺-boosting conditions clustered together, with the highest 348 
+
+concentrations (NAM 250 μM and NR 2 mM) producing the strongest phenotypic shifts. 349 
+
+Metformin -treated animals localized closer to DR -associated phenotypic states, with the highest 350 
+
+tested concentration producing the largest displacement toward the DR region of phenotypic 351 
+
+space. 352 
+
+Together, these results demonstrate that l ongitudinal phenotypic age measurements provide a 353 
+
+sensitive framework to evaluate candidate geroprotective compounds beyond survival outcomes 354 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+9
+
+alone. By detecting intervention -associated shifts in phenotypic trajectories as early as day 4 of 355 
+
+adulthood, this approach enables rapid identification of multidimensional physiological effects 356 
+
+even when lifespan changes are modest. Longitudinal phenotyping therefore provides a scalable 357 
+
+strategy to prioritize candidate geroprotectors and characterize their functional signatures across 358 
+
+the lifespan 359 
+
+# Discussion 360 
+
+Understanding how interventions influence aging requires quantitative frameworks that capture 361 
+
+organismal state across time rather than relying solely on survival outcomes. Here we developed 362 
+
+a longitudinal phenotyping platform that integrates high -frequency behavioral, morphological, 363 
+
+and physiological measurements to quantify multidimensional aging trajectories in C. elegans .364 
+
+Across genetic perturbations, dietary interventions, and candidate geroprotective compounds, 365 
+
+our results indicate that aging cannot be fully described by a single rate parameter but instead 366 
+
+reflects dynamic remodeling of organismal state throughout the lifespan. Distinct lifespan -367 
+
+extending interventions converged on shared phenotypic signatures associated with a younger 368 
+
+phenotypic age, yet similar longevity outcomes also arose from divergent aging trajectories 369 
+
+depending on intervention timing or genetic background. By resolving these temporal dynamics, 370 
+
+longitudinal phenotypic age provides a quantitative framework to dissect how environmental and 371 
+
+genetic factors reshape biological aging trajectories and reveals multiple physiological path s to 372 
+
+lifespan extension. 373 
+
+Microfluidic technologies have transformed C. elegans research by enabling precise 374 
+
+environmental control and automated longitudinal measurements under standardized 375 
+
+conditions 48 –51 . Using the SydLab ™ One platform, we monitored multiple aging biomarkers in 376 
+
+parallel at high temporal resolution, generating a high -content atlas of organism -level aging 377 
+
+trajectories across the lifespan. Age -associated changes in motility 33,52,53 , behavior 22,34,54 ,378 
+
+reproduction 32,55 , body size 8,31 , transparency 27,56 , intestinal morphology 57 –59 , and image -derived 379 
+
+morphological descriptors 22 recapitulated and extended previous descriptions of physiological 380 
+
+decline in C. elegans 33,53,60 . By capturing these features simultaneously within individuals, this 381 
+
+framework enables direct comparison of aging dynamics across physiological systems. 382 
+
+Leveraging this dataset, we developed MOSAIC, a non -invasive video -based phenotypic clock 383 
+
+capable of estimating relative age from short (2s) recordings obtained at any stage of adulthood. 384 
+
+Multiple machine learning architectures achieved similar predictive performance, indicating that 385 
+
+accuracy primarily derives from the biological depth of the phenotypic features rather than the 386 
+
+modeling approach itself. The contribution of individual traits to phenotypic age prediction varied 387 
+
+across the lifespan, underscoring the context -dependent nature of aging biomarkers. Compared 388 
+
+with previous phenotypic predictors of biological age 22,25,35 , the improved performance of our 389 
+
+approach likely stems from the combination of high sampling frequency, large cohort size, and 390 
+
+multidimensional feature integration. Phenotypic age estimates correlated with transcriptomic 391 
+
+age predicted by the BiT age clock, supporting the biological relevance of this non -invasive 392 
+
+measure. Because it relies exclusively on bright -field imaging, this strategy enables repeated 393 
+
+measurements in the same individuals and provides a scalable framework to quantify how 394 
+
+interventions dynamically modulate biological aging trajectories. 395 
+
+Our results further indicate that biological age is inherently multidimensional and trait -specific. 396 
+
+While temporal scaling of survival curves has been interpreted as evidence that longevity 397 
+
+interventions act on shared determinants of aging, lifespan extension can also occur alongside 398 
+
+selective preservation or deterioration of specific physiological functions 7,8,25,34,36,61 –64 .399 
+
+Consistent with this view, long -lived wild -type animals appeared phenotypically younger than 400 
+
+short -lived individuals of the same chronological age . Y et , these long -lived individuals also 401 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+10 
+
+appeared older when phenotypic age was expressed relative to lifespan, consistent with an 402 
+
+extended period of late -life frailty described previously 35 . Several traits exhibited similar timing 403 
+
+of decline across lifespan groups, whereas others, including late -life motility and behavioral 404 
+
+features, were selectively preserved in long -lived individuals. Intestinal traits showed the 405 
+
+strongest temporal scaling with lifespan, in line with evidence that intestinal deterioration is a 406 
+
+major proximate cause of death in C. elegans 58,65 –67 .Collectively , these findings indicate that 407 
+
+biological age emerges from partially independent physiological trajectories rather than a single 408 
+
+coordinated decline. 409 
+
+Analysis of canonical longevity interventions further revealed substantial heterogeneity in the 410 
+
+structure of aging trajectories. Some perturbations, including DR , slcf -1 mutation and metformin 411 
+
+treatment, primarily reduced the rate of phenotypic aging without markedly altering trajectory 412 
+
+shape. By contrast, daf -18 mutation produced a qualitatively distinct trajectory characterized by 413 
+
+accelerated late -life decline. Moreover, comparable lifespan extension could arise from distinct 414 
+
+phenotypic histories, as illustrated by early - and late -onset DR paradigms. These observations 415 
+
+indicate that interventions influence not only how fast organisms age but also how aging unfolds 416 
+
+across physiological systems. Intervention timing emerged as a key determinant of these 417 
+
+dynamics, consistent with previous studies showing that modulation of IIS signaling in adulthood 418 
+
+can improve late -life traits while minimizing early -life trade -offs 67,68 .419 
+
+Identification of geroprotective interventions remains a central objective of geroscience. 420 
+
+While C. elegans provides a powerful platform for large -scale screening 50 , lifespan alone 421 
+
+incompletely captures intervention effects on organismal function. Indeed, some interventions 422 
+
+extend lifespan while impairing physiological performance, whereas others improve functional 423 
+
+traits without producing large survival effects 7,8 . Our phenotypic clock enables evaluation of 424 
+
+candidate geroprotectors based on their multidimensional impact on health -related traits, 425 
+
+without requiring invasive molecular profiling. Because phenotypic age can be assessed 426 
+
+longitudinally and early in adulthood, this approach may substantially accelerate screening 427 
+
+workflows by enabling early prioritization of compounds with beneficial effects on organismal 428 
+
+function. Furthermore, SHAP -based decomposition of phenotypic age provides insight into how 429 
+
+individual physiological systems contribute to intervention effects, facilitating identification of 430 
+
+compounds that promote desirable healthspan profiles. 431 
+
+In summary, MOSAIC demonstrates that longevity interventions do more than extend lifespan; 432 
+
+they redirect aging along alternative phenotypic trajectories whose structure depends on 433 
+
+intervention type, genetic background and timing of exposure. These findings support a model in 434 
+
+which biological aging is plastic, multidimensional and shaped by dynamic physiological trade -435 
+
+offs. Longitudinal phenotyping approaches that resolve these trajectories may therefore provide 436 
+
+a powerful strategy to identify interventions that optimize both lifespan and healthspan, and to 437 
+
+anticipate context -dependent effects of candidate geroprotective therapies. 438 
+
+439 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+11 
+
+# Material and Methods 440 
+
+Buffers preparation 441 
+
+S-medium was prepared by supplementing S -basal (97.32 mM NaCl, 5.74 mM K 2HPO 4, 44.08 mM 442 
+
+KH 2PO 4) with 3.00 mM CaCl 2, 3.00 mM MgSO 4, 10.0 mM potassium citrate, trace metals solution 443 
+
+(50 μM EDTA, 24.8 μM Fe 2+ , 10.1 μM Mn 2+ , 10.1 μM Zn 2+ , 1 μM Cu 2+ ), 12.93 μM cholesterol, 118 μM 444 
+
+carbenicillin, 134 μM ampicillin, 0.06 % (v/v) TWEEN® 20, and 0.195 μM doxycycline. The solution 445 
+
+was sterile -filtered through a 0.22 μm membrane before use. 446 
+
+C. elegans strains and culture 447 
+
+The following C. elegans strains were used : N2 Bristol , eat -2(ad465) II 40 , daf -18(e1375) IV 69 . slcf -448 
+
+1(tm2258) and slcf -1(tm2258);daf -18(e1375) come from 41 .449 
+
+Strains were maintained on NGM plates seeded with E. coli OP50 according to standard 450 
+
+protocols (Brenner 1974) at 20°C . All experiments were executed on the SydLab TM One devices 451 
+
+set at 20°C starting with synchronized populations of L4 worms. 452 
+
+Nematodes synchronization and loading into the device 453 
+
+Worm populations were synchronized by egg laying in liquid culture followed by recovery of 454 
+
+arrested L1 larvae using a filter -based method and transfer red to OP50 -seeded NGM plates until 455 
+
+the L4 stage. 456 
+
+Synchronized L4 worms were washed in S -medium, diluted to the appropriate concentration, 457 
+
+and loaded into the reservoirs of the SydLabTM One platform. At the onset of experiments, 458 
+
+synchronized L4 worms were aspirated from the reservoirs and distributed automatically inside 459 
+
+the microfluidics chambers, where passive hydrodynamics confined them for the duration of the 460 
+
+experiment. The device maintained a constant temperature (20 °C) and delivered standardized 461 
+
+bacterial suspensions at defined hourly intervals for the duration of the experiments. Feeding, 462 
+
+compound exposure, and imaging were then performed automatically by the platform. 463 
+
+Bacteria preparation 464 
+
+Freeze -dried E. coli OP50 were resuspended in S -medium and diluted to a final concentration of 465 
+
+approximately 62.5 mg/ml based on the mean OD 600 to standardize the ad libitum feeding 466 
+
+condition. For dietary restriction (DR) , this preparation was further diluted in S -medium. A fresh 467 
+
+bacteria preparation was provided every 2 to 3 days .468 
+
+Chemicals preparation 469 
+
+Nicotinamide riboside (NR; Cayman Chemical #36941) was dissolved in deionized water at 100 470 
+
+mM. Metformin hydrochloride (Sigma -Aldrich #317240 ) was dissolved in deionized water to 471 
+
+generate a 0.5 M stock solution. Nicotinamide (NAM; Sigma -Aldrich #N0636) was dissolved in 472 
+
+deionized water at 100 mM. 473 
+
+Working concentrations were obtained by direct dilution of stock solutions into the bacterial 474 
+
+suspension immediately prior to loading into the microfluidic platform. 475 
+
+Transcriptomic analyses 476 
+
+We extracted total RNA from three independent replicates of each genotype (wild -type N2, daf -477 
+
+18(e1375) , slcf -1(tm2258) , and daf -18(e1375); slcf -1(tm2258) ) at the young adult stage (YA) and 478 
+
+on day seven of adulthood (A7). We amplified 100 ng of total RNA with the GeneChip 3 IVT Express 479 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+12 
+
+kit and hybridized 15 μg of cRNA to Affymetrix C. elegans Genome Arrays. We normalized CEL 480 
+
+files with the MAS5 algorithm in the Affymetrix Expression Console and filtered expression values 481 
+
+in Partek Genomic Suite v6.6 with a Student t test (P < 0.05) and a two -fold change threshold. 482 
+
+Next, we mapped probe sets to WormBase gene identifiers with the celegans.db package in  𝑅 ,483 
+
+averaged duplicate probes, and applied quantile normalization with limma . We analyzed this 484 
+
+matrix with the BiT -age transcriptomic clock, assigning zero to genes that were missing from the 485 
+
+array in every sample. Finally, the predicted BiT ages were rescaled relative to the median of N2 486 
+
+controls at YA stage and seven days for A7. 487 
+
+Image acquisition and object detection 488 
+
+Brightfield (BF) videos of 2 seconds with 5 frames per second (8 -bit, PNG) were acquired for each 489 
+
+chamber every 6 hours using a custom -made OEM -microscope equipped with CMOS 4MP 490 
+
+monochromatic camera (2048 x 2048px sensor) (Basler), a fluor 10x/0.5NA objective (Zeiss) as 491 
+
+well as a custom -made LED panel . Magnification 6x final. Imaging was performed automatically 492 
+
+30 seconds after liquid injection .493 
+
+Deep learning (DL) -based instance segmentation was performed using a multi -class Mask R -494 
+
+CNN on images to detect worms throughout their entire life as well as their progeny (eggs and 495 
+
+larvae). The tail intestine wa s detected using a fine -tuned version of the worm detection Mask R -496 
+
+CNN. 497 
+
+Annotation of death & computation of relative age 498 
+
+For the aging clock training set, time of death was manually labelled for 2839 (75.3%) worms, 499 
+
+whereas the remaining 923 (24.7%) deaths were annotated using a DL algorithm capable of 500 
+
+detecting death events. Time of death in the validation experiments were annotated with the 501 
+
+death -detection DL algorithm. In manually annotated experiments, worms that died from 502 
+
+internal hatching or vulval rupture were censored and excluded from relative -age analyses. In 503 
+
+experiments annotated automatically, deaths detected before day 5 of adulthood were treated 504 
+
+as censored .505 
+
+The DL death detection algorithm works in two step. First, videos are analyzed with a model of 506 
+
+the CoAtNet -1 architecture, trained on 41’337 BF videos, which classifies each worm in every 507 
+
+frame as “alive” or “dead”. In the second step, a rule -based algorithm aggregates the 508 
+
+classifications by chamber and time, identifying worm deaths by monitoring how the total 509 
+
+number of live worms decreases over time. A consistent drop in the live count is interpreted as a 510 
+
+death. 511 
+
+Relative age was computed per worm by dividing the time of acquisition of a recording by the time 512 
+
+of death. 513 
+
+Motility features 514 
+
+The mathematics behind motility analyses was adapted from 70 . In this framework, the worm’s 515 
+
+body is represented as a one -branch, 100 -point skeleton, where each point corresponds to an 516 
+
+evenly spaced position along the worm’s body from head to tail. 517 
+
+Curvature and Body bending frequency: 518 
+
+Worm curvature is calculated by computing the curvature in each point of the worm skeleton 519 
+
+and averaging it. The body bending frequency of a worm is obtained by averaging the dominant 520 
+
+frequency after fast Fourier transform of the worm’s curvature for the skeleton nodes 20 to 80, in 521 
+
+increments of 5. 522 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+13 
+
+523 
+
+Amplitude of the head, midbody and tail: 524 
+
+Head is detected as the most curved extremity of the worm mask, whereas tail is detected as the 525 
+
+most pointy extremity of the worm mask. First , the absolute amplitude ( Aabs ) at each skeleton 526 
+
+point is calculated as: 527 
+
+𝐴 abs = √(𝐴 𝑥 )2 + (𝐴 𝑦 )2 (𝜇𝑚 )528 
+
+Where: 529 
+
+𝐴 𝑥 = (𝑋 − 𝑋 𝑏𝑎𝑠𝑒 ) ⋅ 𝑠𝑐𝑎𝑙𝑒 ,
+
+𝐴 𝑦 = (𝑌 − 𝑌 𝑏𝑎𝑠𝑒 ) ⋅ 𝑠𝑐𝑎𝑙𝑒 
+
+530 
+
+represent the deviation from the baseline in the x- and y-directions, respectively. X and Y are the 531 
+
+x- and y-coordinates of the skeleton points over time, and Xbase and Ybase are the smoothed 532 
+
+baseline coordinates obtained from a polynomial fit of degree 5 over the 10 frames. Scale 533 
+
+transform pixels to micrometers and is a factor of 1.81 .534 
+
+The head amplitude ( Ahead ) is derived from the first two points of the 100 -point skeleton. It is 535 
+
+computed as: 536 
+
+𝐴 ℎ𝑒𝑎𝑑 = 1
+
+𝑁 𝑝𝑒𝑎𝑘𝑠 
+
+∑ (𝑝 𝑖 + 𝑎𝑣 𝑔 ℎ𝑒𝑎𝑑 )
+
+> 𝑁 𝑝𝑒𝑎𝑘𝑠
+> 𝑖 =1
+
+537 
+
+Where: 538 
+
+• pi are the peak values of ampl abs detected in the head region, 539 
+
+• avg head is the mean amplitude of Aabs in the head region over the 10 frames, and 540 
+
+• Npeaks is the number of peaks detected in the amplitude trace of the head region. Peak 541 
+
+detection is performed using a peak -finding algorithm ( find_peaks from Scipy signal ), 542 
+
+applied to the amplitude trace over the 2 -second interval. The final head amplitude 543 
+
+represents the mean peak amplitude adjusted by the average baseline amplitude in the 544 
+
+head region. 545 
+
+The tail amplitude and mid -body amplitude are calculated in the exact same manner but using 546 
+
+the last 2 points of the skeleton and the 3 central points of the skeleton, respectively .547 
+
+548 
+
+Displacement speed: 549 
+
+Worm displacement speed (Vc) represents the distance traveled over all frames of the time -lapse 550 
+
+video, divided by video duration and is calculated based on the xy position of the centroid of the 551 
+
+skeleton as follows: 552 
+
+𝑉 𝑐 = 𝐶 𝑑𝑖𝑠𝑡 ⋅ 𝑓𝑝𝑠 
+
+𝑁 (𝜇𝑚 /𝑠 )553 
+
+𝐶 𝑑𝑖𝑠𝑡 = ∑ √(𝑑 𝑋 𝑐 
+
+𝑑𝑡 )
+
+> 2
+
++ (𝑑 𝑌 𝑐 
+
+𝑑𝑡 )
+
+> 2𝑁
+> 𝑖 =1
+
+⋅ 𝑠𝑐𝑎𝑙𝑒 ,554 
+
+Where: 555 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+14 
+
+• N is the number of frames in the video, 556 
+
+• 𝑑 𝑋 𝑐  
+
+> 𝑑𝑡
+
+and  𝑑 𝑌 𝑐  
+
+> 𝑑𝑡
+
+are the time derivatives of the centroid coordinates in the x- and y-directions, 557 
+
+respectively. The centroid coordinates are obtained from a polynomial fit of degree 5 of 558 
+
+the skeleton over the 10 frames, 559 
+
+• scale converts distances from pixels to micrometers 560 
+
+• fps is the frame rate of the video (frame per second) 561 
+
+Posture (shape) analysis 562 
+
+Shape analysis is loosely based on 54 . In brief, we grouped postures into four broad classes based 563 
+
+on (i) how much the body bends overall and (ii) how different the head and tail orientations are. 564 
+
+For each frame, from the tangent -angle profile  𝜃 (𝑠 ) we computed: 565 
+
+Δ𝜃 = 𝑚𝑎 𝑥 𝑠 (𝜃 (𝑠 )) − 𝑚𝑖 𝑛 𝑠 (𝜃 (𝑠 ))566 
+
+ΔHT = |𝜃 (𝑠 ℎ𝑒𝑎𝑑 ) − 𝜃 (𝑠 𝑡𝑎𝑖𝑙 )|.567 
+
+We then assigned a class using fixed radian thresholds: 568 
+
+• Shape 1 (Nearly straight):  Δ𝜃 < 𝜋 /2.569 
+
+• Shape 2 , Single bend (C -like):  Δ𝜃 ≥ 𝜋 /2 and  ΔHT < 3𝜋 /4.570 
+
+• Shape 3 Alternating bend (S -like):  Δ𝜃 ≥ 𝜋 /2 and  ΔHT ≥ 3𝜋 /4.571 
+
+• Shape 4 coiled:  Δ𝜃 > 3𝜋 /2.572 
+
+If no valid angle trace was available for a frame, it was left unclassified. 573 
+
+Eggs 574 
+
+Eggs are detected as single eggs or clumps of eggs by the Mask R -CNN model. Therefore, egg 575 
+
+counts are performed by dividing the area of the mask with the area of a single egg measured for 576 
+
+the N2 strain (1500 pixels). Number of eggs per worm amount s to the number of eggs detected in 577 
+
+a video at a time t, divided by the number of worms in the chamber. Total number of eggs is the 578 
+
+cumulative sum of Number of eggs per worm .579 
+
+Worm length, area, perimeter and volume 580 
+
+Similar to motility analysis, skeleton -based analysis is used to compute worm length, by 581 
+
+summing the number of pixels forming the skeleton. Worm volume is computed as follow: 582 
+
+𝑉 = ∑ 𝑟 𝑖 2
+
+> 𝑛
+> 𝑖 =0
+
+⋅ 𝜋 583 
+
+where n is the total number of pixels in the skeleton and r is the radius given by the distance 584 
+
+between each point of the skeleton and the closest edge of the mask. Worm area provides the 585 
+
+approximate 2D size of a worm by extracting the number of pixels from the detection mask. Worm 586 
+
+perimeter is calculated using the scikit -image (v0.22) function extract_regionprops . The Worm 587 
+
+tail diameter is calculated as follow: 588 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+15 
+
+𝐷 tail = 2 ⋅ 1
+
+𝑁 ∑ 𝑟 𝑖 
+
+> 𝑁
+> 𝑖 =1
+
+589 
+
+where  𝑟 𝑖  is the distance from the  𝑖 -th skeleton point (within the bottom third of the worm) to the 590 
+
+closest edge of the mask, and  𝑁  is the total number of skeleton points in that region. 591 
+
+Pigmentation 592 
+
+Pigmentation ( Transparency ) is calculated as the average intensity of pixel (values ranging from 593 
+
+0 to 255) inside the worm detection mask divided by the average intensity of pixel outside the 594 
+
+mask ( i.e., the intensity of the micro -chamber). Transparency normalized represent transparency 595 
+
+normalized to the mean of the 3 first recordings of Transparency for the chamber. 596 
+
+Intestine 597 
+
+Intestine area is the area of the detected tail intestine of worms on the first frame of the video. 598 
+
+Intestine diameter is the average diameter of the detected tail intestine of worms on the first 599 
+
+frame of the video. Intestine area / worm area, intestine area / tail, intestine diameter / worm 600 
+
+diameter and intestine area / tail diameter area are the ratio between the size of the worm and its 601 
+
+intestine. 602 
+
+LLF 603 
+
+The features of the group “Low -Level Features” are derived from the scikit -image 71 function 604 
+
+extract_regionprops . Eccentricity is average eccentricity over the frames of a video. Eccentricity 605 
+
+represents how round is an ellipse, with 0 being a circle. Orientation SD is the standard deviation 606 
+
+of the orientation of the worm over the frames of a video. Solidity and Solidity SD are the average 607 
+
+standard deviation of the solidity of the worm over the frames of a video. Solidity is the measure 608 
+
+of object compactness and is calculated by dividing the worm mask area with the area of its 609 
+
+convex hull. 610 
+
+Prediction of relative age from individual features 611 
+
+To assess the predictive value of individual phenotypic features, we fitted separate spline -based 612 
+
+regression models for each feature. For each model, the target variable was relative age , and the 613 
+
+predictor was a single log -scaled phenotypic feature measured at one timepoint. Nonlinear 614 
+
+relationships were modeled using a cubic spline basis ( Scikit -learn (v1.3) 72 SplineTransformer ,615 
+
+degree = 3, n_knots = 5, no bias term), followed by z-standardization and ridge regression with 616 
+
+internal selection of the regularization parameter over a logarithmically spaced grid of alpha 617 
+
+values ( Scikit -learn RidgeCV ; 20 values from 10 -3 to 10 3). Model performance was evaluated using 618 
+
+5-fold grouped cross -validation (Scikit -learn GroupKFold ), with experimen ts used as the 619 
+
+grouping variable to ensure that observations from the same experiment were not split across 620 
+
+training and test sets. For each feature, predictive performance was quantified in each test fold 621 
+
+using the coefficient of determination (R²), root mean squared error (RMSE) and mean absolute 622 
+
+error (MAE), and reported as the mean ± standard deviation across folds. 623 
+
+Pre -processing, imputation and scaling of longitudinal features for ML algorithms 624 
+
+Occasional gaps in the longitudinal feature tables arose from segmentation failures such as 625 
+
+worms momentarily leaving the focal plane, brief losses of microscope focus or misdetection by 626 
+
+the mask R -CNN. These missing values were reconstructed in two steps. First, for motility -627 
+
+related variables (head, mid -body and tail bending amplitudes, displacement speed, body -bend 628 
+
+frequency and curvature) were interpolated with Akima cubic splines (Scipy (v1.11) 73 
+
+629 
+
+implementation). All remaining variables were interpolated with first -order linear interpolation. 630 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+16 
+
+The complete feature matrix was subsequently transformed with a logarithmic function ( 𝑙𝑜𝑔 (𝑥 +631 
+
+1𝑒 −5)) as a variance -stabilizing transformation. To attenuate short -term noise while retaining 632 
+
+long -term drifts in features, we applied exponentially weighted mean smoothing (smoothing 633 
+
+coefficient  𝛼  = 1/3). Last, data were z-standardized. All parameters of the z-standardization 634 
+
+(StandardScaler of Scikit -learn ) were fitted exclusively on the training folds and then re -used to 635 
+
+transform test data. 636 
+
+Construction of ML inputs 637 
+
+For models that operate on one timepoint data (ElasticNet, XGBoost, Random Forest and the 638 
+
+feed -forward neural network) , each acquisition was transformed to a vector containing the 29 639 
+
+raw features and 3 interaction terms (dynamic power, number of eggs x worm area and volume x 640 
+
+darkening), yielding an input vector of dimension (1, 32). Recurrent models (RNN and long -short -641 
+
+term memory (LSTM) networks) received sequences of successive acquisitions; a temporal 642 
+
+context window of four time -points (24 h) was used, giving input tensors of shape (4, 32). When 643 
+
+sequence -based inputs were incompatible with the chosen model ( e.g. , ElasticNet, XGBoost), 644 
+
+such tensors were reshaped to a single vector of length (1, 128). 645 
+
+Datasets used for ML development 646 
+
+The single -worm dataset comprised 2’053 animals housed individually in micro -chambers, 647 
+
+providing 141’014 observations after quality control and exclusion of animals that died from 648 
+
+accidental causes (internal hatching or vulval rupture) or were still alive at experiment 649 
+
+termination. The multi -worm dataset was derived from 800 chambers that contained two or three 650 
+
+worms that died within an interval of 72h (1’713 animals in total). For these multi -worm 651 
+
+chambers, we generated “synthetic” single -worm records by bootstrapping within each 652 
+
+chamber and created 3 synthetic worm s per chamber, resulting in the addition of 2453 653 
+
+bootstrapped worms . We did this by sampling half or a third, for the cases of two and three 654 
+
+worms, respectively, of the chamber’s recordings with replacement, assigning a synthetic 655 
+
+identifier , and defining the time of death by drawing uniformly between the minimum and 656 
+
+maximum death times observed in that chamber. After the same interpolation and 657 
+
+transformation steps described above, the multi -worm dataset contributed a further 119’741 658 
+
+observations, for a total of 260’755 observations. 659 
+
+Data augmentation by mix -up 660 
+
+To enlarge the training distribution, we generated virtual samples with two complementary 661 
+
+strategies: λ -mixup and feature -mixup. We used both procedures exclusively on the training folds 662 
+
+during LOGOCV. 663 
+
+λ-mixup: Each synthetic observation is a convex combination of two randomly selected 664 
+
+recordings a and b. A mixing coefficient λ is drawn from a symmetric Beta distribution B(𝛼 , 𝛼 ) (0 665 
+
+≤ 𝛼  ≤ 2). The feature vector is formed as 666 
+
+𝑥 𝜆𝑚 = 𝜆 𝑥 𝑎 + (1 − 𝜆 )𝑥 𝑏 667 
+
+and the corresponding target (relative age) is blended identically, 668 
+
+𝑦 𝜆𝑚 = 𝜆 𝑦 𝑎 + (1 − 𝜆 )𝑦 𝑏 669 
+
+The hyper -parameter  𝛼  controls the expected distance of the synthetic point from its parents;  𝛼 670 
+
+→ 0 yields almost exact replicas of real worms, whereas  𝛼  ≈ 2 produces samples centered near 671 
+
+the barycenter of the originals. We treated  𝛼  as a tunable parameter and searched the range 0.0 -672 
+
+2.0 during hyper -parameter optimization with Optuna (v3.5) 74 , alongside the fraction p of 673 
+
+additional λ -mixup samples (0 -30 % of the training set). 674 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+17 
+
+Feature -mixup: This augmentation disrupts the correlation structure at the level of individual 675 
+
+variables rather than whole vectors. For every synthetic worm we first sample two donors, a and 676 
+
+b, as above. A Bernoulli mask m ∈ {0,1} d (with d = 32 features) selects, independently for each 677 
+
+feature, whether the value is taken from donor a (m = 0) or b (m = 1). The label is then assigned by 678 
+
+weighting the two ages according to the proportion of features originating from each worm, as 679 
+
+follows: 680 
+
+𝑦 𝑚𝑓 = 1
+
+𝑑 ∑[(1 − 𝑚 𝑗 ) 𝑦 𝑎 + 𝑚 𝑗 𝑦 𝑏 ]
+
+> 𝑑
+> 𝑗 =1
+
+681 
+
+Because feature -mixup does not require a continuous λ, the only free parameter is the proportion 682 
+
+p of augmented samples; this was optimized over the interval 0 -30 %. 683 
+
+Hyperparameters optimization and training of machine learning models 684 
+
+To quantify biological age we benchmarked five algorithmic families that span linear, tree -based 685 
+
+and neural architectures: (i) an elastic -net linear model implemented as a stochastic -gradient 686 
+
+descent regressor ( Scikit -learn SGDRegressor, penalty = elasticnet ), (ii) random forests (Scikit -687 
+
+learn RandomForestRegressor ), (iii) gradient -boosted decision trees with the XGBoost (v 1.7 )688 
+
+library 30 , (v) feed -forward neural networks ( FNN ), and (v) recurrent networks ( RNN and LSTM )689 
+
+implemented in PyTorch (v2.5) 75 . Because performance depends critically on the choice of meta -690 
+
+parameters that are not learned during training, we carried out a systematic optimization with 691 
+
+Optuna , which uses Bayesian optimization (Tree -Parzen estimator). We minimized the root mean 692 
+
+squared error (RMSE) of a model. 693 
+
+For each algorithm , we defined a problem -specific search space . These optimizable hyper -694 
+
+parameters consisted of model -specific hyperparameters , two data -augmentation parameters 695 
+
+(proportion of feature -mixup and λ -mixup samples; and the β -distribution shape parameter  𝛼 ;696 
+
+see “Synthetic augmentation by mix -up”) , and the sampling ratio applied to the training dataset .697 
+
+To keep the search computationally reasonable, we evaluated each Optuna trial with a five -fold 698 
+
+non -stratified cross -validation (CV) that distributed the experiments in folds of approximately 699 
+
+equal size – a compromise that reduces the computational burden by a factor of ~6.5 relative to 700 
+
+per -experiment leave -one -group -out CV (LOGOCV). 100 trials were executed per model. 701 
+
+After convergence, the best hyper -parameter configuration was refitted on the full training 702 
+
+fraction of each LOGOCV split (33 splits total) and assessed on the held -out experiment; this 703 
+
+two -stage procedure yielded an unbiased estimate of generalization while avoiding the 704 
+
+prohibitive cost of nested LOGOCV within the Optuna optimizer. The p redictive performance 705 
+
+reported in the "Results" section and Table S1 correspond to models trained with these 706 
+
+optimized hyperparameters and evaluated by LOGOCV. 707 
+
+Age -phase -specific feature importance 708 
+
+To assess whether different features drive predictions early versus late in life, we partitioned the 709 
+
+multi -worm dataset by chronological recording day into “early” (days 0 –8 of adulthood, inclusive) 710 
+
+and “late” (after day 8) subsets. Within each subset, we retrained an XGB model using the same 711 
+
+input features, preprocessing, and optimized hyperparameters with Optuna of each model as 712 
+
+describe above . We extracted gain -based importances for each phase and compared them on a 713 
+
+log 10  scale. 714 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+18 
+
+Prediction with machine learning models 715 
+
+For inferences on unseen experiments, a serialized copy of the best model ( trained architecture 716 
+
++ hyper -parameters) trained on the complete dataset was loaded and used to predict the relative 717 
+
+age of samples. When the experiment to be predicted was part of the original training set, we first 718 
+
+retrained an otherwise identical model after removing from the training set every observation 719 
+
+from that experiment before predicting, to prevent possibility of information leakage between 720 
+
+training and test ed data. 721 
+
+Chambers with up to 4 worms were used for inference ; for chambers containing more than one 722 
+
+worm , we generated n bootstrapped worms, equal to the number of worms in the chamber. If a 723 
+
+worm died in the interval of time used for the prediction, we removed the data of worms marked 724 
+
+as dead by our death detection algorithm, meaning that at any time , there is roughly the same 725 
+
+number of predicted worms as the number of alive worms. 726 
+
+Each model returns a continuous estimate  𝑟 ̂ (𝑡 )of the worm’s relative age at chronological time 727 
+
+t, where 0≤ 𝑟 ̂ (𝑡 )≤1 .05 . Algorithms with unbounded output ( e.g. , the ElasticNet regressor) 728 
+
+occasionally produced values slightly outside that interval; these estimates were clipped to the 729 
+
+nearest bound (0 or 1.05) .730 
+
+SHAP values 731 
+
+We quantified per -sample feature contribution using the Python Shapley additive explanations 732 
+
+(SHAP (v0.47) ) lib rary 76 on the RNN predictions. The RNN and the z -standard scaled training data 733 
+
+were passed to a GradientExplainer , and this GradientExplainer object was used to compute 734 
+
+SHAP values of the newly predicted samples. 735 
+
+For the UMAP, a vector containing the aggregated SHAP values from days 2, 4, 6, 8, 10, 12 was 736 
+
+created per worm. Worms that died in the interval were excluded from the analysis (because 737 
+
+incomplete data). The Com Bat (pp.combat ) algorithm from the S canpy (v1.10) 77 library was used 738 
+
+to correct batch effect. UMAP coordinates were computed with the function pp.neighbors ,739 
+
+followed by calling the tl.umap of Scanpy . The hierarchical clustering was performed by 740 
+
+computing the median SHAP values for each feature, day and condition. These values were 741 
+
+transformed to a Z -score across conditions and used as input for hierarchical clustering and 742 
+
+visualization with the clustermap function from the Seaborn (v0.13) 78 library. For the SHAP 743 
+
+heatmaps, SHAP values were first obtained at the level of the 128 input variables (4 timepoints x 744 
+
+32 features) that enter the network. For ease of interpretation, we subsequently summed the 745 
+
+SHAP values to the seven pre -defined functional groups (motility, posture , reproduction, growth, 746 
+
+pigmentation, intestine, and low -level features). Values were then binned into 12 -h intervals 747 
+
+(half -day resolution) according to the chronological time of the recording. Within every bin , we 748 
+
+subtracted the median SHAP vector of the appropriate cont rol. Statistical significance was 749 
+
+assessed with two -sided unpaired Mann -Whitney U tests were computed compared to control, 750 
+
+and non -significant cells were set to 0. 751 
+
+Survival Analysis 752 
+
+Kaplan -Meier survival analyses were performed using the lifelines (v 0.28 ) 79 library . Statistical 753 
+
+differences between survival distributions were assessed using two -sided log -rank (Mantel -Cox) 754 
+
+tests implemented in lifelines .755 
+
+Longitudinal analysis of phenotypic features 756 
+
+For descriptive trajectories, the 29 phenotypic features were averaged per worm per day and 757 
+
+plotted as a function of chronological or relative age. 758 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+19 
+
+Inter -feature correlations and correlations between features and relative age were computed 759 
+
+after log -transformation of feature values using Spearman’s rank correlation coefficient ( SciPy, 760 
+
+scipy.stats.spearmanr ). 761 
+
+For comparisons between groups across multiple time points (e.g., short - and long -lived ), two -762 
+
+sided Mann –Whitney U tests were performed at each time point (SciPy, 763 
+
+scipy.stats.mannwhitneyu ). P values were corrected for multiple testing using the Benjamini –764 
+
+Hochberg false discovery rate (FDR) procedure implemented in stats.multitest.multipletests 765 
+
+function of statsmodel (v0.14) .766 
+
+GAMM fitting for short - and long -lived cohorts 767 
+
+To distinguish chronologically synchronized features from lifespan -scaled ones we fitted 768 
+
+generalized additive mixed models (GAMMs) as a function of both chronological and relative age. 769 
+
+These models capture non -linear age -dependent changes while accounting for repeated 770 
+
+measurements within individuals. GAMMs were fitted separately for each of the 29 phenotypic 771 
+
+features using the bam function from the mgcv R package with restricted maximum likelihood 772 
+
+(REML) estimation. In both analyses, lifespan group was included as a categorical fixed effect 773 
+
+(short -lived worms as the reference level), and worm identity was included as a random effect to 774 
+
+account for repeated measurements within individuals. To assess differences in trajectory shape 775 
+
+over relative age , models were fitted as feature ~ s(relative_age, by = Lifespan) +776 
+
+Lifespan + s(ID, bs = 're' ), in the syntax of the mgcv package. To assess differences over 777 
+
+chronological age , the same formula was used with chronological time in days in place of relative 778 
+
+age. For each feature’s model, we extracted the coefficient and associated P value for the 779 
+
+lifespan -group term from the model summary. P values were corrected for multiple testing using 780 
+
+the Benjamini –Hochberg false discovery rate (FDR) procedure implemented in 781 
+
+stats.multitest.multipletests function of statsmodel .782 
+
+Features comparisons at specific time points 783 
+
+For analyses restricted to predefined time points (e.g., Fig. S3, Fig. S4), two -sided Mann -Whitney 784 
+
+U tests were performed between control and experimental conditions ( SciPy ). When multiple 785 
+
+features or time points were tested simultaneously, P values were adjusted using the Benjamini -786 
+
+Hochberg procedure .787 
+
+Phenotypic clock age analyses 788 
+
+Differences in predicted phenotypic age trajectories between conditions were assessed using 789 
+
+two -sided Mann -Whitney U tests at each time point. To control for multiple comparisons across 790 
+
+time points, P values were adjusted using the Benjamini -Yekutieli procedure when dependency 791 
+
+between tests was expected. 792 
+
+For comparisons of phenotypic age at specific time points two -sided Mann –Whitney U tests were 793 
+
+performed with Benjamini -Hochberg correction for multiple testing. Statistical annotations on 794 
+
+plots were generated using the statannotations library (relies on SciPy for statistical testing). 795 
+
+Figure s creation 796 
+
+Plots were generated using the matplotlib (v3.8) 80 and Seaborn libraries and exported as .svg 797 
+
+files. Figures were assembled using Affinity Publisher. 798 
+
+799 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+20 
+
+Authors’ contributions 800 
+
+A.P.V., M.P., F.S. and L.M. designed research; A.P.V., M.P. , L.V., M.M., C.N., M.Ch and M.B. 801 
+
+performed research; A.P.V., L.S, and F.S. contributed new reagents/analytic tools; A.P.V. and 802 
+
+M.P. analyzed data; A.P.V. , M.P. and F.S. interpreted data; A.P.V and F.S. wrote the manuscript; 803 
+
+A.P.V., M.P. L.V., M.M., M.C o., F.S., and L.M. revised and approved the final manuscript .804 
+
+Acknowledgements 805 
+
+The authors thank the ProfileXpert genomics platform (Lyon, France) for sequencing support and 806 
+
+technical assistance, Ophélie Muller for assisting with worm maintenance, Youssef Mehdi Attia, 807 
+
+Dr. Mirko Francesconi and Pr. Jean -Louis Bessereau for critical discussions. N2 strain was 808 
+
+provided by the CGC, which is funded by NIH Office of Research Infrastructure Programs (P40 809 
+
+OD010440). Florence Solari is funded by ANR, grant number ANR -21 -CE14 -0026 -01. 810 
+
+Competing Interest Statement 811 
+
+A.P.V’s research is supported by Nagi Bioscience S .A. M.P., L.V., M.B and L.S. are employees of 812 
+
+Nagi Bioscience S .A., which developed and provided the device used in this study. M.Co. and 813 
+
+L.M. co -founded Nagi Bioscience S .A. M.M, C.N. and M.Ch are employees of Nestlé Research, 814 
+
+which is part of the Société des Produits Nestlé S.A. 815 
+
+816 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+21 
+
+# Figures 817 
+
+818 
+
+Fig. 1 | High -temporal resolution analysis of C. elegans physiological changes during aging. 819 
+
+a, Schematic of the device’s microfluidic chip. A chip is composed of 16 independent channels 820 
+
+(the black rectangle highlights the first channel) each connected to an inlet and an outlet (red 821 
+
+dots). Each channel comprises 8 experimental chambers imaged every 6 hours . Scale bar, 1 cm. 822 
+
+b, Representative image of an N2 adult worm housed inside a microfluidic chamber taken by the 823 
+
+platform (6x Brightfield image). The chamber is delimited by filters made of PDMS pillars (black 824 
+
+arrowheads). Scale bar = 500 μM. c, schematic explanation of dataset construction, Displ.: 825 
+
+displacement. Rel.: relative. d, Heatmap of features -to -features Spearman correlation, including 826 
+
+data from all ages. e, Heatmap of the Spearman correlation of features with relative age and 827 
+
+predictivity (R 2) of relative age for each feature by fitting spline models. avg.: average, SD: 828 
+
+standard deviation. 829 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+22 
+
+830 
+
+Fig 2 | Different machine learning architectures enable accurate quantification of relative 831 
+
+age 832 
+
+a, Principal component analysis (PCA) of the 141’014 recordings from worms alone in their 833 
+
+micro -chamber. Axes show percentage of variance explained by principal components 1 (PC1) 834 
+
+and 2 (PC2). Scale bar gives the correspondence between color and relative age. b, Examples of 835 
+
+individual aging trajectories (colored) for four worms in PCA -space (grey cloud). c, Coefficient of 836 
+
+determination (R 2) values in predicting relative age obtained from the different models tested. 837 
+
+Models were evaluated with Leave -One -Group -Out Cross -Validation (LOGOCV ) with N exp = 33 838 
+
+(see Methods ), PC1+LR : PC1 + Linear Regression; Elnet: ElasticNet. XGB: XBoost. RF: Random 839 
+
+Forest; RNN: Recurrent Neural Network; LSTM: Long -Short -Term Memory. -24h suffix indicates 840 
+
+models that were trained with 4 successive datapoints as input, models without suffix use 1 841 
+
+datapoint as input . Box -plots show the median (central line), interquartile range IQR (boxes), and 842 
+
+1.5 x IQR (whiskers). Individual dots show the performance per experiment. This description of 843 
+
+boxplots applies to all following panels. d, Comparison of f eatures ’ importance (gain) in XGB 844 
+
+model s trained before day 8 (y -axis ) and after day 8 (x -axis). Each point represents one feature. 845 
+
+The grey dashed line indicates the line of perfect fit.  Features numbering (ordered as in fig 1 c):  1: 846 
+
+Head ampl.; 2: Midbody ampl.; 3: Tail ampl.; 4: Displacement speed; 5: Body bending freq.; 6: 847 
+
+Curvature; 7: Shape 1; 8: Shape 2; 9: Shape 3; 10: Shape 4; 11: Nb eggs per worm; 12: Total nb 848 
+
+eggs; 13: Worm area; 14: Worm length; 15: Worm perimeter; 16: Worm volume; 17: Tail width; 18: 849 
+
+Transparency ; 19: transparency norm.; 20: Intestine area; 21: Intestine width; 22: Intestine area 850 
+
+/ worm area; 23: Intestine area / tail area; 24: Intestine width / worm width; 25: Intestine width / 851 
+
+tail width; 26: Solidity; 27: Solidity SD; 28: Orientation SD; 29: Eccentricity. 852 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+23 
+
+853 
+
+Fig. 3 | D istinct phenotypic aging trajectories among isogenic wild -type individuals 854 
+
+a, Phenotypic age over time in days for the short -lived (blue) and long -lived (green) cohorts 855 
+
+(N=122 worms in each). b, Phenotypic age distribution within each cohort on different days. 856 
+
+Statistical comparisons were performed using two -sided Mann -Whitney U tests. c-g, boxplots of 857 
+
+features with statistically significant difference before day 7 between short - and long -lived 858 
+
+worms. For each feature, comparisons between cohorts were performed every two days using 859 
+
+two -sided Mann -Whitney U tests, followed by Benjamini -Hochberg correction for multiple 860 
+
+testing (feature -wise). c, total number of eggs laid up to day 2, d, worm length at day 2, e, intestine 861 
+
+area (non -normalized) at day 2, f, normalized intestine area at day 6, g, tail amplitude at day 6. h-862 
+
+k, measurements of selected phenotypic features as a function of relative age (fraction of 863 
+
+lifespan) in short -lived and long -lived N2 worms. Short -lived worms are shown as solid blue lines 864 
+
+and long -lived worms as green dotted lines. h, displacement speed , i, Number of eggs per worm ,865 
+
+j, Transparency ,k, worm area . l, Phenotypic age over relative age for the short -lived (blue) and 866 
+
+long -lived (green) cohorts. 867 
+
+Significance codes: ns, not significant; *, P < 0.05; **, P < 0.01; ***, P < 0.001; ****, P < 0.0001. 868 
+
+This applies to all following panels. 869 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+24 
+
+870 
+
+871 
+
+Fig. 4 | Dietary Restriction (DR) modalities converge on a shared phenotypic aging signature 872 
+
+a, Survival curves of N2 AL ( ad libitum ), N2 DR, eat -2(ad465) , slcf -1(tm2286) . Median survival in 873 
+
+days were 14.1, 18.4, 17.1, 16.6, for the AL, DR, eat -2, and slcf -1 conditions respectively. N=487, 874 
+
+143, 182, 109 . Statistical significance was assessed using two -sided log -rank (Mantel –Cox) tests 875 
+
+compared to AL . Controls of the different experiments were pooled (N exp = 6). b, Longitudinal 876 
+
+prediction of phenotypic age by the RNN model over 25 days of adulthood. Solid lines represent 877 
+
+the mean relative age per condition; shaded areas indicate 95% CI (bootstrap, nboot = 1’000). 878 
+
+Mann –Whitney U tests performed on N2 DR, eat -2 and slcf -1 against AL control at days 2, 6, 12 879 
+
+and 18. P values were corrected for multiple comparisons using the Benjamini -Yekutieli 880 
+
+procedure. c, PCA plot of phenotypic aging trajectories based on SHAP values of the first 12 days 881 
+
+of worms from the AL, DR, slcf -1 and eat -2 conditions. Centroids are also shown. d, Heatmap of 882 
+
+differences in SHAP values (∆SHAP) with controls (fed ad lib. ) for DR, eat -2, and slcf -1, derived 883 
+
+from the RNN -24h phenotypic aging clock. Non -significant differences (two -sided Mann -Whitney 884 
+
+U test) were set to 0. 885 
+
+886 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+25 
+
+887 
+
+Fig 5 | Dietary restriction effects on aging phenotypes vary with the timing of intervention 888 
+
+a, Schematic of dietary restriction (DR) protocols. Worms were maintained either on ad libitum 889 
+
+(AL) or DR conditions throughout life or switched from one diet to another on Day 6. b, Kaplan -890 
+
+Meier survival curves of N2 worms under the four dietary conditions. Statistical significance was 891 
+
+assessed using two -sided log -rank (Mantel –Cox) tests compared to AL . Median survival times 892 
+
+were: 12.7 days (AL), 18.9 days (DR), 15.0 days (AL -DR) and 14.8 days (DR -AL). N = 156, 53, 130, 893 
+
+and 139 worms per condition, respectively. c, Longitudinal prediction of phenotypic age by the 894 
+
+RNN model over 25 days of adulthood. Solid lines represent the mean relative age per condition; 895 
+
+shaded areas indicate 95% CI (bootstrap, nboot = 1’000). Mann –Whitney U tests comparing DR 896 
+
+conditions to the AL control at days 2, 6, 12 and 18 . P values were corrected for multiple 897 
+
+comparisons using the Benjamini -Yekutieli procedure. d, Phenotypic age for individual worms at 898 
+
+days 6, 10 and 14 of adulthood. Points represent individual animals. Two -sided Mann -Whitney U 899 
+
+tests with Benjamini -Hochberg correction for multiple comparisons. e, Heatmap of ∆SHAP for 900 
+
+DR, AL -DR and DR -AL conditions compared to control (AL), derived from the RNN -24h 901 
+
+phenotypic aging clock. Non -significant differences (two -sided Mann –Whitney U test) were set 902 
+
+to 0. 903 
+
+904 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+26 
+
+905 
+
+Fig. 6 | Longitudinal tracking of daf -18;slcf -1 double mutants suggest an age -dependent 906 
+
+effect of daf -18 on phenotypical aging . a, Kaplan –Meier survival curves for N2, slcf -1(tm2286) ,907 
+
+daf -18(e1375) , and daf -18(e1375) ;slcf -1(tm2286) double mutants . Median survival times (in 908 
+
+days): N2, 13.4d (N=125); slcf -1(tm2286), 16.3d (N=109); daf -18(e1375) , 8.6d (N=104), daf -909 
+
+18(e1375) ;slcf -1(tm2286) , 10.3d (N=82). Statistical significance was assessed using two -sided 910 
+
+log -rank (Mantel –Cox) tests compared to N2 . b, Predicted BiT ∆Age in days, using transcriptomic 911 
+
+data from Young Adults and 7 -day -old adult worms. c, Phenotypic age for individual worms at 912 
+
+days 3, 7 and 10. Two -sided Mann -Whitney U tests with Benjamini -Hochberg correction for 913 
+
+multiple comparisons. d, Predicted phenotypic age by the RNN model over time in days by the 914 
+
+RNN -24h. Lines show the condition mean and shaded area represent the 95% CI of the mean (by 915 
+
+bootstrap, with n boot =1000). e, Predicted phenotypic age by the RNN model over relative time by 916 
+
+the RNN -24h. Lines show the condition mean and shaded area represent the 95% CI of the mean 917 
+
+(by bootstrap, with n boot =1000). 918 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+27 
+
+919 
+
+Fig. 7 | Identification of geroprotectors through a phenotypic clock . a, Kaplan -Meier survival 920 
+
+curves of N2 worms treated with Metformin at 25 and 50 mM concentrations. Two -sided log -rank 921 
+
+(Mantel –Cox) tests. Median survival times were: 14.5 days (untreated), 16.4 days (Met 25 mM), 922 
+
+15.7 days (Met 50 mM). N = 139, 114, 119 worms per condition, respectively. b, Longitudinal 923 
+
+prediction of phenotypic (relative) age by the RNN model over 25 days of adulthood. Solid lines 924 
+
+represent the mean relative age per condition; shaded areas indicate 95% CI (bootstrap, nboot =925 
+
+1’000). T wo -sided Mann –Whitney U tests against control at days 2, 6, 12 and 18 . P values were 926 
+
+corrected for multiple comparisons using the Benjamini -Yekutieli procedure. c, Phenotypic age 927 
+
+of metformin -treated worms compared to control N2 (water) for individual worms at day 10. 928 
+
+Statistical significance was assessed using two -sided Mann -Whitney U tests with Benjamini -929 
+
+Hochberg correction for multiple comparisons. d, Heatmap of differences in SHAP traits values 930 
+
+with controls of Metformin at 25 and 50 mM concentrations derived from the RNN -24h 931 
+
+phenotypic aging clock. Non -significant differences (two -sided Mann -Whitney U test) were set to 932 
+
+0 in the heatmap. e, PCA plot using differences in SHAP traits values compared to respective 933 
+
+control conditions. 934 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+28 
+
+# References 935 
+
+1. Magalhães, J. P. de, Stevens, M. & Thornton, D. The Business of Anti -Aging Science. Trends 936 
+
+Biotechnol. 35 , 1062 –1073 (2017). 937 
+
+2. Kenyon, C. The first long -lived mutants: discovery of the insulin/IGF -1 pathway for ageing. 938 
+
+Philos. Trans. R. Soc. B Biol. Sci.  366 , 9 –16 (2011). 939 
+
+3.  Yang, Y.  et al.  Metformin decelerates aging clock in male monkeys. Cell 187 , 6358 -940 
+
+6378.e29 (2024). 941 
+
+4. Fontana, L., Partridge, L. & Longo, V. D. Extending healthy life span --from yeast to humans. 942 
+
+Science 328 , 321 –326 (2010). 943 
+
+5. Yanai, H., Budovsky, A., Barzilay, T., Tacutu, R. & Fraifeld, V. E. Wide -scale comparative 944 
+
+analysis of longevity genes and interventions. Aging Cell 16 , 1267 –1275 (2017). 945 
+
+6. Flachsbart, F. et al. Association of FOXO3A variation with human longevity confirmed in 946 
+
+German centenarians. Proc. Natl. Acad. Sci. 106 , 2700 –2705 (2009). 947 
+
+7. Bansal, A., Zhu, L. J., Yen, K. & Tissenbaum, H. A. Uncoupling lifespan and healthspan in 948 
+
+Caenorhabditis elegans longevity mutants.  Proc. Natl. Acad. Sci.  112 , E277 –E286 (2015). 949 
+
+8.  Banse, S. A.  et al.  The coupling between healthspan and lifespan in Caenorhabditis 950 
+
+depends on complex interactions between compound intervention and genetic 951 
+
+background. Aging 16 , 5829 –5855 (2024). 952 
+
+9. Garmany, A., Yamada, S. & Terzic, A. Longevity leap: mind the healthspan gap. Npj Regen. 953 
+
+Med. 6, 57 (2021). 954 
+
+10. Garmany, A. & Terzic, A. Healthspan -lifespan gap differs in magnitude and disease 955 
+
+contribution across world regions. Commun. Med. 5, 381 (2025). 956 
+
+11. Palmer, R. D. Aging clocks & mortality timers, methylation, glycomic, telomeric and more. A 957 
+
+window to measuring biological age. Aging Med. 5, 120 –125 (2022). 958 
+
+12. Silva, N. et al. Measuring healthy ageing: current and future tools. Biogerontology 24 , 845 –959 
+
+866 (2023). 960 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+29 
+
+13. Han, J. -D. J. The ticking of aging clocks. Trends Endocrinol. Metab. 35 , 11 –22 (2024). 961 
+
+14. Meng, D., Zhang, S., Huang, Y., Mao, K. & Han, J. -D. J. Application of AI in biological age 962 
+
+prediction. Curr. Opin. Struct. Biol. 85 , 102777 (2024). 963 
+
+15. Meyer, D. H., Maklakov, A. A. & Schumacher, B. Aging by the clock and yet without a 964 
+
+program. Nat. Aging 1–11 (2025) doi:10.1038/s43587 -025 -00975 -2. 965 
+
+16. Li, G. et al. Predicting healthspan and disease risks through biological age. Trends Mol. 966 
+
+Med. 0, (2025). 967 
+
+17. Apsley, A. T., Etzel, L., Ye, Q. & Shalev, I. From population science to the clinic? Limits of 968 
+
+epigenetic clocks as personal biomarkers. Epigenomics 17 , 1447 –1461 (2025). 969 
+
+18. Cruz -González, S. et al. Methylation Clocks Do Not Predict Age or Alzheimer’s Disease Risk 970 
+
+Across Genetically Admixed Individuals. eLife 14 , (2025). 971 
+
+19. Meyer, D. H. & Schumacher, B. BiT age: A transcriptome -based aging clock near the 972 
+
+theoretical limit of accuracy. Aging Cell 20 , e13320 (2021). 973 
+
+20. Bulteau, R. & Francesconi, M. Real age prediction from the transcriptome with RAPToR. 974 
+
+Nat. Methods 19 , 969 –975 (2022). 975 
+
+21. Gao, S. M. et al. Aging atlas reveals cell -type -specific effects of pro -longevity strategies. 976 
+
+Nat. Aging 4, 998 –1013 (2024). 977 
+
+22. Martineau, C. N., Brown, A. E. X. & Laurent, P. Multidimensional phenotyping predicts 978 
+
+lifespan and quantifies health in Caenorhabditis elegans. PLOS Comput. Biol. 16 , e1008002 979 
+
+(2020). 980 
+
+23. Dhondt, I. et al. Prediction of biological age by morphological staging of sarcopenia in 981 
+
+Caenorhabditis elegans. Dis. Model. Mech. 14 , dmm049169 (2021). 982 
+
+24. Morrow, C. S. et al. Endogenous mitochondrial NAD(P)H fluorescence can predict lifespan. 983 
+
+Commun. Biol. 7, 1 –10 (2024). 984 
+
+25. Kern, C. C. et al. Machine learning predicts lifespan and suggests underlying causes of 985 
+
+death in aging C. elegans. Commun. Biol. 8, 1630 (2025). 986 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+30 
+
+26. Yan, C. et al. Fluorescence lifetime clocks quantify senescence and aging. Nat. Aging 5,987 
+
+2532 –2545 (2025). 988 
+
+27. Pincus, Z., Smith -Vikos, T. & Slack, F. J. MicroRNA Predictors of Longevity in Caenorhabditis 989 
+
+elegans. PLOS Genet. 7, e1002306 (2011). 990 
+
+28. Palikaras, K. et al. Ectopic fat deposition contributes to age -associated pathology in 991 
+
+Caenorhabditis elegans . J. Lipid Res. 58 , 72 –80 (2017). 992 
+
+29. Lu, A. T. et al. DNA methylation GrimAge strongly predicts lifespan and healthspan. Aging 993 
+
+11 , 303 –327 (2019). 994 
+
+30. Chen, T. & Guestrin, C. XGBoost: A Scalable Tree Boosting System. in Proceedings of the 995 
+
+22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 785 –996 
+
+794 (2016). doi:10.1145/2939672.2939785. 997 
+
+31. Mienye, I. D., Swart, T. G. & Obaido, G. Recurrent Neural Networks: A Comprehensive 998 
+
+Review of Architectures, Variants, and Applications. Information 15 , 517 (2024). 999 
+
+32. Scharf, A., Pohl, F., Egan, B. M., Kocsisova, Z. & Kornfeld, K. Reproductive Aging in 1000 
+
+Caenorhabditis elegans: From Molecules to Ecology. Front. Cell Dev. Biol. 9, (2021). 1001 
+
+33. Herndon, L. A. et al. Stochastic and genetic factors influence tissue -specific decline in 1002 
+
+ageing C. elegans. Nature 419 , 808 –814 (2002). 1003 
+
+34. Churgin, M. A. et al. Longitudinal imaging of Caenorhabditis elegans in a microfabricated 1004 
+
+device reveals variation in behavioral decline during aging. eLife 6, e26652 (2017). 1005 
+
+35.  Zhang, W. B.  et al.  Extended Twilight among Isogenic C. elegans Causes a Disproportionate 1006 
+
+Scaling between Lifespan and Health. Cell Syst. 3, 333 -345.e4 (2016). 1007 
+
+36. Stroustrup, N. et al. The temporal scaling of Caenorhabditis elegans ageing. Nature 530 ,1008 
+
+103 –107 (2016). 1009 
+
+37. Roth, L. W. & Polotsky, A. J. Can we live longer by eating less? A review of caloric restriction 1010 
+
+and longevity. Maturitas 71 , 315 –319 (2012). 1011 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+31 
+
+38. Cabreiro, F. & Gems, D. Worms need microbes too: microbiota, health and aging in 1012 
+
+Caenorhabditis elegans. EMBO Mol. Med. 5, 1300 –1310 (2013). 1013 
+
+39. Klass, M. R. Aging in the nematode Caenorhabditis elegans: Major biological and 1014 
+
+environmental factors influencing life span. Mech. Ageing Dev. 6, 413 –429 (1977). 1015 
+
+40. Avery, L. The genetics of feeding in Caenorhabditis elegans. Genetics 133 , 897 –917 (1993). 1016 
+
+41. Mouchiroud, L. et al. Pyruvate imbalance mediates metabolic reprogramming and mimics 1017 
+
+lifespan extension by dietary restriction in Caenorhabditis elegans. Aging Cell 10 , 39 –54 1018 
+
+(2011). 1019 
+
+42. Pontoizeau, C. et al. Metabolomics analysis uncovers that dietary restriction buffers 1020 
+
+metabolic changes associated with aging in Caenorhabditis elegans. J. Proteome Res. 13 ,1021 
+
+2910 –2919 (2014). 1022 
+
+43. Madeo, F., Carmona -Gutierrez, D., Hofer, S. J. & Kroemer, G. Caloric Restriction Mimetics 1023 
+
+against Age -Associated Disease: Targets, Mechanisms, and Therapeutic Potential. Cell 1024 
+
+Metab. 29 , 592 –610 (2019). 1025 
+
+44. Pryor, R. et al. Host -Microbe -Drug -Nutrient Screen Identifies Bacterial Effectors of 1026 
+
+Metformin Therapy. Cell 178 , 1299 -1312.e29 (2019). 1027 
+
+45. Martin -Montalvo, A. et al. Metformin improves healthspan and lifespan in mice. Nat. 1028 
+
+Commun. 4, 2192 (2013). 1029 
+
+46. Fang, E. F. et al. NAD+ in Aging: Molecular Mechanisms and Translational Implications. 1030 
+
+Trends Mol. Med. 23 , 899 –916 (2017). 1031 
+
+47. Membrez, M. et al. Trigonelline is an NAD+ precursor that improves muscle function during 1032 
+
+ageing and is reduced in human sarcopenia. Nat. Metab. 1–15 (2024) doi:10.1038/s42255 -1033 
+
+024 -00997 -x. 1034 
+
+48. San -Miguel, A. & Lu, H. Microfluidics as a tool for C. elegans research. WormBook Online 1035 
+
+Rev. C Elegans Biol. 1–19 (2013) doi:10.1895/wormbook.1.162.1. 1036 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+32 
+
+49. Cornaglia, M., Lehnert, T. & Gijs, M. A. M. Microfluidic systems for high -throughput and 1037 
+
+high -content screening using the nematode Caenorhabditis elegans. Lab. Chip 17 , 3736 –1038 
+
+3759 (2017). 1039 
+
+50. Bulterijs, S. & Braeckman, B. P. Phenotypic Screening in C. elegans as a Tool for the 1040 
+
+Discovery of New Geroprotective Drugs. Pharmaceuticals 13 , 164 (2020). 1041 
+
+51. Jeon, J., Jang, H., Ryu, H., Jeon, T. -J. & Kim, S. M. Recent Advances in Microfluidic Platforms 1042 
+
+for C. Elegans Phenotyping: Comprehensive Review of Imaging Technologies and AI -Driven 1043 
+
+Analysis. BioChip J. https://doi.org/10.1007/s13206 -025 -00246 -7 (2025) 1044 
+
+doi:10.1007/s13206 -025 -00246 -7. 1045 
+
+52. Huang, C., Xiong, C. & Kornfeld, K. Measurements of age -related changes of physiological 1046 
+
+processes that predict lifespan of Caenorhabditis elegans. Proc. Natl. Acad. Sci. 101 ,1047 
+
+8084 –8089 (2004). 1048 
+
+53. Collins, J. J., Huang, C., Hughes, S. & Kornfeld, K. The measurement and analysis of age -1049 
+
+related changes in Caenorhabditis elegans. WormBook Online Rev. C Elegans Biol. 1–21 1050 
+
+(2008) doi:10.1895/wormbook.1.137.1. 1051 
+
+54. Stephens, G. J., Johnson -Kerner, B., Bialek, W. & Ryu, W. S. Dimensionality and Dynamics in 1052 
+
+the Behavior of C. elegans. PLOS Comput. Biol. 4, e1000028 (2008). 1053 
+
+55. Hughes, S. E., Evason, K., Xiong, C. & Kornfeld, K. Genetic and Pharmacological Factors 1054 
+
+That Influence Reproductive Aging in Nematodes. PLOS Genet. 3, e25 (2007). 1055 
+
+56. Garigan, D. et al. Genetic Analysis of Tissue Aging in Caenorhabditis elegans: A Role for 1056 
+
+Heat -Shock Factor and Bacterial Proliferation. Genetics 161 , 1101 –1112 (2002). 1057 
+
+57. McGee, M. D. et al. Loss of intestinal nuclei and intestinal integrity in aging C. elegans. 1058 
+
+Aging Cell 10 , 699 –710 (2011). 1059 
+
+58. Ezcurra, M. et al. C. elegans Eats Its Own Intestine to Make Yolk Leading to Multiple 1060 
+
+Senescent Pathologies. Curr. Biol. 28 , 2544 -2556.e5 (2018). 1061 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+33 
+
+59. Zhai, C. et al. Fusion and expansion of vitellogenin vesicles during Caenorhabditis elegans 1062 
+
+intestinal senescence. Aging Cell 21 , e13719 (2022). 1063 
+
+60. Kocsisova, Z. et al. How to measure, analyze, and interpret age -related changes in 1064 
+
+Caenorhabditis elegans: Lessons for mechanistic and evolutionary theories of aging. Mech. 1065 
+
+Ageing Dev. 229 , 112146 (2026). 1066 
+
+61. Tarkhov, A. E. et al. A universal transcriptomic signature of age reveals the temporal scaling 1067 
+
+of Caenorhabditis elegans aging trajectories. Sci. Rep. 9, 7368 (2019). 1068 
+
+62. Statzer, C., Reichert, P., Dual, J. & Ewald, C. Y. Longevity interventions temporally scale 1069 
+
+healthspan in Caenorhabditis elegans. iScience 25 , 103983 (2022). 1070 
+
+63. Wang, X. et al. Ageing induces tissue ‐specific transcriptomic changes in Caenorhabditis 1071 
+
+elegans. EMBO J. 41 , EMBJ2021109633 (2022). 1072 
+
+64. Yang, Y. et al. Compression of morbidity by interventions that steepen the survival curve. 1073 
+
+Nat. Commun. 16 , 3340 (2025). 1074 
+
+65. Coburn, C. et al. Anthranilate Fluorescence Marks a Calcium -Propagated Necrotic Wave 1075 
+
+That Promotes Organismal Death in C. elegans. PLOS Biol. 11 , e1001613 (2013). 1076 
+
+66. Galimov, E. R. et al. Coupling of Rigor Mortis and Intestinal Necrosis during C. elegans 1077 
+
+Organismal Death. Cell Rep. 22 , 2730 –2741 (2018). 1078 
+
+67. Venz, R., Pekec, T., Katic, I., Ciosk, R. & Ewald, C. Y. End -of -life targeted degradation of 1079 
+
+DAF -2 insulin/IGF -1 receptor promotes longevity free from growth -related pathologies. 1080 
+
+eLife 10 , e71335 (2021). 1081 
+
+68. Sultanova, Z. et al. Optimising Age ‐Specific Insulin Signalling to Slow Down Reproductive 1082 
+
+Ageing Increases Fitness in Different Nutritional Environments. Aging Cell 24 , e14481 1083 
+
+(2025). 1084 
+
+69. Riddle, D. L., Swanson, M. M. & Albert, P. S. Interacting genes in nematode dauer larva 1085 
+
+formation. Nature 290 , 668 –671 (1981). 1086 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+34 
+
+70. Krajacic, P., Shen, X., Purohit, P. K., Arratia, P. & Lamitina, T. Biomechanical Profiling of 1087 
+
+Caenorhabditis elegans Motility. Genetics 191 , 1015 –1021 (2012). 1088 
+
+71. Walt, S. van der et al. scikit -image: Image processing in Python. PeerJ 2, e453 (2014). 1089 
+
+72. Pedregosa, F. et al. Scikit -learn: Machine Learning in Python. Mach. Learn. PYTHON .1090 
+
+73. Virtanen, P. et al. SciPy 1.0: fundamental algorithms for scientific computing in Python. Nat. 1091 
+
+Methods 17 , 261 –272 (2020). 1092 
+
+74. Akiba, T., Sano, S., Yanase, T., Ohta, T. & Koyama, M. Optuna: A Next -generation 1093 
+
+Hyperparameter Optimization Framework. in Proceedings of the 25th ACM SIGKDD 1094 
+
+International Conference on Knowledge Discovery & Data Mining 2623 –2631 (Association 1095 
+
+for Computing Machinery, New York, NY, USA, 2019). doi:10.1145/3292500.3330701. 1096 
+
+75. Paszke, A. et al. PyTorch: An Imperative Style, High -Performance Deep Learning Library. 1097 
+
+Preprint at https://doi.org/10.48550/arXiv.1912.01703 (2019). 1098 
+
+76. Lundberg, S. & Lee, S. -I. A Unified Approach to Interpreting Model Predictions. Preprint at 1099 
+
+https://doi.org/10.48550/arXiv.1705.07874 (2017). 1100 
+
+77. Wolf, F. A., Angerer, P. & Theis, F. J. SCANPY: large -scale single -cell gene expression data 1101 
+
+analysis. Genome Biol. 19 , 15 (2018). 1102 
+
+78. Waskom, M. L. seaborn: statistical data visualization. J. Open Source Softw. 6, 3021 (2021). 1103 
+
+79. Davidson -Pilon, C. lifelines: survival analysis in Python. J. Open Source Softw. 4, 1317 1104 
+
+(2019). 1105 
+
+80. Hunter, J. D. Matplotlib: A 2D Graphics Environment. Comput. Sci. Eng. 9, 90 –95 (2007). 1106 
+
+1107 
+
+1108 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+35 
+
+# Supplementary Data 1109 
+
+1110 
+
+Fig. S1 | Sydlab TM Device Overview; Growth and reproduction of C. elegans N2 1111 
+
+a, 3D rendering of a SydLab TM device. Scale bar, 20cm. 1112 
+
+b, Experimental workflow. YA: young adult. 1113 
+
+c, Brightfield videos acquired every 6 h (2 -seconds movie at 5 frames per second) for each 1114 
+
+microchamber. Example frames were acquired at different time points (Day 1 -13, as indicated )1115 
+
+from one chamber containing N2 worms .1116 
+
+d, Computer vision algorithms were applied to single frames to detect different classes of 1117 
+
+objects (worms, eggs,) , with detection masks shown for each class. Note the absence of larvae, 1118 
+
+developed from viable eggs (green masks ), which were eliminated at the L1 stage thanks to the 1119 
+
+liquid flow. 1120 
+
+e, Five -frame p rojections (one color per frame) illustrate N2 worm motility within the chambers ;1121 
+
+five successive frames are shown from a ten -frame recording. 1122 
+
+1123 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+36 
+
+1124 
+
+Fig. S2 | Death detection algorithm. Bright field images at indicated time points showing the 1125 
+
+same 3 worms, initially alive (blue) and then dead (red), as highlighted with colors on the bottom 1126 
+
+pictures. The corresponding Kaplan -Meier curves for this chamber is shown. 1127 
+
+1128 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+37 
+
+1129 
+
+Fig. S3 | Changes in features with chronological age in control worms. a -c, Measurements of 1130 
+
+selected phenotypic features as a function of time (days) in N2 worms (N=366). Lines represent 1131 
+
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint 38 
+
+the mean, shaded areas indicate the 95% confidence interval (CI) of the mean. a, motility -related 1132 
+
+features, b, posture , c, reproduction, d, growth, e, transparency, f, intestine size, g, intestinal 1133 
+
+features normalized on worm size, h, low -level features (LLFs ). 1134 
+
+1135 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+39 
+
+1136 
+
+Fig. S4 | Additional data for PCA, model performances and feature weights. 1137 
+
+a, Explained variance of the first 29 principal components of the PCA of Fig 2a, b. Bars represent 1138 
+
+the explained variance of one component, the line shows the cumulative explained variance by 1139 
+
+the successive components. b, Heatmap of the loadings per features for the first five principal 1140 
+
+components of the PCA shown in Fig. 2 a . Color scale indicates loading coefficients. PC2 1141 
+
+primarily reflects variation in intestinal traits. c, Relative age as a function of PC1. Individual 1142 
+
+recordings are shown as dots, the result of a least -square linear regression is shown in orange. 1143 
+
+5000 points were sampled for graphical clarity. d, Root Mean Square Error (RMSE) values 1144 
+
+obtained from the different models tested. Models were evaluated with LOGOCV (see Methods). 1145 
+
+e, Correlation plot of the RNN -24h model trained on 95% of the dataset (4275 individuals, blue) 1146 
+
+and tested on the remaining 5% (orange). Each point represents the ground truth (GT) relative age 1147 
+
+versus the model's predicted relative age. A least -squares regression (plain line) was fitted to 1148 
+
+each dataset. For visual clarity, 400 predictions from each set were randomly sampled. 1149 
+
+1150 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+40 
+
+1151 
+
+Fig. S5 | Comparison of features across N2 short and long -lived subpopulations over 1152 
+
+chronological age a, Heatmap summarizing differences in phenotypic features values between 1153 
+
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint 41 
+
+long -lived and short -lived worms across adulthood. For each feature, comparisons between 1154 
+
+cohorts were performed every two days using two -sided Mann -Whitney U tests, followed by 1155 
+
+Benjamini -Hochberg correction for multiple testing (feature -wise). At time points showing a 1156 
+
+statistically significant difference (adjusted p < 0.05), cells are colored according to the direction 1157 
+
+of the effect: blue indicates higher feature values in long -lived worms, and brown indicates lower 1158 
+
+values in long -lived worms. Cells are left blank when no significant difference was detected. 1159 
+
+b, boxplots of features with statistically significant difference later in life between short - and 1160 
+
+long -lived worms. 1161 
+
+c, boxplots at day 8 of features without statistically significant difference detected in the first 12 1162 
+
+days between short - and long -lived worms. 1163 
+
+1164 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+42 
+
+1165 
+
+Fig. S6 | Comparison of features across N2 short and long -lived subpopulations over 1166 
+
+chronological and relative age using GAMM 1167 
+
+Heatmap summarizing differences in phenotypic features between long -lived and short -lived. 1168 
+
+For each feature, comparisons between cohorts were performed using GAMM (see Methods). 1169 
+
+Blue indicates significantly higher GAMM coefficient in long -lived worms, and brown indicates 1170 
+
+significantly lower values. 1171 
+
+1172 
+
+1173 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+43 
+
+1174 
+
+Fig. S7 | Comparison of features across N2 short and long -lived subpopulations – motility 1175 
+
+Age -dependent trajectories of motility features in short - and long -lived worms across adulthood, 1176 
+
+plotted against chronological age and relative age. Lines indicate the mean and shaded areas the 1177 
+
+95% confidence interval of the mean. The same display convention is used in the following plots. 1178 
+
+1179 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+44 
+
+1180 
+
+Fig. S8 | Comparison of features across N2 short and long -lived subpopulations –1181 
+
+reproduction and transparency. a, reproduction, b, transparency 1182 
+
+1183 
+
+1184 
+
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint 45 
+
+1185 
+
+Fig. S9 | Comparison of features across N2 short and long -lived subpopulations – Growth 1186 
+
+1187 
+
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint 46 
+
+1188 
+
+Fig. S10 | Comparison of features across N2 short and long -lived subpopulations – Intestine 1189 
+
+1190 
+
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint 47 
+
+1191 
+
+Fig. S11 | Comparison of features across N2 short and long -lived subpopulations – Posture 1192 
+
+1193 
+
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint 48 
+
+1194 
+
+Fig. S12 | Comparison of features across N2 short and long -lived subpopulations – LLFs 1195 
+
+1196 
+
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint 49 
+
+1197 
+
+Fig. S13 | Features dynamics for DR worms 1198 
+
+a, Displacement speed, b, Shape 1 (rod -like), c, number of eggs, d, worm area, e, transparency, 1199 
+
+f, intestine width, g, intestine width / worm width Mann –Whitney U tests comparing DR 1200 
+
+conditions to the AL control at days 2, 6, 12 and 18 (except for eggs where comparisons are done 1201 
+
+at days 2, 6, and 10). P values were corrected for multiple comparisons using the Benjamini -1202 
+
+Yekutieli procedure. 1203 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+50 
+
+1204 
+
+Fig. S 14 | H ierarchical clustering for DR conditions 1205 
+
+Heatmap of SHAP using features from days 2, 4, 6, 8, 10 , 12 . The heatmap shows the median Z -1206 
+
+score of features SHAP values for each condition. The dendrogram from hierarchical clustering 1207 
+
+performed on conditions is shown. Above the heatmap, the trait to which a feature belongs is 1208 
+
+shown, as well as the time when the feature was recorded. 1209 
+
+1210 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+51 
+
+1211 
+
+Fig. S1 5 | SHAP values for NAD +-Boosters 1212 
+
+Heatmap of differences in SHAP traits values with controls of NAM at 10, 25, and 250 μM, and NR 1213 
+
+at 0.5, 1, and 2 mM. Non -significant differences (two -sided Mann -Whitney U test ) were set to 0 in 1214 
+
+the heatmap. 1215 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+Tables S1 Metrics of model performance 
+
+Legend: all = performance on set on worms from all microchamber types 
+
+single = perf. on set with worms alone in their microchambers 
+
+multi = perf. on set with 2 to 3 worms in their microchambers 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+s-ElNet  0.799523  0.003235  0.794824  0.797869  0.799711  0.800609  0.813689 
+
+m-ElNet  0.811227  0.002249  0.807268  0.810321  0.811138  0.812105  0.82033 
+
+s-XGB  0.892636  0.001238  0.890224  0.892112  0.89256  0.893181  0.896814 
+
+m-XGB  0.891353  0.000956  0.889565  0.890943  0.891306  0.891684  0.893624 
+
+RF  0.918207  0.000882  0.916604  0.917744  0.918101  0.918636  0.920459 
+
+FNN  0.858063  0.009244  0.836589  0.852945  0.860213  0.864153  0.875866 
+
+Elnet-24h  0.804005  0.002485  0.79843  0.80305  0.803694  0.805067  0.81363 
+
+XGB-24h  0.903614  0.000868  0.901925  0.903153  0.903563  0.903984  0.905704 
+
+RNN-24h  0.858672  0.019591  0.817266  0.848443  0.859436  0.871065  0.892527 
+
+LSTM-24h  0.879787  0.027643  0.828  0.857019  0.881072  0.905437  0.927969 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  0.509324  0.136607  -0.00752  0.467433  0.534803  0.600957  0.707414 
+
+s-ElNet  0.763528  0.125525  0.146534  0.74978  0.79075  0.812487  0.900423 
+
+m-ElNet  0.789592  0.073806  0.481758  0.750483  0.803272  0.830308  0.883054 
+
+s-XGB  0.803239  0.084023  0.448943  0.787718  0.813889  0.843791  0.925125 
+
+m-XGB  0.815082  0.068147  0.609862  0.786106  0.836154  0.856463  0.914122 
+
+RF  0.808536  0.068556  0.613582  0.782883  0.822833  0.848701  0.915305 
+
+FNN  0.830331  0.057381  0.643668  0.814793  0.848645  0.864827  0.914852 
+
+Elnet-24h  0.778488  0.082824  0.424457  0.754161  0.797779  0.822113  0.88009 
+
+XGB-24h  0.806698  0.073126  0.536504  0.763218  0.828971  0.848574  0.911514 
+
+RNN-24h  0.81991  0.069848  0.53015  0.787202  0.838215  0.858135  0.913795 
+
+LSTM-24h  0.819322  0.067317  0.55659  0.791259  0.838341  0.85859  0.911897 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  0.509324  0.136607  -0.00752  0.467433  0.534803  0.600957  0.707414 
+
+s-ElNet  0.763528  0.125525  0.146534  0.74978  0.79075  0.812487  0.900423 
+
+m-ElNet  0.768096  0.121018  0.163945  0.763037  0.790405  0.817355  0.894735 
+
+s-XGB  0.803239  0.084023  0.448943  0.787718  0.813889  0.843791  0.925125 
+
+m-XGB  0.805432  0.077657  0.48218  0.797289  0.818741  0.846056  0.923757 
+
+RF  0.79738  0.083933  0.429412  0.786983  0.810426  0.83694  0.923502 
+
+FNN  0.81324  0.076602  0.487391  0.806603  0.833636  0.851168  0.920294 
+
+Elnet-24h  0.753765  0.135729  0.069157  0.751509  0.777357  0.810751  0.890894 
+
+XGB-24h  0.789317  0.103686  0.307615  0.768017  0.811601  0.833694  0.918482 
+
+RNN-24h  0.796961  0.099838  0.308262  0.790788  0.815806  0.834176  0.918092 
+
+LSTM-24h  0.797842  0.094047  0.359815  0.781198  0.820767  0.834723  0.913688 
+
+R^2 training all 
+
+R^2 test all 
+
+R^2 test single 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+s-ElNet  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+m-ElNet  0.810348  0.060536  0.659674  0.786971  0.823458  0.852221  0.922071 
+
+s-XGB  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+m-XGB  0.822974  0.089129  0.455768  0.784745  0.84954  0.872795  0.930277 
+
+RF  0.818937  0.082244  0.516469  0.785287  0.840497  0.871375  0.940645 
+
+FNN  0.846871  0.056933  0.70888  0.816139  0.862987  0.886429  0.935005 
+
+Elnet-24h  0.802528  0.06982  0.642533  0.781024  0.81553  0.84245  0.93571 
+
+XGB-24h  0.823373  0.067709  0.693904  0.771846  0.84466  0.865687  0.927163 
+
+RNN-24h  0.840388  0.063526  0.671866  0.793659  0.856228  0.886374  0.931508 
+
+LSTM-24h  0.839162  0.061308  0.701232  0.792523  0.856178  0.88856  0.935037 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  0.20055  0.023345  0.162794  0.185333  0.196977  0.209553  0.288866 
+
+s-ElNet  0.135587  0.02912  0.094119  0.124159  0.134707  0.142663  0.26722 
+
+m-ElNet  0.129412  0.021001  0.099205  0.119245  0.126832  0.133466  0.211334 
+
+s-XGB  0.124155  0.023406  0.081614  0.113535  0.124758  0.13225  0.214721 
+
+m-XGB  0.120897  0.021141  0.085979  0.110626  0.116615  0.130393  0.186868 
+
+RF  0.123147  0.021486  0.087906  0.11361  0.119746  0.131046  0.18454 
+
+FNN  0.116054  0.018117  0.088123  0.107064  0.112206  0.122089  0.175239 
+
+Elnet-24h  0.126951  0.022112  0.097513  0.117004  0.12176  0.131793  0.215578 
+
+XGB-24h  0.118241  0.0208  0.08302  0.106922  0.113522  0.128935  0.193459 
+
+RNN-24h  0.114233  0.020331  0.085034  0.104298  0.110568  0.124987  0.19478 
+
+LSTM-24h  0.114448  0.019667  0.084542  0.104051  0.112378  0.123785  0.189221 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  0.20055  0.023345  0.162794  0.185333  0.196977  0.209553  0.288866 
+
+s-ElNet  0.135587  0.02912  0.094119  0.124159  0.134707  0.142663  0.26722 
+
+m-ElNet  0.134528  0.028634  0.096914  0.123246  0.132606  0.14188  0.264212 
+
+s-XGB  0.124155  0.023406  0.081614  0.113535  0.124758  0.13225  0.214721 
+
+m-XGB  0.123682  0.022165  0.08248  0.11371  0.123011  0.129584  0.207934 
+
+RF  0.126234  0.023722  0.082617  0.118347  0.127689  0.133717  0.218271 
+
+FNN  0.121158  0.02189  0.084332  0.112997  0.119144  0.125079  0.206885 
+
+Elnet-24h  0.132486  0.029901  0.095028  0.12172  0.130389  0.139098  0.272108 
+
+XGB-24h  0.122556  0.02567  0.08214  0.109746  0.121466  0.128043  0.23468 
+
+RNN-24h  0.120543  0.024884  0.082337  0.113961  0.118388  0.12437  0.234571 
+
+LSTM-24h  0.120321  0.023743  0.084521  0.112195  0.118431  0.124273  0.22566 
+
+RMSE test multi 
+
+RMSE all 
+
+RMSE test single 
+
+R^2 test multi 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+s-ElNet  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+m-ElNet  0.122325  0.018866  0.078846  0.110492  0.12061  0.131582  0.160399 
+
+s-XGB  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+m-XGB  0.116737  0.026589  0.074579  0.102253  0.112778  0.129225  0.21928 
+
+RF  0.118353  0.025791  0.068811  0.100573  0.114862  0.130809  0.20669 
+
+FNN  0.109376  0.019065  0.072006  0.094783  0.107569  0.121539  0.151522 
+
+Elnet-24h  0.119125  0.020728  0.069514  0.10616  0.116334  0.125033  0.162979 
+
+XGB-24h  0.112244  0.020855  0.073991  0.100903  0.108852  0.126273  0.157177 
+
+RNN-24h  0.10668  0.020154  0.07175  0.092351  0.102371  0.116574  0.158382 
+
+LSTM-24h  0.107184  0.020169  0.069877  0.093291  0.104046  0.12194  0.151129 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  0.160351  0.017963  0.130375  0.150737  0.158356  0.166896  0.230344 
+
+s-ElNet  0.083798  0.020566  0.058945  0.071941  0.081413  0.087281  0.174493 
+
+m-ElNet  0.079129  0.013893  0.058249  0.06845  0.078601  0.090009  0.121336 
+
+s-XGB  0.071341  0.016456  0.047294  0.060707  0.070058  0.078541  0.133427 
+
+m-XGB  0.06794  0.011895  0.050662  0.058332  0.065847  0.077198  0.094656 
+
+RF  0.06991  0.014127  0.050412  0.056786  0.071437  0.07982  0.106683 
+
+FNN  0.068088  0.011956  0.05346  0.060038  0.065378  0.076871  0.108699 
+
+Elnet-24h  0.080165  0.013397  0.062926  0.070521  0.077256  0.088815  0.120297 
+
+XGB-24h  0.067786  0.013343  0.048872  0.056916  0.064064  0.079438  0.108924 
+
+RNN-24h  0.068895  0.014852  0.051464  0.058771  0.063405  0.077056  0.125904 
+
+LSTM-24h  0.068114  0.013821  0.051229  0.058043  0.065503  0.078813  0.116285 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  0.160351  0.017963  0.130375  0.150737  0.158356  0.166896  0.230344 
+
+s-ElNet  0.083798  0.020566  0.058945  0.071941  0.081413  0.087281  0.174493 
+
+m-ElNet  0.083051  0.019548  0.060174  0.073146  0.078115  0.089585  0.171323 
+
+s-XGB  0.071341  0.016456  0.047294  0.060707  0.070058  0.078541  0.133427 
+
+m-XGB  0.071701  0.015414  0.049451  0.062044  0.070227  0.078142  0.129306 
+
+RF  0.073732  0.017302  0.048184  0.06162  0.074762  0.080187  0.135403 
+
+FNN  0.072033  0.015775  0.053006  0.062691  0.07026  0.078524  0.141645 
+
+Elnet-24h  0.084141  0.019261  0.059517  0.073222  0.079493  0.091152  0.172581 
+
+XGB-24h  0.071776  0.018041  0.049222  0.060039  0.06721  0.077925  0.145822 
+
+RNN-24h  0.073804  0.018464  0.050714  0.062506  0.072945  0.081637  0.156112 
+
+LSTM-24h  0.072919  0.01717  0.051767  0.061072  0.070859  0.082405  0.142392 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+s-ElNet  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+m-ElNet  0.076287  0.014628  0.043193  0.065485  0.071667  0.089252  0.101597 
+
+MAE test multi 
+
+MAE all 
+
+MAE test single 
+
+> (which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. The copyright holder for this preprint this version posted April 27, 2026. ;https://doi.org/10.64898/2026.04.23.720365 doi: bioRxiv preprint
+
+s-XGB  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A  #N/A 
+
+m-XGB  0.06536  0.014239  0.039793  0.056273  0.062232  0.074834  0.116098 
+
+RF  0.066917  0.016667  0.036501  0.052965  0.066641  0.074489  0.125521 
+
+FNN  0.064326  0.011973  0.03909  0.056997  0.062672  0.072928  0.08805 
+
+Elnet-24h  0.077348  0.01432  0.050054  0.06776  0.074982  0.088429  0.105977 
+
+XGB-24h  0.064889  0.014528  0.03763  0.055836  0.06167  0.073486  0.108647 
+
+RNN-24h  0.064306  0.013928  0.038337  0.056097  0.06063  0.07502  0.104703 
+
+LSTM-24h  0.064254  0.014561  0.04114  0.054509  0.059942  0.074108  0.099691 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  62.21212  30.21771  14  40  60  83  140 
+
+s-ElNet  62.21212  30.21771  14  40  60  83  140 
+
+m-ElNet  134.9091  56.75571  37  74  146  164  264 
+
+s-XGB  62.21212  30.21771  14  40  60  83  140 
+
+m-XGB  134.9091  56.75571  37  74  146  164  264 
+
+RF  134.9091  56.75571  37  74  146  164  264 
+
+FNN  134.9091  56.75571  37  74  146  164  264 
+
+Elnet-24h  134.9091  56.75571  37  74  146  164  264 
+
+XGB-24h  134.9091  56.75571  37  74  146  164  264 
+
+RNN-24h  134.9091  56.75571  37  74  146  164  264 
+
+LSTM-24h  134.9091  56.75571  37  74  146  164  264 
+
+Model  mean  std  min  25%  50%  75%  max 
+
+PC1+LR  0 0 0 0 0 0 0
+
+s-ElNet  0 0 0 0 0 0 0
+
+m-ElNet  72.69697  38.27326  6 39  69  102  135 
+
+s-XGB  0 0 0 0 0 0 0
+
+m-XGB  72.69697  38.27326  6 39  69  102  135 
+
+RF  72.69697  38.27326  6 39  69  102  135 
+
+FNN  72.69697  38.27326  6 39  69  102  135 
+
+Elnet-24h  72.69697  38.27326  6 39  69  102  135 
+
+XGB-24h  72.69697  38.27326  6 39  69  102  135 
+
+RNN-24h  72.69697  38.27326  6 39  69  102  135 
+
+LSTM-24h  72.69697  38.27326  6 39  69  102  135 
+
+n_worms multi 
+
+n_worms test set

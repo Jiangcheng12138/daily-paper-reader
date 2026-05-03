@@ -1,0 +1,380 @@
+Title: A Multimodal Pre-trained Network for Integrated EEG-Video Seizure Detection
+
+URL Source: https://arxiv.org/pdf/2604.26379v1
+
+Published Time: Thu, 30 Apr 2026 00:32:58 GMT
+
+Number of Pages: 24
+
+Markdown Content:
+# A Multimodal Pre-trained Network for Integrated EEG-Video Seizure Detection 
+
+Tong Lu a,b,1 , Ke Xu c,a,b,1 , Zimo Zhang a,b , Zitong Zhao c,a,b , Danwei Weng d,Ruiyu Wang a,b , Miao Liu a,b , Zizuo Zhang a,b , Jingyi Yao a,b , Yixuan Zhao a,b ,Wenchao Zhang d, Min Wang d, Guoming Luan c,e,f, ∗, Minmin Luo a,b,g, ∗,Zhifeng Yue a,b,g, ∗
+
+> a
+
+Beijing Institute for Brain Research, Chinese Academy of Medical Sciences & Peking Union Medical College, Beijing, 102206, China 
+
+> b
+
+Chinese Institute for Brain Research, Beijing, Beijing, 102206, China 
+
+> c
+
+Department of Neurosurgery, SanBo Brain Hospital, Capital Medical University, Beijing, 100018, China 
+
+> d
+
+GenAns Biotechnology Co., Ltd, Beijing, 102206, China 
+
+> e
+
+Laboratory for Clinical Medicine, Capital Medical University, Beijing, 100069, China 
+
+> f
+
+Center of Epilepsy, Beijing Institute for Brain Disorders, Sanbo Brain Hospital, Capital Medical University, Beijing, 100018, China 
+
+> g
+
+Beijing Key Laboratory of Brain Science and Brain-Machine Interface, Beijing, 102206, China 
+
+Abstract 
+
+Reliable seizure detection in mouse models is essential for preclinical epilepsy research, yet manual review of synchronized video-EEG recordings is labor-intensive and single-modality systems fail for complementary reasons: video-based methods are easily confounded by benign behaviors, whereas EEG-
+
+> ∗
+
+Corresponding authors: Guoming Luan (luangm@ccmu.edu.cn), Minmin Luo (luom-inmin@cibr.ac.cn), and Zhifeng Yue (yuezhifeng@cibr.ac.cn). Zhifeng Yue is the primary corresponding author. 
+
+Email addresses: lutong@cibr.ac.cn (Tong Lu), xuke@cibr.ac.cn (Ke Xu), 
+
+zzzzimo.zhang@mail.utoronto.ca (Zimo Zhang), zhaozitong_ext@cibr.ac.cn 
+
+(Zitong Zhao), wengdanwei@genans.cn (Danwei Weng), wangruiyu@cibr.ac.cn (Ruiyu Wang), liumiao@cibr.ac.cn (Miao Liu), zhangzizuo@cibr.ac.cn (Zizuo Zhang), 
+
+yaojingyi@cibr.ac.cn (Jingyi Yao), zhaoyixuan@cibr.ac.cn (Yixuan Zhao), 
+
+zhangwenchao@genans.cn (Wenchao Zhang), wangmin@genans.cn (Min Wang), 
+
+luangm@ccmu.edu.cn (Guoming Luan), luominmin@cibr.ac.cn (Minmin Luo), 
+
+yuezhifeng@cibr.ac.cn (Zhifeng Yue) 
+
+> 1
+
+These authors contributed equally to this work. 
+
+> arXiv:2604.26379v1 [cs.CV] 29 Apr 2026
+
+based methods are vulnerable to ictal motion artifacts. We present EEGV-Fusion, a multimodal framework that combines self-supervised EEG repre-sentation learning, spatio-temporal video encoding, optimal-transport align-ment, and bidirectional cross-attention to integrate neural and behavioral evidence. We also curate an expert-annotated dataset of synchronized EEG and video recordings comprising 93 sessions from 15 mice for training and evaluation. In the random-session split, EEGVFusion achieved a Balanced Accuracy of 0.9957 with perfect event sensitivity and an Event FAR of 0.6250 FP/h, indicating strong seizure detection performance with a low false-alarm burden. In a single held-out-subject evaluation with Subject 110 reserved for testing, EEGVFusion achieved a Balanced Accuracy of 0.9718 and reduced Event FAR from 2.7250 FP/h for the EEG-only counterpart to 0.4833 FP/h while preserving perfect event sensitivity. Targeted ablations further showed that EEG pre-training and OT alignment help reduce false alarms while pre-serving event sensitivity. 
+
+Keywords: Seizure Detection, Multimodal Deep Learning, EEG-Video Fusion, Self-supervised learning 
+
+1. Introduction 
+
+Epilepsy remains a major global health challenge, affecting more than 50 million people worldwide[1, 2]. Rodent, and especially mouse, models are indispensable for studying epileptogenesis and evaluating candidate anti-epileptic therapies during preclinical research[3, 4]. In these studies, syn-chronized electroencephalography (EEG) and continuous video monitoring remain the reference standard for identifying seizure onset, duration, and behavioral severity. However, annotation still depends largely on manual ex-pert review, making long-term monitoring labor-intensive, difficult to scale, and vulnerable to inter-observer variability[5]. Figure 1 illustrates the com-plementary data streams that must be interpreted together during routine scoring. Automating this workflow remains difficult because the two available modalities fail for opposite reasons. Video-based systems are attractive be-cause they are non-invasive and capture overt motor behavior, but vigorous grooming, scratching, or rapid locomotion can closely resemble convulsive seizures and inflate false alarms. EEG-based systems offer direct access to ictal discharges, but they are highly susceptible to motion and muscle ar-2tifacts during convulsive events, precisely when reliable detection is most important[6, 7, 8, 9]. These failure modes are complementary: seizure events are often most convincing when behavioral and electrophysiological evidence are evaluated together. The clinical success of multimodal video-EEG sys-tems in human epilepsy supports this view[10, 11, 12, 13]. Recent advances in transformer models and self-supervised learning make such multimodal integration increasingly feasible. Self-attention architec-tures can model long-range temporal dependencies beyond the local receptive fields of conventional convolutional neural networks, and masked autoen-coding has emerged as an effective strategy for learning transferable EEG representations from unlabeled recordings[14, 15, 16]. Nevertheless, two ob-stacles still limit multimodal seizure detection in rodent studies: precisely synchronized mouse EEG-video datasets remain scarce[5], and current rodent pipelines are still dominated by single-modality analysis without dedicated mechanisms for cross-modal alignment and fusion. We therefore propose EEGVFusion, a multimodal framework that com-bines self-supervised EEG representation learning, spatio-temporal video en-coding, optimal-transport alignment, and bidirectional cross-attention to improve continuous seizure monitoring in mouse models. Alongside the model, we curate an expert-annotated dataset of synchronized EEG and video recordings to support systematic evaluation of this task. We further conduct targeted ablations on OT alignment and EEG pre-training to clarify   
+
+> (a) Behavioral Video Monitoring (b) Synchronized EEG Signals Figure 1: Illustration of the high-throughput synchronized continuous monitoring system for mouse epilepsy models. (a) Behavioral video modality capturing macroscopic move-ments across multiple cages. (b) Synchronized neural EEG modality capturing complex electrophysiological signals.
+
+3which components contribute most to robust detection. The primary contributions of this work are summarized as follows: 
+
+• We introduce EEGVFusion, a multimodal seizure-detection framework that integrates self-supervised EEG representations with spatio-temporal video features through optimal-transport alignment and bidirectional cross-attention. 
+
+• We curate a synchronized, expert-annotated mouse EEG-video dataset comprising 93 sessions from 15 mice for training and evaluating multi-modal seizure detection models. 
+
+• Empirically, EEGVFusion achieves a Balanced Accuracy of 0.9957 in the random-session split and 0.9718 in a single held-out-subject eval-uation, while targeted ablations show that EEG pre-training and OT alignment help control false alarms. 
+
+2. Related Work 
+
+2.1. Applications of Transformer Architectures on EEG 
+
+Transformers have substantially improved EEG analysis by modeling long-range temporal and spatial dependencies that are difficult to capture with purely convolutional models. Hybrid architectures such as EEG Conformer[17] and EEGformer[14] combine convolutional front ends with self-attention to represent both local waveform structure and global context. More recent variants extend this idea through specialized attention mechanisms, includ-ing criss-cross spatial-temporal modeling[18] and cross-scale tokenization[19], to better match the heterogeneous structure of EEG signals. The scarcity of labeled EEG data has also motivated self-supervised foun-dation models based on masked reconstruction. BrainBERT[15], Neuro-BERT[20], and Brant[16] show that large-scale unlabeled recordings can be used to learn robust and transferable neural representations for downstream EEG analysis. These advances motivate our use of masked autoencoding for EEG feature learning. However, prior transformer-based EEG studies remain largely focused on single-modality representation learning and do not address how synchronized EEG should be aligned with behavioral video for rodent seizure detection. 42.2. Multimodal Epilepsy Detection in Humans 
+
+Clinical epilepsy monitoring provides strong evidence that multimodal video-EEG analysis can improve robustness when EEG alone becomes unre-liable. In pediatric seizure detection, synchronized video features help com-pensate for motion- and muscle-related distortions in the EEG stream, re-ducing false alarms while preserving sensitivity[12, 13]. Beyond overt seizure detection, multimodal fusion has also proven useful for identifying more subtle epileptic activity. Frameworks such as vEpiNet[10] and vEpiNetV2[11] integrate kinematic video features with EEG patterns to improve detection of interictal epileptiform discharges across clinical envi-ronments. These studies establish video-EEG fusion as a promising strategy, but they were designed for human clinical recordings with different viewing conditions, annotation practices, and subject variability. Whether the same principles transfer to rodent monitoring remains an open question. 
+
+2.3. Automated Seizure Detection in Rodent Models 
+
+Rodent seizure detection studies have mostly focused on EEG-only au-tomation. Early systems, such as Epi-AI[21], relied on hand-crafted time-frequency features combined with conventional classifiers. More recent studies have replaced manual feature engineering with deep neural networks. Cho and Jang[22] showed that convolutional architectures outperform recurrent and fully connected alternatives for mouse EEG analy-sis, and Baser et al.[23] demonstrated effective deep-learning-based detection of spike-and-wave discharges in rats. Although these methods reduce the burden of manual review, they still process neural signals in isolation. This creates a critical bottleneck during convulsive episodes, when vigorous movement simultaneously produces be-havior that is visible in video and artifacts that contaminate EEG. What is still missing is a rodent benchmark with synchronized EEG and video to-gether with a fusion strategy designed to exploit these complementary sources of evidence. 
+
+3. Methodology 
+
+The goal of EEGVFusion is not simply to maximize sample-level classifi-cation accuracy, but to improve event-level reliability during long-term mon-itoring by combining complementary neural and behavioral evidence. The pipeline therefore comprises five stages: signal preprocessing, self-supervised 5EEG representation learning, spatio-temporal video feature extraction, mul-timodal alignment and fusion, and temporal aggregation for final event re-porting. Figure 2 summarizes the full architecture. 
+
+> Figure 2: Overall architecture of the EEGVFusion framework, illustrating feature extrac-tion, multimodal adaptation, optimal transport alignment, and final classification.
+
+3.1. Signal Acquisition and Preprocessing 
+
+The raw dataset comprises multi-channel EEG signals and synchronized video recordings. Consequently, preprocessing is essential to isolate relevant physiological markers from environmental noise. 
+
+3.1.1. EEG Preprocessing and Characteristic Analysis 
+
+To mitigate noise while preserving seizure-related activity, the EEG sig-nals undergo digital preprocessing. A 1–50 Hz band-pass filter isolates the frequency range of interest, a 50 Hz notch filter attenuates power-line inter-ference, and baseline wander is corrected using median-filter subtraction. As shown in Figure 3, ictal segments contain prominent rhythmic dis-charges that are clearly separated from the lower-amplitude background ac-tivity observed outside seizures. Figure 4 further demonstrates that seizure and non-seizure periods differ substantially in the frequency domain. Preserv-ing these temporal and spectral signatures during preprocessing is therefore essential for accurate seizure localization. 6Figure 3: Temporal visualization of preprocessed EEG during a seizure. The top and bottom traces correspond to the two recorded channels. The red dashed lines mark seizure onset and termination, which are characterized by high-amplitude rhythmic discharges. 0 10 20 30 40 50  
+
+> Frequency (Hz)
+> 20
+> 0
+> 20
+> 40
+> Power spectral density (μV²/Hz, dB)  Session 2025-03-25 Mouse 108
+> Seizure (ictal)
+> Non-seizure (interictal)
+
+(a) Mouse 108 0 10 20 30 40 50   
+
+> Frequency (Hz)
+> 40
+> 20
+> 0
+> 20
+> 40
+> Power spectral density (μV²/Hz, dB)  Session 2025-04-04 Mouse 104
+> Seizure (ictal)
+> Non-seizure (interictal)
+
+(b) Mouse 104 0 10 20 30 40 50   
+
+> Frequency (Hz)
+> 40
+> 20
+> 0
+> 20
+> 40
+> Power spectral density (μV²/Hz, dB)  Session 2025-04-14 Mouse 107
+> Seizure (ictal)
+> Non-seizure (interictal)
+
+(c) Mouse 107 Figure 4: PSD analysis of EEG data from three different mice on different days. 
+
+3.1.2. Video Preprocessing 
+
+The video stream is originally recorded at 25 fps and temporally down-sampled to 6.25 fps by retaining one frame out of every four. This reduces computational redundancy while preserving the macroscopic motor patterns most relevant to seizure detection, including tremor, rearing, and abrupt postural transitions. 
+
+3.2. Self-supervised EEG Feature Representation 
+
+To capture seizure-related EEG structure without depending on extensive labeled data, we employ a Masked Autoencoder (MAE) tailored for neural time series. 7Figure 5: The Masked Autoencoder (MAE) pre-training architecture. The model learns robust EEG representations by reconstructing masked patches of the signal in a self-supervised manner. 
+
+3.2.1. Dual-Domain Embedding 
+
+The continuous EEG signal is segmented into patches before being passed to the transformer encoder. Unlike a standard vision transformer, our en-coder uses a dual-domain embedding strategy: temporal features extracted with a 1D convolution preserve local waveform morphology, whereas spec-tral features obtained through the Fast Fourier Transform (FFT) explicitly encode frequency-domain changes such as those shown in Figure 4: 
+
+Etime = Conv1D (x) ∈ RD/ 2
+
+Ef req = Linear (FFT (x)) ∈ RD/ 2
+
+Here, D denotes the total hidden dimension of the embedding. Learnable positional encodings Epos are added to the concatenated tokens to preserve temporal ordering and channel context: 
+
+Z0 = [ Etime ; Ef req ] + Epos 
+
+3.2.2. Masked Self-Supervised Learning 
+
+As shown in Figure 5, the core of our pre-training is a masked reconstruc-tion task. Let X ∈ RC×N ×P be a multi-channel EEG segment, where C, N ,8and P represent the number of channels, patches, and patch length. Using a channel-preserved strategy, we randomly mask a proportion ρ of the patches, dividing the input into visible patches Zvisible and masked patches ˆXmasked 
+
+for reconstruction. The encoder, comprising Le transformer layers, processes only Zvisible to generate contextualized representations Henc . A lightweight decoder then predicts ˆXmasked from these representations and learnable mask tokens Mmasked . The training objective minimizes the mean squared error: 
+
+LM AE = 1
+
+|M| 
+
+X
+
+> i∈M
+
+∥Xi − ˆXi∥2
+
+3.3. Spatio-temporal Video Feature Extraction 
+
+During the ictal phase, mice frequently exhibit erratic movements and may be partially occluded by cage walls or bedding. We therefore em-ploy VideoMAE v2[24] for visual feature extraction because its self-attention mechanism is well suited to modeling long-range temporal structure under partial occlusion. VideoMAE v2 generates a sequence of spatio-temporal tokens that sum-marizes motion dynamics within a fixed temporal window. This representa-tion is well suited to the rhythmic clonus, tremor, and posture changes that characterize seizure evolution. Because the encoder is pre-trained, the model can extract these patterns without manual bounding-box annotation. 
+
+3.4. Multimodal Adapter and Fusion Framework 
+
+In integrated EEG-video seizure detection, the main fusion challenge is the distributional mismatch between one-dimensional neural signals and spatio-temporal visual tokens. We address this mismatch through modality-specific adapters followed by an Optimal Transport (OT) alignment module, as illustrated in the central pathway of Figure 2. The adapters project EEG and video features into a shared fusion dimen-sion Df while preserving modality-specific structure. During multimodal training, the EEG encoder remains frozen so that the pre-trained neural representation is not overwritten by the smaller labeled dataset. To align the semantic spaces of both modalities, we solve an optimal transport problem over the adapted features Aeeg and Avideo . A cosine-distance cost matrix C is used to identify semantically similar cross-modal pairs, and the transport plan T∗ is estimated with the Iterative Proportional 9Optimal Transport (IPOT) algorithm. The resulting OT distance acts as an alignment loss: 
+
+LOT = λOT · tr (CT T∗)
+
+Following alignment, the framework integrates features through a se-quence of multi-scale temporal convolutions and bidirectional cross-attention. Multi-scale convolutions first capture local seizure rhythms and short-range temporal context within each modality. Bidirectional cross-attention is then used to let each modality reweight the other according to current signal qual-ity. If EEG is degraded by motion artifact, the model may rely more heavily on video tokens; if video becomes visually ambiguous, EEG can preserve electrophysiological specificity. In this sense, OT and cross-attention are intended to play complementary roles: OT encourages a shared feature ge-ometry, whereas cross-attention enables dynamic evidence exchange between modalities. 
+
+3.5. Classification and Temporal Aggregation 
+
+The framework is optimized in two stages. First, the MAE encoder-decoder is pre-trained on unlabeled EEG data using AdamW. Second, super-vised multimodal training is performed with the EEG encoder frozen while the adapters, fusion layers, and classification head are optimized. The final objective combines cross-entropy loss with the OT alignment loss: 
+
+Ltotal = LCE + LOT 
+
+During inference, the fused tokens are pooled and passed to a gated MLP classification head consisting of two linear layers with an intermediate GELU activation and dropout. For EEGVFusion, the resulting window-level seizure probabilities are converted to a common 1-second resolution and then post-processed into event-level predictions. Events separated by less than 5 sec-onds are merged into a single seizure epoch, whereas detections shorter than 10 seconds are discarded to reduce spurious alarms. The same event-merging and minimum-duration rules are used when deriving event-level predictions for the compared models so that Event FAR and event sensitivity are assessed under a common post-processing protocol. 10 4. Experiments 
+
+4.1. Dataset Description 
+
+The primary dataset was collected from a mouse model of epilepsy with a hippocampal epileptogenic focus. Each session consisted of continuous syn-chronized 24-hour video monitoring together with dual-channel EEG record-ings. To capture high-fidelity neural signals, custom-fabricated electrodes were implanted in contact with the dura mater, with recording electrodes positioned over the olfactory bulb and the reference and ground electrodes placed over the cerebellum. Ground truth was established through a two-step annotation protocol. Annotators first reviewed the continuous video recordings to identify behav-ioral seizure onset and offset times using a modified Racine scale. To reduce subjectivity, subtle behaviors such as facial twitching and head nodding were excluded, and only unambiguous motor manifestations, including tail rigid-ity, rearing, rearing with bilateral forelimb clonus, falling, and jumping, were labeled as seizure-related behaviors. These candidate intervals were then cross-referenced with the synchronized EEG to determine the corresponding electrophysiological onset and termination times. The continuous recordings were segmented with a sliding-window strategy using a fixed 10-second window and a 1-second stride. A window received a positive label only when the entire interval fell within the expert-annotated seizure period; otherwise it was assigned a negative label. This conservative labeling rule favors high-confidence event boundaries. The final dataset comprises 93 sessions collected from 15 mice, where each session denotes one continuous 24-hour recording of synchronized EEG and video. Table 1 summarizes the recording duration and seizure distri-bution and highlights the severe class imbalance characteristic of long-term monitoring data. To evaluate both in-distribution performance and robustness to biological variability, we partitioned the data using two complementary protocols: 
+
+• Random Session Split: Five sessions were randomly selected as the test set and all remaining sessions were used for training. This setting evaluates performance under a standard within-distribution split. 
+
+• Single Held-Out-Subject Split: To obtain an initial test of subject-level generalization, Subject 110 was reserved for testing while the re-maining 14 mice were used for training. We interpret this setting as 11 Table 1: Detailed statistics of the rodent seizure dataset.                                                                              
+
+> Subject ID Days Total Rec. (sec) Total Rec. (hours) Seizure Dur. (sec) Seizure Count
+> 101 5432,000 120.00 593 11 102 4345,608 96.00 496 14 103 186,400 24.00 124 2104 8691,548 192.10 2,897 109 105 13 1,123,832 312.18 2,421 79 107 5412,383 114.55 901 26 108 7604,802 168.00 2,271 73 109 3259,924 72.20 221 6110 5432,002 120.00 706 20 111 10 805,980 223.88 1,667 41 112 7567,169 157.55 386 12 113 10 825,743 229.37 1,954 60 114 4325,983 90.55 777 27 #3 6519,241 144.23 658 24 #4 5432,018 120.00 758 24
+
+a single held-out-subject evaluation rather than a complete leave-one-subject-out study. As a secondary generalization experiment, we additionally evaluated the fusion design on the Emotion in Audio-Visual (EAV) dataset[25]. This mul-timodal corpus comprises 30-channel EEG, audio, and video recordings from 42 participants during cue-based conversations designed to elicit five emo-tional states. We followed the preprocessing pipeline of the original study and used this evaluation to examine whether the same fusion strategy trans-fers beyond seizure detection. 
+
+4.2. Implementation Details and Experimental Setup 
+
+EEGVFusion was implemented in PyTorch and trained on a Linux work-station (Rocky Linux 8.6) equipped with an NVIDIA RTX P6000 GPU. EEG pre-training required approximately 186 hours, and supervised multimodal training for the seizure-detection task required approximately 56 hours. All experiments used the AdamW optimizer. During pre-training, the learning rate was initialized at 1 × 10 −4 with a weight decay of 0.05 and a cosine-annealing schedule updated at each step. The model was trained 12 for 1,000 epochs with a batch size of 512 and a masking ratio of 0.75. The asymmetric MAE architecture used an encoder with 8 layers and 8 attention heads and a lightweight decoder with 4 layers and 8 heads; both employed a feed-forward dimension dff = 2048 .During supervised multimodal training, the weight decay was reduced to 0.01. The learning rate again started at 1 × 10 −4 and decayed to ηmin =1 × 10 −6 under cosine annealing. The model was trained for 30 epochs with a batch size of 64. The fusion module used 4 adapter layers and 4 fusion layers. To mitigate class imbalance, negative samples were downsampled during training to a positive-to-negative ratio of 1:10. To ensure a fair comparison, all baselines were trained and evaluated on identical dataset partitions. We benchmarked EEGVFusion against es-tablished convolutional neural networks (ShallowConvNet, EEGNet, and DeepConvNet[26, 27]), a specialized seizure-detection system (Epi-AI[21]), a hybrid temporal model (1dCNN-LSTM[28]), and two attention-based ar-chitectures (EEGformer[14] and Husformer[29]). Because full-length 24-hour recordings exceeded the memory capacity of the RTX P6000 for EEGformer and Husformer, we applied 4× temporal downsampling to the inputs of these two baselines to obtain feasible training runs. For the secondary EAV evaluation, we compared our approach against the EEG-only, audio-only, and visual-only baselines reported in the original study[25], as well as multimodal emotion-recognition frameworks including AMERL[30] and Hyper-MML[31]. 
+
+4.3. Evaluation Metrics 
+
+To evaluate seizure detection comprehensively, we report both sample-level and event-level metrics. Let T P , T N , F P , and F N denote true posi-tives, true negatives, false positives, and false negatives at the sample level, respectively. 
+
+Sample-level Metrics. To account for the varying output granularities em-ployed by different models, we convert every model output together with the ground-truth labels into a uniform 1-second resolution . Sample-level eval-uation thus assesses each model’s ability to correctly classify every 1-second segment. 13 • Sample Sensitivity (Recall): Measures the proportion of actual seizure samples correctly identified. Sample Sensitivity = T P T P + F N 
+
+• Sample Specificity: Measures the proportion of non-seizure (interic-tal) samples correctly identified. Sample Specificity = T N T N + F P 
+
+• Balanced Accuracy: Since seizure data is often highly imbalanced (interictal periods are much longer than ictal periods), Balanced Ac-curacy provides a fairer assessment by averaging sensitivity and speci-ficity. Balanced Accuracy = Sample Sensitivity + Sample Specificity 
+
+2
+
+Event-level Metrics. For long-term preclinical monitoring, correctly identi-fying seizure events is more important than classifying every isolated sec-ond. We therefore complement sample-level metrics with event-level metrics, where an event-level true positive is defined as a predicted seizure that over-laps with a ground-truth seizure period. Unless otherwise stated, event-level detections for all compared models are derived from the common 1-second representation using the same post-processing rules: detections separated by less than 5 seconds are merged, and detections shorter than 10 seconds are removed. 
+
+• Event Sensitivity: The ratio of correctly detected seizure events to the total number of actual seizure events. 
+
+• Event False Alarm Rate (Event FAR): To reduce alarm fatigue during long-term preclinical monitoring, FAR quantifies the frequency of false detections over time, calculated as the average number of false seizure detections per hour (FP/h). 14 Table 2: Comparison of model performance in the random-session split. 
+
+Model Name Balanced Accuracy Sample Sensitivity Sample Specificity Event Sensitivity Event FAR (FP/h) 
+
+ShallowConvNet [26] 0.7114 0.4801 0.9427 0.5533 3.8917 EEGNet [26] 0.7829 0.6579 0.9078 0.7000 6.3000 DeepConvNet [26] 0.8450 0.7196 0.9703 0.7359 2.4167 EEGformer [14] 0.8709 0.9417 0.8001 0.9667 17.0750 Epi-AI [21] 0.7610 0.7333 0.7887 0.7333 16.7250 1dCNN-LSTM [28] 0.8925 0.7994 0.9856 0.8000 1.3917 
+
+Husformer [29] 0.8542 0.7261 0.9823 0.7533 1.5500 
+
+EEGVFusion (video-only) 0.9861 1.0000 0.9722 1.0000 2.4833 
+
+EEGVFusion (EEG-only) 0.9657 0.9595 0.9719 0.9667 2.5167 
+
+EEGVFusion 0.9957 0.9993 0.9921 1.0000 0.6250 -15 -10 -5 0 5 10 15 20 -10 
+
+> -8
+> -6
+> -4
+> -2
+> 0
+> 2
+> 4
+> 6
+> -4
+> -3
+> -2
+> -1
+> 0
+> 1
+> 2
+> 3
+> 4
+> EEG-Only Last-Layer Features (t-SNE)
+> Normal
+> Seizure
+
+(a) EEG -15 -10 -5 0 5 10  
+
+> 15
+> 20
+> -10
+> -5
+> 0
+> 5
+> 10
+> -2
+> -1
+> 0
+> 1
+> 2
+> Video-Only Last-Layer Features (t-SNE)
+> Normal
+> Seizure
+
+(b) Video -15   
+
+> -10
+> -5
+> 0
+> 5
+> 10 -4
+> -2
+> 0
+> 2
+> 4
+> -8
+> -6
+> -4
+> -2
+> 0
+> 2
+> 4
+> 6
+> 8
+> Fusion Last-Layer Features (t-SNE)
+> Normal
+> Seizure
+
+(c) Fusion Figure 6: t-SNE visualization of feature distributions: (a) EEG only, (b) Video only, and (c) the proposed Fusion method. 
+
+4.4. Overall Performance 
+
+Tables 2 and 3 summarize performance under the random-session split and the single held-out-subject evaluation. Across both settings, EEGV-Fusion combines strong balanced discrimination with low false-alarm rates, supporting its use for long-duration preclinical screening. 
+
+4.4.1. Performance in Random Session Split 
+
+In the random-session split (Table 2), EEGVFusion delivered the strongest overall performance, achieving a Balanced Accuracy of 0.9957, a sample sensi-15 Table 3: Comparison of model performance in the held-out-subject evaluation (Subject 110 reserved for testing).                                                    
+
+> Model Name Balanced Accuracy Sample Sensitivity Sample Specificity Event Sensitivity Event FAR (FP/h)
+> ShallowConvNet [26] 0.6679 0.3533 0.9824 0.4167 1.6083 EEGNet [26] 0.7741 0.5614 0.9868 0.6300 1.2500 DeepConvNet [26] 0.8835 0.7951 0.9720 0.9100 2.1917 EEGformer [14] 0.9158 0.9128 0.9189 1.0000 7.9333 Epi-AI [21] 0.9335 0.9923 0.8748 1.0000 1.2833 1dCNN-LSTM [28] 0.9708 0.9513 0.9902 1.0000 0.6250
+> Husformer [29] 0.8981 0.8108 0.9857 0.8333 1.3417
+> EEGVFusion (video-only) 0.9661 0.9454 0.9868 1.0000 1.1917
+> EEGVFusion (EEG-only) 0.9739 0.9785 0.9693 1.0000 2.7250
+> EEGVFusion 0.9718 0.9493 0.9942 1.0000 0.4833
+
+tivity of 0.9993, perfect event sensitivity, and an Event FAR of 0.6250 FP/h. Compared with 1dCNN-LSTM, a strong and relatively conservative EEG baseline, EEGVFusion improved Balanced Accuracy from 0.8925 to 0.9957 and reduced Event FAR from 1.3917 to 0.6250 FP/h while also raising event sensitivity from 0.8000 to 1.0000. These results indicate that the final mul-timodal design improves both seizure capture and false-alarm control within distribution. Traditional baselines such as ShallowConvNet and EEGNet remained clearly weaker, with event sensitivities of 0.5533 and 0.7000, re-spectively. To verify the feature discriminability, we visualized the last-layer repre-sentations using t-SNE on a randomly sampled balanced subset of seizure and non-seizure data. As shown in Figure 6, the proposed Fusion method (c) achieves a clear separation between seizure and non-seizure clusters, demon-strating that multimodal integration significantly enhances the model’s abil-ity to distinguish ictal states. 
+
+4.4.2. Performance in a Single Held-Out-Subject Evaluation 
+
+The single held-out-subject evaluation (Table 3) is substantially more challenging because it tests the model on an animal whose seizure expression and background behavior were not seen during training. Among our three variants, the EEG-only model achieved the highest 16 Balanced Accuracy (0.9739), indicating that the pre-trained EEG branch remains the strongest individual modality in this held-out-subject setting. The video-only model also remained competitive (0.9661), and both variants outperformed several standard baselines, suggesting that the pre-trained en-coders provide a strong starting point even before multimodal fusion is ap-plied. The event-level picture in this setting is now much clearer. EEGVFu-sion achieved the lowest Event FAR among all compared methods (0.4833 FP/h) while preserving perfect event sensitivity and maintaining a Balanced Accuracy of 0.9718. Relative to the EEG-only branch, multimodal fusion reduced Event FAR from 2.7250 to 0.4833 FP/h, corresponding to an 82.3% reduction in false alarms. It also improved upon the strong external baseline 1dCNN-LSTM in both Event FAR (0.6250 vs. 0.4833 FP/h) and Balanced Accuracy (0.9708 vs. 0.9718). These results indicate that multimodal inte-gration can improve practical screening reliability under subject shift, even though broader subject-level validation is still needed. 
+
+4.4.3. Targeted Ablation on OT Alignment and EEG Pre-training 
+
+To clarify the roles of explicit cross-modal alignment and self-supervised representation learning, Table 4 compares the final EEGVFusion model with two targeted ablations: a no-OT variant and a model trained without EEG pre-training. Removing EEG pre-training reduced Balanced Accuracy and increased the false-alarm burden in the random-session split, while the effect was smaller in the held-out-subject setting. Removing OT preserved perfect event sensitivity but increased Event FAR in both settings, indicating that explicit alignment primarily improves false-alarm control. We therefore inter-pret EEG pre-training and OT alignment as complementary design choices: pre-training improves representation robustness, whereas OT helps stabilize cross-modal evidence integration. 
+
+4.4.4. Secondary Evaluation on the EAV Dataset 
+
+To examine whether the fusion strategy transfers beyond seizure detec-tion, we additionally evaluated EEGVFusion on the Emotion in Audio-Visual (EAV) dataset[25]. As shown in Table 5, EEGVFusion achieved an average accuracy of 0.8139, outperforming the EEG-only, audio-only, and visual-only baselines as well as recent multimodal models including AMERL, Husformer, and Hyper-MML. We treat this result as supporting evidence rather than as 17 Table 4: Targeted ablation of OT alignment and EEG pre-training under the random-session and held-out-subject settings. 
+
+Setup Variant Balanced Accuracy Sample Sensitivity Sample Specificity Event Sensitivity Event FAR (FP/h) 
+
+Random session EEGVFusion 0.9957 0.9993 0.9921 1.0000 0.6250 Random session No OT 0.9917 1.0000 0.9834 1.0000 1.3000 Random session No Pretrain 0.9839 0.9845 0.9834 1.0000 1.4750 Held-out subject EEGVFusion 0.9718 0.9493 0.9942 1.0000 0.4833 Held-out subject No OT 0.9705 0.9533 0.9878 1.0000 1.0333 Held-out subject No Pretrain 0.9702 0.9481 0.9924 1.0000 0.6250 
+
+> Table 5: Comparison of average accuracy on the EAV emotion recognition task.
+
+Model Type Average Accuracy 
+
+EEG-only[25] 0.6000 Audio-only[25] 0.6190 Visual-only[25] 0.7140 AMERL[30] 0.7086 Husformer[29] 0.7282 Hyper-MML[31] 0.7821 
+
+EEGVFusion adaptation 0.8139 
+
+a co-primary claim of the paper, but it suggests that the proposed fusion design remains effective on a different multimodal behavior-analysis task. 
+
+5. Discussion 
+
+5.1. Complementary Modalities 
+
+The main advantage of multimodal fusion is that it addresses the comple-mentary weaknesses of video and EEG. Within the random-session split, this complementarity translated into the strongest overall performance: EEGV-Fusion achieved the highest Balanced Accuracy, preserved perfect event sen-sitivity, and reduced Event FAR below that of the strong 1dCNN-LSTM baseline. In other words, the final model no longer trades overall detec-tion quality against false-alarm suppression; it improves both simultaneously within distribution. The single held-out-subject evaluation reveals an equally important ben-efit under subject shift. EEGVFusion achieved the lowest Event FAR among 18 all compared methods while preserving perfect event sensitivity. Relative to the EEG-only branch, multimodal integration reduced false alarms from 2.7250 to 0.4833 FP/h, an 82.3% reduction. For long-term monitoring, this reduction in false events is highly valuable because it substantially decreases the number of segments that must be manually reviewed. 
+
+5.2. Architectural Effectiveness 
+
+Targeted ablation shows that self-supervised EEG pre-training provides a split-dependent benefit. In the random-session split, removing pre-training reduced Balanced Accuracy from 0.9957 to 0.9839 and increased Event FAR from 0.6250 to 1.4750 FP/h. In the held-out-subject evaluation, the no-pretraining variant remained close to EEGVFusion in Balanced Accuracy (0.9702 vs. 0.9718) and preserved perfect event sensitivity, but its Event FAR increased from 0.4833 to 0.6250 FP/h. These results suggest that masked autoencoding most clearly improves in-distribution reliability and still helps false-alarm control under subject shift. The OT ablation highlights the importance of explicit alignment for false-alarm control. Removing OT reduced Balanced Accuracy from 0.9957 to 0.9917 in the random-session split and increased Event FAR from 0.6250 to 1.3000 FP/h. Under subject shift, the Balanced Accuracy difference was small (0.9705 vs. 0.9718), but Event FAR increased from 0.4833 to 1.0333 FP/h. Thus, OT alignment does not primarily affect whether seizure events are detected, since event sensitivity remained perfect, but it helps suppress false detections during long-duration monitoring. The secondary EAV result provides additional supporting evidence that the overall fusion strategy is not restricted to rodent seizure monitoring. Achieving 0.8139 average accuracy on a multimodal emotion-recognition task suggests that the combination of modality-specific encoding, explicit align-ment, and cross-modal interaction can remain useful in a different behavior-analysis setting. At the same time, we treat this finding as a transferability signal rather than as a central claim of the present study. 
+
+5.3. Limitations 
+
+Despite these strengths, several limitations remain. First, the dataset is severely imbalanced: seizure activity occupies less than 0.25% of the total recording time. Although negative sampling helps during training, additional evaluation on rare seizure presentations is still needed. Second, this study fo-cuses on a specific hippocampal epilepsy model with only two EEG channels. 19 Future work should test whether the framework generalizes to other rodent models, electrode configurations, and seizure origins. Third, subject-level generalization is currently assessed with a single held-out-subject evaluation rather than a complete leave-one-subject-out study, so stronger claims about robustness across animals require broader validation. Fourth, although tar-geted ablations now clarify the roles of OT alignment and EEG pre-training, broader analysis of alignment strength, fusion variants, and multi-subject validation is still needed. 
+
+6. Conclusion 
+
+We present EEGVFusion, a multimodal framework that combines self-supervised EEG representations with spatio-temporal video features to im-prove seizure detection in mouse models. In the random-session split, EEGV-Fusion achieved the strongest overall performance, reaching a Balanced Ac-curacy of 0.9957 with perfect event sensitivity and an Event FAR of 0.6250 FP/h. In a single held-out-subject evaluation, EEGVFusion achieved a Bal-anced Accuracy of 0.9718 and reduced Event FAR from 2.7250 to 0.4833 FP/h relative to the EEG-only variant while preserving perfect event sen-sitivity. Targeted ablations further showed that EEG pre-training and OT alignment help reduce false alarms while preserving event sensitivity. A sec-ondary EAV evaluation achieved an average accuracy of 0.8139, providing supporting evidence that the fusion strategy may transfer beyond seizure detection. Future work should extend subject-level validation, further re-fine cross-modal alignment, and explore real-time deployment across broader rodent cohorts and recording settings. 
+
+References 
+
+[1] K. D. Laxer, E. Trinka, L. J. Hirsch, F. Cendes, J. Langfitt, N. Delanty, T. Resnick, S. R. Benbadis, The consequences of refractory epilepsy and its treatment, Epilepsy & behavior 37 (2014) 59–70. [2] E. Beghi, G. Giussani, E. Nichols, F. Abd-Allah, J. Abdela, A. Abde-lalim, H. N. Abraha, M. G. Adib, S. Agrawal, F. Alahdab, et al., Global, regional, and national burden of epilepsy, 1990–2016: a systematic anal-ysis for the global burden of disease study 2016, The Lancet Neurology 18 (4) (2019) 357–375. 20 [3] L. Kandratavicius, P. A. Balista, C. Lopes-Aguiar, R. N. Ruggiero, E. H. Umeoka, N. Garcia-Cairasco, L. S. Bueno-Junior, J. P. Leite, Animal models of epilepsy: use and limitations, Neuropsychiatric disease and treatment (2014) 1693–1705. [4] M. Edoho, O. Mamad, D. C. Henshall, C. Mooney, L. Wei, Prediction of epilepsy phenotype in intra-amygdala kainic acid mouse model of epilepsy, in: Proceedings of the 2023 10th International Conference on Biomedical and Bioinformatics Engineering, 2023, pp. 196–200. [5] M. Edoho, C. Mooney, L. Wei, Ai-based electroencephalogram analysis in rodent models of epilepsy: A systematic review, Applied Sciences 14 (16) (2024) 7398. [6] T. Radüntz, J. Scouten, O. Hochmuth, B. Meffert, Automated eeg ar-tifact elimination by applying machine learning algorithms to ica-based features, Journal of neural engineering 14 (4) (2017) 046004. [7] M. Fatourechi, A. Bashashati, R. K. Ward, G. E. Birch, Emg and eog artifacts in brain computer interface systems: A survey, Clinical neuro-physiology 118 (3) (2007) 480–494. [8] M. M. N. Mannan, M. A. Kamran, S. Kang, M. Y. Jeong, Effect of eog signal filtering on the removal of ocular artifacts and eeg-based brain-computer interface: A comprehensive study, Complexity 2018 (1) (2018) 4853741. [9] G. Tamburro, P. Fiedler, D. Stone, J. Haueisen, S. Comani, A new ica-based fingerprint method for the automatic removal of physiological artifacts from eeg recordings, PeerJ 6 (2018) e4380. [10] N. Lin, W. Gao, L. Li, J. Chen, Z. Liang, G. Yuan, H. Sun, Q. Liu, J. Chen, L. Jin, et al., vepinet: A multimodal interictal epileptiform discharge detection method based on video and electroencephalogram data, Neural Networks 175 (2024) 106319. [11] N. Lin, L. Li, W. Gao, P. Hu, G. Yuan, H. Sun, F. Qi, L. Wang, S. Wang, Z. Liang, et al., Development and validation of a multimodal automatic interictal epileptiform discharge detection model: a prospective multi-center study, BMC medicine 23 (1) (2025) 479. 21 [12] Y. Wu, D. Hu, T. Jiang, F. Gao, J. Cao, Multi-modal signal based childhood rolandic epilepsy detection, in: International Conference on Cognitive Systems and Signal Processing, Springer, 2021, pp. 495–510. [13] J. Cao, Y. Fang, X. Cui, R. Zheng, T. Jiang, F. Gao, Synchronized video and eeg based childhood epilepsy seizure detection, IEEE Transactions on Emerging Topics in Computational Intelligence 8 (6) (2024) 3742– 3753. [14] Z. Wan, M. Li, S. Liu, J. Huang, H. Tan, W. Duan, Eegformer: Atransformer–based brain activity classification method using eeg signal, Frontiers in neuroscience 17 (2023) 1148855. [15] C. Wang, V. Subramaniam, A. U. Yaari, G. Kreiman, B. Katz, I. Cases, A. Barbu, Brainbert: Self-supervised representation learning for in-tracranial recordings, arXiv preprint arXiv:2302.14367 (2023). [16] D. Zhang, Z. Yuan, Y. Yang, J. Chen, J. Wang, Y. Li, Brant: Foundation model for intracranial neural signal, Advances in Neural Information Processing Systems 36 (2023) 26304–26321. [17] Y. Song, Q. Zheng, B. Liu, X. Gao, Eeg conformer: Convolutional trans-former for eeg decoding and visualization, IEEE Transactions on Neural Systems and Rehabilitation Engineering 31 (2022) 710–719. [18] J. Wang, S. Zhao, Z. Luo, Y. Zhou, H. Jiang, S. Li, T. Li, G. Pan, Cbramod: A criss-cross brain foundation model for eeg decoding, arXiv preprint arXiv:2412.07236 (2024). [19] Y. Zhou, J. Wu, Z. Ren, Z. Yao, W. Lu, et al., Csbrain: A cross-scale spatiotemporal brain foundation model for eeg decoding, arXiv preprint arXiv:2506.23075 (2025). [20] D. Wu, S. Li, J. Yang, M. Sawan, Neuro-bert: Rethinking masked au-toencoding for self-supervised neurological pretraining, arXiv preprint arXiv:2204.12440 (2022). [21] L. Wei, H. Boutouil, R. R Gerbatin, O. Mamad, M. Heiland, C. R. Reschke, F. Del Gallo, P. F Fabene, D. C. Henshall, M. Lowery, et al., Detection of spontaneous seizures in eegs in multiple experimental mouse models of epilepsy, Journal of Neural Engineering 18 (5) (2021) 056060. 22 [22] K.-O. Cho, H.-J. Jang, Comparison of different input modalities and network structures for deep learning-based seizure detection, Scientific reports 10 (1) (2020) 122. [23] O. Baser, M. Yavuz, K. Ugurlu, F. Onat, B. U. Demirel, Automatic de-tection of the spike-and-wave discharges in absence epilepsy for humans and rats using deep learning, Biomedical Signal Processing and Control 76 (2022) 103726. [24] L. Wang, B. Huang, Z. Zhao, Z. Tong, Y. He, Y. Wang, Y. Wang, Y. Qiao, Videomae v2: Scaling video masked autoencoders with dual masking, in: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2023, pp. 14549–14560. [25] M.-H. Lee, A. Shomanov, B. Begim, Z. Kabidenova, A. Nyssanbay, A. Yazici, S.-W. Lee, Eav: Eeg-audio-video dataset for emotion recog-nition in conversational contexts, Scientific data 11 (1) (2024) 1026. [26] V. J. Lawhern, A. J. Solon, N. R. Waytowich, S. M. Gordon, C. P. Hung, B. J. Lance, Eegnet: a compact convolutional neural network for eeg-based brain–computer interfaces, Journal of neural engineering 15 (5) (2018) 056013. [27] R. T. Schirrmeister, J. T. Springenberg, L. D. J. Fiederer, M. Glasstet-ter, K. Eggensperger, M. Tangermann, F. Hutter, W. Burgard, T. Ball, Deep learning with convolutional neural networks for eeg decoding and visualization, Human brain mapping 38 (11) (2017) 5391–5420. [28] H. Kashefi Amiri, M. Zarei, M. R. Daliri, Epileptic seizure detection from electroencephalogram signals based on 1d cnn-lstm deep learning model using discrete wavelet transform, Scientific Reports 15 (1) (2025) 32820. [29] R. Wang, W. Jo, D. Zhao, W. Wang, A. Gupte, B. Yang, G. Chen, B.-C. Min, Husformer: A multimodal transformer for multimodal human state recognition, IEEE Transactions on Cognitive and Developmental Systems 16 (4) (2024) 1374–1390. [30] K. Yin, H.-B. Shin, D. Li, S.-W. Lee, Eeg-based multimodal representa-tion learning for emotion recognition, in: 2025 13th International Con-ference on Brain-Computer Interface (BCI), IEEE, 2025, pp. 1–4. 23 [31] Z. Kang, Y. Li, S. Gong, W. Zeng, H. Yan, L. Bian, Z. Zhang, W. T. Siok, N. Wang, Hypergraph multi-modal learning for eeg-based emotion recognition in conversation, arXiv preprint arXiv:2502.21154 (2025). 24
