@@ -1,0 +1,262 @@
+Title: Towards Unified Multi-task EEG Analysis with Low-Rank Adaptation
+
+URL Source: https://arxiv.org/pdf/2604.25131v2
+
+Published Time: Thu, 30 Apr 2026 00:23:20 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+# Towards Unified Multi-task EEG Analysis with Low-Rank Adaptation 
+
+Sicheng Dai 1,2,3,4 , Kai Chen 4, Hongwang Xiao 4,5 , Shan Yu 1,3 , and Qiwei Ye 4
+
+> 1
+
+Institute of Automation, Chinese Academy of Sciences 
+
+> 2
+
+School of Artifcial Intelligence, University of Chinese Academy of Sciences 
+
+> 3
+
+State Key Laboratory of Brain Cognition and Brain-inspired Intelligence Technology 
+
+> 4
+
+Beijing Academy of Artificial Intelligence 
+
+> 5
+
+State Key Laboratory of Multimedia Information Processing, Peking University daisicheng2023@ia.ac.cn, chenkai.cn@hotmail.com, hwxiao@baai.ac.cn, shan.yu@nlpr.ia.ac.cn, qwye@baai.ac.cn 
+
+Abstract —Recent self-supervised pre-training methods for elec-troencephalogram (EEG) have shown promising results. However, the pre-trained models typically require full fine-tuning on each downstream task individually to achieve good performance. In practical applications involving multiple tasks, utilizing aseparate model for each task is not ideal regarding computational and spatial cost. In this study, we go one step further and explore the simultaneous adaptation of a pre-trained model to multiple different tasks. The EEG signals exhibit significant heterogeneity due to their collection from various subjects using diverse devices and experimental setups, resulting in potential conflicts among different tasks that impede joint optimization. To tackle this challenge, we propose MTEEG, a multi-task EEG analysis framework which incorporates task-specific low-rank adaptation (LoRA) modules to disentangle the parameter space and alleviate task conflicts. To investigate the trade-off between task specification and interaction, we propose three variants of MTEEG that integrate the LoRA modules in different ways and evaluate them on six downstream tasks, demonstrating that MTEEG can surpass state-of-the-art single-task methods on the majority of metrics. MTEEG shows the potential of multi-task EEG analysis and promotes the development of general-purpose brain-computer interfaces in the future. 
+
+Index Terms —EEG, brain-computer interface, multi-task learning 
+
+I. I NTRODUCTION 
+
+Electroencephalography (EEG) is a widely used neu-roimaging technique that captures electrical activity of the brain through non-invasive scalp electrodes. In recent years, deep learning models, such as convolutional neural networks (CNNs) and transformers, have demonstrated remarkable suc-cess in extracting meaningful patterns from EEG data, leading to significant improvements in various applications including emotion recognition, motor imagery classification [1] and seizure detection [2]. However, despite their capability, these models are typically customized for specific tasks and input formats, which causes them to overfit and become ungeneral-izable. Drawing inspirations from the advancements of large lan-guage models [3], [4], some researchers [5]–[7] employ self-supervised learning to extract generic representations from large amounts of unlabeled EEG data, significantly improving TA TE SV CM SE PN      
+
+> TA
+> TE
+> SV
+> CM
+> SE
+> PN
+> Gradient Cosine Similarities
+> TA TE SV CM SE PN
+> Tasks (Datasets)
+> 0
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> Distribution of Gradient Magnitudes
+> -1
+> -0.8
+> -0.6
+> -0.4
+> -0.2
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+
+Fig. 1. Visualization of gradients from each task in a hard parameter sharing (HPS) framework with LaBraM backbone. (Left) Gradient cosine similarities between each two of the six tasks. (Right) Distribution of the gradient magnitudes from each task. The x-axis is labeled with the abbreviated names of datasets. 
+
+the model’s generalizability. Despite their remarkable perfor-mance, these models necessitate individual fine-tuning for each downstream task, thereby constraining their versatility and ap-plicability in practical scenarios involving multiple tasks. For example, an EEG-based health monitoring system may need to simultaneously perform multiple tasks, including seizure detection, emotion recognition and sleep stage classification, to have a comprehensive evaluation of patients’ condition. In this case, a pre-trained model must be replicated and fine-tuned three times, once for each task, resulting in significant computational and spatial overhead. Therefore, it would be beneficial to have a unified system that is capable of handling different tasks concurrently. Despite the promise, challenges persist to build an efficient multi-task model for EEG processing. The EEG signals, collected from various subjects utilizing different devices and experimental configurations, exhibit markedly distinct intrinsic characteristics. This variability can mislead the model with conflicting parameter update directions (Figure 1), leading to a substantial decrease in learning efficacy. Similar heterogeneity-induced issues have also been noted in other domains [8], [9], and many methods have been proposed to tackle them. For instance, some works incorporate separate modules for specific tasks [10], [11], while others use soft-gating mech-anisms to flexibly assign modules for different tasks [12], 
+
+> arXiv:2604.25131v2 [cs.LG] 29 Apr 2026
+
+[13]. Nevertheless, the majority of these studies focus on the analysis of image, text and audio data, raising doubts about the applicability of their findings to EEG. In this study, we propose MTEEG, a novel EEG analysis framework which exploits a pre-trained LaBraM [7] along with task-specific low-rank adaptation (LoRA) modules to facilitate efficient multi-task joint training. To investigate the trade-off between task specification and interaction, we conduct experiments with three variants of MTEEG that integrates the LoRA modules in different ways: 1) MTEEG-SP allocates a separate LoRA module for each task, thereby maximizing task specification; 2) MTEEG-RT employs a Mixture of Ex-perts (MoE)-like design and reuses the same set of LoRA modules (experts) across all the tasks, with learnable routers to determine the weights of experts at each layer, thereby enhancing task interaction; 3) MTEEG-DC decomposes the LoRA module into a task-agnostic down-projection matrix and multiple task-specific up-projection matrices, promoting the dual objectives of global knowledge reuse and task-specific knowledge disentanglement. Experiments show that MTEEG-DC performs better than the other two variants and surpasses state-of-the-art single-task methods on the majority of tasks and metrics. Subsequent analysis reveals that MTEEG-DC delineates the clearest task boundaries within its feature space, confirming its strong performance and capacity to alleviate task conflicts. In summary, our contributions are as follows:  
+
+> •
+
+We investigate multi-task EEG analysis, which is a crucial yet underexplored aspect in the practical application of brain-computer interfaces. Concurring with prior research on other data types, we observe that joint training on heterogeneous EEG datasets also presents the issue of conflicts between different tasks, leading to substantial performance deterioration of the model.  
+
+> •
+
+We present the MTEEG framework, which enhances a pre-trained model by incorporating task-specific modules to achieve parameter isolation across different tasks. This isolation allows for the separation of gradients to prevent conflicts, hence facilitating multi-task joint training. To take both task specification and interaction into account, we introduce three variants of the framework: MTEEG-SP, MTEEG-RT and MTEEG-DC, and evaluate their performance on downstream tasks.  
+
+> •
+
+Through extensive experiments, we demonstrate that af-ter joint optimization on six publicly available datasets, MTEEG can handle abnormal detection, event type clas-sification, emotion recognition, seizure detection, sleep stage classification and motor imagery classification si-multaneously, achieving performance superior than state-of-the-art single-task methods on the majority of metrics. II. M ETHODOLOGY 
+
+A. Problem Formulation 
+
+Assume there are a total of P tasks. For p ∈ { 1, 2, . . . , P },given any multi-channel EEG signal X ∈ RCp×Tp in the p-th task, where Cp and Tp represent the number of channels and the input duration respectively, the model aims to predict the corresponding label y ∈ Y p, where Yp represents the set of all possible outputs. 
+
+B. LaBraM Preliminaries 
+
+The architecture of MTEEG is built upon that of LaBraM [7]. An input EEG sample X ∈ RCp×Tp is first segmented in the temporal dimension with a non-overlapping window of length w, resulting in patches x = {xi,j |i = 1 , 2, . . . , C p, j =1, 2, . . . , ⌊ Tp 
+
+> w
+
+⌋} . The patches are then processed sequentially by the temporal encoder, transformer encoder and classifica-tion head to produce the final output. 
+
+1) Temporal Encoder: The temporal encoder takes the segmented input patches and encode them into embeddings, serving to capture the intricate temporal features in the signal. It consists of multiple temporal convolution blocks, each of which is composed of a 1-D convolution layer, a group nor-malization layer, and a GELU activation function. Formally, given a set of input patches x, the output can be denoted as 
+
+{ei,j = T E (xi,j ) ∈ Rd|xi,j ∈ x},
+
+where T E represents the temporal encoder and d is the dimension of the embeddings. 
+
+2) Transformer Encoder: To take account of the global features in the signal, the patch embeddings are added with temporal and spatial embeddings based on the 10-20 inter-national system, then fed into the transformer encoder to be processed with the attention mechanism. The attention function can be formulated as 
+
+Attention( Q, K, V ) = softmax( LN( Q)LN( K)T
+
+pdp
+
+)V, 
+
+where dp is the dimension of the key and query, and LN stands for layer normalization, which are added to stabilize training by avoiding overly large values in the attention logits. 
+
+3) Pre-training Procedure: Before multi-task learning on downstream tasks, a LaBraM model is pre-trained on un-labeled data to provide a solid foundation for extracting useful information raw EEG signals. Specifically, we start by training a neural tokenizer which is inspired by VQ-VAE [14]. The tokenizer is followed by a neural codebook which quantizes the continuous representations into discrete tokens. The learning process is then guided by the reconstruction of the amplitude and phase from these discrete tokens. After the tokenizer is sufficiently trained, we train the LaBraM model by randomly masking a proportion of the input patches and letting the model predict their corresponding indices in the codebook. 
+
+C. Multi-task Learning with LoRA 
+
+After pre-training, the model is adapted to downstream tasks via a fine-tuning process, in which LoRA modules are incorporated to achieve parameter isolation. To take account of the trade-off between task specification and interaction, we introduce three variants of MTEEG that integrates the LoRA modules in different ways, as illustrated in Figure 2. Backbone                                             
+
+> Input 1 Input 2
+> Head 1 Head 2
+> Output 1 Output 2
+> Backbone
+> Input 1 Input 2
+> Head 1 Head 2
+> Output 1 Output 2
+> Router
+> Backbone
+> Input 1 Input 2
+> Head 1 Head 2
+> Output 1 Output 2
+> Backbone
+> Input 1 Input 2
+> Head 1 Head 2
+> Output 1 Output 2
+> Up1 Up2
+> Down
+> (a) HPS (b) MTEEG -SP (c) MTEEG -RT (d) MTEEG -DC Fig. 2. A comparison between hard parameter sharing (HPS) and the proposed framework. (a) HPS lets different tasks share the same modules except for the classification heads. (b) MTEEG-SP isolates the parameters by allocating a separate LoRA module for each task. (c) MTEEG-RT encourages task interaction by reusing the same set of experts for all tasks. (d) MTEEG-DC balances task specification and interaction by combining a shared down-projection matrix and task-specific up-projection matrices. Note that in HPS all the modules are trainable, while in MTEEG the pre-trained backbone network is kept frozen. TABLE I ASUMMARY OF THE DOWNSTREAM DATASET STATISTICS
+> Dataset # Channel Sampling Rate (Hz) Duration (seconds) # Sample
+> TUAB 23 256 10 409,455 TUEV 23 256 5112,491 SEED-V 62 1000 1148,694 CHB-MIT 16 256 10 26,483 Sleep-EDF 2100 30 195,479 PhysioNet 64 160 418,540
+
+1) MTEEG-SP: To maximize task specification, MTEEG-SP allocates a separate LoRA module, comprising both the down-projection and up-projection matrices, for each task. This approach ensures that the gradients from each task remain entirely distinct and do not interfere with one another. Formally, for any linear layer f with weight matrix W0 ∈
+
+Rm×n and bias b0, we define a set of low-rank decomposition matrices ∆W = {∆Wi = BiAi|Bi ∈ Rm×r , A i ∈ Rr×n, i =1, 2, . . . , P } where r is the rank and P is the total number of tasks. When the model performs the p-th task, the corre-sponding adapter is combined with the layer, so the original linear operation is transformed into 
+
+f (x) = ( W0 + BpAp)x + b0
+
+2) MTEEG-RT: Inspired by MoE architectures, MTEEG-RT employs the same set of LoRA modules across all tasks, utilizing a router network to dynamically allocate weights to the experts according to the inputs at each layer. This approach promotes the model’s ability to identify similarities across various tasks and utilize shared knowledge effectively. Formally, for any linear layer f with weight matrix W0 ∈
+
+Rm×n and bias b0, the experts are defined as ∆W = {∆Wi =
+
+BiAi|Bi ∈ Rm×r , A i ∈ Rr×n, i = 1 , 2, . . . , S } where r is the rank and S is the total number of experts. When the model performs any task, a weighted sum of the experts’ outputs is combined with the layer, so the original linear operation is transformed into 
+
+f (x) = ( W0 +
+
+> S
+
+X
+
+> i=1
+
+ωiBiAi)x + b0,
+
+where ωi denotes the weight of i-th expert determined by the router. 
+
+3) MTEEG-DC: MTEEG-DC decomposes a LoRA module into a common down-projection matrix shared by all the tasks and multiple task-specific up-projection matrices. This approach promotes the dual objectives of global knowledge reuse and task-specific knowledge disentanglement. Formally, for any linear layer f with weight matrix W0 ∈
+
+Rm×n and bias b0, the down-projection matrix is denoted as 
+
+A and the task-specific up-projection matrices are denoted as 
+
+{Bi ∈ Rm×r |i = 1 , 2, . . . , P } where r is the rank and P is the total number of tasks. When the model performs the p-th task, the input is first multiplied by the down-projection matrix A,followed by the corresponding up-projection matrix Bp. Thus, the original linear operation is transformed into 
+
+f (x) = ( W0 + BpA)x + b0
+
+We apply the aforementioned transformations to all linear layers in the transformer encoder, including the linear pro-jections of query, key, value and output matrices, as well as the fully connected feed-forward network that follows the attention layers. Throughout the fine-tuning stage, all the pre-trained weights are kept frozen and only the low-rank adapters are trainable. In this way, the gradients from different tasks are distinctly separated or confined in different ways, thereby alleviating the heterogeneous conflict issue. III. E XPERIMENTS 
+
+A. Downstream Datasets 
+
+After pre-training, we fine-tune and evaluate our MTEEG jointly on the following six datasets, the statistics of which are summarized in Table I. 
+
+TUAB (abnormal detection) [15]: A corpus of EEGs that have been annotated as normal or abnormal. TABLE II DOWNSTREAM PERFORMANCE OF DIFFERENT METHODS 
+
+Methods # Trainable TUAB TUEV Params Balanced Acc. ↑ AUC-PR ↑ AUROC ↑ Balanced Acc. ↑ Cohen’s Kappa ↑ Weighted F1 ↑
+
+Single-task methods SPaRCNet 0.79M 0.7896 0.8414 0.8676 0.4161 0.4233 0.7024 ContraWR 1.6M 0.7746 0.8421 0.8456 0.4384 0.3912 0.6893 CNN-Transformer 3.2M 0.7777 0.8433 0.8461 0.4087 0.3815 0.6854 FFCL 2.4M 0.7848 0.8448 0.8569 0.3979 0.3732 0.6783 ST-Transformer 3.5M 0.7966 0.8521 0.8707 0.3984 0.3765 0.6823 BIOT 3.2M 0.7959 0.8792 0.8815 0.5281 0.5273 0.7492 LaBraM (Full) 5.8M 0.8126 0.8911 0.8843 0.6436 0.6254 0.8172 
+
+LaBraM (LoRA) 0.3M 0.8105 0.8944 0.8824 0.6431 0.6111 0.8103 Multi-task methods HPS 6.0M 0.8052 0.8740 0.8759 0.6093 0.6097 0.8109 MTEEG-SP 1.8M 0.8096 0.8775 0.8784 0.6438 0.6281 0.8184 MTEEG-RT 1.8M 0.7964 0.8651 0.8698 0.5574 0.5852 0.7981 MTEEG-DC 1.1M 0.8118 0.8841 0.8846 0.6521 0.6398 0.8209 
+
+Methods # Trainable SEED-V CHB-MIT Params Balanced Acc. ↑ Cohen’s Kappa ↑ Weighted F1 ↑ Balanced Acc. ↑ AUC-PR ↑ AUROC ↑
+
+Single-task methods SPaRCNet 0.79M 0.2865 0.1115 0.2966 0.8417 0.9364 0.9151 
+
+ContraWR 1.6M 0.3681 0.2099 0.3682 0.8034 0.9057 0.8671 CNN-Transformer 3.2M 0.3036 0.1367 0.2813 0.7861 0.9032 0.8701 FFCL 2.4M 0.3714 0.2152 0.3750 0.8106 0.9225 0.8918 ST-Transformer 3.5M 0.2828 0.1182 0.2740 0.8229 0.9165 0.8942 BIOT 3.2M 0.3831 0.2238 0.3831 0.8439 0.9367 0.9026 LaBraM (Full) 5.8M 0.4097 0.2616 0.4119 0.8229 0.9260 0.8989 LaBraM (LoRA) 0.3M 0.4056 0.2564 0.4107 0.8244 0.9329 0.9105 Multi-task methods HPS 6.0M 0.4057 0.2614 0.4108 0.7524 0.9223 0.8914 MTEEG-SP 1.8M 0.4112 0.2677 0.4173 0.8586 0.9742 0.9656 MTEEG-RT 1.8M 0.4089 0.2627 0.4153 0.7637 0.9054 0.8925 MTEEG-DC 1.1M 0.4113 0.2651 0.4182 0.8657 0.9831 0.9763 
+
+Methods # Trainable Sleep-EDF PhysioNet Params Balanced Acc. ↑ Cohen’s Kappa ↑ Weighted F1 ↑ Balanced Acc. ↑ Cohen’s Kappa ↑ Weighted F1 ↑
+
+Single-task methods SPaRCNet 0.79M 0.7066 0.6378 0.7538 0.5088 0.4355 0.6253 
+
+ContraWR 1.6M 0.7148 0.6785 0.7837 0.3855 0.2673 0.4888 CNN-Transformer 3.2M 0.7095 0.6874 0.7869 0.3967 0.2986 0.5324 FFCL 2.4M 0.7143 0.6633 0.7739 0.3868 0.2532 0.5202 ST-Transformer 3.5M 0.6993 0.6630 0.7690 0.4440 0.3301 0.5433 BIOT 3.2M 0.7006 0.6740 0.7799 0.3346 0.1642 0.3262 LaBraM (Full) 5.8M 0.7003 0.6742 0.7789 0.5072 0.4303 0.6110 LaBraM (LoRA) 0.3M 0.6918 0.6689 0.7759 0.5022 0.4289 0.6086 Multi-task methods HPS 6.0M 0.6628 0.6411 0.7647 0.4571 0.3677 0.5679 MTEEG-SP 1.8M 0.6847 0.6574 0.7720 0.5087 0.4376 0.6117 MTEEG-RT 1.8M 0.6753 0.6594 0.7678 0.4567 0.3654 0.5660 MTEEG-DC 1.1M 0.7024 0.6754 0.7828 0.5125 0.4402 0.6143 
+
+TUEV (event type classification) [15]: A subset of TUEG that contains annotations of EEG segments as one of six classes: (1) spike and sharp wave (SPSW), (2) generalized pe-riodic epileptiform discharges (GPED), (3) periodic lateralized epileptiform discharges (PLED), (4) eye movement (EYEM), (5) artifact (ARTF) and (6) background (BCKG). 
+
+SEED-V (emotion recognition) [16]: An emotion EEG dataset collected while 16 subjects watched video clips cor-responding to five emotion categories (happy, sad, neutral, disgust, and fear). 
+
+CHB-MIT (seizure detection) [17]: A database from Chil-dren’s Hospital Boston consisting of EEG recordings from 22 pediatric subjects with intractable seizures. Signals are sampled with 23 bipolar channels and we select the 16 standard montages in the experiments. Since the dataset is highly imbalanced (about 0.3% positive ratio), we segment the seizure regions with a 1-second stride to generate overlapping samples. In addition, we follow common practices [18], [19] to (a) HPS (b) MTEEG -SP (c) MTEEG -RT (d) MTEEG -DC Fig. 3. Feature distribution of HPS, MTEEG-SP, MTEEG-RT and MTEEG-DC, visualized by t-SNE on the six downstream datasets. The features are extracted from the final layer preceding the classification heads in each model. Results demonstrate that the superior methods in Table II produce features that are more discriminative across different tasks. 
+
+randomly select 10% of the negative samples during training. 
+
+Sleep-EDF (sleep stage classification) [20]: A database con-taining 197 whole-night PolySomnoGraphic sleep recordings, among which we use the 153 recordings from the study of age effects in healthy subjects (SC) in the experiments. Samples are manually annotated as one of the eight classes (W, N1, N2, N3, N4, REM, MOVEMENT, UNKNOWN). Following previous works [21], [22], we exclude movement artifacts at the beginning and the end of each sleep data that was labeled as MOVEMENT or UNKNOWN, as they do not belong to the five sleep stages. In addition, we merge the N3 and N4 stages into a single stage N3 to stick to the AASM manual [23]. 
+
+PhysioNet (motor imagery classification) [20]: A dataset containing EEG recordings from 109 participants, with trials that belong to 5 classes: left hand, right hand, both hands, both feet, as well as rest. Following previous works [24], [25], we discard data from 6 participants (S088, S090, S092, S100, S104, S106) that have inconsistent sampling frequencies or trial lengths. 
+
+B. Experimental Setup 1) Data Preprocessing: Following [7], we first filter the EEG signals within the range of 0.1 Hz to 75 Hz to eliminate low-frequency noise. A 50/60 Hz notch filter is subsequently employed to eliminate power-line interference. After that, all EEG signals are resampled to a frequency of 200 Hz. The typical range of EEG values is between -0.1 mV and 0.1 mV, which we normalize by setting the unit to 0.1 mV to ensure the values predominantly fall between -1 and 1. The same preprocessing pipeline is applied to both the pre-training and downstream datasets. 
+
+2) Data Split: For TUAB and TUEV, the training and test sets are provided by the original creator of the dataset. We adhere to BIOT [5] and LaBraM to partition the training set into training and validation subsets at a ratio of 80% and 20%, respectively. For SEED-V, we divide the 15 trials of each session into three groups of five, then consolidate each group from all sessions to create the training, validation, and test sets. For CHB-MIT, there are a total of 23 cases collected from 22 subjects. Following BIOT, we use cases 1 to 19 for training, cases 20 and 21 for validation, and cases 22 and 23 for testing. For Sleep-EDF and PhysioNet, we partition the recordings by order into training, validation and test sets at a ratio of 64%, 16% and 20%, respectively. 
+
+3) Training: In the pre-training of LaBraM, we use the de-fault hyperparameters specified in the original paper, with the exception of the number of temporal embeddings, which we increase from 16 to 64 to accommodate input samples exceed-ing 16 seconds in duration. The pre-training data comprises nine public datasets, with a total duration of approximately 2000 hours. In the fine-tuning stage, we train the models using binary cross-entropy loss for binary classification tasks and cross-entropy loss for multi-class classification tasks. Due to the significantly larger data volume of TUAB compared to other datasets, which leads to early convergence and overfit-ting, we randomly sample 10% of the data points in TUAB for each training epoch to balance the optimization. All the experiments are conducted on Linux servers equipped with NVIDIA A100 GPUs and Python 3.10.14 + PyTorch 2.2.2 + CUDA 12.1 environment. The optimal models are trained on the training set, selected from the validation set, and finally evaluated on the test set. We report the average values on three different random seeds to obtain comparable results. 
+
+4) Baselines: For single-task baselines, we consider both self-supervised and supervised methods. Self-supervised base-lines include LaBraM and BIOT [5]. Supervised baselines include SPaRCNet [26], ContraWR [27], CNN-Transformer [28], FFCL [29] and ST-Transformer [30]. LaBraM and BIOT are publicly accessible in their official repositories, with the supervised methods implemented by BIOT. We use the default hyperparameters for fair comparison. Given that multi-task learning in EEG processing is under-explored and there is currently no public method for compar-ison, we incorporate a pre-trained LaBraM as the backbone network within a hard parameter sharing (HPS) [31], [32] framework to set up the multi-task baseline. In HPS, different tasks share the same expert (backbone network), except for the classification heads. The implementation is based on LibMTL [33]. 
+
+5) Metrics: Following [7] and [5], we use Balanced Ac-curacy, AUC-PR and AUROC for binary classification tasks and Balanced Accuracy, Cohen’s Kappa and Weighted F1 for TABLE III ABLATION STUDY ON THE LORA R ANK r                                                                                                 
+
+> TUAB TUEV SEED-V CHB-MIT SleepEDF PhysioNet MTEEG-SP r=4 0.8065 0.6242 0.4021 0.8242 0.6797 0.4937 r=8 0.8096 0.6438 0.4112 0.8586 0.6847 0.4956 r=16 0.8080 0.6217 0.4093 0.8468 0.6780 0.4856 r=32 0.7985 0.5839 0.4042 0.8266 0.6816 0.4985
+> MTEEG-DC r=4 0.8064 0.6303 0.4036 0.8371 0.6961 0.4963 r=8 0.8118 0.6521 0.4113 0.8657 0.7024 0.5125
+> r=16 0.8076 0.6280 0.4074 0.8548 0.6944 0.5118 r=32 0.8019 0.6107 0.4069 0.8322 0.7003 0.4998
+> TABLE IV ABLATION STUDY ON ADAPTER LOCATIONS
+> TUAB TUEV SEED-V CHB-MIT SleepEDF PhysioNet MTEEG-SP MHSA 0.8049 0.6038 0.3989 0.8454 0.6833 0.4878 FFN 0.8075 0.6131 0.3947 0.8239 0.6815 0.4952 Both 0.8096 0.6438 0.4112 0.8586 0.6847 0.4956
+> MTEEG-DC MHSA 0.7989 0.6280 0.4062 0.8400 0.6952 0.5110 FFN 0.8086 0.6214 0.4026 0.8351 0.6984 0.5080 Both 0.8118 0.6521 0.4113 0.8657 0.7024 0.5125
+
+multi-class classification tasks. The implementation of all the metrics are based on PyHealth [34]. 
+
+C. Comparison with Prior Works 
+
+The main results are summarized in Table II. Firstly, there exists a notable performance gap between HPS and LaBraM across all tasks and metrics, despite their architectural simi-larities. This suggests that, similar to other data types, EEG signals from diverse sources can also confuse the model due to conflicting optimization directions, resulting in substantial performance degradation. Secondly, our proposed MTEEG-SP and MTEEG-DC significantly outperform HPS across all tasks, demonstrating the efficacy of gradient separation with task-specific low-rank modules. Furthermore, MTEEG-DC performs better than the state-of-the-art single-task methods on four out of six tasks. This indicates that the decomposition of LoRA into task-agnostic and task-specific matrices helps the model benefit from both task interaction and specification, yielding better representations for downstream performance. On the other hand, the performance of MTEEG-RT is subpar compared to the other two variants, which contradicts the effectiveness of MoE-based approaches in other domains. This may stem from the router being implemented with basic linear layers, which may be inadequate for differentiating the intricate intrinsic properties of highly noisy EEG signals. Thirdly, MTEEG has the advantage of being lightweight. The three variants have a maximum of 1.8M trainable parameters during fine-tuning. The efficiency of this lightweight design would be beneficial in practical applications, particularly when resources are limited. 
+
+D. Feature Visualization 
+
+The primary goal of MTEEG is to alleviate potential con-flicts between different tasks, so we assert that the resulting representational space should show some task-specific pat-terns. To validate this, we randomly select 1280 samples from the test set of each task (dataset) and extract the corresponding features from the final layers preceding the classification heads in each model. These features are subsequently visualized with t-SNE. As shown in Figure 3, MTEEG-SP and MTEEG-DC produce more discriminative features across different tasks than MTEEG-RT, which supports their stronger performance in Table II. Furthermore, the boundaries between tasks pro-duced by MTEEG-DC are more notable than those produced by MTEEG-SP. This indicates that task interaction, which is promoted by the incorporation of a task-agnostic down-projection matrix, is beneficial for the model’s ability to distinguish between tasks and reduce task interference. 
+
+E. Ablation Studies 
+
+We perform ablation studies on two factors that may have impact on the model’s performance: the LoRA rank r and the locations where LoRA modules are applied. In the ablation studies, balanced accuracy is used as the primary metric for comparison. 
+
+1) Impact of adapter rank r: We assign different values to r, ranging from 4 to 32 to examine its impact on the model’s downstream performance. As illustrated in Table III, MTEEG-DC consistently achieves its maximum performance at r = 8 across all datasets, whereas MTEEG-SP reaches peak performance at r = 32 on PhysioNet and r = 8 on the remaining datasets. This indicates that a higher rank does not necessarily yield better performance, likely due to over-fitting induced by an excess of parameters. Therefore, we select r = 8 
+
+as the default configuration in our experiments. 
+
+2) Impact of adapter locations: The selection of locations for applying low-rank adapters is known to significantly influence the model’s performance [35]. Thus, we evaluate three different configurations of adapter locations in the trans-former encoder: (1) only in multi-head self-attention modules (MHSA), (2) only in the feed-forward networks (FFN) that follow MHSA, (3) in both MHSA and FFN. As shown in Table IV, the adaptations of both MHSA and FFN are crucial, as the elimination of either leads to a significant decline in performance. IV. C ONCLUSION 
+
+This paper presents MTEEG, an innovative multi-task EEG analysis framework. Utilizing a powerful pre-trained model, MTEEG incorporates LoRA modules to disentangle the pa-rameter spaces for different tasks, thereby alleviating the conflicts stemming from the heterogeneity of EEG signals. We propose three variants of MTEEG that combines the LoRA modules in different ways to take account of different degrees of task specification and interaction, and validate their effectiveness on six publicly available datasets. Experiments show that MTEEG can simultaneously manage abnormal de-tection, event type classification, emotion recognition, seizure detection, sleep stage classification and motor imagery clas-sification, outperforming state-of-the-art single-task methods on most tasks and metrics. The versatility of MTEEG demon-strate the significant potential of multi-task EEG analysis and promote the advancement of general-purpose brain-computer interfaces in the future. REFERENCES [1] X. Li, Y. Zhang, P. Tiwari, D. Song, B. Hu, M. Yang, Z. Zhao, N. Kumar, and P. Marttinen, “Eeg based emotion recognition: A tutorial and review,” ACM Computing Surveys , vol. 55, no. 4, pp. 1–57, 2022. [2] P. Boonyakitanont, A. Lek-Uthai, K. Chomtho, and J. Songsiri, “A review of feature extraction and performance evaluation in epileptic seizure detection using eeg,” Biomedical Signal Processing and Control ,vol. 57, p. 101702, 2020. [3] J. Devlin, “Bert: Pre-training of deep bidirectional transformers for language understanding,” arXiv preprint arXiv:1810.04805 , 2018. [4] J. Achiam, S. Adler, S. Agarwal, L. Ahmad, I. Akkaya, F. L. Aleman, D. Almeida, J. Altenschmidt, S. Altman, S. Anadkat et al. , “Gpt-4 technical report,” arXiv preprint arXiv:2303.08774 , 2023. [5] C. Yang, M. B. Westover, and J. Sun, “Biot: Cross-data biosignal learning in the wild,” arXiv preprint arXiv:2305.10351 , 2023. [6] K. Yi, Y. Wang, K. Ren, and D. Li, “Learning topology-agnostic eeg representations with geometry-aware modeling,” Advances in Neural Information Processing Systems , vol. 36, 2024. [7] W.-B. Jiang, L.-M. Zhao, and B.-L. Lu, “Large brain model for learning generic representations with tremendous eeg data in bci,” arXiv preprint arXiv:2405.18765 , 2024. [8] T. Yu, S. Kumar, A. Gupta, S. Levine, K. Hausman, and C. Finn, “Gra-dient surgery for multi-task learning,” Advances in Neural Information Processing Systems , vol. 33, pp. 5824–5836, 2020. [9] Y. Zhou, Z. Zhao, H. Li, S. Du, J. Yao, Y. Zhang, and Y. Wang, “Exploring training on heterogeneous data with mixture of low-rank adapters,” arXiv preprint arXiv:2406.09679 , 2024. [10] Y.-C. Liu, C.-Y. Ma, J. Tian, Z. He, and Z. Kira, “Polyhistor: Parameter-efficient multi-task adaptation for dense vision tasks,” Advances in Neural Information Processing Systems , vol. 35, pp. 36 889–36 901, 2022. [11] R. K. Mahabadi, S. Ruder, M. Dehghani, and J. Henderson, “Parameter-efficient multi-task fine-tuning for transformers via shared hypernet-works,” arXiv preprint arXiv:2106.04489 , 2021. [12] J. Ma, Z. Zhao, X. Yi, J. Chen, L. Hong, and E. H. Chi, “Modeling task relationships in multi-task learning with multi-gate mixture-of-experts,” in Proceedings of the 24th ACM SIGKDD international conference on knowledge discovery & data mining , 2018, pp. 1930–1939. [13] W. Cheng, Z. Guo, X. Zhang, and W. Wang, “Cgc: A flexible and robust approach to integrating co-regularized multi-domain graph for clustering,” ACM Transactions on Knowledge Discovery from Data (TKDD) , vol. 10, no. 4, pp. 1–27, 2016. [14] A. Van Den Oord, O. Vinyals et al. , “Neural discrete representation learning,” Advances in neural information processing systems , vol. 30, 2017. [15] I. Obeid and J. Picone, “The temple university hospital eeg data corpus,” 
+
+Frontiers in neuroscience , vol. 10, p. 196, 2016. [16] W. Liu, J.-L. Qiu, W.-L. Zheng, and B.-L. Lu, “Comparing recognition performance and robustness of multimodal deep learning models for multimodal emotion recognition,” IEEE Transactions on Cognitive and Developmental Systems , vol. 14, no. 2, pp. 715–729, 2021. [17] A. H. Shoeb, “Application of machine learning to epileptic seizure onset detection and treatment,” Ph.D. dissertation, Massachusetts Institute of Technology, 2009. [18] D. Lee, B. Kim, T. Kim, I. Joe, J. Chong, K. Min, and K. Jung, “A resnet-lstm hybrid model for predicting epileptic seizures using a pretrained model with supervised contrastive learning,” Scientific Reports , vol. 14, no. 1, p. 1319, 2024. [19] Y. G. Chung, A. Cho, H. Kim, and K. J. Kim, “Single-channel seizure detection with clinical confirmation of seizure locations using chb-mit dataset,” Frontiers in Neurology , vol. 15, p. 1389731, 2024. [20] A. L. Goldberger, L. A. Amaral, L. Glass, J. M. Hausdorff, P. C. Ivanov, R. G. Mark, J. E. Mietus, G. B. Moody, C.-K. Peng, and H. E. Stanley, “Physiobank, physiotoolkit, and physionet: components of a new research resource for complex physiologic signals,” circulation , vol. 101, no. 23, pp. e215–e220, 2000. [21] A. Supratak, H. Dong, C. Wu, and Y. Guo, “Deepsleepnet: A model for automatic sleep stage scoring based on raw single-channel eeg,” IEEE transactions on neural systems and rehabilitation engineering , vol. 25, no. 11, pp. 1998–2008, 2017. [22] A. Supratak and Y. Guo, “Tinysleepnet: An efficient deep learning model for sleep stage scoring based on raw single-channel eeg,” in 2020 42nd Annual International Conference of the IEEE Engineering in Medicine & Biology Society (EMBC) . IEEE, 2020, pp. 641–644. [23] R. Berry, “The aasm manual for the scoring of sleep and associated events,” Rules, Terminology and Technical Specifications. Version , vol. 2, 2012. [24] K. Barmpas, Y. Panagakis, S. Bakas, D. A. Adamos, N. Laskaris, and S. Zafeiriou, “Improving generalization of cnn-based motor-imagery eeg decoders via dynamic convolutions,” IEEE Transactions on Neural Systems and Rehabilitation Engineering , vol. 31, pp. 1997–2005, 2023. [25] G. Zoumpourlis and I. Patras, “Motor imagery decoding using ensemble curriculum learning and collaborative training,” in 2024 12th Interna-tional Winter Conference on Brain-Computer Interface (BCI) . IEEE, 2024, pp. 1–8. [26] J. Jing, W. Ge, S. Hong, M. B. Fernandes, Z. Lin, C. Yang, S. An, A. F. Struck, A. Herlopian, I. Karakis et al. , “Development of expert-level classification of seizures and rhythmic and periodic patterns during eeg interpretation,” Neurology , vol. 100, no. 17, pp. e1750–e1762, 2023. [27] C. Yang, D. Xiao, M. B. Westover, and J. Sun, “Self-supervised eeg representation learning for automatic sleep staging,” arXiv preprint arXiv:2110.15278 , 2021. [28] W. Y. Peh, Y. Yao, and J. Dauwels, “Transformer convolutional neural networks for automated artifact detection in scalp eeg,” in 2022 44th Annual International Conference of the IEEE Engineering in Medicine & Biology Society (EMBC) . IEEE, 2022, pp. 3599–3602. [29] H. Li, M. Ding, R. Zhang, and C. Xiu, “Motor imagery eeg classification algorithm based on cnn-lstm feature fusion network,” Biomedical signal processing and control , vol. 72, p. 103342, 2022. [30] Y. Song, X. Jia, L. Yang, and L. Xie, “Transformer-based spatial-temporal feature learning for eeg decoding,” arXiv preprint arXiv:2106.11170 , 2021. [31] M. Long, Z. Cao, J. Wang, and P. S. Yu, “Learning multiple tasks with multilinear relationship networks,” Advances in neural information processing systems , vol. 30, 2017. [32] Y. Lu, A. Kumar, S. Zhai, Y. Cheng, T. Javidi, and R. Feris, “Fully-adaptive feature sharing in multi-task networks with applications in person attribute classification,” in Proceedings of the IEEE conference on computer vision and pattern recognition , 2017, pp. 5334–5343. [33] B. Lin and Y. Zhang, “Libmtl: A python library for multi-task learning,” 
+
+arXiv preprint arXiv:2203.14338 , 2022. [34] C. Yang, Z. Wu, P. Jiang, Z. Lin, J. Gao, B. Danek, and J. Sun, “PyHealth: A deep learning toolkit for healthcare predictive modeling,” in Proceedings of the 27th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD) 2023 , 2023. [Online]. Available: https://github.com/sunlabuiuc/PyHealth [35] E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, and W. Chen, “Lora: Low-rank adaptation of large language models,” 
+
+arXiv preprint arXiv:2106.09685 , 2021.
