@@ -1,0 +1,23 @@
+---
+title: "Greater hypoxic burden predicts weaker gray matter-CSF coordination independent of non-hypoxic arousals: Implications for glymphatic activity"
+title_zh: 更高的缺氧负荷预示着更弱的灰质-脑脊液协调性，且独立于非缺氧性觉醒：对类淋巴活动的意义
+authors: "Cho, G., Kam, K., Chen, A., Benveniste, H., Mecca, A. P., Valencia, D. I., Martillo, K. R., Chu, S. S., Kumar, A., Bubu, O. M., Osorio, R. S., Ayappa, I., Miner, B., Varga, A. W."
+date: 2026-04-29
+pdf: "https://www.biorxiv.org/content/10.64898/2026.04.25.720853v1.full.pdf"
+tags: ["query:slp-ns"]
+score: 7.0
+evidence: 阻塞性睡眠呼吸暂停中的睡眠碎片化和缺氧负担
+tldr: 本研究探讨了阻塞性睡眠呼吸暂停（OSA）中缺氧负担与睡眠碎片化对类淋巴系统关键驱动因素的影响。通过对36名受试者进行7T静息态磁共振成像，研究发现缺氧负担（T90）而非呼吸努力相关的觉醒（RERAs）与灰质血氧水平依赖信号（gBOLD）与脑脊液（CSF）流动的协调性减弱显著相关。研究揭示了缺氧是导致OSA患者脑搏动与脑脊液动力学受损的主要病理特征，为理解OSA相关的神经退行性风险提供了新机制。
+source: biorxiv
+selection_source: fresh_fetch
+motivation: 旨在明确OSA中缺氧负担和睡眠碎片化这两个病理特征，究竟哪一个是导致类淋巴系统功能障碍及神经退行性疾病风险的核心驱动力。
+method: 利用7T高场强磁共振成像技术，量化分析了36名受试者的gBOLD-CSF耦合协调度及脑搏动强度，并结合多导睡眠监测评估缺氧指标与觉醒指标的相关性。
+result: 研究发现缺氧负担（T90）与gBOLD-CSF耦合减弱独立相关，且在颞叶等区域观察到异常的脑搏动增强，而睡眠碎片化（RERAs）与这些指标均无显著关联。
+conclusion: 缺氧负担而非睡眠碎片化是OSA患者类淋巴活动受损的主要病理因素，这可能解释了OSA患者颞叶易受损及认知下降的风险。
+---
+
+## 摘要
+目的：探讨缺氧负荷是否与类淋巴活动的关键驱动因素具有独特相关性，且独立于睡眠碎片化。背景：阻塞性睡眠呼吸暂停（OSA）是包括阿尔茨海默病在内的多种神经退行性疾病的有力风险因素，而类淋巴系统受损是一个潜在的机制路径。然而，目前尚不清楚 OSA 的不同病理特征（包括缺氧负荷和睡眠碎片化）是否与类淋巴活动的两个关键生理驱动因素存在差异性关联：(1) 大脑搏动与脑脊液（CSF）流动的协调性，以及 (2) 大脑搏动强度。方法：28 名新确诊的 OSA 患者和 8 名无 OSA 的健康个体完成了实验室多导睡眠监测或 WatchPAT，以评估缺氧负荷（量化为血氧饱和度低于 90% 的时间，T90）和睡眠碎片化（量化为非缺氧性呼吸努力相关觉醒，RERAs）。参与者还完成了 7T 静息态 fMRI，利用 gBOLD-CSF 耦合（即灰质血氧水平依赖信号搏动与 CSF 流入之间的互相关）量化大脑搏动与 CSF 流动的协调性，并利用 gBOLD 振幅量化大脑搏动强度。使用分层回归和 Pearson 相关分析探讨睡眠指标与 fMRI 衍生指标之间的关联。结果：较高的 T90 与较弱的 gBOLD-CSF 耦合相关，且独立于年龄、性别、种族和 RERAs（β=0.07，p=0.008）。T90 还显著提高了 gBOLD-CSF 耦合模型的解释方差（ΔR2=0.20，p=0.008）。与预期相反，较高的 T90 与颞叶以及多个额叶和顶叶区域较高的 gBOLD 振幅相关。在显示出与 T90 相关的 gBOLD 振幅升高的区域内，较高的 gBOLD 振幅与更强的区域特异性 gBOLD-CSF 耦合无关。这与不涉及 T90 的区域形成对比，在这些区域中，较高的 gBOLD 振幅与更强的 gBOLD-CSF 耦合相关（β 差异=0.0006，p<0.001）。RERAs 与整个大脑皮层的 gBOLD-CSF 耦合和 gBOLD 振幅均无关联。结论：在 OSA 中，缺氧负荷而非呼吸努力相关的睡眠碎片化，可能是与大脑搏动和 CSF 动力学受损相关的主要病理特征，而这两者都是类淋巴活动的关键驱动因素。这些改变在颞叶可能最为显著，这可能反映了其较高的代谢需求和对低氧血症的易感性。
+
+## Abstract
+Objective. To examine whether hypoxic burden is distinctly associated with key drivers of glymphatic activity, independent of sleep fragmentation. Background. OSA is a robust risk factor for multiple neurodegenerative conditions, including Alzheimers disease, with glymphatic impairment representing a potential mechanistic pathway. However, it remains unknown whether distinct pathological features of OSA, including hypoxic burden and sleep fragmentation, are differentially associated with the two key physiological drivers of glymphatic activity: (1) coordination between brain pulsations and CSF flow and (2) brain pulsation strength. Methods. Twenty-eight individuals with newly identified OSA and eight healthy individuals without OSA completed either in-lab polysomnography or WatchPAT, providing estimates of hypoxic burden, quantified as time spent below 90% oxygen saturation (T90), and sleep fragmentation, quantified as non-hypoxic respiratory effort-related arousals (RERAs). Participants also completed 7T resting-state fMRI to quantify the coordination between brain pulsations and CSF flow using gBOLD-CSF coupling (i.e., cross-correlation between gray matter blood oxygen level dependent signal pulsations and CSF inflow) and brain pulsation strength using gBOLD amplitude. Hierarchical regression and Pearson correlations were used to examine associations between sleep measures and fMRI-derived metrics. Results. Greater T90 was associated with weaker gBOLD-CSF coupling, independent of age, sex, race, and RERAs (Table 2; {beta}=0.07, p=0.008). T90 also significantly improved model-explained variance in gBOLD-CSF coupling (Table 2; {triangleup}R2=0.20, p=0.008). Contrary to expectations, greater T90 was associated with higher gBOLD amplitude across the temporal lobe and multiple frontal and parietal regions. Within regions showing T90-linked elevations in gBOLD amplitude, higher gBOLD amplitude was not associated with stronger region-specific gBOLD-CSF coupling. This contrasted with regions not associated with T90, where higher gBOLD amplitude was associated with stronger gBOLD-CSF coupling (difference in {beta}=0.0006, p<0.001). RERAs were not associated with gBOLD-CSF coupling and gBOLD amplitude throughout the cerebral cortex. Conclusions. In OSA, hypoxic burden, rather than respiratory effort-related sleep fragmentation, may be the primary pathological feature associated with impaired brain pulsation and CSF dynamics, both of which are key drivers of glymphatic activity. These alterations may be most prominent in the temporal lobe, potentially reflecting its elevated metabolic demand and vulnerability to hypoxemia.

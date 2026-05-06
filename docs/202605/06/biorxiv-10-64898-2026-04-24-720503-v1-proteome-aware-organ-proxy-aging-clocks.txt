@@ -1,0 +1,1164 @@
+Title: 2026.04.24.720503v1.full.pdf
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.04.24.720503v1.full.pdf
+
+Number of Pages: 25
+
+Markdown Content:
+1
+
+# Proteome-aware organ proxy aging clocks 1
+
+Hao Xu 1 , Jiawei Chen 1 , Dongxu Chen 1 , Kehang Mao 1 and Jing-Dong J. Han 1,2 
+
+2
+
+3 
+
+> 1
+
+Peking-Tsinghua Center for Life Sciences, Academy for Advanced Interdisciplinary 4
+
+Studies, Center for Quantitative Biology (CQB), Peking University, Beijing 100871, China 5 
+
+> 2
+
+Peking University Chengdu Academy for Advanced Interdisciplinary Biotechnologies, 6
+
+Chengdu, Sichuan 610213, China 7
+
+8
+
+Correspondence should be addressed to J.-D.J.H. (Email: jackie.han@pku.edu.cn). 9
+
+10 
+
+Abstract 11 
+
+The development of minimally invasive multi-organ aging clocks, established through the 12 
+
+deconvolution of plasma proteomics, has provided a convenient tool to assess the organ 13 
+
+heterogeneity of aging. However, prior studies relied on bulk transcriptomic data for organ 14 
+
+marker identification, which may lead to the potential misidentification of protein markers, 15 
+
+and their research scope was largely confined to a few common diseases. To address 16 
+
+these limitations, this study integrated multi-dimensional data to refine organ-enriched 17 
+
+marker panels by incorporating organ-specific proteome information, and developed 18 
+
+Proteome-Aware Organ Proxy Proteome Aging Clock (PAOPAC). PAOPAC exhibited 19 
+
+decelerated biological age corresponding to improved physiological phenotypes across 20 
+
+two independent external datasets, demonstrating its generalizability. We then leveraged 21 
+
+PAOPAC to generate a comprehensive disease-aging landscape and to investigate the 22 
+
+process of chronological and biological aging. Our analyses revealed that the majority of 23 
+
+diseases are associated with an accelerated aging phenotype. 24 
+
+25 
+
+Introduction 26 
+
+Accurately quantifying the biological aging process is highly dependent on reliable aging 27 
+
+clocks. However, identifying clinically valuable aging biomarkers and constructing 28 
+
+universally applicable aging clocks has long been a core unsolved problem in this field 1,2 
+
+29 
+
+and presents multiple methodological challenges. Firstly, regarding the choice of 30 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 2
+
+measuring omics, although phenomics (e.g., imaging, physiological indicators) offers 31 
+
+advantages of being non-invasive or minimally invasive, the features they capture are often 32 
+
+downstream outputs of aging, making it difficult to deeply parse their upstream molecular 33 
+
+mechanisms without other sequencing-based omics 3,4 . While transcriptomics and 34 
+
+epigenomics can provide rich mechanistic insights, the in vivo , longitudinal, and repeated 35 
+
+sampling from specific organs (such as the brain, heart, liver) poses significant ethical and 36 
+
+technical hurdles 5 . Secondly, there is an inherent trade-off between the generalizability and 37 
+
+specificity of aging clocks. Most existing clocks are built using single biological sample and 38 
+
+tailored to specific tissues, resulting in a lack of cross-tissue universality 6,7 . Conversely, 39 
+
+clocks that integrate multi-organ shared features typically sacrifice organ-level specificity, 40 
+
+hindering the resolution of organ-specific heterogeneity in aging 5 .41 
+
+Fortunately, plasma proteomics demonstrates unique integrative potential. Regarding 42 
+
+sample accessibility, plasma samples can be obtained minimally invasively via routine 43 
+
+venipuncture, facilitating longitudinal collection and repeated measurements in large-scale 44 
+
+population cohorts. Furthermore, besides the proteins with a functional role in plasma, 45 
+
+there are also tissue actively secrete or leakage proteins in the circulation 8 . Theoretically, 46 
+
+computational methods can deconvolve specific signals from different organ systems. And 47 
+
+both work in experimental animals and human demonstrate that the abundance of tissue 48 
+
+leakage proteins in plasma can reflect physiological or pathological states of their tissue of 49 
+
+origin 9,10 . Finally, on the technological front, high-throughput proteomics platforms based 50 
+
+on affinity reagents, such as Olink and SomaScan, are increasingly mature, enabling the 51 
+
+systematic detection of hundreds to thousands of plasma proteins in large cohorts 11,12 .52 
+
+Despite the breakthroughs in current research utilizing the plasma proteome, they still face 53 
+
+several key limitations that warrant in-depth investigation. 54 
+
+First, the vast majority of current aging studies rely on data generated from a single 55 
+
+technology platform 13-16 . This dependency may introduce platform-specific technical biases, 56 
+
+limiting the generalizability of the conclusion. Second, currently developed clocks that 57 
+
+deconvolve organ-proxy aging signals from the plasma proteome are typically based on 58 
+
+GTEx (Genotype-Tissue Expression) dataset 14-16 , which is a measurement at bulk-RNA 59 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 3
+
+level 17 . However, plasma protein abundance is regulated not only by transcription but also 60 
+
+by a multitude of complex biological processes, including post-transcriptional, translational 61 
+
+and post-translational regulations 18-20 . Third, current studies exploring associations 62 
+
+between plasma proteomic aging clocks and diseases often focus on a few typical age-63 
+
+related diseases (e.g., Alzheimer's disease, type 2 diabetes). This selective focus 64 
+
+overlooks a systematic investigation of a broader disease spectrum, lacking research on 65 
+
+non-canonical age-related diseases or comorbidity patterns, which limits our 66 
+
+understanding of aging as a common risk factor within a complex network of multiple 67 
+
+diseases. 68 
+
+To address the summarized limitations, this study utilized plasma proteomic data from 69 
+
+over 50,000 individuals in the UK Biobank (UKB) based on the Olink platform 21 as the 70 
+
+primary discovery cohort, and another independent Olink dataset as external validation, 71 
+
+alongside a combined cohort of over 300 individuals based on the SomaScan 72 
+
+platform 16,22,23 to cross-examine the conclusions found in discovery cohort. Comparative 73 
+
+analyses on aging-related proteins, their temporal change patterns, and associated 74 
+
+pathways were conducted to derive platform-agnostic insights into aging. This study also 75 
+
+incorporated the Human Protein Atlas (HPA) 24 and Cell Marker 2.0 (CM2) 25 databases, 76 
+
+providing complementary evidence at the bulk proteome and single-cell transcriptome 77 
+
+levels, respectively. This approach enhances the theoretical foundation for constructing 78 
+
+Multi-Organ Proteome Aging Clock (PAOPAC). A comprehensive comparison between 79 
+
+ICD-10 coded event outcomes and organ aging rates was performed to construct a 80 
+
+complete disease-aging landscape. 81 
+
+82 
+
+Results 83 
+
+More accurate organotypic proteins reveal age-dependent dynamics 84 
+
+We utilized proteomic data from the UKB 21 as the discovery dataset (Supplementary Fig. 85 
+
+1a). Furthermore, we cross-examined three smaller public datasets based on the aptamer-86 
+
+based SomaScan platform 16,22,23 (Methods, Fig. 1a and Supplementary Fig. 1a) for protein-87 
+
+level and pathway-level consistency. 88 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 4
+
+As noted earlier, organ enriched markers for current organ aging clocks were primarily 89 
+
+derived from the GTEx dataset 14-16 , which reflects bulk RNA-level measurements 17 .90 
+
+However, due to post-transcriptional, translational and post-translational regulation, protein 91 
+
+abundance does not always correlate with RNA expression 18-20 . To address this 92 
+
+discrepancy, we prepared three marker sets representing different molecular levels: the 93 
+
+Human Protein Atlas (HPA) for bulk proteome, CellMarker 2.0 (CM2) for single-cell 94 
+
+transcriptome, and the GTEx dataset for bulk transcriptome 17,24,25 (Methods and Fig. 1a). 95 
+
+An initial analysis revealed that only a small proportion of organ markers used in existing 96 
+
+clocks were consistent with HPA data, while at least 20% of proteins showed high 97 
+
+expression in other organs (Supplementary Fig. 1b). But we found that markers derived 98 
+
+solely from GTEx constitute approximately 20% of the final usable proteins in both 99 
+
+platforms (Supplementary Fig. 2a). So, we decided to use this bulk-transcriptome data as 100 
+
+a complementary resource after a stringent filter. Ultimately, we integrated a final marker 101 
+
+list encompassing 15 tissues/organs and 5,954 proteins (Fig. 1b). 102 
+
+To further validate these organ enriched markers are associated with the organ 103 
+
+functions, we performed GO term enrichment analysis. The results indicated strong 104 
+
+associations between the marker sets and relevant organ functions. For example, brain 105 
+
+markers were enriched for terms such as modulation of chemical synaptic transmission, 106 
+
+neurotransmitter transport, and regulation of membrane potential. Even for organs with 107 
+
+relatively few markers, such as bone marrow, functionally relevant terms like myeloid cell 108 
+
+homeostasis and erythrocyte homeostasis were significantly enriched (Fig. 1b). 109 
+
+We next investigated proteins exhibiting age-dependent dynamics across platforms 110 
+
+and traced their tissue origins. Linear age-associated proteins were identified by 111 
+
+calculating Pearson correlation coefficients (PCC) between expression levels and age. We 112 
+
+observed that ELN, SCARF2, DPT and SOST were positively correlated with age (Fig. 1c). 113 
+
+Among these, ELN and SCARF2 are core components of a recently published proteomic 114 
+
+aging clock 26 . Also, ELN and its fragment can reduce healthspan and lifespan 27 . DPT has 115 
+
+been shown to ameliorate inflammation in adipose tissue 28 , and interacts with TGF-β, 116 
+
+potentiating its effects. Notably, TGF-β is a key mediator of the senescence-associated 117 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 5
+
+secretory phenotype (SASP) and promotes systemic aging 29 . SOST is upregulated in 118 
+
+calcifying aortic valve disease 30 . Proteins that decreased with age (Fig. 1c) like IGDCC4, 119 
+
+KIT and UBE2D4, have been identified as a protective factor against dementia 31 , and age-120 
+
+related non-alcoholic steatohepatitis (NASH) 32 , or helps maintain proteome homeostasis 121 
+
+in youth 33 .122 
+
+We noted a substantial number of age-uncorrelated proteins in all datasets, 123 
+
+particularly in SomaScan, likely due to its broader target coverage. To capture more 124 
+
+nuanced temporal patterns, we applied the Fuzzy C-Means (FCM) clustering algorithm 34 
+
+125 
+
+to group proteins with similar expression trajectories over time. Four distinct expression 126 
+
+patterns were identified in both datasets: ‘Up-Down’, ‘Up’, ‘Down’, and ‘Down-Up’ (Fig. 2a 127 
+
+and Fig. 2b). We found the overlap of specific proteins between platforms was limited, and 128 
+
+SomaScan detected more down-regulated proteins, possibly owing to its higher sensitivity 129 
+
+(Fig. 2c), a finding consistent with previous studies 35-37 . Given that expression patterns 130 
+
+were conserved across platforms, we hypothesized that broader functional insights might 131 
+
+reconcile technical differences. Indeed, pathway enrichment analysis revealed relatively 132 
+
+more similarity at the functional level (Fig. 2c). These consistent pathways include the ‘Up-133 
+
+Down’ pattern enriched leukocyte-related pathways and negative regulation of proteolysis 134 
+
+(Fig. 2a and Fig. 2b); the ‘Up’ pattern enriched extracellular matrix organization and 135 
+
+inflammation-related pathways (Fig. 2a and Fig. 2b), both established hallmarks of aging 38 ;136 
+
+the ‘Down’ pattern enriched PI3K-Akt signaling pathway, which enhances mitochondrial 137 
+
+function 39 , (Fig. 2a and Fig. 2b) and may contribute to increased telomere vulnerability 40 ;138 
+
+and finally the ‘Down-Up’ pattern enriched vesicle organization and hemostasis (Fig. 2a 139 
+
+and Fig. 2b). Tissue-origin analysis further indicated an age-related reduction in brain-140 
+
+derived proteins in plasma (Fig. 2a and Fig. 2b). 141 
+
+In summary, while differences exist at the protein level between platforms, we 142 
+
+observed relatively more consistent dynamic patterns and associated pathways at a 143 
+
+broader, functional level. This macro-level analysis may help reconcile platform-specific 144 
+
+discrepancies and offers insights for future research integrating data from different 145 
+
+proteomic platforms. 146 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 6
+
+147 
+
+Construction of more accurate organ-proxy aging clocks 148 
+
+To quantify the heterogeneity of aging rates across different organs, we constructed organ-149 
+
+proxy aging clocks based on the plasma proteome, following the approach of previous 150 
+
+studies 14-16 , but using the marker list identified in this work. We evaluated seven machine 151 
+
+learning methods, among which LGBM and XGBoost demonstrated superior performance, 152 
+
+particularly for organs with fewer markers (Fig. 3a). Due to its faster training speed (~32 153 
+
+hours vs. ~50.5 hours for XGBoost), LGBM was selected as the final model for building the 154 
+
+aging clocks. During model training, covariates were included for adjustment, and the 155 
+
+Boruta algorithm was applied for feature selection (Methods). We ultimately developed one 156 
+
+conventional aging clock trained on all plasma proteins and 14 organ-proxy clocks. On the 157 
+
+held-out validation set (20% of the total data), 12 of the organ clocks achieved a Pearson 158 
+
+correlation coefficient (PCC) above 0.4, with the exceptions being the Eye, Bone Marrow, 159 
+
+and Oral clocks (Fig. 3b). 160 
+
+Given that our Conventional clock was trained on the full proteome-consistent with 161 
+
+previous studies-we further benchmarked its characteristics against prior models. Using 162 
+
+Elastic Net (EN), Goeminne et al. 15 retained the largest number of features, followed by 163 
+
+Oh et al. 14 , who utilized LASSO regression. In contrast, our model employed LGBM 164 
+
+coupled with the Boruta algorithm for rigorous feature selection, resulting in the most 165 
+
+parsimonious feature set. Notably, nearly all of the markers identified by our approach 166 
+
+constituted a subset of those identified by the other two clocks (Supplementary Fig. 3a). 167 
+
+This refined marker selection might have contributed to the enhanced generalizability to 168 
+
+our approach. 169 
+
+We next compared our organ-proxy aging clocks with previously published models. 170 
+
+As the initial study by Oh et al . used the SomaScan platform 16 , making direct comparisons 171 
+
+challenging, we focused on more recent work by Goeminne et al . and Oh et al .14,15 .172 
+
+Although these studies also relied on the UKB proteomic data, the discrepancies in data 173 
+
+splitting protocols make direct benchmark comparisons (e.g., MAE) problematic due to the 174 
+
+unverifiable risk of data leakage. 175 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 7
+
+However, a robust aging clock should also effectively capture variations in biological 176 
+
+age, such as functional decline under disease conditions. To further examine the ability of 177 
+
+these clocks to detect biological aging differences, we leveraged detailed ICD-10 178 
+
+diagnostic records available in the UKB to evaluate associations between organ aging 179 
+
+states and related diseases. 180 
+
+First, we calculated the age-adjusted biological age difference for each organ-proxy 181 
+
+clock (Organ-cAgeDiff, see Methods). Leveraging ICD-10 chapter codes, we mapped 182 
+
+specific diseases to their corresponding target organs. The Conventional was excluded, 183 
+
+because of its lacking of a specific anatomical target. Then, for both prevalent and incident 184 
+
+cases, we employed Logistic or Cox proportional hazards regression models to determine 185 
+
+the Odds Ratios (OR) or Hazard Ratios (HR) for each organ-proxy clocks in relation to 186 
+
+these diseases. Within each disease category, the OR/HR values of all organs were ranked 187 
+
+in descending order. A rank closer to 1 indicates that the corresponding organ-proxy clock 188 
+
+possesses superior diagnostic or predictive power for diseases within that anatomical 189 
+
+domain compared to other organ clocks, thereby validating its effectiveness as an organ-190 
+
+level biological proxy. PAOPAC performed particularly well for Cardiovascular, 191 
+
+Musculoskeletal, Digestive and Brain, while remaining competitive for Immune, Skin, 192 
+
+Endocrine and Respiratory (Fig. 3c). Although PAOPAC included two novel organs: Eye 193 
+
+and Bone marrow, they didn’t show good organ-proxy performance, same for the Urinary 194 
+
+clock in comparison (Supplementary Fig. 3b). Thus, these three organs will be excluded in 195 
+
+future research. 196 
+
+Next, we further evaluated the ability of different clocks to discriminate intervention 197 
+
+effects. We tested clocks using an external dataset comprising plasma samples from 43 198 
+
+patients with idiopathic pulmonary fibrosis (IPF) collected before and after 12 weeks of 199 
+
+treatment 41 . Notably, only the Respiratory clock in PAOPAC successfully detected a 200 
+
+significant reduction in biological age within the treatment group compared to the placebo 201 
+
+(Supplementary Fig. 3c). This shift likely reflects a meaningful improvement in pulmonary 202 
+
+physiological integrity. Supporting this interpretation, we observed that reductions in 203 
+
+PAOPAC Respiratory age were significantly correlated with improvements in forced vital 204 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 8
+
+capacity (FVC), which were undetectable by the Goeminne or Oh Lung clock (Fig. 3d), 205 
+
+thereby underscoring the clinical relevance and sensitivity of our organ-proxy model. 206 
+
+In summary, by leveraging organ-enriched proteomic markers, rather than relying 207 
+
+solely on transcriptomic data, our clocks demonstrated improved organ-proxy performance 208 
+
+and clinical application potential. 209 
+
+210 
+
+A comprehensive disease-aging relation landscape 211 
+
+While previous studies have primarily focused on a limited set of common diseases-such 212 
+
+as type 2 diabetes, heart failure, and Alzheimer’s disease--a comprehensive analysis of 213 
+
+the relationship between disease and organ aging has been lacking. In this study, we 214 
+
+therefore compared Organ-cAgeDiff between patients and healthy controls across 101 215 
+
+prevalent disease groups and 104 incident disease groups. Our analysis reveals that most 216 
+
+disease categories are not limited to the aging of a single organ but are associated with 217 
+
+accelerated aging across multiple organ-proxies (OR/HR > 1, indicated by red shading in 218 
+
+Fig. 4a). And, Organ-cAgeDiff exhibited a high degree of consistency between prevalent 219 
+
+cases and incident risks (Fig. 4b). This suggests that the Organ-cAgeDiff not only reflects 220 
+
+current pathological states but also possesses prospective predictive value for future 221 
+
+disease onset. 222 
+
+Given the pronounced changes in Brain-cAgeDiff observed across disease states (Fig. 223 
+
+4a, b), we specifically examined diseases within the ‘Diseases of the nervous system’ 224 
+
+chapter. The Cox proportional hazards regression results showed that each additional year 225 
+
+of aging inferred from the Musculoskeletal, Brain, or Conventional clocks significantly 226 
+
+elevated the risk of nervous system diseases (Fig. 4c). 227 
+
+We further investigated the association between organ aging rates and all-cause 228 
+
+mortality. Among the 12 organ-proxy clocks, the Conventional (HR = 1.14, 95% CI: 1.12-229 
+
+1.17), Musculoskeletal (HR = 1.10, 95% CI: 1.09-1.11), and Brain (HR = 1.09, 95% CI: 230 
+
+1.08-1.10) clocks exhibited the highest hazard ratios for mortality (Fig. 4d). To assess the 231 
+
+cumulative impact of extreme aging phenotypes, individuals with an |Organ-cAgeDiff| > 2 232 
+
+SD were categorized as having 'super-old' or 'super-young' organs. We observed a dose-233 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 9
+
+response relationship between the number of aged organs and survival: each additional 234 
+
+'super-old' organ was associated with a 16% increase in mortality risk (HR = 1.16, 95% CI: 235 
+
+1.12-1.21), whereas each additional 'super-young' organ conferred a 7% reduction in risk 236 
+
+(HR = 0.93, 95% CI: 0.91-0.96) (Fig. 4d). 237 
+
+238 
+
+Discussion 239 
+
+This study establishes refined plasma proteome–based organ aging clocks by 240 
+
+incorporating organ-specific proteome information, advancing beyond previous 241 
+
+approaches that largely relied on bulk transcriptomic markers and focused on a narrow 242 
+
+spectrum of diseases. By integrating multi-level molecular evidence and data across 243 
+
+platforms, our clocks demonstrated enhanced biological interpretability, clinical relevance, 244 
+
+and the ability to reveal systemic patterns of aging. In particular, our work extends the 245 
+
+scope of prior proteomic aging studies by providing a comprehensive disease–aging 246 
+
+landscape. 247 
+
+Several limitations of this study warrant consideration. First, while we integrated multi-248 
+
+omics datasets to identify organ-enriched markers, the representativeness of these 249 
+
+proteins in plasma as proxies for their respective organs remains to be further refined. 250 
+
+Second, although our study incorporated data from two major proteomic platforms (Olink 251 
+
+and SomaScan), the resulting aging clocks are currently not directly interchangeable. The 252 
+
+technical biases inherent in different affinity-based assays and the challenge of missing 253 
+
+features remain significant hurdles for the clinical application of these models. Overcoming 254 
+
+this limitation will require harmonization strategies or multi-platform training to ensure 255 
+
+generalizability and translational utility. 256 
+
+257 
+
+Methods 258 
+
+Cohort 259 
+
+The UK Biobank is a prospective population-based cohort that collected omics and 260 
+
+phenotypic data from approximately 500,000 participants aged 40-69 at recruitment 261 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 10
+
+between 2006 and 2010 across the United Kingdom. Detailed descriptions of all available 262 
+
+phenotypes can be accessed via the link. All participants provided informed consent. 263 
+
+The UK Biobank Pharma Proteomics Project (UKB-PPP) consortium performed proteomic 264 
+
+profiling on plasma samples from 54,219 participants obtained at baseline, using the Olink 265 
+
+Explore platform, which quantified 3,072 proteins. 266 
+
+Validation datasets based on the SomaScan platform were derived from demo data 267 
+
+provided in the Organage package 16 , and a cohort of 18 healthy controls and 18 patients 268 
+
+with Alzheimer’s disease (AD) 23 , as well as a cohort comprising 32 healthy controls and 73 269 
+
+patients with COVID-19 22 . The COVID-19 cohort was assayed using the SomaScan v4 270 
+
+platform, while the remaining cohorts were profiled with version v4.1. 271 
+
+IPF cohort were obtained from a Phase II clinical trial for a novel therapeutic agent 41 . This 272 
+
+cohort enrolled 71 patients diagnosed with IPF, who were assigned to four groups including 273 
+
+a placebo group and three different dosage experimental groups. Proteomic profiling was 274 
+
+conducted using the Olink platform for 43 volunteers from this cohort. 275 
+
+Data quality control, curation, and preprocessing 276 
+
+To account for measurement disagreements stemming from technical differences between 277 
+
+platforms, z-score normalization and quality control were applied separately to the Olink 278 
+
+UKB and SomaScan datasets before any cross-platform comparisons or ensemble 279 
+
+modeling. 280 
+
+For UKB cohort, data with an excessive proportion of missing values were first excluded. 281 
+
+Specifically, any protein that was undetectable in more than 20% of the participants was 282 
+
+classified as a high-missingness protein and removed from the dataset. Similarly, any 283 
+
+individual with more than 20% of proteins undetected in their plasma sample was 284 
+
+considered a low-quality sample and excluded. After this filtering process, data from 44,190 285 
+
+volunteers and 2,911 proteins were retained for subsequent analysis. 286 
+
+According to the Olink platform specifications, the provided measurements represent 287 
+
+Normalized Protein Expression (NPX) values, which reflect relative protein abundance on 288 
+
+a log 2 scale calibrated against internal controls. Since missing values indicate protein 289 
+
+concentrations below the detection limit, imputation with zero is not appropriate in the log-290 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 11
+
+transformed space. Therefore, NPX values were first exponentiated (base 2) to revert to a 291 
+
+linear scale, after which missing values were imputed with zero. 292 
+
+For data generated using the SomaScan platform, version v4.1 data were converted to the 293 
+
+v4 standard using a conversion factor list provided by the manufacturer. When multiple 294 
+
+measurements corresponded to the same protein, the average expression value was taken. 295 
+
+As per the platform’s documentation, SomaScan data undergo Adaptive Normalization by 296 
+
+Maximum Likelihood (ANML). These values were log 10 -transformed prior to subsequent 297 
+
+analysis. 298 
+
+Organ enriched marker identification 299 
+
+We initially selected proteins classified as highly expressed in specific organs according to 300 
+
+the HPA. Leveraging advances in single-cell technology, we then obtained cell-specific 301 
+
+markers that were uniquely expressed in particular tissue from the CM2 database. 302 
+
+Concurrently, we incorporated the GTEx dataset as a complementary resource at the bulk 303 
+
+RNA level. Genes showing at least four-fold higher expression in one organ compared to 304 
+
+any other organ were designated as organ-specific markers, by following a previously used 305 
+
+definition 24 . For each candidate marker derived from any single dataset, it was definitively 306 
+
+classified as a marker only if it was not associated with any other organ in both the HPA 307 
+
+and CM2 databases. 308 
+
+Identification of age-associated proteins 309 
+
+For the initial identification of age-associated proteins, to ensure a balanced representation 310 
+
+of age and sex across the study population, we selected a stratified subset of 6,200 311 
+
+volunteers (100 males and 100 females for each year from 40 to 70). The sample size of 312 
+
+100 per subgroup was determined based on the smallest demographic subgroup in the 313 
+
+overall cohort (females aged 70, n=141), resulting in a sampling proportion of 314 
+
+approximately 70%. This approach also had the practical benefit of reducing computational 315 
+
+cost and processing time. 316 
+
+For the identification of linearly age-associated proteins, the average protein expression 317 
+
+level was first calculated for individuals at each age point. The PCC was then computed 318 
+
+between the mean protein expression and age, with significance adjusted using the 319 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 12
+
+Benjamini-Hochberg (BH) correction. Proteins with a p-value < 0.05 and an absolute PCC 320 
+
+greater than 0.4 were defined as significantly linearly age-associated. To identify non-321 
+
+linearly age-associated proteins, the Fuzzy C-Means Clustering (FCM) algorithm was 322 
+
+employed, implemented via the Mfuzz package (v2.52.0). To ensure comparability across 323 
+
+time points, both the UK Biobank and SomaScan cohorts were restricted to individuals 324 
+
+aged 40–70 years. For robustness, age was binned into 5-year intervals. Mean protein 325 
+
+expression was calculated within each bin. The number of clusters was manually set to 4. 326 
+
+Only proteins showing a strong association with their assigned cluster (membership > 0.6) 327 
+
+were retained for further analysis. 328 
+
+Construction of PAOPAC 329 
+
+For the UK Biobank cohort, the total of 44,190 volunteers were randomly divided into 330 
+
+training and testing sets at an 8:2 ratio. Prior to model construction, all data were 331 
+
+standardized. A conventional aging clock was built using all plasma proteins as initial input. 332 
+
+In our work, we adopted a probabilistic inference strategy based on publicly available 333 
+
+tissue-expression atlases: if a protein is highly and preferentially expressed in a particular 334 
+
+organ, we assume that, when detected in plasma, it is most likely derived from that tissue. 335 
+
+Organ-proxy aging clocks were trained using only the organ enriched marker proteins as 336 
+
+input. Models for which the final feature set contained fewer than five proteins were 337 
+
+excluded from further analysis. The LASSO, Ridge, and Elastic Net (EN) models were 338 
+
+implemented using the glmnet (v4.1-8) and caret (v6.0-94) packages. A 5-fold cross-339 
+
+validation was applied for each training round. For EN and related methods, 100 penalty 340 
+
+coefficients (nlambda) were tested. The mean absolute error (MAE) was used as the loss 341 
+
+function, and the model with the smallest MAE was selected. Partial Least Squares 342 
+
+Regression (PLSR) and k-Nearest Neighbors (KNN) models were implemented using 343 
+
+the scikit-learn (v1.5.1) package, with hyperparameter optimization performed via 344 
+
+the hyperopt (v0.2.5) package. For PLSR, the number of components was selected from 345 
+
+1 to 20 or the number of overlapping proteins between the organ markers and the platform-346 
+
+detected proteome, whichever was smaller. For KNN, the number of neighbors (k) was 347 
+
+optimized between 5 and 50. Five-fold cross-validation was used for both PLSR and KNN, 348 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 13
+
+again with MAE as the evaluation metric. LightGBM (LGBM) and XGBoost models were 349 
+
+implemented using the lightgbm (v4.5.0) and xgboost (v2.1.1) packages, respectively. 350 
+
+Hyperparameter tuning was conducted over the following ranges: number of trees [100, 351 
+
+200, 300, 400], maximum tree depth [3–6], maximum number of leaves [3–63], learning 352 
+
+rate (log-uniform between 0.01 and 0.2), and feature sampling ratio [0.6–1.0]. 353 
+
+Hyperparameter optimization and feature selection were performed using 354 
+
+the shaphypetune (v0.2.7) package, with a maximum of 200 iterations, 20 model trainings 355 
+
+per iteration, and a shadow variable ratio of 100%. SHAP values were used to assess 356 
+
+feature importance. In preliminary model comparisons and training conducted on the 357 
+
+SomaScan dataset, only sex was included as a covariate. For the final aging clocks built 358 
+
+on the UKB cohort, the following covariates were included to adjust for potential 359 
+
+confounding effects: sex, ethnicity, blood sample collection time, fasting time before 360 
+
+sample collection, body mass index (BMI), and Townsend Deprivation Index (TDI). Sex 361 
+
+(Field 31) was coded as female = 1, male = 0. Ethnicity (Field 21000) was coded as White 362 
+
+= 0, other = 1. Blood sample collection season (Field 3166) was binarized as winter/spring 363 
+
+(December–May) = 0 and summer/autumn (June–November) = 1. Fasting time (Field 74), 364 
+
+BMI (Field 23104), and TDI (Field 22189) were used as continuous variables after 365 
+
+standardization. 366 
+
+Calculation and adjustment of biological age 367 
+
+The age predicted by the aging clocks is referred to as the biological age (BA). The 368 
+
+difference between this BA and the chronological age (CA) is defined as the Age Difference 369 
+
+(AgeDiff), which reflects an individual’s rate of aging. A higher AgeDiff indicates accelerated 370 
+
+aging, while a lower value suggests decelerated aging. To correct for bias introduced during 371 
+
+model training, locally estimated scatterplot smoothing (LOESS) regression was applied to 372 
+
+model the relationship between AgeDiff and CA. The fitted values from this regression 373 
+
+represent age-related prediction bias (AgeDiff hat). The corrected biological age (cBA) was 374 
+
+obtained by subtracting AgeDiff hat from the BA. The corrected Age Diff (cAgeDiff) was 375 
+
+then derived by subtracting the CA from cBA. Individuals with an absolute cAgeDiff greater 376 
+
+than two standard deviations were classified as either ‘super-younger’ or ‘super-older’. 377 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 14
+
+Acquisition of event outcomes 378 
+
+Event outcomes and their first occurrence dates in the UK Biobank cohort were extracted 379 
+
+using Fields 41270 and 41280, respectively. Disease codes were mapped to specific 380 
+
+clinical conditions based on the ICD-10 classification system. Diseases first reported prior 381 
+
+to enrollment in the cohort were classified as prevalent cases, while those newly identified 382 
+
+during follow-up visits were classified as incident cases. Individuals with no recorded 383 
+
+disease events throughout the study period were considered completely healthy controls. 384 
+
+Date of death was obtained from Field 40007. The last follow-up time or loss-to-follow-up 385 
+
+date was retrieved from Field 20143. 386 
+
+Pathway enrichment analysis 387 
+
+Pathway enrichment analysis was performed using the clusterProfiler package (v4.0.5). 388 
+
+Gene Ontology Biological Process (GO BP) terms were used as the reference gene set. A 389 
+
+significance cutoff of 0.05 was applied, and the Benjamini–Hochberg (BH) method was 390 
+
+used for multiple testing correction. In visualizations of results, the term ‘p-value’ refers to 391 
+
+the original, unadjusted significance value; all other reported values are adjusted. 392 
+
+Reduction and visualization of overlapping GO terms were carried out with the rrvgo 393 
+
+package (v1.4.4), using the GO BP annotation set. Similarity between child terms was 394 
+
+computed based on the ‘Rel’ semantic similarity measure, with a similarity threshold set to 395 
+
+0.7 for term clustering and simplification. 396 
+
+397 
+
+Data availability 398 
+
+To request access of UK Biobank, all bona fide researchers who wish to conduct health-399 
+
+related research can apply for access to UK Biobank through UK Biobank’s access 400 
+
+management system. Organage demo data is available at Github 401 
+
+(https://github.com/hamiltonoh/organage/tree/main/tests ). AD data is available at Synapse 402 
+
+(https://www.synapse.org/Synapse:syn30549757/files/ ). COVID data is available at 403 
+
+Mendeley Data ( https://data.mendeley.com/datasets/2mc6rrc5j3/1 ). IPF data is available 404 
+
+at OMIX by OMIX008341. 405 
+
+406 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 15
+
+Code availability 407 
+
+PAOPAC models are publicly available at.  https://github.com/JackieHanLab/PAOPA C. 408 
+
+409 
+
+References 410 
+
+1 Herzog, C. M. S. et al. Challenges and recommendations for the translation of biomarkers 411 of aging. Nature Aging 4, 1372-1383, doi:10.1038/s43587-024-00683-3 (2024). 412 
+
+2 Moqri, M. et al. Validation of biomarkers of aging. Nat Med 30 , 360-372, 413 doi:10.1038/s41591-023-02784-9 (2024). 414 
+
+3 Reicher, L. et al. Phenome-wide associations of human aging uncover sex-specific 415 dynamics. Nature Aging 4, 1643-+, doi:10.1038/s43587-024-00734-9 (2024). 416 
+
+4 Chen, W. Y. et al. Three-dimensional human facial morphologies as robust aging markers. 417 Cell Res 25 , 574-587, doi:10.1038/cr.2015.36 (2015). 418 
+
+5 Horvath, S. DNA methylation age of human tissues and cell types. Genome Biol 14 , R115, 419 doi:10.1186/gb-2013-14-10-r115 (2013). 420 
+
+6 Holzscheck, N. et al. Modeling transcriptomic age using knowledge-primed artificial 421 neural networks. Npj Aging Mech Dis 7, doi:ARTN 15 422 
+
+10.1038/s41514-021-00068-5 (2021). 423 
+
+7 Hannum, G. et al. Genome-wide methylation profiles reveal quantitative views of human 424 aging rates. Mol Cell 49 , 359-367, doi:10.1016/j.molcel.2012.10.016 (2013). 425 
+
+8 Geyer, P. E., Holdt, L. M., Teupser, D. & Mann, M. Revisiting biomarker discovery by plasma 426 proteomics. Mol Syst Biol 13 , 942, doi:10.15252/msb.20156297 (2017). 427 
+
+9 Malmstrom, E. et al. Human proteome distribution atlas for tissue-specific plasma 428 proteome dynamics. Cell 188 , 2810-2822 e2816, doi:10.1016/j.cell.2025.03.013 (2025). 429 
+
+10 Malmstrom, E. et al. Large-scale inference of protein tissue origin in gram-positive sepsis 430 plasma using quantitative targeted proteomics. Nat Commun 7, 10261, 431 doi:10.1038/ncomms10261 (2016). 432 
+
+11 Schneider, D. J. et al. in RNA Therapeutics (eds Paloma H. Giangrande, Vittorio de 433 Franciscis, & John J. Rossi) 171-260 (Academic Press, 2022). 434 
+
+12 Assarsson, E. et al. Homogenous 96-Plex PEA Immunoassay Exhibiting High Sensitivity, 435 Specificity, and Excellent Scalability. Plos One 9, doi:ARTN e95192 436 
+
+10.1371/journal.pone.0095192 (2014). 437 
+
+13 Lehallier, B. et al. Undulating changes in human plasma proteome profiles across the 438 lifespan. Nature Medicine 25 , 1843-+, doi:10.1038/s41591-019-0673-2 (2019). 439 
+
+14 Oh, H. S. H. et al. Plasma proteomics links brain and immune system aging with healthspan 440 and longevity. Nature Medicine, doi:10.1038/s41591-025-03798-1 (2025). 441 
+
+15 Goeminne, L. J. E. et al. Plasma protein-based organ-specific aging and mortality models 442 unveil diseases as accelerated aging of organismal systems. Cell Metabolism 37 ,443 doi:10.1016/j.cmet.2024.10.005 (2025). 444 
+
+16 Oh, H. S. H. et al. Organ aging signatures in the plasma proteome track health and disease. 445 Nature 624 , 164-+, doi:10.1038/s41586-023-06802-1 (2023). 446 
+
+17 Aguet, F. et al. The GTEx Consortium atlas of genetic regulatory effects across human 447 tissues. Science 369 , 1318-1330, doi:10.1126/science.aaz1776 (2020). 448 
+
+18 Schwanhäusser, B. et al. Global quantification of mammalian gene expression control (vol 449 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 16
+
+473, pg 337, 2011). Nature 495 , 126-127, doi:10.1038/nature11848 (2013). 450 
+
+19 Ghaemmaghami, S. et al. Global analysis of protein expression in yeast. Nature 425 , 737-451 741, doi:10.1038/nature02046 (2003). 452 
+
+20 Buccitelli, C. & Selbach, M. mRNAs, proteins and the emerging principles of gene 453 expression control. Nat Rev Genet 21 , 630-644, doi:10.1038/s41576-020-0258-4 (2020). 454 
+
+21 Sun, B. B. et al. Plasma proteomic associations with genetics and health in the UK Biobank. 455 Nature 622 , 329-338, doi:10.1038/s41586-023-06592-6 (2023). 456 
+
+22 Sullivan, K. D. et al. The COVIDome Explorer Researcher Portal. medRxiv, 457 2021.2003.2004.21252945, doi:10.1101/2021.03.04.21252945 (2021). 458 
+
+23 Dammer, E. B. et al. Multi-platform proteomic analysis of Alzheimer's disease 459 cerebrospinal fluid and plasma reveals network biomarkers associated with proteostasis 460 and the matrisome. Alzheimers Res Ther 14 , 174, doi:10.1186/s13195-022-01113-5 461 (2022). 462 
+
+24 Uhlen, M. et al. Tissue-based map of the human proteome. Science 347 , doi:ARTN 463 1260419 464 
+
+10.1126/science.1260419 (2015). 465 
+
+25 Hu, C. X. et al. CellMarker 2.0: an updated database of manually curated cell markers in 466 human/mouse and web tools based on scRNA-seq data. Nucleic Acids Research 51 ,467 D870-D876, doi:10.1093/nar/gkac947 (2023). 468 
+
+26 Argentieri, M. A. et al. Proteomic aging clock predicts mortality and risk of common age-469 related diseases in diverse populations. Nature Medicine 30 , doi:10.1038/s41591-024-470 03164-7 (2024). 471 
+
+27 Yi, J. Z. et al. Elastin-derived extracellular matrix fragments drive aging through innate 472 immune activation. Nature Aging, doi:10.1038/s43587-025-00961-8 (2025). 473 
+
+28 Unamuno, X. et al. Dermatopontin, A Novel Adipokine Promoting Adipose Tissue 474 Extracellular Matrix Remodelling and Inflammation in Obesity. J Clin Med 9, doi:ARTN 475 1069 476 
+
+10.3390/jcm9041069 (2020). 477 
+
+29 Kiourtis, C. et al. Hepatocellular senescence induces multi-organ senescence and 478 
+
+dysfunction via TGFβ. 
+
+Nat Cell Biol 26 , doi:10.1038/s41556-024-01543-3 (2024). 479 
+
+30 Brandenburg, V. M. et al. Relationship between sclerostin and cardiovascular calcification 480 in hemodialysis patients: a cross-sectional study. Bmc Nephrol 14 , doi:Artn 219 481 
+
+10.1186/1471-2369-14-219 (2013). 482 
+
+31 Duggan, M. R. et al. Proteomic signatures of corona and herpes viral antibodies identify 483 IGDCC4 as a mediator of neurodegeneration. Science Advances 11 , doi:ARTN eadt7176 484 
+
+10.1126/sciadv.adt7176 (2025). 485 
+
+32 Duan, J. L. et al. Age-related liver endothelial zonation triggers steatohepatitis by 486 inactivating pericentral endothelium-derived C-kit. Nature Aging 3, 258-+, 487 doi:10.1038/s43587-022-00348-z (2023). 488 
+
+33 Hunt, L. C. et al. The ubiquitin-conjugating enzyme UBE2D maintains a youthful proteome 489 and ensures protein quality control during aging by sustaining proteasome activity. Plos 490 Biol 23 , doi:ARTN e3002998 491 
+
+10.1371/journal.pbio.3002998 (2025). 492 
+
+34 Futschik, M. E. & Carlisle, B. NOISE-ROBUST SOFT CLUSTERING OF GENE EXPRESSION 493 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 17
+
+TIME-COURSE DATA. Journal of Bioinformatics and Computational Biology 03 , 965-988, 494 doi:10.1142/S0219720005001375 (2005). 495 
+
+35 Eldjarn, G. H. et al. Large-scale plasma proteomics comparisons through genetics and 496 disease associations. Nature 622 , 348-358, doi:10.1038/s41586-023-06563-x (2023). 497 
+
+36 Wang, B. H. et al. Comparative studies of 2168 plasma proteins measured by two affinity-498 based platforms in 4000 Chinese adults. Nature Communications 16 , doi:ARTN 1869 499 
+
+10.1038/s41467-025-56935-2 (2025). 500 
+
+37 Rooney, M. R. et al. Plasma proteomic comparisons change as coverage expands for 501 SomaLogic and Olink. medRxiv, 2024.2007.2011.24310161, 502 doi:10.1101/2024.07.11.24310161 (2024). 503 
+
+38 Kroemer, G. et al. From geroscience to precision geromedicine Understanding and 504 managing aging. Cell 188 , 2043-2062, doi:10.1016/j.cell.2025.03.011 (2025). 505 
+
+39 Abu Bakar, M. H. & Tan, J. S. Improvement of mitochondrial function by celastrol in 506 palmitate-treated C2C12 myotubes via activation of PI3K-Akt signaling pathway. Biomed 507 Pharmacother 93 , 903-912, doi:10.1016/j.biopha.2017.07.021 (2017). 508 
+
+40 Sánchez-Vázquez, R., Martínez, P. & Blasco, M. A. AKT-dependent signaling of 509 extracellular cues through telomeres impact on tumorigenesis. Plos Genet 17 , doi:ARTN 510 e1009410 511 
+
+10.1371/journal.pgen.1009410 (2021). 512 
+
+41 Xu, Z. J. et al. A generative AI-discovered TNIK inhibitor for idiopathic pulmonary fibrosis: 513 a randomized phase 2a trial. Nat Med, doi:10.1038/s41591-025-03743-2 (2025). 514 
+
+515 
+
+Competing interests Statement 516 
+
+The authors declare no competing interests. 517 
+
+518 
+
+519 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint
+
+18 
+
+# Figures 520 
+
+521 
+
+Figure 1. Study design, organ-enriched markers identification and their correlation 522 
+
+with aging. a. Three dimensions of data (bulk proteome, single cell transcriptome and bulk 523 
+
+transcriptome) were combined to identify organ-enriched markers, based on which organ-524 
+
+proxy aging clocks were constructed. 14 organ-proxy clocks and one conventional clock 525 
+
+were developed to generate a comprehensive disease-aging landscape. b. A curated list 526 
+
+of markers covering 15 organs/tissues was presented, with each organ-enriched marker 527 
+
+set showing significant enrichment in physiological pathways corresponding to their 528 
+
+respective organs. c. Proteins showing linear association with age in two platforms. 529 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint
+
+19 
+
+530 
+
+Figure 2. Age-related protein dynamics and cross-platform comparison a-b. Four 531 
+
+distinct proteomic dynamic change patterns were identified in the UKB cohort (a) and 532 
+
+SomaScan cohort (b), along with the enriched pathways and the proportion of tissue-533 
+
+enriched proteins under each pattern. c. Aging-related proteins are different but their 534 
+
+enriched pathways are relatively more conserved across platforms. P value calculated by 535 
+
+hypergeometric test, and adjusted by BH. 536 
+
+537 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint
+
+20 
+
+538 
+
+Figure 3. Construction and comparison of organ proxy aging clocks. a. Among the 539 
+
+seven machine learning methods evaluated, LGBM demonstrated the best performance, 540 
+
+particularly for organs with a limited number of available protein markers. b. Fourteen 541 
+
+organ-proxy aging clocks and one conventional clock were constructed using the LGBM 542 
+
+algorithm. c. Comparison of organ proxy performance between our clocks and two 543 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint
+
+21 
+
+previously published work. PAOPAC performed particularly well for Cardiovascular, 544 
+
+Musculoskeletal, Digestive and Brain, while remaining competitive for Immune, Skin, 545 
+
+Endocrine and Respiratory (Wilcox test). d. Performance evaluation of our clocks 546 
+
+alongside two published clocks on an external IPF dataset. Only the respiratory clock from 547 
+
+this study reflected the post-treatment improvement in FVC was negatively associated with 548 
+
+the reversal of physiological age (t-test). UKB, UK Biobank. FVC, forced vital capacity. For 549 
+
+panels d and e, non-label: no significance, *: 0.01 < p < 0.05, **: 0.001 < p < 0.01, ***: p < 550 
+
+0.001. 551 
+
+552 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint
+
+22 
+
+553 
+
+Figure 4. Comprehensive disease-aging relation landscape. a. The vast majority of 554 
+
+diseases were associated with accelerated aging across multiple organs, observed in both 555 
+
+prevalent (left panel) and incident (right panel) cases. b. The direction of disease-aging 556 
+
+relation was consistent between prevalent (x-axis) and incident (y-axis) cases. c. Besides 557 
+
+Brain, accelerated aging in the Conventional, Musculoskeletal, Immune, and 558 
+
+Cardiovascular systems was also linked to an increased future incidence of nervous 559 
+
+system diseases. d. Cox proportional hazards regression showed that acceleration in any 560 
+
+aging clock was associated with elevated all-cause mortality, with Convention ranks the 561 
+
+highest followed by Musculoskeletal (Upper panel). An increase in the number of 562 
+
+accelerated-aging organs correlated with higher mortality, whereas younger-organ 563 
+
+phenotypes correlated with reduced risk (Lower panel). 564 
+
+565 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint
+
+23 
+
+566 
+
+Supplementary Figure 1. Description of datasets and validation of organ-enriched 567 
+
+markers. a. Distribution of age, sex, and batch across the datasets. b. At least 20% of 568 
+
+organ-enriched markers in previous studies are unspecific against the Human Protein Atlas 569 
+
+(HPA). ‘Enriched’ indicates that a protein is highly expressed in only one organ; ‘Unspecific’ 570 
+
+refers to proteins with high expression in multiple organs; the remaining are classified as 571 
+
+‘Uncertain’. Oh (s) denotes the published model trained on SomaScan data, the other two 572 
+
+models were trained on Olink data. HPA, Human Protein Atlas. 573 
+
+574 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint
+
+24 
+
+575 
+
+Supplementary Figure 2. Organ-enriched proteins’ overlap across proteomic 576 
+
+platforms. a. Venn diagrams illustrating the overlap of organ-enriched proteins defined by 577 
+
+three datasets (HPA, CM2, and GTEx) in the Olink and SomaScan proteomic platforms, 578 
+
+with the number and percentage of proteins in each segment indicated. 579 
+
+580 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 28, 2026. ;https://doi.org/10.64898/2026.04.24.720503 doi: bioRxiv preprint 25 
+
+581 
+
+Supplementary Figure 3. Comparison between PAOPAC and previous work. a. Venn 582 
+
+diagrams illustrating the overlap of features utilized in the Conventional aging clock across 583 
+
+three distinct studies. Owing to the application of more stringent feature selection criteria, 584 
+
+PAOPAC retained the smallest number of features, and its feature set constituted a strict 585 
+
+subset of those employed in the other two studies. b. While PAOPAC incorporates two 586 
+
+novel organ-proxy clocks, their overall performance is moderate. And the Urinary clock 587 
+
+underperforms relative to the previously published clocks. c. Changes in biological age 588 
+
+following treatment in IPF patients, as assessed by different aging clocks. Only PAOPAC 589 
+
+in this study tells the delayed Respiratory aging in treatment group (t-test). The Respiratory 590 
+
+or Lung clock is labelled by green box. IPF, idiopathic pulmonary fibrosis. 591 
+
+592
