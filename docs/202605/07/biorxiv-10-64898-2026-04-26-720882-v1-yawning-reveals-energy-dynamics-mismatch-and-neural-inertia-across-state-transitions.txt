@@ -1,0 +1,1520 @@
+Title: Yawning reveals energy-dynamics mismatch and neural inertia across state transitions
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.04.26.720882v1.full.pdf
+
+Number of Pages: 20
+
+Markdown Content:
+1
+
+1
+
+2
+
+# Main Manuscript for 3
+
+# Yawning reveals energy -dynamics mismatch and neural inertia 4
+
+# across state transitions 5
+
+Xiangshang Meng a, Qi Sun a, Muzi Li a, Xuanze Li a, Guangtai Liang a, Ling Qin b* and Wenfei Tan a*6 
+
+> a
+
+Department of Anesthesiology, the First Hospital of China Medical University, Shenyang 7
+
+110001, China 8 
+
+> b
+
+School of Life Sciences, China Medical University, Shenyang 110122, China 9
+
+*Ling Qin and Wenfei Tan 10 
+
+Email:  wftan@cmu.edu.cn  or  20081029@cmu.edu.cn 11 
+
+Author Contributions : X.M., L.Q., and W.T. designed research; X.M., Q.S., M.L., X.L., and G.L. 12 
+
+performed research; Q.S. collected human data; X.M. contributed new analytic tools; X.M., Q.S., 13 
+
+M.L., X.L., G.L., L.Q., and W.T. analyzed data; and X.M., L.Q., and W.T. wrote the paper. 14 
+
+Competing Interest Statement: The authors declare no conflict of interest. 15 
+
+Classification : Biological Science s, Neuroscience 16 
+
+Keywords : Yawning ; Anesthetic state transitions ; Neural inertia ; Energy -Dynamics Mismatch 17 
+
+18 
+
+This PDF file includes: 19 
+
+Main Text 20 
+
+Figures 1 to 621 
+
+22 
+
+23 
+
+24 
+
+25 
+
+26 
+
+27 
+
+28 
+
+29 
+
+30 
+
+31 
+
+32 
+
+33 
+
+34 
+
+35 
+
+36 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+2
+
+Abstract 37 
+
+Yawning is a highly conserved behavior, yet its neural dynamics across arousal state transitions 38 
+
+remain poorly understood. Classical reflex models fail to account for the precise timing of yawns 39 
+
+during large -scale changes in brain network organization. Her e, we investigated the neural 40 
+
+signatures of yawning using simultaneous electroencephalography (EEG), electromyography 41 
+
+(EMG), and kinematic recordings in a beagle model during wakefulness and propofol anesthesia. 42 
+
+Propofol -associated yawning exhibited marked temporal asymmetry, with 89.2% of events 43 
+
+occurring during emergence from anesthesia. To resolve the fast neural dynamics surrounding 44 
+
+these events, we applied empirical mode decomposition coupled with the Hilbert –Huang transform 45 
+
+(EMD -HHT) analyses. Across induction, recovery, and wakefulness, yawning was consistently 46 
+
+associated with a transient decoupling between local and global network dynamics: a brief increase 47 
+
+in local γ -band power coincided with a drop in network flexibility, quantified by instantaneou s48 
+
+frequency volatility; IFV). We termed this reproducible motif as "Energy -Dynamics Mismatch" 49 
+
+(EDM). A machine learning classifier leveraging EDM features reliably decoded the brain state 50 
+
+immediately preceding yawning. We further validated the presence of this signature in an 51 
+
+independent human cohort during anesthesia induction. These findings indicate that yawning is not 52 
+
+a passive reflex, but is tightly linked to moments of network instability during state transitions. From 53 
+
+a computational perspective, EDG may reflect a transient "control effort" that preserves information 54 
+
+integration in the presence of "neural inertia." This dynamic signature may provide a quantitative 55 
+
+biomarker for monitoring arousal transitions brain -computer interface (BCI) interface st ate -alerting. 56 
+
+Significance Statement 57 
+
+Yawning is a ubiquitous and evolutionarily conserved behavior, yet its neural basis remain s elusive. 58 
+
+Using high -resolution neural recordings in a cross -species model, we show that yawning is not a 59 
+
+passive reflex, but re liably coincides with a distinct, transient brain -state signature. Specifically, 60 
+
+yawning occurs when local high -frequency cortical activity briefly increases while global network 61 
+
+flexibility decreases – a pattern we term an "Energy -Dynamics Mismatch" (EDM) . We propose that 62 
+
+EDM reflects a compensatory neural process engaged during moments of network instability, 63 
+
+consistent with overcoming neural inertia to preserve information integration. By identifying this 64 
+
+conserved neural marker , this work advances the biological understanding of yawning and 65 
+
+suggests a potential biomarker for detecting critical brain states in future BCI .66 
+
+67 
+
+Introduction 68 
+
+69 
+
+Yawning is an evolutionarily conserved physiological behavior observed across vertebrate species 70 
+
+(1, 2) . It frequently occurs during transitions in brain state, particularly across the sleep -wake cycle 71 
+
+(3) and changes in anesthesia depth (4) . Classic theories have primarily attributed yawning to brain 72 
+
+thermoregulation (5) or airway homeostasis reflexes (6) . However, these accounts struggle to 73 
+
+explain the remarkably precise timing of yawns during narrow windows of neuronal state transition. 74 
+
+Contemporary neuroimaging research predominantly focuses on activation patterns of 75 
+
+macroscopic brain regions (7, 8) . As a result, it lacks the temporal resolution necessary to resolve 76 
+
+millisecond -scale neural processes that precede spontaneous physiological behaviors such as 77 
+
+yawning. To overcome this , w e employed a propofol -induced anesthesia –emergence paradigm, 78 
+
+which offers a well -controlled and highly reproducible model of transient brain -state transitions and 79 
+
+graded levels of consciousness. Propofol -induced state transitions exhibit an asymmetric 80 
+
+resistance between induction and recovery, known as 'neural inertia' (9, 10) . Despite its robust 81 
+
+macroscopic characterization, it remains unclear how this macroscopic pharmacodynamic 82 
+
+phenomenon maps onto microscopic brain network dynamics. In particu lar, whether the neuronal 83 
+
+microstates preceding yawning reflect an active attempt by the brain to overcome this hysteretic 84 
+
+resistance has not been empirically demonstrated. 85 
+
+Here, we hypothesize that yawning reflect s latent neuronal computations that occur as the brain 86 
+
+network negotiates transitions across different levels of consciousness. Cortical energy measures 87 
+
+(e.g., γ power) (11) and network dynamic metrics (e.g., instantaneous frequency volatility, IFV) (12) 88 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+3
+
+are typically studied in isolation. Their potential interaction during brief, transitional time periods ha s89 
+
+received little attention. Neural variability theory posits that the degrees of freedom of a neural 90 
+
+network are partially captured by dynamic fluctuations in neural signals, reflecting the network’s 91 
+
+capacity to explore and switch between functional state s (13, 14) . IFV offers a quantitative measure 92 
+
+of this process by indexing the moment -to -moment reorganization of oscillatory frequency (15, 16) .93 
+
+Accord ingly, we define IFV as a metric of "microscale neuronal variability," indirectly reflecting the 94 
+
+intrinsic flexibility of local network state transitions. 95 
+
+By integrating cordical energy and network flexibility within a unified observational framework, 96 
+
+we i dentified a significant dissociation between these two elements in the microscopic time window 97 
+
+preceding yawning across multiple arousal states. Specifically, cortical energy increased while 98 
+
+network flexibility simultaneously decreased, indicating a transi ent internal conflict within the 99 
+
+system. We term this phenomenon "Energy -Dynamics Mismatch" (EDM). This mismatch can be 100 
+
+conceptualized as a form of neural "control effort" deployed in response to macro -state conflicts 101 
+
+(17, 18) .102 
+
+To test this theory, we developed a standardized anesthetic state transition model in beagle dogs 103 
+
+and simultaneously recorded multimodal neurophysiological a nd high -precision kinematic signals. 104 
+
+Compared with rodents, beagles possess more developed cortical architecture and network 105 
+
+dynamics that more closely approximate those of humans. We observed a pronounced temporal 106 
+
+asymmetry in propofol -induced yawning, wi th strong clustering during the anesthesia recovery 107 
+
+period. Using high -resolution nonlinear time –frequency analysis, we characterized the underlying 108 
+
+microscopic dynamics. Across all conditions, including deep anesthesia, delayed recovery, and 109 
+
+normal wakefu lness, yawning was consistently preceded by an increase in local cortical γ power 110 
+
+alongside a reduction in network flexibility, as measured by instantaneous frequency volatility (IFV). 111 
+
+These findings indicate that EDM represents a universal microstate feat ure preceding yawning. 112 
+
+Notably, this mismatch persisted even when the specific intrinsic mode function (IMF) associated 113 
+
+with reduced flexibility shifted its center frequency to align with global brain rhythms, such as 114 
+
+anesthesia -induced slowing (19) . We subsequently verified this dynamic decoupling pattern in an 115 
+
+independent human cohort, demonstrating cross -species generalizability. 116 
+
+Together, these findings redefine the neural precursor states associated with yawning. This 117 
+
+process provides an objective, high -resolution quantitative framework for understanding the 118 
+
+contextual and computational underpinnings of this evolutionarily conser ved behavior. Beyond 119 
+
+mechanistic insight, EDM may serve as a novel biomarker of transitional brain states and offers a 120 
+
+potential foundation for future applications, including BCI early warning systems based on 121 
+
+microscopic dynamic tension. 122 
+
+123 
+
+Results 124 
+
+125 
+
+Propofol -Induced Yawning Exhibits Dose -Dependence and Recovery -Phase Specificity. We 126 
+
+first conducted preliminary dose -determining experiments to explore the temporal distribution and 127 
+
+neurodynamic characteristics of yawning during anesthetic transitions (Fig. 1A). We contrasted a 128 
+
+suggested induction dose (8 mg/kg), delivered by intravenous infusion over one minute, with a half -129 
+
+dose (4 mg/kg). To ensure spatial accuracy during neuroelectrophysiologi cal recordings, we 130 
+
+developed an individualized MRI -guided stereotactic targeting workflow. Titanium screw artifacts 131 
+
+at the bregma served as a physical reference point. Using high -precision 3D brain reconstruction, 132 
+
+we precisely mapped the spatial coordinate s of four major brain regions (Fig. S1A), providing 133 
+
+reliable epidural spatial anchors for subsequent recordings. 134 
+
+We then developed a multimodal quantitative analysis pipeline combining neurophysiological 135 
+
+(EEG/EMG) recordings with high -resolution kinematic measurements. The geometric 136 
+
+characteristics of yawning were quantified through dynamic tracking of facial vectors using 137 
+
+DeepLabCut (Fig. 1B). This mechanical facial movement was strictly time -locked to masseter EMG 138 
+
+activities, as shown in Figure 1C. According to our definition, a valid yawn is a synergistic motor -139 
+
+electrophysiological event lasting longer than one sec ond and accompanied by high -amplitude 140 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+4
+
+EMG bursts. Using this multimodal alignment strategy, the kinetic onset (t=0) of each yawning 141 
+
+event could be specified objectively. 142 
+
+When yawn occurrences were projected onto the anesthetic timeline, a highly imbalanced 143 
+
+temporal distribution with clear dose -dependent tendencies emerged. The induction phase, 144 
+
+spanning drug administration to loss of response (LOR), showed a sparse activity with only 145 
+
+occasional events in the raster plot (Fig. 1D). In contrast, dense, cluster -like bursts were observed 146 
+
+during the recovery phase. Descriptive analysis indicated that the 4 mg/kg dose elicited more 147 
+
+yawns than the 8 mg/kg dose (Fig. 1E). Based on these observations, we selected 4 mg/kg as the 148 
+
+standard dose for all subsequent formal trials. 149 
+
+These initial findings were supported by quantitative data from 36 independent trials at the 150 
+
+selected dose. The temporal discrepancy is illustrated in a mirror raster plot (Fig. 1F), in which 151 
+
+dense gray vertical bars during recovery stand in sharp contrast to the extremely sparse black bars 152 
+
+during induction. This distribution demonstrated clear time -window specificity: the majority of yawns 153 
+
+occurred between eye -opening and wa lking. Overall, only 10.8% of documented yawns occurred 154 
+
+during induction, c ompared to 89.2% during recovery (Fig. 1G). 155 
+
+To account for unequal phase durations and minimize exposure bias, absolute event counts were 156 
+
+converted to time -normalized occurrence rates (events/min). For formal statistical inference, we 157 
+
+applied a linear mixe d-effects model (LMM) with individual -level random effects to account for the 158 
+
+nested structure of repeated measurements. The time -corrected yawning rate was significantly 159 
+
+higher during recovery than during induction (P < 0.001; Fig. 1H). 160 
+
+This statistically corrected temporal asymmetry quantitatively suggests the presence of 161 
+
+neurodynamic hysteresis in yawning behavior. Notably, yawning preferentially coincided with the 162 
+
+"rebooting" of consciousness networks rather than their "shutdown." These dense recovery -phase 163 
+
+events may reflect a dynamic interplay between rising arousal demands and residual "Neural 164 
+
+Inertia" within the underlying network. 165 
+
+166 
+
+Neural Oscillatory Reconfiguration and State -Space Trajectories in Propofol -Induced 167 
+
+Anesthesia. We used a longitudinal, multi -cycle repeated -measures paradigm (n = 6; Fig. 2A ).168 
+
+Following electrode implementation and recovery, each animal underwent three standardized 169 
+
+anesthesia -emergence cycles, yielding 36 anesthesia recordings and 96 anesthesia -rel ated 170 
+
+yawning events. This design ensured strong statistical power while minimizing the 171 
+
+neuropharmacological impact of drug accumulation. 172 
+
+Intravenous propofol infusion rapidly induced anesthesia, as evidenced by a marked reduction 173 
+
+in electromyography (EMG) amplitude (Fig. 2B , top right). In the time -frequency domain, global 174 
+
+brain oscillatory patterns were substantially reconfigured (Fig. 2B , bottom right). Low -frequency δ 175 
+
+(1 –4 Hz) and α (8 –13 Hz) power increased throughout induction (0 –100 s), whereas high -frequency 176 
+
+γ (30 –40 Hz) power decreased. These changes were uniform across cortical regions, remained 177 
+
+stable during the maintenance phase, and gradually returned to waking levels during recovery. 178 
+
+To better characterize the continuous evolution of brain state s, we constructed a179 
+
+multidimensional neural state -space based on power spectral density across five canonical 180 
+
+frequency bands. For trajectory quantification, wakefulness and loss of response (LOR) were 181 
+
+defined as reference anchors (Fig. 2C ). Principal comp onent analysis (PCA) was used to project 182 
+
+the original 80 -dimensional feature space onto a 3-dimensional subspace, revealing highly 183 
+
+structured state trajectories. Anesthetic states converged markedly into a compact region near the 184 
+
+LOR centroid, whereas wakeful states were more topologically distributed (Fig. 2D ). The empirical 185 
+
+dataset provided topological su pport for both this "funnel -like" convergence and the nonlinear 186 
+
+dynamics of state transitions (Fig. S1B ). Notably, although the recovery trajectory (green) 187 
+
+eventually returned to the wakefulness region, it remained spatially distinct from the induction pat h188 
+
+(blue). This reveals a pronounced state -space imbalance across the anesthesia -emergence 189 
+
+process. Such hysteresis in network evolution trajectories provides a macro -electrophysiological 190 
+
+representation of "neural inertia". 191 
+
+To further quantify these transit ions, we computed the Euclidean distance between the 192 
+
+instantaneous neuronal state and the LOR centroid. The resulting distance time -series was 193 
+
+subsequently fitted using generalized additive models (GAM) (Fig. 2E ). Three key observations 194 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+5
+
+emerged from the GA M fits. First, during induction, the Euclidean distance rapidly decreased, 195 
+
+closely coinciding with the behavioral onset of LOR. Second, during maintenance, the distance 196 
+
+remained at a low, stable level, consistent with neurodynamics trapped in a deeply inhi bited state. 197 
+
+Third, upon recovery, the distance rose sharply at the moment of "eye -opening". However, the 198 
+
+model revealed that a high -level steady state between "eye -opening" and "walking" was not 199 
+
+sustained. Instead, the neural state distance gradually decl ined during this interval (Fig. 2E , black 200 
+
+arrows), suggesting that yawning may serve a s an objective behavioral marker of underlying 201 
+
+network reconfiguration when the brain encounters dynamic barriers during state transitions. 202 
+
+203 
+
+Unsupervised Learning -Based Deconstruction of Yawning Neural Phenotypes and State -204 
+
+Manifold Mapping. To more finely dissect the micro -neural dynamics associated with yawning, we 205 
+
+applied unsupervised spectral phenotypic classification. We extracted 64 -dimensional feature 206 
+
+vectors from 1 6 EEG channels, comprising global absolute power in the δ (1 –4 Hz) and γ (30 –45 207 
+
+Hz) bands, as well as their temporal changes before and after yawning. K -means clustering 208 
+
+combined with UMAP dimensionality reduction revealed that the neurodynamic backgrounds of 209 
+
+yawning segregated into four topologically distinct clusters (Clusters 0 –3; Fig. 3A). 210 
+
+Average spectrograms across frontal, parietal, temporal, and occipital cortical regions revealed 211 
+
+distinct spectral evolution patterns for each cluster (Fig. 3B ). Befo re and after yawning, Cluster 0, 212 
+
+the most prevalent phenotype (53.8% of all events; Fig. 3C ), consistently exhibited low δ power 213 
+
+and high -frequency γ activity. This pattern suggests occurrence in a state approximating the 214 
+
+wakeful baseline during late recov ery. In contrast, Cluster 2 (10.8%) displayed a characteristic 215 
+
+induction -phase collapse, marked by a simultaneous surge in δ power and a pronounced reduction 216 
+
+in γ activity, indicative of a rapid descent into deep anesthesia. The opposite progression was 217 
+
+ob served in Cluster 3 (15.1%), which showed decreasing δ power alongside recovery of γ activity, 218 
+
+consistent with early recovery dynamics. Cluster 1 (20.4%) was dominated by high δ and low γ 219 
+
+power, reflecting the macro -electrophysiological signature of deep a nesthesia. The occurrence of 220 
+
+yawning under such pronounced suppression suggests a hidden micro -dynamic transition, implying 221 
+
+that beneath an apparently stable inhibitory state, the cortex may undergo spontaneous 222 
+
+reconfiguration. 223 
+
+Mapping these four clusters into the 3D neural state manifold revealed that yawning events 224 
+
+closely follow δ and γ topological organization. Cluster 2 aligned with the descending induction 225 
+
+trajectory, while Cluster 1 localized to the manifold base within a deeply metastable inhibited region. 226 
+
+Along the ascending recovery trajectory, Clusters 0 and 3 progressed upward toward wakefulness. 227 
+
+The statistical stability of these distributions was confirmed using linear mixed -effects models 228 
+
+(LMM). For absolute power measures, the model revealed a highly significant interaction between 229 
+
+cortical regions and clusters (P < 0.001). In contrast, spatial interactions for changes in relative 230 
+
+power (Δδ and Δγ) were either not significant or only marginally significant (P = 0.413 and P = 231 
+
+0.063, respectivel y; Figs. 3E –H). Together, this distinct spectral segregation and geometric 232 
+
+localization indicate that state -dependent yawning reflects more than a nonspecific physiological 233 
+
+response activity. Instead, as the brain network transitions between states of cons ciousness, 234 
+
+yawning appears to mark a specific and reproducible pattern of neurodynamic reconfiguration. 235 
+
+236 
+
+Decoding Pre -Yawning Microstates Based on Nonlinear Complexity and Instantaneous 237 
+
+Frequency Volatility. To further investigate the microscopic neuronal preconditions of yawning, 238 
+
+we focused our analysis on a 30 -second window (− 30 to 0 s) preceding movement onset. Cluster -239 
+
+specific dynamic trajectories before yawning were identified by time -resolved Lempel -Ziv 240 
+
+complexity (LZC) analysis (Fig. 4A ). The slo pe of LZC evolution during the pre -yawning interval 241 
+
+was used to stratify events , preventing opposing macroscopic dynamics from canceling each other 242 
+
+out during cross -event averaging. Using this strategy, two distinct macroscopic dynamic modes 243 
+
+were identified (Fig. 4B ). Group 0 (n=59) exhibited a progressive decrease in LZC, indicative of 244 
+
+network inhibition, whereas Group 1 (n = 37) showed a sustained LZC increase, consistent with a 245 
+
+network rebound. 246 
+
+To dissociate microstate -specific dynamics from macroscopic state drive, non -yawning control 247 
+
+periods were selected by minimizing Euclidean distance within an 80 -dimensional power spectral 248 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+6
+
+density space, thereby matching macro -level energy topologies for each yawning event. Using this 249 
+
+rigorously matched baseline, EMD -HHT spectra showed pronounced limitations in pre -yawning 250 
+
+microstate frequency switching (Fig. 4C ). Subsequent quantitative analysis and continuous time 251 
+
+tracking confirmed a dynamic decoupling between microscopic network flexibility and macroscopic 252 
+
+state evolution (Figs. 4D –F). For statistical inference, linear mixed -effects models (LMM) with 253 
+
+random intercepts for individual animals were applied. Relative to matched baseline periods, Group 254 
+
+0 showed a highly significant, global reduction in instantaneous frequency volatility of the second 255 
+
+intrinsic mode function (IMF2 -IFV), a measure reflecting intrinsic local network flexibility (P < 0.001). 256 
+
+In Group 1, which exhibited a macroscopic rebound in state trajectory, microscopic network 257 
+
+flexibility also failed to show robust recovery (P = 0.082; Figs. 4D , E). Continuous -time trajectories 258 
+
+vi sibly confirm these statistical findings (Fig. 4F ). Across both groups, the microscopic network 259 
+
+consistently entered a brief period of flexibility inhibition, or "kinetic stagnation," immediately prior 260 
+
+to yawning onset, regardless of the direction of corti cal arousal change. This result identifies a 261 
+
+universal micro -dynamic signature preceding yawning. 262 
+
+Pre -yawning microstates were reliably distinguished from matched non -yawning control periods 263 
+
+using a Random Forest classifier. Classification performance reac hed an Area Under the Curve 264 
+
+(AUC) of 0.74 for Group 0 (accuracy = 64.66%; permutation test P = 0.0002; Fig. 4G ) and 0.69 for 265 
+
+Group 1 (accuracy = 66.22%; P = 0.0250; Fig. 4I ). Feature importance analysis identified cortical 266 
+
+IMF2 -IFV and its second -order ins tability as the most discriminative predictors in both models (Figs. 267 
+
+4H , J). However, an important question remains. Reduced network flexibility also occurs during 268 
+
+other rapid brain state transitions, such as anesthesia induction, yet yawning emerges only at 269 
+
+specific, infrequent moments. This observation suggests that inhibition of intrinsic flexibility alone 270 
+
+is insufficient to explain the selectivity of pre -yawning microstates. Instead, this narrowly defined 271 
+
+temporal window likely reflects the interaction of additional neurodynamic parameters that gate the 272 
+
+emergence of yawning. 273 
+
+274 
+
+Cross -Species Spatiotemporal Decoupling of Micro -Complexity and γ-Band Power 275 
+
+Preceding Anesthesia -Induced Yawning. To identify additional underlying dynamics beyond 276 
+
+micro -flexibilit y inhibition, we focused specifically on the anesthetic induction period. This brief 277 
+
+transition provides an ideal analytical window: its quick and highly structured progression from 278 
+
+wakefulness to loss of consciousness enables the selection of baseline con trol segments that can 279 
+
+be precisely matched to yawning periods. Because yawning is evolutionarily conserved, we 280 
+
+expanded our analysis from the beagle model (n = 10 yawn/control pairs) to an independent human 281 
+
+validation cohort (n = 9 pairs) to assess the cr oss -species universality of these neurodynamic 282 
+
+precursors. 283 
+
+Within a 30 -second window (− 30 to 0 s) preceding yawning onset, we simultaneously extracted 284 
+
+local γ -band power and Lempel -Ziv complexity (LZC). To generate a strict non -yawning control 285 
+
+baseline, all trials containing induction -phase yawns were excluded from the 36 individual animal 286 
+
+tests. We then identified the point of maximal LZC decline within the remaining induction -phase 287 
+
+data; in control trials, this midpoint was identified as the pseudo -kine tic onset (t = 0). During 288 
+
+anesthetic induction, this approach closely matched the baseline trajectory of macroscopic state 289 
+
+collapse. By applying this stringent control framework, we were able to isolate yawning -specific 290 
+
+micro -dynamics from the general effe cts of anesthetic induction. Together, this setup provides a 291 
+
+high -fidelity platform for detecting transient decoupling between complexity and power across 292 
+
+species. 293 
+
+Time -resolved trajectory tracking revealed distinct divergent evolutionary patterns under th is 294 
+
+precisely matched analytical framework (Figs. 5A , E and I, M), specifically between local high -295 
+
+frequency energy and global network complexity. Both yawning and control groups exhibited 296 
+
+progressive LZC decay from − 30 to 0 s, consistent with a general red uction in macroscopic arousal. 297 
+
+However, pre -yawning microstates exhibited a brief increase in local γ -band power. To isolate 298 
+
+baseline effects of passive state drift and quantify local energy mobilization, we computed the first 299 
+
+time derivative (d/dt) of eac h signal (Figs. 5B , F). In contrast to the control group’s smooth, 300 
+
+constant -velocity collapse, pre -yawning microstates displayed a nonlinear, accelerated deviation. 301 
+
+We further applied Dynamic Time Warping (DTW) to align signal trajectories and compare thei r302 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+7
+
+shapes. This result shows that the phenomenon is a genuine structural divergence in network 303 
+
+dynamics rather than a simple temporal shift (Figs. 5C , G). 304 
+
+To further quantify temporal and spatial separation between macro and micro state dynamics, 305 
+
+we calcula ted linear trend slopes (k) within a fixed time window (− 30 to − 2 s), reducing interference 306 
+
+from movement. In the beagle model, pre -yawning γ -band power slopes were significantly higher 307 
+
+than the control group (Δ = 0.0403, 95% CI: [0.0096, 0.0713]; Fig. 5H ), as determined by bootstrap 308 
+
+testing. LZC decay slopes also differed between conditions (Δ = 0.0666, 95% CI: [0.0213, 0.1124]; 309 
+
+Fig. 5D ). These important features were closely replicated in the human group. 310 
+
+This localized energy surge amidst global complex ity reduction reflects a cortical " control effort "311 
+
+to preserve information integration. We term this phenomenon "Energy -Dynamics Mismatch" 312 
+
+(EDM), defined as a marked disconnection between energy use and network flexibility. This 313 
+
+mismatch captures the intr insic tension opposing "Neural Inertia." Yawning frequently emerges 314 
+
+during periods when this underlying conflict intensifies. 315 
+
+316 
+
+Neurodynamic Features and Cortical Decoupling of Pre -Yawn Microstates during 317 
+
+Wakefulness. We expanded our investigation to yawnin g during natural wakefulness to determine 318 
+
+whether similar network mismatches emerge during normal physiological behavior. To exclude 319 
+
+residual anesthetic effects, EEG recordings were initiated seven days after the last propofol dose 320 
+
+(Fig. 6A ). During contin uous behavioral monitoring, we collected 100 instances of spontaneous 321 
+
+yawning. Analysis revealed a significant increase in high -frequency cortical activity preceding 322 
+
+yawning onset. Time -resolved examination showed that γ -band (30 –45 Hz) power remained 323 
+
+elev ated above baseline prior to yawning, peaking at approximately − 10 s before gradually 324 
+
+declining as the yawn itself approached (Fig. 6B ). We also calculated total γ energy over the 30 -325 
+
+second pre -yawn interval, which demonstrated a highly significant increas e. Compared to the 326 
+
+precisely matched non -yawning control periods, this change was significantly different (Fig. 6C , P 327 
+
+< 0.001). 328 
+
+In contrast, the instantaneous frequency volatility (IFV) decreased concurrently with rising high -329 
+
+frequency power. This separati on of dynamics is clearly illustrated in the tracking plots (Fig. 6D ). 330 
+
+Before a yawn, IFV of the first intrinsic mode function (IMF1 -IFV) remained consistently lower than 331 
+
+baseline and lower than the more flexible oscillatory dynamics observed during contro l periods. As 332 
+
+yawning onset approached, IMF1 -IFV dropped very quickly. Quantitative analysis confirmed a 333 
+
+highly significant overall reduction in IMF1 -IFV across the entire pre -yawning window (Fig. 6E , P < 334 
+
+0.001), reflecting a marked decrease in intrinsic local network flexibility. 335 
+
+Applying the identical Random Forest classification framework used for the anesthesia data, we 336 
+
+successfully distinguished pre -yawning microstates from matched controls during wakefulness ,337 
+
+achieving a mean AUC of 0.70 (permutation test P = 0.0002; Figs. 6F , G) and an overall accuracy 338 
+
+of 67.50% (Fig. 6H ). Feature importance analysis identified IMF1 -IFV as the strongest predictive 339 
+
+variable (Fig. 6I ). 340 
+
+To quantify energy -dynamics decoupling at the single trial level, we implemented a data -driven 341 
+
+sliding window approach (8 -s window, 2 -s step). This analysis revealed that the Energy -Dynamics 342 
+
+Mismatch (EDM) was most pronounced in the 8 seconds immediately b efore the yawn started (Fig. 343 
+
+6J ), which we selected as the focal interval for subsequent analyses. Within this window, EDM 344 
+
+events were identified for each individual using two thresholds: γ power exceeding the 7 5t h345 
+
+percentile of baseline values and IFV fal ling below the 2 5t h percentile. Cross -species comparisons 346 
+
+confirmed the robustness of this effect (Fig. 6K ). In both awake dogs and humans undergoing 347 
+
+propofol induction, EDM events occurred significantly more frequently prior to yawning than during 348 
+
+matched control periods. Together, these findings demonstrate that pre -yawning dynamics during 349 
+
+wakefulness are distinct from general state changes and that the EDM effect is tightly confined to 350 
+
+the temporal vicinity of yawning onset. 351 
+
+352 
+
+Discussion 353 
+
+354 
+
+We investigated the spatiotemporal dynamics of yawning across different arousal states. Our 355 
+
+results show that yawning is not a simple, uniform brain activity (20) . Instead, it consistently 356 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+8
+
+coincides with a specific micro -dynamic decoupling process in the brain. In this process, local 357 
+
+cortical energy increases rapidly (e .g ., high -frequency γ activity), while network flexibility 358 
+
+decreases. We quantify this flexibility using instantaneous frequency volatility (IFV) and define this 359 
+
+transient mismatch between elevated local energy demand and delayed microstate switching as 360 
+
+"Energy -Dynamics Mismatch (EDM)." 361 
+
+Propofol -induced yawning exhibited marked asymmetry on a macro -temporal scale. Specifically, 362 
+
+89.2% of yawning events clustered during the recovery phase. In pharmacology, the difference in 363 
+
+drug levels required to induce versus regain consciousness is referred to as "neural inertia" (21, 364 
+
+22) . During recovery, residual anesthetic effects compete with endogenous arousal drive, 365 
+
+prolonging the transition window (23) . The clustered yawning events observed during this phase 366 
+
+likely reflect periods of intense macroscopic reorg anization as the system overcomes this neural 367 
+
+inertia. 368 
+
+Our micro -dynamic neural features, extracted using EMD -HHT , provide quantitative insight into 369 
+
+these macro -state conflicts. Traditional EEG studies often associate yawning with increases in slow 370 
+
+wave activity and suppression in the α -rhythm (24) . In contrast, EMD -HHT capture s quick, transient 371 
+
+chang es by breaking down signals into intrinsic modes and estimating instantaneous frequency 372 
+
+(25, 26) . Using this approach, we revealed p reviously hidden pre -yawning dynamics that remain 373 
+
+consistent with established signatures of low arousal (27) . Specifically, we observed rapid 374 
+
+increases in γ power and lower flexibility (lower IMF -IFV) in the brain just before a yawn starts. 375 
+
+Previous studies linked γ-band activity and high energy needs of local neurons (28, 29) . The 376 
+
+simultaneous increase in γ power and the reduction in flexibility may therefore reflect elevated 377 
+
+energetic requirements for information processing (30, 31) , consistent with the theoretical concept 378 
+
+of "control effort." Importantly, time -resolved trajectories (Fig. 5 and 6) demonstrate that these high -379 
+
+frequency changes are not EMG artifacts. Cortical γ power consistently declined before the actual 380 
+
+physical movement began, confirming that the elevated energy precedes motor execution. 381 
+
+We further observed that the intrinsic modes (IMFs) carrying transient flexibility suppression 382 
+
+exhibited a state -dependent frequency shift. Specifically, this "decoupling" moves to the highest 383 
+
+frequency mode (IMF1) when th e animal is awake, but during anesthesia induction and recovery, 384 
+
+the second high -frequency mode (IMF2) is more prominent. Interestingly, low -frequency waves 385 
+
+have been shown to become the main part of brain activity when high -frequency activity is 386 
+
+suppresse d (32, 33) . On the other hand, the bra in naturally has more activity and higher -frequency 387 
+
+waves when it is very alert and awake (34, 35) . So, this clear shift in frequency bands shows how 388 
+
+the network always adjusts its main wave mode under different levels of wakefulness. 389 
+
+Together, these findings provide a new framework for understanding yawning as a conserved, 390 
+
+cross -species behav ior. In contrast to traditional theories that frame yawning as a passive 391 
+
+byproduct of sleepiness or thermoregulation (36) , our data indicate that the pre -yawning brain state 392 
+
+reflects an active conf lict during large -scale state reorganization. Although yawning is classically 393 
+
+associated with brainstem and hypothalamic structures such as the paraventricular nucleus (PVN) 394 
+
+(37, 38) , transitions between arousal states involve whole -brain network dynamics (39, 40) . The 395 
+
+destabilization and reorganization of cortical dynamics frequently precede or accompany the 396 
+
+release of subcortical primal circuits (41, 42) . As local cortical regions exhibit increased energetic 397 
+
+demand during periods of reduced global control (43) , dynamic decoupling emerges across 398 
+
+hierarchical levels. Thus, yawning reflects a specific behavioral manifestation of constrained 399 
+
+network flexibility rather than a simple reflex. 400 
+
+Finding these hidden brain patterns was enabled by the pharmacologica l model and the use of 401 
+
+rigorously matched baselines. Anesthetic manipulation amplified resistance during state 402 
+
+transitions, facilitating detection of otherwise subtle dynamics (44, 45) . Importantly, EDM was 403 
+
+replicated in both dogs and an independent human cohort, supporting its potential role as a 404 
+
+conserved mammalian signatu re of state transition dynamics (46) . Clinically, conventional 405 
+
+EEG ‑based monitoring tools that rely on slow ‑wave metrics often det ect state transitions only after 406 
+
+substantial reorganization has occurred (47) . Our findings suggest that increases in local energy 407 
+
+demand coupled with abrupt reductions in network flexibility (IMF ‑IFV) may precede macroscopic 408 
+
+EEG changes, offering a potential early indicator of network instability. 409 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+9
+
+Despite the strong temporal association between microdynamics and yawning, several 410 
+
+limitations warrant consideration. First, as an observational study, we cannot establish a causal link 411 
+
+between EDM and interactions between cortical and subcortical yawning circuits. Second, 412 
+
+generalizability across anesthetic classes remains to be tested. Future investigations should 413 
+
+integrate high -resolution fMRI (48) or multi -region microelectrode recordings in (49) with circuit -414 
+
+specific perturbation methods (50) to clarify causal mechanisms linking EDM to yawning centers. 415 
+
+In summary, the neural signatures identified here provide new quantitative i nsight into how 416 
+
+complex brain networks reorganize during instability and state changes and suggests a foundation 417 
+
+for future development of early warning systems for BCI based on brain state changes in the future. 418 
+
+419 
+
+Materials and Methods 420 
+
+421 
+
+Experimental Model and Data Acquisition. We performed longitudinal recordings of epidural 422 
+
+EEG and intramuscular masseter EMG in six beagle dogs during propofol -induced state transitions. 423 
+
+Yawning behavior was objectively identified using markerless kinemati c tracking (DeepLabCut). To 424 
+
+assess cross -species universality, an independent clinical EEG dataset comprising nine matched 425 
+
+yawn/control segments was analyzed. All animal and human procedures were approved by 426 
+
+institutional ethics committees (see SI Appendix ). 427 
+
+428 
+
+Feature Extraction and Predictive Modeling . Macroscopic neural trajectories were reconstructed 429 
+
+using principal component analysis and generalized additive models. To resolve millisecond -scale 430 
+
+microdynamics beyond linear time –frequency limits, we applie d empirical mode decomposition 431 
+
+(EMD) with Hilbert spectral analysis. Network flexibility was quantified via instantaneous frequency 432 
+
+volatility (IFV). Pre -yawn microstates were classified using a Random Forest algorithm with cross -433 
+
+validated feature importan ce. 434 
+
+435 
+
+Detailed Methods. Comprehensive protocols covering surgical workflows, signal preprocessing, 436 
+
+clustering pipelines, Energy –Dynamics Mismatch (EDM) quantification, and statistical frameworks 437 
+
+are provided in SI Appendix, Materials and Methods. 438 
+
+439 
+
+Acknowledgments 440 
+
+441 
+
+This work was supported by the Wu Jieping Medical Foundation (No. 320.6750.2024 ‐05 ‐14, 442 
+
+Wenfei Tan) ; by the National Natura l Science Foundation of China ( No. 82171187, Wenfei Tan) ;443 
+
+and by the China zhongguancun Precision Medicine science and technology foundation (No. 2024 -444 
+
+11 --085 to L.Q.) .445 
+
+446 
+
+References 447 
+
+1.  O. Walusinski, Le bâillement. Médecine du Sommeil 21 , 159 -167 (2024). 448 
+
+2.  O. Walusinski, "Contagious Yawning" in Encyclopedia of Animal Cognition and 449 
+
+Behavior , J. Vonk, T. Shackelford, Eds. (Springer International Publishing, Cham, 450 
+
+2018), 10.1007/978 -3-319 -47829 -6_1900 -1, pp. 1 -5. 451 
+
+3.  F. Giganti, P. Salzarulo, "Yawning throughout Life" in The Mystery of Yawning in 452 
+
+Physiology and Disease , O. Walusinski, Ed. (S.Karger AG, 2010), vol. 28, pp. 0. 453 
+
+4.  C. H. Tsou et al. , Clinical assessment of propofol -induced yawning with heart rate 454 
+
+variability: a pilot study. J Clin Anesth 20 , 25 -29 (2008). 455 
+
+5.  M. L. Shoup -Knox, A. C. Gallup, G. G. Gallup, E. C. M cNay, Yawning and 456 
+
+stretching predict brain temperature changes in rats: support for the 457 
+
+thermoregulatory hypothesis. Front Evol Neurosci 2, 108 (2010). 458 
+
+6.  C. J. Doelman, J. A. Rijken, Yawning and airway physiology: a scoping review and 459 
+
+novel hypothesis. Sl eep Breath 26 , 1561 -1572 (2022). 460 
+
+7.  S. M. Platek, F. B. Mohamed, G. G. Gallup, Jr., Contagious yawning and the brain. 461 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+10 
+
+Brain research. Cognitive brain research 23 , 448 -452 (2005). 462 
+
+8.  H. Haker, W. Kawohl, U. Herwig, W. Rössler, Mirror neuron activity during 463 
+
+contagious yawning —an fMRI study. Brain Imaging and Behavior 7, 28 -34 (2013 ). 464 
+
+9.  A. Proekt, A. E. Hudson, A stochastic basis for neural inertia in emergence from 465 
+
+general anaesthesia. British journal of anaesthesia 121 , 86 -94 (2018). 466 
+
+10.  M. H. Kuizenga et a l. , Test of neural inertia in humans during general anaesthesia. 467 
+
+British journal of anaesthesia 120 , 525 -536 (2018). 468 
+
+11.  O. Kann, The energy demand of fast neuronal network oscillations: insights from 469 
+
+brain slice preparations. Frontiers in pharmacology 2, 90 (2011). 470 
+
+12.  D. P. Nguyen, R. Barbieri, M. A. Wilson, E. N. Brown, Instantaneous frequency and 471 
+
+amplitude modulation of EEG in the hippocampus reveals state dependent 472 
+
+temporal structure. Annual International Conference of the IEEE Engineering in 473 
+
+Medicine and Biology Society. IEEE Engineering in Medicine and Biology Society. 474 
+
+Annual International Conference 2008 , 1711 -1715 (2008). 475 
+
+13.  J. Zhang et al. , Neural, electrophysiological and anatomical basis of brain -network 476 
+
+variability and its characteristic change s in mental disorders. Brain : a journal of 477 
+
+neurology 139 , 2307 -2321 (2016). 478 
+
+14.  D. J. Armbruster -Genç, K. Ueltzhöffer, C. J. Fiebach, Brain Signal Variability 479 
+
+Differentially Affects Cognitive Flexibility and Cognitive Stability. The Journal of 480 
+
+neuroscienc e : the official journal of the Society for Neuroscience 36 , 3978 -3987 481 
+
+(2016). 482 
+
+15.  H. Tang et al. , Instantaneous Frequency: A New Functional Biomarker for Dynamic 483 
+
+Brain Causal Networks. 10.1101/2024.12.17.628965 %J bioRxiv, 484 
+
+2024.2012.2017.628965 (2024). 485 
+
+16 . A. J. Quinn et al. , Within -cycle instantaneous frequency profiles report oscillatory 486 
+
+waveform dynamics. J Neurophysiol 126 , 1190 -1208 (2021). 487 
+
+17.  R. Noack, C. Manjesh, M. Ruszinko, H. Siegelmann, R. Kozma (2017) Resting 488 
+
+state neural networks and energy metabolism. in 2017 International Joint 489 
+
+Conference on Neural Networks (IJCNN) , pp 228 -235. 490 
+
+18.  E. G. Ceballos et al. , The control costs of human brain dynamics. Network 491 
+
+Neuroscience 9, 77 -99 (2025). 492 
+
+19.  Y. Obata, T. Yamada, K. Akiyama, T. Sawa, Time -trend a nalysis of the center 493 
+
+frequency of the intrinsic mode function from the Hilbert –Huang transform of 494 
+
+electroencephalography during general anesthesia: a retrospective observational 495 
+
+study. BMC Anesthesiology 23 (2023). 496 
+
+20.  S. B. N. Thompson, Hypothesis to Explain Yawning, Cortisol Rise, Brain Cooling 497 
+
+and Motor Cortex Involvement of Involuntary Arm Movement in Neurologically 498 
+
+Impaired Patients. Journal of Neurology and Neuroscience 08 (2017). 499 
+
+21.  A. R. McKinstry -Wu, A. Proekt, M. B. Kelz, Neural Inertia: A Sticky Situation for 500 
+
+Anesthesia. Journal of neurosurgical anesthesiology 32 , 190 -192 (2020). 501 
+
+22.  E. B. Friedman et al. , A conserved behavioral state barrier impedes transitions 502 
+
+between anesthetic -induced unconsciousness and wakefulness: evidence for 503 
+
+neural inertia. PloS one 5, e11903 (2010). 504 
+
+23.  L. D. Lewis et al. , A transient cortical state with sleep -like sensory respon ses 505 
+
+precedes emergence from general anesthesia in humans. eLife 7 (2018). 506 
+
+24.  A. G. Guggisberg, J. Mathis, U. S. Herrmann, C. W. Hess, The functional 507 
+
+relationship between yawning and vigilance. Behav Brain Res 179 , 159 -166 (2007). 508 
+
+25.  X. Shan et al. , A Rev ised Hilbert -Huang Transformation to Track Non -Stationary 509 
+
+Association of Electroencephalography Signals. IEEE transactions on neural 510 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+11 
+
+systems and rehabilitation engineering : a publication of the IEEE Engineering in 511 
+
+Medicine and Biology Society 29 , 841 -851 (2021). 512 
+
+26.  N. E. Huang et al. , The empirical mode decomposition and the Hilbert spectrum 513 
+
+for nonlinear and non -stationary time series analysis. Proceedings of the Royal 514 
+
+Society A: Mathematical, Physical and Engineering Sciences 454 , 903 -995 (1998). 515 
+
+27.  A. G. Guggisberg, J. Mathis, C. W. Hess, Interplay between yawning and vigilance: 516 
+
+a review of the experimental evidence. Frontiers of neurology and neuroscience 517 
+
+28 , 47 -54 (2010). 518 
+
+28.  D. Strüber, C. S. Herrmann, "Gamma Activity in Sensory and Cognitive 519 
+
+Proces sing" in The Oxford Handbook of EEG Frequency , P. A. Gable, M. W. Miller, 520 
+
+E. M. Bernat, Eds. (Oxford University Press, 2022), 521 
+
+10.1093/oxfordhb/9780192898340.013.8, pp. 0. 522 
+
+29.  G. Buzsáki, X. J. Wang, Mechanisms of gamma oscillations. Annual review of 523 
+
+neuros cience 35 , 203 -225 (2012). 524 
+
+30.  K. Friston, The free -energy principle: a unified brain theory? Nature Reviews 525 
+
+Neuroscience 11 , 127 -138 (2010). 526 
+
+31.  D. Attwell, S. B. Laughlin, An energy budget for signaling in the grey matter of the 527 
+
+brain. Journal of cerebra l blood flow and metabolism : official journal of the 528 
+
+International Society of Cerebral Blood Flow and Metabolism 21 , 1133 -1145 (2001). 529 
+
+32.  P. L. Purdon et al. , Electroencephalogram signatures of loss and recovery of 530 
+
+consciousness from propofol. Proceeding s of the National Academy of Sciences 531 
+
+of the United States of America 110 , E1142 -1151 (2013). 532 
+
+33.  E. N. Brown, R. Lydic, N. D. Schiff, General anesthesia, sleep, and coma. The New 533 
+
+England journal of medicine 363 , 2638 -2650 (2010). 534 
+
+34.  D. D. Garrett et al. , Moment -to -moment brain signal variability: a next frontier in 535 
+
+human brain mapping? Neuroscience and biobehavioral reviews 37 , 610 -624 536 
+
+(2013). 537 
+
+35.  G. Deco, M. L. Kringelbach, V. K. Jirsa, P. Ritter, The dynamics of resting 538 
+
+fluctuations in the brain: metast ability and its dynamical cortical core. Scientific 539 
+
+reports 7, 3095 (2017). 540 
+
+36 . H. Krestel, C. L. Bassetti, O. Walusinski, Yawning —Its anatomy, chemistry, role, 541 
+
+and pathological considerations. Progress in Neurobiology 161 , 61 -78 (2018). 542 
+
+37.  I. Sato -Suzuki , I. Kita, M. Oguri, H. Arita, Stereotyped yawning responses induced 543 
+
+by electrical and chemical stimulation of paraventricular nucleus of the rat. J544 
+
+Neurophysiol 80 , 2765 -2775 (1998). 545 
+
+38.  A. G. Guggisberg, J. Mathis, A. Schnider, C. W. Hess, Why do we yawn ?546 
+
+Neuroscience and biobehavioral reviews 34 , 1267 -1276 (2010). 547 
+
+39.  A. B. A. Stevner et al. , Discovery of key whole -brain transitions and dynamics 548 
+
+during human wakefulness and non -REM sleep. Nature communications 10 , 1035 549 
+
+(2019). 550 
+
+40.  G. Deco et al. , Awakening: Predicting external stimulation to force transitions 551 
+
+between different brain states. 116 , 18088 -18097 (2019). 552 
+
+41.  M. W. J. van Es et al. , Large -scale cortical functional networks are organized in 553 
+
+structured cycles. Nature neuroscience 28 , 2118 -2128 (2025). 554 
+
+42.  H. K. Inagaki et al. , A midbrain -thalamus -cortex circuit reorganizes cortical 555 
+
+dynamics to initiate movement. Cell 185 , 1065 -1081.e1023 (2022). 556 
+
+43.  A. Gazzaley, A. C. Nobre, Top -down modulation: bridging selective attention and 557 
+
+working mem ory. Trends in cognitive sciences 16 , 129 -135 (2012). 558 
+
+44.  A. J. Eisen et al. , Propofol anesthesia destabilizes neural dynamics across cortex. 559 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+12 
+
+Neuron 112 , 2799 -2813.e2799 (2024). 560 
+
+45.  M. T. Alkire, J. Miller, General anesthesia and the neural correlates of 561 
+
+consciousness. Progress in brain research 150 , 229 -244 (2005). 562 
+
+46.  N. Bunford et al. , Differences in pre -sleep activity and sleep location are associated 563 
+
+with variability in daytime/nighttime sleep electrophysiology in the domestic dog. 564 
+
+Scientific reports 8, 7109 (2018). 565 
+
+47.  L. Voss, J. Sleigh, Monitoring consciousness: the current status of EEG -based 566 
+
+depth of anaesthesia monitors. Best practice & research. Clinical anaesthesiology 567 
+
+21 , 313 -325 (2007). 568 
+
+48.  F. B. Nahab, N. Hattori, Z. S. Saad, M. Hallett, Cont agious yawning and the frontal 569 
+
+lobe: an fMRI study. Human brain mapping 30 , 1744 -1751 (2009). 570 
+
+49.  J. J. Jun et al. , Fully integrated silicon probes for high -density recording of neural 571 
+
+activity. Nature 551 , 232 -236 (2017). 572 
+
+50.  Y. Li et al. , Optogenetic fMRI reveals therapeutic circuits of subthalamic nucleus 573 
+
+deep brain stimulation. Brain stimulation 17 , 947 -957 (2024). 574 
+
+575 
+
+576 
+
+577 
+
+578 
+
+579 
+
+580 
+
+581 
+
+582 
+
+583 
+
+584 
+
+585 
+
+586 
+
+587 
+
+588 
+
+589 
+
+590 
+
+591 
+
+592 
+
+593 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+13 
+
+Figures 594 
+
+595 
+
+Figure 1. Kinetic definition of propofol -induced yawning and temporal asymmetry during 596 
+
+state transitions. (A) A schematic showing the plan for the first experiment to find the right dose 597 
+
+(n = 3). (B) How we defined a yawn using DeepLabCut to track points on the face. This shows the 598 
+
+change in mouth shape from closed ( θ = 26° ) to the widest point ( θ = 96° ) in one typical beagle. (C) 599 
+
+Matching the behavior and electrical signals in time. The mouth -opening angle (black line), the raw 600 
+
+masseter electromyography (EMG, grey), and the blue curve are synchronized in the time domain. 601 
+
+Grey boxes show ya wns that lasted longer than 1 s, where t = 0 is the start of the action. (D) Plots 602 
+
+showing when yawns (black ticks) happened at different doses. Dashed vertical lines show the loss 603 
+
+of response (LOR, red), when eyes opened (black), and when walking started again (blue). (E) 604 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+14 
+
+Number of yawns during the induction and recovery for two doses. Note: These data show a 605 
+
+general trend only. (F) A mirror plot for the formal experiment (4 mg/kg, 36 trials) showing the 606 
+
+distribution of yawns during recovery (top, grey) an d induction (bottom, black). (G) The percentage 607 
+
+of yawns that happened in induction compared to recovery. (H) Comparing yawn rates after 608 
+
+adjusting for time. In the violin plot, grey lines connect the data from the same trial. ***P < 0.001, 609 
+
+using a linear m ixed -effects model (LMM) that treats each animal as a random factor. 610 
+
+611 
+
+612 
+
+613 
+
+Figure 2. Analysis of neural state trajectory dynamics during propofol induction and 614 
+
+recovery . (A) A drawing of the experiment and key points in behavior (n = 6). These points include 615 
+
+loss of response (LOR), opening eyes, and starting to walk again. (B) Spatial electrode distribution 616 
+
+and macro -scale time -frequency evolution. Left: A map showing 16 E EG channels across four main 617 
+
+areas of the brain. Top right: A typical muscle signal (EMG) wave. Bottom right: Changes in the 618 
+
+power spectrum for one channel from being awake, through anesthesia, and then recovery. Black 619 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+15 
+
+dashed lines show when yawns happened . (C) Extraction process for neural state features. Blue 620 
+
+and red boxes show the 5 -second windows we used to find the features for being awake (Rec. 621 
+
+onset) and for the loss of response (LOR). (D) 3D paths of brain states using Principal Component 622 
+
+Analysis ( PCA). The PC1, PC2, and PC3 axes show the first three components of the state 623 
+
+subspace. Blue, red, and green lines show the induction, maintenance, and recovery phases of the 624 
+
+experiment. (E) Euclidean distance dynamics between instantaneous neural states a nd the LOR 625 
+
+centroid. Time zero on the x -axis is the time of LOR. Grey lines show the raw distance data. The 626 
+
+black line and the shaded area show the Generalized Additive Model (GAM) fit and its 95% 627 
+
+confidence interval (CI). Black arrows point to yawning eve nts. 628 
+
+629 
+
+630 
+
+631 
+
+Figure 3. Classifying the neural spectral patterns of yawning and their mapping in state 632 
+
+space. (A) The steps for unsupervised clustering and UMAP projection to find yawn types (Clusters 633 
+
+0–3). We calculated the features using the average power and the relative change (Δ) of the δ and 634 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+16 
+
+γ bands in the time window around the yawn (± 30 s). (B) Average time -frequency maps 635 
+
+(spectrograms) for the four clusters in four main brain areas. The vertical black dashed line marks 636 
+
+the start of the yawning action ( t = 0). (C) The portion of each cluster out of all the yawning events 637 
+
+that were recorded. (D) Map of yawning events on a 3D brain state shape (manifold). The color of 638 
+
+each dot shows which cluster it belongs to. The blue, red, and green lines represent the induction, 639 
+
+maintenance, and recovery phases of the experiment. (E –H) Mean relative power changes (E, F) 640 
+
+and total average power (G, H) for the δ and γ bands. The plots show the mean ± 95% CI for each 641 
+
+cluster across the four brain regions. P -values show the "Cluster × Region" interaction effect 642 
+
+calculated with a linear mixed -effects model (LMM). 643 
+
+644 
+
+645 
+
+646 
+
+Figure 4. Pre -yawn microstate dynamics based on nonlinear complexity and instantaneous 647 
+
+frequency volatility, and machine learning decoding. (A) Evolution of Lempel -Ziv complexity 648 
+
+(LZC) for the four clusters around yawn onset (t = 0). The solid lines and shaded areas show the 649 
+
+mean ± SEM for the events. The black lines with stars show the time windows where the data is 650 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+17 
+
+significantly different from the baseline ( −30 to − 28 s) (cluster permutation test, P < 0.05). (B) 651 
+
+Different types of LZC paths separated by their slope: Group 0 (complexity decreases, n = 59) and 652 
+
+Group 1 (complexity increases, n = 37). (C) Examples of the Hilbert -Huang Transform (HHT) 653 
+
+analysis for the states before a yawn and the control group. The top part shows the signal wave of 654 
+
+the second intrinsic mode function (IMF2). The bottom part shows the Hilbert spectrum; the color 655 
+
+bar indicates the instantaneous amplitude. (D, E) Mean values of the IMF 2 instantaneous frequency 656 
+
+volatility (IMF2 -IFV) ± 95% CI for Group 0 (D) and Group 1 (E) in four brain areas. P -values show 657 
+
+the main effect of state and the interaction effect calculated by the LMM. (F) Time tracks showing 658 
+
+the IMF2 -IFV (mean ±SEM) for Gro up 0 and Group 1 during the 30 seconds before the yawn starts. 659 
+
+(G, I) ROC curves (Receiver Operating Characteristic) for the Random Forest models that decode 660 
+
+the pre -yawn state for Group 0 (G) and Group 1 (I). The light shading represents the SEM between 661 
+
+different folds. (H, J) Ranking of the Gini importance for the six main features used in the d ecoding 662 
+
+models mentioned above. 663 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+18 
+
+664 
+
+665 
+
+Figure 5. Cross -species dynamics and shape alignment of pre -yawn LZC and γ power during 666 
+
+propofol induction. (A, E) Time tracks (mean ± SEM) showing LZC (A) and γ power (E) during 667 
+
+the 30 seconds before a yawn starts. We used data from the beagle group (n = 10 yawn/control 668 
+
+pairs). All values were normalized using Z -scores based on the baseline window ( −30 to −28 s ). 669 
+
+(B, F) These show the first -order time derivatives (the rate of change) for the LZC and γ power data 670 
+
+described above. (C, G) An example of matching the yawn signal (blue line) and the control signal 671 
+
+(grey dashed line) using Dynamic Time Warping (DTW). T he light grey lines show the best 672 
+
+matching path between the two signals. The text inside the plot shows the calculated DTW 673 
+
+distance. (D, H) Plots showing the slope (k) for the linear trend of LZC (D) and γ power (H). We 674 
+
+calculated the slope for the time wi ndow between −30 s and −2 s. Black dots show the average 675 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+19 
+
+difference between the yawn group and the control group. The vertical black lines show the 95% 676 
+
+CI. (I –P) Results for the human group (n = 9 yawn/control pairs). The data processing and the 677 
+
+statistica l tests are exactly the same as the methods used in panels (A –H). 678 
+
+679 
+
+680 
+
+681 
+
+Figure 6. Decoupling and decoding of pre -yawn microstates during wakefulness. (A) 682 
+
+Schematic diagram of the longitudinal waking period experimental design. (B, C) γ power tracks 683 
+
+before a yawn compared to the control period (B) and the comparison of γ energy (C) when awake. 684 
+
+All data were normalized to Z -scores using the baseline window ( −30 to −28 s ). The plots show the 685 
+
+mean ± 95% CI. ***P < 0.001. (D, E) Changes in IMF1 -IFV while awake (D) and the statistical 686 
+
+comparison (E). We used the same baseline method as in panel B. The data show the mean ± 687 
+
+> .CC-BY 4.0 International license available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint this version posted April 29, 2026. ;https://doi.org/10.64898/2026.04.26.720882 doi: bioRxiv preprint
+
+20 
+
+SEM. ***P < 0.001. (F –I) Using a Random Forest model to find the state before a yawn. This part 688 
+
+includes the average ROC curve (F), the distributi on of 5,000 permutation tests (G), the confusion 689 
+
+matrix (H), and the ranking of feature importance (I). (J, K) Using the data to find the best time 690 
+
+window for detecting Energy -Dynamics Mismatch (EDM) (J) and a comparison of EDM detection 691 
+
+rates in different species (K). *P < 0.05, **P < 0.01, based on Fisher’s exact test. 692 
+
+693 
+
+694 
+
+695 
+
+696 
+
+697 
+
+698 
+
+699 
+
+700 
+
+701 
+
+702 
+
+703 
+
+704 
+
+705 
+
+706 
+
+707 
+
+708 
+
+709 
+
+710 
+
+711 
+
+712 
+
+713 
+
+714 
+
+715 
+
+716
