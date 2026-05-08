@@ -1,0 +1,2109 @@
+Title: Compressed Cortical Input Separates Control from Dynamics in Striatum
+
+URL Source: https://www.biorxiv.org/content/10.1101/2025.09.05.674585v2.full.pdf
+
+Number of Pages: 29
+
+Markdown Content:
+# Compressed Cortical Input Separates Control from Dynamics in Striatum 
+
+Sreejan Kumar 1,2 * , Matthieu B. Le Cauchois 3,4 * , Alexander Mathis 5, Lea Duncker 1,6 ,Jonathon R. Howlett 7,8 ** , and Marcelo G. Mattar 2,** 1Zuckerman Institute, Columbia University 
+
+> 2
+
+Department of Psychology, New York University 
+
+> 3
+
+Department of Cognitive Science, University of California, San Diego 
+
+> 4
+
+School of Engineering, ´ Ecole polytechnique f´ ed´ erale de Lausanne (EPFL) 
+
+> 5
+
+School of Life Sciences, ´ Ecole polytechnique f´ ed´ erale de Lausanne (EPFL) 
+
+> 6
+
+Department of Neuroscience, Columbia University 
+
+> 7
+
+VA San Diego Healthcare System 
+
+> 8
+
+Department of Psychiatry, University of California, San Diego 
+
+> *
+
+Joint first authors. 
+
+> **
+
+Joint senior authors. 
+
+Abstract 1
+
+The dorsolateral striatum (DLS) supports diverse time-sensitive behaviors—action chunking, duration estimation, 2
+
+and motor timing—yet no single framework is able to explain all of these phenomena. Here, we propose that 3
+
+the massive convergence of cortical projections onto the striatum provides such a framework. We develop 4
+
+a corticostriatal neural network model in which a recurrent cortical module communicates with a recurrent 5
+
+striatal module through a low-dimensional, noisy bottleneck, with the whole system trained via reinforcement 6
+
+learning. Across three DLS-associated tasks, compression produces a consistent computational motif whereby 7
+
+cortex provides low-dimensional control signals while the striatum generates stable, time-encoding dynamics. 8
+
+This separation gives rise to chunking behavior with action slipping, intensity-biased duration judgements with 9
+
+stimulus-modulated time coding, and stereotyped motor timing programs. Perturbation of the compressed cortical 10 
+
+signal causally shifts behavior while preserving sequential structure in striatum activity. In sum, our results 11 
+
+unify information-theoretic and dynamical systems perspectives of basal ganglia function to link anatomical 12 
+
+compression to a variety of temporally-sensitive sensorimotor behaviors implicated in the DLS. 13 
+
+Introduction 14 
+
+The dorsolateral striatum (DLS), the sensorimotor input territory of the basal ganglia, has been implicated in a 15 
+
+remarkably broad range of time-sensitive behaviors: the acquisition and execution of action sequences (Graybiel, 16 
+
+1998; X. Jin & Costa, 2015; Martiros et al., 2018), the estimation and comparison of elapsed durations (Gouv ˆea 17 
+
+et al., 2015; Monteiro et al., 2023; Rodrigues et al., 2024; Toso et al., 2021), the temporal coordination of learned 18 
+
+motor habits (Dhawale et al., 2021; Hidalgo-Balbuena et al., 2019; Rueda-Orozco & Robbe, 2015), and more broadly, 19 
+
+the selection of actions appropriate to the current moment within a temporally extended behavioral context 20 
+
+(D. Z. Jin et al., 2009; Klaus et al., 2017; Markowitz et al., 2023). A unifying theme across these functions is the 21 
+
+need to produce the right action at the right time (Haimerl et al., 2025). Yet despite decades of work exploring 22 
+
+each of these phenomena individually, a computational framework explaining why a single brain region supports 23 
+
+such diverse temporally-sensitive functions has remained elusive. Here, we propose that the answer lies in a 24 
+
+defining anatomical feature of the corticostriatal pathway: the massive convergence of cortical projections onto 25 
+
+the striatum. 26 
+
+1
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+Neural projections from the cortex to the striatum undergo a dramatic dimensionality reduction: the number of 27 
+
+cortical neurons projecting to the striatum exceeds the number of receiving striatal neurons by more than an order 28 
+
+of magnitude (Figure 1A). The principal neurons of the striatum, medium spiny neurons (MSNs), which comprise 29 
+
+approximately 95% of the striatal population (Kita & Kitai, 1988), possess large, extensively branching dendritic 30 
+
+arbors studded with spines that receive convergent excitatory input from thousands of cortical neurons (Kincaid 31 
+
+et al., 1998; Wilson & Groves, 1980). Bar-Gad, Morris, & Bergman (2003) termed the resulting population-level 32 
+
+compression “anatomical funneling” and showed that information transmitted through the basal ganglia is 33 
+
+decorrelated relative to cortical input, consistent with dimensionality reduction at the corticostriatal interface. 34 
+
+Their theoretical framework of “reinforcement-driven dimensionality reduction” (RDDR) proposed that this 35 
+
+compression is optimized for reward-relevant dimensions — akin to PCA, but with a loss function defined 36 
+
+by reinforcement rather than variance explained (Bar-Gad, Havazelet-Heimer, et al., 2003). However, RDDR 37 
+
+characterizes corticostriatal compression in static, information-theoretic terms; it does not address how this 38 
+
+compression shapes the dynamics of the downstream circuit. 39 
+
+More recent work has shifted focus from the static properties of corticostriatal compression to the dynamics 40 
+
+of the striatal circuit itself. Striatal population activity evolves along reproducible trajectories in neural state 41 
+
+space, and the timecourse of this evolution provides a temporal basis for the computations the striatum performs 42 
+
+(Monteiro et al., 2023; Tsao et al., 2022). Cortical and thalamic input appears to parametrically control these 43 
+
+dynamics — modulating the speed and gain of striatal trajectories — while the striatum retains autonomy over 44 
+
+the structure of the activity patterns themselves (Hidalgo-Balbuena et al., 2019; Lee et al., 2019; Murray & Escola, 45 
+
+2017). Yet this dynamical systems perspective has developed largely independently of the information-theoretic 46 
+
+account of corticostriatal compression, and the two have rarely been connected within a single computational 47 
+
+framework. A framework that bridges these ideas could explain how a single anatomical motif simultaneously 48 
+
+gives rise to both the behavioral and dynamical signatures observed across DLS-dependent tasks. 49 Cortex Striatum MSN A CObservation Cortex 2-4 Neurons Noise Striatum V
+
+> π
+
+# B      
+
+> 64 Neurons 64 Neurons Cortico-Striatal Bottleneck
+> Control (Cortex) Dynamics (Striatum) Start Striatum PC1 Chunking ABCABC
+> Timing Duration Judgement vs
+
+# D
+
+> Striatum PC2
+
+Fig. 1. Corticostriatal Compression Framework. (A). Anatomical motivation. Cortical neurons projecting to the striatum outnumber receiving striatal neurons by more than an order of magnitude. Medium spiny neurons (MSNs), the principal striatal cell type, possess large branching dendrites that integrate convergent input from diverse cortical sources. ( B). Model architecture. A cortical RNN (64 units) communicates with a striatal LSTM (64 units) through a low-dimensional noisy bottleneck (2–4 units). The striatal module produces a policy ( π) and value estimate ( V ), trained via reinforcement learning. Cortico-cortical weights are random and fixed; all striatal and cortico-striatal weights are plastic. ( C). Conceptual schematic. Compression forces a separation of low-dimensional control signals (cortex, red) from stable time-encoding dynamics (striatum, blue). Cortical input guides progression along trajectories generated by the striatum. ( D). Task domains Three tasks used to test the framework: sensorimotor chunking, duration judgements, and habitual motor timing, all associated with the DLS. 
+
+We propose that corticostriatal compression is precisely this bridging principle: dimensionality reduction at the 50 
+
+corticostriatal interface forces a separation of function in which the cortex provides low-dimensional control 51 
+
+signals while the striatum generates intrinsic stable time-encoding dynamics, and it is this separation that gives 52 
+
+rise to the structured temporal behaviors associated with the DLS (Figure 1C). 53 
+
+To instantiate this hypothesis, we developed a multiregion recurrent neural network model inspired by the 54 
+
+architecture of Mizes et al. (2024), who modeled the corticostriatal pathway as a cortical module projecting to a 55 
+
+recurrent striatal module, with sensory cues provided to cortex but not directly to the striatum (reflecting their 56 
+
+previous finding that DLS activity can be insensitive to specific sensory cues, Mizes et al. 2023). Our model (Fig-57 
+
+ure 1B) consists of a cortical module (a recurrent neural network with 64 units) that communicates with a striatal 58 
+
+module (an LSTM with 64 units) through a low-dimensional noisy bottleneck ( 2–4 units). The striatal module 59 
+
+produces both a policy and a value estimate, and the system is trained end-to-end via reinforcement learning using 60 
+
+2
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+an actor-critic framework. Cortical recurrent weights are randomly initialized and frozen (Buonomano & Maass, 61 
+
+2009; Dominey, 1995), reflecting the assumption that cortical dynamics are shaped by a separate learning signal 62 
+
+operating on a different timescale (Doya, 2000; Pasupathy & Miller, 2005), while all striatal and corticostriatal 63 
+
+weights are plastic. The striatal module is recurrent, reflecting inhibitory interactions among MSNs and excitatory 64 
+
+re-entrant loops through the basal ganglia output nuclei and thalamus (Lanciego et al., 2012; Mandelbaum et 65 
+
+al., 2019; McElvain et al., 2021), as also modeled by Mizes et al. (2024). Whereas Mizes et al. (2024) imposed a 66 
+
+penalty on the strength of the cortical-to-striatal projection, implicitly constraining information flow, our model 67 
+
+makes this constraint explicit by directly limiting the dimensionality of the corticostriatal channel — enabling us 68 
+
+to systematically study the functional consequences of compression. Our architecture thus captures the spirit 69 
+
+of RDDR — cortical information is compressed through a capacity-limited channel optimized by reinforcement 70 
+
+— while simultaneously implementing a dynamical system in which compressed cortical input parametrically 71 
+
+controls the temporal evolution of striatal trajectories. 72 
+
+We test this model on three time-sensitive sensorimotor behaviors associated with the DLS (Figure 1D): a 73 
+
+sensorimotor chunking task inspired by human behavioral experiments (Lai et al., 2025), a duration comparison 74 
+
+task based on recordings from rat DLS (Rodrigues et al., 2024; Toso et al., 2021), and a motor timing task (Hidalgo-75 
+
+Balbuena et al., 2019). Across all three tasks, compression produces a consistent computational motif: the 76 
+
+cortex provides low-dimensional, task-relevant control signals while the striatum intrinsically generates stable, 77 
+
+time-encoding dynamics. This separation gives rise to human-like chunking with action slipping, intensity-78 
+
+biased duration judgements with stimulus-modulated time coding, and stereotyped motor timing programs 79 
+
+with perturbation-sensitive timing. In each domain, perturbation of the compressed cortical signal causally 80 
+
+shifts behavior while preserving the sequential structure of striatal activity. Our results thus provide a unifying 81 
+
+mechanistic link between corticostriatal compression and the diverse temporally-sensitive functions of the DLS, 82 
+
+bridging the information-theoretic and dynamical systems frameworks that have each been used separately to 83 
+
+study this circuit. 84 
+
+Results 85 
+
+Sensorimotor Chunking 86 
+
+We first asked whether corticostriatal compression can account for sensorimotor chunking, a core DLS-associated 87 
+
+behavior in which frequently co-occurring actions are grouped into single behavioral routines. To test this, 88 
+
+we trained our model on a task inspired by Lai et al. (2025) in which participants observe sequences of stimuli 89 
+
+drawn from a set of 16 possible items and must select the corresponding action for each stimulus to receive a 90 
+
+reward (Figure 2A,B). The key manipulation is that eight of these stimuli (S0–S7, “chunk stimuli”) frequently 91 
+
+appear in a fixed temporal order, forming a “chunk” during structured episodes, while the remaining “non-chunk” 92 
+
+stimuli always appear in random order. Although chunk stimuli can appear individually in random contexts, 93 
+
+they more frequently co-occur together in their fixed sequence via structured episodes (see Methods for full task 94 
+
+parameterization). This design creates an opportunity for behavioral policy compression: rather than treating 95 
+
+each stimulus independently, an efficient learner can recognize and exploit the predictable chunk sequence. 96 
+
+Human performance on this task reveals two signatures of capacity-limited processing that serve as qualitative 97 
+
+targets for our model. First, performance decreases as the total number of stimuli increases, reflecting the 98 
+
+cognitive cost of maintaining more stimulus-response mappings (Figure 2C, light vs. dark bars). Second, humans 99 
+
+perform significantly better on structured trials containing the chunk than on random trials, demonstrating that 100 
+
+they successfully exploit the temporal regularity (Figure 2C, red vs. blue bars). These two effects — degraded 101 
+
+performance with increased memory load and improved performance with predictable structure — are hallmarks 102 
+
+of policy compression in capacity-limited systems (Lai & Gershman, 2021). 103 
+
+To test whether corticostriatal compression could reproduce these behavioral signatures, we trained models 104 
+
+with varying bottleneck dimensions and evaluated performance on both structured and random trials across 105 
+
+set sizes, matching the conditions used in the human experiments. The uncompressed model (64-dimensional 106 
+
+bottleneck) performed equally well across all conditions, showing neither the set size effect nor the structured trial 107 
+
+advantage (Figure 2D, right), indicating that without a communication bottleneck, the model simply memorizes 108 
+
+all stimulus-response mappings independently. By contrast, the compressed model (4-dimensional bottleneck) 109 
+
+3
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+# C DS0S1S2S3S4S5S6S7a 0a 1a 2a 3a 4a 5a 6a 7
+
+Chunk S8S9S10S11S12S13S14S15a 8a 9a 1 0a 1 1a 1 2a 1 3a 1 4a 1 5
+
+Non-Chunk S0S1S2S3S4S5S6S7S12S9S13S10S3S2S15Trial 1 Trial 2 S8
+
+# A B Trial Structure a 0a 1a 2a 3a 4a 5a 6a 7a 1 2a 9a 1 3a 1 0a 3a 2a 1 5a 8State-Action Mappings 
+
+# ...    
+
+> Ns = 16 Ns = 24 Set Size 0.0 0.2 0.4 0.6 0.8 1.0 1.2 Average Accuracy *** *** *** *
+> Bottleneck: 4
+> Ns = 16 Ns = 24 Set Size 0.0 0.2 0.4 0.6 0.8 1.0 1.2 n.s. n.s.
+> Bottleneck: 64
+> Random Structured Random Structured
+
+Fig. 2. Corticostriatal Compression Reproduces Human-like Chunking. (A). Sensorimotor chunking task. Each stimulus has one rewarded action; the number of possible actions equals the number of stimuli. ( B). Task structure. A sequence of T stimuli is sampled via either a structured or random scheme. In structured episodes (shaded), a fixed subset of stimuli appears in a predictable order (the “chunk”). In random episodes (unshaded), stimuli are drawn randomly, with chunk stimuli appearing at lower probability. (C). Human behavioral signatures of chunking. Data from Lai et al. (2025). Performance decreases with larger set sizes ( Ns = 4 vs. 
+
+Ns = 6 ) and improves on structured versus random trials (red vs. blue). ( D). Only strong compression reproduces both human signatures. The 4-dimensional bottleneck (left) shows a significant structured-trial advantage at both set sizes (one-sided Welch’s t-test, both p < 0.001 ) and a set-size effect for both structured ( p = 0 .044 ) and random ( p < 0.001 ) trials. The 64-dimensional bottleneck (right) shows neither effect (both p > 0.15 ). Error bars: 95% CI across 11 training seeds. 
+
+reproduced both human signatures: performance decreased with set size and improved on structured versus 110 
+
+random trials (Figure 2D, left). These results demonstrate that corticostriatal compression is sufficient to produce 111 
+
+human-like chunking behavior. 112 
+
+Structured Behavior and Striatal Time-Encoding Dynamics 113 
+
+If the compressed model genuinely chunks actions rather than simply showing a statistical advantage on structured 114 
+
+trials, it should exhibit “action slipping” — the classic chunking phenomenon in which a familiar sequence is 115 
+
+executed inflexibly even when inappropriate (Norman, 1981). We tested this by presenting partial chunk initiations 116 
+
+(e.g., stimuli S0–S2) followed by random stimuli requiring different actions. The compressed model inflexibly 117 
+
+completed the entire chunk sequence, ignoring subsequent non-chunk stimuli (Figure 3A, top), whereas the 118 
+
+uncompressed model remained responsive to the actual stimuli presented (Figure 3A, bottom). This action slipping 119 
+
+confirms that the compressed model has consolidated the chunk into a single behavioral unit that, once triggered, 120 
+
+runs to completion. 121 
+
+Corticostriatal compression reduces the sensory information available to the striatum, which should force the 122 
+
+network to rely more on internally generated temporal dynamics. Consistent with this reasoning, stimulus 123 
+
+identity was significantly harder to decode from the hidden state in models with smaller bottlenecks (Figure S1), 124 
+
+suggesting that the striatum must rely more on internally generated activity patterns. We therefore examined the 125 
+
+structure of the striatum’s dynamics directly using PCA of the hidden state trajectories (Figure 3B). Importantly, 126 
+
+both the compressed and uncompressed models have the same striatal dimensionality (64 units); they differ 127 
+
+only in the dimensionality of the input the striatum receives from cortex. In the compressed model, chunk 128 
+
+stimuli evolved along a consistent, smooth trajectory while non-chunk stimuli collapsed into a single cluster, with 129 
+
+position along the trajectory corresponding to elapsed time. By contrast, the uncompressed model’s striatum 130 
+
+4
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint −4 −2 0 2 4Striatum PCA1 (BN=4)                                  
+
+> −4
+> −3
+> −2
+> −1012345Striatum PCA2 (BN=4)
+> 4-Dimensional Bottleneck Striatum Activity
+> −4−2024Striatum PCA1 (BN=64)
+> −4
+> −3
+> −2
+> −101234Striatum PCA2 (BN=64)
+> 64-Dimensional Bottleneck Striatum Activity 01234567Time
+> 8910 11 12 13 14 15
+> Non-Chunk Stimuli
+> 01234567Chunk Stimuli 0 · ······Stimulus 012345678910 11 12 13 14 15 Action 0 1 2 · ····Stimulus 0 1 2 3 4 · ··Stimulus Stimulus Action Slips: 4-Dimensional Bottleneck 0 · ······Stimulus 012345678910 11 12 13 14 15 Action 0 1 2 · ····Stimulus 0 1 2 3 4 · ··Stimulus Stimulus Action Slips: 64-Dimensional Bottleneck 0.0 0.2 0.4 0.6 0.8 1.0 Action Frequency 0.0 0.2 0.4 0.6 0.8 1.0 Action Frequency 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
+
+A BCPC 1 PC 2 h(t₁) h(t₂) h(t₃) h(t₄) h(t₅) h(t₆) h(t₇) Trajectory Variance Time Encoding Actual Time Predicted Time Mean trajectory Individual trials hidden state samples h(t₁) h(t₃) h(t₅) h(t₇) DChunk Task IID Task 0.00 0.05 0.10 0.15 0.20 0.25 0.30 Variance 4-dim Bottleneck 64-dim Bottleneck Chunk Task IID Task 0.0 0.2 0.4 0.6 0.8 1.0 R² Striatum Trajectory Variance Striatum Time Encoding Fig. 3. Corticostriatal Compression Produces Action Slipping and Stable Time-Encoding Striatal Dynamics. (A). Action slipping. Action distributions following partial chunk initiations ( ·: marginalization over future states; dashed lines: end of partial initiation). The compressed model (top) inflexibly completes the chunk sequence; the uncompressed model (bottom) remains responsive to actual stimuli. ( B). Striatal hidden state trajectories (PCA). Points colored by stimulus identity (chunk vs. non-chunk); lines colored by timestep. The compressed model (left, bottleneck dim = 4 ) develops a smooth, stereotyped trajectory for the chunk; the uncompressed model (right, dim = 64 ) shows stimulus-specific clusters. ( C). Quantification schematic. Trajectory variance: trial-to-trial variability of the full hidden state at each timestep. Time encoding: cross-validated R2 of a linear decoder predicting elapsed time from hidden state. (D). Trajectory variance and time encoding. Compression reduces trajectory variance (left) and increases time encoding (right) in both the original task and an IID control (all p < 0.001 , two-sided t-tests, n = 11 seeds). Error bars: 95% CI. 
+
+showed fragmented, stimulus-specific clusters with less temporally structured trajectories. 131 
+
+To quantify these observations, we developed two metrics computed on the full 64-dimensional hidden state 132 
+
+(Figure 3C): trajectory variance , the mean trial-to-trial variability of the hidden state at each timestep, and time 133 
+
+encoding , the cross-validated R2 of a linear decoder trained to predict elapsed time from the hidden state. Across 134 
+
+both the chunking task and a control task where stimuli were drawn fully IID, models with corticostriatal 135 
+
+compression showed significantly lower trajectory variance and significantly higher time encoding than models 136 
+
+without compression (Figure 3D; all comparisons p < 0.001 , two-sided t-tests, 11 seeds per condition). The IID 137 
+
+result is particularly noteworthy: this environment contained no external temporal structure whatsoever, yet the 138 
+
+compressed model still produced stable, time-encoding trajectories. These findings held when trial lengths were 139 
+
+varied randomly, dissociating absolute time from task progress (Figure S2), and were robust to using a vanilla 140 
+
+RNN instead of an LSTM for the striatal module (Figure S3). Together, these results confirm that corticostriatal 141 
+
+compression produces stable time-encoding striatal dynamics across a range of task and architectural conditions. 142 
+
+A particularly striking result emerged from models that had never been trained. Random-weight models with a 143 
+
+corticostriatal bottleneck already exhibited strong time-encoding trajectories, whereas random-weight models 144 
+
+without a bottleneck did not (Figure S4). Both models use the exact same recurrent architecture and differ only 145 
+
+in the dimensionality of the striatum’s input: the bottleneck model’s cortical input is randomly projected into 146 
+
+a lower-dimensional space, whereas the non-bottleneck model retains the full cortical dimensionality. When 147 
+
+input dimensionality is sufficiently constrained, the variance of the hidden state is dominated by the network’s 148 
+
+internal dynamics rather than by input-driven variability, producing stable trajectories that implicitly encode 149 
+
+time. This finding demonstrates that the capacity for temporal encoding arises from corticostriatal compression 150 
+
+itself, existing independently of and prior to task-specific learning. 151 
+
+5
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint Control of Behavior from Compressed Cortical Input 152 
+
+Having established that corticostriatal compression produces both chunking behavior and stable time-encoding 153 
+
+striatal dynamics, we next asked whether the compressed cortical representation causally controls chunk execution. 154 
+
+If the bottleneck carries a low-dimensional control signal that triggers chunking, then artificially shifting the 155 
+
+bottleneck along a chunk-associated dimension should induce chunk-like behavior even in the absence of 156 
+
+structured input. 157 −2.0 −1.5 −1.0 −0.5 0.0 0.5 1.0 1.5 2.0       
+
+> Perturbation magnitude
+> 0.0 0.5 1.0 1.5 2.0 2.5 3.0
+> Chunk actions per episode
+> bn=4, chunk dir .
+> bn=4, random dir .
+> bn=64, chunk dir .
+> bn=64, random dir .
+> Chance
+> −3 −2 −1 0123
+> Cortico-Striatal Bottleneck PC1 −2 −1 012
+> 3
+> Cortico-Striatal Bottleneck PC2
+> Non-chunk
+> Chunk
+> Chunk direction
+> Observation Cortex Striatum V
+> π
+> Cortico-Striatal Bottleneck Chunk Direction x Magnitude
+
+A B C                     
+
+> S8Model
+> Perturbation a11
+> a0
+> Stimuli S5S2S9S12 S14 S11 S14
+> Actions w/out Pert Actions with Pert a15 a15 a11 a15 a15 a15 a15
+> a1a2a2a5a5a6a0
+> Perturbation
+
+Fig. 4. Compressed Cortical Activity Controls Chunking Behavior. (A). Bottleneck PCA. Chunk (red) and non-chunk (blue) stimuli are linearly separable in the 4-dimensional bottleneck space. ( B). Perturbation schematic. During random trials, the bottleneck receives additive input along the chunk direction. Example trial: the perturbation induced 5/8 correctly timed chunk actions despite random stimulus presentation. ( C). Perturbation results. Correctly timed chunk actions per episode increase with perturbation magnitude along the chunk direction for the compressed model (slope = 0 .557 , p = 4 .4 × 10 −3) but not along random orthogonal directions. The uncompressed model shows a weaker effect (slope = 0 .212 ); random directions remain flat. SEM bands across n = 11 seeds. 
+
+We first confirmed that chunk and non-chunk stimuli occupy separable regions of bottleneck space using PCA 158 
+
+(Figure 4A). We defined the “chunk direction” as the vector from the non-chunk centroid to the chunk centroid, 159 
+
+and applied additive perturbations of varying magnitude along this direction during random episodes — trials in 160 
+
+which stimuli are randomly drawn and thus never contain the chunk sequence (Figure 4B). In the compressed 161 
+
+model (4-dimensional bottleneck), perturbation along the chunk direction induced a graded increase in correctly 162 
+
+timed chunk actions per episode (Figure 4C). Critically, perturbations along random orthogonal directions in 163 
+
+the same bottleneck space had no such effect, confirming direction specificity. The uncompressed model (64-164 
+
+dimensional bottleneck) showed a weaker effect along the chunk direction, consistent with the control signal 165 
+
+being less consolidated in the absence of compression. These results demonstrate that corticostriatal compression 166 
+
+consolidates chunk identity into a single direction in the bottleneck — a low-dimensional cortical control signal 167 
+
+sufficient to drive the striatum’s intrinsic dynamics to produce a structured, temporally extended action sequence. 168 
+
+Duration Judgments 169 
+
+If the separation of cortical control from striatal dynamics is a general principle of corticostriatal function, it 170 
+
+should extend beyond chunking to other time-sensitive behaviors associated with the DLS. We next tested our 171 
+
+framework on a duration discrimination task in which Rodrigues et al. (2024), re-analyzing data from Toso et al. 172 
+
+(2021), showed that DLS time-encoding dynamics are modulated by stimulus intensity and that this modulation 173 
+
+systematically biases temporal judgements. 174 
+
+Structured Behavior and Striatal Time-Encoding Dynamics 175 
+
+In this task, Toso et al. (2021) trained rats to compare two sequential vibrotactile stimuli ( S1, S2), each varying 176 
+
+independently in both duration ( T1, T2) and intensity ( I1, I2), and to report which stimulus was longer (Figure 5A). 177 
+
+Although intensity was irrelevant to the task, the analyses by Rodrigues et al. (2024) revealed that rats’ duration 178 
+
+judgements were systematically biased by the intensity of the second stimulus: higher I2 led rats to report T2 as 179 
+
+longer, as if intense stimuli were perceived as lasting longer. Critically, this behavioral bias had a neural correlate 180 
+
+in the DLS — decoded time estimates during S2 were modulated by stimulus intensity, with higher intensity 181 
+
+producing faster progression of the neural time estimate and thus inflating perceived duration. We simulated this 182 
+
+task by training our model on duration comparison with Poisson spiking observations, where stimulus intensity 183 
+
+6
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint modulated firing rate (see Methods). This entanglement is critical: because total spike count scales with both 184 
+
+intensity and duration, the two features become ambiguous, creating the conditions under which intensity can 185 
+
+bias temporal judgements. 186 Task schematic (Rodrigues et al.)                               
+
+> 4-dim 64-dim 0.00 0.05 0.10 0.15 Traj. variance  ***
+> −6 −4 −2 0246
+> T2− T1(timesteps) 0.0
+> 0.2
+> 0.4 0.6 0.8 1.0 P( T2> T1)
+> 4-Dimensional Bottleneck
+> I2=lo w
+> I2=m ed
+> I2=h ig h
+> −6 −4 −2 0246
+> T2− T1(timesteps) 0.0
+> 0.2
+> 0.4 0.6 0.8 1.0 64-Dimensional Bottleneck
+> 4-dim 64-dim
+> −0.1
+> 0.0 0.1
+> 0.2
+> 0.3 0.4 0.5
+> I2separation
+> * (p=0.037)
+> Midrange Seperation
+> 0246Actual time since S2onset 01
+> 2
+> 34567Decoded time
+> 0246Actual time since S2onset 01
+> 2
+> 34567
+> bn=4 bn=64 0.0
+> 0.2
+> 0.4 0.6 0.8 1.0 Time encoding  R2
+> *** Striatum Time Encoding
+
+ABCD 
+
+> 4-Dimensional Bottleneck 64-Dimensional Bottleneck Rats Rats
+> Striatum Trajectory Variability
+
+Fig. 5. Corticostriatal Compression Reproduces Intensity-Biased Duration Judgements and Stable Striatal Time Encoding. 
+
+(A). Duration comparison task. Rats compare two sequential vibrotactile stimuli on duration ( T1, T2), with intensity ( I1, I2) being task-irrelevant (Rodrigues et al., 2024; Toso et al., 2021). ( B). Psychometric curves split by I2. The compressed model (left) shows clear intensity-dependent separation: high I2 biases reports toward “ T2 longer.” The uncompressed model (middle) shows weaker separation. Right: rat behavioral data from Rodrigues et al. (2024). Far right: midrange separation (psychometric curve distance where |T2 − T1| ≤ 2)is significantly stronger in the compressed model ( 0.206 ± 0.148 vs. 0.074 ± 0.111 ; p = 0 .037 , n = 11 seeds). ( C). Striatal time decoding during S2, split by I2. Decoded time progresses faster for high-intensity stimuli in both models. Right: analogous neural data from Rodrigues et al. (2024). Far right: overall time encoding R2 is stronger with compression ( 0.826 vs. 0.671 ; two-sample t-test over n = 11 seeds: p = 1 .3 × 10 −7). ( D). Trajectory variability during S2. Compression produces more stable trajectories ( 0.026 vs. 
+
+0.096 ; two-sample t-test over n = 11 seeds: p = 4 .0 × 10 −10 ). Error bars: bootstrap 95% CI. 
+
+We first asked whether the compressed model reproduces the intensity-dependent behavioral bias observed in 187 
+
+rats. Psychometric curves split by I2 showed clear separation in the compressed model (4-dimensional bottleneck), 188 
+
+with high-intensity stimuli biasing the agent toward reporting T2 longer (Figure 5B), closely matching the 189 
+
+pattern reported by Rodrigues et al. (2024). The uncompressed model (64-dimensional bottleneck) showed weaker 190 
+
+separation. We quantified this effect as the distance between high- and low-I2 psychometric curves at midrange 191 
+
+durations (where T1 and T2 differ by at most 2 timesteps), since this is where the task is most ambiguous and 192 
+
+behavioral biases are most apparent. The compressed model showed a significantly stronger bias than the 193 
+
+uncompressed model ( p = 0 .037 ). Corticostriatal compression thus reproduces the key behavioral finding that 194 
+
+stimulus intensity systematically distorts duration judgements. 195 
+
+We next examined whether this behavioral bias is accompanied by the same neural signatures observed in rat 196 
+
+DLS. Both models showed intensity-modulated time codes during S2: decoded time estimates progressed faster 197 
+
+for high-intensity stimuli, mirroring Rodrigues et al. (2024) (Figure 5C). However, the compressed model exhibited 198 
+
+7
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint significantly stronger overall time encoding ( R2 = 0 .826 vs. 0.671 ; p = 1 .3 × 10 −7) and lower trajectory 199 
+
+variability ( 0.026 vs. 0.096 ; p = 4 .0 × 10 −10 ; Figure 5D), consistent with our finding in the chunking task that 200 
+
+corticostriatal compression produces more stable time-encoding striatal dynamics. We also reproduced the finding 201 
+
+from Rodrigues et al. (2024) that time decoding curves during S1 collapse across intensity levels (Figure S6), 202 
+
+consistent with I1 having little influence on temporal dynamics during the first stimulus. These results confirm 203 
+
+that the same computational motif observed in the chunking task — stable, time-encoding striatal dynamics 204 
+
+enhanced by compression — generalizes to a qualitatively different temporal behavior. 205 
+
+Our model also offers a potential reconciliation of an apparent discrepancy in the literature. The analyses of Toso 206 
+
+et al. (2021) and Rodrigues et al. (2024) reach different conclusions from the same dataset: the former emphasizes 207 
+
+that DLS time encoding is invariant to stimulus properties, while the latter highlights its modulation by intensity. 208 
+
+We do not take a position on which analysis of the original data is correct, but we find that the two accounts can 209 
+
+be reconciled theoretically by the assumptions underlying how sensory input is encoded. When we trained our 210 
+
+model with Gaussian amplitude-coded observations rather than Poisson rate-coded observations, the compressed 211 
+
+model reproduced the pattern reported by Toso et al. (2021): time encoding invariant to both stimulus intensity 212 
+
+and duration (Figure S7). Under Poisson rate coding — arguably more appropriate for somatosensory spike trains 213 
+
+driven by whisker vibrations (Arabzadeh et al., 2004; Mountcastle et al., 1969) — the same model instead produced 214 
+
+the intensity-modulated dynamics and behavioral biases reported by Rodrigues et al. (2024). In both cases, the 215 
+
+compressed model produced the relevant effects more strongly than the uncompressed model, suggesting that 216 
+
+corticostriatal compression is a key mechanism regardless of input coding scheme. 217 
+
+Control of Behavior from Compressed Cortical Input 218 
+
+Having established that corticostriatal compression reproduces both the intensity-biased behavior and the 219 
+
+intensity-modulated time dynamics, we next asked whether the compressed cortical representation causally 220 
+
+drives these biases. PCA of the bottleneck activations in the compressed model revealed a clear direction separating 221 
+
+high- and low-intensity stimuli (Figure 6A). We perturbed the bottleneck along this intensity direction during 222 
+
+S2 presentation (Figure 6B): on trials where I2 was high, we shifted the bottleneck toward the low-intensity 223 
+
+centroid, and vice versa. We quantified the effect using a perturbation swing — the summed shift in choice 224 
+
+probability P (T2 > T 1) across both perturbation conditions, measured in the expected direction (see Methods). 225 
+
+The compressed model showed a significant swing while the uncompressed model did not (Figure 6C). The 226 
+
+effect was asymmetric, with perturbation in the high-to-low direction producing a larger behavioral shift than 227 
+
+low-to-high (Figure S8), potentially paralleling evidence that high-intensity stimuli engage somatosensory circuits 228 
+
+more strongly (Mountcastle et al., 1969). 229 
+
+The strongest evidence that the bottleneck serves as the causal pathway for intensity biases comes from the 230 
+
+correspondence between perturbation susceptibility and natural behavioral bias. The magnitude of each seed’s 231 
+
+perturbation swing was near-perfectly correlated with its natural I2 bias — the degree to which that seed’s 232 
+
+unperturbed behavior was influenced by intensity ( r = 0 .921 , p = 0 .0001 ; Figure 6D). This is precisely what one 233 
+
+would expect if the bottleneck is the channel through which intensity biases duration judgements: seeds whose 234 
+
+cortical drive carries a stronger intensity signal naturally show larger behavioral biases and are most susceptible 235 
+
+to artificial perturbation of that signal. The uncompressed model showed no such correspondence ( r = 0 .269 ,236 
+
+p = 0 .42 ), indicating that without compression, intensity information is distributed across cortex and striatum 237 
+
+and cannot be causally manipulated via a single direction. Together, these results demonstrate that corticostriatal 238 
+
+compression consolidates task-relevant stimulus features into a compact cortical control signal that causally 239 
+
+shapes temporal judgements through the striatum’s time-encoding dynamics. 240 
+
+Motor Timing 241 
+
+The chunking and duration judgement tasks establish that corticostriatal compression separates cortical control 242 
+
+from striatal dynamics across two forms of discrete decision-making. Our framework makes a further prediction: 243 
+
+compressed cortical input should also provide low-dimensional control signals for continuous, precisely timed 244 
+
+motor behavior. The motor timing domain offers a particularly strong test of this prediction because Hidalgo-245 
+
+Balbuena et al. (2019) not only recorded stable time-encoding trajectories in DLS during a well-learned motor 246 
+
+habit, but also showed that optogenetic perturbation of somatosensory cortical input to DLS disrupts timing 247 
+
+8
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+B
+
+D
+
+> Observation Cortex Striatum
+
+V
+
+π
+
+Cortico-Striatal Bottleneck Intensity Direction Perturbation or Fix I1=med ISI Fix I2=high, perturb low direction 
+
+Fix I2=low, perturb high direction 
+
+Perturbation Trial Structure Perturbation Location      
+
+> −0.1 0.0 0.1 0.2 0.3 0.4
+
+Natural I2 effect on behavior 
+
+> −0.3 −0.2 −0.1 0.0 0.1 0.2 0.3 0.4
+> Perturbation swing
+
+Perturbation Correspondence with Natural Behavioral Effect 
+
+4-dim 
+
+64-dim r = 0.921, p = 0.0001 r = 0.269, p = 0.42    
+
+> −1 012
+
+PC1 (BN=4) −2 −1 012PC2  (BN=4)  
+
+> I2i
+
+Cortico-Striatal Bottleneck Activity (4-dim Bottleneck) 
+
+I2 = low 
+
+I2 = med
+
+I2 = high 
+
+> 4-dim
+> Intensity
+> 4-dim
+> Random 64-dim
+> Intensity
+> 64-dim
+> Random −0.3 −0.2 −0.1 0.0 0.1 0.2 0.3
+> Perturbation swing
+> ΔP(T2 > T1 )
+
+Perturbation Effect 
+
+ACI2=high I2=low Fig. 6. Compressed Cortical Activity Controls Intensity-Related Duration Judgement Biases. (A). Bottleneck PCA. High-and low-intensity stimuli are clearly separable in the 4-dimensional bottleneck space. ( B). Perturbation schematic. With I1 fixed, the bottleneck is shifted toward the opposite intensity direction during S2: high-I2 trials are perturbed toward low, and vice versa. (C). Perturbation swing — the summed shift in P (T2 > T 1) across both perturbation conditions, measured in the expected direction. The compressed model shows a significant swing (one-sample t-test against zero, p = 0 .008 , n = 11 seeds) the uncompressed model does not (one-sample t-test against zero, p = 0 .179 , n = 11 seeds). Perturbation along random orthogonal directions has no effect ( p = 0 .581 
+
+and p = 0 .262 for compressed and uncompressed respectively). ( D). Perturbation correspondence with natural behavioral bias. 
+
+Each dot is one training seed. The compressed model shows near-perfect correspondence between natural I2 bias and perturbation susceptibility (Pearson r = 0 .921 , p = 0 .0001 ); the uncompressed model shows none (Pearson r = 0 .269 , p = 0 .42 ), indicating the bottleneck is the causal pathway only when capacity-limited. 
+
+while preserving the structure of the habit — precisely the dissociation our framework predicts. 248 
+
+Structured Behavior and Striatal Time-Encoding Dynamics 249 
+
+In the task of Hidalgo-Balbuena et al. (2019), rats navigate a treadmill that moves them backward and must reach 250 
+
+a goal zone at a precise time (Figure 7A). With practice, rats develop a stereotyped “Front-Back-Front” (FBF) 251 
+
+strategy: they first drift backward passively, then hold position by running in place, and finally sprint forward to 252 
+
+the goal. Recordings from DLS during this behavior revealed stable, time-encoding neural trajectories (Figure 7B), 253 
+
+the kind of stereotyped temporal program that our framework predicts compression should produce. 254 
+
+We simulated this task by providing models with three discrete actions — drift ( v = −2), hold ( v ≈ 0), and sprint 255 
+
+(v = +4 ) — and requiring arrival at the goal zone at timestep 20 (Figure 7C). The model starts near the goal, 256 
+
+9
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint so sprinting immediately risks arriving too early. The observation space consists of 32 position neurons with 257 
+
+Gaussian tuning curves and 32 stride neurons with periodic tuning whose clarity depends on the current action: 258 
+
+clean oscillations during hold, noisier during sprint, and absent during drift (Figure 7D; see Methods). This design 259 
+
+reflects the finding of Hidalgo-Balbuena et al. (2019) that somatosensory cortical neurons carry the most temporal 260 
+
+information during consistent, repetitive movements. Because this task is effectively two-dimensional (estimating 261 
+
+position and time is sufficient), we used a 2-dimensional bottleneck to impose compression that is stricter than 262 
+
+the task’s intrinsic dimensionality. 263 
+
+We first asked whether the compressed model spontaneously discovers the stereotyped FBF strategy observed 264 
+
+in rats. The compressed model organized its behavior into clean drift → hold → sprint sequences, while the 265 
+
+uncompressed model switched erratically between actions throughout each trial (Figure 7E). We quantified this 266 
+
+with two metrics (Figure 7F). The FBF fraction — the proportion of trials whose action sequence, after collapsing 267 
+
+transient blips ( ≤ 2 timesteps), reduces to a sequential drift-hold-sprint ordering — was 65% for the compressed 268 0 50 100 Position 0.0 0.2 0.4 0.6 0.8 1.0 Firing rate Goal                  
+
+> Position Neuron
+> −1
+> 01During Drift
+> −1
+> 01Firing rate  During Hold
+> 010 20 Timestep
+> −1
+> 01During Sprint
+> 80 100 Position
+> 2-Dim Bottleneck
+> Drift Hold Sprint
+> 010 20 Timestep 80 100 Position
+> 64-dim Bottleneck 264 0.0 0.5 1.0 *** Proportion of FBF Trajectories
+> 264 0.6 0.8 1.0 ** Action Consistency
+> −1 0123
+> −1
+> 012Striatum PC1 (BN=2)
+
+2-Dim Bottleneck Striatum Activity   
+
+> −2 02
+> −2 −1
+> 012
+
+64-dim Bottleneck Striatum Activity      
+
+> 010 20 Timestep
+> 264 0.0 0.5
+> *** Striatum Trajectory Variability
+> 264 0.5 1.0 ** Striatum Time Encoding
+> Stride Neuron
+
+ADGEHVariance Time R 2Bottleneck Size 
+
+Treadmill belt (pushes backward)    
+
+> Goal start
+> 090 85
+> Drift
+> v = −2.0 Hold
+> v ≈ 0 Sprint
+> v = +4.0
+
+Actions B CF
+
+> Striatum PC1 (BN=2) Striatum PC1 (BN=64) Striatum PC1 (BN=64)
+
+Fig. 7. Corticostriatal Compression Produces Stereotyped Motor Timing and Stable Time-Encoding Striatal Dynamics. 
+
+(A). Treadmill task of Hidalgo-Balbuena et al. (2019). Rats reach a goal zone at a specified time, developing a stereotyped Front-Back-Front (FBF) strategy. ( B). DLS neural trajectories. Hidalgo-Balbuena et al. (2019) found striatal activity organized within stable time-encoding trajectories. ( C). Simulated task. The model selects among three actions (drift, hold, sprint) to reach the goal zone at timestep 20. ( D). Observation space. 32 position neurons (Gaussian tuning curves, left) and 32 stride neurons (periodic tuning whose clarity depends on the current action, right). ( E). Example action trajectories. The compressed model (2-dimensional bottleneck) produces clean drift → hold → sprint sequences; the uncompressed model (64-dimensional bottleneck) shows disorganized switching. (F). Behavioral quantification. FBF fraction (top) and action consistency (bottom) are both significantly higher for the compressed model. ( G). Striatal PCA trajectories. The compressed model produces stereotyped, temporally ordered trajectories. ( H). Trajectory variability and time encoding. Variability: 0.0025 vs. 0.0198 (non-parametric two-sample Mann-Whitney p = 0 .0001 ). Time encoding 
+
+R2 (middle third of trial): 0.967 vs. 0.902 (non-parametric two-sample Mann-Whitney p = 0 .009 ). Error bars: bootstrap 95% CI; dots are individual seeds. 
+
+10 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint model versus 16% for the uncompressed model (non-parametric two-sample Mann-Whitney p < 0.001 ). Action 269 
+
+consistency — the mean fraction of trials matching the modal action at each timestep — was also significantly higher 270 
+
+in the compressed model ( 0.828 vs. 0.734 , non-parametric two-sample Mann-Whitney p = 0 .006 ). Corticostriatal 271 
+
+compression thus reliably produces the stereotyped three-phase motor program observed in rats. 272 
+
+Does this behavioral rigidity come at the cost of task performance, or does it improve timing precision? Sup-273 
+
+plementary analyses confirmed that compression produces directed sequential flow: time-warped modal action 274 
+
+sequences showed that every compressed-model seed converged on the FBF strategy, while uncompressed-model 275 
+
+seeds showed heterogeneous strategies (Figure S10A,B). Conditional transition probabilities revealed a double 276 
+
+dissociation: the compressed model showed significantly higher forward (FBF-consistent) transitions while the 277 
+
+uncompressed model showed significantly higher backward (FBF-inconsistent) transitions (Figure S10C). Despite 278 
+
+this rigidity, the compressed model achieved more precise motor timing: mean arrival time was significantly closer 279 
+
+to the goal ( 20 .4 vs. 21 .8 timesteps, p = 0 .0008 ), with 68% of arrived trials landing exactly at t = 20 compared 280 
+
+to 43% for the uncompressed model ( p = 0 .004 ), while both models reached the goal at comparable rates ( 92% ;281 
+
+Figure S9). The stereotyped FBF strategy is thus not merely a byproduct of compression but a functionally superior 282 
+
+timing solution. 283 
+
+At the neural level, we asked whether the compressed model’s striatum shows the same stable time-encoding 284 
+
+trajectories observed in DLS recordings. PCA of the striatal hidden states confirmed this prediction: the compressed 285 
+
+model produced tight, temporally ordered trajectories, while the uncompressed model produced a diffuse cloud 286 
+
+(Figure 7G). Trajectory variability was an order of magnitude lower in the compressed model ( 0.0025 vs. 0.0198 ;287 
+
+p = 0 .0001 ; Figure 7H). To assess time encoding, we restricted the decoding analysis to the middle third of each 288 
+
+trial, where the agent is typically in the hold phase — a stricter test than full-trial decoding, where beginning 289 
+
+and end timesteps are trivially distinguishable by position and action context. The compressed model showed 290 
+
+significantly stronger time encoding ( R2 = 0 .967 vs. R2 = 0 .902 , p = 0 .009 ). These results confirm that the 291 
+
+temporal scaffold produced by corticostriatal compression extends to continuous motor timing, completing the 292 
+
+generalization across all three DLS-associated task domains. 293 
+
+Control of Behavior from Compressed Cortical Input 294 
+
+Our framework makes a specific prediction about cortical perturbation: if the cortex provides a low-dimensional 295 
+
+temporal control signal while the striatum intrinsically generates the stable sequentially-ordered activity, then 296 
+
+perturbing cortical input should shift when transitions occur without disrupting what sequence is executed. 297 
+
+Hidalgo-Balbuena et al. (2019) tested exactly this using optogenetic perturbation of somatosensory cortical and 298 
+
+thalamic input to DLS during the hold phase: the timing of the FBF habit shifted, but the sequential structure was 299 
+
+preserved. 300 
+
+Before reproducing this perturbation, we first asked what information the corticostriatal bottleneck carries during 301 
+
+each behavioral phase. Decoding both position and elapsed time from the bottleneck activity separately for drift, 302 
+
+hold, and sprint timesteps (Figure 8A) revealed that in the compressed model, the bottleneck’s representational 303 
+
+content varied markedly across actions, whereas in the uncompressed model, decoding was relatively uniform. 304 
+
+This action-dependent information content suggests that in the compressed model, actions serve a dual role: they 305 
+
+are not only motor commands but also gating mechanisms that control what information flows from cortex to 306 
+
+striatum at each moment. This finding provides a principled basis for restricting our perturbation to the hold 307 
+
+phase, when the agent relies on its internal temporal estimate to decide when to sprint. 308 
+
+To reproduce the optogenetic experiment of Hidalgo-Balbuena et al. (2019), we identified the direction in bottle-309 
+
+neck space most predictive of elapsed time during the hold phase using Ridge regression and applied additive 310 
+
+perturbations along this direction during hold only (Figure 8B). Perturbation magnitude was calibrated in units 311 
+
+of decoded timesteps, so that ∆t = + k shifts the bottleneck’s temporal representation by the equivalent of k312 
+
+timesteps (see Methods). The compressed model showed a graded, direction-specific effect: arrival time increased 313 
+
+linearly with perturbation magnitude along the time direction (slope = 0 .81 , p = 3 .0 × 10 −4), while pertur-314 
+
+bations along a random orthogonal direction had no effect (Figure 8C). The uncompressed model showed no 315 
+
+systematic response in either direction. Critically, action rasters revealed that the compressed model preserved 316 
+
+its drift → hold → sprint sequential structure across all perturbation levels; only the hold → sprint transition 317 
+
+11   
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint Drift Hold Sprint 0.0 0.2 0.4 0.6 0.8 1.0 Position  R2
+
+Position Cortico-Striatal Bottleneck Decoding   
+
+> 2-Dim
+> 64-Dim
+> Drift Hold Sprint 0.0 0.2 0.4 0.6 0.8 Timestep  R2
+
+Time 2-Dim    
+
+> 64-Dim 0246
+
+Δt (decoded timesteps) 10 15 20 25 30 Arrival time 
+
+> slope=0.81 p=3.4e-04
+
+2-Dim Bottleneck    
+
+> Time direction Random direction
+> 0246
+
+Δt (decoded timesteps) 10 15 20 25 30 
+
+> slope=-0.01 p=9.0e-01
+
+64-Dim Bottleneck 
+
+> Time direction Random direction
+
+A B
+
+CD
+
+> Observation Cortex Striatum V
+> π
+> Cortico-Striatal Bottleneck
+> Δt direction Decode
+> Time
+> Add Time During Hold
+
+Perturbation Protocol 2-Dim Bottleneck 64-Dim Bottleneck     
+
+> Δt=+0 Δt=+1 Δt=+2
+> Drift Hold Sprint 0510 15 20
+
+Timestep 0 5 10 15 20 Timestep 
+
+> Δt=+0 Δt=+1 Δt=+2
+
+Fig. 8. Compressed Cortical Activity Shifts Motor Timing while Preserving Sequential Structure. (A). Bottleneck decoding by action phase. Position (left) and time (right) decoding R2 from the bottleneck, computed separately for drift, hold, and sprint timesteps. (B). Perturbation schematic. The time-predictive direction in bottleneck space is identified via Ridge regression. Additive perturbations calibrated to shift the decoded time estimate by ∆t = + k timesteps are applied during the hold phase. ( C). Arrival time versus perturbation magnitude. The compressed model shows a graded shift along the time direction (slope = 0 .81 , p = 3 .4 × 10 −4); random orthogonal perturbations and all uncompressed-model conditions are flat. Light lines: individual seeds; bold: mean ± SEM ( n = 11 ). (D). Action rasters at ∆t = 0 , +1 , +2 . The compressed model preserves the drift → hold → sprint structure; only the hold → sprint transition shifts later with increasing ∆t. The uncompressed model lacks systematic structure. 
+
+boundary shifted progressively later with increasing ∆t (Figure 8D). This directly parallels the key finding of 318 
+
+Hidalgo-Balbuena et al. (2019): perturbation of cortical input to DLS shifts behavioral timing while leaving the 319 
+
+motor habit intact. Together, these results demonstrate that corticostriatal compression creates a control channel 320 
+
+in which a single direction in the cortical projection parametrically controls the timing of progression through 321 
+
+the striatum’s behavioral program — the most direct evidence in our study for the separation of control from 322 
+
+dynamics. 323 
+
+Discussion 324 
+
+Across three time-sensitive behavioral paradigms associated with the dorsolateral striatum — sensorimotor chunk-325 
+
+ing, duration comparison, and motor timing — we find that a single architectural constraint produces a consistent 326 
+
+computational motif: the separation of control from dynamics between cortex and striatum. Corticostriatal com-327 
+
+pression forces the cortex to provide low-dimensional control signals while the striatum generates intrinsic, stable, 328 
+
+12 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint time-encoding dynamics. This separation accounts for domain-specific behavioral and neural signatures — human-329 
+
+like chunking with action slipping, intensity-biased duration judgements with stimulus-modulated time coding, 330 
+
+and stereotyped motor programs with perturbation-sensitive timing — and perturbation experiments confirm 331 
+
+that the compressed cortical signal causally controls behavior while the striatum’s sequential structure remains 332 
+
+intact. A key mechanistic insight comes from the untrained model result (Figure S4): when input dimensionality 333 
+
+to a recurrent network is sufficiently constrained, internal dynamics dominate over input-driven variability, 334 
+
+creating a temporal scaffold that learning can subsequently exploit (Rodrigues et al., 2024). This suggests that 335 
+
+compression itself, not just reward-optimized compression, creates the conditions for temporal encoding. Our 336 
+
+framework thus bridges two theoretical traditions that have developed largely in parallel: reinforcement-driven 337 
+
+dimensionality reduction (Bar-Gad, Morris, & Bergman, 2003), which characterizes corticostriatal compression in 338 
+
+information-theoretic terms, and the dynamical systems perspective (Haimerl et al., 2025; Lee et al., 2019; Murray 339 
+
+& Escola, 2017), which emphasizes cortical parametric control of striatal temporal evolution. We show that these 340 
+
+are two facets of the same mechanism: input-based compression is what creates the conditions for parametric 341 
+
+control of stable dynamic trajectories. 342 
+
+The behaviors produced by our compressed models (Figure 3A, Figure 7E, Figure S10) share the defining features 343 
+
+of habits: they are stereotyped across repetitions, inflexible to changes in sensory context, temporally rigid, 344 
+
+and stimulus-invariant (Graybiel, 1998; Yin et al., 2004). This is consistent with the longstanding association 345 
+
+between the DLS and habitual behavior (Yin et al., 2004), and with the proposal that chunking is a fundamental 346 
+
+mechanism by which habits are assembled (Graybiel, 1998). Our model provides a specific account of how this 347 
+
+arises: compression forces the cortical drive to the striatum to discard stimulus-specific detail, retaining only 348 
+
+low-dimensional categorical signals. The striatum, receiving this impoverished but structured input, learns to 349 
+
+generate behavior from its own internal dynamics rather than from moment-to-moment sensory guidance — a 350 
+
+functional signature of automaticity that can also explain subcortical consolidation of automatic motor sequences 351 
+
+(Mizes et al., 2024). 352 
+
+Several prior models have addressed related phenomena. Botvinick & Plaut (2004) showed that simple recurrent 353 
+
+networks under degraded conditions produce action slips resembling human behavior, establishing that recurrence 354 
+
+supports sequential structure; our work extends this by demonstrating that compression at the input to the 355 
+
+recurrent network is what produces structured sequential behaviors. Nassar et al. (2018) proposed chunking as 356 
+
+rational lossy compression in visual working memory, and Soni & Frank (2025) showed that prefrontal-basal 357 
+
+ganglia circuits can learn adaptive chunking through dopaminergic reinforcement, with the striatum acting as 358 
+
+a gate controller. These works complement ours by establishing the normative rationale for compression and 359 
+
+showing how gating policies can be learned, but the basal ganglia in those models serve a switching function 360 
+
+rather than exhibiting dynamic sequential activity. Our contribution is mechanistically distinct: we show that 361 
+
+anatomical compression at the corticostriatal interface shapes the geometry of striatal dynamics , forcing the 362 
+
+striatum into a regime where stable temporal structure dominates over input-driven variability, producing specific 363 
+
+testable neural signatures — stable time-encoding trajectories and direction-specific cortical control that leaves 364 
+
+striatal sequential structure intact. 365 
+
+Our framework relies on several simplifying assumptions that future work can relax. First, cortical recurrent 366 
+
+weights are frozen throughout training, reflecting the assumption that cortical and striatal plasticity are governed 367 
+
+by different learning signals operating on different timescales (Doya, 2000; Pasupathy & Miller, 2005). While 368 
+
+this is a common modeling choice for cortical reservoirs (Buonomano & Maass, 2009; Dominey, 1995), cortical 369 
+
+plasticity clearly exists and likely interacts with striatal learning during skill acquisition. Future work could 370 
+
+model cortical learning explicitly and study how the co-evolution of cortical representations and striatal dynamics 371 
+
+shapes the emergence of temporal behavior. Second, the bottleneck dimensionality in our model is hand-set rather 372 
+
+than learned. We do not attempt to match the exact biological compression ratio; rather, the bottleneck layer 373 
+
+is a convenient modeling device to enforce dimensionality reduction and study its functional consequences. In 374 
+
+biology, the effective compression may be shaped by development, neuromodulation, or task demands in ways our 375 
+
+model does not capture. Third, our comparison to neural data is indirect: we reproduce high-level behavioral and 376 
+
+neural signatures on the same tasks used in experimental studies but do not fit neural data directly. However, our 377 
+
+framework suggests concrete approaches for future multi-region recording analyses — for instance, measuring 378 
+
+13 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+the effective dimensionality of one region’s projection to another and assessing the controllability of downstream 379 
+
+dynamics from that compressed signal. Despite these limitations, the core principle — that compression at a 380 
+
+neural interface separates control from dynamics — makes predictions that extend well beyond the specific tasks 381 
+
+we studied. 382 
+
+The computational motif we describe at the corticostriatal interface also operates at the output stage of the basal 383 
+
+ganglia. After processing within the striatum and the pallidal nuclei, basal ganglia output projects through the 384 
+
+thalamus and back to cortex, forming the cortico-basal ganglia-thalamocortical loops that are a fundamental 385 
+
+organizing principle of this circuit (Alexander et al., 1986). At this output stage, a second bottleneck exists: the basal 386 
+
+ganglia output nuclei (GPi/SNr) contain far fewer neurons than their thalamic and cortical targets (Humphries, 387 
+
+2025). Humphries (2025) argues that the primary function of this output bottleneck is to control cortical dynamics, 388 
+
+proposing that each output neuron sets the weight of a basis function defined by its synaptic contacts. Logiaco 389 
+
+et al. (2021) provide a mechanistic account of how this control is implemented: basal ganglia output selects 390 
+
+which thalamic neurons are disinhibited, and these few neurons deliver low-rank perturbations to a recurrent 391 
+
+cortical network, controlling which motor motif is executed and when transitions occur. This is fundamentally the 392 
+
+same principle we describe — a low-dimensional signal at the interface between regions parametrically controls 393 
+
+dynamics within the downstream circuit. Importantly, the corticostriatal and thalamocortical bottlenecks are not 394 
+
+independent. Haber et al. (2000) characterized their relationship as an ascending spiral: information processed 395 
+
+through one cortico-basal ganglia loop feeds forward into the next, progressively transforming limbic signals into 396 
+
+sensorimotor output. Our framework may thus describe a general principle that operates at multiple nodes of 397 
+
+this spiral: compression at each interface creates the conditions for low-dimensional control of stable dynamics 398 
+
+in the downstream circuit. 399 
+
+The ascending spiral architecture raises a further question: does the same compression mechanism give rise to 400 
+
+both habitual and goal-directed behavior? An intriguing clue comes from the parallel between our architecture 401 
+
+and the meta-reinforcement learning framework of Wang et al. (2018), which uses a similar design — a recurrent 402 
+
+network (in their case, also an LSTM) trained by reward prediction errors that develops its own internal learning 403 
+
+algorithm — to model goal-directed behavior typically associated with prefrontal cortex. The basal ganglia 404 
+
+contain parallel corticostriatal loops linking different cortical regions to different striatal territories: prefrontal 405 
+
+cortex projects to the dorsomedial striatum (DMS), associated with goal-directed behavior, while sensorimotor 406 
+
+cortex projects to the DLS, associated with habitual behavior (Alexander et al., 1986; Haber, 2003; Yin et al., 407 
+
+2004). The architectural similarity between our model and Wang et al. (2018) raises the possibility that goal-408 
+
+directed and habitual behaviors emerge from a shared corticostriatal compression mechanism, with the distinction 409 
+
+arising not from fundamentally different circuit computations but from differences in the cortical inputs and 410 
+
+task demands each loop receives. Testing this hypothesis would require extending our framework to model both 411 
+
+loops simultaneously and examining how their interaction gives rise to the well-documented transition from 412 
+
+goal-directed to habitual control (Thorn et al., 2010). 413 
+
+More broadly, the principle that anatomical bottlenecks separate control from dynamics may extend to any 414 
+
+circuit in which convergent input drives a recurrent downstream population. For example, hippocampal place 415 
+
+cells integrate highly multimodal sensory information from diverse sources (Jeffery, 2007) and also exhibit rich 416 
+
+temporal coding relevant for episodic memory (Eichenbaum, 2014). Recent neural network models of episodic 417 
+
+memory that parallel hippocampus have been shown to produce stable neural trajectories which implement 418 
+
+free recall via serial position encodings (i.e. time codes ) that are independent of item identity (Li et al., 2025), 419 
+
+directly paralleling the trajectories that organize action chunks in the present work (Figure 3B). Similarly, 420 
+
+the cerebellum transforms converging, compressed sensory inputs into temporally precise neural dynamics 421 
+
+that support conditioned responses and motor coordination (Medina et al., 2000; Wagner et al., 2019). In each 422 
+
+case, compression at the interface between regions may jointly facilitate inter-regional control and temporal 423 
+
+computations in the downstream circuit. If this principle proves general, it would suggest that a unified theory of 424 
+
+inter-regional communication may be within reach — one in which the dimensionality of the projection between 425 
+
+any two regions predicts the degree to which the downstream circuit exhibits time-encoding dynamics. Testing 426 
+
+this prediction across brain circuits represents a natural next step for the field. 427 
+
+14 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+Methods 428 
+
+Model Architecture 429 
+
+Our model implements corticostriatal compression through three modules arranged in series (Figure 1B). The 430 
+
+cortical module is an recurrent neural network layer (RNN) with 64 hidden units, whose recurrent weights are 431 
+
+randomly initialized and frozen throughout training. Specifically, the recurrent-to-recurrent weights ( Whh ) and 432 
+
+recurrent biases ( bhh ) of the encoder RNN are fixed at their initial values (PyTorch default uniform initialization, 433 
+
+U(−1/8, 1/8) ), while all other weights remain trainable. This design reflects the assumption that cortical recurrent 434 
+
+dynamics and striatal dynamics are learned via different learning signals and timescales. 435 
+
+The corticostriatal bottleneck is a feedforward layer that maps the cortical RNN’s output ( 64 dimensions) to a 436 
+
+low-dimensional space ( dbn units), followed by additive Gaussian noise with fixed standard deviation σ. The noise 437 
+
+is applied at every forward pass (both training and evaluation) and models the stochasticity of corticostriatal 438 
+
+transmission. We used dbn = 4 for the chunking and Toso tasks (compressing from 64 to 4 dimensions), and 439 
+
+dbn = 2 for the treadmill task (see task-specific sections below). The uncompressed baseline used dbn = 64 in all 440 
+
+tasks, effectively removing the compression constraint. 441 
+
+The striatal module is a single-layer LSTM (Hochreiter & Schmidhuber, 1997) with 64 hidden units. The LSTM 442 
+
+receives the bottleneck output as input at each timestep and maintains its own hidden and cell states across 443 
+
+timesteps within an episode (states are reset at episode boundaries). A linear policy head maps the LSTM hidden 444 
+
+state to action logits (softmax policy π), and a separate linear value head maps to a scalar state value estimate 445 
+
+V . The policy and value heads share the LSTM hidden state but use independent linear projections. All striatal 446 
+
+weights (LSTM parameters, policy head, value head) and corticostriatal weights (bottleneck projection, encoder 447 
+
+input weights) are trained via reinforcement learning. Cortical recurrent weights remain frozen. 448 
+
+Training Algorithm 449 
+
+All models were trained using Proximal Policy Optimization (PPO; Schulman et al., 2017), a policy gradient 450 
+
+algorithm that stabilizes training by clipping the policy update ratio. The PPO objective is: 451 
+
+LP P O (θ) = ˆEt
+
+[
+
+min 
+
+(
+
+rt(θ) ˆAt, clip (rt(θ), 1 − ϵ, 1 + ϵ) ˆAt
+
+)] 
+
+(1) where rt(θ) = πθ(at|st)/π θold (at|st) is the probability ratio between the current and previous policy, ˆAt is the 452 
+
+estimated advantage, and ϵ = 0 .2 (the RLlib default). Parameters were optimized using Adam (Kingma & Ba, 453 
+
+2014). The LSTM hidden and cell states were initialized to zero at the beginning of each episode. 454 
+
+Training was implemented using RLlib (Liang et al., 2018). For each task and bottleneck condition, we trained 455 
+
+11 independent models with seeds {0, 10 , 20 , . . . , 100 } to ensure robustness to parameter initialization and 456 
+
+environment stochasticity. Default hyperparameters are listed in Table 1; task-specific deviations are noted in 457 
+
+each task section. Training curves for all tasks can be seen in Supplementary Figure S11. 458 
+
+Table 1: Default PPO training hyperparameters. Task-specific deviations noted in text. 
+
+Hyperparameter Default Value 
+
+Learning rate 1 × 10 −3
+
+Batch size 128 
+
+Discount factor γ 0.99 
+
+Bottleneck noise σbn 0.4
+
+Action Chunking Task 459 
+
+We used a serial decision-making task inspired by Lai et al. (2025). At each timestep t ≤ T , a stimulus st is drawn 460 
+
+from a set S = {0, 1, . . . , 15 } of 16 possible stimuli. Stimuli are presented as one-hot vectors. Each stimulus si461 
+
+has a single correct action ai = i. The agent receives a reward of 0 for correct actions and a penalty of −1/T for 462 
+
+incorrect actions. 463 
+
+15 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+A subset F = {0, 1, . . . , 7} of 8 stimuli forms a “chunk” that frequently appears in a fixed temporal order. At 464 
+
+each timestep not already occupied by the chunk sequence, there is a probability Pinit = 0 .45 that the chunk 465 
+
+sequence initiates (provided the remaining episode length can accommodate the full sequence). When initiated, 466 
+
+chunk stimuli are presented in order across consecutive timesteps. When the chunk is not initiated, each stimulus 467 
+
+is drawn randomly: chunk stimuli appear with probability Paux = 0 .09 each, and non-chunk stimuli fill the 468 
+
+remaining probability mass. Episode length was fixed at T = 8 timesteps. 469 
+
+The observation at each timestep consisted of the stimulus one-hot vector ( 16 dimensions), a one-hot encoding of 470 
+
+the previous action ( 16 dimensions), and the previous reward ( 1 dimension), yielding a 33 -dimensional observation 471 
+
+consistent with the meta-RL framework (Wang et al., 2018) that helps models learn fast adaptation within trials. 472 
+
+Models were trained for 3,000 epochs with a learning rate schedule decaying from 1 × 10 −3 to 2 × 10 −4 at epoch 473 
+
+2,800 . Bottleneck noise was σbn = 0 .4.474 
+
+For the IID control environment, the same trained models were evaluated on episodes where all 16 stimuli were 475 
+
+drawn independently with equal probability (no chunk structure). This tests whether time-encoding properties 476 
+
+persist in the absence of temporal regularities. 477 
+
+Poisson Duration Comparison Task 478 
+
+We simulated the duration comparison task from Toso et al. (2021), with observations designed to capture the 479 
+
+statistical properties of somatosensory spike trains as highlighted by the reanalysis of Rodrigues et al. (2024). 480 
+
+Trial structure. 481 
+
+Each trial consisted of five phases presented sequentially: a pre-stimulus period ( 2 timesteps), stimulus S1 (T1482 
+
+timesteps), an inter-stimulus interval (ISI; 16 timesteps), stimulus S2 (T2 timesteps), and a post-stimulus period ( 2483 
+
+timesteps), followed by a single response timestep. Stimulus durations T1 and T2 were independently sampled 484 
+
+as integers from {2, 3, . . . , 8} with the constraint T1̸ = T2. Stimulus intensities I1 and I2 were independently 485 
+
+sampled from three levels: low ( λ = 0 .6), medium ( λ = 1 .2), and high ( λ = 2 .4), expressed as Poisson rate 486 
+
+parameters. 487 
+
+Observations. 488 
+
+At each timestep, the agent observed a 16 -dimensional vector of spike counts drawn from independent Poisson 489 
+
+distributions. During stimulus periods, each of the 16 “cochlear” neurons fired with rate equal to the current 490 
+
+stimulus intensity ( λI1 during S1, λI2 during S2). During non-stimulus periods (pre-stimulus, ISI, post-stimulus), 491 
+
+neurons fired at a baseline rate of λbase = 0 .42 . This observation model entangles intensity and duration: the total 492 
+
+spike count during a stimulus is approximately 16 × λ × T , making it impossible to perfectly separate intensity 493 
+
+from duration based on total activity alone. The observation was augmented with a one-hot encoding of the 494 
+
+previous action ( 2 dimensions) and the previous reward ( 1 dimension), yielding a 19 -dimensional input. 495 
+
+Task and reward. 496 
+
+On the response timestep, the agent selected one of two actions: 0 (“ T1 > T 2”) or 1 (“ T2 > T 1”). Correct responses 497 
+
+received a reward of 1.0; incorrect responses received 0.0. No reward was given during non-response timesteps. 498 
+
+Training. 499 
+
+Models were trained for 1,000 epochs with a learning rate decaying from 5 × 10 −4 to 5 × 10 −5, a batch size of 500 
+
+1,024 , 5 parallel environments per worker, and bottleneck noise σbn = 0 .1.501 
+
+Gaussian variant (supplementary). 502 
+
+For comparison with the original analysis of Toso et al. (2021), we also trained models on a Gaussian-observation 503 
+
+variant of the task. In this version, each stimulus was represented as a 16 -dimensional vector with 5 signal 504 
+
+dimensions (mean = I, σ = 0 .05 ) and 11 noise dimensions (mean = 0 , σ = 0 .1), shuffled randomly at each 505 
+
+timestep to prevent position-specific encoding. Intensities were drawn from {0.3, 0.6, 0.9}. The ISI was 4506 
+
+timesteps and the bottleneck noise was σbn = 0 .4. Models were trained for 250 epochs. 507 
+
+16 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+Treadmill Motor Timing Task 508 
+
+We developed a reinforcement learning environment inspired by the treadmill navigation task of Hidalgo-Balbuena 509 
+
+et al. (2019). 510 
+
+Environment. 511 
+
+The agent navigates a one-dimensional track of length 100 units. A virtual treadmill displaces the agent backward 512 
+
+at a constant speed of 2.0 units per timestep. The agent starts at a position drawn uniformly from [75 , 89 .5] (i.e., 513 
+
+85 .0 ± 10 .0, clipped to remain below the goal zone). The goal zone begins at position x = 90 .0. The agent must 514 
+
+reach the goal zone at or after timestep 20 (the target arrival time); arriving before timestep 20 incurs a harsh 515 
+
+penalty. The maximum episode duration is 30 timesteps. 516 
+
+Actions. 517 
+
+The agent selects from three discrete actions at each timestep: 518 
+
+• Drift (action 0): no self-generated motion; the treadmill pushes the agent backward at −2.0 units/step. 519 
+
+• Hold (action 1): the agent runs at the treadmill speed, producing net velocity ≈ 0.520 
+
+• Sprint (action 2): the agent runs at maximum speed ( 6.0 units/step), producing net forward velocity of 521 
+
++4 .0 units/step. 522 
+
+These actions correspond to the three phases of the rat FBF strategy observed by Hidalgo-Balbuena et al. (2019): 523 
+
+passive backward drift, steady-state running in place, and forward sprinting to the goal. 524 
+
+Observation space. 525 
+
+The observation consisted of two populations of simulated cortical neurons ( 64 neurons total), designed to capture 526 
+
+the key statistical properties of somatosensory input during treadmill locomotion: 527 
+
+Position neurons (n = 32 ): Gaussian tuning curves tiled uniformly across the track. Neuron i with preferred 528 
+
+position pi fires with rate: 529 
+
+rpos  
+
+> i
+
+= exp 
+
+(
+
+− (x − pi)2
+
+2σ2
+
+> pos
+
+)
+
++ η, η ∼ N (0 , σ 2
+
+> noise
+
+) (2) where x is the agent’s current position, σpos = 15 .0, and σnoise = 0 .3.530 
+
+Stride neurons (n = 32 ): von Mises (circular Gaussian) tuning curves encoding the phase of a periodic stride 531 
+
+signal. The stride phase advances at a fixed frequency of fstride = 0 .37 cycles per timestep ( ϕt = 2 πf stride · t). 532 
+
+Neuron j with preferred phase θj fires with rate: 533 
+
+rstride  
+
+> j
+
+= exp (κ cos( ϕt − θj ))
+
+exp( κ) + η (3) Critically, the quality of this signal depends on the agent’s current action: 534 
+
+• During hold : clean signal with concentration κ = 3 .0 and noise σ = 0 .3, reflecting rhythmic somatosensory 535 
+
+feedback from steady locomotion. 536 
+
+• During sprint : degraded signal with κ = 1 .0 and noise σ = 0 .8, reflecting noisier proprioceptive input 537 
+
+during acceleration. 538 
+
+• During drift : pure noise ( σ = 0 .3, no von Mises signal), reflecting the absence of self-generated movement. 539 
+
+This design is motivated by the finding of Hidalgo-Balbuena et al. (2019) that somatosensory cortical neurons 540 
+
+carry the most temporal information during consistent, rhythmic movement phases (i.e., the hold phase of the 541 
+
+17 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+FBF strategy). Because the treadmill task specifically tests how cortical sensory input serves as a temporal 542 
+
+reference for the striatum (Hidalgo-Balbuena et al., 2019), we provided action information only through the 543 
+
+sensory observation itself — via action-dependent stride neuron tuning — rather than as an explicit label, so that 544 
+
+the temporal reference signal and the action feedback share the same noisy, capacity-limited channel through 545 
+
+the bottleneck. Unlike the other two tasks, action information is already embedded in the sensory input via the 546 
+
+action-dependent phase neurons and and thus does not need to be provided as a separate channel. 547 
+
+Reward function. 548 
+
+Reward is given to the agent at the end of the trial. The reward was designed to encourage precise timing of goal 549 
+
+arrival: 550 
+
+• If the agent entered the goal zone ( x ≥ 90 .0) before timestep 20 : a penalty of −1.0 and the episode 551 
+
+terminated. 552 
+
+• If the agent entered the goal zone at timestep t ≥ 20 : a reward of exp( −0.3 · (t − 20)) and the episode 553 
+
+terminated. This exponentially decaying reward strongly favors on-time arrival (reward = 1 .0 at t = 20 ,554 
+
+≈ 0.74 at t = 21 , ≈ 0.55 at t = 22 ). 555 
+
+• If the agent did not enter the goal zone by timestep 30 : a timeout penalty of −0.2.556 
+
+Training. 557 
+
+Models were trained for 125 epochs with a learning rate decaying from 3 × 10 −4 to 5 × 10 −5, a batch size of 558 
+
+1,024 , an entropy coefficient of 0.05 (to encourage exploration of the three-action space), and bottleneck noise 559 
+
+σbn = 0 .1. Because the task is effectively two-dimensional (the agent must estimate its position and elapsed time 560 
+
+to determine when to sprint), we used a 2-dimensional bottleneck to impose compression that is lower than 561 
+
+the dimensionality of the task (note that, with the added noise to the bottleneck, the model will not be able to 562 
+
+perfectly represent both position and time). 563 
+
+Trajectory Analysis 564 
+
+We computed two primary metrics on the full 64 -dimensional LSTM hidden state to characterize the geometry of 565 
+
+striatal neural trajectories. These metrics were applied identically across all three tasks. 566 
+
+Trajectory variance. 567 
+
+For each seed and condition, we collected hidden state trajectories across multiple trials. At each timestep t, we 568 
+
+computed the variance of each hidden state dimension across trials, then averaged across dimensions: 569 
+
+V (t) = 1
+
+d
+
+> d
+
+∑
+
+> i=1
+
+Var trials (hi(t)) (4) where hi(t) is the i-th dimension of the hidden state at timestep t and d = 64 . Trajectory variance is then the 570 
+
+mean of V (t) across timesteps. Lower values indicate more stereotyped, trial-invariant dynamics. 571 
+
+Time encoding. 572 
+
+We trained a Ridge regression model to predict elapsed timestep from the full hidden state vector. Performance 573 
+
+was evaluated using 5-fold cross-validation. The metric is the mean cross-validated R2. For the treadmill task, 574 
+
+we additionally restricted the decoding analysis to the middle third of each trial to provide a stricter test: the 575 
+
+beginning (drift) and end (sprint) phases are trivially distinguishable by position and action context, so mid-trial 576 
+
+decoding is a stricter measure of temporal representations. 577 
+
+Perturbation Experiments 578 
+
+Across all three tasks, we employed a common perturbation framework to test whether compressed cortical 579 
+
+representations causally control behavior. The general procedure involves three steps: (1) identify a task-relevant 580 
+
+18 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+direction in the bottleneck space, (2) apply additive perturbations along this direction during task execution, and 581 
+
+(3) measure the behavioral effect relative to a random orthogonal control direction. 582 
+
+General framework. 583 
+
+Perturbations were applied via a forward hook registered on the Gaussian noise layer of the bottleneck. At each 584 
+
+forward pass, the hook added a perturbation vector δ = α · ˆw to the bottleneck output, where ˆw is the unit-length 585 
+
+direction of interest and α is the perturbation magnitude. The random control direction was generated by drawing 586 
+
+a random vector and orthogonalizing it against ˆw via Gram-Schmidt, then normalizing. The random control used 587 
+
+the same bottleneck-space magnitude α, ensuring a fair comparison. 588 
+
+Chunking perturbation. 589 
+
+The chunk direction was identified from PCA of the bottleneck activations. We computed the centroid of bottleneck 590 
+
+states during chunk stimuli and non-chunk stimuli separately, and defined the chunk direction as the vector 591 
+
+from the non-chunk centroid to the chunk centroid. The empirical magnitude was defined as the norm of this 592 
+
+vector. Perturbations were applied during random (IID) episodes at every timestep, with magnitudes varied 593 
+
+parametrically from 0 to 3.0 in units of the empirical magnitude. The behavioral metric was the number of 594 
+
+correctly timed chunk actions per episode: the count of timesteps where the model produced the action that 595 
+
+would have been correct if the chunk sequence were being presented at that position. 596 
+
+Toso perturbation. 597 
+
+The intensity direction was identified from PCA of the bottleneck activations during S2. We computed the centroid 598 
+
+of bottleneck states for high-I2 and low-I2 trials separately, and defined the intensity direction as the vector from 599 
+
+low to high. Perturbations were applied during S2 only, in a counterbalanced design: on trials with I2 = high ,600 
+
+the bottleneck was shifted toward the low-intensity centroid (magnitude = −1.0× empirical magnitude), and on 601 
+
+trials with I2 = low , the bottleneck was shifted toward the high-intensity centroid (magnitude = +1 .0). The 602 
+
+perturbation swing was defined as the summed shift in choice probability P (T2 > T 1) across both conditions, 603 
+
+measured in the expected direction: 604 
+
+Swing =
+
+[
+
+P low →high perturbed (T2 > T 1) − P low baseline (T2 > T 1)
+
+]
+
++
+
+[
+
+P high baseline (T2 > T 1) − P high →low perturbed (T2 > T 1)
+
+]
+
+(5) A positive swing indicates that the perturbation shifted behavior in the expected direction for both conditions. 605 
+
+Treadmill perturbation. 606 
+
+The time direction was identified via Ridge regression from bottleneck activations to elapsed timestep fit on 607 
+
+hold-phase data. The direction was defined as the normalized weight vector ˆw = w/ ∥w∥, where w is the Ridge 608 
+
+regression coefficient vector. Perturbation magnitude was calibrated in units of decoded timesteps: adding 609 
+
+ˆw · (∆ t/ ∥w∥) to the bottleneck output shifts the linear decoder’s prediction by exactly ∆t timesteps. Perturbation 610 
+
+was applied only during the hold phase (action = 1 ), when the agent is using its internal temporal estimate to 611 
+
+time the hold →sprint transition. This mirrors the experimental design of Hidalgo-Balbuena et al. (2019), who 612 
+
+optogenetically perturbed cortical input during the sustained running phase. Magnitudes were varied from 613 
+
+∆t = 0 to ∆t = +7 decoded timesteps. The behavioral metrics were arrival time (the first timestep at which the 614 
+
+agent’s position exceeded the goal zone), sprint onset (the first timestep with action = 2 ), and per-seed regression 615 
+
+slope of arrival time versus ∆t.616 
+
+Bottleneck Decoding by Action Phase (Treadmill) 617 
+
+To characterize what information the corticostriatal bottleneck carries during different behavioral phases, we 618 
+
+decoded position and elapsed time from the bottleneck activations using Ridge regression with 5-fold cross-619 
+
+validation. Decoding was performed separately on timesteps corresponding to each action (drift, hold, sprint), 620 
+
+yielding phase-specific R2 values for both position and time. 621 
+
+19 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+Behavioral Metrics (Treadmill) 622 
+
+FBF fraction. 623 
+
+For each trial, the action sequence was simplified using run-length encoding: consecutive timesteps with the same 624 
+
+action were collapsed into a single block, and transient blocks ( ≤ 2 timesteps) were merged into the adjacent block. 625 
+
+A trial was classified as FBF-consistent if the simplified sequence consisted of a sequential ordering containing 626 
+
+drift, hold, and sprint phases (e.g., [0 , 1, 2] , [0 , 2] , or [1 , 2] ). The FBF fraction is the proportion of trials classified as 627 
+
+FBF-consistent. 628 
+
+Action consistency. 629 
+
+At each timestep t, we identified the modal (most frequent) action across all trials for a given seed. Action 630 
+
+consistency is the mean fraction of trials matching the mode, averaged across timesteps. This metric captures 631 
+
+how stereotyped the behavioral policy is across repeated executions, including across trials with different starting 632 
+
+positions ( 75 –89 .5). 633 
+
+20 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+Supporting information 634 4-dim 64-dim 0.0 0.2 0.4 0.6 0.8 1.0 Decoding Accuracy 
+
+Stimulus Identity  
+
+> Chance (1/16)
+> 4-dim 64-dim 0.0 0.2 0.4 0.6 0.8 1.0 Decoding Accuracy
+
+Chunk vs Non-Chunk 
+
+> Chance (0.5)
+
+Stimulus Decoding from Corticostriatal Bottleneck 
+
+Fig. S1. Stimulus information is lost through the corticostriatal bottleneck. Decoding accuracy from the bottleneck representation for stimulus identity ( left ) and chunk membership ( right ). Dots show individual seeds ( n = 11 ); bars and error bars show means with 95% bootstrap CIs. Dashed lines indicate chance level. Left: A linear classifier trained to decode the current stimulus identity (16-way classification) achieves only 27% accuracy from the 4-dim bottleneck compared to 100% from the 64-dim bottleneck ( p < 0.0001 ), confirming that individual stimulus identity is largely lost through compression. Right: A binary classifier for chunk membership (chunk vs. non-chunk stimulus) achieves 71% from the 4-dim bottleneck versus 99% from the 64-dim bottleneck ( p < 0.0001 ). Although reduced, chunk membership information is partially preserved, consistent with the bottleneck retaining categorical rather than stimulus-specific information. 4-dim 64-dim 0.00 0.05 0.10 0.15 0.20 Trajectory Variance 
+
+Trajectory Variance  
+
+> Structured
+> Random
+> 4-dim 64-dim 0.0 0.2 0.4 0.6 0.8 1.0 Time Encoding  R2
+
+Time Encoding  
+
+> 4-dim 64-dim 0.0 0.2 0.4 0.6 0.8 1.0 Mean Accuracy
+
+Performance Variable Trial Length (8–12 timesteps) 
+
+Fig. S2. Core sensorimotor chunking results replicate with variable trial lengths. Models trained with trial lengths drawn uniformly from 8–12 timesteps (so the chunk can start anywhere from timestep t = 0 to t = 3 ). Single seed; error bars show 95% bootstrap CIs across episodes or cross-validation folds. Left: Trajectory variance remains lower for the compressed model in both structured (solid) and IID (hatched) conditions. Middle: Time encoding R2 remains near ceiling ( ∼0.99) for the compressed model, confirming that the striatal hidden state tracks absolute elapsed time even when trial duration is unpredictable. Right: Chunking effect. The structured trial advantage persists: compressed models perform significantly better on structured than random trials (0.51 vs. 0.14), while uncompressed models are at ceiling for both. 
+
+21 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint bn=4 bn=64 0.0 0.2 0.4 0.6 Trajectory Variance 
+
+Trajectory Variance  
+
+> Structured
+> Random
+> bn=4 bn=64 0.0 0.2 0.4 0.6 0.8 1.0 Time Encoding  R2
+
+Time Encoding                                           
+
+> 0.0 0.2 0.4 0.6 0.8 1.0 Frequency 0·······State 012345678910 11 12 13 14 15 Action
+> 4-dim Bottleneck
+> 012·····State 012345678910 11 12 13 14 15 01234···State 012345678910 11 12 13 14 15 0·······State 012345678910 11 12 13 14 15 Action
+> 64-dim Bottleneck
+> 012·····State 012345678910 11 12 13 14 15 01234···State 012345678910 11 12 13 14 15
+
+Vanilla RNN for Striatum (replacing LSTM) Fig. S3. Core sensorimotor chunking results replicate with a vanilla RNN replacing the LSTM. The LSTM module in the striatal network was replaced with a vanilla RNN to test whether gating mechanisms are necessary for compression-induced chunking. Top left: 
+
+Trajectory variance is lower for the compressed model (bn=4) than the uncompressed model (bn=64), replicating the LSTM result. Top right: Time encoding R2 is near ceiling for bn=4 and substantially lower for bn=64, again replicating the LSTM finding. Bottom: Action slipping heatmaps for three chunk subset sizes. The compressed model ( left three panels ) shows the characteristic diagonal extension past the dashed line, indicating action slipping beyond the chunk boundary. The uncompressed model ( right three panels ) shows diffuse action distributions with no slipping. 2-dim 4-dim 8-dim 16-dim 32-dim 64-dim 
+
+> 0.0000
+> 0.0005
+> 0.0010
+> 0.0015
+> 0.0020
+> 0.0025
+> 0.0030
+> 0.0035
+> 0.0040
+> Trajectory Variance
+
+Trajectory Variance    
+
+> 2-dim 4-dim 8-dim 16-dim 32-dim 64-dim
+> 0.50
+> 0.55
+> 0.60
+> 0.65
+> 0.70
+> 0.75
+> 0.80
+> 0.85
+> 0.90
+> Time Encoding  R2
+
+Time Encoding 
+
+Untrained (Random Weight) Models 
+
+Fig. S4. Compression creates temporal structure prior to learning. Trajectory variance ( left ) and time encoding R2 (right ) for models with completely random (untrained) weights, evaluated on IID stimuli. We show models with different cortico-bottleneck sizes: 2-dim, 4-dim, 8-dim, 16-dim, 32-dim, and 64-dim. Dots show 5 random initializations; bars show means with 95% bootstrap CIs. More compression in the cortico-striatal bottleneck layer leads to less trajectory variance and stronger time encoding. 
+
+22 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint 0 1 2 · · · · ·
+
+Stimulus 
+
+> 012345678910 11 12 13 14 15
+> Action
+
+2-Dim Bottleneck        
+
+> 012·····
+
+Stimulus 
+
+> 012345678910 11 12 13 14 15
+> Action
+
+4-Dim Bottleneck        
+
+> 012·····
+
+Stimulus 
+
+> 012345678910 11 12 13 14 15
+> Action
+
+8-Dim Bottleneck        
+
+> 012·····
+
+Stimulus 
+
+> 012345678910 11 12 13 14 15
+> Action
+
+16-Dim Bottleneck        
+
+> 012·····
+
+Stimulus 
+
+> 012345678910 11 12 13 14 15
+> Action
+
+32-Dim Bottleneck        
+
+> 012·····
+
+Stimulus 
+
+> 012345678910 11 12 13 14 15
+> Action
+
+64-Dim Bottleneck 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+> Action Frequency
+
+Action Slipping: Partial Chunk Initiation (S0–S2) Fig. S5. Action slipping across bottleneck dimensions. Action frequency heatmaps following partial chunk initiation (stimuli S0–S2 presented in chunk order, followed by random non-chunk stimuli). Action slipping is strongest in the most compressed models and slowly diminishes as the dimensionality of the bottleneck layer increases, with 16 dimensions (the number of stimuli in the task) being a transition point. This demonstrates a graded relationship between corticostriatal compression and the inflexibility of learned action sequences. Each panel shows the mean action frequency averaged across 3 training seeds. The 4-dim panel here may differ visually from the corresponding panel in Figure 3A, which averages across 11 seeds, but the qualitative pattern is consistent. 0 1 2 3 4 5 6 7Actual time since S2 onset 01234567Decoded time        
+
+> 4-dim Bottleneck
+> I1=low I1=med I1=high 01234567Actual time since S2 onset 01234567
+> 64-dim Bottleneck
+> Time Decoding During S2 Seperated by I1
+> I1=low I1=med I1=high
+> Rats
+
+Fig. S6. Time decoding during S2 is largely invariant to I1. Time decoding curves during the second stimulus period (S2), split by I 1 intensity (low, medium, high), for the compressed ( left , bn=4) and uncompressed ( right , bn=64) models trained on the Poisson duration comparison task. Lines show cross-validated ridge regression predictions averaged across seeds; shaded regions indicate SEM. In both models, the three intensity curves largely overlap, indicating that I 1 has minimal influence on temporal dynamics during S1. This replicates the same finding of Rodrigues et al. (2024) (shown on the far right). 
+
+23 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint Low Med High Intensity 12345Total spike count 
+
+> Mean scales, variance constant
+
+A Gaussian   
+
+> Low Med High Intensity 020 40
+> Mean AND variance both scale
+> Poisson
+> S1 by I S1 by T S2 by I S2 by T 0.0 0.2 0.4 0.6 Separation
+
+B Duration Task       
+
+> bn=4 bn=64
+> S1 by I S1 by T S2 by I S2 by T 0.00 0.25 0.50 0.75 1.00 Separation
+> Intensity Task
+> 6810 12 14 16 18 Actual time (S2) 6810 12 14 16 18 Decoded time
+
+CS2 by Intensity — 4-dim Bottleneck       
+
+> I=0.3 I=0.6 I=0.9
+> 6810 12 14 16 18 Actual time (S2) 6810 12 14 16 18
+
+S2 by Intensity — 64-dim Bottleneck       
+
+> I=0.3 I=0.6 I=0.9
+> 6810 12 14 16 18 Actual time (S2) 6810 12 14 Decoded time
+
+DS2 by Duration — 4-dim Bottleneck       
+
+> Long Medium Short
+> 6810 12 14 16 18 Actual time (S2) 6810 12 14
+
+S2 by Duration — 64-dim Bottleneck 
+
+> Long Medium Short
+> Duration Task Intensity Task
+
+Fig. S7. Gaussian observations produce stimulus-invariant time coding, reconciling Toso and Rodrigues findings. (A) 
+
+Observation statistics for Gaussian (left) and Poisson (right) models. Violin plots show the distribution of total spike counts across neurons at three intensity levels. In the Gaussian model, only the mean scales with intensity while variance remains constant. In the Poisson model, both mean and variance scale with intensity, creating intensity-dependent temporal dynamics. (B) Mean separation of time decoding curves across all conditions (S1/S2 × intensity/duration splits) for the Gaussian duration task (left) and intensity task (right). Purple: bn=4; red: bn=64. The compressed model consistently shows lower separation across all conditions (all p < 0.001 ), indicating more stimulus-invariant time coding. (C) Example time decoding curves from the Gaussian duration task: S2 split by I 2 intensity for bn=4 (left) and bn=64 (right). The three intensity curves nearly overlap for the compressed model, matching the stimulus-invariant pattern reported by Toso et al. (2021). (D) Example curves from the Gaussian intensity task: S2 split by duration for bn=4 (left) and bn=64 (right), showing the same pattern. These results demonstrate that the same compression architecture produces Toso-like invariance with Gaussian observations and Rodrigues-like modulation with Poisson observations. 
+
+24 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint High→ Low Low→High −0.2 −0.1 0.0 0.1 0.2 0.3 
+
+> Shift in  P(T2 > T1)(expected direction)
+
+4-dim Bottleneck  
+
+> High→ Low Low→High
+
+64-dim Bottleneck 
+
+> Perturbation Asymmetry: High→Low Stronger than Low→High
+
+Fig. S8. Perturbation effects in duration comparison are asymmetric: high-to-low shifts are stronger than low-to-high. 
+
+Behavioral shift in P (T2 > T 1) following bottleneck perturbation in the task-relevant direction (I 2), separated by perturbation direction. Bars show means across 11 seeds; dots show individual seeds; error bars show 95% bootstrap CIs. Left (bn=4): Perturbing the bottleneck representation from high toward low I 2 produces a significantly larger behavioral shift than the reverse direction ( |high →low | = 0 .14 vs. 
+
+|low →high | = 0 .07 ; paired t-test, p = 0 .036 ). Right (bn=64): The uncompressed model shows no significant perturbation effect in either direction ( p = 0 .33 ), as expected given that perturbations to a 64-dimensional representation produce negligible changes relative to the full representational capacity. 2-dim 64-dim 0510 15 20 25 Mean Arrival Time (timesteps) 
+
+Arrival Time  
+
+> Goal (t=20)
+> 2-dim 64-dim 0.0 0.2 0.4 0.6 0.8 1.0 Fraction of trials arriving
+
+Arrival Rate  
+
+> 2-dim 64-dim 0.0 0.2 0.4 0.6 0.8 1.0 Fraction arriving exactly at t=20
+
+Exact Timing 
+
+Treadmill Arrival Time Precision 
+
+Fig. S9. Compressed models achieve more precise motor timing. Arrival time precision on the treadmill task for compressed (bn=2, purple) and uncompressed (bn=64, red) models. Dots show individual seeds ( n = 11 ); bars show means with 95% bootstrap CIs. Left: 
+
+Mean arrival time. The compressed model arrives significantly closer to the goal time of t = 20 (20 .4 vs. 21 .8 timesteps; Mann–Whitney 
+
+U , p = 0 .0008 ). Dashed line indicates the goal. Middle: Fraction of trials in which the agent reaches the goal zone. Both models arrive at comparable rates ( 70 .5% vs. 67 .0% ; p = 0 .92 ), indicating that the two strategies are equally successful at reaching the goal. Right: 
+
+Fraction of arrived trials where the agent arrives exactly at t = 20 . The compressed model is significantly more precise ( 68% vs. 43% ;
+
+p = 0 .004 ). 
+
+25     
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint 0% 25% 50% 75% 100% Normalized trial time s0 s10 s20 s30 s40 s50 s60 s70 s80 s90 s100 Seed
+
+A 2-Dim Bottleneck (Compressed)     
+
+> 0% 25% 50% 75% 100% Normalized trial time s0 s10 s20 s30 s40 s50 s60 s70 s80 s90 s100
+
+64-Dim Bottleneck (Uncompressed)     
+
+> Drift Hold Sprint
+> 0510 15 20 Timestep 0.0 0.2 0.4 0.6 0.8 1.0 Fraction of trials
+
+B Action Profile (2-Dim)      
+
+> Drift
+> Hold
+> Sprint
+> 0510 15 20 Timestep 0.0 0.2 0.4 0.6 0.8 1.0
+
+Action Profile (64-Dim) 
+
+> 0.0 0.2 0.4 0.6 0.8 1.0 P(transition | leave)
+
+C
+
+> ** Drif t→
+> Hold ***
+> Hold→
+> Sprint ***
+> Hold→
+> Drift *
+> Sprint→
+> Drift
+
+Forward Backward 
+
+> 2-dim 64-dim
+
+Fig. S10. Corticostriatal compression reliably induces the Front-Back-Front motor program. (A) Modal action at each normalized timestep for each training seed, computed across successful trials only (reward > 0) after time-warping to a common trial duration. All compressed model seeds (left) converge on the stereotyped drift →hold →sprint (FBF) sequence, with drift occupying the first ∼25% of the trial, hold the middle ∼50%, and sprint the final ∼25%. Uncompressed model seeds (right) show heterogeneous strategies: some approximate FBF while others show disorganized action switching, indicating that without compression the emergence of structured sequential behavior is much less reliable. (B) Mean action profile over time, averaged across all 11 seeds and all trials (including unsuccessful). The compressed model (left) shows sharp phase boundaries, while the uncompressed model (right) shows gradual, overlapping transitions with drift and hold intermixed throughout the trial. Dashed line indicates the goal time ( t = 20 ). (C) Conditional transition probabilities given that the agent switches actions, computed across all seeds. The two FBF-consistent forward transitions (Drift →Hold, Hold →Sprint) are significantly higher in the compressed model, while their backward complements (Hold →Drift, Sprint →Drift) are significantly higher in the uncompressed model (Welch’s t-test; n = 11 seeds per condition). This double dissociation confirms that compression produces directed sequential flow through the FBF program, whereas the uncompressed model tends to regress to earlier phases. 0 500 1000 1500 2000 2500 3000 Training Epoch            
+
+> −0.8
+> −0.6
+> −0.4
+> −0.2
+> 0.0
+> Episode Reward (mean)
+> Sensorimotor Chunking
+> 4-dim 64-dim
+> 0200 400 600 800 1000 Training Epoch
+> 0.45
+> 0.50
+> 0.55
+> 0.60
+> 0.65
+> 0.70
+> 0.75
+> 0.80
+> Duration Judgement
+> 4-dim 64-dim
+> 020 40 60 80 100 120 Training Epoch
+> −0.6
+> −0.4
+> −0.2
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> Motor Timing
+> 4-dim 64-dim
+
+Fig. S11. Training curves for all three tasks. Mean episode reward across training epochs for compressed (4-dim bottleneck, purple) and uncompressed (64-dim bottleneck, red) models. Shaded regions indicate 95% bootstrap confidence intervals across 11 random seeds. 
+
+26 
+
+.CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint Acknowledgements 
+
+S.K is currently supported by a Leon Levy Fellowship by the New York Academy of Sciences. J.H is supported by VA CSR&D award 1I01 CX002872. 
+
+References 
+
+Alexander, G. E., DeLong, M. R., & Strick, P. L. (1986). Parallel organization of functionally segregated circuits linking basal ganglia and cortex. Annual review of neuroscience , 9(1), 357–381. Arabzadeh, E., Panzeri, S., & Diamond, M. E. (2004). Whisker vibration information carried by rat barrel cortex neurons. Journal of Neuroscience , 24 (26), 6011–6020. Bar-Gad, I., Havazelet-Heimer, G., Goldberg, J., Ruppin, E., & Bergman, H. (2003). Reinforcement driven dimen-sionality reduction as a model for information processing in the basal ganglia . Hebrew University of Jerusalem. Bar-Gad, I., Morris, G., & Bergman, H. (2003). Information processing, dimensionality reduction and reinforcement learning in the basal ganglia. Progress in neurobiology , 71 (6), 439–473. Botvinick, M., & Plaut, D. C. (2004). Doing without schema hierarchies: a recurrent connectionist approach to normal and impaired routine sequential action. Psychological review , 111 (2), 395. Buonomano, D. V., & Maass, W. (2009). State-dependent computations: spatiotemporal processing in cortical networks. Nature Reviews Neuroscience , 10 (2), 113–125. Dhawale, A. K., Wolff, S. B., Ko, R., & ¨Olveczky, B. P. (2021). The basal ganglia control the detailed kinematics of learned motor skills. Nature neuroscience , 24 (9), 1256–1269. Dominey, P. F. (1995). Complex sensory-motor sequence learning based on recurrent state representation and reinforcement learning. Biological cybernetics , 73 (3), 265–274. Doya, K. (2000). Complementary roles of basal ganglia and cerebellum in learning and motor control. Current opinion in neurobiology , 10 (6), 732–739. Eichenbaum, H. (2014). Time cells in the hippocampus: a new dimension for mapping memories. Nature Reviews Neuroscience , 15 (11), 732–744. Gouv ˆea, T. S., Monteiro, T., Motiwala, A., Soares, S., Machens, C., & Paton, J. J. (2015). Striatal dynamics explain duration judgments. Elife , 4, e11386. Graybiel, A. M. (1998). The basal ganglia and chunking of action repertoires. Neurobiology of learning and memory ,
+
+70 (1-2), 119–136. Haber, S. N. (2003). The primate basal ganglia: parallel and integrative networks. Journal of chemical neuroanatomy ,
+
+26 (4), 317–330. Haber, S. N., Fudge, J. L., & McFarland, N. R. (2000). Striatonigrostriatal pathways in primates form an ascending spiral from the shell to the dorsolateral striatum. Journal of Neuroscience , 20 (6), 2369–2382. Haimerl, C., Rodrigues, F. S., & Paton, J. J. (2025). Time, control, and the nervous system. Annual Review of Neuroscience , 48 .Hidalgo-Balbuena, A. E., Luma, A. Y., Pimentel-Farfan, A. K., Pe ˜na-Rangel, T., & Rueda-Orozco, P. E. (2019). Sensory representations in the striatum provide a temporal reference for learning and executing motor habits. 
+
+Nature communications , 10 (1), 4074. Hochreiter, S., & Schmidhuber, J. (1997). Long short-term memory. Neural computation , 9(8), 1735–1780. 27 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+Humphries, M. D. (2025). The computational bottleneck of basal ganglia output (and what to do about it). eneuro ,
+
+12 (4). Jeffery, K. J. (2007). Integration of the sensory inputs to place cells: what, where, why, and how? Hippocampus ,
+
+17 (9), 775–785. Jin, D. Z., Fujii, N., & Graybiel, A. M. (2009). Neural representation of time in cortico-basal ganglia circuits. 
+
+Proceedings of the National Academy of Sciences , 106 (45), 19156–19161. Jin, X., & Costa, R. M. (2015). Shaping action sequences in basal ganglia circuits. Current opinion in neurobiology ,
+
+33 , 188–196. Kincaid, A. E., Zheng, T., & Wilson, C. J. (1998). Connectivity and convergence of single corticostriatal axons. 
+
+Journal of Neuroscience , 18 (12), 4722–4731. Kingma, D. P., & Ba, J. (2014). Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980 .Kita, H., & Kitai, S. (1988). Glutamate decarboxylase immunoreactive neurons in rat neostriatum: their morpho-logical types and populations. Brain research , 447 (2), 346–352. Klaus, A., Martins, G. J., Paixao, V. B., Zhou, P., Paninski, L., & Costa, R. M. (2017). The spatiotemporal organization of the striatum encodes action space. Neuron , 95 (5), 1171–1180. Lai, L., & Gershman, S. J. (2021). Policy compression: An information bottleneck in action selection. In Psychology of learning and motivation (Vol. 74, pp. 195–232). Elsevier. Lai, L., Huang, A. Z., & Gershman, S. J. (2025). Action chunking as conditional policy compression. Cognition ,
+
+264 , 106201. Lanciego, J. L., Luquin, N., & Obeso, J. A. (2012). Functional neuroanatomy of the basal ganglia. Cold Spring Harbor perspectives in medicine , 2(12), a009621. Lee, K., Bakhurin, K. I., Claar, L. D., Holley, S. M., Chong, N. C., Cepeda, C., . . . Masmanidis, S. C. (2019). Gain modulation by corticostriatal and thalamostriatal input signals during reward-conditioned behavior. Cell reports , 29 (8), 2438–2449. Li, M., Jensen, K. T., Zhang, Q., Lu, Q., & Mattar, M. G. (2025). A neural network model of free recall learns multiple memory strategies. bioRxiv , 2025–09. Liang, E., Liaw, R., Nishihara, R., Moritz, P., Fox, R., Goldberg, K., . . . Stoica, I. (2018). Rllib: Abstractions for distributed reinforcement learning. In International conference on machine learning (pp. 3053–3062). Logiaco, L., Abbott, L., & Escola, S. (2021). Thalamic control of cortical dynamics in a model of flexible motor sequencing. Cell reports , 35 (9). Mandelbaum, G., Taranda, J., Haynes, T. M., Hochbaum, D. R., Huang, K. W., Hyun, M., . . . others (2019). Distinct cortical-thalamic-striatal circuits through the parafascicular nucleus. Neuron , 102 (3), 636–652. Markowitz, J. E., Gillis, W. F., Jay, M., Wood, J., Harris, R. W., Cieszkowski, R., . . . others (2023). Spontaneous behaviour is structured by reinforcement without explicit reward. Nature , 614 (7946), 108–117. Martiros, N., Burgess, A. A., & Graybiel, A. M. (2018). Inversely active striatal projection neurons and interneurons selectively delimit useful behavioral sequences. Current Biology , 28 (4), 560–573. McElvain, L. E., Chen, Y., Moore, J. D., Brigidi, G. S., Bloodgood, B. L., Lim, B. K., . . . Kleinfeld, D. (2021). Specific populations of basal ganglia output neurons target distinct brain stem areas while collateralizing throughout the diencephalon. Neuron , 109 (10), 1721–1738. 28 
+
+> .CC-BY 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted April 30, 2026. ;https://doi.org/10.1101/2025.09.05.674585 doi: bioRxiv preprint
+
+Medina, J. F., Garcia, K. S., Nores, W. L., Taylor, N. M., & Mauk, M. D. (2000). Timing mechanisms in the cerebellum: testing predictions of a large-scale computer simulation. Journal of Neuroscience , 20 (14), 5516–5525. Mizes, K. G., Lindsey, J., Escola, G. S., & ¨Olveczky, B. P. (2023). Dissociating the contributions of sensorimotor striatum to automatic and visually guided motor sequences. Nature Neuroscience , 26 (10), 1791–1804. Mizes, K. G., Lindsey, J., Escola, G. S., & ¨Olveczky, B. P. (2024). The role of motor cortex in motor sequence execution depends on demands for flexibility. Nature neuroscience , 27 (12), 2466–2475. Monteiro, T., Rodrigues, F. S., Pexirra, M., Cruz, B. F., Gon c¸alves, A. I., Rueda-Orozco, P. E., & Paton, J. J. (2023). Using temperature to analyze the neural basis of a time-based decision. Nature neuroscience , 26 (8), 1407–1416. Mountcastle, V. B., Talbot, W. H., Sakata, H., & Hyv ¨arinen, J. (1969). Cortical neuronal mechanisms in flutter-vibration studied in unanesthetized monkeys. neuronal periodicity and frequency discrimination. Journal of neurophysiology , 32 (3), 452–484. Murray, J. M., & Escola, G. S. (2017). Learning multiple variable-speed sequences in striatum via cortical tutoring. 
+
+Elife , 6, e26084. Nassar, M. R., Helmers, J. C., & Frank, M. J. (2018). Chunking as a rational strategy for lossy data compression in visual working memory. Psychological review , 125 (4), 486. Norman, D. A. (1981). Categorization of action slips. Psychological review , 88 (1), 1. Pasupathy, A., & Miller, E. K. (2005). Different time courses of learning-related activity in the prefrontal cortex and striatum. Nature , 433 (7028), 873–876. Rodrigues, F. S., Monteiro, T., Motiwala, A., & Paton, J. J. (2024). The dorsolateral striatum encodes a temporal basis for the organization of behavior. Neuron , 112 (22), 3675–3677. Rueda-Orozco, P. E., & Robbe, D. (2015). The striatum multiplexes contextual and kinematic information to constrain motor habits execution. Nature neuroscience , 18 (3), 453–460. Schulman, J., Wolski, F., Dhariwal, P., Radford, A., & Klimov, O. (2017). Proximal policy optimization algorithms. 
+
+arXiv preprint arXiv:1707.06347 .Soni, A., & Frank, M. J. (2025). Adaptive chunking improves effective working memory capacity in a prefrontal cortex and basal ganglia circuit. Elife , 13 , RP97894. Thorn, C. A., Atallah, H., Howe, M., & Graybiel, A. M. (2010). Differential dynamics of activity changes in dorsolateral and dorsomedial striatal loops during learning. Neuron , 66 (5), 781–795. Toso, A., Reinartz, S., Pulecchi, F., & Diamond, M. E. (2021). Time coding in rat dorsolateral striatum. Neuron ,
+
+109 (22), 3663–3673. Tsao, A., Yousefzadeh, S. A., Meck, W. H., Moser, M.-B., & Moser, E. I. (2022). The neural bases for timing of durations. Nature reviews neuroscience , 23 (11), 646–665. Wagner, M. J., Kim, T. H., Kadmon, J., Nguyen, N. D., Ganguli, S., Schnitzer, M. J., & Luo, L. (2019). Shared cortex-cerebellum dynamics in the execution and learning of a motor task. Cell , 177 (3), 669–682. Wang, J. X., Kurth-Nelson, Z., Kumaran, D., Tirumala, D., Soyer, H., Leibo, J. Z., . . . Botvinick, M. (2018). Prefrontal cortex as a meta-reinforcement learning system. Nature neuroscience , 21 (6), 860–868. Wilson, C. J., & Groves, P. M. (1980). Fine structure and synaptic connections of the common spiny neuron of the rat neostriatum: a study employing intracellular injection of horseradish peroxidase. Journal of Comparative Neurology , 194 (3), 599–615. Yin, H. H., Knowlton, B. J., & Balleine, B. W. (2004). Lesions of dorsolateral striatum preserve outcome expectancy but disrupt habit formation in instrumental learning. European journal of neuroscience , 19 (1), 181–189. 29
