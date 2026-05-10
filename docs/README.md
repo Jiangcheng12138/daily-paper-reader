@@ -6,100 +6,104 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-05-09
-- 运行时间：2026-05-09 20:38:17 UTC
+- 最新运行日期：2026-05-10
+- 运行时间：2026-05-10 20:09:37 UTC
 - 运行状态：成功
-- 本次总论文数：26
-- 精读区：13
+- 本次总论文数：27
+- 精读区：14
 - 速读区：13
 
 ### 今日简报（AI）
-今日深度追踪 26 篇科研前沿，重点攻克了睡眠调控机制与神经退行性疾病的底层逻辑。
-核心突破在于锁定了 SLD 核团细胞脆弱性对 REM 睡眠障碍的影响，并证实了 SNRK 激酶在睡眠调节中的关键地位。
-建议普通读者警惕睡眠行为异常，通过关注 REM 期表现及早识别潜在的神经健康风险。
-- 详情：[/202605/09/README](/202605/09/README)
+- 今日共生成 27 篇推荐（精读 14 篇，速读 13 篇）
+- 精读：《Thalamic oscillations distinguish natural states of consciousness in humans》（10.0/10）, 《Theta-band brain synchronization supports the immediate and post-sleep dynamics of memory recall in children》（10.0/10）
+- 速读：《How Light Reshapes the Mind. An Active Inference Framework for the Cognitive and Emotional Effects of Indoor Lighting》（7.0/10）, 《Pretraining on Sleep Data Improves non-Sleep Biosignal Tasks》（7.0/10）, 《NeuralSet: A High-Performing Python Package for Neuro-AI》（7.0/10）
+- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
+- 详情：[/202605/10/README](/202605/10/README)
 
 ### 精读区论文标签
-1. [Cell vulnerability within the sublaterodorsal tegmental nucleus underlies REM sleep behaviour disorder in prodromal α-synucleinopathy](/202605/09/biorxiv-10-64898-2026-04-28-719687-v1-cell-vulnerability-within-the-sublaterodorsal-tegmental-nucleus-underlies-rem-sleep-behaviour-disorder-in-prodromal--synucleinopathy)  
+1. [Thalamic oscillations distinguish natural states of consciousness in humans](/202605/10/biorxiv-10-1101-2025-01-28-635248-v2-thalamic-oscillations-distinguish-natural-states-of-consciousness-in-humans)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：SLD中REM睡眠调节神经元的退化
-2. [An Essential Role of the AMPK-Related Kinase SNRK in Regulating Drosophila Sleep](/202605/09/biorxiv-10-64898-2026-04-29-721761-v1-an-essential-role-of-the-ampk-related-kinase-snrk-in-regulating-drosophila-sleep)  
+   evidence：REM 和非 REM 睡眠期间的丘脑振荡
+2. [Theta-band brain synchronization supports the immediate and post-sleep dynamics of memory recall in children](/202605/10/biorxiv-10-64898-2026-04-30-721844-v1-theta-band-brain-synchronization-supports-the-immediate-and-post-sleep-dynamics-of-memory-recall-in-children)  
    标签：评分：10.0/10、query:slp-ns
-   evidence：SNRK激酶在睡眠调节中的作用
-3. [A preoptic circuit triggers rewarming from torpor](/202605/09/biorxiv-10-64898-2026-04-30-722109-v1-a-preoptic-circuit-triggers-rewarming-from-torpor)  
+   evidence：记忆回溯的睡眠后动力学和睡眠脑电图
+3. [A preoptic circuit triggers rewarming from torpor](/202605/10/biorxiv-10-64898-2026-04-30-722109-v1-a-preoptic-circuit-triggers-rewarming-from-torpor)  
    标签：评分：10.0/10、query:tr-hb
-   evidence：视前区回路触发蛰伏后的复温
-4. [Hypervigilance profiles in sleep-onset insomnia and psychiatric comorbidity](/202605/09/biorxiv-10-64898-2026-05-05-722943-v1-hypervigilance-profiles-in-sleep-onset-insomnia-and-psychiatric-comorbidity)  
-   标签：评分：10.0/10、query:slp-ns
-   evidence：入睡期失眠的脑电图警觉性标记
-5. [Demographic-Aware Transfer Learning for Sleep Stage Classification in Clinical Polysomnography](/202605/09/2605.02245v1-demographic-aware-transfer-learning-for-sleep-stage-classification-in-clinical-polysomnography)  
+   evidence：视前区回路和Crh神经元触发蛰伏后的复温
+4. [Demographic-Aware Transfer Learning for Sleep Stage Classification in Clinical Polysomnography](/202605/10/2605.02245v1-demographic-aware-transfer-learning-for-sleep-stage-classification-in-clinical-polysomnography)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：自动睡眠分期分类与睡眠结构
-6. [Pretraining on Sleep Data Improves non-Sleep Biosignal Tasks](/202605/09/2605.02500v1-pretraining-on-sleep-data-improves-non-sleep-biosignal-tasks)  
+   evidence：临床多项睡眠图的睡眠分期分类
+5. [Closed-Loop Connectivity Best Supports Angular Tuning and Sleep Dynamics in a Biophysical Thalamocortical Circuit Model](/202605/10/biorxiv-10-1101-2025-08-18-670921-v2-closed-loop-connectivity-best-supports-angular-tuning-and-sleep-dynamics-in-a-biophysical-thalamocortical-circuit-model)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：基于睡眠数据进行预训练，用于睡眠分期和疾病风险预测
-7. [Serotonergic modulation of motor subspace dynamics drives a sleep-independent quiescent state](/202605/09/biorxiv-10-64898-2026-01-28-702359-v2-serotonergic-modulation-of-motor-subspace-dynamics-drives-a-sleep-independent-quiescent-state)  
+   evidence：支持睡眠动力学的丘脑皮层电路模型
+6. [Serotonergic modulation of motor subspace dynamics drives a sleep-independent quiescent state](/202605/10/biorxiv-10-64898-2026-01-28-702359-v2-serotonergic-modulation-of-motor-subspace-dynamics-drives-a-sleep-independent-quiescent-state)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：血清素调节睡眠无关的静止状态及睡眠反弹
-8. [Reactivation during sleep segregates the neural representations of episodic memories](/202605/09/biorxiv-10-64898-2026-04-08-717230-v2-reactivation-during-sleep-segregates-the-neural-representations-of-episodic-memories)  
+   evidence：血清素对睡眠和运动控制的调节
+7. [Reactivation during sleep segregates the neural representations of episodic memories](/202605/10/biorxiv-10-64898-2026-04-08-717230-v2-reactivation-during-sleep-segregates-the-neural-representations-of-episodic-memories)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：研究睡眠期间的神经重新激活及其对记忆表征的影响
-9. [Znf804a is a regulator of circadian behaviors in zebrafish](/202605/09/biorxiv-10-64898-2026-04-29-721668-v1-znf804a-is-a-regulator-of-circadian-behaviors-in-zebrafish)  
+   evidence：睡眠期间记忆重现对神经表征的影响
+8. [Znf804a is a regulator of circadian behaviors in zebrafish](/202605/10/biorxiv-10-64898-2026-04-29-721668-v1-znf804a-is-a-regulator-of-circadian-behaviors-in-zebrafish)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：znf804a与睡眠和昼夜节律通路的关系
-10. [Theta-band brain synchronization supports the immediate and post-sleep dynamics of memory recall in children](/202605/09/biorxiv-10-64898-2026-04-30-721844-v1-theta-band-brain-synchronization-supports-the-immediate-and-post-sleep-dynamics-of-memory-recall-in-children)  
+   evidence：睡眠和昼夜节律行为的遗传调节
+9. [An Essential Role of the AMPK-Related Kinase SNRK in Regulating Drosophila Sleep](/202605/10/biorxiv-10-64898-2026-04-29-721761-v1-an-essential-role-of-the-ampk-related-kinase-snrk-in-regulating-drosophila-sleep)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠期间及睡眠后记忆提取的神经动力学
-11. [Alcohol and Opioids Modulate Excitatory Inputs to the SCN](/202605/09/biorxiv-10-64898-2026-04-30-721903-v1-alcohol-and-opioids-modulate-excitatory-inputs-to-the-scn)  
+   evidence：SNRK激酶在睡眠调节和胆碱能神经元中的作用
+10. [Alcohol and Opioids Modulate Excitatory Inputs to the SCN](/202605/10/biorxiv-10-64898-2026-04-30-721903-v1-alcohol-and-opioids-modulate-excitatory-inputs-to-the-scn)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：调节SCN的兴奋性输入，SCN负责调节昼夜节律和睡眠潜伏期
-12. [Gamma CV as a Marker of Circadian Disruption in C57BL/6J Mice: Correlating Neural Desynchrony with Locomotor, Thermal, and Sleep Dysrhythmia across a Spectrum of Circadian Rhythms Disruption paradigms.](/202605/09/biorxiv-10-64898-2026-05-01-722075-v1-gamma-cv-as-a-marker-of-circadian-disruption-in-c57bl6j-mice-correlating-neural-desynchrony-with-locomotor-thermal-and-sleep-dysrhythmia-across-a-spectrum-of-circadian-rhythms-disruption-paradigms)  
+   evidence：镇静药物对视交叉上核功能和睡眠潜伏期的细胞机制研究
+11. [Inter-hemispheric connections modulate splitting in a computational model of the bilateral SCN](/202605/10/biorxiv-10-64898-2026-04-30-722022-v1-inter-hemispheric-connections-modulate-splitting-in-a-computational-model-of-the-bilateral-scn)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：监测睡眠生理和昼夜节律紊乱
-13. [Neuromodulation of Foxp2+ hypothalamic neurons induces therapeutic hypothermia](/202605/09/biorxiv-10-64898-2026-05-04-722579-v1-neuromodulation-of-foxp2-hypothalamic-neurons-induces-therapeutic-hypothermia)  
+   evidence：调节睡眠-觉醒周期的视交叉上核计算模型
+12. [Gamma CV as a Marker of Circadian Disruption in C57BL/6J Mice: Correlating Neural Desynchrony with Locomotor, Thermal, and Sleep Dysrhythmia across a Spectrum of Circadian Rhythms Disruption paradigms.](/202605/10/biorxiv-10-64898-2026-05-01-722075-v1-gamma-cv-as-a-marker-of-circadian-disruption-in-c57bl6j-mice-correlating-neural-desynchrony-with-locomotor-thermal-and-sleep-dysrhythmia-across-a-spectrum-of-circadian-rhythms-disruption-paradigms)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：监测小鼠的睡眠节律失调和热节律
+13. [Neuromodulation of Foxp2+ hypothalamic neurons induces therapeutic hypothermia](/202605/10/biorxiv-10-64898-2026-05-04-722579-v1-neuromodulation-of-foxp2-hypothalamic-neurons-induces-therapeutic-hypothermia)  
    标签：评分：9.0/10、query:tr-hb
-   evidence：下丘脑神经元调节诱导治疗性低温
+   evidence：通过下丘脑Foxp2神经元药理诱导治疗性低温
+14. [Hypervigilance profiles in sleep-onset insomnia and psychiatric comorbidity](/202605/10/biorxiv-10-64898-2026-05-05-722943-v1-hypervigilance-profiles-in-sleep-onset-insomnia-and-psychiatric-comorbidity)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：入睡困难型失眠症中的警觉性EEG标记物
 
 ### 速读区论文标签
-1. [Hypoxic burden predicts weaker coordination between brain pulsations and CSF flow independent of non-hypoxic arousals: Implications for glymphatic activity](/202605/09/biorxiv-10-64898-2026-04-25-720853-v2-hypoxic-burden-predicts-weaker-coordination-between-brain-pulsations-and-csf-flow-independent-of-non-hypoxic-arousals-implications-for-glymphatic-activity)  
-   标签：评分：8.0/10、query:slp-ns
+1. [How Light Reshapes the Mind. An Active Inference Framework for the Cognitive and Emotional Effects of Indoor Lighting](/202605/10/2605.01290v1-how-light-reshapes-the-mind-an-active-inference-framework-for-the-cognitive-and-emotional-effects-of-indoor-lighting)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：光照对昼夜节律唤醒与休息的影响
+2. [Pretraining on Sleep Data Improves non-Sleep Biosignal Tasks](/202605/10/2605.02500v1-pretraining-on-sleep-data-improves-non-sleep-biosignal-tasks)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：在睡眠数据上进行预训练以用于生物信号任务
+3. [NeuralSet: A High-Performing Python Package for Neuro-AI](/202605/10/2605.03169v1-neuralset-a-high-performing-python-package-for-neuro-ai)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：统一多种神经记录和神经科学预处理的Python框架
+4. [NeuroAgent: LLM Agents for Multimodal Neuroimaging Analysis and Research](/202605/10/2605.06584v1-neuroagent-llm-agents-for-multimodal-neuroimaging-analysis-and-research)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：多模态神经影像分析与研究
+5. [Behavioral state-dependent norepinephrine dynamics in the primary somatosensory and prefrontal cortices during tactile detection tasks](/202605/10/biorxiv-10-64898-2026-01-16-699887-v2-behavioral-state-dependent-norepinephrine-dynamics-in-the-primary-somatosensory-and-prefrontal-cortices-during-tactile-detection-tasks)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：行为状态和皮层动力学的神经生物学机制
+6. [Hypoxic burden predicts weaker coordination between brain pulsations and CSF flow independent of non-hypoxic arousals: Implications for glymphatic activity](/202605/10/biorxiv-10-64898-2026-04-25-720853-v2-hypoxic-burden-predicts-weaker-coordination-between-brain-pulsations-and-csf-flow-independent-of-non-hypoxic-arousals-implications-for-glymphatic-activity)  
+   标签：评分：7.0/10、query:slp-ns
    evidence：阻塞性睡眠呼吸暂停中的缺氧负担和睡眠碎片化
-2. [Microporous Immune-Isolating Capsule with Improved Diffusion for Restored Dynamic Bidirectional Hormone Signaling in a Murine Model of Premature Ovarian Insufficiency](/202605/09/biorxiv-10-64898-2026-04-28-721364-v1-microporous-immune-isolating-capsule-with-improved-diffusion-for-restored-dynamic-bidirectional-hormone-signaling-in-a-murine-model-of-premature-ovarian-insufficiency)  
-   标签：评分：8.0/10、query:qll
-   evidence：恢复早发性卵巢功能不全中的激素信号传导
-3. [Inter-hemispheric connections modulate splitting in a computational model of the bilateral SCN](/202605/09/biorxiv-10-64898-2026-04-30-722022-v1-inter-hemispheric-connections-modulate-splitting-in-a-computational-model-of-the-bilateral-scn)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：双侧视交叉上核(SCN)与休息/觉醒周期的计算模型
-4. [Distinct regulation of intrinsic persistent firing by cholinergic, noradrenergic and dopaminergic neuromodulations in the mouse auditory cortex](/202605/09/biorxiv-10-64898-2026-05-03-722484-v1-distinct-regulation-of-intrinsic-persistent-firing-by-cholinergic-noradrenergic-and-dopaminergic-neuromodulations-in-the-mouse-auditory-cortex)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：听觉皮层持久放电的神经调节
-5. [Inferring Active Neural Circuits Using Diffusion Scores](/202605/09/2605.02852v1-inferring-active-neural-circuits-using-diffusion-scores)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：推断活跃的神经回路和大脑状态
-6. [A foundation model of vision, audition, and language for in-silico neuroscience](/202605/09/2605.04326v1-a-foundation-model-of-vision-audition-and-language-for-in-silico-neuroscience)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：预测人类大脑活动的基座模型
-7. [A Generalized Framework of Antisymmetric Polyspectral Indices for Identifying High-Order Neural Interactions](/202605/09/2605.04636v1-a-generalized-framework-of-antisymmetric-polyspectral-indices-for-identifying-high-order-neural-interactions)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：用于识别高阶神经相互作用的反对称多谱指数
-8. [Dynamic corticostriatal neural coordination governs competition between social and metabolic drives in rats](/202605/09/biorxiv-10-64898-2026-01-19-700365-v2-dynamic-corticostriatal-neural-coordination-governs-competition-between-social-and-metabolic-drives-in-rats)  
-   标签：评分：7.0/10、query:tr-hb
-   evidence：仲裁社交与代谢驱动的神经机制
-9. [SenNet Portal: Build, Optimization and Usage](/202605/09/biorxiv-10-64898-2026-02-06-704469-v2-sennet-portal-build-optimization-and-usage)  
+7. [Salvianolic acids are natural senolytics and increase lifespan in old age](/202605/10/biorxiv-10-64898-2026-04-29-721790-v1-salvianolic-acids-are-natural-senolytics-and-increase-lifespan-in-old-age)  
    标签：评分：7.0/10、query:qll
-   evidence：细胞衰老数据集和生物标志物
-10. [From Packets to Patterns: Interpreting Encrypted Network Traffic as Longitudinal Behavioral Signals](/202605/09/2605.01616v1-from-packets-to-patterns-interpreting-encrypted-network-traffic-as-longitudinal-behavioral-signals)  
+   evidence：针对衰老细胞以改善健康寿命并减少与年龄相关的疾病
+8. [Inferring Active Neural Circuits Using Diffusion Scores](/202605/10/2605.02852v1-inferring-active-neural-circuits-using-diffusion-scores)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：利用智能手机网络流量捕捉与睡眠相关的行为模式
-11. [NeuralSet: A High-Performing Python Package for Neuro-AI](/202605/09/2605.03169v1-neuralset-a-high-performing-python-package-for-neuro-ai)  
+   evidence：利用扩散分数推断活跃神经回路
+9. [Timed Secreted Proteomes Reveal Regulation of Hepatokines by the Liver Circadian Clock](/202605/10/biorxiv-10-1101-2025-02-25-640202-v2-timed-secreted-proteomes-reveal-regulation-of-hepatokines-by-the-liver-circadian-clock)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：统一处理用于神经AI的多种神经记录
-12. [Model Form Identification in High-Dimensional Functional Linear Regressions](/202605/09/2605.05458v1-model-form-identification-in-high-dimensional-functional-linear-regressions)  
+   evidence：非活动和禁食阶段蛋白质分泌的昼夜节律调节
+10. [Whisker stimulation reinforces a resting-state network in the barrel cortex: nested oscillations and avalanches](/202605/10/biorxiv-10-1101-2025-06-06-658305-v4-whisker-stimulation-reinforces-a-resting-state-network-in-the-barrel-cortex-nested-oscillations-and-avalanches)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：用于神经影像的功能线性回归
-13. [NeuroAgent: LLM Agents for Multimodal Neuroimaging Analysis and Research](/202605/09/2605.06584v1-neuroagent-llm-agents-for-multimodal-neuroimaging-analysis-and-research)  
+   evidence：大脑皮层的神经振荡和静息态网络
+11. [In vivo BMAL1 occupancy mapping using MACS-Calling Cards reveals disease-associated retargeting in Cln3Δex7/8 astrocytes](/202605/10/biorxiv-10-64898-2026-04-30-721783-v1-in-vivo-bmal1-occupancy-mapping-using-macs-calling-cards-reveals-disease-associated-retargeting-in-cln3ex78-astrocytes)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：用于多模态神经影像分析的大语言模型代理
+   evidence：星形胶质细胞和神经退行性变中的昼夜节律时钟转录因子BMAL1
+12. [Biased signaling at NTSR1 differentially regulates inhibitory synaptic transmission in the extended amygdala and suppresses motivated feeding in mice](/202605/10/biorxiv-10-64898-2026-04-30-722083-v1-biased-signaling-at-ntsr1-differentially-regulates-inhibitory-synaptic-transmission-in-the-extended-amygdala-and-suppresses-motivated-feeding-in-mice)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：能量平衡和进食的神经生物学控制
+13. [Genome-wide architecture of prolonged starvation adaptation in experimentally evolved Drosophila and comparative enrichment in human orthologs](/202605/10/biorxiv-10-64898-2026-05-01-722137-v1-genome-wide-architecture-of-prolonged-starvation-adaptation-in-experimentally-evolved-drosophila-and-comparative-enrichment-in-human-orthologs)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：长期饥饿适应的遗传结构
 
 
 <div class="dpr-home-promo-card">
