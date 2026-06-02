@@ -6,71 +6,41 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-05-24 ~ 2026-06-02
-- 运行时间：2026-06-02 03:20:16 UTC
+- 最新运行日期：2026-05-04 ~ 2026-06-02
+- 运行时间：2026-06-02 05:38:48 UTC
 - 运行状态：成功
-- 本次总论文数：17
-- 精读区：10
-- 速读区：7
+- 本次总论文数：7
+- 精读区：2
+- 速读区：5
 
 ### 今日简报（AI）
-今日处理17篇论文，精读10篇、速读7篇，聚焦睡眠分期与自监督模型的前沿进展。最值得关注的是高效轻量自监督睡眠分期模型（9.0分）及黑熊冬眠与非冬眠状态下的自动评分研究（9.0分）。建议普通读者优先精读这两篇，后续可关注自监督方法在神经振荡建模及蛋白质修饰预测中的扩展应用。
-- 详情：[/20260524-20260602/README](/20260524-20260602/README)
+今日聚焦卵巢衰老与单分子检测，精读两项突破性研究：单核测序揭示人类绝经后卵巢年龄重塑可被生育逆转，深度学习辅助等离子体纳米孔实现无标记SERS单分子脯氨酸羟基化鉴别。最值得关注的是卵巢衰老的生育逆转机制与单分子翻译后修饰精准检测，建议优先阅读精读论文以理解衰老可塑性及前沿检测技术。后续可关注LLM驱动的蛋白质组学翻译后修饰分析平台及小鼠多组学交互分析工具。
+- 详情：[/20260504-20260602/README](/20260504-20260602/README)
 
 ### 精读区论文标签
-1. [Sleep-stage efficient classification using a lightweight self-supervised model](/20260524-20260602/2605.26295v1-sleep-stage-efficient-classification-using-a-lightweight-self-supervised-model)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：提出轻量级自监督模型用于睡眠分期分类，推动自动睡眠分析发展
-2. [Automated sleep scoring in hibernating and non-hibernating American black bears](/20260524-20260602/biorxiv-10-1101-2025-03-31-646262-v2-automated-sleep-scoring-in-hibernating-and-non-hibernating-american-black-bears)  
-   标签：评分：9.0/10、query:tr-hb
-   evidence：研究冬眠熊的睡眠，涵盖代谢抑制和体温调节
-3. [The slow-acting G-protein Gz defines the duration of circadian rest time](/20260524-20260602/biorxiv-10-64898-2026-05-23-727383-v1-the-slow-acting-g-protein-gz-defines-the-duration-of-circadian-rest-time)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：Gz在SCN中调控昼夜休息时长
-4. [Early Loss of Deep Restorative Sleep and Auditory Stimulus Evoked 40-Hz activity of Hippocampal Parvalbumin Neurons in the APP/PS1 Mouse Model of Alzheimer's Disease](/20260524-20260602/biorxiv-10-64898-2026-05-26-725476-v1-early-loss-of-deep-restorative-sleep-and-auditory-stimulus-evoked-40-hz-activity-of-hippocampal-parvalbumin-neurons-in-the-appps1-mouse-model-of-alzheimers-disease)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：研究阿尔茨海默病小鼠模型中的睡眠异常，关注深恢复性睡眠丧失和40赫兹活动
-5. [A hypothalamic-brainstem activity sequence underlies arousal fluctuations during daytime drowsiness](/20260524-20260602/biorxiv-10-64898-2026-05-26-728061-v1-a-hypothalamic-brainstem-activity-sequence-underlies-arousal-fluctuations-during-daytime-drowsiness)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：下丘脑-脑干觉醒波动与日间困倦
-6. [Reorganization of Human Brain Waves Across Diverse States of Consciousness](/20260524-20260602/biorxiv-10-64898-2026-05-27-728182-v1-reorganization-of-human-brain-waves-across-diverse-states-of-consciousness)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：非快速眼动睡眠期间的脑波变化
-7. [Elamipretide reverses female fertility decline during reproductive aging via regulating VEGF in oocytes](/20260524-20260602/biorxiv-10-64898-2026-05-27-728315-v1-elamipretide-reverses-female-fertility-decline-during-reproductive-aging-via-regulating-vegf-in-oocytes)  
+1. [Single-nucleus profiling reveals age-associated remodeling opposed by parity in the postmenopausal human ovary](/20260504-20260602/biorxiv-10-64898-2026-05-11-724381-v1-single-nucleus-profiling-reveals-age-associated-remodeling-opposed-by-parity-in-the-postmenopausal-human-ovary)  
    标签：评分：9.0/10、query:qll
-   evidence：直接研究通过卵母细胞VEGF逆转卵巢衰老
-8. [A model of schema learning based on biological dimensionality reduction during sleep](/20260524-20260602/biorxiv-10-64898-2026-05-27-728344-v1-a-model-of-schema-learning-based-on-biological-dimensionality-reduction-during-sleep)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠中基于维度降低的图式学习
-9. [Drosophila orthologues of oculocutaneous albinism-associated genes regulate sleep and circadian rhythm via visual neurotransmission](/20260524-20260602/biorxiv-10-64898-2026-05-27-728351-v1-drosophila-orthologues-of-oculocutaneous-albinism-associated-genes-regulate-sleep-and-circadian-rhythm-via-visual-neurotransmission)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：研究OCA相关基因通过视觉神经传递调控果蝇睡眠和昼夜节律
-10. [Synaptic GABA dysfunction of thalamocortical neurons impairs sleep spindle morphology and recovery from fearful memories.](/20260524-20260602/biorxiv-10-64898-2026-05-28-728431-v1-synaptic-gaba-dysfunction-of-thalamocortical-neurons-impairs-sleep-spindle-morphology-and-recovery-from-fearful-memories)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：直接研究突触GABA功能障碍对睡眠纺锤波形态和NREM睡眠神经生物学的影响
+   evidence：直接研究绝经后卵巢衰老的单细胞核图谱
+2. [Label-free SERS Discrimination of Native Proline Hydroxylation at Single-molecule peptide by Deep Learning-assisted plasmonic nanopore](/20260504-20260602/2605.21084v1-label-free-sers-discrimination-of-native-proline-hydroxylation-at-single-molecule-peptide-by-deep-learning-assisted-plasmonic-nanopore)  
+   标签：评分：8.0/10、query:qll
+   evidence：单分子SERS平台区分羟基化修饰，可应用于衰老中的翻译后修饰分析
 
 ### 速读区论文标签
-1. [A genetic algorithm for self-supervised models of oscillatory neurodynamics](/20260524-20260602/biorxiv-10-1101-2024-12-31-630823-v6-a-genetic-algorithm-for-self-supervised-models-of-oscillatory-neurodynamics)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：用于振荡神经动力学的遗传算法，与睡眠节律相关
-2. [Deep-Palm：an integrated deep learning framework for structure-aware prediction of protein S-Palmitoylation](/20260524-20260602/biorxiv-10-64898-2026-03-05-709753-v2-deep-palman-integrated-deep-learning-framework-for-structure-aware-prediction-of-protein-s-palmitoylation)  
-   标签：评分：8.0/10、query:qll
-   evidence：预测S-棕榈酰化位点，直接相关于研究其在衰老中的作用
-3. [A genetic algorithm for self-supervised models of oscillatory neurodynamics](/20260524-20260602/biorxiv-10-1101-2024-12-31-630823-v5-a-genetic-algorithm-for-self-supervised-models-of-oscillatory-neurodynamics)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：振荡神经动力学建模的遗传算法
-4. [Region specific Per1 induction dissociates circadian and mood responses to light](/20260524-20260602/biorxiv-10-64898-2026-05-21-726853-v1-region-specific-per1-induction-dissociates-circadian-and-mood-responses-to-light)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：区域特异性Per1在昼夜节律和情绪调控中的作用
-5. [Visualization of neuronal morphology of the suprachiasmatic nucleus vasopressin neurons by Cre/FLPe-based genetic two-step sparse labelling - GT-SPARCL](/20260524-20260602/biorxiv-10-64898-2026-05-25-727737-v1-visualization-of-neuronal-morphology-of-the-suprachiasmatic-nucleus-vasopressin-neurons-by-creflpe-based-genetic-two-step-sparse-labelling---gt-sparcl)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：视交叉上核神经元可视化，与昼夜节律和睡眠相关
-6. [Aperiodic and Low-Frequency Spectral Bias in Reconstruction based EEG Foundation Models](/20260524-20260602/2605.26434v1-aperiodic-and-low-frequency-spectral-bias-in-reconstruction-based-eeg-foundation-models)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：EEG基础模型频谱偏差分析
-7. [Cold-induced hepatic metabolic change links gluconeogenesis, lipid remodeling, and redox regulation in Xenopus laevis](/20260524-20260602/biorxiv-10-64898-2026-05-26-727745-v1-cold-induced-hepatic-metabolic-change-links-gluconeogenesis-lipid-remodeling-and-redox-regulation-in-xenopus-laevis)  
-   标签：评分：6.0/10、query:tr-hb
-   evidence：冷诱导的非洲爪蟾代谢适应
+1. [An LLM-driven pipeline for proteomics-based detection and structural modeling of post-translational modifications](/20260504-20260602/biorxiv-10-64898-2026-05-01-722279-v1-an-llm-driven-pipeline-for-proteomics-based-detection-and-structural-modeling-of-post-translational-modifications)  
+   标签：评分：7.0/10、query:qll
+   evidence：提供LLM驱动的翻译后修饰检测与结构建模流程，可用于衰老相关PTM研究
+2. [Aging and reproductive "rejuvenation" at a single nuclei resolution](/20260504-20260602/biorxiv-10-64898-2026-05-12-724719-v2-aging-and-reproductive-rejuvenation-at-a-single-nuclei-resolution)  
+   标签：评分：7.0/10、query:qll
+   evidence：以单细胞核分辨率研究大型蚤卵巢的衰老与生殖恢复
+3. [Shiny AMMOA: an interactive platform for integrative multi-omics analysis of murine aging](/20260504-20260602/biorxiv-10-64898-2026-05-18-726091-v1-shiny-ammoa-an-interactive-platform-for-integrative-multi-omics-analysis-of-murine-aging)  
+   标签：评分：7.0/10、query:qll
+   evidence：用于衰老的多组学平台，可应用于卵巢翻译后修饰研究
+4. [Lipogenesis-driven EGFR palmitoylation enables metastatic immune evasion in triple-negative breast cancer.](/20260504-20260602/biorxiv-10-64898-2026-05-21-726063-v1-lipogenesis-driven-egfr-palmitoylation-enables-metastatic-immune-evasion-in-triple-negative-breast-cancer)  
+   标签：评分：7.0/10、query:qll
+   evidence：EGFR棕榈酰化在乳腺癌免疫逃逸中的作用
+5. [Spatial learning-specific remodeling of the hippocampal palmitoylome](/20260504-20260602/biorxiv-10-64898-2026-05-15-725211-v1-spatial-learning-specific-remodeling-of-the-hippocampal-palmitoylome)  
+   标签：评分：6.0/10、query:qll
+   evidence：空间学习重塑海马棕榈酰化组，提供可用于衰老研究的棕榈酰化分析方法
 
 
 <div class="dpr-home-promo-card">
