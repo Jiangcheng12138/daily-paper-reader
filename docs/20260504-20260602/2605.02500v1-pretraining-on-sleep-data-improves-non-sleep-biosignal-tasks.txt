@@ -1,0 +1,656 @@
+Title: Pretraining on Sleep Data Improves non-Sleep Biosignal Tasks
+
+URL Source: https://arxiv.org/pdf/2605.02500v1
+
+Published Time: Tue, 05 May 2026 01:56:34 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+# Pretraining on Sleep Data Improves non-Sleep Biosignal Tasks 
+
+William Lehn-Schiøler * 1 2 3 Magnus Ruud Kjær * 2 Phillip Hempel * 4 Magnus Guldberg Pedersen 1 3 
+
+Rahul Thapa 5 Bryan He 6 Nicolai Spicher 2 Andreas Brink-Kjaer 2 Lars Kai Hansen 3 Emmanuel Mignot 7
+
+## Abstract 
+
+Sleep foundation models have recently demon-strated strong performance on in-domain polysomnography tasks, including sleep staging, apnea detection, and disease risk prediction. In this work, we investigate whether sleep biosignals can serve as an effective pretraining distribution for learning representations that transfer beyond sleep to adjacent domains. Following sleep foundation models, we perform sleep-only multimodal contrastive pretraining (with aleave-one-out objective) and evaluate transfer to non-sleep EEG and ECG, two well-benchmarked biosignal modalities with heterogeneous datasets and clinically meaningful downstream tasks. Across eight downstream tasks spanning multiple EEG and ECG datasets, sleep pretraining consistently improves performance relative to training from scratch. Moreover, on several tasks, we achieve performance competitive with or surpassing prior specialized state-of-the-art and foundation models. 
+
+## 1. Introduction 
+
+Sleep foundation models pretrained on large-scale polysomnography (PSG) data have recently been shown to perform well on sleep-specific tasks like sleep staging and sleep apnea severity detection (Thapa et al., 2024; Ruehland et al., 2011; Duce et al., 2014) and some have gone beyond canonical tasks and focus on the prediction of future disease onset (Thapa et al., 2026; Kjaer et al., 2025). PSG is the nocturnal recording of data containing coupled information 
+
+> 1
+
+BrainCapture ApS, Kongens Lyngby, Denmark 2DTU Health Tech, Technical University of Denmark, Kongens Lyngby, Den-mark 3DTU Compute, Technical University of Denmark, Kongens Lyngby, Denmark 4University of G ¨ottingen, G ¨ottingen, Germany 
+
+> 5
+
+Department of Biomedical Data Science, Stanford University, Stanford, CA, USA 6Department of Computer Science, Stanford University, Stanford, CA, USA 7Department of Psychiatry and Behavioral Sciences, Stanford University, Stanford, CA, USA. Correspondence to: Emmanuel Mignot <mignot@stanford.edu >.
+
+Preprint. May 5, 2026. 
+
+across multiple biosignal domains, including brain activ-ity (electroencephalography (EEG) and electrooculography (EOG)), respiration, cardiac activity (electrocardiography (ECG)), and muscle activity over long durations recorded synchronously. The PSG is the gold standard for diagnos-ing sleep apnea and determining sleep stages (American Academy of Sleep Medicine, 2024). In this study, we investigate the effect of sleep pretrain-ing on other biosignal tasks during wakefulness. A priori, biosignals acquired during sleep might appear limited for this purpose because clinical PSG typically uses low-density EEG montages (e.g., a small set of frontal/central/occipital derivations) and only single-lead ECG due to acquisition constraints (Ruehland et al., 2011; Duce et al., 2014). Con-versely, clinical EEG and ECG recordings often contain many more channels and leads for more fine-grained anal-ysis; and they are recorded over short time-frames (Drew et al., 2004; Klem, 1999). We argue that the value of sleep data for representation learning lies less in spatial density and more in (1) long continuous contexts capturing various physiological states (e.g., sleep stages and transient events), (2) a broad representation of abnormal waveforms represent-ing pathological processes (e.g., epileptic waveforms, car-diac arrhythmia, and shifts in relative signal frequency com-ponents) (American Academy of Sleep Medicine, 2024), and (3) tight cross-modal alignment between brain (EEG), heart (ECG), and breathing: Properties that provide rich self-supervised structure for learning transferable represen-tations (Thapa et al., 2026). We build on the foundation model and pretraining approach introduced in Thapa et al. (2026). Using this sleep-only pretraining, we evaluate transfer to two adjacent domains with distinct conventions and downstream tasks: wake EEG and ECG. Both EEG and ECG are non-invasive medical tests that are part of a PSG but also find wide application as standalone modalities, e.g. for seizure detection (EEG) and arrhythmia detection (ECG). EEG records the electrical activity of the brain using electrodes placed on the scalp. In recent years, EEG models have advanced rapidly, with latest approaches including LaBraM (Jiang et al., 2024), CBraMod (Wang et al., 2025), EEGMamba (Gui et al., 2024), and REVE 1
+
+> arXiv:2605.02500v1 [cs.LG] 4 May 2026
+
+(El Ouahidi et al., 2025) — all solving tasks on interictal events and seizure classification. ECG is a measurement of the cardiac electrical activity and is a cornerstone of car-diovascular medicine, finding wide application in primary and emergency care as well as prevention. ECG models typically rely on large ECG-only corpora and objectives tailored to detect abnormalities in cardiac morphology and rhythm, with supervised models achieving high accuracy (Narotamo et al., 2024; Lunelli et al., 2025). 
+
+Contributions. This paper asks a cross-domain question: Can sleep biosignals serve as an effective pretraining dis-tribution for adjacent biosignal domains recorded during wakefulness? We evaluate transfer performance across eight downstream tasks spanning abnormality detection, seizure detection, interictal event classification, and arrhythmia clas-sification on five EEG and three ECG datasets. We demon-strate that sleep pretraining consistently improves perfor-mance over non-pretrained baselines and achieves state-of-the-art results on multiple EEG benchmarks. Beyond the base SleepFM encoder (Thapa et al., 2026), this work addi-tionally contributes: (1) a channel positional encoding that injects 3D electrode geometry, enabling flexible channel-count inference; (2) evaluation on 8 downstream tasks (none evaluated in prior sleep foundation model work) across EEG and ECG; and (3) systematic channel ablation experiments demonstrating that 95% performance is maintained with as few as 16–50% of available channels. 
+
+## 2. Related Work 
+
+2.1. Sleep foundation models and PSG pretraining 
+
+PSG is an attractive biosignal pretraining source because it provides >8-hour-long, synchronized recordings of brain, cardiac, and respiratory physiology, enabling objectives that exploit both long temporal context and cross-modal alignment. Thapa et al. (2024) introduced a sleep founda-tion model, demonstrating strong performance on canon-ical sleep tasks (sleep staging, apnea severity detection) and cross-modal retrieval, motivating sleep as a scalable representation-learning regime. Recent approaches developed a generative foundation model using score-based diffusion that enables zero-shot inference on arbitrary sensor combinations through Bayesian factor-ization of the score function, achieving near-human perfor-mance on sleep staging while maintaining flexibility across modalities (van Gorp et al., 2025). SynthSleepNet com-bined masked prediction with contrastive learning in a hy-brid self-supervised framework, integrating a Mamba-based temporal context module to efficiently capture long-range dependencies and achieving strong performance on sleep staging, apnea, and hypopnea detection tasks, including in semi-supervised regimes with limited labels (Lee et al., 2025). Stanford Sleep Bench (Kjaer et al., 2025) provides a standardized PSG dataset and benchmark suite to sys-tematically evaluate self-supervised pretraining methods for sleep foundation models, which was used to show that the cross-modal contrastive approach outperformed variations of masked and de-noising autoencoders across downstream tasks. Large-scale work further expanded the scope from sleep-centric tasks to broader clinical prediction and showed that sleep representations, when augmented with demographic metadata, can predict a wide range of future disease risks and mortality outcomes, highlighting PSG as an information-dense signal for general clinical outcome modeling (Thapa et al., 2026). In the present work, no demographic features are used; all downstream gains are attributed strictly to biosignal representations. 
+
+2.2. EEG foundation models 
+
+EEG foundation modeling has advanced rapidly to ad-dress chronic label scarcity and the inherent heterogeneity across institutions, montages, and protocols. Early break-throughs like BENDR (Kostas et al., 2021) pioneered con-trastive predictive coding for EEG, laying the groundwork for self-supervised learning in the domain. Building on this, LaBraM (Jiang et al., 2024) introduced a unified framework using neural tokenizers and masked signal modeling over channel patches to enable robust cross-dataset generaliza-tion, pretrained on the TUH EEG corpus (which includes TUAB and TUEV recordings, creating direct domain over-lap with our downstream test sets). Similarly, BIOT (Yang et al., 2023) treats clinical EEG as a sequence of heteroge-neous biosignals, utilizing a transformer-based tokenization that remains resilient to mismatched channels and variable sequence lengths. Architectural specialization has further refined these models. CBraMod (Wang et al., 2025) employs a criss-cross trans-former to disentangle spatial and temporal dependencies through masked reconstruction, while EEGMamba (Gui et al., 2024) and FEMBA (Tegon et al., 2025) leverage State-Space Models (SSMs) to achieve efficient, long-sequence representation learning. LUNA (D ¨oner et al., 2025) scales masked EEG pretraining to three model sizes (Base 7M, Large 43M, Huge 311M) and reports strong results on TUAB. Most recently, REVE (El Ouahidi et al., 2025) intro-duced a 4D Fourier positional encoding scheme that com-bines 3D electrode coordinates with temporal patch indices, enabling pretraining on 60,000+ hours across 92 datasets with diverse electrode configurations. While current efforts rely exclusively on in-domain (wake) EEG pretraining, our work investigates the transferability of sleep-only pretraining. We demonstrate that despite the sparse EEG montages typical of PSG, the sheer scale and 2Normal  
+
+> Abnormal
+> 0
+> 5000
+> 10000
+> 15000
+> 20000
+> 25000
+> 30000
+> Number of Samples  30,142 30,771
+
+TUAB (Train)  
+
+> Normal
+> Abnormal
+> 0
+> 5000
+> 10000
+> 15000
+> 20000
+> 25000
+> 30000
+> 3,253 2,646
+
+TUAB (Eval) 
+
+> bckg
+> pled
+> artf
+> eyem
+> gped
+> spsw
+> 0
+> 10000
+> 20000
+> 30000
+> 40000
+> 50000
+> 52,579
+> 6,011
+> 10,265
+> 1,012
+> 11,113
+> 640
+
+TUEV (Train)     
+
+> bckg
+> pled
+> artf
+> eyem
+> gped
+> spsw
+> 0
+> 10000
+> 20000
+> 30000
+> 40000
+> 50000
+> 18,940
+> 1,886 1,998 329 3,546 567
+
+TUEV (Eval)    
+
+> Normal
+> Complex
+> Background
+> Seizure
+> Slowing
+> 0
+> 200
+> 400
+> 600
+> 800
+> 1000
+> 1200
+> 1400 1,399
+> 92 92 94
+
+TUSL 
+
+> Non-Seizure
+> Seizure
+> 0
+> 10000
+> 20000
+> 30000
+> 40000
+> 50000
+> Number of Samples  47,565
+> 220
+
+CHB-MIT  
+
+> Normal
+> Abnormal
+> 0
+> 1000
+> 2000
+> 3000
+> 4000
+> 5000 4,950
+> 3,046
+
+BrainCapture 
+
+> 1dAVb
+> RBBB
+> LBBB
+> SB
+> AF
+> 0
+> 250
+> 500
+> 750
+> 1000
+> 1250
+> 1500
+> 1750
+> 2000
+> 828
+> 1,971
+> 274
+> 0
+> 1,374
+
+CPSC  
+
+> 1dAVb
+> RBBB
+> LBBB
+> SB
+> AF
+> 0
+> 100
+> 200
+> 300
+> 400
+> 500
+> 600
+> 700
+> 800 769
+> 556
+> 231
+> 0
+> 570
+
+G12EC  
+
+> 1dAVb
+> RBBB
+> LBBB
+> SB
+> AF
+> 0
+> 200
+> 400
+> 600
+> 800
+> 1000
+> 1200
+> 1400
+> 0
+> 542 536
+> 637
+> 1,330
+
+PTB-XL 
+
+Number of Samples Across Downstream Datasets Figure 1. Overview of the study. Left: Sleep PSG is used for self-supervised pretraining of SleepFM 1. Right: The pretrained encoder is fine-tuned on eight downstream tasks spanning five EEG and three ECG datasets. Class distributions for each downstream dataset are shown; EEG datasets are evaluated on 60-second windows, while ECG datasets use 10-second segments. 
+
+Table 1. Datasets used for downstream evaluation. EEG datasets are evaluated on 60-second windows, while ECG datasets use 10-second segments. TUAB and TUEV are pre-partitioned into training and evaluation directories. For ECG arrhythmia detection, Code-15 is used for fine-tuning, while PTB-XL, G12EC, and CPSC are used for external evaluation. Only one ECG per patient was included for each ECG dataset. 
+
+Dataset Modality # Segments # Class 
+
+TUAB EEG 60 ,913 + 5,899 2TUEV EEG 81 ,620 + 27 ,266 6TUSL EEG 1,633 4CHB-MIT EEG 47 ,785 2BrainCapture EEG 7,996 2Code-15 ECG 233 ,867 6PTB-XL ECG 18 ,869 4G12EC ECG 10 ,344 4CPSC ECG 10 ,330 4physiological richness of sleep data can effectively prime models for complex clinical EEG tasks. 
+
+2.3. ECG SOTA models and supervised baselines 
+
+ECG analysis has traditionally been dominated by super-vised models trained for predefined clinical endpoints, such as rhythm or beat classification, using labels derived from ex-pert annotation (Strodthoff et al., 2021). Strong supervised baselines include convolutional architectures such as 1D-ResNets (Ribeiro et al., 2020), as well as recurrent models based on LSTMs and more recent variants such as xLSTM (Lunelli et al., 2025). More recently, state-space models (Mehari & Strodthoff, 2022), transformer-based architec-tures (Yisimitila et al., 2026), and graph-based approaches (Maurer et al., 2026; M ¨uller et al., 2026) have further ex-panded the ECG modeling landscape. In parallel, several ECG foundation models have emerged through large-scale self-supervised pretraining (Al-Masud et al., 2025). However, many recent ECG results are reported under within-dataset evaluation protocols, challenge-style bench-marks, or task settings with different label spaces and pre-processing assumptions. In contrast, our ECG study is not intended as a comprehensive ECG benchmark, but as an external-validation transfer experiment: we fine-tune on Code-15 and evaluate on three external public datasets with aligned arrhythmia labels. We therefore use recent ECG lit-erature primarily to contextualize our findings, while avoid-ing direct numerical comparisons where protocols are not sufficiently matched. We summarize recent ECG literature and ECG foundation models in Supplementary Table 15. 
+
+## 3. Methods 
+
+We build on the representation learning framework intro-duced in Thapa et al. (2026) to pretrain SleepFM 1 with two main differences from the original implementation: (1) we use patches of 1-second instead of 5-second patches, moti-vated by the need to preserve transient dynamics (e.g., sharp waves, R-peaks) that are important in non-sleep biosignal tasks but would be blurred at 5-second resolution; and (2) we use 2-minute windows for pretraining instead of 5-minute windows, which reduces memory requirements while still capturing multi-cycle physiological context. These de-3sign choices are intentionally minimal, allowing us to iso-late the effect of the pretraining distribution itself rather than architectural specialization. Subsequently, we fine-tune SleepFM 1 with a lightweight projector/classifier head for supervised downstream tasks. To quantify the bene-fit of sleep-based pretraining for general biosignal model-ing, we compare models initialized with pretrained encoder weights against identical architectures initialized with ran-dom weights. 
+
+3.1. Datasets Pretraining datasets From 4 cohorts, Stanford Sleep Co-hort (n = 24,137), Bioserenity (n = 18,869), MESA (n = 1,747), and MrOS (n = 3,340), (Thapa et al., 2026; Hanif et al., 2024; Zhang et al., 2018; Chen et al., 2015; Blackwell et al., 2011), we used 48,093 full night PSG recordings con-taining 432,000 hours of sleep data for pretraining using the training split from (Thapa et al., 2026). All datasets were preprocessed following previous work (Thapa et al., 2026). No demographic features were used during pretraining or fine-tuning; all reported gains are attributable to biosignal representations alone. 
+
+Downstream EEG datasets For EEG fine-tuning datasets, we choose both well-referenced and internal datasets with classification tasks including abnormality detection, event detection, slowing, and seizures; all datasets are described in Table 1 and Figure 1. Specifically, we fine-tune models on: 1) TUH EEG Abnormal (TUAB) (Lopez et al., 2015; Obeid & Picone, 2016) with 2 classes: Normal and ab-normal (2,563 subjects; 48.0 ± 17.9 years; 30% female). The dataset is pre-partitioned into training and evaluation directories. 2) TUH EEG Events (TUEV) (Harati et al., 2015; Obeid & Picone, 2016) with 6 classes: Spike and sharp wave (spsw), generalized periodic epileptiform dis-charges (gped), periodic lateralized epileptiform discharges (pled), eye movement (eyem), artifact (artf), and background (bckg). 3) TUH EEG Slowing (TUSL) (Shah et al., 2018; Obeid & Picone, 2016) with 4 classes: Normal, complex background, slowing, and seizure (38 subjects). 4) The Chil-dren’s Hospital Boston Dataset (CHB-MIT) (Guttag, 2010; Shoeb, 2009; Goldberger et al., 2000) with 2 classes: Non-seizure and seizure (22 subjects; 9.9 ± 5.0 years; 78.3% female; <1% seizure prevalence). 5) BrainCapture (Ar-mand Larsen et al., 2024) with 2 classes: Normal and ab-normal (2,340 subjects; 22.4 ± 18.9 years; 41% female), recorded using a portable 27-channel device in resource-limited settings in Kenya. Detailed dataset demographics and task descriptions are provided in Table 11 in the Appendix.   
+
+> Table 2. The five components of the model used to learn the down-stream EEG tasks. The complete model has 3.8M parameters.
+
+Component # Parameters 
+
+SleepFM 1 Encoder 3.0M Positional Encoder 100K Masked Contextualizer 101K Temporal Aggregator 0Non-Linear Projection 592K Classification Head 4.6K 
+
+Downstream ECG datasets For ECG fine-tuning, the Code-15% dataset was used, consisting of 345 ,779 ECG measurements from 233 ,867 patients acquired between 2010 and 2016 in the Telehealth Network of Minas Gerais, Brazil (Lima et al., 2021). Only the first available ECG per patient was used. For external evaluation, we used three well-benchmarked public ECG datasets comprising around 
+
+40 ,000 ECG recordings from distinct patients across dif-ferent healthcare systems and geographic regions (USA, Europe, and China): 1) PTB-XL (Strodthoff et al., 2021) (18 ,869 patients, Germany), 2) G12EC ( 10 ,344 patients, USA), and 3) CPSC (Perez Alday et al., 2020) ( 10 ,330 
+
+patients, China). All ECGs were sampled at 500 Hz. For downstream evaluation, we formulated an arrhythmia detection task selecting the four most prevalent rhythm or conduction abnormalities per dataset. For PTB-XL: right bundle branch block (RBBB), left bundle branch block (LBBB), sinus bradycardia (SB), and atrial fibrillation (AF). For G12EC and CPSC: first-degree atrioventricular block (1dAVB), RBBB, LBBB, and AF. 
+
+3.2. Pretraining 
+
+SleepFM 1 uses the architecture from Thapa et al. (2026), which produces embeddings of dimension 128. We specify the signal patching length to 1-second and input 2-minute windows. The encoder supports two output granularities: (i) a single embedding per input window, yielding a compact representation of shape (1 , 128) , or (ii) a sequence of embed-dings at 1-second resolution, yielding shape (120 , 128) for a 2-minute window. In all experiments, we use the 1-second resolution embeddings, as they retain temporally localized information required for short-event biosignal classification. We intentionally make only minimal adaptations to the SleepFM encoder to ensure compatibility with short-duration, non-sleep biosignal events. These simple design changes largely isolate the effect of the pretraining distri-bution itself, allowing us to attribute downstream gains to sleep-based representation learning rather than architectural specialization. 4TUEV              
+
+> (Balanced Accuracy)
+> TUAB
+> (Balanced Accuracy)
+> TUSL
+> (AUROC)
+> BrainCapture
+> (F1-Score)
+> CHB-MIT
+> (Balanced Accuracy)
+> PTB-XL
+> (F1-Score)
+> G12EC
+> (F1-Score)
+> CPSC
+> (F1-Score)
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1.0
+> Metric
+> 0.56
+> 0.66 0.64
+> 0.68
+> 0.79 0.83 0.83 0.83
+> 0.67
+> 0.72 0.75
+> 0.73 0.69
+> 0.80 0.87
+> 0.73 0.67
+> 0.72 0.75 0.74
+> 0.78
+> 0.81
+> 0.80
+> 0.69 0.71
+> 0.76
+> 0.76 0.77
+> 0.78
+> EEG ECG
+
+Fine-Tuning Performance on EEG and ECG Downstream Tasks    
+
+> w/o PT PT PT+PE SOTA
+
+Figure 2. SleepFM 1 performance without pretraining (w/o PT) and with pretraining (PT) for ECG benchmarks, as well as with pretraining and positional encodings (PT + PE) across EEG benchmarks. Error bars denote 95% confidence intervals: for EEG, intervals are computed across 15 independently trained models; for ECG, intervals are computed across the four arrhythmia detection tasks. 
+
+Table 3. The components of the model used to learn the down-stream ECG tasks. The complete model has 3.6M parameters. 
+
+Component # Parameters 
+
+SleepFM 1 Encoder 3.0M Classification Head 575.5K 
+
+Table 4. Key hyperparameters used for EEG and ECG fine-tuning. 
+
+Hyperparameter EEG ECG 
+
+Input window 60 s 30.72 s Sampling rate 128 Hz 125 Hz Bandpass filter 1–70 Hz None Optimizer AdamW AdamW Learning rate 1e-4 1e-4 Batch size 32 64 Fine-tuning strategy Full Full Validation 15-fold CV External datas 
+
+3.3. Finetuning 
+
+We fine-tune the SleepFM 1 encoder together with alightweight projector/classifier head for supervised down-stream tasks. All encoder parameters are updated during fine-tuning (full fine-tuning). To quantify the benefit of sleep-based pretraining, we compare models initialized with pretrained encoder weights against identical architectures initialized with random weights. As an additional baseline, we also report linear probe results (frozen encoder, trainable head only) to assess the quality of the pretrained representa-tions independently of fine-tuning. Baseline models (LaBraM, BIOT, CBraMod, etc.) are com-pared using numbers reported in their original publications, evaluated on the same fixed test sets. Fine-tuning details are summarized in Table 4. 
+
+EEG Downstream Tasks For all downstream EEG tasks, we fine-tune SleepFM 1 on 60-second windows, using per-second encodings of size (60 , 128) .The complete model used for downstream EEG tasks has 3.8M parameters and is composed of five components (Ta-ble 2): the SleepFM 1 transformer encoder, a masked contex-tualizer (a lightweight conditioning block applying masking, positional convolution, and 1 ×1 projection to prepare en-coder embeddings for pooling, following BENDR (Kostas et al., 2021)), a temporal aggregator (mean pooling; no learnable parameters), a non-linear projection, and a classi-fication head. Preprocessing followed an evolved version of the SPEED framework (Gjølbye et al., 2024): resampling to 128 Hz, 1– 70 Hz bandpass filter, and line noise filter at 50 or 60 Hz. For annotations shorter than 60 seconds, we extend the window beyond the end of the annotation. To address class imbalance, we employ targeted upsam-pling of minority classes to parity with the majority class, combined with stochastic spatial channel dropout during up-sampled epochs to prevent overfitting and promote channel-invariant representations. To maintain methodological consistency with prior work, we adapt validation strategy to dataset structure. For TUAB and TUEV, which are pre-partitioned into training and evaluation directories, we perform 15 independent experimental runs with unique random seeds. For remaining datasets without fixed partitions, we use 15-fold cross-validation. 
+
+Positional Encoding During fine-tuning on downstream EEG tasks, we explore REVE-inspired channel positional encodings (denoted PE in figures and tables) using only the spatial component (x, y, z coordinates) without tempo-ral encoding. We augment the montage-agnostic embed-dings from SleepFM 1’s convolutional tokenizer with 3D Fourier positional encodings based on standard 10-20 sys-tem electrode locations, adding this spatial information after tokenization but before spatial pooling. For bipolar chan-nels, the channel location is computed as the average of the constituent electrode positions. 
+
+ECG Downstream Tasks For ECG downstream tasks, we fine-tune the pretrained SleepFM 1 encoder with a lightweight classification head for multi-label prediction. The complete model has 3.6M parameters (Table 3). 5Table 5. Results on TUH EEG Events (TUEV, 6 classes). We benchmark SleepFM 1 without pretraining (PT), with pretraining, with pretraining and positional encoding (PE), and with a linear probe (frozen encoder). Note: LaBraM was pretrained on the TUH EEG corpus, which includes TUEV recordings, creating direct domain overlap with the test set. Our model has no such overlap. 
+
+Model Model Size Balanced Accuracy Weighted F1 Cohen’s κ
+
+BIOT (Yang et al., 2023) 3.2M 0.528 ± 0.023 0.749 ± 0.008 0.527 ± 0.025 
+
+LaBraM-Base (Jiang et al., 2024) 5.8M 0.641 ± 0.007 0.831 ± 0.005 0.664 ± 0.009 
+
+LaBraM-Large (Jiang et al., 2024) 46M 0.658 ± 0.016 0.832 ± 0.004 0.662 ± 0.014 
+
+LaBraM-Huge (Jiang et al., 2024) 369M 0.662 ± 0.017 0.833 ± 0.009 0.675 ± 0.020 
+
+CBraMod (Wang et al., 2025) 5.8M 0.667 ± 0.011 0.834 ± 0.006 –REVE-Base (El Ouahidi et al., 2025) 69.2M 0.676 ± 0.023 0.845 ± 0.013 –SleepFM 1 w/o PT 3.7M 0.559 ± 0.017 0.738 ± 0.016 0.497 ± 0.046 
+
+SleepFM 1 w. PT 3.7M 0.661 ± 0.025 0.821 ± 0.011 0.520 ± 0.068 
+
+SleepFM 1 w. PT + PE 3.8M 0.639 ± 0.027 0.808 ± 0.016 0.604 ± 0.050 
+
+SleepFM 1 Linear Probe 3.7M 0.485 ± 0.031 – 0.441 ± 0.024    
+
+> Table 6. Performance on TUH EEG Slowing (TUSL, 4 classes). REVE, LaBraM, CBraMod, and BIOT do not report results on TUSL in their original publications, and their public checkpoints are not configured for this dataset; we therefore omit them from this comparison. We benchmark SleepFM 1without pretraining (PT), with pretraining, and with pretraining and positional encoding (PE).
+
+Model Model Size AUROC AUC-PR 
+
+BrainBERT (Wang et al., 2023) 43.2M 0.588 ± 0.013 0.352 ± 0.003 
+
+EEGFormer-Base (Chen et al., 2024) 2.3M 0.713 ± 0.010 0.393 ± 0.003 
+
+FEMBA-Base (Tegon et al., 2025) 47.7M 0.731 ± 0.012 0.289 ± 0.009 
+
+SleepFM 1 w/o PT 3.7M 0.671 ± 0.044 0.381 ± 0.026 
+
+SleepFM 1 w. PT 3.7M 0.718 ± 0.039 0.421 ± 0.028 
+
+SleepFM 1 w. PT + PE 3.8M 0.746 ± 0.037 0.468 ± 0.030    
+
+> Table 7. Results on BrainCapture (2 classes). We benchmark SleepFM 1without pretraining (PT), with pretraining, with pretraining and positional encoding (PE), and with a linear probe (frozen encoder).
+
+Model Model Size Balanced Accuracy Weighted F1 Cohen’s κ
+
+BENDR (Kostas et al., 2021) 70.9M 0.637 ± 0.035 0.727 ± 0.022 –LaBraM (Jiang et al., 2024) 5.8M 0.745 ± 0.026 0.754 ± 0.084 –SleepFM 1 w/o PT 3.7M 0.762 ± 0.040 0.688 ± 0.044 –SleepFM 1 w. PT 3.7M 0.857 ± 0.056 0.802 ± 0.060 –SleepFM 1 w. PT + PE 3.8M 0.915 ± 0.007 0.867 ± 0.022 –SleepFM 1 Linear Probe 3.7M 0.805 ± 0.027 – 0.578 ± 0.065 
+
+All ECG recordings were resampled to 125 Hz in a fixed lead order across datasets. Inputs were converted to fixed-length segments of 3,840 samples (30.72 s) via symmetric zero-padding tracked with a binary mask. The encoder tok-enizer splits each segment into 30 non-overlapping tokens of 128 samples ( ≈1.02 s per token). No additional signal pre-processing (filtering, baseline-wander removal, amplitude standardization) was applied. 
+
+3.4. Channel ablation 
+
+To evaluate robustness of our channel-agnostic pretraining and fine-tuning approach, we assess model performance when only a subset of channels is available at test time. For EEG datasets, we randomly sample channel subsets ranging from 1 to 19 channels, performing 5 independent draws per subset size. For ECG datasets, we evaluate across systematically selected lead subsets ranging from 1 to 12 leads. 
+
+## 4. Results 
+
+Across all eight downstream tasks spanning five EEG and three ECG (Table 1) datasets, sleep-only pretraining con-sistently improves performance relative to training from scratch (Figure 2). These gains hold across heterogeneous task types — including abnormality detection, event clas-sification, seizure detection, and arrhythmia classification — and across datasets with different channel configurations and recording protocols. Notably, improvements are larger in EEG tasks, where labeled data are scarcer and datasets are more heterogeneous, suggesting that sleep pretraining is particularly effective in low- to moderate-data regimes. 6Table 8. Results on TUH EEG Abnormal (TUAB, 2 classes). We benchmark SleepFM 1 without pretraining (PT), with pretraining, with pretraining and positional encoding (PE), and with a linear probe (frozen encoder). Note: LaBraM and LUNA were pretrained on wake EEG data with direct domain overlap with TUAB; our model was pretrained exclusively on sleep PSG with no such overlap. 
+
+Model Model Size Balanced Accuracy AUC-PR AUROC 
+
+BIOT (Yang et al., 2023) 3.2M 0.796 ± 0.006 0.879 ± 0.002 0.882 ± 0.004 
+
+LUNA-Base (D¨ oner et al., 2025) 7M 0.806 ± 0.001 – –LUNA-Large (D¨ oner et al., 2025) 43M 0.810 ± 0.001 – –LaBraM-Base (Jiang et al., 2024) 5.8M 0.814 ± 0.002 0.897 ± 0.002 0.902 ± 0.001 
+
+LUNA-Huge (D¨ oner et al., 2025) 311.4M 0.816 ± 0.001 – –LUNA-Base (D¨ oner et al., 2025) 7M 0.806 ± 0.080 0.895 ± 0.002 0.887 ± 0.002 
+
+LaBraM-Large (Jiang et al., 2024) 46M 0.823 ± 0.002 0.913 ± 0.001 0.913 ± 0.001 
+
+REVE-Base (El Ouahidi et al., 2025) 69.2M 0.832 ± 0.001 0.928 ± 0.001 0.925 ± 0.001 
+
+LaBraM-Huge (Jiang et al., 2024) 369M 0.826 ± 0.001 0.920 ± 0.001 0.916 ± 0.002 
+
+SleepFM 1 w/o PT 3.7M 0.788 ± 0.055 0.862 ± 0.005 0.860 ± 0.006 
+
+SleepFM 1 w. PT 3.7M 0.807 ± 0.039 0.898 ± 0.002 0.891 ± 0.002 
+
+SleepFM 1 w. PT + PE 3.8M 0.825 ± 0.007 0.925 ± 0.010 0.910 ± 0.006 
+
+SleepFM 1 Linear Probe 3.7M 0.796 ± 0.006 – –       
+
+> Table 9. Results on CHB-MIT seizure detection (2 classes). We benchmark SleepFM 1without pretraining (PT), with pretraining, with pretraining and positional encoding (PE), and with a linear probe (frozen encoder). Note: Cohen’s κ≈0for all strategies reflects extreme class imbalance ( <1% seizure prevalence), not a failure of representation quality.
+
+Model Model Size Balanced Accuracy AUC-PR AUROC 
+
+BIOT (Yang et al., 2023) 3.2M 0.707 ± 0.046 0.328 ± 0.046 0.876 ± 0.028 
+
+LaBraM-Base (Jiang et al., 2024) 5.8M 0.706 ± 0.036 0.329 ± 0.040 0.868 ± 0.020 
+
+CBraMod (Wang et al., 2025) 4.0M 0.740 ± 0.028 0.369 ± 0.038 0.889 ± 0.015 
+
+SleepFM 1 w/o PT 3.7M 0.668 ± 0.058 0.203 ± 0.070 0.829 ± 0.102 
+
+SleepFM 1 w. PT 3.7M 0.718 ± 0.051 0.436 ± 0.080 0.836 ± 0.052 
+
+SleepFM 1 w. PT + PE 3.8M 0.747 ± 0.033 0.456 ± 0.052 0.885 ± 0.037 
+
+SleepFM 1 Linear Probe 3.7M 0.682 ± 0.121 – –   
+
+> Table 10. F1 scores across PTB-XL, G12EC, and CPSC datasets. SleepFM 1is fine-tuned on Code-15 and evaluated on these external datasets; this is an external-validation transfer experiment, not an in-distribution benchmark. Bolded values indicate the best result per column.
+
+Model PTB-XL G12EC CPSC 
+
+Resnet1d wang (Wang et al., 2017) 0.723 ± 0.233 0.728 ± 0.070 0.748 ± 0.113 
+
+Xresnet1d101 (He et al., 2019) 0.803 ± 0.107 0.763 ± 0.028 0.758 ± 0.101 
+
+Inception Time (Ismail Fawaz et al., 2020) 0.771 ± 0.089 0.736 ± 0.056 0.770 ± 0.070 
+
+1DResNet (Ribeiro et al., 2020) 0.775 ± 0.100 0.737 ± 0.041 0.784 ± 0.086 
+
+SleepFM 1 w/o PT 0.782 ± 0.066 0.691 ± 0.045 0.759 ± 0.071 
+
+SleepFM 1 w. PT 0.807 ± 0.071 0.713 ± 0.023 0.770 ± 0.068 
+
+The linear probe results (Tables 5–9) show that the sleep-pretrained encoder already produces informative representa-tions without any fine-tuning: on binary tasks, linear probes achieve TUAB balanced accuracy of 0.796 and BrainCap-ture balanced accuracy of 0.805. Full fine-tuning provides meaningful additional gains (e.g., +0.029 balanced accuracy on TUAB, +0.126 on BrainCapture), consistent with stan-dard transfer learning findings. The near-zero Cohen’s κ
+
+for CHB-MIT across all strategies reflects the extreme class imbalance ( <1% seizure prevalence) rather than a failure of representation quality. 
+
+4.1. Sleep pretraining is competitive with domain-specific state of the art 
+
+Despite being pretrained exclusively on sleep PSG data, SleepFM 1 achieves performance that is competitive with — and in several cases surpasses — recent EEG foundation models pretrained directly on in-domain wake EEG data. On TUAB, our 3.8M-parameter model with PT+PE (bal-anced accuracy 0.825) outperforms all three LUNA model sizes including LUNA-Huge (311M parameters, BA 0.816) and LaBraM-Large (46M, BA 0.823), and is within round-ing margin of LaBraM-Huge (369M, BA 0.826). This is 71 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19                                                                            
+
+> Number of Channels
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1.0
+> Score
+> TUAB (Bal. Acc.)
+> 12345678910 11 12 13 14 15 16 17 18 19
+> Number of Channels
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1.0 TUSL (AUROC)
+> 12345678910 11 12 13 14 15 16 17 18 19
+> Number of Channels
+> 0.4
+> 0.6
+> 0.8
+> 1.0 TUEV (Bal. Acc.)
+> 12345678910 11 12 13 14 15 16 17 18 19
+> Number of Channels
+> 0.4
+> 0.6
+> 0.8
+> 1.0 CHB-MIT (Bal. Acc.)
+> 12345678910 11 12 13 14 15 16 17 18 19
+> Number of Channels
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1.0
+> Score
+> BrainCapture (Bal. Acc.)
+> 12345678910 11 12
+> Number of Channels
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1.0 PTB-XL (F1-Score)
+> 12345678910 11 12
+> Number of Channels
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1.0 G12EC (F1-Score)
+> 12345678910 11 12
+> Number of Channels
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1.0 CPSC (F1-Score)
+
+Figure 3. SleepFM 1 performance with pretraining scaled by the number of input channels on the EEG and ECG datasets. Red points denote when the performance is at or has surpassed 95% of the performance on all channels. 
+
+particularly notable because LaBraM and LUNA were pre-trained on the TUH EEG corpus, which includes TUAB recordings — giving them direct domain overlap with the test set that our model does not share. On TUEV, our model (BA 0.639) is essentially tied with LaBraM-Base (BA 0.641) despite the same domain-overlap disadvantage. SleepFM 1
+
+achieves state-of-the-art results on TUSL and CHB-MIT, outperforming FEMBA-Base, EEGFormer, LaBraM, and BIOT on those benchmarks (Tables 5–9). On BrainCap-ture, SleepFM 1 with PT+PE substantially outperforms both BENDR and LaBraM. In ECG tasks, our evaluation is an external-validation trans-fer experiment (fine-tuned on Code-15, evaluated on PTB-XL, G12EC, CPSC with aligned arrhythmia labels) rather than a comprehensive ECG benchmark. Under this stricter generalization test, sleep pretraining consistently improves over no pretraining and is competitive with supervised base-lines trained on large ECG-only corpora, outperforming Inception Time and 1DResNet on PTB-XL (Table 10). ECG gains are smaller than EEG gains; we discuss this in Sec-tion 5. 
+
+4.2. Channel-agnostic pretraining yields high performance on channel subsets 
+
+Beyond aggregate performance, we evaluate robustness to channel availability. SleepFM 1 maintains high performance even when a substantial fraction of EEG channels are re-moved at test time. Across EEG tasks, 16–50% of channels are required to reach 95% of the full-channel performance (Figure 3). Similarly, on ECG tasks, SleepFM 1 requires only 41–75% of leads to achieve 95% performance. This channel efficiency emerges without any channel-specific pretraining or architectural assumptions, highlighting the flexibility of sleep-pretrained representations and suggest-ing a path toward less burdensome, lower-cost recording systems. 
+
+## 5. Discussion 
+
+Our results demonstrate that SleepFM 1 matches or out-performs established EEG foundation models like BIOT, LaBraM, and CBraMod, establishing sleep-only PSG as a pretraining corpus with strong transfer potential. While SleepFM 1 does not reach the absolute accuracy of the state-of-the-art REVE, it is important to note that REVE utilizes a 20-fold increase in parameter count. When SleepFM 1 is augmented with REVE-style channel-level positional en-coding during fine-tuning, the performance gap narrows substantially, suggesting that the physiological richness of longitudinal sleep recordings provides a highly transferable feature set for clinical EEG tasks. 
+
+Why does sleep pretraining transfer? We offer several mechanistic observations. First, sleep EEG spans a wider frequency range than most wake EEG paradigms, includ-ing the delta–theta activity common to pathological EEG (e.g., slowing in encephalopathy, seizure ictal patterns). Sec-ond, long-context pretraining windows (2 minutes) capture temporal dependencies at the scale of clinical events such as seizures and burst suppression, which shorter-window models miss. Third, the multimodal contrastive objective over EEG, EOG, EMG, and SpO 2 forces the encoder to disentangle EEG-specific features from peripheral physiol-ogy, yielding representations that are more specific to neural dynamics. Together, these properties explain why a model 8trained without any wake EEG can produce representations competitive with — or superior to — models pretrained directly on the target domain. 
+
+ECG transfer. We emphasize that the ECG study is de-signed as an external-validation transfer experiment, not as a comprehensive ECG benchmark: models are fine-tuned on Code-15 and evaluated on three external public datasets with aligned arrhythmia labels. We therefore interpret the ECG findings as evidence of positive transfer under distribution shift, rather than as a definitive state-of-the-art comparison against the full contemporary ECG literature (see Appendix Table 15 for context). ECG gains were smaller than EEG gains. This likely reflects both stronger domain shift in the ECG evaluation and the fact that sleep recordings are more directly centered on EEG phenomena. Concretely, PSG records single-lead ECG, so the representation learning signal for cardiac morphology is sparser and potentially noisier than for EEG. This lim-its, but does not eliminate, transfer: sleep pretraining still consistently improves over random initialization across all ECG datasets. 
+
+Channel robustness. The resilience of SleepFM 1 to sig-nificant channel pruning indicates a robust capacity for cap-turing inter-channel correlations. Across EEG tasks, as few as 16–50% of electrodes are sufficient to retain 95% of full-channel performance; on TUAB and BrainCapture specifically, this suggests that high-density montages may be redundant for identifying global abnormalities — a finding with immediate implications for emergency or ICU settings where rapid assessment is required and full electrode setup is often impractical. For ECG, 41–75% of leads are suffi-cient; dedicated single-lead validation in clinical settings remains an important future direction. 
+
+Limitations. The current evaluation covers EEG and ECG, modalities that are relatively proximal to PSG. Trans-fer to more distant modalities (e.g., EMG, respiration as a standalone task, BCI paradigms with high-density recording) and to non-clinical settings (wearables, resource-limited environments beyond BrainCapture) remains to be studied. The mixed validation protocols across datasets — fixed splits for TUAB/TUEV, cross-validation elsewhere, external-transfer for ECG — are motivated by established practice in each dataset’s literature, but make direct cross-task statistical comparison less straightforward. Finally, comparisons for TUSL are necessarily limited because REVE, LaBraM, CBraMod, and BIOT do not report TUSL results in their publications and their checkpoints are not configured for this dataset. 
+
+## 6. Conclusion 
+
+This paper investigated whether sleep biosignals can serve as an effective pretraining distribution for adjacent biosignal domains recorded during wakefulness. We evaluated trans-fer performance across eight downstream tasks spanning five EEG and three ECG datasets. Our results demonstrate that sleep pretraining consistently improves performance over training from scratch and achieves state-of-the-art results on multiple EEG benchmarks. These findings validate that sleep’s physiological richness — long continuous contexts, diverse pathological waveforms, and cross-modal alignment — enables learning of generalizable biosignal representations despite the low-density montages typical of polysomnogra-phy. Critically, our model achieves these results without any domain overlap with the wake EEG test sets, in contrast to competing models pretrained directly on TUH EEG data. Beyond task performance, sleep-pretrained models main-tain 95% performance with 16–75% of available channels and leads, demonstrating robustness to sensor availability without channel-specific design. Our results support sleep as a promising pretraining distri-bution for biosignal foundation models, with particularly strong evidence in EEG and encouraging, but more limited, evidence in ECG external-transfer settings. Future work should investigate scaling sleep-pretrained models to larger parameter counts, combining sleep pretraining data with in-domain EEG corpora (e.g., REVE’s 60,000+ hour cor-pus), and extending transfer evaluation to BCI paradigms and wearable biosignal settings. 
+
+## Code Availability 
+
+Code and trained models are available at 
+
+https://anonymous.4open.science/r/ sleepfm4biosignals-3A50 .
+
+## Impact Statement 
+
+This paper investigates whether sleep polysomnography can serve as an effective pretraining distribution for biosignal foundation models. Our goal is to inspire broader adop-tion of large-scale sleep datasets for pretraining, potentially improving clinical diagnostic tools for conditions such as epilepsy and cardiac arrhythmias while reducing the need for extensive labeled datasets in under-resourced healthcare settings. As with all medical AI applications, downstream systems must be rigorously validated in clinical settings to ensure safety, fairness, and robustness across diverse patient populations before deployment. We encourage practition-ers to evaluate models for potential biases, as sleep study cohorts may not fully represent the diversity of patients diagnosed during wakefulness. 9Acknowledgements References 
+
+Al-Masud, M. A., Alcaraz, J. M. L., and Strodthoff, N. Benchmarking ecg foundational models: A reality check across clinical tasks, 2025. URL https://arxiv. org/abs/2509.25095 .American Academy of Sleep Medicine. In-ternational classification of sleep disorders. 
+
+https://aasm.org/clinical-resources/ international-classification-sleep-disorders/ ,2024. Accessed: 2026-01-28. Armand Larsen, S., Klok, L., Lehn-Schiøler, W., Gatej, R., and Beniczky, S. Low-cost portable eeg device for bridg-ing the diagnostic gap in resource-limited areas. Epileptic Disorders , 26(5):694–700, 2024. Blackwell, T., Yaffe, K., Ancoli-Israel, S., Redline, S., En-srud, K. E., Stefanick, M. L., Laffan, A., Stone, K. L., and in Men Study Group, O. F. Associations between sleep architecture and sleep-disordered breathing and cogni-tion in older community-dwelling men: the osteoporotic fractures in men sleep study. Journal of the American Geriatrics Society , 59(12):2217–2225, 2011. Chen, X., Wang, R., Zee, P., Lutsey, P. L., Javaheri, S., Alc ´antara, C., Jackson, C. L., Williams, M. A., and Red-line, S. Racial/ethnic differences in sleep disturbances: the multi-ethnic study of atherosclerosis (MESA). Sleep ,38(6):877–888, 2015. Chen, Y., Ren, K., Song, K., Wang, Y., Wang, Y., Li, D., and Qiu, L. Eegformer: Towards transferable and inter-pretable large-scale eeg foundation model, 2024. URL 
+
+https://arxiv.org/abs/2401.10278 .D ¨oner, B., Ingolfsson, T. M., Benini, L., and Li, Y. LUNA: Efficient and topology-agnostic foundation model for EEG signal analysis. In Advances in Neural Informa-tion Processing Systems , 2025. arXiv:2510.22257. Drew, B. J., Califf, R. M., Funk, M., Kaufman, E. S., Krucoff, M. W., Laks, M. M., Macfarlane, P. W., Som-margren, C., Swiryn, S., and Van Hare, G. F. Practice standards for electrocardiographic monitoring in hospital settings: an american heart association scientific state-ment from the councils on cardiovascular nursing, clini-cal cardiology, and cardiovascular disease in the young: endorsed by the international society of computerized electrocardiology and the american association of critical-care nurses. Circulation , 110(17):2721–2746, 2004. Duce, B., Rego, C., Milosavljevic, J., and Hukins, C. The aasm recommended and acceptable eeg montages are comparable for the staging of sleep and scoring of eeg arousals. Journal of Clinical Sleep Medicine , 10(7):803– 809, 2014. El Ouahidi, Y., Lys, J., Th ¨olke, P., Farrugia, N., Pasde-loup, B., Gripon, V., Jerbi, K., and Lioi, G. REVE: A foundation model for EEG: Adapting to any setup with large-scale pretraining on 25,000 subjects. Advances in Neural Information Processing Systems , 2025. URL 
+
+https://brain-bzh.github.io/reve/ .Gjølbye, A., Skerath, L., Lehn-Schiøler, W., Langer, N., and Hansen, L. K. Speed: Scalable prepro-cessing of eeg data for self-supervised learning. In 
+
+2024 IEEE 34th International Workshop on Machine Learning for Signal Processing (MLSP) , pp. 1–6. IEEE, September 2024. doi: 10.1109/mlsp58920.2024. 10734749. URL http://dx.doi.org/10.1109/ MLSP58920.2024.10734749 .Goldberger, A. L., Amaral, L. A. N., Glass, L., Haus-dorff, J. M., Ivanov, P. C., Mark, R. G., Mietus, J. E., Moody, G. B., Peng, C.-K., and Stanley, H. E. Phys-ioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation , 101(23):e215–e220, 2000. doi: 10.1161/01.CIR.101.23.e215. Gui, Y., Chen, M., Su, Y., Luo, G., and Yang, Y. Eeg-mamba: Bidirectional state space model with mixture of experts for eeg multi-task classification. arXiv preprint arXiv:2407.20254 , 2024. Guttag, J. CHB-MIT Scalp EEG Database. PhysioNet , June 2010. doi: 10.13026/C2K01R. URL https://doi. org/10.13026/C2K01R . Version 1.0.0. Hanif, U., Cairns, A., Mysliwiec, V., Bettinardi, R. G., Elbaz, M., Gimenez, U., and Mignot, E. J. Associations between self-reported parasomnias and psychiatric illness in 370,000 patients with sleep disorders. Psychiatry and Clinical Neurosciences , 78(11):667–677, 2024. Harati, A., Golmohammadi, M., Lopez, S., Obeid, I., and Pi-cone, J. Improved eeg event classification using differen-tial energy. In 2015 IEEE Signal Processing in Medicine and Biology Symposium (SPMB) , pp. 1–4. IEEE, 2015. He, T., Zhang, Z., Zhang, H., Zhang, Z., Xie, J., and Li, M. Bag of Tricks for Image Classification with Convolu-tional Neural Networks . In 2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) ,pp. 558–567, Los Alamitos, CA, USA, June 2019. IEEE Computer Society. doi: 10.1109/CVPR.2019.00065. URL https://doi.ieeecomputersociety. org/10.1109/CVPR.2019.00065 .10 Ismail Fawaz, H., Lucas, B., Forestier, G., Pel-letier, C., Schmidt, D. F., Weber, J., Webb, G. I., Idoumghar, L., Muller, P.-A., and Petitjean, F. In-ceptionTime: Finding AlexNet for time series clas-sification. Data Mining and Knowledge Discov-ery , 34(6):1936–1962, 2020. ISSN 1384-5810, 1573-756X. doi: 10.1007/s10618-020-00710-y. URL https://link.springer.com/10.1007/ s10618-020-00710-y .Jiang, W., Zhao, L., and Lu, B.-l. Large brain model for learning generic representations with tremendous eeg data in bci. In The Twelfth International Conference on Learning Representations , 2024. Kjaer, M. R., Thapa, R., Ganjoo, G., Moore IV, H., Jen-num, P. J., Westover, B. M., Zou, J., Mignot, E., He, B., and Brink-Kjaer, A. Stanford sleep bench: Evaluating polysomnography pre-training methods for sleep founda-tion models. arXiv preprint arXiv:2512.09591 , 2025. Klem, G. H. The ten-twenty electrode system of the interna-tional federation. the international federation of clinical neurophysiology. Electroencephalogr. Clin. Neurophys-iol. Suppl. , 52:3–6, 1999. Kostas, D., Aroca-Ouellette, S. T., and Rudzicz, F. Bendr: Using transformers and a contrastive self-supervised learning task to learn from massive amounts of eeg data. Frontiers in Human Neuroscience , 15, 2021. URL https://api.semanticscholar. org/CorpusID:231719568 .Lee, C.-H., Kim, H., Yoon, B. C., and Kim, D.-J. To-ward foundational model for sleep analysis using a multi-modal hybrid self-supervised learning framework. arXiv preprint arXiv:2502.17481 , 2025. Lima, E. M., Ribeiro, A. H., Paix ˜ao, G. M. M., Ribeiro, M. H., Pinto-Filho, M. M., Gomes, P. R., Oliveira, D. M., Sabino, E. C., Duncan, B. B., Giatti, L., Barreto, S. M., Meira, W. J., Sch ¨on, T. B., and Ribeiro, A. L. P. Deep neural network-estimated electrocardiographic age as a mortality predictor. Nature Communications , 12(1):5117, 2021. doi: 10.1038/s41467-021-25351-7. Lopez, S., Suarez, G., Jungreis, D., Obeid, I., and Picone, J. Automated identification of abnormal adult eegs. In 
+
+2015 IEEE signal processing in medicine and biology symposium (SPMB) , pp. 1–5. IEEE, 2015. Lunelli, R., Nicolson, A., Pr ¨oll, S. M., Reinstadler, S. J., Bauer, A., and Dlaska, C. Benchecg and xecg: a bench-mark and baseline for ecg foundation models, 2025. URL 
+
+https://arxiv.org/abs/2509.10151 .Maurer, M. C., Hempel, P., Steinhaus, K. E., Chereda, H., Vollmer, M., Krefting, D., Spicher, N., and Hauschild, A.-C. xgnn4mi: Explainability of graph neural networks in 12-lead electrocardiography for cardiovascular disease classification. npj digital Medicine , October 2026. doi: 10.21203/rs.3.rs-7721630/ v1. URL https://doi.org/10.21203/rs.3. rs-7721630/v1 . (accepted)). McKeen, K., Masood, S., Toma, A., Rubin, B., and Wang, B. Ecg-fm: An open electrocardiogram foundation model. 
+
+JAMIA open , 8(5):ooaf122, 2025. Mehari, T. and Strodthoff, N. Advancing the state-of-the-art for ecg analysis through structured state space mod-els, 2022. URL https://arxiv.org/abs/2211. 07579 .M ¨uller, A., Scheibl, M., Uhe, T., Sch ¨abitz, W.-R., and Wrede, B. Application of graph neural networks on ecg data: A systematic literature review. IEEE Journal of Biomedical and Health Informatics , pp. 1–16, 2026. doi: 10.1109/JBHI.2026.3651842. Narotamo, H., Dias, M., Santos, R., Carreiro, A. V., Gam-boa, H., and Silveira, M. Deep learning for ecg classifica-tion: A comparative study of 1d and 2d representations and multimodal fusion approaches. Biomedical Signal Processing and Control , 93:106141, 2024. Obeid, I. and Picone, J. The temple university hospital eeg data corpus. Frontiers in neuroscience , 10:196, 2016. Perez Alday, E. A., Gu, A., Shah, A. J., Robichaux, C., Wong, A.-K. I., Liu, C., Liu, F., Bahrami Rad, A., Elola, A., Seyedi, S., Li, Q., Sharma, A., Clifford, G. D., and Reyna, M. A. Classification of 12-lead ecgs: the phys-ionet/computing in cardiology challenge 2020. Physio-logical Measurement , 41(12):124003, December 2020. doi: 10.1088/1361-6579/abc960. URL https://dx. doi.org/10.1088/1361-6579/abc960 .Ribeiro, A. H., Ribeiro, M. H., Paix ˜ao, G. M., Oliveira, D. M., Gomes, P. R., Canazart, J. A., Ferreira, M. P., Andersson, C. R., Macfarlane, P. W., Meira Jr, W., et al. Automatic diagnosis of the 12-lead ecg using a deep neu-ral network. Nature communications , 11(1):1760, 2020. Ruehland, W. R., O’Donoghue, F. J., Pierce, R. J., Thorn-ton, A. T., Singh, P., Copland, J. M., Stevens, B., and Rochford, P. D. The 2007 aasm recommendations for eeg electrode placement in polysomnography: impact on sleep and cortical arousal scoring. Sleep , 34(1):73–81, 2011. Shah, V., Von Weltin, E., Lopez, S., McHugh, J. R., Veloso, L., Golmohammadi, M., Obeid, I., and Picone, J. The 11 temple university hospital seizure detection corpus. Fron-tiers in neuroinformatics , 12:83, 2018. Shoeb, A. H. Application of Machine Learning to Epilep-tic Seizure Onset Detection and Treatment . PhD thesis, Massachusetts Institute of Technology, Sep 2009. Strodthoff, N., Wagner, P., Schaeffter, T., and Samek, W. Deep learning for ecg analysis: Benchmarks and insights from ptb-xl. IEEE Journal of Biomedical and Health Informatics , 25(5):1519–1528, 2021. doi: 10.1109/JBHI. 2020.3022989. Strodthoff, N. et al. Ptb-xl benchmarking. 
+
+https://github.com/helme/ecg_ptbxl_ benchmarking , 2026. GitHub repository accom-panying the PTB-XL benchmarking paper; accessed 2026-03-26. Tegon, A., Ingolfsson, T. M., Wang, X., Benini, L., and Li, Y. Femba: Efficient and scalable eeg analysis with a bidirectional mamba foundation model, 2025. URL 
+
+https://arxiv.org/abs/2502.06438 .Thapa, R., He, B., Kjaer, M. R., Iv, H. M., Ganjoo, G., Mignot, E., and Zou, J. Sleepfm: Multi-modal repre-sentation learning for sleep across brain activity, ecg and respiratory signals. In International Conference on Ma-chine Learning , pp. 48019–48037. PMLR, 2024. Thapa, R., Kjaer, M. R., He, B., Covert, I., Moore IV, H., Hanif, U., Ganjoo, G., Westover, M. B., Jennum, P., Brink-Kjaer, A., et al. A multimodal sleep foundation model for disease prediction. Nature Medicine , pp. 1–11, 2026. Tian, Y. et al. Foundation model of ecg diag-nosis: Diagnostics and prediction of cardiovascu-lar diseases from electrocardiogram. Cell Reports Medicine , 5(12):102033, 2024. doi: 10.1016/j.xcrm. 2024.102033. URL https://pmc.ncbi.nlm.nih. gov/articles/PMC11722092/ .van Gorp, H., van Gilst, M. M., Fonseca, P., van Meulen, F. B., van Dijk, J. P., Overeem, S., and van Sloun, R. J. G. A deep generative model for five-class sleep staging with arbitrary sensor input. IEEE Journal of Biomed-ical and Health Informatics , 29(10):7186–7199, Octo-ber 2025. ISSN 2168-2208. doi: 10.1109/jbhi.2025. 3565034. URL http://dx.doi.org/10.1109/ JBHI.2025.3565034 .Wan, Z., Yu, Q., Mao, J., Duan, W., and Ding, C. Openecg: Benchmarking ecg foundation models with public 1.2 million records. arXiv preprint arXiv:2503.00711 , 2025. URL https://arxiv.org/abs/2503.00711 .Wang, C., Subramaniam, V., Yaari, A. U., Kreiman, G., Katz, B., Cases, I., and Barbu, A. Brainbert: Self-supervised representation learning for intracranial record-ings, 2023. URL https://arxiv.org/abs/2302. 14367 .Wang, J., Zhao, S., Luo, Z., Zhou, Y., Jiang, H., Li, S., Li, T., and Pan, G. Cbramod: A criss-cross brain foundation model for eeg decoding. In The Thirteenth International Conference on Learning Representations , 2025. Wang, Z., Yan, W., and Oates, T. Time series classifica-tion from scratch with deep neural networks: A strong baseline. In 2017 International Joint Conference on Neural Networks (IJCNN) , pp. 1578–1585, 2017. doi: 10.1109/IJCNN.2017.7966039. Yang, C., Westover, M., and Sun, J. Biot: Biosignal trans-former for cross-data learning in the wild. Advances in Neural Information Processing Systems , 36:78240– 78260, 2023. Yisimitila, T., Wang, C., Hou, M., et al. Bridging clinical knowledge and ai: an interpretable transformer frame-work for ecg diagnosis. npj Digital Medicine , 9:41, 2026. doi: 10.1038/s41746-025-02215-8. URL https: //doi.org/10.1038/s41746-025-02215-8 .Zhang, G.-Q., Cui, L., Mueller, R., Tao, S., Kim, M., Rueschman, M., Mariani, S., Mobley, D., and Redline, S. The national sleep research resource: towards a sleep data commons. Journal of the American Medical Informatics Association , 25(10):1351–1358, 2018. 12 A. Appendix 
+
+Dataset Demographics and Task Descriptions 
+
+Demographics and task descriptions for the five EEG down-stream dataset in Table 11. 
+
+Extended ECG Results 
+
+Extended tables for fine-tuned ECG models in Tables 12, 13, and 14. 13 Table 11. Demographics and task descriptions for the five EEG downstream datasets. TUEV and TUSL are subsets of the parent TUH EEG corpus; subject-level demographics are approximated from the full corpus (n = 10,874, ∼51% female, mean age 51.6 ± 55.9 years). SPSW = spike and sharp wave; GPED = generalised periodic epileptiform discharges; PLED = periodic lateralised epileptiform discharges; EYEM = eye movement; ARTF = artifact; BCKG = background. 
+
+Dataset Task Nsubj. Age (mean 
+
+± SD) % F Task description 
+
+TUAB (Lopez et al., 2015; Obeid & Pi-cone, 2016) Abnormality detection (2 classes) 2,563 48.0 ± 17.9 yr (range: 7d–96 yr) 30% Binary classification of routine EEG ( ∼20 min) as clinically normal or abnormal based on neurologist report labels. Pre-partitioned train/eval by subject (1,488 abnormal + 1,529 normal train; 126 abnormal + 150 nor-mal eval). TUEV (Harati et al., 2015; Obeid & Pi-cone, 2016) Event clas-sification (6 classes) 
+
+∼518 files 
+
+∼51.6 ±
+
+55.9 yr ∗
+
+∼51% ∗ 6-class classification of 5-second EEG seg-ments into SPSW, GPED, PLED, EYEM, ARTF, or BCKG. Labels assigned by expert neurologists. Highly imbalanced. TUSL (Shah et al., 2018; Obeid & Pi-cone, 2016) Slowing detection (4 classes) 38 ∼51.6 ±
+
+55.9 yr ∗
+
+∼51% ∗ 4-class classification for slowing events (Normal, Complex background, Slowing, Seizure). Relevant for encephalopathy and metabolic disorder monitoring. Highly im-balanced ( ∼83% normal). CHB-MIT (Guttag, 2010; Shoeb, 2009) Seizure de-tection (2 classes) 22 9.9 ± 5.0 yr (range: 1.5– 22 yr) 78.3% Binary seizure detection in continuous scalp EEG from pediatric patients with intractable epilepsy. 198 annotated seizures; <1% seizure prevalence (severe class imbalance). BrainCapture (Ar-mand Larsen et al., 2024) Abnormality detection (2 classes) 2,340 22.4 ± 18.9 yr (range: 1– 60+ yr) 41% Binary normal/abnormal classification us-ing a portable 27-channel EEG device in resource-limited settings in Kenya. Repre-sents a non-Western, low-resource clinical population. 
+
+Table 12. External-validation ECG transfer results after fine-tuning on Code-15: PTB-XL dataset. We evaluate SleepFM 1 without pretraining (w/o PT) and with pretraining (w. PT). 
+
+Model Model Size Sensitivity Specificity F1 
+
+CNN (Narotamo et al., 2024) 1.61M 0.797 ± 0.187 0.994 ± 0.003 0.801 ± 0.108 
+
+Resnet1d wang (Wang et al., 2017) 0.44M 0.758 ± 0.340 0.992 ± 0.004 0.723 ± 0.233 
+
+Xresnet1d101 (He et al., 2019) 28.3M 0.844 ± 0.204 0.993 ± 0.003 0.803 ± 0.107 
+
+Inception Time (Ismail Fawaz et al., 2020) 0.45M 0.842 ± 0.184 0.990 ± 0.005 0.771 ± 0.089 
+
+Lstm (Narotamo et al., 2024) 0.54M 0.399 ± 0.480 0.991 ± 0.012 0.324 ± 0.374 
+
+Lstm bidir (Narotamo et al., 2024) 0.54M 0.399 ± 0.480 0.991 ± 0.012 0.324 ± 0.374 
+
+Wavelet+NN (Strodthoff et al., 2021) 0.14M 0.779 ± 0.246 0.994 ± 0.003 0.771 ± 0.146 
+
+1DResNet (Ribeiro et al., 2020) 6.93M 0.878 ± 0.164 0.988 ± 0.007 0.775 ± 0.100 
+
+SleepFM 1 (w/o PT) 3.58M 0.780 ± 0.097 0.992 ± 0.003 0.782 ± 0.066 
+
+SleepFM 1 (w. PT) 3.58M 0.792 ± 0.090 0.994 ± 0.003 0.807 ± 0.071 
+
+14 Table 13. External-validation ECG transfer results after fine-tuning on Code-15: Georgia dataset. We evaluate SleepFM 1 without pretraining (w/o PT) and with pretraining (w. PT). 
+
+Model Model Size Sensitivity Specificity F1 
+
+CNN (Narotamo et al., 2024) 1.61M 0.636 ± 0.113 0.989 ± 0.011 0.689 ± 0.081 
+
+Resnet1d wang (Wang et al., 2017) 0.44M 0.724 ± 0.161 0.989 ± 0.004 0.728 ± 0.070 
+
+Xresnet1d101 (He et al., 2019) 28.30M 0.776 ± 0.103 0.988 ± 0.004 0.763 ± 0.028 
+
+Inception Time (Ismail Fawaz et al., 2020) 0.45M 0.800 ± 0.093 0.983 ± 0.004 0.736 ± 0.056 
+
+Lstm (Narotamo et al., 2024) 0.54M 0.364 ± 0.431 0.990 ± 0.012 0.313 ± 0.362 
+
+Lstm bidir (Narotamo et al., 2024) 0.54M 0.364 ± 0.431 0.990 ± 0.012 0.313 ± 0.362 
+
+Wavelet+NN (Strodthoff et al., 2021) 0.14M 0.613 ± 0.201 0.991 ± 0.006 0.663 ± 0.144 
+
+1DResNet (Ribeiro et al., 2020) 6.93M 0.803 ± 0.103 0.983 ± 0.002 0.737 ± 0.041 
+
+SleepFM 1 (w/o PT) 3.02M 0.729 ± 0.068 0.979 ± 0.011 0.691 ± 0.045 
+
+SleepFM 1 (w. PT) 3.02M 0.732 ± 0.064 0.983 ± 0.010 0.713 ± 0.023    
+
+> Table 14. External-validation ECG transfer results after fine-tuning on Code-15: CPSC dataset. We evaluate SleepFM 1without pretraining (w/o PT) and with pretraining (w. PT).
+
+Model Model Size Sensitivity Specificity F1 
+
+CNN (Narotamo et al., 2024) 1.61M 0.616 ± 0.188 0.991 ± 0.008 0.711 ± 0.127 
+
+Resnet1d wang (Wang et al., 2017) 0.44M 0.670 ± 0.166 0.991 ± 0.005 0.748 ± 0.113 
+
+Xresnet1d101 (He et al., 2019) 28.30M 0.685 ± 0.155 0.990 ± 0.005 0.758 ± 0.101 
+
+Inception Time (Ismail Fawaz et al., 2020) 0.45M 0.707 ± 0.099 0.989 ± 0.005 0.770 ± 0.070 
+
+Lstm (Narotamo et al., 2024) 0.54M 0.290 ± 0.353 0.994 ± 0.007 0.314 ± 0.363 
+
+Lstm bidir (Narotamo et al., 2024) 0.54M 0.290 ± 0.353 0.994 ± 0.007 0.314 ± 0.363 
+
+Wavelet+NN (Strodthoff et al., 2021) 0.14M 0.630 ± 0.205 0.992 ± 0.007 0.719 ± 0.144 
+
+1DResNet (Ribeiro et al., 2020) 6.93M 0.738 ± 0.134 0.989 ± 0.004 0.784 ± 0.086 
+
+SleepFM 1 (w/o PT) 3.02M 0.724 ± 0.092 0.980 ± 0.010 0.759 ± 0.071 
+
+SleepFM 1 (w. PT) 3.02M 0.760 ± 0.096 0.980 ± 0.096 0.770 ± 0.068                      
+
+> Table 15. Recent ECG literature relevant to our setup. Direct comparison is limited because our ECG study fine-tunes on Code-15 and evaluates on external datasets with aligned arrhythmia labels.
+> Work Type Protocol Metric Reported value(s) Directly compara-ble?
+> Strodthoff et al. / PTB-XL benchmark (Strodthoff et al., 2021; 2026) Supervised Standard PTB-XL rhythm benchmark AUC xresnet1d101: 0.957; inception1d: 0.953; LSTM: 0.953; resnet1d wang: 0.946 No OpenECG (Wan et al., 2025) ECG-FM bench-mark Multi-dataset public ECG benchmark with unified 5-fold evaluation F1 / AUROC PTB-XL: BYOL 47.7 / 91.1, MAE 48.1 / 90.9; CPSC: MAE 74.5 / 93.2; Georgia: BYOL 26.2 / 68.5, MAE 25.3 / 67.9 No ECG-FM (McKeen et al., 2025) ECG-FM Large-scale pretraining with downstream institutional tasks AUROC AF: 0.996; LVEF: 0.929 No KED (Tian et al., 2024) ECG-FM Zero-shot / few-shot diagno-sis across regions AUC Conduction-block avg.: 0.921; premature contractions avg.: 0.944 No
+
+15

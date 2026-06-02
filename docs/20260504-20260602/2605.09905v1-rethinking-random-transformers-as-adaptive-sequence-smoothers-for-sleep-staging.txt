@@ -1,0 +1,1306 @@
+Title: Rethinking Random Transformers as Adaptive Sequence Smoothers for Sleep Staging
+
+URL Source: https://arxiv.org/pdf/2605.09905v1
+
+Published Time: Tue, 12 May 2026 02:32:54 GMT
+
+Number of Pages: 27
+
+Markdown Content:
+# Rethinking Random Transformers as Adaptive Sequence Smoothers for Sleep Staging 
+
+Guisong Liu 
+
+School of Biological Science and Medical Engineering Southeast University Nanjing, China 
+
+230258331@seu.edu.cn 
+
+Xin Gao 
+
+University of Bath Bath, England 
+
+xin.gao@bath.ac.uk 
+
+Martin Dresler 
+
+Donders Institute for Brain, Cognition and Behaviour Radboud University Medical Center Nijmegen, The Netherlands 
+
+martin.dresler@donders.ru.nl 
+
+Jiansong Zhang ∗
+
+School of Computer Science & Software Engineering Shenzhen University Shenzhen, China 
+
+2453103003@mails.szu.edu.cn 
+
+Pengfei Wei †
+
+School of Biological Science and Medical Engineering Southeast University Nanjing, China 
+
+101014012@seu.edu.cn 
+
+## Abstract 
+
+Automatic sleep staging commonly adopts Transformers under the assumption that they learn complex long-range dependencies. We challenge this view by revealing a neglected property of sleep sequences: strong local temporal continuity. We show that a randomly initialized Transformer, without any training, substantially im-proves sleep staging performance and consistently outperforms heuristic smoothing. We formalize this effect via a Random Attention Prior Kernel (RAPK), showing that random self-attention acts as an adaptive smoother by balancing global aver-aging and content-based similarity while preserving stage transitions. Using two metrics, the Local Smoothness Influence Index (LSII) and the Weighted Transition Entropy (WTE), we provide evidence that most performance gains in Transformer-based sleep staging arise from architectural inductive bias rather than parameter learning. Our results suggest that sleep staging can be effectively addressed with structure-driven smoothing mechanisms rather than complex dependency modeling, enabling more efficient and edge-deployable healthcare systems for large-scale physiological monitoring. 
+
+> ∗Corresponding author
+> †Corresponding author Preprint.
+> arXiv:2605.09905v1 [cs.LG] 11 May 2026
+
+Figure 1: Overview of the proposed framework. Inspired by the low dynamic transition characteristics of sleep staging (right), we propose a Decoupled Random Transformer distinct from conventional fully trained models. This approach utilizes a KRAP adapter to integrate global smoothing and input similarity, enabling efficient, training-free sequence representation fusion and classification. 
+
+## 1 Introduction 
+
+Sleep is one of the most fundamental physiological activities in humans and plays a critical role in neurological recovery, metabolic regulation, and long-term health Luyster et al. [2012]. Consequently, EEG-based automatic sleep staging has become an important and independent research field in physiological signal analysisPhan and Mikkelsen [2022], serving as the foundation for large-scale sleep monitoring, clinical diagnosis, and sleep modulation systems Sun et al. [2017], Liu et al. [2025], Krugliakova et al. [2026]. Unlike conventional recognition tasks, sleep staging is inherently sequential and strongly temporally continuous: neural rhythms and EEG patterns usually evolve gradually across adjacent 30-second epochs rather than changing abruptly Phan et al. [2023], Colten and Altevogt [2006]. As a result, determining the sleep stage from a single isolated epoch like other EEG tasks is often insufficient, particularly near ambiguous stage transitions such as N1 onset. This principle is explicitly reflected in the AASM scoring guidelines, where human experts rely heavily on surrounding temporal context to resolve uncertain boundaries Berry et al. [2017]. Therefore, effective automatic sleep staging systems must integrate both local waveform recognition and temporal context aggregation. To satisfy this requirement, most modern sleep staging systems adopt a two-stage paradigm: an epoch-level encoder extracts local time–frequency features Liao et al. [2022], Liu et al. [2023], followed by a sequence-level model that integrates information across time Supratak et al. [2017], Supratak and Guo [2020], Phan et al. [2023], Yu et al. [2025], Thapa et al. [2025]. In recent years, Transformers have become the dominant choice for this sequence modeling stage Eldele et al. [2021], Phan et al. [2022], Deng et al. [2024], Wang et al. [2024], Chin et al. [2025]. Their widespread adoption is commonly justified by the assumption that self-attention is uniquely capable of modeling complex, long-range transition dynamics between sleep stages. Despite this prevailing assumption, empirical observations challenge this narrative. While Transformer-based architectures consistently achieve state-of-the-art performance in sleep stag-ing Guo et al. [2024], Lee et al. [2025], increasing the temporal context length often yields marginal or no performance gains Phan et al. [2022, 2023], Coon and Ogg [2024], Ciudad et al. [2024], Pradeepkumar et al. [2024]. If Transformers truly succeed by capturing long-range dependencies, 2performance should systematically improve with larger temporal windows. This paradox prompts a re-examination of the underlying mechanism: 
+
+What mechanism actually underlies the empirical success of Transformers in sleep staging? 
+
+We argue that this paradox can be resolved by revisiting a basic yet underappreciated property of sleep data, its pronounced temporal smoothness. As illustrated in Figure 1, sleep stages typically persist for extended durations, and genuine transitions occur relatively infrequently. Under such conditions, accurate sequence-level predictions depend less on learning complex transition rules and more on robustly maintaining state continuity while suppressing local noise. From this perspective, the advantage of Transformers may stem not from their ability to learn long-range dependencies, but from an intrinsic architectural bias of self-attention: the aggregation of contextual information that implicitly smooths temporal predictions Vaswani et al. [2017]. Building on this insight, we demonstrate a counter-intuitive phenomenon: a randomly initialized Transformer, without any training, can substantially improve sequence-level sleep staging perfor-mance. When stacked on top of a pretrained epoch encoder, this Random Transformer consistently refines temporal predictions, despite containing no learned parameters. Importantly, this effect cannot be explained by naive temporal smoothing. Compared with heuristic smoothers such as moving averages and median filters, which rapidly degrade performance as temporal windows increase, the Random Transformer preserves meaningful stage boundaries while reducing spurious fluctuations. These results indicate that random self-attention functions as an adaptive sequence smoother, one that suppresses noise while selectively retaining structural transitions based on feature similarity. To explain this behavior, we introduce the Random Attention Prior Kernel (RAPK), a theoretical framework that characterizes the inductive bias of random self-attention. Our analysis shows that a random attention layer induces a kernel composed of two complementary components: a global averaging term that promotes temporal smoothness, and a linear similarity term that preserves content-dependent structure. This principled combination enables content-adaptive smoothing to emerge directly from the architecture, even in the absence of learning. To empirically examine whether the Transformer acts as a sequence smoother, we introduce two diagnostic metrics: the Local Smoothness Influence Index (LSII) and Weighted Transition Entropy (WTE), measuring local temporal consistency and global transition uncertainty, respectively.Across four public sleep datasets, our results demonstrate that the Transformer enforces temporal continuity(evidenced by higher LSII and lower WTE), effectively acting as a structural regularizer. This smoothing behavior, rather than learned dependency modeling, accounts for the vast majority of the performance gains typically attributed to supervised sequence learning. Overall, our findings reveal that the success of Transformers in sleep staging is largely driven by architectural priors rather than learned long-range dynamics. This work reframes the role of self-attention in physiological sequence modeling and establishes a strong, training-free baseline that highlights the often overlooked power of inductive bias in structured temporal domains. The contributions can be summarized as follow: 1. We provide the first systematic evidence that a Random Transformer , without any training, significantly improves sequence-level sleep staging across multiple datasets and pretraining paradigms. 2. We introduce the Random Attention Prior Kernel (RAPK) , providing a theoretical charac-terization of random self-attention as an adaptive sequence smoother that balances global noise suppression with content-based structure preservation. 3. We introduce LSII and WTE to quantitatively verify the Transformer’s role as a sequence smoother. Our analysis reveals that this intrinsic smoothing bias, rather than learned dependencies, drives the vast majority of performance gains in sleep staging. 
+
+## 2 Related Work 
+
+Sequence Modeling in Sleep Staging. The field has seen a definitive shift from local feature classification to sequence-to-sequence modeling. While early methods utilized Recurrent Neural 3Networks like LSTMs to capture temporal dependencies [Phan et al., 2019, Lukoševiˇ cius and Jaeger, Seo et al., 2020], Transformers have recently established state-of-the-art performance. Contemporary research primarily focuses on enhancing these architectures through complex mechanisms, such as multi-view learning, hierarchical attention, or cross-modal fusion [Wang et al., 2024, Chin et al., 2025]. These approaches implicitly operate on the premise that the performance ceiling is determined by the model’s capacity to learn intricate, long-range dependencies from vast amounts of labeled data. We revisit this fundamental assumption by investigating the intrinsic capabilities of the architecture itself, independent of parameter optimization. 
+
+Untrained Networks and Structural Priors. The efficacy of random representations is rooted in the seminal concept of Random Kitchen Sinks , which demonstrated that fixed, random features can efficiently approximate kernel machines [Rahimi and Recht, 2007]. This principle evolved into 
+
+Reservoir Computing and Echo State Networks, where fixed recurrent weights successfully model complex temporal dynamics [Lukoševiˇ cius and Jaeger, Gallicchio and Micheli, 2020]. In the deep learning era, the Deep Image Prior revealed that the convolutional architecture itself imposes a strong inductive bias for natural image statistics, enabling restoration tasks without any learning [Lempitsky et al., 2018]. While recent works have explored random projections in Transformers to approximate attention mechanisms for efficiency [Choromanski et al., 2020, Peng et al., 2021], the inductive bias of a fully random self-attention layer remains largely underexplored in physiological time-series. We bridge this gap by establishing the Random Transformer not merely as a feature extractor, but as a specific adaptive smoothing operator tailored for sleep stage continuity. 
+
+Kernel Interpretations and Low-Pass Filtering. Theoretical frameworks have increasingly linked self-attention to kernel methods, interpreting attention as a non-parametric kernel smoother [Tsai et al., 2019]. Empirical analyses of trained Vision Transformers further suggest that self-attention acts as a low-pass filter, aggregating local information to suppress high-frequency noise [Park and Kim, 2022, Wang et al., 2022]. Our work extends these insights to the initialization phase. In contrast to studies that focus on the infinite-width limit for training dynamics, such as the Neural Tangent Kernel or Neural Network Gaussian Process [Jacot et al., 2021, Hron et al., 2020], we explicitly characterize the inference dynamics of the random initialization state in the high-dimensional limit via the proposed RAPK framework.We reveal how the interplay of global averaging and linear similarity creates an inherent adaptive smoothing effect that aligns with the structural properties of sleep hypnograms. 
+
+## 3 Method 
+
+This section analyzes the inductive bias of randomly initialized self-attention through the Random Attention Prior Kernel (RAPK). We show that its high-dimensional structure encodes temporal inertia and boundary preservation, and introduce WTE and LSII to empirically quantify global and local smoothing effects. 
+
+3.1 Random Attention Prior Kernel (RAPK) 
+
+We revisit the role of self-attention under random initialization and ask a fundamental question: what structural bias does self-attention impose on sequences in the absence of learning? To answer this, we introduce the Random Attention Prior Kernel (RAPK), which captures the intrinsic second-order behavior of randomly initialized self-attention layers and provides a principled explanation for their sequence-level effects. 
+
+Core Insight. Random self-attention induces a structured smoothing kernel that combines global averaging with content-aware similarity. 
+
+Proposition 3.1 (Structure of RAPK) . Let X ∈ RT ×d denote a sequence of input representations. Under random initialization and in the high-dimensional limit, the expected Random Attention Prior Kernel satisfies 
+
+E[KRAP ] ≈ C011 ⊤ + C1XX ⊤. (1) 
+
+where 1 is the all-ones vector. The coefficients C0 and C1 are positive, sequence-dependent scalars, whose magnitudes are determined by the initialization variances and sequence length, and scale proportionally with the global statistics of the input features. 
+
+4This decomposition reveals that random self-attention implements a structured smoothing mecha-nism: a global low-pass component ( C0) that enforces temporal inertia, and a similarity-preserving component ( C1) that maintains discriminative boundaries. 
+
+Setup. Consider an input sequence of sleep epoch representations X ∈ RT ×d. A single attention head is parameterized by projection matrices WQ, W K , W V ∈ Rd×dk , with independent zero-mean entries and variances σ2
+
+> Q
+
+, σ 2 
+
+> K
+
+, σ 2 
+
+> V
+
+, respectively. The attention output is computed as O = AV , where 
+
+A = Softmax 
+
+ XW QW ⊤ 
+
+> K
+
+X⊤
+
+√dk
+
+
+
+. (2) We define the Random Attention Prior Kernel as KRAP := OO ⊤.
+
+High-Dimensional and Linear Approximation. The derivation relies on two distinct mechanisms. First, standard initialization schemes combined with Layer Normalization naturally constrain the pre-softmax logits ( sip ) to a narrow range around zero, placing the softmax operation in a near-linear regime and justifying a first-order Taylor expansion. Second, as the projection dimension dk grows, the Central Limit Theorem and concentration of measure stabilize these high-dimensional inner products, causing the empirical random attention matrix to robustly converge to its expected kernel form (Proposition 3.1). The full derivation is provided in Appendix B. 
+
+3.2 Theoretical Alignment with Sleep Physiology 
+
+The significance of Eq. 1 extends beyond mathematics; it offers a direct functional mapping to the two fundamental priors of sleep stage transitions. We argue that the success of the Random Transformer stems from the inherent alignment between these mathematical terms and physiological realities. 
+
+The Global Term ( C0) ↔ Sleep State Inertia. Physiological Prior: Sleep is a continuous, slow-varying process. A fundamental property of sleep hypnograms is state inertia : if a subject is in stage N2 at time t, they are statistically highly likely to remain in N2 at time t + 1 . Rapid, chaotic fluctuations (e.g., N2 → W → N2) within short windows are often artifacts or scoring errors rather than genuine physiological shifts. Mechanism: The C011 ⊤ term in RAPK enforces this inertia explicitly. By adding a constant bias to the kernel, it promotes a uniform mixing of representations across the temporal window. This acts as a strong structural regularization, dampening high-frequency noise and smoothing out isolated, erroneous predictions produced by the epoch encoder. In essence, C0 embodies the prior belief that "the state is unlikely to change." 
+
+The Linear Term ( C1) ↔ Boundary Preservation. Physiological Prior: While sleep is stable, transitions between stages (e.g., N2 → REM) do occur and are biologically meaningful. These transitions are marked by distinct shifts in physiological patterns (e.g., the disappearance of spindles and K-complexes). A valid smoothing algorithm must respect these boundaries; blind averaging would blur them, leading to under-segmentation errors. Mechanism: The C1XX ⊤ term provides the necessary content-adaptivity. It ensures that the smoothing weight between two epochs xi and xj is proportional to their feature similarity ⟨xi, x j ⟩.• Within a stage: Features are similar, so C1 reinforces the smoothing effect of C0.• Across a boundary: Features become dissimilar (orthogonal), minimizing the value of the linear term C1x⊤ 
+
+> i
+
+xj . This implicitly gates the smoothing mechanism: while the global term 
+
+C0 remains, the loss of the C1 component reduces the aggregate attention weight between distinct stages, thereby preserving the transition boundary. Unlike heuristic smoothers (e.g., Moving Average) that rely solely on temporal proximity, the Random Transformer uses C1 to sense the physiological signal, achieving adaptive smoothing that respects state transitions. 53.3 Metrics for Structural Validation 
+
+Standard classification metrics capture prediction accuracy but obscure the temporal mechanisms underlying model behavior.To provide direct empirical evidence on the extent to which Transformers, under both trained and random initialization regimes, exhibit sequence-smoothing behavior, we introduce two diagnostic metrics that quantify global transition uncertainty and local temporal consistency. These metrics disentangle architectural smoothing bias from effects induced by learned dependencies. 
+
+Weighted Transition Entropy (WTE). WTE measures the global stability of the predicted se-quence. High-frequency noise manifests as high entropy in the transition matrix. Let Pij be the row-normalized probability of transitioning from stage i to j. We define WTE as the class-weighted conditional entropy: 
+
+WTE( S) = 
+
+> C−1
+
+X
+
+> i=0
+
+πi
+
+− X
+
+> j
+
+Pij log Pij 
+
+ . (3) A lower WTE indicates that the model has successfully suppressed stochastic fluctuations ( C0 effect), resulting in a hypnogram with stable, predictable dynamics consistent with healthy sleep architecture. 
+
+Local Smoothness Influence Index (LSII). LSII measures the local consistency of corrections by assessing whether sequence-level overrides are consistent with neighboring predictions. For the set of corrected indices C, LSII calculates the agreement with the local window Wt:
+
+LSII = 1
+
+|C| 
+
+X
+
+> t∈C
+
+ 1
+
+|W t| − 1
+
+X 
+
+> k∈W t,k ̸=t
+
+I(sseq  
+
+> k
+
+= sseq  
+
+> t
+
+)
+
+ . (4) A high LSII confirms that the model is actively leveraging local context to resolve ambiguities, validating the adaptive smoothing mechanism. Details of the metrics can be found in Appendix C .
+
+## 4 Experiments 
+
+4.1 Setup Datasets. We evaluated our method on four public sleep EEG datasets: Sleep-EDF-20, Sleep-EDFX, Sleep-EDF-ST, and SHHS [Goldberger et al., 2000, Quan et al., 1997]. Except for the Generality and Robustness and Metric Analysis sections, all other experiments were conducted on Sleep-EDF-20. Each dataset was split by subject into training, validation, and test sets with an 8:1:1 ratio. Only the first and last 30 minutes of wake epochs were retained to avoid biasing the evaluation metrics. Detailed dataset descriptions are provided in Appendix L .
+
+Epoch Encoder Pretraining. We adopt iBOT [Zhou et al., 2022] as a representative state-of-the-art self-supervised framework to obtain high-quality epoch-level representations. Our conclusions on sequence modeling are decoupled from the specific choice of self-supervision; iBOT is used solely to ensure expressive and robust features. By freezing the encoder, we isolate the sequence modeling stage, enabling a fair assessment of the Random Transformer’s intrinsic smoothing behavior independent of feature learning. 
+
+Implementation Details. All models were implemented in PyTorch 1.11 and trained on a single NVIDIA RTX 3090 GPU(24GB). We applied no additional signal preprocessing, data augmentation, or class balancing strategies. To ensure reproducibility, each experiment was repeated five times with fixed random seeds ( 111 –555 ), and results are reported as mean ± standard deviation. Details of the implementation based on the two-stage sleep staging framework can be found in Appendix A .
+
+4.2 Baseline Comparison 
+
+After obtaining epoch-level representations from the pretrained encoder, we compared multiple sequence modeling architectures under both random initialization and supervised training to dis-entangle the performance gains attributable to the architectural inductive bias from those derived from parameter optimization. To rigorously isolate the RAPK’s content-dependent term ( C1) from 6Table 1: Baseline comparison of sequence modeling architectures. Random uses fixed, randomly initialized sequence modules to isolate architectural bias. Trained adds supervised learning. The epoch encoder is pretrained and frozen in all settings. Parentheses show absolute change from the non-sequential baseline ( None ). Architecture Random (Architecture Only) Trained (Architecture + Optimization) ACC (%) Weighted F1 (%) ACC (%) Weighted F1 (%) None 67.96 ± 0.24 65.08 ± 0.29 – –LSTM 41.47 ± 0.00 (↓26.49) 24.31 ± 0.00 (↓40.77) 74.64 ± 0.32 (↑6.68) 73.74 ± 0.23 (↑8.66)                                                                 
+
+> GRU 61.11 ±0.14 (↓6.85) 56.48 ±0.15 (↓8.60) 74.09 ±1.43 (↑6.13) 73.41 ±1.35 (↑8.33)
+> Mamba 67.50 ±0.14 (↓0.46) 65.22 ±0.19 (↑0.14) 73.34 ±1.00 (↑5.38) 72.37 ±1.09 (↑7.29)
+> TCN 68.05 ±0.17 (↑0.09) 65.25 ±0.22 (↑0.17) 75.36 ±0.32 (↑7.40) 74.08 ±0.36 (↑9.00)
+> Transformer Encoder 72.87 ±0.25 (↑4.91) 70.55 ±0.38 (↑5.47) 77.29 ±0.35 (↑9.33) 75.90 ±0.48 (↑10.82)
+
+naive smoothing, we additionally benchmarked against Moving Average, Median Filter, and a Fixed Attention baseline (uniform 1/W weights), which explicitly represents pure global averaging ( C0). 
+
+Comparison with Sequential Baseline Models. To ensure fairness, we evaluate all architectures under two controlled regimes: (i) a random setting without hyperparameter tuning, where all models share identical configurations so that performance differences purely reflect architectural inductive bias, and (ii) a supervised setting with a unified training protocol, including a shared optimizer, early stopping, and minimal architecture-specific tuning. As shown in Table 1, only the Transformer exhibits substantial performance gains under random initialization, whereas LSTM Hochreiter and Schmidhuber [1997], GRU Chung et al. [2014], TCN Lea et al. [2017], and Mamba Gu and Dao [2024] show no statistically significant improvements. This is expected: recurrent and state-space models rely on parameterized gating or transition dynamics that become unstable under random weights, while TCNs act as random local filters with limited receptive fields, preventing effective sequence-level aggregation. These observations indicate that the Transformer encoder’s performance gains stem not from random noise or normalization effects, but rather from its inherent inductive bias. Under fully random initialization, the Transformer achieves an ACC of 72.87%, approximately 4.9% higher than the non-sequential baseline. Under supervised training, it attains the best sequence modeling perfor-mance.Overall, these results suggests that the Transformer encoder can capture sequence dependencies even without supervision. 
+
+Comparison with Blind Smoothing Baselines. As shown in Figure 2, while heuristic smoothers (Moving Average, Median Filter) and Fixed Attention exploit local continuity at short intervals, their performance collapses catastrophically as the window expands, falling significantly below the non-sequential baseline. This confirms that indiscriminate averaging dilutes discriminative signals (over-smoothing). In sharp contrast, the Random Transformer maintains robust performance even at W = 50 . This substantial performance gap serves as empirical proof that the linear similarity term ( C1XX ⊤) is active: unlike blind filters, the random kernel leverages input geometry to perform content-adaptive smoothing, selectively aggregating context to suppress noise while maintaining distinct stage transitions. 
+
+4.3 Generality and Robustness 
+
+We conducted comprehensive evaluations on four public datasets under two training paradigms: self-supervised pretraining and fully supervised learning. A key observation arises in the fully supervised setting: As shown in Table 2, when the epoch encoder is trained in a supervised manner and produces highly discriminative representations, further optimization of the subsequent Transformer-based sequence encoder yields negligible, and in some cases no, performance improvements. Notably, on Sleep-EDF-20, the frozen Random Transformer achieves an accuracy of 79.96%, surpassing the fully trained sequence model, which attains 78.74%. These results suggest that once high-quality local features are established, the remaining sequence modeling problem in sleep staging is dominated by local temporal smoothing. This role can be effectively fulfilled by the inherent inductive bias of random self-attention, without the need for 7Figure 2: Sensitivity to window length Table 2: Generality and robustness under different training regimes (ACC / Weighted F1 %). Top: 
+
+random vs supervised sequence encoders with frozen epoch encoder, assessing sequence-level gener-alization. Middle: fixed random sequence encoder with trained epoch encoder, testing effectiveness of random sequence modeling under supervised learning. Bottom: fully supervised end-to-end training, representing upper-bound performance.                                                                                                                                        
+
+> Method EDF-20 EDF-ST EDFX SHHS
+> ACC / F1 ACC / F1 ACC / F1 ACC / F1
+> Random vs. Trained Transformer
+> None 67.96 ±0.24 / 65.08 ±0.29 65.76 ±0.23 / 63.29 ±0.28 73.94 ±0.14 / 71.89 ±0.13 71.42 ±0.30 / 70.38 ±0.30
+> Random Transformer 72.87 ±0.25 / 70.55 ±0.38 69.62 ±0.23 / 67.34 ±0.27 77.75 ±0.11 / 76.32 ±0.21 74.18 ±0.20 / 73.32 ±0.20
+> Supervised Transformer 77.29 ±0.35 / 75.90 ±0.48 68.05 ±1.99 / 66.95 ±1.68 79.45 ±1.45 / 78.06 ±1.42 80.86 ±0.40 / 80.62 ±0.33
+> Sequence-level Frozen Encoder
+> One-stage supervised 75.69 ±0.74 / 74.60 ±0.93 74.22 ±0.82 / 73.83 ±0.97 76.77 ±0.37 / 75.33 ±0.23 80.96 ±0.28 / 79.81 ±0.28
+> Frozen (w/o Positional Encoding) 79.96 ±0.42 / 79.13 ±0.73 75.64 ±0.79 / 75.28 ±0.84 78.67 ±0.79 / 77.83 ±0.64 83.36 ±0.14 / 82.89 ±0.18
+> Frozen (w/ Positional Encoding) 79.41 ±0.31 / 78.82 ±0.40 74.00 ±2.03 / 73.75 ±2.08 78.82 ±0.31 / 78.03 ±0.59 83.21 ±0.37 / 82.78 ±0.44
+> Sequence-level Supervised Encoder
+> Two-stage supervised (w/o Positional Encoding) 79.45 ±0.74 / 78.57 ±0.80 75.15 ±1.04 / 74.51 ±1.15 79.15 ±0.40 / 78.21 ±0.39 83.79 ±0.16 / 83.41 ±0.21
+> Two-stage supervised (w/ Positional Encoding) 78.74 ±1.02 / 77.71 ±1.32 75.56 ±0.54 / 74.97 ±0.77 79.67 ±0.64 / 78.16 ±0.64 83.82 ±0.31 / 83.41 ±0.41
+
+parameter learning. While sequence-level training remains beneficial when epoch representations are imperfect, such as in self-supervised settings, our findings indicate that with sufficiently strong epoch-level encoders, the Random Transformer functions as an adequate, training-free sequence smoother, making additional parameter optimization largely redundant. 
+
+4.4 Convergence of the Empirical Random Attention Kernel 
+
+To explicitly validate the high-dimensional asymptotic assumptions underlying the RAPK theory, we analyze the effect of the projection dimension dk in the Random Transformer. We vary dk from 16 to 1024 while keeping the pretrained epoch encoder fixed. The results, shown in Figure 3, reveal fundamentally different scaling behaviors between random and trained Transformers. As dk increases, the Random Transformer exhibits a clear and monotonic performance improvement. At low dimensions ( dk = 16 ), performance is slightly suppressed due to the information bottleneck and the high variance of low-dimensional random projections. However, as dk scales to 1024, accuracy steadily improves, reaching a peak gain of +8.3% over the non-sequential baseline . This behavior directly corroborates the RAPK analysis: increasing dk yields a lower-variance empirical ap-proximation of the expected attention kernel E[KRAP ], allowing the linear similarity term ( C1XX ⊤)to dominate random fluctuations while remaining balanced by the global averaging component ( C0). In contrast, while the trained Transformer performs competitively at low-to-medium dimensions, it degrades in the high-dimensional regime due to optimization instability and overfitting, illustrating the increasing difficulty of learning in an exploding parameter space. These results highlight a key advantage of the Random Transformer: it decouples representational capacity from optimization complexity . By leveraging high-dimensional random attention, the model can enforce strong, adaptive temporal smoothing without suffering from optimization-induced instability. Together with the baseline comparisons in Table 1, this experiment provides strong empirical evidence for the RAPK theory, demonstrating that the observed sequence modeling gains arise from the intrinsic high-dimensional kernel structure of random self-attention. 8(a) Accuracy Sensitivity (b) Weighted F1 Sensitivity 
+
+Figure 3: Sensitivity analysis of projection dimension ( dk). Table 3: WTE and LSII metrics across datasets. Lower WTE is better ( ↓); higher LSII is better ( ↑). Values in parentheses report absolute changes relative to the specified baseline. 
+
+Metric Category EDF-20 EDF-ST EDFX SHHS WTE ↓ None 0.873 0.806 0.737 0.793 WTE ↓ Random 0.575 (↓0.30) 0.465 (↓0.34) 0.477 (↓0.26) 0.580 (↓0.21) 
+
+WTE ↓ Trained 0.473 (↓0.40) 0.573 (↓0.23) 0.337 (↓0.40) 0.450 (↓0.34) 
+
+WTE ↓ True Label 0.404 (↓0.47) 0.407 (↓0.40) 0.329 (↓0.41) 0.451 (↓0.34) 
+
+LSII ↑ None → Random 0.745 0.841 0.698 0.763 LSII ↑ None → Trained 0.837 (↑0.09) 0.760 (↓0.08) 0.849 (↑0.15) 0.809 (↑0.05) 
+
+4.5 Metric Analysis 
+
+We empirically validate the effectiveness of WTE and LSII as diagnostics for sequence modeling behavior. As shown in Table 3, the non-sequential baseline exhibits high WTE, reflecting fragmented and noisy predictions. Introducing random self-attention consistently reduces WTE and increases LSII across all datasets, demonstrating that the Transformer architecture intrinsically enforces temporal smoothness even without training. Crucially, the superior performance achieved under supervised training provides direct evidence that optimizing Transformer-based sequence models effectively amounts to maximizing temporal smoothness. In this view, training does not introduce a qualitatively different mechanism, but rather aligns model parameters with the same smoothing prior already present in the architecture. In certain datasets (e.g., EDF-ST), supervised optimization slightly degrades WTE and LSII, indicating that the inductive bias of the random structure can, in some cases, enforce smoother sequence behavior than learned projections.Overall, these results underscore the central role of structural priors in shaping the temporal regularization properties of Transformer-based sequence models. 
+
+4.6 Qualitative Analysis of Sleep Stage Transitions 
+
+We present a qualitative visualization of whole-night sleep stage transitions for subject SC4181E0 .As shown in Figure 4, the Epoch Encoder (Fig. 4b) generates highly fragmented predictions with frequent unrealistic transitions, reflecting the absence of sequence context. Applying the Random Transformer (Fig. 4c) substantially stabilizes these predictions by smoothing transitions within local windows, resulting in a hypnogram that more closely aligns with the Ground Truth (Fig. 4a). The trained Transformer (Fig. 4d) produces sequences with similar smoothness, yet offers no clear advantage compared with the Random Transformer. This outcome underscores that most of the sequence-level correction arises from the structural prior embedded in random self-attention rather than from supervised optimization. 
+
+## 5 Discussion, Limitation, Conclusion and Future Work 
+
+Our findings reveal a striking and counter-intuitive phenomenon: the effectiveness of Transformers in sleep staging may arise far less from learned long-range dependency modeling than previously 9(a) Ground Truth (b) Epoch Encoder (c) Random Transformer (d) Train Transformer 
+
+Figure 4: Visualization of sleep stage transitions for subject SC4181E0 . Different colors represent distinct sleep stages. (a) Ground truth hypnogram. (b) Raw Epoch Encoder predictions showing fragmented transitions. (c) Random Transformer improves temporal consistency. (d) Fully trained Transformer results. assumed. Through RAPK, we show that even randomly initialized Transformers naturally behave as adaptive sequence smoothers, suggesting that much of the performance gain in modern sleep staging originates from architectural inductive bias itself. This challenges the prevailing paradigm that increasingly complex sequence learning is the primary driver of progress in physiological AI. However, smoothing-based mechanisms may struggle to capture rare, abrupt, or pathological transi-tions, highlighting the need for future models that better balance adaptive smoothing and sensitivity to clinically important sparse events. Another important direction is improving encoder training to achieve stronger representation learning for downstream sleep staging. These findings further suggest that future sleep foundation models should prioritize stronger epoch-level representations while relying on simpler and more structure-driven sequence modules. RAPK also indicates that lightweight, shallow multi-head smoothing architectures are naturally suited for scalable mobile and edge deployment in real-world sleep monitoring. 
+
+## References 
+
+Faith S. Luyster, Jr. Strollo, Patrick J., Phyllis C. Zee, and James K. Walsh. Sleep: A health imperative. Sleep , 35(6):727–734, 06 2012. ISSN 0161-8105. doi: 10.5665/sleep.1846. URL 
+
+https://doi.org/10.5665/sleep.1846 .Huy Phan and Kaare Mikkelsen. Automatic sleep staging of eeg signals: recent development, challenges, and future directions. Physiological measurement , 43(4):04TR01, 2022. Haoqi Sun, Jian Jia, Balaji Goparaju, Guang-Bin Huang, Olga Sourina, Matt Travis Bianchi, and M Brandon Westover. Large-scale automated sleep staging. Sleep , 40(10):zsx139, 09 2017. ISSN 0161-8105. doi: 10.1093/sleep/zsx139. URL https://doi.org/10.1093/sleep/zsx139 .Guisong Liu, Jiansong Zhang, Yinpei Luo, Guoliang Wei, Shuqing Sun, Shiyang Deng, Pengfei Wei, and Nanxi Chen. Sleep modulation: The challenge of transitioning from open loop to closed loop, 2025. URL https://arxiv.org/abs/2512.03784 .Elena Krugliakova, Friederike Breuer, Nico Adelhöfer, Alejandra Alonso, Luciana Besedovsky, Keith Murphy, Emma Peters, Karolina Raczek, Björn Rasch, Leila Salvesen, Sophia Snipes, Sarah Schoch, Thomas Schreiner, Rick Wassing, Til Ole Bergmann, and Martin Dresler. Hacking the functions of sleep: noninvasive approaches to stimulate sleep neurophysiology. Physiological Reviews , 106(2):675–749, 2026. doi: 10.1152/physrev.00007.2025. URL https://doi.org/10. 1152/physrev.00007.2025 . PMID: 41263765. Huy Phan, Kristian P. Lorenzen, Elisabeth Heremans, Oliver Y. Chén, Minh C. Tran, Philipp Koch, Alfred Mertins, Mathias Baumert, Kaare B. Mikkelsen, and Maarten De Vos. L-seqsleepnet: Whole-cycle long sequence modeling for automatic sleep staging. IEEE Journal of Biomedical and Health Informatics , 27(10):4748–4757, 2023. doi: 10.1109/JBHI.2023.3303197. H.R. Colten and Bruce Altevogt. Sleep disorders and sleep deprivation: An unmet public health problem . National Academies Press, 10 2006. ISBN 9780309101110. doi: 10.17226/11617. 10 Richard B. Berry, Rita Brooks, Charlene Gamaldo, Susan M. Harding, Robin M. Lloyd, Stuart F. Quan, Matthew T. Troester, and Bradley V. Vaughn. Aasm scoring manual updates for 2017 (version 2.4). Journal of Clinical Sleep Medicine , 13(05):665–666, 2017. doi: 10.5664/jcsm.6576. URL https://jcsm.aasm.org/doi/abs/10.5664/jcsm.6576 .Yiqiao Liao, Chao Zhang, Milin Zhang, Zhihua Wang, and Xiang Xie. Lightsleepnet: Design of a personalized portable sleep staging system based on single-channel eeg. IEEE Transactions on Circuits and Systems II: Express Briefs , 69(1):224–228, January 2022. ISSN 1558-3791. doi: 10.1109/tcsii.2021.3086981. URL http://dx.doi.org/10.1109/TCSII.2021.3086981 .Guisong Liu, Guoliang Wei, Shuqing Sun, Dandan Mao, Jiansong Zhang, Dechun Zhao, Xuelong Tian, Xing Wang, and Nanxi Chen. Micro sleepnet: efficient deep learning model for mobile terminal real-time sleep staging. Frontiers in Neuroscience , Volume 17 - 2023, 2023. ISSN 1662-453X. doi: 10.3389/fnins.2023.1218072. URL https://www.frontiersin.org/journals/ neuroscience/articles/10.3389/fnins.2023.1218072 .Akara Supratak, Hao Dong, Chao Wu, and Yike Guo. Deepsleepnet: A model for automatic sleep stage scoring based on raw single-channel eeg. IEEE Transactions on Neural Systems and Rehabilitation Engineering , 25(11):1998–2008, 2017. doi: 10.1109/TNSRE.2017.2721116. Akara Supratak and Yike Guo. Tinysleepnet: An efficient deep learning model for sleep stage scoring based on raw single-channel eeg. In 2020 42nd Annual International Conference of the IEEE Engineering in Medicine & Biology Society (EMBC) , pages 641–644, 2020. doi: 10.1109/EMBC44109.2020.9176741. Tianyou Yu, Xinxin Hu, Yanbin He, Wei Wu, Zhenghui Gu, Zhuliang Yu, Yuanqing Li, Fei Wang, and Jun Xiao. Multi-view self-supervised learning enhances automatic sleep staging from eeg signals. IEEE Transactions on Biomedical Engineering , 72(10):3056–3070, 2025. doi: 10.1109/ TBME.2025.3561228. Rahul Thapa, Magnus Ruud Kjær, Bryan He, Ian Covert, Hyatt Moore, Umaer Hanif, Gauri Ganjoo, Brandon M Westover, Poul Jennum, Andreas Brink-Kjær, et al. A multimodal sleep foundation model developed with 500k hours of sleep recordings for disease predictions. medRxiv , pages 2025–02, 2025. Emadeldeen Eldele, Zhenghua Chen, Chengyu Liu, Min Wu, Chee-Keong Kwoh, Xiaoli Li, and Cuntai Guan. An attention-based deep learning approach for sleep stage classification with single-channel eeg. IEEE Transactions on Neural Systems and Rehabilitation Engineering , 29:809–818, 2021. doi: 10.1109/TNSRE.2021.3076234. Huy Phan, Kaare Mikkelsen, Oliver Y. Chén, Philipp Koch, Alfred Mertins, and Maarten De Vos. Sleeptransformer: Automatic sleep staging with interpretability and uncertainty quantification. 
+
+IEEE Transactions on Biomedical Engineering , 69(8):2456–2467, 2022. doi: 10.1109/TBME. 2022.3147187. Guifeng Deng, Mengfan Niu, Shuying Rao, Yuxi Luo, Jianjia Zhang, Junyi Xie, Zhenghe Yu, Wenjuan Liu, Junhang Zhang, Sha Zhao, Gang Pan, Xiaojing Li, Wei Deng, Wanjun Guo, Yaoyun Zhang, Tao Li, and Haiteng Jiang. A unified flexible large psg model for sleep staging and brain disorder diagnosis. medRxiv , 2024. doi: 10.1101/2024.12.11.24318815. URL https: //www.medrxiv.org/content/early/2025/11/27/2024.12.11.24318815 .Jiquan Wang, Sha Zhao, Haiteng Jiang, Yangxuan Zhou, Zhenghe Yu, Tao Li, Shijian Li, and Gang Pan. Caresleepnet: A hybrid deep learning network for automatic sleep staging. IEEE Journal of Biomedical and Health Informatics , 28(12):7392–7405, 2024. doi: 10.1109/JBHI.2024.3426939. Benjamin Wei Hao Chin, Yuin Torng Yew, Haocheng Wu, Lanxin Liang, Chow Khuen Chan, Norita Mohd Zain, Siti Balqis Samdin, and Sim Kuan Goh. Sleepdifformer: Sleep stage classifica-tion via multivariate differential transformer. arXiv preprint arXiv:2508.15215 , 2025. Yanchen Guo, Maciej Nowakowski, and Weiying Dai. FlexSleepTransformer: a transformer-based sleep staging model with flexible input channel configurations. 14(1):26312, 2024. ISSN 2045-2322. doi: 10.1038/s41598-024-76197-0. URL https://doi.org/10.1038/ s41598-024-76197-0 .11 Hyojin Lee, You Rim Choi, Hyun Kyung Lee, Jaemin Jeong, Joopyo Hong, Hyun-Woo Shin, and Hyung-Sin Kim. Explainable vision transformer for automatic visual sleep staging on multimodal PSG signals. 8(1):55, 2025. ISSN 2398-6352. doi: 10.1038/s41746-024-01378-0. URL 
+
+https://doi.org/10.1038/s41746-024-01378-0 .William G. Coon and Mattson Ogg. Laying the foundation: Modern transformers for gold-standard sleep analysis and beyond. In 2024 46th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC) , pages 1–7, 2024. doi: 10.1109/EMBC53108.2024. 10782964. Javier García Ciudad, Morten Mørup, Birgitte Rahbek Kornum, and Alexander Neergaard Zahid. Eval-uating the influence of temporal context on automatic mouse sleep staging through the application of human models. In 2024 46th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC) , pages 1–4, 2024. doi: 10.1109/EMBC53108.2024.10782771. Jathurshan Pradeepkumar, Mithunjha Anandakumar, Vinith Kugathasan, Dhinesh Suntharalingham, Simon L. Kappel, Anjula C. De Silva, and Chamira U. S. Edussooriya. Toward interpretable sleep stage classification using cross-modal transformers. IEEE Transactions on Neural Systems and Rehabilitation Engineering , 32:2893–2904, 2024. doi: 10.1109/TNSRE.2024.3438610. Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Proceedings of the 31st International Conference on Neural Information Processing Systems , NIPS’17, page 6000–6010, Red Hook, NY, USA, 2017. Curran Associates Inc. ISBN 9781510860964. Huy Phan, Fernando Andreotti, Navin Cooray, Oliver Y. Chén, and Maarten De Vos. Seqsleepnet: End-to-end hierarchical recurrent neural network for sequence-to-sequence automatic sleep staging. 
+
+IEEE Transactions on Neural Systems and Rehabilitation Engineering , 27(3):400–410, 2019. doi: 10.1109/TNSRE.2019.2896659. Mantas Lukoševiˇ cius and Herbert Jaeger. Reservoir computing approaches to recurrent neural network training. 3(3):127–149. ISSN 1574-0137. doi: https://doi.org/10.1016/j.cosrev.2009.03.005. URL 
+
+https://www.sciencedirect.com/science/article/pii/S1574013709000173 .Hogeon Seo, Seunghyeok Back, Seongju Lee, Deokhwan Park, Tae Kim, and Kyoobin Lee. Intra-and inter-epoch temporal context network (iitnet) using sub-epoch features for automatic sleep scoring on raw single-channel eeg. Biomedical signal processing and control , 61:102037, 2020. Ali Rahimi and Benjamin Recht. Random features for large-scale kernel machines. In Proceedings of the 21st International Conference on Neural Information Processing Systems , NIPS’07, page 1177–1184, Red Hook, NY, USA, 2007. Curran Associates Inc. ISBN 9781605603520. Claudio Gallicchio and Alessio Micheli. Deep echo state network (deepesn): A brief survey, 2020. URL https://arxiv.org/abs/1712.04323 .Victor Lempitsky, Andrea Vedaldi, and Dmitry Ulyanov. Deep image prior. In 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 9446–9454, 2018. doi: 10.1109/ CVPR.2018.00984. Krzysztof Choromanski, Valerii Likhosherstov, David Dohan, Xingyou Song, Andreea Gane, Tamas Sarlos, Peter Hawkins, Jared Davis, Afroz Mohiuddin, Lukasz Kaiser, et al. Rethinking attention with performers. arXiv preprint arXiv:2009.14794 , 2020. Hao Peng, Nikolaos Pappas, Dani Yogatama, Roy Schwartz, Noah A. Smith, and Lingpeng Kong. Random feature attention, 2021. URL https://arxiv.org/abs/2103.02143 .Yao-Hung Hubert Tsai, Shaojie Bai, Makoto Yamada, Louis-Philippe Morency, and Ruslan Salakhut-dinov. Transformer dissection: An unified understanding for transformer’s attention via the lens of kernel. In Kentaro Inui, Jing Jiang, Vincent Ng, and Xiaojun Wan, editors, Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP) , pages 4344–4353, Hong Kong, China, November 2019. Association for Computational Linguistics. doi: 10.18653/v1/D19-1443. URL https://aclanthology.org/D19-1443/ .12 Namuk Park and Songkuk Kim. How do vision transformers work?, 2022. URL https://arxiv. org/abs/2202.06709 .Peihao Wang, Wenqing Zheng, Tianlong Chen, and Zhangyang Wang. Anti-oversmoothing in deep vision transformers via the fourier domain analysis: From theory to practice, 2022. URL 
+
+https://arxiv.org/abs/2203.05962 .Arthur Jacot, Franck Gabriel, and Clément Hongler. Neural tangent kernel: convergence and generalization in neural networks (invited paper). In Proceedings of the 53rd Annual ACM SIGACT Symposium on Theory of Computing , STOC 2021, page 6, New York, NY, USA, 2021. Association for Computing Machinery. ISBN 9781450380539. doi: 10.1145/3406325.3465355. URL https://doi.org/10.1145/3406325.3465355 .Jiri Hron, Yasaman Bahri, Jascha Sohl-Dickstein, and Roman Novak. Infinite attention: Nngp and ntk for deep attention networks, 2020. URL https://arxiv.org/abs/2006.10540 .Ary L. Goldberger, Luis A. N. Amaral, Leon Glass, Jeffrey M. Hausdorff, Plamen Ch. Ivanov, Roger G. Mark, Joseph E. Mietus, George B. Moody, Chung-Kang Peng, and H. Eugene Stanley. Physiobank, physiotoolkit, and physionet. Circulation , 101(23):e215–e220, 2000. doi: 10.1161/01.CIR.101.23. e215. URL https://www.ahajournals.org/doi/abs/10.1161/01.CIR.101.23.e215 .Stuart F. Quan, Barbara V. Howard, Conrad Iber, James P. Kiley, F. Javier Nieto, George T. O’Connor, David M. Rapoport, Susan Redline, John Robbins, Jonathan M. Samet, and ‡Patricia W. Wahl. The sleep heart health study: Design, rationale, and methods. Sleep , 20(12):1077–1085, 12 1997. ISSN 0161-8105. doi: 10.1093/sleep/20.12.1077. URL https://doi.org/10.1093/sleep/ 20.12.1077 .Jinghao Zhou, Chen Wei, Huiyu Wang, Wei Shen, Cihang Xie, Alan Yuille, and Tao Kong. ibot: Image bert pre-training with online tokenizer. International Conference on Learning Representations (ICLR) , 2022. Sepp Hochreiter and Jürgen Schmidhuber. Long short-term memory. Neural Computation , 9(8): 1735–1780, 1997. doi: 10.1162/neco.1997.9.8.1735. Junyoung Chung, Caglar Gulcehre, KyungHyun Cho, and Yoshua Bengio. Empirical evaluation of gated recurrent neural networks on sequence modeling, 2014. URL https://arxiv.org/abs/ 1412.3555 .Colin Lea, Michael D. Flynn, René Vidal, Austin Reiter, and Gregory D. Hager. Temporal convolu-tional networks for action segmentation and detection. In 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , pages 1003–1012, 2017. doi: 10.1109/CVPR.2017.113. Albert Gu and Tri Dao. Mamba: Linear-time sequence modeling with selective state spaces, 2024. URL https://arxiv.org/abs/2312.00752 .Niklas Grieger, Jannik Raskob, Siamak Mehrkanoon, and Stephan Bialonski. Anysleep: a channel-agnostic deep learning system for high-resolution sleep staging in multi-center cohorts, 2025. URL 
+
+https://arxiv.org/abs/2512.14461 .Pedro Fonseca, Niek den Teuling, Xi Long, and Ronald M. Aarts. Cardiorespiratory sleep stage detection using conditional random fields. IEEE Journal of Biomedical and Health Informatics , 21 (4):956–966, 2017. doi: 10.1109/JBHI.2016.2550104. 13 A Framework and Model Details 
+
+A.1 Overview of the Framework 
+
+We adopt a two-stage automatic sleep staging framework. Unlike prior methods, this study focuses on the effect of the intrinsic random initialization bias of the Transformer architecture on temporal modeling: • Stage 1: A Transformer-based Epoch Encoder extracts local features from single 30-second EEG segments. • Stage 2: A randomly initialized and untrained Temporal Transformer models sequences across epochs. This design allows independent investigation of the natural temporal smoothing and contextual dependencies modeled by the architecture itself, without parameter optimization. 
+
+A.2 Epoch Encoder 
+
+The Epoch Encoder extracts local time-frequency features from a 30-second EEG segment and maps them to a latent representation. The input is X(i) ∈ R1×T , T = 3000 , with a sampling rate of 100 Hz. 
+
+A.2.1 Patch Embedding and Linear Projection 
+
+The input sequence is divided into fixed-length patches P = 100 :
+
+X(i) = [ x(i)1 , . . . , x (i) 
+
+> Np
+
+], x(i) 
+
+> j
+
+∈ RP , Np = ⌈T /P ⌉.
+
+Each patch is linearly projected via a 1D convolution: 
+
+h(i) 
+
+> j
+
+= Wpx(i) 
+
+> j
+
++ bp, Wp ∈ Rd×P , b p ∈ Rd, d = 128 ,
+
+yielding a patch sequence: 
+
+H(i) = [ h(i)1 , . . . , h (i) 
+
+> Np
+
+] ∈ RNp×d.
+
+A.2.2 Positional Encoding and [CLS] Token 
+
+A learnable [CLS] token aggregates epoch-level semantics: 
+
+H(i) 
+
+> in
+
+= [ hcls ; H(i)] ∈ R(Np+1) ×d.
+
+Adding learnable positional embeddings Ppatch ∈ R(Np+1) ×d:
+
+˜H(i) 
+
+> in
+
+= H(i) 
+
+> in
+
++ Ppatch .
+
+A.2.3 Transformer Encoding 
+
+The sequence is input to a Transformer encoder: 
+
+˜H(i) 
+
+> out
+
+= TransformerEncoder ( ˜H(i) 
+
+> in
+
+; θepoch ).
+
+A.2.4 Epoch-level Feature Vector 
+
+The [CLS] output serves as the epoch-level representation: 
+
+z(i) = ˜H(i) 
+
+> out
+
+[0] ∈ Rd.
+
+A.3 Temporal Transformer Encoder 
+
+After encoding, consecutive epochs form a latent sequence: 
+
+Z = {z(1) , . . . , z (N )}, z(i) ∈ Rd, N = 10 .
+
+14 A.3.1 Temporal Positional Encoding 
+
+A learnable temporal positional embedding Ptemp ∈ RN ×d is added: 
+
+˜Z = Z + Ptemp .
+
+A.3.2 Temporal Modeling Layer 
+
+The sequence with temporal embeddings is input to a temporal Transformer: 
+
+˜Hout = TransformerEncoder ( ˜Z; θtemp ),
+
+enabling global self-attention across all epochs. 
+
+A.4 Sleep Stage Classification 
+
+For each epoch i, the context-enhanced output ˜h(i) 
+
+> out
+
+∈ Rd is classified using a linear layer followed by softmax: 
+
+ˆy(i) = Softmax (Wc˜h(i) 
+
+> out
+
++ bc), Wc ∈ RK×d, b c ∈ RK ,
+
+where K denotes the number of sleep stages (e.g., W, N1, N2, N3, REM). The sequence output is 
+
+ˆY = [ˆ y(1) , . . . , ˆy(N )] ∈ RN ×K .
+
+## B Expectation Derivation of RAPK (Initialization-Independent) 
+
+B.1 Notation, Assumptions, and Objective 
+
+Let the input matrix be 
+
+X = [ x⊤ 
+
+> 1
+
+; . . . ; x⊤ 
+
+> T
+
+] ∈ RT ×d, xp ∈ Rd.
+
+Random linear layers WQ, W K , W V ∈ Rd×dk satisfy: • i.i.d. elements, zero mean: E[WQ] = E[WK ] = E[WV ] = 0 
+
+• finite variance: Var [( WQ)ab ] = σ2
+
+> Q
+
+, Var [( WK )ab ] = σ2 
+
+> K
+
+, Var [( WV )ab ] = σ2
+
+> V
+
+• mutual independence: WQ ⊥ WK ⊥ WV
+
+Define 
+
+Q = XW Q, K = XW K , V = XW V .
+
+For the i-th row: 
+
+qi = x⊤ 
+
+> i
+
+WQ, kp = x⊤ 
+
+> p
+
+WK , vp = x⊤ 
+
+> p
+
+WV .
+
+Scaled attention scores: 
+
+sip = qi · kp
+
+√dk
+
+, A = Softmax 
+
+ QK ⊤
+
+√dk
+
+
+
+, aip = Aip .
+
+Output matrix: 
+
+O = AV, oi =
+
+> T
+
+X
+
+> p=1
+
+aip vp.
+
+Random Attention Prior Kernel (RAPK): 
+
+KRAP = OO ⊤.
+
+The goal is to derive 
+
+E[KRAP ]ij ≈ C0 + C1(x⊤ 
+
+> i
+
+xj ).
+
+15 B.2 Second Moment of Value Vectors 
+
+v⊤ 
+
+> p
+
+vq = ( x⊤ 
+
+> p
+
+WV )( W ⊤ 
+
+> V
+
+xq ) = x⊤ 
+
+> p
+
+WV W ⊤ 
+
+> V
+
+xq .
+
+Taking expectation over WV :
+
+EWV [v⊤ 
+
+> p
+
+vq ] = x⊤ 
+
+> p
+
+E[WV W ⊤ 
+
+> V
+
+] xq .
+
+Since columns of WV are i.i.d. with zero mean and variance σ2 
+
+> V
+
+:
+
+E[WV W ⊤ 
+
+> V
+
+] = 
+
+> dk
+
+X
+
+> r=1
+
+E[wr w⊤ 
+
+> r
+
+] = dkσ2 
+
+> V
+
+Id.
+
+Hence, 
+
+EWV [v⊤ 
+
+> p
+
+vq ] = dkσ2 
+
+> V
+
+(x⊤ 
+
+> p
+
+xq ). (5) Substitute into KRAP :
+
+KRAP =
+
+> T
+
+X
+
+> p,q =1
+
+aip ajq (v⊤ 
+
+> p
+
+vq ), E[Kij ] = X
+
+> p,q
+
+EWQ,W K [aip ajq ] · EWV [v⊤ 
+
+> p
+
+vq ].
+
+Using (5): 
+
+E[Kij ] = dkσ2
+
+> V
+
+X
+
+> p,q
+
+EWQ,W K [aip ajq ]( x⊤ 
+
+> p
+
+xq ). (6) 
+
+B.3 Linearization of Softmax 
+
+Define Si = PTt=1 sit . Using first-order Taylor expansion: 
+
+esip = 1 + sip + 12 s2 
+
+> ip
+
++ O(s3).
+
+Numerator: Num = 1 + sip + O(s2), Den =
+
+> T
+
+X
+
+> t=1
+
+(1 + sit + O(s2)) = T + Si + O(X s2
+
+> it
+
+).
+
+Reciprocal expansion: 
+
+1
+
+T + Si + ϵ ≈ 1
+
+T
+
+
+
+1 − Si
+
+T − ϵT
+
+
+
++ O(s2).
+
+Thus, 
+
+aip ≈ 1
+
+T + 1
+
+T (sip − ¯si) + O(s2), ¯si = Si
+
+T .
+
+For the product: 
+
+aip ajq ≈ 1
+
+T 2 + 1
+
+T 2 [( sip − ¯si) + ( sjq − ¯sj )] + 1
+
+T 2 (sip − ¯si)( sjq − ¯sj ) + O(s3).
+
+Expectation: 
+
+E[aip ajq ] ≈ 1
+
+T 2 + 1
+
+T 2 E[( sip − ¯si)( sjq − ¯sj )] . (7) 
+
+B.4 Computation of E[sip sjq ]
+
+Write 
+
+qi =
+
+> dk
+
+X
+
+> r=1
+
+(x⊤ 
+
+> i
+
+wQr )er , kp =
+
+> dk
+
+X
+
+> r=1
+
+(x⊤ 
+
+> p
+
+wKr )er ,
+
+so that 
+
+sip = 1
+
+√dkdkX
+
+> r=1
+
+uQi,r uKp,r , uQi,r = x⊤ 
+
+> i
+
+wQr , u Kp,r = x⊤ 
+
+> p
+
+wKr .
+
+16 Then 
+
+sip sjq = 1
+
+dkdkX
+
+> r,r ′=1
+
+uQi,r uKp,r uQj,r ′ uKq,r ′ .
+
+Independence implies only terms with r = r′ remain: 
+
+E[sip sjq ] = 1
+
+dkdkX
+
+> r=1
+
+E[uQi,r uQj,r ] E[uKp,r uKq,r ].
+
+Since E[uQi,r uQj,r ] = σ2
+
+> Q
+
+(x⊤ 
+
+> i
+
+xj ) and E[uKp,r uKq,r ] = σ2 
+
+> K
+
+(x⊤ 
+
+> p
+
+xq ):
+
+E[sip sjq ] = σ2
+
+> Q
+
+σ2 
+
+> K
+
+(x⊤ 
+
+> i
+
+xj )( x⊤ 
+
+> p
+
+xq ). (8) 
+
+B.5 Computation of E[( sip − ¯si)( sjq − ¯sj )] 
+
+sip − ¯si = sip − 1
+
+T
+
+> T
+
+X
+
+> t=1
+
+sit , sjq − ¯sj = sjq − 1
+
+T
+
+> T
+
+X
+
+> u=1
+
+sju .
+
+Multiply and take expectation: 
+
+E[( sip − ¯si)( sjq − ¯sj )] = σ2
+
+> Q
+
+σ2 
+
+> K
+
+(x⊤ 
+
+> i
+
+xj )(x⊤ 
+
+> p
+
+xq ) − 1
+
+T
+
+X
+
+> t
+
+x⊤ 
+
+> t
+
+xq − 1
+
+T
+
+X
+
+> u
+
+x⊤ 
+
+> p
+
+xu + 1
+
+T 2
+
+X
+
+> t,u
+
+x⊤ 
+
+> t
+
+xu
+
+.
+
+Recognize as centered inner product with mean vector μ = 1
+
+> T
+
+P 
+
+> t
+
+xt:
+
+E[( sip − ¯si)( sjq − ¯sj )] = σ2
+
+> Q
+
+σ2 
+
+> K
+
+(x⊤ 
+
+> i
+
+xj )(( xp − μ)⊤(xq − μ)) . (9) 
+
+B.6 Combine All Terms: C0 and C1
+
+From (6) and (7): 
+
+E[Kij ] = dkσ2
+
+> V
+
+X
+
+> p,q
+
+ 1
+
+T 2 + 1
+
+T 2 E[( sip − ¯si)( sjq − ¯sj )] 
+
+
+
+(x⊤ 
+
+> p
+
+xq ).
+
+Constant term: 
+
+C0 = dkσ2
+
+> V
+
+T 2
+
+X
+
+> p,q
+
+x⊤ 
+
+> p
+
+xq . (10) 
+
+Linear kernel term: Using (9): 
+
+C1 = dkσ2 
+
+> V
+
+σ2
+
+> Q
+
+σ2
+
+> K
+
+T 2
+
+X
+
+> p,q
+
+(( xp − μ)⊤(xq − μ))( x⊤ 
+
+> p
+
+xq ). (11) 
+
+B.7 Final RAPK Expectation 
+
+E[KRAP ]ij ≈ C0 + C1(x⊤ 
+
+> i
+
+xj ). (12) Matrix form: 
+
+E[KRAP ] ≈ C011 ⊤ + C1XX ⊤. (13) If the input is centered ( μ = 0 ), then S2 = P 
+
+> p,q
+
+(x⊤ 
+
+> p
+
+xq )2 = ∥XX ⊤∥2 
+
+> F
+
+and 
+
+C1 = dkσ2 
+
+> V
+
+σ2
+
+> Q
+
+σ2
+
+> K
+
+T 2 ∥XX ⊤∥2 
+
+> F
+
+.
+
+B.8 Interpretation 
+
+The kernel consists of a dominant constant baseline ( C0) and a linear similarity term (C1). The latter depends linearly on x⊤ 
+
+> i
+
+xj , demonstrating that the expected RAPK structure effectively acts as a linear kernel shifted by a global averaging offset in the high-dimensional limit. 17 C Additional Metrics and Implementation Details 
+
+C.1 Weighted Transition Entropy (WTE) 
+
+Algorithm 1 details the computation of weighted transition entropy, which quantifies the unpre-dictability of transitions in a sleep stage sequence. 
+
+Algorithm 1 Computation of Weighted Transition Entropy (WTE) 
+
+Require: Sequence of predicted sleep stages s = [ s1, . . . , s T ], Number of classes C
+
+Ensure: Weighted transition entropy Hweighted  
+
+> 1:
+
+Initialize transition count matrix T ∈ ZC×C as zeros  
+
+> 2:
+
+for t = 1 to T − 1 do  
+
+> 3:
+
+T [st, s t+1 ] ← T [st, s t+1 ] + 1  
+
+> 4:
+
+end for  
+
+> 5:
+
+Compute row sums Rc = PCj=1 T [c, j ] for each class c 
+
+> 6:
+
+Initialize transition probability matrix P ∈ RC×C as zeros  
+
+> 7:
+
+for c = 1 to C do  
+
+> 8:
+
+if Rc > 0 then  
+
+> 9:
+
+P [c, :] ← T [c, :] /R c 
+
+> 10:
+
+end if  
+
+> 11:
+
+end for  
+
+> 12:
+
+Compute per-class entropy: Hc = − PCj=1 P [c, j ] log P [c, j ] for all c with Rc > 0 
+
+> 13:
+
+Compute weighted transition entropy: 
+
+Hweighted =
+
+> C
+
+X
+
+> c=1
+
+Rc
+
+P 
+
+> c′
+
+Rc′
+
+· Hc 
+
+> 14:
+
+return Hweighted 
+
+C.2 Local Smoothness Influence Index (LSII) 
+
+Algorithm 2 details the computation of the Local Smoothness Influence Index, which measures the degree to which sequence-level corrections are supported by local temporal consensus. 
+
+Algorithm 2 Computation of Local Smoothness Influence Index (LSII) 
+
+Require: Non-sequential predictions ynone , Corrected predictions ycorr , Ground-truth labels ytrue ,Window size W
+
+Ensure: Mean LSII score  
+
+> 1:
+
+T ← | ynone | 
+
+> 2:
+
+I ← { i | ynone 
+
+> i
+
+̸ = ycorr  
+
+> i
+
+} 
+
+> 3:
+
+if |I| = 0 then  
+
+> 4:
+
+return None  
+
+> 5:
+
+end if  
+
+> 6:
+
+Partition the sequence into non-overlapping windows {[t, t + W )} 
+
+> 7:
+
+Initialize empty list L 
+
+> 8:
+
+for all i ∈ I do  
+
+> 9:
+
+Identify window [s, e ) containing index i 
+
+> 10:
+
+y ← ycorr  
+
+> i
+> 11:
+
+W ← { ycorr  
+
+> j
+
+| j ∈ [s, e ), j ̸ = i} 
+
+> 12:
+
+LSII i ← 1
+
+> |W|
+
+P
+
+> j∈W
+
+I[ycorr  
+
+> j
+
+= y] 
+
+> 13:
+
+Append LSII i to L 
+
+> 14:
+
+end for  
+
+> 15:
+
+return mean (L)
+
+18 Table 4: Generality of RT under integration into a strong baseline (AnySleep) (ACC / Weighted F1 %). 
+
+Top: original AnySleep model trained from scratch under a controlled protocol. Middle: integration of a frozen RT with dk = 128 . Bottom: RT with increased projection dimension ( dk = 512 ).                      
+
+> Method EDF-20 EDF-ST EDFX SHHS1
+> ACC / F1 ACC / F1 ACC / F1 ACC / F1
+> AnySleep 74.63 ±6.21 / 71.74 ±5.75 74.82 ±1.68 / 71.51 ±2.31 81.92 ±0.89 / 80.71 ±1.18 86.89 ±0.53 / 86.07 ±0.93 RT ( dk= 128 )79.13 ±3.41 / 78.19 ±4.07 74.79 ±3.36 / 73.37 ±3.78 81.94 ±0.73 / 81.38 ±0.61 87.04 ±0.65 / 86.89 ±0.67
+> RT ( dk= 512 )81.64 ±1.48 / 80.91 ±2.13 77.41 ±1.48 / 77.36 ±1.38 82.80 ±0.98 / 81.96 ±1.14 86.80 ±0.43 / 86.48 ±0.52
+
+## D Generality of RT: Integration into Existing SOTA Model 
+
+To demonstrate the generality of RT, we integrate it into a recent strong baseline, AnySleep Grieger et al. [2025], under a strictly controlled protocol. All models are trained from scratch using the official implementation, with identical preprocessing, optimization, and training schedules. The only modification is replacing the original sequence aggregation module (mean pooling) with a frozen RT, leaving all other components unchanged. This setup isolates the effect of RT as a plug-in module. As shown in Table 4, RT consistently improves performance over the original AnySleep across multiple datasets. Notably, gains are observed on EDF-20, EDF-ST, EDFX, and SHHS1, demonstrating that RT can be seamlessly integrated into an existing SOTA pipeline and further enhance its performance. This improvement is achieved without additional architectural redesign, highlighting RT as a simple yet effective drop-in replacement for sequence aggregation. These results confirm that RT is not tied to a specific model design, but functions as a general-purpose sequence-level operator that can be directly incorporated into competitive architectures to improve performance, supporting its broad applicability beyond our proposed framework. 
+
+## E Direct Sequence Modeling on Raw Signals 
+
+To comprehensively validate the intrinsic sequence modeling capability of the Random Transformer, we investigated whether its smoothing effect persists even without a dedicated epoch encoder. In this experiment, we applied sequence modeling directly to raw EEG signals. As presented in Table 5, a baseline MLP operating independently on each epoch performs close to chance level ( 22 .19% ACC), failing to capture any temporal context. Crucially, incorporating a randomly initialized sequence encoder immediately yields a substantial performance leap ( ∼ 18% absolute gain in Accuracy), demonstrating that the RAPK mechanism effectively enforces local contextual smoothing even on raw, noisy input features. While adding positional encoding further stabilizes this behavior, the Random Transformer alone recovers significant sequential dependencies. However, the gap between this setup and the two-stage framework (Table 1) underscores that while random attention provides robust temporal smoothing, a strong epoch-level feature extractor remains essential for high-performance sleep staging. Table 5: Performance of direct sequence modeling on raw EEG signals (Sleep-EDF-20). Method ACC (%) Weighted F1 (%) MLP (Supervised) 22.19 ± 0.35 23.45 ± 0.34 
+
+Random Transformer + MLP (w/o Positional Encoding) 39.86 ± 1.46 33.81 ± 1.11 Random Transformer + MLP (w/ Positional Encoding) 40.22 ± 1.22 34.03 ± 1.07 
+
+Train Transformer + MLP 50.97 ± 1.55 48.04 ± 1.87 
+
+## F RAPK Approximation Error 
+
+We first quantify the overall approximation gap between the closed-form RAPK and empirical random Transformer (RT) kernels using Monte Carlo simulations (1000 trials) across dk ∈ [16 , 1024] . As shown in Fig. 5, the mean squared error (MSE) decreases monotonically with increasing width and approaches zero at large dk, confirming that RAPK is asymptotically exact. At small dimensions, a finite error remains due to higher-order truncation effects. We then examine the structure of 19 Figure 5: MSE between empirical random Transformer kernels and the closed-form RAPK prediction across varying model widths dk.
+
+Figure 6: Empirical versus theoretical RAPK kernel values across varying model widths dk.this approximation gap. Despite non-zero MSE at small widths (e.g., dk = 16 ), Fig. 6 shows that empirical and theoretical kernels maintain a strictly monotonic and highly linear relationship, indicating strong preservation of relative similarity. Furthermore, as shown in Fig. 7, empirical heatmaps closely match theoretical predictions, preserving key structural patterns such as block-diagonal smoothing (state inertia) and clear transition boundaries. These results demonstrate that RAPK is not only asymptotically exact in magnitude but also structurally faithful at practical dimensions, with performance driven primarily by preserved kernel geometry rather than pointwise numerical precision. 
+
+## G Empirical Validation of Attention Logit Concentration 
+
+We empirically validate the RAPK assumption that pre-softmax attention logits QK ⊤/√dk concen-trate near zero under standard Transformer settings. As shown in Fig. 8a and Fig. 8b, we analyze distributions across 8 initialization schemes and multiple dimensions dk ∈ [32 , 2048] . With Layer Normalization (Fig. 8b), logits exhibit significantly sharper concentration around zero due to sta-bilized feature statistics and bounded input magnitudes. Consequently, most values are confined within a narrow range, placing the softmax in a near-linear regime. Without LayerNorm (Fig. 8a), distributions are broader, but still show clear concentration-of-measure behavior under standard initializations (e.g., Xavier and Kaiming), where increasing dk leads to progressive collapse toward zero. Both normalization and initialization jointly drive attention logits into a near-zero regime, confirming that the RAPK assumption holds naturally in practical Transformer implementations. 20 Figure 7: Comparison of empirical random Transformer kernels and the closed-form RAPK predic-tion.  
+
+> (a) Without LayerNorm (b) With LayerNorm
+
+Figure 8: Distribution of pre-softmax attention logits with and without Layer Normalization across initialization schemes and varying dk. LayerNorm stabilizes feature statistics and enhances concen-tration near zero, promoting the near-linear regime of the softmax operation. 
+
+## H Correlation Analysis of Sequence Structure Metrics 
+
+To validate LSII and WTE as quantitative proxies for sequence smoothing, we analyzed their correlation with accuracy across 35 experimental configurations on Sleep-EDF-20 (5 seeds × 7window lengths W ∈ [5 , 50] ). Figure 9 reveals strong deterministic links between sequence regularity and model performance. 
+
+Local Smoothness Influence Index (LSII). Figure 9(a) shows a strong positive correlation ( r ≈
+
+0.86 , p < 0.001 ). Configurations with smaller windows ( W ∈ [5 , 10] ) yield higher smoothness 21 and superior accuracy, confirming that performance gains arise directly from the model’s ability to enforce local temporal agreement and correct isolated epoch errors. 
+
+Weighted Transition Entropy (WTE). Figure 9(b) demonstrates a strong negative correlation (r ≈ − 0.90 , p < 0.001 ).Lower entropy consistently aligns with higher accuracy, suggesting that the Random Transformer acts as a temporal stabilizer. By dampening erratic transitions through averaging, it generates sequences that adhere to the intrinsic stability of sleep physiology. These metrics thus quantitatively link the architecture’s smoothing inductive bias to classification success. 
+
+Figure 9: Correlation analysis between sequence structure metrics and accuracy across 35 experimen-tal configurations (5 random seeds × 7 window lengths). The color gradient represents the temporal window size. 
+
+## I Component Ablation 
+
+We systematically dissected the core modules of the Transformer encoder to identify which compo-nents drive the performance gains attributed to the random structural prior. As shown in Figure 10, retaining only the attention mechanism (Only Attention) already yields substantial improvement, demonstrating that the core inductive bias originates from self-attention. From the Random Attention Prior Kernel (RAPK) perspective, random self-attention induces a structured kernel that performs im-plicit local smoothing, suppressing fluctuations and enhancing sequence consistency. Adding random feedforward network (FFN) and LayerNorm further improves performance by stabilizing feature scales and ensuring the smoothing effect is effective. In contrast, the feedforward network (FFN) contributes minimally under random initialization and can even slightly reduce sequence consistency. Overall, self-attention drives the sequence modeling capability, while random feedforward network (FFN) and LayerNorm provide structural support to form robust smoothing representations without training. 
+
+## J Parameter Sensitivity 
+
+We analyzed the impact of Transformer depth, number of attention heads, initialization schemes, and temporal window lengths to characterize the sensitivity of Random Transformers to architectural complexity and hyperparameter choices. 
+
+Layers and Attention Heads Our results indicate that a single-layer encoder with eight attention heads achieves the best performance. Increasing the number of heads enhances the model’s ability to compute similarity across diverse subspaces, enabling richer representations of multi-scale and com-plementary sequence dependencies. Under random initialization, this multi-head structure functions as an ensemble of heterogeneous random attention kernels, improving stability and robustness. In con-trast, adding additional encoder layers provides no benefit. Each extra layer introduces new random projections and nonlinear transformations that gradually diffuse informative sequence structures and amplify stochastic variations, thereby distorting the underlying sequential geometry. Consequently, deeper random Transformers may weaken the intrinsic sequence smoothness naturally induced by random attention, explaining why increasing breadth (heads) is more effective than increasing depth 
+
+(layers) in this setting. 
+
+Initialization Methods We observe that Xavier and Kaiming uniform initializations significantly outperform Gaussian baselines. This divergence is explained by our RAPK framework: Gaussian 22 Figure 10: Component ablation on Sleep-EDF-20. Top: ACC (%); Bottom: Weighted F1 (%). Colors indicate different module configurations, from left to right: None, FFN, LayerNorm, Attention without linear, Attention, Attention+FFN, Attention+LayerNorm, Full Transformer Encoder. Table 6: Sensitivity of ACC and F1 (%) to Transformer layers and attention heads (Random mode). Layers ACC Weighted F1 1 head 4 heads 8 heads 1 head 4 heads 8 heads 1 73.11 73.47 73.61 71.28 71.32 71.32 2 73.27 73.25 73.04 71.03 71.14 70.75 3 72.98 73.36 72.95 70.76 71.40 70.79 4 73.34 73.42 72.87 71.18 71.31 70.55 initialization induces severe feature compression, collapsing the activation variance required for the kernel’s similarity term to function ( C1 → 0). This degenerates the model into a blind low-pass filter dominated by the constant term C0. In contrast, uniform initialization preserves feature scale, ensuring attention logits remain in an optimal regime that balances global smoothing with content-adaptive structural retention. Thus, successful random attention requires initialization that maintains the intrinsic geometry of pretrained representations. Table 7: Sensitivity to initialization methods (Random mode). Method ACC (%) Weighted F1 (%) xavier_uniform 73.61 ± 0.14 71.32 ± 0.18 kaiming_uniform_relu 73.54 ± 0.12 71.66 ± 0.13 uniform_0.1 72.66 ± 0.32 70.24 ± 0.49 orthogonal 72.58 ± 0.06 69.96 ± 0.17 xavier_normal 72.23 ± 0.12 69.60 ± 0.17 kaiming_normal_relu 71.36 ± 0.26 68.82 ± 0.31 normal_0.02 68.19 ± 0.27 65.22 ± 0.34 trunc_normal_0.02 68.05 ± 0.21 65.19 ± 0.30 
+
+Effect of Window Length As shown in Figure 2, the performance of the Random Transformer is sensitive to the sequence window size, achieving peak accuracy within a narrow range of 5 to 10 steps. Beyond this range, performance declines steadily. This observation suggests that the Random Transformer primarily functions as a short-range context smoother: within small windows, sleep stages exhibit strong local continuity that random attention can leverage to stabilize predictions. As the window expands, local continuity weakens and more cross-stage transitions occur, making it challenging for random attention to differentiate noise from true transitions, thereby diminishing its 23 smoothing effect and reducing accuracy. This trend is consistent with prior sleep staging studiesPhan et al. [2022, 2023], Deng et al. [2024]. 
+
+## K Visualization Results 
+
+K.1 Feature Representation Analysis 
+
+To investigate the internal mechanism of our proposed method, we visualize the latent feature representations in Figure 11. In subject SC4181E0 from the Sleep-EDF-20 dataset, we present four representative samples and compare the feature heatmaps produced by the Epoch Encoder with those obtained after processing by the Random Transformer. As illustrated in the left column (Figs. 11a and 11c and 11e and 11g), the raw features from the Epoch Encoder exhibit significant high-frequency variance and sequence discontinuities across adjacent time steps, reflecting the noise inherent in independent epoch-level encoding.In stark contrast, after passing through the Random Transformer (right column, Figs. 11b and 11d and 11f and 11h), the feature distributions become notably smoother and more homogenized along the temporal axis. This visualization provides direct empirical verification of our RAPK derivation (Eq. 12). Specifically: • The observed homogenization corresponds to the dominance of the global averaging term (C011 ⊤), which acts as a strong low-pass filter to suppress local fluctuations and noise. • Crucially, the preservation of stage-specific patterns (i.e., the distinct bands remain visible despite smoothing) validates the presence of the linear similarity term ( C1XX ⊤). This confirms that the smoothing is content-adaptive rather than blind averaging, allowing the model to enhance sequence coherence while retaining the discriminative structure necessary for classification.       
+
+> (a) Window 2: Before (b) Window 2: After (c) Window 16: Before (d) Window 16: After
+> (e) Window 70: Before (f) Window 70: After (g) Window 76: Before (h) Window 76: After
+
+Figure 11: Visualization of feature heatmaps illustrating the smoothing effect of the Random Trans-former. 
+
+K.2 Visualization of Attention Kernels 
+
+To demystify the mechanism of Transformer-based sequence modeling in sleep staging, we visualized the average attention weights within a local window ( W = 10 ) for both Random and Trained Transformers. This comparison reveals a striking convergence in their functional behavior, suggesting that the "learned" dependencies are functionally similar to the intrinsic bias of the random architecture. 
+
+Random Transformer As illustrated in Figure 12, the weights of the Random Transformer across all datasets converge to approximately 0.1 (i.e., 1/W ), forming a near-uniform distribution. This empirical observation aligns perfectly with the global averaging term ( C0) predicted by our RAPK derivation, where the expected attention score is dominated by the zeroth-order term E[aip ] ≈ 1/T .This confirms that the Random Transformer inherently functions as a context-smoothing operator, suppressing high-frequency fluctuations by aggregating representations across the temporal window. 24 Trained Transformer Does supervised training evolve beyond this simple smoothing to capture complex long-range dependencies? Figure 13 visualizes the learned attention kernels of the fully trained models. Surprisingly, we observe no sparse, long-range "skip" connections. Instead, the learned patterns fall into two categories of smoothers: • Global Averaging Regime: In datasets such as Sleep-EDF-20 and Sleep-EDF-ST, the learned weights remain nearly uniform ( ≈ 0.1), functionally identical to the Random Transformer. • Local Smoothing Regime: In SHHS and Sleep-EDFX, the weights exhibit a diagonal-dominant decay, effectively acting as a Gaussian smoothing filter that prioritizes proximal context. These visualizations provide white-box evidence that sleep staging does not require complex depen-dency modeling. Since the optimization target of a fully trained Transformer effectively collapses into a smoothing operator (either global or local), the Random Transformer’s intrinsic averaging bias provides a highly effective "warm start," explaining its ability to rival supervised models without any parameter updates.    
+
+> (a) EDF-20 (b) EDFX (c) EDF-ST (d) SHHS
+
+Figure 12: Average attention weights within a temporal window of size W = 10 across four datasets using the Random Transformer.    
+
+> (a) EDF-20 (b) EDFX (c) EDF-ST (d) SHHS
+
+Figure 13: Average attention weights within a temporal window of size W = 10 across four datasets using the Train Transformer. 
+
+K.3 Feature Activation Density Analysis via RAPK Dynamics 
+
+We analyze the impact of initialization schemes on the feature space by synthesizing the empirical evidence from Figure 14 with our Random Attention Prior Kernel (RAPK) derivation (Eq. 12). 
+
+The Compressive Effect of Gaussian Initialization. As visually corroborated in Figure 14, Standard Normal (Green) and Truncated Normal (Grey) initializations exhibit extremely narrow, high-peaked distributions concentrated around zero. Compared to the Original feature distribution (Orange), these schemes induce severe feature compression. Theoretically, this collapse in activation variance causes the attention logits sip to vanish towards zero. In the context of RAPK, this leads to the rapid decay of the linear similarity coefficient ( C1 ∝ σ2
+
+> Q
+
+σ2 
+
+> K
+
+), while the constant term C0 remains dominant. Consequently, the kernel degenerates into a global averaging operator ( E[KRAP ] ≈ C011 ⊤). This blind over-smoothing erases the distinct geometric structure of the input sequence ( XX ⊤), explaining why Gaussian-initialized models fail to capture meaningful temporal dependencies. 25 Figure 14: Activation distribution. 
+
+Variance Preservation via Uniform Initialization. In stark contrast, the Xavier Uniform (Blue) and Kaiming Uniform (Purple) distributions almost perfectly overlap with the Original distribution (Orange), maintaining the native scale and variance of the input features. From the RAPK perspective, this variance preservation ensures that the attention scores sip operate in an optimal linear regime: sufficiently small to satisfy the Taylor expansion approximation, yet significant enough to maintain a non-negligible magnitude for C1. This balance allows the Random Transformer to function as a structure-preserving smoother, where the global term C0 suppresses high-frequency noise while the linear term C1 retains the essential stage-transition boundaries necessary for accurate classification. Table 8: Detailed information for each of the datasets after preprocessing 
+
+Datasets #Subjects Channel Sampling Rate Stage Epochs (%) 
+
+Sleep-EDF-20 20 Fpz-Cz 100 Hz W 8 285 (19.6%) N1 2 804 (6.6%) N2 17 799 (42.1%) N3 5 703 (13.5%) REM 7 717 (18.2%) Sleep-EDFX 78 Fpz-Cz 100 Hz W 65 951 (33.7%) N1 21 522 (11.0%) N2 69 132 (35.4%) N3 13 039 (6.7%) REM 25 835 (13.2%) Sleep-EDF-ST 22 Fpz-Cz 100 Hz W 4 203 (9.9%) N1 3 653 (8.6%) N2 19 851 (46.7%) N3 6 415 (15.1%) REM 8 349 (19.7%) SHHS 329 C4-A1 125 Hz W 46 319 (14.3%) N1 10 304 (3.2%) N2 142 125 (43.7%) N3 60 153 (18.5%) REM 65 953 (20.3%) 26 L Datasets Details 
+
+Sleep-EDF: The Sleep-EDF dataset contains 197 whole-night polysomnography (PSG) record-ings, providing EEG (Fpz-Cz, Pz-Cz at 100 Hz), EOG, EMG, etc. Sleep stages are manually annotated by experts according to the R&K standard (W, S1, S2, S3, S4, REM, MOVEMENT, UNKNOWN)Goldberger et al. [2000]. Three subsets are used: • Sleep-EDF-20: 20 healthy Caucasian subjects, two nights each; one record missing, total 39 PSG recordings. • Sleep-EDFX: 78 subjects, two nights each, total 153 PSG recordings after excluding missing data. • Sleep-EDF-ST: 22 subjects recorded under temazepam and placebo conditions for two nights each, total 44 PSG recordings. All MOVEMENT and UNKNOWN epochs were excluded, and S3/S4 were merged into N3 according to AASM standards. Only Fpz-Cz EEG channel was used. 
+
+SHHS: The Sleep Heart Health Study (SHHS) is a multi-center cohortQuan et al. [1997]. We selected 329 subjects with low apnea-hypopnea index ( AHI <5) and relatively normal sleep pat-terns Fonseca et al. [2017]. The electroencephalogram (EEG) signal from the C4-A1 channel, originally sampled at 125 Hz, was downsampled to 100 Hz. 
+
+## M Broader impact 
+
+This work highlights that strong performance in sleep-stage sequence modeling may arise from structural priors rather than extensive training, suggesting opportunities for more efficient and interpretable physiological AI systems. These insights may benefit real-time, resource-constrained, or edge-device applications in sleep monitoring and modulation. At the same time, the findings are context-dependent and should not be overgeneralized to complex clinical decision-making without rigorous validation, as inappropriate deployment could lead to misleading or unsafe outcomes. 27
