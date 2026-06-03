@@ -6,52 +6,62 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-02
-- 运行时间：2026-06-02 23:01:56 UTC
+- 最新运行日期：2026-06-03
+- 运行时间：2026-06-03 22:46:50 UTC
 - 运行状态：成功
-- 本次总论文数：10
-- 精读区：3
-- 速读区：7
+- 本次总论文数：14
+- 精读区：8
+- 速读区：6
 
 ### 今日简报（AI）
-今日聚焦睡眠调控机制与嗅闻节律的神经基础，同时关注脑电实时分析新工具。  
-精读论文揭示皮层活动对睡眠的调控及去甲肾上腺素依赖的嗅闻起搏系统，速读论文推进EEG基础模型标准化与因果状态空间模型应用。  
-神经科学研究者可深入精读两篇9分论文，工程应用可关注CaMBRAIN和OmniEEG-Bench等EEG工具。
-- 详情：[/202606/02/README](/202606/02/README)
+今日精读两篇高分论文，聚焦睡眠中记忆巩固机制：REM睡眠前额叶高频振荡链与NREM海马重激活模式不同，闭环听觉刺激可随纺锤波时机调控皮层响应与记忆巩固。建议关注睡眠干预与记忆增强的实用策略，如通过声音刺激优化学习效果。
+- 详情：[/202606/03/README](/202606/03/README)
 
 ### 精读区论文标签
-1. [Contrasting effects of global and local cortical activity on the regulation of sleep](/202606/02/biorxiv-10-1101-2025-09-07-673922-v2-contrasting-effects-of-global-and-local-cortical-activity-on-the-regulation-of-sleep)  
+1. [REM sleep prefrontal high-frequency oscillation chains mediate distinct cortical-hippocampal reactivation patterns compared to NREM sleep](/202606/03/biorxiv-10-1101-2025-09-15-676366-v3-rem-sleep-prefrontal-high-frequency-oscillation-chains-mediate-distinct-cortical-hippocampal-reactivation-patterns-compared-to-nrem-sleep)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：直接使用化学遗传学研究皮层对睡眠的调节
-2. [A noradrenergic Ih-dependent pacemaker system drives sniffing](/202606/02/biorxiv-10-64898-2026-05-28-728179-v1-a-noradrenergic-ih-dependent-pacemaker-system-drives-sniffing)  
+   evidence：REM睡眠前额叶高频振荡链介导不同的海马再激活模式
+2. [Closed-loop auditory stimulation during sleep shapes cortical responses and memory consolidation depending on spindle timing](/202606/03/biorxiv-10-64898-2026-05-29-728629-v1-closed-loop-auditory-stimulation-during-sleep-shapes-cortical-responses-and-memory-consolidation-depending-on-spindle-timing)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：去甲肾上腺素依赖的Ih起搏器驱动嗅吸，参与睡眠觉醒
-3. [Closed-loop auditory stimulation during sleep shapes cortical responses and memory consolidation depending on spindle timing](/202606/02/biorxiv-10-64898-2026-05-29-728629-v1-closed-loop-auditory-stimulation-during-sleep-shapes-cortical-responses-and-memory-consolidation-depending-on-spindle-timing)  
+   evidence：睡眠闭环听觉刺激、纺锤波时序与记忆巩固
+3. [Resonance-driven enhancement of sleep spindles using thalamic temporal interference stimulation](/202606/03/biorxiv-10-64898-2026-05-29-728879-v1-resonance-driven-enhancement-of-sleep-spindles-using-thalamic-temporal-interference-stimulation)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠中听觉刺激调节纺锤波与记忆巩固
+   evidence：通过丘脑刺激增强睡眠纺锤波
+4. [Hypothalamic MCH neurons links tau pathology to sleep disruption](/202606/03/biorxiv-10-64898-2026-05-31-729026-v1-hypothalamic-mch-neurons-links-tau-pathology-to-sleep-disruption)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：下丘脑外侧MCH神经元与tau病理和REM睡眠破坏相关
+5. [Torus Graphs for Large Scale Neural Phase Analysis](/202606/03/2606.00496v1-torus-graphs-for-large-scale-neural-phase-analysis)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：神经相位分析方法可应用于睡眠EEG
+6. [Slow Oscillations Gate Interictal Spikes Across the Human Thalamocortical-Epileptogenic Network](/202606/03/biorxiv-10-64898-2026-05-30-728961-v1-slow-oscillations-gate-interictal-spikes-across-the-human-thalamocortical-epileptogenic-network)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：研究非快速眼动睡眠慢振荡及其对间期棘波的调控
+7. [Opposing intrinsic and synaptic plasticity mechanisms stabilize altered cortical networks during sleep deprivation](/202606/03/biorxiv-10-64898-2026-05-31-729031-v1-opposing-intrinsic-and-synaptic-plasticity-mechanisms-stabilize-altered-cortical-networks-during-sleep-deprivation)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：睡眠剥夺改变皮质神经活动，揭示GABAA受体可塑性机制
+8. [Spontaneous and stimulus-driven arousal produce distinct acetylcholine dynamics across sensory and prefrontal cortex](/202606/03/biorxiv-10-64898-2026-06-02-729441-v1-spontaneous-and-stimulus-driven-arousal-produce-distinct-acetylcholine-dynamics-across-sensory-and-prefrontal-cortex)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：乙酰胆碱动态与觉醒和行为状态相关
 
 ### 速读区论文标签
-1. [CaMBRAIN: Real-time, Continuous EEG Inference with Causal State Space Models](/202606/02/2605.28792v1-cambrain-real-time-continuous-eeg-inference-with-causal-state-space-models)  
+1. [Activity-dependent capture reveals brain-wide signatures of isoflurane anesthesia-induced unconsciousness](/202606/03/biorxiv-10-64898-2025-12-02-691631-v3-activity-dependent-capture-reveals-brain-wide-signatures-of-isoflurane-anesthesia-induced-unconsciousness)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：适用于睡眠神经科学的EEG推断模型
-2. [Torus Graphs for Large Scale Neural Phase Analysis](/202606/02/2606.00496v1-torus-graphs-for-large-scale-neural-phase-analysis)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：用于神经相位分析的环面图方法；可应用于睡眠EEG/LFP分析
-3. [OmniEEG-Bench: A Standardized Evaluation Benchmark for EEG Foundation Models](/202606/02/2606.00815v1-omnieeg-bench-a-standardized-evaluation-benchmark-for-eeg-foundation-models)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：EEG基础模型标准化基准，包含与睡眠相关的意识和状态任务
-4. [Visualization of neuronal morphology of the suprachiasmatic nucleus vasopressin neurons by Cre/FLPe-based genetic two-step sparse labelling - GT-SPARCL](/202606/02/biorxiv-10-64898-2026-05-25-727737-v1-visualization-of-neuronal-morphology-of-the-suprachiasmatic-nucleus-vasopressin-neurons-by-creflpe-based-genetic-two-step-sparse-labelling---gt-sparcl)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：GT-SPARCL实现SCN AVP神经元的稀疏标记，对睡眠-觉醒回路研究重要
-5. [Metabolic Intervention with Dimethyl Malonate Impairs Phagocytic Clearance but Fails to Protect Neurons](/202606/02/biorxiv-10-64898-2026-05-29-724314-v1-metabolic-intervention-with-dimethyl-malonate-impairs-phagocytic-clearance-but-fails-to-protect-neurons)  
+   evidence：利用DREADDs进行活动依赖性捕获揭示麻醉脑区特征，方法可应用于睡眠机制
+2. [Metabolomics of Thermoregulatory Transitions in the Eastern Skunk Cabbage (Symplocarpus foetidus)](/202606/03/biorxiv-10-64898-2026-05-23-727417-v2-metabolomics-of-thermoregulatory-transitions-in-the-eastern-skunk-cabbage-symplocarpus-foetidus)  
    标签：评分：7.0/10、query:tr-hb
-   evidence：受冬眠启发，测试代谢干预
-6. [Hypergraphs from multivariate connectivity: caCoh-based EEG/MEG representation](/202606/02/2606.01357v1-hypergraphs-from-multivariate-connectivity-cacoh-based-eegmeg-representation)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：基于EEG/MEG连接性的超图构建，可用于睡眠神经科学
-7. [EvoBrain: Continual Learning of EEG Foundation Models Across Heterogeneous BCI Tasks](/202606/02/2606.01767v1-evobrain-continual-learning-of-eeg-foundation-models-across-heterogeneous-bci-tasks)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：持续学习EEG基础模型，与睡眠神经科学相关
+   evidence：围绕休眠与冬眠主题（体温调节、代谢转换）
+3. [Visualization of neuronal morphology of the suprachiasmatic nucleus vasopressin neurons by Cre/FLPe-based genetic two-step sparse labelling - GT-SPARCL](/202606/03/biorxiv-10-64898-2026-05-25-727737-v1-visualization-of-neuronal-morphology-of-the-suprachiasmatic-nucleus-vasopressin-neurons-by-creflpe-based-genetic-two-step-sparse-labelling---gt-sparcl)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：稀疏标记视交叉上核加压素神经元，有助于研究昼夜节律睡眠-觉醒调控
+4. [Directed cortical connectivity inferred from neural energy metabolism](/202606/03/biorxiv-10-64898-2026-05-28-728560-v1-directed-cortical-connectivity-inferred-from-neural-energy-metabolism)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：利用能量代谢推断有向连接，与睡眠-觉醒调控相关
+5. [Starvation transforms signal encoding in C. elegans thermoresponsive neurons and suppresses heat avoidance via bidirectional glutamatergic and peptidergic signaling](/202606/03/biorxiv-10-1101-2025-07-17-665269-v2-starvation-transforms-signal-encoding-in-c-elegans-thermoresponsive-neurons-and-suppresses-heat-avoidance-via-bidirectional-glutamatergic-and-peptidergic-signaling)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：应对极端寒冷和食物匮乏的生理适应
+6. [Dormancy stabilizes structured food webs](/202606/03/biorxiv-10-64898-2026-05-28-728563-v1-dormancy-stabilizes-structured-food-webs)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：休眠作为可逆代谢抑制、种子库、生态稳定性
 
 
 <div class="dpr-home-promo-card">
