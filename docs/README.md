@@ -6,35 +6,40 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-07
-- 运行时间：2026-06-07 20:58:13 UTC
+- 最新运行日期：2026-06-08
+- 运行时间：2026-06-08 20:57:59 UTC
 - 运行状态：成功
-- 本次总论文数：5
+- 本次总论文数：6
 - 精读区：3
-- 速读区：2
+- 速读区：3
 
 ### 今日简报（AI）
-今日精读两篇高分果蝇睡眠研究，速读EEG解码与蛋白质修饰预测方法。最值得关注果蝇中睡眠稳态的共享转录响应通路（10.0），以及白化病相关基因通过视觉神经传递调控昼夜节律（9.0）。建议优先精读这两篇，理解多通路协同维持睡眠稳态的分子机制。
-- 详情：[/202606/07/README](/202606/07/README)
+今日推荐6篇论文，精读聚焦果蝇白化病基因关联睡眠节律与可解释的EEG睡眠分类。  
+最值得看：果蝇白化病相关基因通过视觉神经传递调节睡眠（9.0分），以及可解释的NREM/REM睡眠EEG分类（8.0分）。  
+普通读者可关注睡眠机制的跨物种启发与可解释AI在睡眠监测中的潜力。
+- 详情：[/202606/08/README](/202606/08/README)
 
 ### 精读区论文标签
-1. [Shared Transcriptomic Responses Across Distinct Sleep-Wake Manipulations Reveals Multiple Homeostatic Pathways in Drosophila](/202606/07/biorxiv-10-64898-2026-02-28-708752-v2-shared-transcriptomic-responses-across-distinct-sleep-wake-manipulations-reveals-multiple-homeostatic-pathways-in-drosophila)  
-   标签：评分：10.0/10、query:slp-ns
-   evidence：果蝇睡眠稳态的转录组分析
-2. [Drosophila orthologues of oculocutaneous albinism-associated genes regulate sleep and circadian rhythm via visual neurotransmission](/202606/07/biorxiv-10-64898-2026-05-27-728351-v2-drosophila-orthologues-of-oculocutaneous-albinism-associated-genes-regulate-sleep-and-circadian-rhythm-via-visual-neurotransmission)  
+1. [Drosophila orthologues of oculocutaneous albinism-associated genes regulate sleep and circadian rhythm via visual neurotransmission](/202606/08/biorxiv-10-64898-2026-05-27-728351-v2-drosophila-orthologues-of-oculocutaneous-albinism-associated-genes-regulate-sleep-and-circadian-rhythm-via-visual-neurotransmission)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：果蝇中OCA基因同源物调控睡眠和昼夜节律
-3. [Thalamic Nuclei Differentially Coordinate Propagation of Cortical Slow Oscillations](/202606/07/biorxiv-10-64898-2026-06-05-730542-v1-thalamic-nuclei-differentially-coordinate-propagation-of-cortical-slow-oscillations)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：丘脑核团差异性地协调皮层慢波振荡传播
+   evidence：利用果蝇同源基因研究睡眠调控
+2. [SleepExplain: Explainable Non-Rapid Eye Movement and Rapid Eye Movement Sleep Stage Classification from EEG Signal](/202606/08/2606.07351v1-sleepexplain-explainable-non-rapid-eye-movement-and-rapid-eye-movement-sleep-stage-classification-from-eeg-signal)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：基于EEG的可解释NREM和REM睡眠分期，推动睡眠神经科学
+3. [CLASPP: A unified model for predicting post-translational modifications](/202606/08/biorxiv-10-64898-2026-06-04-729962-v1-claspp-a-unified-model-for-predicting-post-translational-modifications)  
+   标签：评分：8.0/10、query:qll
+   evidence：提出统一的翻译后修饰预测模型，适用于卵巢衰老的翻译后修饰研究
 
 ### 速读区论文标签
-1. [A Sliced-Wasserstein Framework on Correlation Matrices for EEG Decoding](/202606/07/2606.06104v1-a-sliced-wasserstein-framework-on-correlation-matrices-for-eeg-decoding)  
+1. [Hypergraphs from multivariate connectivity: caCoh-based EEG/MEG representation](/202606/08/2606.01357v1-hypergraphs-from-multivariate-connectivity-cacoh-based-eegmeg-representation)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：基于caCoh的超图表示用于EEG/MEG连接性，与睡眠神经科学研究方法相关
+2. [A Sliced-Wasserstein Framework on Correlation Matrices for EEG Decoding](/202606/08/2606.06104v1-a-sliced-wasserstein-framework-on-correlation-matrices-for-eeg-decoding)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：EEG相关性矩阵解码框架，可应用于睡眠神经科学
-2. [CLASPP: A unified model for predicting post-translational modifications](/202606/07/biorxiv-10-64898-2026-06-04-729962-v1-claspp-a-unified-model-for-predicting-post-translational-modifications)  
-   标签：评分：6.0/10、query:qll
-   evidence：统一的翻译后修饰预测模型，可应用于卵巢衰老研究
+   evidence：提出了一种用于EEG相关矩阵分析的切片瓦瑟斯坦方法，可应用于睡眠神经科学
+3. [Structure-Preserving Correction Learning for Sparse Bayesian Inference in Brain Source Imaging](/202606/08/2606.07196v1-structure-preserving-correction-learning-for-sparse-bayesian-inference-in-brain-source-imaging)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：结构保持修正学习用于M/EEG脑源成像中的稀疏贝叶斯推断，与睡眠神经科学方法相关
 
 
 <div class="dpr-home-promo-card">
