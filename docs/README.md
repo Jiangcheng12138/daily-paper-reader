@@ -6,40 +6,49 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-08
-- 运行时间：2026-06-08 20:57:59 UTC
+- 最新运行日期：2026-06-09
+- 运行时间：2026-06-09 22:16:53 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：3
-- 速读区：3
+- 本次总论文数：9
+- 精读区：5
+- 速读区：4
 
 ### 今日简报（AI）
-今日推荐6篇论文，精读聚焦果蝇白化病基因关联睡眠节律与可解释的EEG睡眠分类。  
-最值得看：果蝇白化病相关基因通过视觉神经传递调节睡眠（9.0分），以及可解释的NREM/REM睡眠EEG分类（8.0分）。  
-普通读者可关注睡眠机制的跨物种启发与可解释AI在睡眠监测中的潜力。
-- 详情：[/202606/08/README](/202606/08/README)
+今日精选9篇论文，两篇睡眠研究获最高分9.0，聚焦EEG睡眠分期与生理表征学习。  
+值得关注的方向：可解释性睡眠分期模型与利用下一代词预测学习睡眠生理学通用表征。  
+建议优先精读这两篇高分论文，探索脑电睡眠分期可解释性与大模型在生理信号中的应用潜力。
+- 详情：[/202606/09/README](/202606/09/README)
 
 ### 精读区论文标签
-1. [Drosophila orthologues of oculocutaneous albinism-associated genes regulate sleep and circadian rhythm via visual neurotransmission](/202606/08/biorxiv-10-64898-2026-05-27-728351-v2-drosophila-orthologues-of-oculocutaneous-albinism-associated-genes-regulate-sleep-and-circadian-rhythm-via-visual-neurotransmission)  
+1. [SleepExplain: Explainable Non-Rapid Eye Movement and Rapid Eye Movement Sleep Stage Classification from EEG Signal](/202606/09/2606.07351v1-sleepexplain-explainable-non-rapid-eye-movement-and-rapid-eye-movement-sleep-stage-classification-from-eeg-signal)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：利用果蝇同源基因研究睡眠调控
-2. [SleepExplain: Explainable Non-Rapid Eye Movement and Rapid Eye Movement Sleep Stage Classification from EEG Signal](/202606/08/2606.07351v1-sleepexplain-explainable-non-rapid-eye-movement-and-rapid-eye-movement-sleep-stage-classification-from-eeg-signal)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：基于EEG的可解释NREM和REM睡眠分期，推动睡眠神经科学
-3. [CLASPP: A unified model for predicting post-translational modifications](/202606/08/biorxiv-10-64898-2026-06-04-729962-v1-claspp-a-unified-model-for-predicting-post-translational-modifications)  
-   标签：评分：8.0/10、query:qll
-   evidence：提出统一的翻译后修饰预测模型，适用于卵巢衰老的翻译后修饰研究
+   evidence：直接研究基于EEG的NREM和REM睡眠阶段分类
+2. [Next-Token Prediction Learns Generalisable Representations of Sleep Physiology](/202606/09/2606.09605v1-next-token-prediction-learns-generalisable-representations-of-sleep-physiology)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：利用多模态信号的下一个token预测开发睡眠基础模型
+3. [Opposing intrinsic and synaptic plasticity mechanisms stabilize altered cortical networks during sleep deprivation](/202606/09/biorxiv-10-64898-2026-05-31-729031-v2-opposing-intrinsic-and-synaptic-plasticity-mechanisms-stabilize-altered-cortical-networks-during-sleep-deprivation)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：睡眠剥夺引起去极化GABAAR信号及代偿性可塑性
+4. [A Neuroimmune Feedforward Circuit Linking REM Sleep with Stress-Related Behavioral Susceptibility](/202606/09/biorxiv-10-64898-2026-06-04-730038-v1-a-neuroimmune-feedforward-circuit-linking-rem-sleep-with-stress-related-behavioral-susceptibility)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：REM睡眠与应激易感性的神经免疫回路
+5. [Spatial atlas of the ovary identifies molecular events in primordial follicle activation in humans](/202606/09/biorxiv-10-64898-2026-06-05-730381-v1-spatial-atlas-of-the-ovary-identifies-molecular-events-in-primordial-follicle-activation-in-humans)  
+   标签：评分：9.0/10、query:qll
+   evidence：卵巢空间图谱识别卵泡激活的分子事件，与卵巢衰老相关
 
 ### 速读区论文标签
-1. [Hypergraphs from multivariate connectivity: caCoh-based EEG/MEG representation](/202606/08/2606.01357v1-hypergraphs-from-multivariate-connectivity-cacoh-based-eegmeg-representation)  
+1. [A spectral audit framework reveals task-dependent aperiodic reliance across EEG and ECG deep learning](/202606/09/2606.08583v1-a-spectral-audit-framework-reveals-task-dependent-aperiodic-reliance-across-eeg-and-ecg-deep-learning)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：基于caCoh的超图表示用于EEG/MEG连接性，与睡眠神经科学研究方法相关
-2. [A Sliced-Wasserstein Framework on Correlation Matrices for EEG Decoding](/202606/08/2606.06104v1-a-sliced-wasserstein-framework-on-correlation-matrices-for-eeg-decoding)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：提出了一种用于EEG相关矩阵分析的切片瓦瑟斯坦方法，可应用于睡眠神经科学
-3. [Structure-Preserving Correction Learning for Sparse Bayesian Inference in Brain Source Imaging](/202606/08/2606.07196v1-structure-preserving-correction-learning-for-sparse-bayesian-inference-in-brain-source-imaging)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：结构保持修正学习用于M/EEG脑源成像中的稀疏贝叶斯推断，与睡眠神经科学方法相关
+   evidence：使用脑电图深度学习进行睡眠-觉醒分类
+2. [CLASPP: A unified model for predicting post-translational modifications](/202606/09/biorxiv-10-64898-2026-06-04-729962-v1-claspp-a-unified-model-for-predicting-post-translational-modifications)  
+   标签：评分：7.0/10、query:qll
+   evidence：用于预测翻译后修饰类型的统一模型
+3. [An integrated resource for systems-level analysis of aging hallmarks and associated genes](/202606/09/biorxiv-10-64898-2026-05-29-728838-v1-an-integrated-resource-for-systems-level-analysis-of-aging-hallmarks-and-associated-genes)  
+   标签：评分：6.0/10、query:qll
+   evidence：衰老标志系统级资源，与卵巢衰老研究相关
+4. [Pubertal maturation and chemotherapy-associated disruption of the pediatric ovary revealed by multimodal single-cell profiling](/202606/09/biorxiv-10-64898-2026-06-03-729786-v1-pubertal-maturation-and-chemotherapy-associated-disruption-of-the-pediatric-ovary-revealed-by-multimodal-single-cell-profiling)  
+   标签：评分：6.0/10、query:qll
+   evidence：儿童卵巢单细胞图谱显示化疗引起的细胞外基质重塑
 
 
 <div class="dpr-home-promo-card">
