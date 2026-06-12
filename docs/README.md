@@ -6,40 +6,43 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-10
-- 运行时间：2026-06-10 23:00:31 UTC
+- 最新运行日期：2026-06-12
+- 运行时间：2026-06-12 22:09:33 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：2
+- 本次总论文数：7
+- 精读区：3
 - 速读区：4
 
 ### 今日简报（AI）
-1) 今日精选两篇睡眠EEG高分研究，速读脑网络与衰老系统资源，为神经科学前沿注入新洞察。
-2) 最值得关注：睡眠EEG临界性可无创预测痴呆认知下降；REM睡眠中theta相位锁定再激活记忆，能有效降低记忆的情绪色调。
-3) 建议普通读者：优化睡眠结构，特别是REM睡眠质量，或有助于调节情绪记忆与延缓认知衰退。
-- 详情：[/202606/10/README](/202606/10/README)
+今日精读两篇高分研究：大脑唤醒状态的通用神经参考空间及败血症疾病耐受的蛋白磷酸化机制。  
+最值得深入的是基于连接组的神经参考空间模型，以及瞬时蛋白磷酸化提升败血症耐受性的发现。  
+建议优先阅读这两篇精读文章，它们对理解脑功能网络和感染性疾病治疗有直接启发。
+- 详情：[/202606/12/README](/202606/12/README)
 
 ### 精读区论文标签
-1. [Sleep EEG Signal Criticality as a Non-Invasive Predictor of Cognitive Decline in Dementia](/202606/10/2606.10889v1-sleep-eeg-signal-criticality-as-a-non-invasive-predictor-of-cognitive-decline-in-dementia)  
+1. [A common connectome-based neural reference space across affective, autonomic, and wakefulness arousal](/202606/12/biorxiv-10-64898-2026-06-08-730730-v1-a-common-connectome-based-neural-reference-space-across-affective-autonomic-and-wakefulness-arousal)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠脑电临界性预测认知下降，推动睡眠神经科学进展
-2. [Theta phase-locked memory reactivation during REM sleep reduces memories emotional tone](/202606/10/biorxiv-10-64898-2026-06-05-730360-v1-theta-phase-locked-memory-reactivation-during-rem-sleep-reduces-memories-emotional-tone)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：REM睡眠theta相位锁定的记忆再激活降低记忆的情绪色调
+   evidence：睡眠-觉醒调节的神经机制
+2. [Transient protein phosphorylation promotes disease tolerance to sepsis](/202606/12/biorxiv-10-64898-2026-06-09-731055-v1-transient-protein-phosphorylation-promotes-disease-tolerance-to-sepsis)  
+   标签：评分：9.0/10、query:tr-hb
+   evidence：脓毒症引起的低代谢类似冬眠状态，由可逆蛋白磷酸化介导
+3. [Awake alpha bursting emerges as the dynamic working state in a lateral geniculate thalamocortical cell model](/202606/12/biorxiv-10-64898-2026-06-08-730831-v1-awake-alpha-bursting-emerges-as-the-dynamic-working-state-in-a-lateral-geniculate-thalamocortical-cell-model)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：睡眠-觉醒周期的神经调节
 
 ### 速读区论文标签
-1. [Topological Effective Connectivity Modeling in Brain Networks](/202606/10/2606.08407v1-topological-effective-connectivity-modeling-in-brain-networks)  
+1. [A Sliced-Wasserstein Framework on Correlation Matrices for EEG Decoding](/202606/12/2606.06104v1-a-sliced-wasserstein-framework-on-correlation-matrices-for-eeg-decoding)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：EEG解码框架可应用于睡眠神经科学
+2. [Beyond the Forest and the Trees: Overlooking the Overlooked Terrain of Neural State Dynamics](/202606/12/biorxiv-10-64898-2026-06-04-729738-v1-beyond-the-forest-and-the-trees-overlooking-the-overlooked-terrain-of-neural-state-dynamics)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：神经状态动力学脑电微状态分析
+3. [Topological Effective Connectivity Modeling in Brain Networks](/202606/12/2606.08407v1-topological-effective-connectivity-modeling-in-brain-networks)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：适用于睡眠研究的脑网络连接方法
-2. [How Much Capacity Does EEG Denoising Need? Ultra-Compact Networks reveal Benchmark Saturation and Metric-Utility Gap](/202606/10/2606.08594v1-how-much-capacity-does-eeg-denoising-need-ultra-compact-networks-reveal-benchmark-saturation-and-metric-utility-gap)  
+   evidence：脑网络定向信息流建模方法
+4. [Machine Learning Methods for Studying Latent Neural Activity Dynamics](/202606/12/2606.10530v1-machine-learning-methods-for-studying-latent-neural-activity-dynamics)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：脑电去噪用于睡眠神经科学
-3. [An integrated resource for systems-level analysis of aging hallmarks and associated genes](/202606/10/biorxiv-10-64898-2026-05-29-728838-v1-an-integrated-resource-for-systems-level-analysis-of-aging-hallmarks-and-associated-genes)  
-   标签：评分：6.0/10、query:qll
-   evidence：衰老标志综合分析资源
-4. [Distinct fibroblast and perivascular senotypes define spatial niches that regulate fibrosis](/202606/10/biorxiv-10-64898-2026-06-08-730636-v1-distinct-fibroblast-and-perivascular-senotypes-define-spatial-niches-that-regulate-fibrosis)  
-   标签：评分：6.0/10、query:qll
-   evidence：识别纤维化中不同成纤维细胞衰老细胞类型，与卵巢纤维化机制相关
+   evidence：神经动力学机器学习方法综述，推进睡眠神经科学研究
 
 
 <div class="dpr-home-promo-card">
