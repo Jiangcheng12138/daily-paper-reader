@@ -6,43 +6,32 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-12
-- 运行时间：2026-06-12 22:09:33 UTC
+- 最新运行日期：2026-06-13
+- 运行时间：2026-06-13 21:25:46 UTC
 - 运行状态：成功
-- 本次总论文数：7
-- 精读区：3
-- 速读区：4
+- 本次总论文数：4
+- 精读区：2
+- 速读区：2
 
 ### 今日简报（AI）
-今日精读两篇高分研究：大脑唤醒状态的通用神经参考空间及败血症疾病耐受的蛋白磷酸化机制。  
-最值得深入的是基于连接组的神经参考空间模型，以及瞬时蛋白磷酸化提升败血症耐受性的发现。  
-建议优先阅读这两篇精读文章，它们对理解脑功能网络和感染性疾病治疗有直接启发。
-- 详情：[/202606/12/README](/202606/12/README)
+今日精读两篇睡眠机制研究、速读生殖与代谢建模论文。最值得关注：果蝇中线粒体辅酶Q平衡通过多巴胺神经元调控早期睡眠，人类视频眼动与皮层、瞳孔唤醒水平紧密关联。建议后续可深入探索线粒体在睡眠调控中的作用，并尝试将眼动追踪技术用于临床睡眠评估。
+- 详情：[/202606/13/README](/202606/13/README)
 
 ### 精读区论文标签
-1. [A common connectome-based neural reference space across affective, autonomic, and wakefulness arousal](/202606/12/biorxiv-10-64898-2026-06-08-730730-v1-a-common-connectome-based-neural-reference-space-across-affective-autonomic-and-wakefulness-arousal)  
+1. [Mitochondrial coenzyme Q redox balance restrains dopaminergic neuron activity to promote early-life sleep in Drosophila](/202606/13/biorxiv-10-64898-2026-02-22-707308-v2-mitochondrial-coenzyme-q-redox-balance-restrains-dopaminergic-neuron-activity-to-promote-early-life-sleep-in-drosophila)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠-觉醒调节的神经机制
-2. [Transient protein phosphorylation promotes disease tolerance to sepsis](/202606/12/biorxiv-10-64898-2026-06-09-731055-v1-transient-protein-phosphorylation-promotes-disease-tolerance-to-sepsis)  
-   标签：评分：9.0/10、query:tr-hb
-   evidence：脓毒症引起的低代谢类似冬眠状态，由可逆蛋白磷酸化介导
-3. [Awake alpha bursting emerges as the dynamic working state in a lateral geniculate thalamocortical cell model](/202606/12/biorxiv-10-64898-2026-06-08-730831-v1-awake-alpha-bursting-emerges-as-the-dynamic-working-state-in-a-lateral-geniculate-thalamocortical-cell-model)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：睡眠-觉醒周期的神经调节
+   evidence：果蝇早期睡眠的线粒体调控
+2. [Video-based eye movements are linked to cortical and pupil-based arousal in human sleep](/202606/13/biorxiv-10-64898-2026-06-10-731319-v1-video-based-eye-movements-are-linked-to-cortical-and-pupil-based-arousal-in-human-sleep)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：视频眼动与REM睡眠和觉醒标记物相关
 
 ### 速读区论文标签
-1. [A Sliced-Wasserstein Framework on Correlation Matrices for EEG Decoding](/202606/12/2606.06104v1-a-sliced-wasserstein-framework-on-correlation-matrices-for-eeg-decoding)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：EEG解码框架可应用于睡眠神经科学
-2. [Beyond the Forest and the Trees: Overlooking the Overlooked Terrain of Neural State Dynamics](/202606/12/biorxiv-10-64898-2026-06-04-729738-v1-beyond-the-forest-and-the-trees-overlooking-the-overlooked-terrain-of-neural-state-dynamics)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：神经状态动力学脑电微状态分析
-3. [Topological Effective Connectivity Modeling in Brain Networks](/202606/12/2606.08407v1-topological-effective-connectivity-modeling-in-brain-networks)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：脑网络定向信息流建模方法
-4. [Machine Learning Methods for Studying Latent Neural Activity Dynamics](/202606/12/2606.10530v1-machine-learning-methods-for-studying-latent-neural-activity-dynamics)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：神经动力学机器学习方法综述，推进睡眠神经科学研究
+1. [Gap junctions in the alimentary tract regulate reproductive span in C. elegans](/202606/13/biorxiv-10-64898-2026-06-03-729750-v1-gap-junctions-in-the-alimentary-tract-regulate-reproductive-span-in-c-elegans)  
+   标签：评分：7.0/10、query:qll
+   evidence：间隙连接调节线虫生殖寿命，与卵巢衰老机制相关
+2. [MetaboliSim: a Python implementation of the Mader model for dynamic and steady-state simulation of muscular energy metabolism](/202606/13/2606.08366v1-metabolisim-a-python-implementation-of-the-mader-model-for-dynamic-and-steady-state-simulation-of-muscular-energy-metabolism)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：提供肌肉能量代谢模拟模型，可适用于冬眠代谢抑制研究
 
 
 <div class="dpr-home-promo-card">
