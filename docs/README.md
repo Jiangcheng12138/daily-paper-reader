@@ -6,34 +6,33 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-14
-- 运行时间：2026-06-14 21:30:50 UTC
+- 最新运行日期：2026-06-15
+- 运行时间：2026-06-15 23:01:17 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：3
+- 本次总论文数：3
+- 精读区：2
 - 速读区：1
 
 ### 今日简报（AI）
-1) 今日精读3篇论文，聚焦海马体神经同步与深度睡眠脑电分类，速读1篇探讨脑电去噪网络容量。  
-2) 最值得关注：M电流对海马神经网络同步的相位模型分析（9.0分），以及基于脑电临界性的深度睡眠分类被动BCI方法（9.0分）。  
-3) 建议优先精读这两篇高分论文，速读的脑电去噪文章可作为补充了解基准饱和现象。
-- 详情：[/202606/14/README](/202606/14/README)
+今日精读两篇高分论文，聚焦冬眠基因趋同假说被否定与睡眠振荡协调记忆重激活机制。
+
+最值得关注：哺乳动物冬眠进化未发现基因水平趋同证据；睡眠神经振荡（如纺锤波-涟漪）协同皮层与海马促进记忆巩固。
+
+建议普通读者深入理解睡眠与记忆的神经基础，可延伸阅读相关认知增强或睡眠障碍研究。
+- 详情：[/202606/15/README](/202606/15/README)
 
 ### 精读区论文标签
-1. [Phase model analysis of the effect of M-current on neural synchrony in hippocampal networks](/202606/14/2606.12684v1-phase-model-analysis-of-the-effect-of-m-current-on-neural-synchrony-in-hippocampal-networks)  
+1. [Lack of evidence for gene-level convergence linked to evolutionary shifts in torpor among placental mammals](/202606/15/biorxiv-10-1101-2025-11-18-689136-v2-lack-of-evidence-for-gene-level-convergence-linked-to-evolutionary-shifts-in-torpor-among-placental-mammals)  
+   标签：评分：9.0/10、query:tr-hb
+   evidence：胎盘哺乳动物torpor进化的比较基因组分析
+2. [Interplay of sleep neural oscillations enhances coordinated memory reactivation between cortex and hippocampus](/202606/15/biorxiv-10-64898-2026-06-12-731367-v1-interplay-of-sleep-neural-oscillations-enhances-coordinated-memory-reactivation-between-cortex-and-hippocampus)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：M电流对海马同步性的相模型分析，关联REM和慢波睡眠
-2. [Deep Sleep Classification via EEG Signal Criticality: A Passive BCI Approach for Sleep-Improvement Neurofeedback](/202606/14/2606.13017v1-deep-sleep-classification-via-eeg-signal-criticality-a-passive-bci-approach-for-sleep-improvement-neurofeedback)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：利用EEG临界性进行深度睡眠分类以实现睡眠改善神经反馈
-3. [Interplay of sleep neural oscillations enhances coordinated memory reactivation between cortex and hippocampus](/202606/14/biorxiv-10-64898-2026-06-12-731367-v1-interplay-of-sleep-neural-oscillations-enhances-coordinated-memory-reactivation-between-cortex-and-hippocampus)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠神经振荡与记忆再激活
+   evidence：直接研究睡眠神经振荡与记忆巩固
 
 ### 速读区论文标签
-1. [How Much Capacity Does EEG Denoising Need? Ultra-Compact Networks reveal Benchmark Saturation and Metric-Utility Gap](/202606/14/2606.08594v1-how-much-capacity-does-eeg-denoising-need-ultra-compact-networks-reveal-benchmark-saturation-and-metric-utility-gap)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：脑电去噪能力分析
+1. [Spatially Masked Regression Reveals Local and Distributed Predictability in Electrophysiological Recordings](/202606/15/2606.11415v1-spatially-masked-regression-reveals-local-and-distributed-predictability-in-electrophysiological-recordings)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：分析局部与分布式神经活动的方法，可应用于睡眠电生理
 
 
 <div class="dpr-home-promo-card">
