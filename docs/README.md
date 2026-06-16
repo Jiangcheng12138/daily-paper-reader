@@ -6,33 +6,38 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-15
-- 运行时间：2026-06-15 23:01:17 UTC
+- 最新运行日期：2026-06-16
+- 运行时间：2026-06-16 23:27:28 UTC
 - 运行状态：成功
-- 本次总论文数：3
-- 精读区：2
-- 速读区：1
+- 本次总论文数：6
+- 精读区：3
+- 速读区：3
 
 ### 今日简报（AI）
-今日精读两篇高分论文，聚焦冬眠基因趋同假说被否定与睡眠振荡协调记忆重激活机制。
-
-最值得关注：哺乳动物冬眠进化未发现基因水平趋同证据；睡眠神经振荡（如纺锤波-涟漪）协同皮层与海马促进记忆巩固。
-
-建议普通读者深入理解睡眠与记忆的神经基础，可延伸阅读相关认知增强或睡眠障碍研究。
-- 详情：[/202606/15/README](/202606/15/README)
+今日精读3篇，速读3篇，重点探索热量限制诱发DNA损伤修复循环与衰老大脑慢波振荡机制。最值得关注：小鼠热量限制诱导的“每日冬眠”引发循环性DNA损伤与修复；衰老大脑中突触循环兴奋缺失破坏睡眠慢波。建议读者留意热量限制的节律性DNA修复机制，以及新型量子点脑温测量技术的潜在应用。
+- 详情：[/202606/16/README](/202606/16/README)
 
 ### 精读区论文标签
-1. [Lack of evidence for gene-level convergence linked to evolutionary shifts in torpor among placental mammals](/202606/15/biorxiv-10-1101-2025-11-18-689136-v2-lack-of-evidence-for-gene-level-convergence-linked-to-evolutionary-shifts-in-torpor-among-placental-mammals)  
-   标签：评分：9.0/10、query:tr-hb
-   evidence：胎盘哺乳动物torpor进化的比较基因组分析
-2. [Interplay of sleep neural oscillations enhances coordinated memory reactivation between cortex and hippocampus](/202606/15/biorxiv-10-64898-2026-06-12-731367-v1-interplay-of-sleep-neural-oscillations-enhances-coordinated-memory-reactivation-between-cortex-and-hippocampus)  
+1. [Calorie Restriction-Induced Daily Hibernation in Mice Drives Cyclic DNA Damage and Repair](/202606/16/biorxiv-10-64898-2026-06-02-729536-v2-calorie-restriction-induced-daily-hibernation-in-mice-drives-cyclic-dna-damage-and-repair)  
+   标签：评分：10.0/10、query:tr-hb
+   evidence：比较每日冬眠与季节性冬眠的DNA损伤修复
+2. [Loss of Recurrent Excitation Disrupts Sleep Slow Oscillations in the Aging Brain](/202606/16/biorxiv-10-64898-2026-03-16-712170-v2-loss-of-recurrent-excitation-disrupts-sleep-slow-oscillations-in-the-aging-brain)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：直接研究睡眠神经振荡与记忆巩固
+   evidence：睡眠慢波振荡衰老回路模型
+3. [Cold, dark, and hungry: Dynamic transcriptional regulation across eight months of brumation](/202606/16/biorxiv-10-64898-2026-06-11-731677-v1-cold-dark-and-hungry-dynamic-transcriptional-regulation-across-eight-months-of-brumation)  
+   标签：评分：9.0/10、query:tr-hb
+   evidence：变温动物冬季休眠期间转录调控
 
 ### 速读区论文标签
-1. [Spatially Masked Regression Reveals Local and Distributed Predictability in Electrophysiological Recordings](/202606/15/2606.11415v1-spatially-masked-regression-reveals-local-and-distributed-predictability-in-electrophysiological-recordings)  
+1. [Reducing the Complexity of Deep Learning Models for EEG Analysis on Wearable Devices](/202606/16/2606.12742v1-reducing-the-complexity-of-deep-learning-models-for-eeg-analysis-on-wearable-devices)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：分析局部与分布式神经活动的方法，可应用于睡眠电生理
+   evidence：可穿戴设备上用于EEG分析的深度学习模型简化
+2. [A Kuramoto-von Mises Time Series Model for Probabilistic Modeling of Coupled Oscillators](/202606/16/2606.15012v1-a-kuramoto-von-mises-time-series-model-for-probabilistic-modeling-of-coupled-oscillators)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：耦合振荡器模型用于睡眠波动力学
+3. [In vivo brain temperature measurement using quantum dot imaging temperature sensors](/202606/16/biorxiv-10-64898-2026-06-11-731502-v1-in-vivo-brain-temperature-measurement-using-quantum-dot-imaging-temperature-sensors)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：脑温测量方法可用于冬眠研究
 
 
 <div class="dpr-home-promo-card">
