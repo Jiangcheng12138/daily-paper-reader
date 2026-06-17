@@ -6,38 +6,39 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-16
-- 运行时间：2026-06-16 23:27:28 UTC
+- 最新运行日期：2026-06-17
+- 运行时间：2026-06-17 22:27:19 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：3
-- 速读区：3
+- 本次总论文数：5
+- 精读区：4
+- 速读区：1
 
 ### 今日简报（AI）
-今日精读3篇，速读3篇，重点探索热量限制诱发DNA损伤修复循环与衰老大脑慢波振荡机制。最值得关注：小鼠热量限制诱导的“每日冬眠”引发循环性DNA损伤与修复；衰老大脑中突触循环兴奋缺失破坏睡眠慢波。建议读者留意热量限制的节律性DNA修复机制，以及新型量子点脑温测量技术的潜在应用。
-- 详情：[/202606/16/README](/202606/16/README)
+今日精读两篇高分论文，分别揭示冬眠八个月间的动态转录调控机制，以及通过跨性状聚类发现EGR2基因是保守的睡眠调节因子。
+
+最值得关注的是冬眠研究对极端环境适应性的转录调控解析，以及睡眠遗传学中EGR2的发现，为理解基础生理过程提供新视角。
+
+建议普通读者：关注睡眠调控新靶点EGR2可能带来的健康启示，同时冬眠研究或为代谢疾病治疗提供线索。
+- 详情：[/202606/17/README](/202606/17/README)
 
 ### 精读区论文标签
-1. [Calorie Restriction-Induced Daily Hibernation in Mice Drives Cyclic DNA Damage and Repair](/202606/16/biorxiv-10-64898-2026-06-02-729536-v2-calorie-restriction-induced-daily-hibernation-in-mice-drives-cyclic-dna-damage-and-repair)  
-   标签：评分：10.0/10、query:tr-hb
-   evidence：比较每日冬眠与季节性冬眠的DNA损伤修复
-2. [Loss of Recurrent Excitation Disrupts Sleep Slow Oscillations in the Aging Brain](/202606/16/biorxiv-10-64898-2026-03-16-712170-v2-loss-of-recurrent-excitation-disrupts-sleep-slow-oscillations-in-the-aging-brain)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠慢波振荡衰老回路模型
-3. [Cold, dark, and hungry: Dynamic transcriptional regulation across eight months of brumation](/202606/16/biorxiv-10-64898-2026-06-11-731677-v1-cold-dark-and-hungry-dynamic-transcriptional-regulation-across-eight-months-of-brumation)  
+1. [Cold, dark, and hungry: Dynamic transcriptional regulation across eight months of brumation](/202606/17/biorxiv-10-64898-2026-06-11-731677-v1-cold-dark-and-hungry-dynamic-transcriptional-regulation-across-eight-months-of-brumation)  
    标签：评分：9.0/10、query:tr-hb
-   evidence：变温动物冬季休眠期间转录调控
+   evidence：研究爬行动物冬眠（brumation）期间在寒冷和饥饿条件下的转录调控
+2. [Cross-trait clustering of sub-threshold sleep genetic signals identifies EGR2 as a conserved regulator of sleep](/202606/17/biorxiv-10-64898-2026-06-12-731887-v1-cross-trait-clustering-of-sub-threshold-sleep-genetic-signals-identifies-egr2-as-a-conserved-regulator-of-sleep)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：多性状聚类睡眠遗传信号鉴定EGR2为保守睡眠调节因子
+3. [A Kuramoto-von Mises Time Series Model for Probabilistic Modeling of Coupled Oscillators](/202606/17/2606.15012v1-a-kuramoto-von-mises-time-series-model-for-probabilistic-modeling-of-coupled-oscillators)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：建立耦合振荡器模型，用于睡眠行波等节律过程
+4. [EEGDash: An open-source platform for machine learning on public neurophysiological data](/202606/17/2606.16041v1-eegdash-an-open-source-platform-for-machine-learning-on-public-neurophysiological-data)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：提供涵盖EEG/MEG/iEEG的大型神经生理数据集目录，支持睡眠神经科学研究
 
 ### 速读区论文标签
-1. [Reducing the Complexity of Deep Learning Models for EEG Analysis on Wearable Devices](/202606/16/2606.12742v1-reducing-the-complexity-of-deep-learning-models-for-eeg-analysis-on-wearable-devices)  
+1. [Reducing the Complexity of Deep Learning Models for EEG Analysis on Wearable Devices](/202606/17/2606.12742v1-reducing-the-complexity-of-deep-learning-models-for-eeg-analysis-on-wearable-devices)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：可穿戴设备上用于EEG分析的深度学习模型简化
-2. [A Kuramoto-von Mises Time Series Model for Probabilistic Modeling of Coupled Oscillators](/202606/16/2606.15012v1-a-kuramoto-von-mises-time-series-model-for-probabilistic-modeling-of-coupled-oscillators)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：耦合振荡器模型用于睡眠波动力学
-3. [In vivo brain temperature measurement using quantum dot imaging temperature sensors](/202606/16/biorxiv-10-64898-2026-06-11-731502-v1-in-vivo-brain-temperature-measurement-using-quantum-dot-imaging-temperature-sensors)  
-   标签：评分：6.0/10、query:tr-hb
-   evidence：脑温测量方法可用于冬眠研究
+   evidence：适用于睡眠神经科学的可穿戴EEG分析方法
 
 
 <div class="dpr-home-promo-card">
