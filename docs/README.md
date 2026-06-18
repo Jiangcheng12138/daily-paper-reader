@@ -6,39 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-17
-- 运行时间：2026-06-17 22:27:19 UTC
+- 最新运行日期：2026-06-18
+- 运行时间：2026-06-18 22:38:24 UTC
 - 运行状态：成功
 - 本次总论文数：5
-- 精读区：4
-- 速读区：1
+- 精读区：2
+- 速读区：3
 
 ### 今日简报（AI）
-今日精读两篇高分论文，分别揭示冬眠八个月间的动态转录调控机制，以及通过跨性状聚类发现EGR2基因是保守的睡眠调节因子。
-
-最值得关注的是冬眠研究对极端环境适应性的转录调控解析，以及睡眠遗传学中EGR2的发现，为理解基础生理过程提供新视角。
-
-建议普通读者：关注睡眠调控新靶点EGR2可能带来的健康启示，同时冬眠研究或为代谢疾病治疗提供线索。
-- 详情：[/202606/17/README](/202606/17/README)
+今日研究聚焦睡眠与神经退行性疾病、脑节律建模及因果推断。最值得关注的是淀粉样蛋白驱动衰老小鼠中胆碱能神经元失效导致REM睡眠与认知受损，以及耦合振荡器的概率时间序列模型。建议普通读者关注睡眠障碍与阿尔茨海默病的早期关联，以及用数学模型理解脑节律的新方法。
+- 详情：[/202606/18/README](/202606/18/README)
 
 ### 精读区论文标签
-1. [Cold, dark, and hungry: Dynamic transcriptional regulation across eight months of brumation](/202606/17/biorxiv-10-64898-2026-06-11-731677-v1-cold-dark-and-hungry-dynamic-transcriptional-regulation-across-eight-months-of-brumation)  
-   标签：评分：9.0/10、query:tr-hb
-   evidence：研究爬行动物冬眠（brumation）期间在寒冷和饥饿条件下的转录调控
-2. [Cross-trait clustering of sub-threshold sleep genetic signals identifies EGR2 as a conserved regulator of sleep](/202606/17/biorxiv-10-64898-2026-06-12-731887-v1-cross-trait-clustering-of-sub-threshold-sleep-genetic-signals-identifies-egr2-as-a-conserved-regulator-of-sleep)  
+1. [The selective amyloid-driven failure of cholinergic medial septal neurons in aging mice perturbs REM sleep, cognition and emotion, and broadcasts amyloid to other brain regions](/202606/18/biorxiv-10-1101-2025-07-09-663930-v2-the-selective-amyloid-driven-failure-of-cholinergic-medial-septal-neurons-in-aging-mice-perturbs-rem-sleep-cognition-and-emotion-and-broadcasts-amyloid-to-other-brain-regions)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：多性状聚类睡眠遗传信号鉴定EGR2为保守睡眠调节因子
-3. [A Kuramoto-von Mises Time Series Model for Probabilistic Modeling of Coupled Oscillators](/202606/17/2606.15012v1-a-kuramoto-von-mises-time-series-model-for-probabilistic-modeling-of-coupled-oscillators)  
+   evidence：研究β-淀粉样蛋白病理导致胆碱能神经元丧失和REM睡眠扰乱
+2. [A Kuramoto-von Mises Time Series Model for Probabilistic Modeling of Coupled Oscillators](/202606/18/2606.15012v1-a-kuramoto-von-mises-time-series-model-for-probabilistic-modeling-of-coupled-oscillators)  
    标签：评分：8.0/10、query:slp-ns
-   evidence：建立耦合振荡器模型，用于睡眠行波等节律过程
-4. [EEGDash: An open-source platform for machine learning on public neurophysiological data](/202606/17/2606.16041v1-eegdash-an-open-source-platform-for-machine-learning-on-public-neurophysiological-data)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：提供涵盖EEG/MEG/iEEG的大型神经生理数据集目录，支持睡眠神经科学研究
+   evidence：用于睡眠行波的耦合振荡器模型
 
 ### 速读区论文标签
-1. [Reducing the Complexity of Deep Learning Models for EEG Analysis on Wearable Devices](/202606/17/2606.12742v1-reducing-the-complexity-of-deep-learning-models-for-eeg-analysis-on-wearable-devices)  
+1. [Beyond AHI: An Interpretable Causal-Discovery-Guided Framework for Sleep Recovery in Connected Health](/202606/18/2606.18506v1-beyond-ahi-an-interpretable-causal-discovery-guided-framework-for-sleep-recovery-in-connected-health)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：从多模态PSG导出的睡眠恢复评分，与睡眠神经科学相关
+2. [Frequency-specific theta states in the hippocampus are linked to reconfiguration of population activity with respect to behavioural context](/202606/18/biorxiv-10-1101-2024-12-11-627908-v2-frequency-specific-theta-states-in-the-hippocampus-are-linked-to-reconfiguration-of-population-activity-with-respect-to-behavioural-context)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：海马theta状态与群体重组
+3. [Learning Hybrid Biophysical Neuron Models with Neural ODEs](/202606/18/2606.16693v1-learning-hybrid-biophysical-neuron-models-with-neural-odes)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：适用于睡眠神经科学的可穿戴EEG分析方法
+   evidence：混合生物物理神经元模型与神经ODE用于神经动力学建模
 
 
 <div class="dpr-home-promo-card">
