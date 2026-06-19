@@ -6,35 +6,38 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-18
-- 运行时间：2026-06-18 22:38:24 UTC
+- 最新运行日期：2026-06-19
+- 运行时间：2026-06-19 22:16:25 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：2
+- 本次总论文数：6
+- 精读区：3
 - 速读区：3
 
 ### 今日简报（AI）
-今日研究聚焦睡眠与神经退行性疾病、脑节律建模及因果推断。最值得关注的是淀粉样蛋白驱动衰老小鼠中胆碱能神经元失效导致REM睡眠与认知受损，以及耦合振荡器的概率时间序列模型。建议普通读者关注睡眠障碍与阿尔茨海默病的早期关联，以及用数学模型理解脑节律的新方法。
-- 详情：[/202606/18/README](/202606/18/README)
+今日精选6篇论文，精读揭示MC2R-MRAP复合物拮抗剂重塑受体构象，并推出开源脑电机器学习平台EEGDash。最值得关注方向：MC2R拮抗剂的构象机制突破，以及EEGDash对神经数据可复现性提升。普通读者可优先探索EEGDash平台，零门槛复现脑电分析模型。
+- 详情：[/202606/19/README](/202606/19/README)
 
 ### 精读区论文标签
-1. [The selective amyloid-driven failure of cholinergic medial septal neurons in aging mice perturbs REM sleep, cognition and emotion, and broadcasts amyloid to other brain regions](/202606/18/biorxiv-10-1101-2025-07-09-663930-v2-the-selective-amyloid-driven-failure-of-cholinergic-medial-septal-neurons-in-aging-mice-perturbs-rem-sleep-cognition-and-emotion-and-broadcasts-amyloid-to-other-brain-regions)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：研究β-淀粉样蛋白病理导致胆碱能神经元丧失和REM睡眠扰乱
-2. [A Kuramoto-von Mises Time Series Model for Probabilistic Modeling of Coupled Oscillators](/202606/18/2606.15012v1-a-kuramoto-von-mises-time-series-model-for-probabilistic-modeling-of-coupled-oscillators)  
+1. [Antagonists Perturb the MC2R MRAP Complex and Reshape Receptor Conformations](/202606/19/biorxiv-10-64898-2026-06-15-731286-v1-antagonists-perturb-the-mc2r-mrap-complex-and-reshape-receptor-conformations)  
+   标签：评分：9.0/10、query:qll
+   evidence：MRAP缺失时MC2R的棕榈酰化
+2. [EEGDash: An open-source platform for machine learning on public neurophysiological data](/202606/19/2606.16041v1-eegdash-an-open-source-platform-for-machine-learning-on-public-neurophysiological-data)  
    标签：评分：8.0/10、query:slp-ns
-   evidence：用于睡眠行波的耦合振荡器模型
+   evidence：神经生理数据开源平台；EEG；睡眠神经科学
+3. [A paradoxical impact of alcohol on sleep-memory coupling](/202606/19/biorxiv-10-64898-2025-12-03-692036-v2-a-paradoxical-impact-of-alcohol-on-sleep-memory-coupling)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：研究酒精对果蝇睡眠-记忆耦合的影响，涉及睡眠神经生物学机制
 
 ### 速读区论文标签
-1. [Beyond AHI: An Interpretable Causal-Discovery-Guided Framework for Sleep Recovery in Connected Health](/202606/18/2606.18506v1-beyond-ahi-an-interpretable-causal-discovery-guided-framework-for-sleep-recovery-in-connected-health)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：从多模态PSG导出的睡眠恢复评分，与睡眠神经科学相关
-2. [Frequency-specific theta states in the hippocampus are linked to reconfiguration of population activity with respect to behavioural context](/202606/18/biorxiv-10-1101-2024-12-11-627908-v2-frequency-specific-theta-states-in-the-hippocampus-are-linked-to-reconfiguration-of-population-activity-with-respect-to-behavioural-context)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：海马theta状态与群体重组
-3. [Learning Hybrid Biophysical Neuron Models with Neural ODEs](/202606/18/2606.16693v1-learning-hybrid-biophysical-neuron-models-with-neural-odes)  
+1. [A Kuramoto-von Mises Time Series Model for Probabilistic Modeling of Coupled Oscillators](/202606/19/2606.15012v1-a-kuramoto-von-mises-time-series-model-for-probabilistic-modeling-of-coupled-oscillators)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：混合生物物理神经元模型与神经ODE用于神经动力学建模
+   evidence：应用于睡眠行波的耦合振荡器模型
+2. [Better Adherence, Richer Context: A Field Evaluation of LLM-Powered Conversational Voice Diaries for Sleep](/202606/19/2606.18596v1-better-adherence-richer-context-a-field-evaluation-of-llm-powered-conversational-voice-diaries-for-sleep)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：基于大语言模型的对话式语音睡眠日记改善依从性
+3. [Evaluation of EEG Foundation Models for Event-Based Burst-Suppression Detection in ICU](/202606/19/2606.20074v1-evaluation-of-eeg-foundation-models-for-event-based-burst-suppression-detection-in-icu)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：在ICU睡眠监测中评估脑电图基础模型用于爆发抑制检测
 
 
 <div class="dpr-home-promo-card">
