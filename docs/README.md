@@ -6,38 +6,41 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-19
-- 运行时间：2026-06-19 22:16:25 UTC
+- 最新运行日期：2026-06-20
+- 运行时间：2026-06-20 21:48:04 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：3
+- 本次总论文数：7
+- 精读区：4
 - 速读区：3
 
 ### 今日简报（AI）
-今日精选6篇论文，精读揭示MC2R-MRAP复合物拮抗剂重塑受体构象，并推出开源脑电机器学习平台EEGDash。最值得关注方向：MC2R拮抗剂的构象机制突破，以及EEGDash对神经数据可复现性提升。普通读者可优先探索EEGDash平台，零门槛复现脑电分析模型。
-- 详情：[/202606/19/README](/202606/19/README)
+今日精选7篇睡眠研究，其中黑熊自动睡眠评分与慢波睡眠“主动遗忘”机制最受关注。前者为跨物种睡眠分析提供新工具，后者揭示了睡眠如何主动管理记忆巩固与遗忘。建议关注睡眠对学习效率的影响，尝试利用慢波睡眠周期优化记忆策略。
+- 详情：[/202606/20/README](/202606/20/README)
 
 ### 精读区论文标签
-1. [Antagonists Perturb the MC2R MRAP Complex and Reshape Receptor Conformations](/202606/19/biorxiv-10-64898-2026-06-15-731286-v1-antagonists-perturb-the-mc2r-mrap-complex-and-reshape-receptor-conformations)  
-   标签：评分：9.0/10、query:qll
-   evidence：MRAP缺失时MC2R的棕榈酰化
-2. [EEGDash: An open-source platform for machine learning on public neurophysiological data](/202606/19/2606.16041v1-eegdash-an-open-source-platform-for-machine-learning-on-public-neurophysiological-data)  
+1. [Automated sleep scoring in hibernating and non-hibernating American black bears](/202606/20/biorxiv-10-1101-2025-03-31-646262-v3-automated-sleep-scoring-in-hibernating-and-non-hibernating-american-black-bears)  
+   标签：评分：9.0/10、query:tr-hb
+   evidence：冬眠熊代谢抑制与睡眠评分
+2. [Sleep to forget: active control of consolidation and forgetting by slow-wave sleep dynamics](/202606/20/biorxiv-10-64898-2026-06-15-732460-v1-sleep-to-forget-active-control-of-consolidation-and-forgetting-by-slow-wave-sleep-dynamics)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：聚焦慢波睡眠动态控制记忆巩固与遗忘
+3. [Sleep enhances spatial schema memory formation in humans](/202606/20/biorxiv-10-64898-2026-06-16-732347-v1-sleep-enhances-spatial-schema-memory-formation-in-humans)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：睡眠增强空间图式记忆形成
+4. [Better Adherence, Richer Context: A Field Evaluation of LLM-Powered Conversational Voice Diaries for Sleep](/202606/20/2606.18596v1-better-adherence-richer-context-a-field-evaluation-of-llm-powered-conversational-voice-diaries-for-sleep)  
    标签：评分：8.0/10、query:slp-ns
-   evidence：神经生理数据开源平台；EEG；睡眠神经科学
-3. [A paradoxical impact of alcohol on sleep-memory coupling](/202606/19/biorxiv-10-64898-2025-12-03-692036-v2-a-paradoxical-impact-of-alcohol-on-sleep-memory-coupling)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：研究酒精对果蝇睡眠-记忆耦合的影响，涉及睡眠神经生物学机制
+   evidence：评估基于LLM的对话式语音睡眠日记，直接推进睡眠研究方法
 
 ### 速读区论文标签
-1. [A Kuramoto-von Mises Time Series Model for Probabilistic Modeling of Coupled Oscillators](/202606/19/2606.15012v1-a-kuramoto-von-mises-time-series-model-for-probabilistic-modeling-of-coupled-oscillators)  
+1. [Quantum machine learning for detection of sleep deprivation from EEG signals](/202606/20/biorxiv-10-64898-2026-06-14-732153-v1-quantum-machine-learning-for-detection-of-sleep-deprivation-from-eeg-signals)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：利用量子机器学习从脑电图信号检测睡眠剥夺
+2. [Human striatal population state dynamics](/202606/20/biorxiv-10-64898-2026-06-17-733040-v2-human-striatal-population-state-dynamics)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：研究人类纹状体状态动态与觉醒和行为的关系，涉及睡眠-觉醒调控
+3. [Neuronal Activity-Dependent Electroosmosis and Its Potential Role in Interstitial Fluid Flow in the Glymphatic System](/202606/20/biorxiv-10-64898-2026-06-14-732157-v1-neuronal-activity-dependent-electroosmosis-and-its-potential-role-in-interstitial-fluid-flow-in-the-glymphatic-system)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：应用于睡眠行波的耦合振荡器模型
-2. [Better Adherence, Richer Context: A Field Evaluation of LLM-Powered Conversational Voice Diaries for Sleep](/202606/19/2606.18596v1-better-adherence-richer-context-a-field-evaluation-of-llm-powered-conversational-voice-diaries-for-sleep)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：基于大语言模型的对话式语音睡眠日记改善依从性
-3. [Evaluation of EEG Foundation Models for Event-Based Burst-Suppression Detection in ICU](/202606/19/2606.20074v1-evaluation-of-eeg-foundation-models-for-event-based-burst-suppression-detection-in-icu)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：在ICU睡眠监测中评估脑电图基础模型用于爆发抑制检测
+   evidence：类淋巴系统与睡眠相关流体动力学
 
 
 <div class="dpr-home-promo-card">
