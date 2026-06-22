@@ -6,31 +6,32 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-21
-- 运行时间：2026-06-21 21:33:42 UTC
+- 最新运行日期：2026-06-22
+- 运行时间：2026-06-22 22:52:57 UTC
 - 运行状态：成功
-- 本次总论文数：3
+- 本次总论文数：4
 - 精读区：1
-- 速读区：2
+- 速读区：3
 
 ### 今日简报（AI）
-1) 今日精读发现睡眠显著增强人类空间图式记忆形成（9.0分），速读涵盖开源脑电分析平台与贝叶斯振荡模型。
-2) 最值得关注睡眠对记忆巩固的作用，以及EEGDash工具简化神经数据机器学习流程。
-3) 建议优先阅读睡眠记忆论文，并尝试用EEGDash平台分析公开脑电数据。
-- 详情：[/202606/21/README](/202606/21/README)
+今日精读1篇高分论文，解析人脑纹状体群体状态动态，速读涵盖麻醉、高原适应与禁食表观遗传。最值得关注的是《Human striatal population state dynamics》（8.0分）中关于神经环路动态的核心发现，以及《A pleiotropic EPAS1 enhancer mediating Tibetan adaptation to hypoxia》对肥胖与高原适应机制的揭示。建议普通读者优先了解大脑意识状态调控机制，并关注环境适应与基因表达关系的最新进展。
+- 详情：[/202606/22/README](/202606/22/README)
 
 ### 精读区论文标签
-1. [Sleep enhances spatial schema memory formation in humans](/202606/21/biorxiv-10-64898-2026-06-16-732347-v1-sleep-enhances-spatial-schema-memory-formation-in-humans)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：通过虚拟现实和睡眠剥夺实验，证明人类空间图式记忆的睡眠依赖性形成
+1. [Human striatal population state dynamics](/202606/22/biorxiv-10-64898-2026-06-17-733040-v1-human-striatal-population-state-dynamics)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：纹状体群体状态调节觉醒与行为
 
 ### 速读区论文标签
-1. [EEGDash: An open-source platform for machine learning on public neurophysiological data](/202606/21/2606.16041v1-eegdash-an-open-source-platform-for-machine-learning-on-public-neurophysiological-data)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：开源神经生理数据平台，支持睡眠研究中的机器学习
-2. [BAYESIAN STATE-SPACE MODEL FOR JOINT INFERENCE OF OSCILLATORY DYNAMICS AND POINT-PROCESS COUPLING](/202606/21/biorxiv-10-64898-2026-06-15-732402-v1-bayesian-state-space-model-for-joint-inference-of-oscillatory-dynamics-and-point-process-coupling)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：神经振荡状态空间模型睡眠
+1. [Restoring the loss of consciousness under sevoflurane anesthesia in states of anxiety and depression by potently activating serotonergic pathways in brain](/202606/22/biorxiv-10-1101-2024-06-19-599720-v3-restoring-the-loss-of-consciousness-under-sevoflurane-anesthesia-in-states-of-anxiety-and-depression-by-potently-activating-serotonergic-pathways-in-brain)  
+   标签：评分：7.0/10、query:slp-ns
+   evidence：麻醉苏醒，睡眠-觉醒回路，血清素
+2. [A pleiotropic EPAS1 enhancer mediating Tibetan adaptation to hypoxia is active in adipocytes](/202606/22/biorxiv-10-64898-2026-06-11-730447-v1-a-pleiotropic-epas1-enhancer-mediating-tibetan-adaptation-to-hypoxia-is-active-in-adipocytes)  
+   标签：评分：7.0/10、query:tr-hb
+   evidence：对寒冷的遗传适应作为极端环境适应的一部分
+3. [Effects of long-term fasting: longitudinal epigenetic responses in humans](/202606/22/biorxiv-10-64898-2026-06-12-731903-v1-effects-of-long-term-fasting-longitudinal-epigenetic-responses-in-humans)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：长期禁食作为对食物短缺的代谢适应
 
 
 <div class="dpr-home-promo-card">
