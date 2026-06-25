@@ -6,40 +6,37 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-24
-- 运行时间：2026-06-24 22:13:34 UTC
+- 最新运行日期：2026-06-25
+- 运行时间：2026-06-25 22:31:59 UTC
 - 运行状态：成功
-- 本次总论文数：6
+- 本次总论文数：5
 - 精读区：1
-- 速读区：5
+- 速读区：4
 
 ### 今日简报（AI）
-1) 今日阅读6篇，精读失眠干预研究，速读涵盖生物节律网络与脑建模新方法。  
-2) 最值得关注：光生物调节疗法显著改善大学生失眠（8分）；昼夜节律输出网络可缓冲周期波动（7分）。  
-3) 建议关注光疗法在睡眠障碍的临床应用，以及基于流匹配的脑基础模型如何提升神经影像分析。
-- 详情：[/202606/24/README](/202606/24/README)
+今日精读多感官整合核心机制，速读EEG认知检测、生理信号自监督学习及绵羊昼夜节律突变研究。  
+最值得关注精读论文《Drowsiness alters the neural dynamics but not the core computations of multisensory integration》（8.0分），揭示困倦改变神经动力学但保持核心计算。  
+建议关注困倦如何影响感知整合，以及可解释的轻认知障碍EEG检测方法。
+- 详情：[/202606/25/README](/202606/25/README)
 
 ### 精读区论文标签
-1. [A pilot study examining transcranial photobiomodulation therapy intervention in college students with insomnia](/202606/24/2606.24668v1-a-pilot-study-examining-transcranial-photobiomodulation-therapy-intervention-in-college-students-with-insomnia)  
+1. [Drowsiness alters the neural dynamics but not the core computations of multisensory integration](/202606/25/biorxiv-10-64898-2026-01-12-699055-v2-drowsiness-alters-the-neural-dynamics-but-not-the-core-computations-of-multisensory-integration)  
    标签：评分：8.0/10、query:slp-ns
-   evidence：经颅光生物调节疗法治疗失眠
+   evidence：研究困倦与清醒转换期间的神经动态
 
 ### 速读区论文标签
-1. [Circadian output network can buffer period variability](/202606/24/2606.23114v1-circadian-output-network-can-buffer-period-variability)  
+1. [Interpretable Concept-Guided Polynomial Tabular Kolmogorov-Arnold Network for EEG-Based Mild Cognitive Impairment Detection](/202606/25/2606.25434v1-interpretable-concept-guided-polynomial-tabular-kolmogorov-arnold-network-for-eeg-based-mild-cognitive-impairment-detection)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：昼夜节律输出网络缓冲周期变异性，为睡眠-觉醒周期调控提供信息
-2. [B[FM]$^2$: Brain Foundation Model via Flow Matching with SplitUNet](/202606/24/2606.20812v1-bfm2-brain-foundation-model-via-flow-matching-with-splitunet)  
+   evidence：提出基于睡眠EEG的MCI检测框架，涉及可解释概念引导网络，与睡眠神经科学相关
+2. [SPOTR: Spatio-temporal Pooling One-Token Reconstruction for Universal Physiological Signal Self-supervised Learning](/202606/25/2606.21973v1-spotr-spatio-temporal-pooling-one-token-reconstruction-for-universal-physiological-signal-self-supervised-learning)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：用于包括睡眠在内的多种临床任务的脑电基础模型
-3. [Embedded Polygon Symbolic Transfer Entropy (EPSTE): A Geometric Token and Deep Learning Approach to Estimating Transfer Entropy in Neuroimaging Time Series](/202606/24/2606.21754v1-embedded-polygon-symbolic-transfer-entropy-epste-a-geometric-token-and-deep-learning-approach-to-estimating-transfer-entropy-in-neuroimaging-time-series)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：从神经影像时间序列估计传递熵的深度学习方法，可用于睡眠网络分析
-4. [SPIDER -- Stitched Power-spectra for Inferring Directed information flow from incomplete and asynchronous Experimental Recordings](/202606/24/2606.22695v1-spider----stitched-power-spectra-for-inferring-directed-information-flow-from-incomplete-and-asynchronous-experimental-recordings)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：推断脑区间定向信息流的方法可应用于睡眠神经科学
-5. [BAYESIAN STATE-SPACE MODEL FOR JOINT INFERENCE OF OSCILLATORY DYNAMICS AND POINT-PROCESS COUPLING](/202606/24/biorxiv-10-64898-2026-06-15-732402-v1-bayesian-state-space-model-for-joint-inference-of-oscillatory-dynamics-and-point-process-coupling)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：贝叶斯状态空间模型联合推断振荡动力学和尖峰场耦合，可用于睡眠神经科学研究
+   evidence：针对EEG等生理信号的自监督学习方法，可用于睡眠神经科学研究
+3. [A missense mutation in FBXL3 links circadian regulation to out-of-season estrus in sheep](/202606/25/biorxiv-10-64898-2026-06-18-733072-v1-a-missense-mutation-in-fbxl3-links-circadian-regulation-to-out-of-season-estrus-in-sheep)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：季节性繁殖适应与生物钟关联
+4. [Fluorescence Blinking Patterns Fingerprint the Local Protein Environment](/202606/25/biorxiv-10-64898-2026-06-22-733774-v1-fluorescence-blinking-patterns-fingerprint-the-local-protein-environment)  
+   标签：评分：6.0/10、query:qll
+   evidence：提供荧光指纹识别方法检测局部蛋白环境，对翻译后修饰敏感，可用于老化中蛋白修饰研究
 
 
 <div class="dpr-home-promo-card">
