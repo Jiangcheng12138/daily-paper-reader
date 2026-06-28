@@ -6,57 +6,47 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-27
-- 运行时间：2026-06-27 21:40:48 UTC
+- 最新运行日期：2026-06-28
+- 运行时间：2026-06-28 21:32:51 UTC
 - 运行状态：成功
-- 本次总论文数：11
-- 精读区：8
-- 速读区：3
+- 本次总论文数：9
+- 精读区：5
+- 速读区：4
 
 ### 今日简报（AI）
-今日聚焦睡眠与记忆巩固机制，精读两篇高分研究分别揭示蓝斑-海马交互及去甲肾上腺素慢波在记忆中的关键作用。
-
-最值得关注：睡眠中蓝斑-海马动态耦合与心率相关的去甲肾上腺素节律是记忆巩固的核心环节；同时，睡眠能解决外显与内隐记忆间的竞争。
-
-建议读者优先精读两篇9分论文，了解睡眠如何通过脑-心互动优化记忆，可配合速读中睡眠剥夺与记忆巩固冲突的研究进行对比思考。
-- 详情：[/202606/27/README](/202606/27/README)
+今日聚焦睡眠剥夺对睡眠动力学与情绪适应的双重影响，以及睡眠在记忆竞争中的关键作用。最值得关注的是，完全或部分睡眠剥夺会破坏睡眠状态边界并阻碍个体对持续性威胁的情绪适应，同时睡眠能有效促进外显记忆与内隐记忆的竞争解决。建议读者重视规律睡眠对情绪调节和记忆巩固的基础性影响，避免长期睡眠不足。
+- 详情：[/202606/28/README](/202606/28/README)
 
 ### 精读区论文标签
-1. [Differential locus coeruleus-hippocampus interactions during offline states](/202606/27/biorxiv-10-1101-2025-09-18-677005-v3-differential-locus-coeruleus-hippocampus-interactions-during-offline-states)  
+1. [Alterations in sleep state boundaries and sleep dynamics following acute total and chronic partial sleep loss: a state space model exploration](/202606/28/biorxiv-10-64898-2026-06-21-732147-v1-alterations-in-sleep-state-boundaries-and-sleep-dynamics-following-acute-total-and-chronic-partial-sleep-loss-a-state-space-model-exploration)  
+   标签：评分：10.0/10、query:slp-ns
+   evidence：睡眠剥夺后睡眠状态边界和动态变化
+2. [Tired and wired: sleep deprivation prevents emotional adaptation to prolonged and ambiguous threat](/202606/28/biorxiv-10-64898-2026-06-21-733648-v1-tired-and-wired-sleep-deprivation-prevents-emotional-adaptation-to-prolonged-and-ambiguous-threat)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：非快速眼动睡眠期间蓝斑-海马相互作用
-2. [Noradrenergic infraslow rhythm during sleep is the critical link between heart-rate dynamics and memory consolidation](/202606/27/biorxiv-10-64898-2026-01-06-697926-v2-noradrenergic-infraslow-rhythm-during-sleep-is-the-critical-link-between-heart-rate-dynamics-and-memory-consolidation)  
+   evidence：睡眠剥夺对情绪适应的影响
+3. [A probabilistic atlas of the human thalamic reticular nucleus derived from 7T MRI](/202606/28/biorxiv-10-64898-2026-06-22-733673-v1-a-probabilistic-atlas-of-the-human-thalamic-reticular-nucleus-derived-from-7t-mri)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：非快速眼动睡眠的神经生物学，蓝斑去甲肾上腺素节律
-3. [Transforming neural activity to operate without glucose metabolism using brain-derived ketone bodies](/202606/27/biorxiv-10-64898-2026-02-19-706813-v2-transforming-neural-activity-to-operate-without-glucose-metabolism-using-brain-derived-ketone-bodies)  
-   标签：评分：9.0/10、query:tr-hb
-   evidence：蛙类冬眠，代谢转向酮体
-4. [Cell-type targeted CRISPR/Cas9 Clock knockdown in mouse VTA dopamine neurons alter sleep, behavior, and cellular excitability](/202606/27/biorxiv-10-64898-2026-06-03-730017-v2-cell-type-targeted-crisprcas9-clock-knockdown-in-mouse-vta-dopamine-neurons-alter-sleep-behavior-and-cellular-excitability)  
+   evidence：丘脑网状核图谱支持睡眠-觉醒周期研究
+4. [Enhancing slow-wave sleep via non-invasive brain stimulation modulates brain-to-blood clearance of Alzheimer's disease biomarkers](/202606/28/biorxiv-10-64898-2026-06-22-733841-v1-enhancing-slow-wave-sleep-via-non-invasive-brain-stimulation-modulates-brain-to-blood-clearance-of-alzheimers-disease-biomarkers)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：VTA多巴胺神经元中Clock基因敲低改变睡眠和行为
-5. [Alterations in sleep state boundaries and sleep dynamics following acute total and chronic partial sleep loss: a state space model exploration](/202606/27/biorxiv-10-64898-2026-06-21-732147-v1-alterations-in-sleep-state-boundaries-and-sleep-dynamics-following-acute-total-and-chronic-partial-sleep-loss-a-state-space-model-exploration)  
+   evidence：非侵入性脑刺激增强慢波睡眠并促进阿尔茨海默生物标志物清除
+5. [Sleep spindles enhance latent working memory representations](/202606/28/biorxiv-10-64898-2026-06-26-734777-v1-sleep-spindles-enhance-latent-working-memory-representations)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：研究睡眠剥夺后睡眠状态边界和动态，直接相关睡眠神经科学
-6. [A probabilistic atlas of the human thalamic reticular nucleus derived from 7T MRI](/202606/27/biorxiv-10-64898-2026-06-22-733673-v1-a-probabilistic-atlas-of-the-human-thalamic-reticular-nucleus-derived-from-7t-mri)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：直接研究调控睡眠-觉醒周期的丘脑网状核
-7. [Hippocampal-cortical coupling dynamics drive system consolidation of remote memory](/202606/27/biorxiv-10-64898-2026-06-22-733680-v1-hippocampal-cortical-coupling-dynamics-drive-system-consolidation-of-remote-memory)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：NREM睡眠期间海马-皮层耦合驱动记忆巩固
-8. [TinyCNNDeep: Lightweight Attention-Based CNN for EEG Classification of Eye States and Sleep Deprivation](/202606/27/2606.26506v1-tinycnndeep-lightweight-attention-based-cnn-for-eeg-classification-of-eye-states-and-sleep-deprivation)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：睡眠剥夺与眼动状态的EEG分类
+   evidence：睡眠纺锤波增强潜在工作记忆表征
 
 ### 速读区论文标签
-1. [Tired and wired: sleep deprivation prevents emotional adaptation to prolonged and ambiguous threat](/202606/27/biorxiv-10-64898-2026-06-21-733648-v1-tired-and-wired-sleep-deprivation-prevents-emotional-adaptation-to-prolonged-and-ambiguous-threat)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：研究睡眠剥夺对情绪适应的影响，直接相关睡眠神经科学
-2. [Interpretable Concept-Guided Polynomial Tabular Kolmogorov-Arnold Network for EEG-Based Mild Cognitive Impairment Detection](/202606/27/2606.25434v1-interpretable-concept-guided-polynomial-tabular-kolmogorov-arnold-network-for-eeg-based-mild-cognitive-impairment-detection)  
+1. [Sleep resolves competition between explicit exemplar memory and implicit memory generalization](/202606/28/biorxiv-10-1101-2025-02-21-639581-v3-sleep-resolves-competition-between-explicit-exemplar-memory-and-implicit-memory-generalization)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：利用睡眠EEG进行MCI检测，属于睡眠神经科学领域
-3. [Sleep resolves competition between explicit exemplar memory and implicit memory generalization](/202606/27/biorxiv-10-1101-2025-02-21-639581-v3-sleep-resolves-competition-between-explicit-exemplar-memory-and-implicit-memory-generalization)  
+   evidence：睡眠解决了显性和隐性记忆系统之间的竞争，增进了对睡眠巩固记忆作用的理解
+2. [Arousal state modulates human hippocampal ripples](/202606/28/biorxiv-10-64898-2026-06-26-734578-v1-arousal-state-modulates-human-hippocampal-ripples)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：睡眠解决显性与隐式记忆竞争，涉及睡眠神经科学
+   evidence：唤醒状态调节睡眠与清醒时的海马涟漪，关联睡眠神经生物学
+3. [SPIDER -- Stitched Power-spectra for Inferring Directed information flow from incomplete and asynchronous Experimental Recordings](/202606/28/2606.22695v1-spider----stitched-power-spectra-for-inferring-directed-information-flow-from-incomplete-and-asynchronous-experimental-recordings)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：从神经记录推断有向连接的方法，可应用于睡眠回路研究
+4. [A Designed Ankyrin Repeat Protein (DARPin) Targeting EGFR Inhibits Ovulation and Enables a Novel Platform for Studying Ovarian Biology and Pathophysiology](/202606/28/biorxiv-10-64898-2026-06-22-732379-v1-a-designed-ankyrin-repeat-protein-darpin-targeting-egfr-inhibits-ovulation-and-enables-a-novel-platform-for-studying-ovarian-biology-and-pathophysiology)  
+   标签：评分：6.0/10、query:qll
+   evidence：卵巢生物学平台与衰老和纤维化相关
 
 
 <div class="dpr-home-promo-card">
