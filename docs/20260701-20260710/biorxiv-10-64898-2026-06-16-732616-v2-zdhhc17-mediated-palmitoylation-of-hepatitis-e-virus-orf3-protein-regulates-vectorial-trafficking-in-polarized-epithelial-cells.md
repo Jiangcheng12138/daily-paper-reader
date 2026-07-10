@@ -1,0 +1,25 @@
+---
+title: ZDHHC17-Mediated Palmitoylation of Hepatitis E Virus ORF3 Protein Regulates Vectorial Trafficking in Polarized Epithelial Cells
+title_zh: ZDHHC17介导的戊型肝炎病毒ORF3蛋白棕榈酰化调控极化上皮细胞中的定向运输
+authors: "Bröscky, P., Syren, C. C., Ge, D., Kostrykin, L., Piras, A., Engels, Z., Freistaedter, A., Chi, H., Jordan, P., Funaya, C., Rohr, K., Tiwari, S. P., Tubiana, T., Pichlmair, A., Thi, V. L. D."
+date: 2026-07-08
+pdf: "https://www.biorxiv.org/content/10.64898/2026.06.16.732616v2.full.pdf"
+tags: ["query:qll"]
+score: 6.0
+evidence: ZDHHC17棕榈酰转移酶修饰HEV ORF3蛋白调控运输
+tldr: 戊型肝炎病毒（HEV）在肠道和肝脏的极化上皮细胞中呈现相反的定向分泌模式，其ORF3蛋白的顶膜定位依赖于棕榈酰转移酶ZDHHC17介导的棕榈酰化。研究发现ORF3的N端正电荷残基调控膜结合，而其保守的PIFIQP基序特异性结合ZDHHC17的锚蛋白重复结构域，通过AlphaFold建模和分子动力学模拟验证了相互作用界面。该工作揭示了HEV定向释放的关键分子机制，为理解极化上皮细胞中的蛋白运输提供了新范式。
+source: biorxiv
+selection_source: fresh_fetch
+figures_json: "[{\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-06-16-732616-v2/fig-001.webp\", \"caption\": \"\", \"page\": 0, \"index\": 1, \"width\": 1360, \"height\": 2261, \"label\": \"Figure\"}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-06-16-732616-v2/fig-002.webp\", \"caption\": \"\", \"page\": 0, \"index\": 2, \"width\": 1658, \"height\": 2408, \"label\": \"Figure\"}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-06-16-732616-v2/fig-003.webp\", \"caption\": \"\", \"page\": 0, \"index\": 3, \"width\": 1563, \"height\": 2083, \"label\": \"Figure\"}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-06-16-732616-v2/fig-004.webp\", \"caption\": \"\", \"page\": 0, \"index\": 4, \"width\": 1659, \"height\": 1426, \"label\": \"Figure\"}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-06-16-732616-v2/fig-005.webp\", \"caption\": \"\", \"page\": 0, \"index\": 5, \"width\": 1665, \"height\": 1696, \"label\": \"Figure\"}, {\"url\": \"assets/figures/biorxiv/biorxiv-10-64898-2026-06-16-732616-v2/fig-006.webp\", \"caption\": \"\", \"page\": 0, \"index\": 6, \"width\": 1644, \"height\": 2298, \"label\": \"Figure\"}]"
+tables_json: "[{\"url\": \"assets/tables/biorxiv/biorxiv-10-64898-2026-06-16-732616-v2/table-001.webp\", \"caption\": \"\", \"page\": 0, \"index\": 1, \"width\": 1646, \"height\": 2548, \"label\": \"Table\"}, {\"url\": \"assets/tables/biorxiv/biorxiv-10-64898-2026-06-16-732616-v2/table-002.webp\", \"caption\": \"\", \"page\": 0, \"index\": 2, \"width\": 1650, \"height\": 984, \"label\": \"Table\"}]"
+motivation: HEV沿肠-肝轴传播，上皮细胞极性决定其定向进入和释放，但分子机制不明。
+method: 结合极化细胞模型、自动分割图像分析、突变筛选及AlphaFold结构预测和分子动力学模拟。
+result: ZDHHC17通过棕榈酰化ORF3并识别其PIFIQP基序，驱动ORF3顶膜定位和病毒释放；N端正电荷残基辅助膜结合。
+conclusion: 阐明HEV定向分泌的分子基础，为病毒传播机制和上皮细胞极性运输提供新见解。
+---
+
+## 摘要
+戊型肝炎病毒（HEV）是全球急性肝炎的主要原因之一，通过肠-肝轴经肠道传播。肠道和肝脏中的上皮细胞极性在HEV传播中起关键作用。在肠上皮细胞中，HEV通过顶膜进入，并从基底外侧释放以进入血液，而在肝细胞中，病毒从基底侧进入，并顶部分泌到胆管。在本研究中，我们旨在确定控制HEV在两种组织中定向分泌的病毒和宿主决定因素。利用极化的肠道和肝细胞模型，我们发现对于子代分泌至关重要的小磷酸蛋白ORF3主要定位于顶膜，与ORF2衣壳蛋白形成对比。我们进一步鉴定了棕榈酰转移酶ZDHHC17作为ORF3的特异性相互作用因子，介导其顶膜定位并促进HEV子代释放。通过自动化细胞分割和定量图像分析，我们筛选了一系列ORF3突变体，发现N端带正电的残基调节膜结合。此外，我们鉴定了一个保守的PIFIQP基序，该基序介导与ZDHHC17锚蛋白重复结构域（ARD）的关键相互作用。利用这种相互作用，我们通过AlphaFold生成了ORF3与ZDHHC17 ARD复合物的高置信度结构模型。这些模型经分子动力学模拟进一步验证，揭示了参与相互作用的额外ORF3残基。总之，我们的发现定义了HEV定向释放的关键机制，并为极化上皮细胞中的运输过程提供了更深入的认识。
+
+## Abstract
+The hepatitis E virus (HEV) is a leading cause of acute hepatitis worldwide and is transmitted enterically along the gut-liver axis. Epithelial cell polarity in the gut and liver plays a critical role in HEV transmission. In intestinal epithelial cells, HEV enters through the apical membrane and is released basolaterally to access the bloodstream, whereas in hepatocytes, the virus enters basolaterally and is secreted apically into the bile duct. In this study, we sought to identify the viral and host determinants governing directional HEV secretion in both tissue types. Using polarized intestinal and hepatocyte models, we found that the small phosphoprotein ORF3, which is essential for progeny secretion, localizes predominantly to the apical membrane, in contrast to the ORF2 capsid protein. We further identified the palmitoyltransferase ZDHHC17 as a specific ORF3 interactor that mediates its apical localization and promotes HEV progeny release. Using automated cell segmentation and quantitative image analysis, we screened a panel of ORF3 mutants and found that positively charged residues within the N-terminus regulate membrane association. In addition, we identified a conserved PIFIQP motif that mediates the critical interaction with the ankyrin repeat domain (ARD) of ZDHHC17. Leveraging this interaction, we generated high-confidence structural models of ORF3 in complex with the ZDHHC17 ARD using AlphaFold. These models, further validated by molecular dynamics simulations, revealed additional ORF3 residues involved in the interaction. Collectively, our findings define key mechanisms underlying directional HEV release and provide broader insights into trafficking processes in polarized epithelial cells.

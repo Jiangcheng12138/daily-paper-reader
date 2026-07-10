@@ -1,0 +1,2178 @@
+Title: ZDHHC17–Mediated Palmitoylation of Hepatitis E Virus ORF3 Protein Regulates Vectorial Trafficking in Polarized Epithelial Cells
+
+URL Source: https://www.biorxiv.org/content/10.64898/2026.06.16.732616v2.full.pdf
+
+Number of Pages: 32
+
+Markdown Content:
+ZDHHC17 –Mediated Palmitoylation of Hepatitis E Virus ORF3 Protein Regulates 1
+
+Vectorial Trafficking in Polarized Epithelial Cells 2
+
+Patrick Bröscky 1,2 , Charlotte C. Syren 1,2 , Di Ge 3, Leonid Kostrykin 4, Antonio Piras 3, Zo é3
+
+Engels 1,2# , Andrew Freistaedter 1,2 , Huanting Chi 1,2 , Paula Jordan 1,2 , Charlotta Funaya 5, Karl 4
+
+Rohr 4, Sandhya P. Tiwari 6, Thibault Tubiana 7, Andreas Pichlmair 3, and Viet Loan Dao Thi 1,2,8 
+
+5
+
+> 1
+
+Heidelberg University, Medical Faculty Heidelberg, Center of Infectious Diseases, Virology, Center for 6
+
+Integrative Infectious Disease Research, Heidelberg, Germany; 2Heidelberg University, Medical Faculty 7
+
+Heidelberg, Center for Infectious Diseases, Molecular Virology, Center for Integrative Infectious 8
+
+Disease Research, Heidelberg, Germany; 3Technical Univers ity of Munich, School of Medicine, Institute 9
+
+of Virology, 81675 Munich, Germany; 4Biomedical Computer Vision Group, BioQuant, IPMB, Heidelberg 10 
+
+University, 69120 Heidelberg, Germany; 5Heidelberg University, Electron Microscopy Core Facility, 11 
+
+69120 Heidelberg, Germany; 6Institute for Protein Research, The University of Osaka, 3 -2 Yamadaoka, 12 
+
+Suita, Osaka, Japan; 7Institute for Integrative Biology of the Cell (I2BC), Université Paris -Saclay, CEA, 13 
+
+CNRS, Gif -sur -Yvette, France; 8German Centre for I nfection Research (DZIF), Partner Site Heidelberg, 14 
+
+Heidelberg, Germany 15  #current address: Institute of Molecular Virology, Ulm University Medical Center, Germany 16 
+
+17 
+
+*Corresponding author: VietLoan.DaoThi@med.uni -heidelberg.de 18 
+
+19 
+
+Keywords: hepatitis E virus, ope n reading frame 3 protein, polarized epithelial cells, 20 
+
+palmitoyl transferase ZDHHC17 21 
+
+Electronic word count: 22 
+
+Number of figures and tables: 6 figures,1 table 23 
+
+Abstract 24 
+
+The hepatitis E virus (HEV) is a leading cause of acute hepatitis worldwide and is transm itted 25 
+
+enterically along the gut –liver axis. Epithelial cell polarity in the gut and liver plays a critical 26 
+
+role in HEV transmission. In intestinal epithelial cells, HEV enters through the apical 27 
+
+membrane and is released basolaterally to access the bloodstr eam, whereas in hepatocytes, 28 
+
+the virus enters basolaterally and is secreted apically into the bile duct. In this study, we sought 29 
+
+to identify the viral and host determinants governing directional HEV secretion in both tissue 30 
+
+types. Using polarized intestinal and hepatocyte models, we found that the small 31 
+
+phosphoprotein ORF3, which is essential for progeny secretion, localizes predominantly to the 32 
+
+apical membrane, in contrast to the ORF2 capsid protein. We further identified the 33 
+
+palmitoyltransferase ZDHHC17 as a specific ORF3 interactor that mediates its apical 34 
+
+localization and promotes HEV progeny release. Using automated cell segmentation and 35 
+
+quantitative image analysis, we screened a panel of ORF3 mutants and found that positively 36 
+
+charged residues within the N -terminus regulate membrane association. In addition, we 37 
+
+identified a conserved PIFIQP motif that mediates the critical interaction with the ankyrin 38 
+
+repeat domain (ARD) of ZDHHC17. Leveraging this interaction, we generated high -confidence 39 
+
+struc tural models of ORF3 in complex with the ZDHHC17 ARD using AlphaFold. These 40 
+
+models, further validated by molecular dynamics simulations, revealed additional ORF3 41 
+
+residues involved in the interaction. Collectively, our findings define key mechanisms 42 
+
+underly ing directional HEV release and provide broader insights into trafficking processes in 43 
+
+polarized epithelial cells. 44 
+
+45 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+Introduction 46 
+
+Hepatitis E virus (HEV) is a major cause of acute hepatitis worldwide and belongs to 47 
+
+the Hepeviridae family 1. Human -infecting HEV genotypes are classified within the 48 
+
+Paslahepevirus balayani species, which comprises eight genotypes (HEV -1 to HEV -8) 2. HEV -49 
+
+1 and HEV -2, are restricted to humans and transmitted via the fecal –oral route, mainly through 50 
+
+contaminated water. Although infection is typically self -limit ing in healthy individuals, HEV -151 
+
+and HEV -2 are associated with high mortality rates in pregnant women 3. In contrast, HEV -352 
+
+and HEV -4 are zoonotic and are primarily transmitted to humans through consumption of 53 
+
+contaminated meat products, e.g. from domestic pigs or wild boar 4. These genotypes are most 54 
+
+prevalent in industrialized countries. While the majority of HEV -3 and HEV -4 infections are 55 
+
+asymptomatic, they can become chronic in immunosuppressed individuals, who have an 56 
+
+elevated risk of developing liver cirrhosis, and co nsequently, liver failure 5.57 
+
+The positive -sense, single -str anded HEV RNA genome of approximately 7.2 kilobases 58 
+
+encodes at least three open reading frames (ORFs). ORF1 is thought to be translated as a 59 
+
+polyprotein and encodes the nonstructural proteins required for viral replication (reviewed in 6).60 
+
+ORF2 encodes the capsid protein and plays a critical role in counteracting innate and adaptive 61 
+
+host immune responses (reviewed in 7). ORF3 is a small phosphoprotein of approximately 113 62 
+
+amino acids that is proposed to function as an ion channel 8. Phosphorylation at serine 80 is 63 
+
+thought to mediate interaction with the capsid protein ORF2 9. At its N -terminus, eight cysteine 64 
+
+residues undergo palmitoylation, which is essential for membrane association of ORF3 10 . One 65 
+
+of the most prominent roles of ORF3 is the secretion of HEV progenies 11 . Through its 66 
+
+conserved proline –serine –alanine –proline (PSAP) motif, ORF3 interacts with the endosomal 67 
+
+sorting complexes required for transport (ESCRT) protein TSG101 12 , thereby facilitating virus 68 
+
+budding into multivesicular bodies (MVBs) in a non -cytolytic manner. During this proces s, and 69 
+
+despite the absence of viral glycoproteins, HEV particles acquire a host cell –derived 70 
+
+membrane envelope that is decorated with ORF3 13 . Consequently, HEV particles released 71 
+
+into the cell culture supernatant or circulating in the blood of infected patients are quasi -72 
+
+enveloped 14 . Although this envelope, derived from the trans -Golgi network (TGN) 73 
+
+membrane 15 , reduces cell attachment and entry , it protects viral particles from neutralizing 74 
+
+antibodies, likely facilitating spread within the infected host. In contrast, HEV shed in feces or 75 
+
+present in HEV -replicating cells are non -enveloped , highly stable, and infectious, enabling the 76 
+
+transmission to new hosts 16 .77 
+
+Epithelial cells are polarized in order to maintain their barrier function while enabling 78 
+
+tr ansport functions. To this end, they have distinct membranes : On the one hand , the apical 79 
+
+membrane, fac ing the outside environment and on the other hand , the basolateral membrane, 80 
+
+facing neighboring cells and underlying tissue. HEV uniquely depends on tiss ue epithelial cell 81 
+
+polarity for its enteric transmission. Following entry via the gastrointestinal tract, HEV is 82 
+
+thought to infect the intestinal epitheli um through the apical membrane and enters the 83 
+
+bloodstream through release from the basolateral membran e into the bloodstream . Once in 84 
+
+circulation, the virus reaches the liver, where it enters hepatocytes via the basolateral 85 
+
+membrane and is primarily released from the apical membrane into the bile duct 16 . When 86 
+
+transported with the bile back to the intestine, the quasi -envelope is removed and HEV is 87 
+
+ultimately shed in feces, enabling transmission to new host s. Until now, knowledge of how the 88 
+
+virus hijacks the polarized trafficking machinery of intestinal epithelial cells and hepatocytes 89 
+
+has been lacking .90 
+
+Recent studies have shown that the ORF3 protein is required for apical HEV progeny 91 
+
+release from polarized hepatocytes and liver organoids 17 –19 . In agreement, ORF3 was mainly 92 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+located close to the apical membrane and within the bile canaliculi of human hepatocytes in a 93 
+
+human -liver chimeric mouse model 20 . Surprisingly, we and others have shown a94 
+
+predominantly apical release of HEV progeny from polarized in testinal epithelial cells or 95 
+
+intestinal organoids 21,22 , but the viral determinant governing this process was not identified. 96 
+
+In the present study, we confirm ORF3 to be the principal viral determinant governing 97 
+
+apical HEV trafficking in polarized hepatocytes and extend this finding to polarized intestinal 98 
+
+epithelial cells, thereby strongly supporting the intestine as a major sit e of HEV shedding 99 
+
+during infection . We further identif ied the palmitoyltransferase ZDHHC17 as a key mediator of 100 
+
+ORF3 palmitoylation and its role in apical HEV progeny release. Through systematic screening 101 
+
+of mutants targeting the charged residues within ORF3, we uncover ed novel sequence motifs 102 
+
+that regulate its palmitoylation and/or mediate s its interaction with ZDHHC17 . We employ ed 103 
+
+AlphaFold modeling and molecular dynamics simulations to gain additional mechanistic 104 
+
+insight s into the ORF3 –ZDHHC17 interaction. Collectively, these findings reveal previously 105 
+
+unrecognized viral and host determinants governing HEV release and provide new insights 106 
+
+into vectorial trafficking in polarized epithelial cells. 107 
+
+Results 108 
+
+ORF3, but not the ORF2 protein, is mainly apically localized in polarized intestinal and liver 109 
+
+epithelial cells 110 
+
+In order to identify the structural determinant governing vectorial release of HEV in 111 
+
+either tissue context, we first investigated the subcellular localization of ORF2 and ORF3 112 
+
+proteins in hepatocytes and intestinal epithelial cells infected with the HEV -3 Kernow -C1/p6 113 
+
+strain. Notably, whereas intestinal epithelial cells typically exhibit a 2 -dimensional (2D) 114 
+
+columnar polarization, with an apical membrane facing t he lumen and the basolateral side 115 
+
+facing the bloodstream, hepatocytes display a more complex, 3 -dimensional (3D) architecture 116 
+
+with multiple apical and basolateral membrane domains in vivo (review ed in 23 , Fig. 1A). 117 
+
+First, we employed hepatocellular model systems that recapitulate cell polarity at 118 
+
+increasing levels of complexity. In no n-polarized hepatoma S10 -3 cells infected with HEV, 119 
+
+ORF2 was distributed throughout the cytoplasm and formed fibrillar structures, whereas ORF3 120 
+
+localized predominantly to a confined perinuclear region, consistent with previous reports 24 .121 
+
+Notably, a fraction of ORF2 colocalized with ORF3 within this perinuclear compartment. (Fig. 122 
+
+1B). Then , we infected columnar polariz ed human induced pluripotent stem cell (hiPSC) -123 
+
+derived hepatocyte -like cells (HLCs) 25 . Similar to non -polarized hepatocytes, ORF2 was 124 
+
+detected throughout the cell body, while ORF3 localized almost exclusively to the apical 125 
+
+membrane in polarized HLCs (Suppl. Fig. 1). Finally, we used bipotent HepaRG cells, which 126 
+
+upon differentiation acquire a complex 3D polarization characterized by multiple apical and 127 
+
+basolateral membrane domains, and the formation of functional biliary canaliculi -like 128 
+
+structures 26 . In HEV -infected differentiated HepaRG cells, ORF2 again showed a broad 129 
+
+intracellular distribution, whereas ORF3 localized predominantly to apical membranes, as 130 
+
+evidenced by strong co -localization with F -actin or MRP2 , which is enriched at the apical 131 
+
+region of polarized hepatocytes (Fig. 1C , Suppl. Fig. 2 )27 .132 
+
+Next, we investigated the localization of ORF2 and ORF3 in HEV -infected intestinal 133 
+
+epithelial cells. In non -polarized intestinal Caco -2 cells, ORF2 and ORF3 showed a similar 134 
+
+distribution to that observed in non -polarized hepatoma cells, wit h ORF2 present throughout 135 
+
+the cells while ORF3 was confined to a defined perinuclear region (Fig. 1D). We then infected 136 
+
+Caco -2 cells cultured on Transwell inserts, where they spontaneously develop a columnar 137 
+
+polarized epithelial architecture 28 . In these 2D -polarized cells, consistent with observations in 138 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+2D -polarized HLCs and differentiated Hep aRG cells, only ORF3 accumulat ed specifically at 139 
+
+the apical membrane (Fig. 1E). Finally, we confirmed the exclusive localization of ectopic 140 
+
+ORF3 ::GFP on the apical membrane of hiPSC -derived intestinal organoids facing their lumen ,141 
+
+further supporting a cons erved apical targeting in polarized intestinal epithelium (Fig. 1F) 22,29 .142 
+
+Altogether, these results show that the HEV structural protein ORF3, but not ORF2, 143 
+
+was mainly localized apically in both polarized intestinal cells and hepatocytes. With its 144 
+
+established role in HEV secretion and previous reports describing preferential apical HEV 145 
+
+release from polarized enterocytes 17,22 , our findings support ORF3 as a key determinant of 146 
+
+directional HEV progeny release. 147 
+
+ZDHHC17 mediates ORF3 palmitoylation to control its apical localization and HEV progeny 148 
+
+release 149 
+
+To identify potential ORF3 -interacting host factors involved in its apical trafficking and 150 
+
+directional progeny release, we perfo rmed an ORF3 interactome screen. For this purpose, we 151 
+
+ectopically expressed ORF3 in hepatoma HepG2/C3A cells as an N -terminal fusion protein 152 
+
+with an HA -tag, alongside a mEGFP control. We immunoprecipitated ORF3::HA from cell 153 
+
+lysates and identified associat ed proteins by mass spectrometry. 154 
+
+As shown in Fig. 2A, this approach identified numerous components of the vesicle 155 
+
+sorting machinery, such as VPS28 or VPS37C. Among the strongest candidates was the 156 
+
+ESCRT protein TSG101, which has previously been reported to interact with ORF3 30 .157 
+
+Importantly, we also identified ZDHHC17, a member of the aspartate –histidine –histidine –158 
+
+cysteine (DHHC) family of S -acyltransferases. This fam ily spans at least 23 integral membrane 159 
+
+enzymes called palmitoyl acyl transferases (designated ZDHHC 1 –23) that mediate S -160 
+
+palmitoylation on cysteines. All members of the ZDHHC family share a conserved DHHC 161 
+
+catalytic motif, located within a cysteine -rich do main that faces the cytosol and that is essential 162 
+
+for enzymatic activity. Other important domains include transmembrane , SH3, PDZ binding, 163 
+
+and ankyrin repeat domains (ARD) 31 .164 
+
+To validate the role of ZDHHC17 in HEV proge ny release from intestinal cells, we 165 
+
+performed siRNA -mediated knockdown of ZDHHC17 alongside ZDHHC13, the only other 166 
+
+ZDHHC family member containing an ARD, which is implicated in protein -protein interactions 167 
+
+(Fig. 2B). We also knocked down ZDHHC9, a distan tly related family member that lacks the 168 
+
+ARD. Intestinal Caco -2 cells were electroporated with in vitro -transcribed Kernow -C1/p6 RNA, 169 
+
+followed by transfection with siRNAs to downregulate the respective transferase. We 170 
+
+assessed the release of infectious par ticles into the supernatant by titration on naïve 171 
+
+HepG2/C3A cells and quantif ied ORF2 -positive foci forming units. 172 
+
+Compared to the non -targeting (NT) control, knockdown of ZDHHC9 and ZDHHC13 173 
+
+had no detectable effect, whereas downregulation of ZDHHC17 reduc ed the release of 174 
+
+infectious HEV progeny by approximately 50% (Fig. 2C). This reduction correlated with the 175 
+
+efficiency of ZDHHC17 mRNA knockdown, as assessed by qRT -PCR (Suppl. Fig. 3A). 176 
+
+Western blot analysis of transfected cell lysates further revealed th at only ZDHHC17 177 
+
+knockdown, but not that of ZDHHC9 or ZDHHC13, abolished ORF3 palmitoylation (Fig. 2D). 178 
+
+Together, these findings indicat e that ZDHHC17 specifically , rather than other palmitoyl 179 
+
+acyltransferases, is required for the trafficking and secretion of infectious HEV particles. 180 
+
+To achieve a more efficient downregulation of ZDHHC17, we generated a stable Caco -181 
+
+2 cell line using a selectable lentiviral system expressing a doxycycline (dox) -inducible shRNA 182 
+
+targeting ZDHHC17 (Caco -2_shZDHHC17), which is bi cistronically linked to a red fluorescent 183 
+
+protein (RFP). When c ompared to siRNA -mediated knockdown, this approach resulted in a 184 
+
+more pronounced reduction of ZDHHC17 mRNA levels (Suppl. Fig. 3B). 185 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+We electroporated Caco -2_shZDHHC17 cells with in vitro -trans cribed HEV Kernow -186 
+
+C1/p6 RNA, treated the cells with dox , and harvested intra - and extracellular viral progenies 187 
+
+for titration. While the downregulation of ZDHHC17 led to a non -significant accumulation of 188 
+
+intracellular infectious particles (Fig. 2E), it significantly reduced the release of extracellular 189 
+
+progeny (Fig. 2F). 190 
+
+Since ORF3 localizes to the apical region in both polarized intestinal epithelial cells 191 
+
+and hepatocytes, and the columnar polarization of intestinal epithelial cells allows a clear and 192 
+
+rapid distinction between apical and basolateral membranes, we used (columnar polarized) 193 
+
+Caco -2 cells for the remainder of the study. Caco -2_shZDHHC17 cells were cultured on 194 
+
+Transwell inserts until polarization was reached, as indicated by a transepithelial electrical 195 
+
+resistance (TEER ) of >1000  Ω×cm² 32 . Once polarized, shRNA expression was induced by 196 
+
+dox -treatment. Two days later, cells were transduced to express a GFP tagged ORF3 197 
+
+(ORF3::GFP) to assess the role of ZDHHC17 in apical ORF3 localization. Importantly, the 198 
+
+GFP -tag did not affect ORF3 apical localization (Suppl. Fig. 4A) and still allowed its secretion 199 
+
+via multivesicular bodies (MVBs), although at lower levels than untagged ORF3 (Suppl . Fig. 200 
+
+4B, 4C). 201 
+
+24 h ours later, cells were fixed and z -stack images were acquired by confocal 202 
+
+microscopy. As shown in Fig. 2G, in polarized Caco -2 cells expressing shZDHHC17 (as 203 
+
+indicated by RFP expression), ORF3::GFP failed to fully reach the apical membrane and 204 
+
+instead accumulated beneath it. In contrast, in non -dox induced RFP -negative cells, 205 
+
+ORF3::GFP was predominantly localized at the apical side. Taken together, these results 206 
+
+identified ZDHHC17 as the specific palmitoyltransferase responsible for ORF3 palmitoylation, 207 
+
+thereby regulating its apical trafficking, and the release of infectious HEV progeny. 208 
+
+209 
+
+Mutational screening of charged residues in ORF3 reveals novel motifs critical for its apical 210 
+
+localization in polarized cells 211 
+
+Viral proteins hijac k the cellular trafficking machinery to navigate in polarized cells and 212 
+
+reach specific subcellular regions (reviewed in 33 ). To access this machinery, viruses often 213 
+
+encode residues that mediate binding to host trafficking factors and/or acquire post -214 
+
+translational modifications that serve as sorting signal s34,35 . Thus, we next performed an 215 
+
+alanine -scanning mutagenesis screen across ORF3 to assess which residues could be 216 
+
+involved in its apical localization in polarized cells .217 
+
+To analyze the impact of mutations on apical ORF3 localization, we developed an 218 
+
+automated image analysis pipeline that enables quantitative assessment of fluorescence 219 
+
+signals in 2D -columnar polarized cells (Fig. 3A). To this end, we stained polarized Ca co -2220 
+
+cells with MemBrite ®-Fix , which is a specific dye for plasma membranes, and acquired ~130 221 
+
+z-stack images (spacing of 0.13 μm) per cell on a confocal mic roscope. 222 
+
+Region of interest (ROI) selection was performed by maximum -intensity projection of 223 
+
+the GFP channel of the 3D image along the z -axis after exclusion of the lowest five z -slices, 224 
+
+thresholding the resulting maximum -intensity projection image using Otsu’s method 36 ,225 
+
+morphological hole filling, and identifying the connected components. If the largest connected 226 
+
+component covered 5 –20% of the maximum -intensity projection image, the bounding box of 227 
+
+this component was expanded symmetrically by 25% along the x -axis and the y -axis, and then 228 
+
+selected as ROI . The ap ical region was identified based on its enrichment of upper membrane 229 
+
+signals. To localize the apical re gion, the membrane channel was partitioned into 12 × 12 pixel 230 
+
+patches in the xy -plane. For each patch, membrane inten sity profiles along the z -axis were 231 
+
+computed and the uppermost z -position satisfying one of two conditions was selected as the 232 
+
+top border o f the apical region: (1) The membrane intensity at this z -position and the next two 233 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+z-positions below exceeded a threshold, or (2) the membrane intensity profile at this z -position 234 
+
+and the next z -position below exceeded a threshold, and also the intensity at the next z -235 
+
+position below was higher than that at the next z-position above. The threshold was 236 
+
+determined adaptively by using the mean value of the membrane intensity profile, or half of 237 
+
+the mean if the intensity distribution was right -skewed. The apica l region was then defined as 238 
+
+a band below the top border, with the non -apical region located below it (Fig. 3B). To reduce 239 
+
+image noise, GFP signals were clipped at the 99.9 th percentile of the GFP intensity distribution, 240 
+
+smoothed using a 3D Gaussian filter , and the background signal was excluded by Otsu 241 
+
+thresholding 36 . The GFP intensities were subsequently quantified within apical and non -apical 242 
+
+regions, and the percentage of apical GFP over the total apical and non -apical signal was 243 
+
+computed. 244 
+
+To screen for residues involved in apical ORF3 localization, columnar polar ized Caco -245 
+
+2 cells were ectopically transduced with lentiviral constructs encoding GFP, GFP -tagged 246 
+
+ORF3 wild type (WT), or a panel of GFP -tagged ORF3 mutants. In the GFP -tagged ORF3 247 
+
+mutants, charged amino acid residues were substituted with alanine (Fig. 3C ). We additionally 248 
+
+mutated the eight N -terminal cysteine residues previously reported to be palmitoylated, as well 249 
+
+as the C -terminal PSAP motif required for interaction with TSG101. We further mutated the 250 
+
+PIFIQP motif (residues 58 –63) to AAFIAA; a motif th at is highly conserved among 251 
+
+Paslahepevirus balayani species members (Suppl. Fig. 5). This sequence corresponds to the 252 
+
+previously described  Ψβ XXQP motif, which has been implicated in interactions of substrate 253 
+
+proteins with ZDHHC17 37 . We transduced Caco -2 cells with respective ORF3::GFP encoding 254 
+
+lentiviruses and seeded them on Transwells. After polarization, we stained the cells with 255 
+
+MemBrite ® Fix , fixed the cells, acquired z -stack images on a confoca l microscope, and 256 
+
+analyzed them using our quantitative imag e segmentation and analysis pipeline. 257 
+
+As shown in Fig. 2C, GFP alone exhibited only 10% apical localization, whereas 80% 258 
+
+of WT ORF3::GFP was localized apically, almost exclusively co -localizing w ith the apical actin 259 
+
+staining ( exemplary images used for the pipeline in Suppl. Fig 6 and super -res olution images 260 
+
+in Fig. 3D). Mutating either the first or the last four N -terminal cysteine residues reduced 261 
+
+ORF3::GFP apical localization to 30% and 10%, res pectively. While some of the ORF3 C1 -262 
+
+4A mutant still co -localized with apical actin, a major fraction was clearly retained inside the 263 
+
+cell (Fig. 3D). When all cysteine residues were substituted with alanine, we detected only 10% 264 
+
+of the ORF3::GFP signal api cally, comparable to GFP alone. 265 
+
+Interestingly, mutation of two clusters of charged residues located near the cysteine 266 
+
+residues (RHR23 –25AAA and R29A) reduced apical localization of ORF3::GFP by 267 
+
+approximately 40 %. These mutants appeared to be retained bene ath the apical actin staining 268 
+
+(Fig. 3D). All other mutations in the ORF3 C -terminus, including the PSAP motif, did not 269 
+
+significantly affect apical localization. Interestingly, the AAFIAA mutant exhibited 25 % apical 270 
+
+localization. Furthermore, as shown in Fig. 3D, this mutant partially redistributed to the 271 
+
+basolateral membrane of polarized Caco -2 cells, with a fraction also detected below apical 272 
+
+actin. 273 
+
+The  Ψβ XXQP motif in ORF3 mediates its interaction with ZDHHC17 and HEV progeny egress 274 
+
+Having identified N -terminal charged residues and a putative C -terminal ZDHHC17 -275 
+
+interacting motif, we next assessed the impact of these mutations on the interaction with 276 
+
+ZDHHC17. To this end, HA -tagged ZDHHC17 was co -expressed with GFP -tagged ORF3 -WT 277 
+
+or mutants in HEK293T cel ls. Following GFP -Trap pulldown and Western blot analysis, 278 
+
+ORF3::GFP WT, as well as the RHR23 –25AAA and R29A mutants, retained interaction with 279 
+
+ZDHHC17 (Fig. 4A). This interaction was further supported by immunofluorescence analysis, 280 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+which revealed co -loca lization of ORF3 with ZDHHC17 in HEV -replicating cells (Suppl. Fig. 281 
+
+7A). In contrast, the ORF3::GFP AAFIAA mutant failed to interact with ZDHHC17 (Fig. 4A). 282 
+
+Importantly, all mutants exhibited a lower molecular weight compared to ORF3 -WT 283 
+
+(Fig. 4A). To more clearly distinguish between palmitoylated and non -palmitoylated ORF3 284 
+
+species, we also analyzed untagged ORF3 proteins. As shown in Fig. 4B, the ORF3 -AAFIAA 285 
+
+mutant was only partially palmitoylated compared to ORF3 -WT , which we predominantly 286 
+
+detected in its fully palmitoylated form. In contrast, the RHR23 –25AAA and R29A mutants, 287 
+
+despite retaining interaction with ZDHHC17, were primarily present in their non -palmitoylated 288 
+
+form (Suppl. Fig. 7B). Importantly, substitution of the arginine residues with similarly positively 289 
+
+charged lysins rescued ORF3 palmitoylation and apical localization (Suppl. Fig. 7C, 7D). 290 
+
+ORF2 and ORF3 are expressed from a bicistronic RNA and therefore cannot be 291 
+
+analyzed independently in the viral genome . To further assess the functional rel evance of the 292 
+
+ORF3 PIFIQP motif in HEV progeny release, we established an ORF3 trans -complementation 293 
+
+system . We electroporated in vitro -transcribed Kernow -C1/p6 genomes with a mutated ORF3 294 
+
+start codon into Caco -2 cells ectopically expressing either ORF3 -WT or ORF3 -AAFIAA. On 295 
+
+day 7 post -electroporation, we harvested intracellular virions from cell lysates and extracellular 296 
+
+virions from cell c ulture supernatants and titered them on HepG2/C3A cells. As shown in Fig. 297 
+
+4C and 4D, ectopic expression of ORF3 -AAFIAA resulted in non -significant intracellular 298 
+
+accumulation but significantly reduced extracellular release of infectious HEV progeny 299 
+
+compared to ORF3 -WT expression, confirming the importance of ZDHHC17 -ORF3 interaction 300 
+
+in the HEV life cycle. 301 
+
+302 
+
+Structural model ing and molecular dynamics simulations define the molecular determinants of 303 
+
+ORF3 –ZDHHC17 interaction 304 
+
+Previous studies have described ORF3 as an intrinsically disordered protein 38 , which 305 
+
+heavily impairs reliable modeling of its structure and protein -protein interactions. Despite this, 306 
+
+we aimed to furt her characterize the molecular basis of the interaction between ORF3 and 307 
+
+ZDHHC17 using Alpha Fold . To this end, we generated full -length complex models using 308 
+
+AlphaFold3, considering both palmitoylated and non -palmitoylated ORF3 together with the 309 
+
+ZHHC17 ARD . Consistent with its intrinsically disordered nature, ORF3 exhibited globally low 310 
+
+confidence scores (pLDDT , Suppl. Fig. 8A, 8B). Nevertheless, in models incorporating 311 
+
+palmitoylation, the PIFIQP motif was more frequently positioned in proximity to the ZDHHC17 312 
+
+ARD, as reflected by a shorter average distance between the center of geometry (COG) of 313 
+
+the ARD and the PIFIQP motif (19.8 Å ± 5.7 Å , Suppl. Fig. 8C) compared to non -palmitoylated 314 
+
+models (31.1 Å ± 8.1 Å , Suppl. Fig. 8D). While these differences are modest, they supported 315 
+
+the rationale for exploring alternative modeling strategies using truncated ORF3 constructs 316 
+
+focused on the interaction region. This does not necessarily reflect a true stabilizing effect of 317 
+
+lipidation, but rather the fact that Alpha Fold performs better when more of the biological 318 
+
+context is included. 319 
+
+In the model with the highest confidence score, palmitoylated cysteines consistently 320 
+
+localized in proximity to the catalytic DHHC motif (residues 464 –467), while the membrane 321 
+
+insertion predicted using the PPM webserver, supported a coherent orientation in which the 322 
+
+transmembrane region of ZDHHC17 is correctly embedded and palmitoylated ORF3 cysteines 323 
+
+are positioned within the membrane plane (Fig. 5A) 39,40 . Interestingly, basic residues within 324 
+
+the N -terminal region of ORF3 identified in our mutagenesis screen (RHR23 –25 and R29) 325 
+
+were oriented toward the membrane interface, suggesting a role in enhancing electrostatic 326 
+
+interact ions with the membrane (Fig. 5Ai). Together, these observations support a model in 327 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+which palmitoylation anchors ORF3 to the membrane and spatially constrains it near the 328 
+
+catalytic site of ZDHHC17 (Fig. 5Aii). 329 
+
+Next, we investigated the interaction between t he ORF3 PIFIQP motif and the 330 
+
+ZDHHC17 ARD, as the ARD is known to mediate recognition of specific interaction motifs in 331 
+
+substrate proteins. Using full -length ORF3, the PIFIQP motif was frequently positioned in 332 
+
+proximity to the ZDHHC17 ARD (Fig. 5Aiii); howe ver, the interaction exhibited low local 333 
+
+confidence scores, precluding precise characterization of the interface. To improve prediction 334 
+
+confidence, we focused on a truncated ORF3 segment spanning ±20 amino acids around the 335 
+
+PIFIQP motif (residues 37 –83). Fo r ZDHHC17, only the ARD (residues 55 –288) was included. 336 
+
+Based on these confined regions, extensive AlphaFold2 sampling yielded highly confident 337 
+
+predictions (pLDDT > 90) centered on the PIFIQP motif (Suppl. Fig. 9). As shown in Fig. 5B, 338 
+
+in these models, the motif consistently occupied the same surface region of the ARD, 339 
+
+indicating a reproducible binding mode rather than a model -specific arrangement. 340 
+
+We next performed an analysis (based on < 4 Å distance cutoff) to define contacts, 341 
+
+identifying three principal ARD regions that contribute to the interaction (Fig. 5C): a short 342 
+
+helical segment (residues 67 –68) and two helix –loop regions (residues 90 –103 and 122 –137). 343 
+
+Key residues involved included TRP97, ILE100, ASN101, ASP123, LEU124, TRP131, 344 
+
+ARG134, and GLN135. The interface is characterized by a combination of hydrophobic and 345 
+
+polar contacts, with a pronounced contribution from hydrophobic residues forming a patch on 346 
+
+the ARD surface. Importantly, residues immediately adjacent to the PIFIQP motif (THR64, 347 
+
+PRO65, SE R66, and ILE69) also contributed significantly to binding, indicating that the 348 
+
+interaction extends beyond the core hexapeptide and involves a broader sequence context. 349 
+
+To assess the stability of the predicted interface, we performed molecular dynamics 350 
+
+(MD ) simulations using the same ORF3 fragment spanning residues 37 –83. Four 351 
+
+representative models were selected from extensive AlphaFold2 sampling to ensure robust 352 
+
+statistics and capture conformational diversity within the truncated ORF3 construct. 353 
+
+Free -energ y landscapes projected along principal components revealed 354 
+
+heterogeneous behavior across these models: some conformations remained confined to 355 
+
+narrow energy basins (models 0 and 1), whereas others sampled broader conformational 356 
+
+space (models 10 and 16; Fig . 6A). Notably, we superposed structures on the ARD and 357 
+
+performed principle component analysis on a minimal ORF3 segment encompassing the 358 
+
+interaction interface (±4 residues around the PIFIQP motif), reducing noise to focus on the 359 
+
+flexibility of this segmen t. Although the ARD was not restrained, it remained relatively stable 360 
+
+throughout the simulations. 361 
+
+Despite the observed variability among the four models, residue -wise contact stability 362 
+
+(R -value 41 , calculated using a ≤5 Å distance cutoff) showed that the interaction between ORF3 363 
+
+and the ARD was consistently maintained (Fig. 6A). The same ARD residues retained high 364 
+
+contact frequencies, supporting a stable binding interface once formed. In addition to the wild -365 
+
+type PIFIQP sequence, we simulated the AAFIAA mutant (both shown in Sup pl . Vid . 1) . This 366 
+
+substitution disrupted G LN 62 within the motif and reduced interact ion density in the C -terminal 367 
+
+region of the ARD (Fig. 6B , 6C ), highlighting the importance of this residue for complex 368 
+
+stabilization. The MD simulations further confirmed the involvement of key C -terminal ARD 369 
+
+residues in interacting with the ORF3 PIFIQP mo tif (Fig. 6B , 6C ), consistent with the 370 
+
+AlphaFold2 -based contact analysis (Fig. 5C ). 371 
+
+Interestingly, residues flanking the canonical motif (THR64, PRO65, SER66) showed 372 
+
+increased contact stability in the AAFIAA mutant, suggesting compensatory interactions. This 373 
+
+behavior likely reflects the physicochemical properties of the interface: the ARD binding region 374 
+
+forms a partially hydrophobic patch, and substitution with alanine residues does not strongly 375 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+disrupt interactions once the complex is established. Consequently, mutations primarily 376 
+
+modulate local interaction patterns rather than abolishing binding within the simulated 377 
+
+timescale. This interpretation is consistent with the fact that all simulations were initiated from 378 
+
+pre -formed wild -type complexes, thereby favoring retention of the bound state. 379 
+
+Overall, these results support a model in which basic residues within the N -terminal 380 
+
+region facilitate membrane anchoring, thereby positioning ORF3 for inte raction with 381 
+
+ZDHHC17, while the ORF3 PIFIQP motif and its flanking residues mediate binding to the 382 
+
+ZDHHC17 ARD .383 
+
+Discussion 384 
+
+The directional release of HEV particles along the gut –liver axis has previously 385 
+
+suggested the existence of a cell type -specific traf ficking machinery that differs between 386 
+
+polarized hepatocytes and intestinal epithelial cells. In this study, we demonstrate that 387 
+
+directional HEV trafficking toward apical membranes in polarized epithelial cells appears 388 
+
+largely tissue -context independent. W e identi fi ed ORF3 as the key structural viral determinant 389 
+
+that requires lipidation by the palmitoyltransferase ZDHHC17. Previous studies showed that 390 
+
+palmitoylation of ORF3 is important for membrane association 10 ; here, we demonstrate that 391 
+
+this modification also regulates its apical trafficking . An unbiased mutagenesis screen, 392 
+
+combined with AlphaFold modeling and molecular dynamics simulations, further indicated that 393 
+
+this process is governed by N -terminal basic residues that facilitate membrane anchoring, 394 
+
+thereby likely positioning O RF3 in proximity to the catalytic site and enabling interaction with 395 
+
+the ZDHHC17 ARD through its PIFIQP motif. Importantly, we show that this interaction is 396 
+
+critical for efficient ORF3 palmitoylation, which in turn mediates apical trafficking of ORF3 and 397 
+
+promotes HEV progeny release. 398 
+
+Conserved apical HEV release from polarized epithelial cells along the gut -liver axis 399 
+
+Despite the distinct functions and polarization of epithelial cells in the liver and 400 
+
+intestine, apical ORF3 trafficking appears to be conserved across these tissues. Consistent 401 
+
+with this, enteric viruses are typically released from the apical membrane of the intestinal 402 
+
+epithelium 42,43 , enabling transmission via the intestinal lumen and facilitating rapid, efficient 403 
+
+spread between hosts, as observed, for example, for rotaviruses. In contrast, viruses targeting 404 
+
+the liver are generally released from the basolateral surface of hepatocytes 44,45 , promoting 405 
+
+systemic dissemination via the bloodstream. 406 
+
+Although we have used apical ORF3 trafficking as a proxy for apical release, our 407 
+
+findings are consistent with recent reports demons trating active infection of the gut and apical 408 
+
+progeny release from intestinal cultures 17,22 . Together, these observations support the notion 409 
+
+that the intestine represents a major si te of HEV infection , particularly during acute, self -410 
+
+limiting infections, which are often asymptomatic or mild and lack classical hepatitis symptoms 411 
+
+such as jaundice. 412 
+
+While the majority of HEV particles are released apically from polarized enterocytes, a 413 
+
+fraction is also secreted basolaterally, likely as quasi -enveloped particles 17 . Although this 414 
+
+pathway appears inefficient, it still permits viral spread to the liver and contributes to intra -host 415 
+
+dissemination. Subsequent liver infection could, in turn, favor prolonged or even persistent 416 
+
+infection, potentially due to the relatively immunotolerant hepatic environment 46 .417 
+
+418 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+ZDHHC17 is the specific enzyme mediating palmitoylation of ORF3 and thereby its apical 419 
+
+trafficking 420 
+
+While polarized trafficking pathways in epith elial cells are generally well characterized, 421 
+
+it remains poorly understood how viruses exploit these mechanisms to achieve directional 422 
+
+release 47 . In particular, the molecular determinants that direct viral proteins into apical 423 
+
+tra fficking routes remain largely undefined. 424 
+
+Our findings indicate that palmitoylation is a key determinant in this process. This lipid 425 
+
+modification promotes membrane association and influences partitioning into specific 426 
+
+membrane microdomains, such as lipid r afts, which are linked to apical sorting via recycling 427 
+
+endosomes 48 –50 . Previous studies have shown that palmitoylation of ORF3 mediates 428 
+
+membrane association and facilitates HEV progeny release 10 . Here, we extend these 429 
+
+observ ations by demonstrating that palmitoylation also functions as a sorting signal that favors 430 
+
+apical trafficking. 431 
+
+Future studies, for example, through biochemical isolation and characterization of lipid 432 
+
+raft -associated ORF3 complexes in polarized cells, will be required to further dissect how lipid 433 
+
+modifications contribute to the spatial organization of directional viral trafficking pathways. In 434 
+
+addition, it will be important to determine the intracellular fate of non -palmitoylated ORF3, 435 
+
+which is the predomina nt form either in the presence of downregulated ZDHHC17 (Fig. 2) or 436 
+
+following mutation of the ORF3 PIFIQP motif (Fig. 4), and to identify the compartments to 437 
+
+which it is redirected instead of trafficking to the apical membrane. 438 
+
+The specificity of ZDHHC17 i n mediating ORF3 palmitoylation was unexpected, 439 
+
+particularly given the close homology to ZDHHC13, which did not show a comparable effect 440 
+
+in our system. However, substrate recognition within the ZDHHC family is not completely 441 
+
+understood, and both overlappin g and selective enzyme -substrate relationships have been 442 
+
+reported 51 . In addition, specific interaction motifs within substrates can be recognized by 443 
+
+dedicated domains suc h as the ARD of ZDHHC17, which mediates selective protein 444 
+
+recruitment 52 . Importantly, MD analysis revealed that residues within AR domain 5—445 
+
+specifically TRP197, TYR200, and ARG201 —also contribute to the ORF3 –ZDHHC17 446 
+
+interaction. Although ZDHHC13 is generally homologous to ZDHHC17, these critical residues 447 
+
+differ between the two proteins (Suppl. Fig. 10 ). This highlights that, despite overall 448 
+
+redundancy within the ZDHHC family, individual enzymes can display pronounced substrate 449 
+
+specificity, a feature that has been described for other viral proteins exploiting host 450 
+
+palmitoylation machinery 53,54 . This specificity makes ZDHHC17 an attractive candidate for 451 
+
+targeted antiviral inter vention, as modulation of individual palmitoyltransferases is increasingly 452 
+
+considered a viable therapeutic strategy 55 .453 
+
+Interaction with ZDHHC17 enables modeling of ORF3 structure 454 
+
+As ORF3 is predicted to be largely intrinsically disordered traditional structure -based 455 
+
+modeling has been notoriously challenging and the structural basis of ORF3 function has 456 
+
+remained elusive 38 . Here, by placing ORF3 in a more physiological context, including 457 
+
+palmitoylation and membrane embedding, we obtained a high -confidence model using 458 
+
+AlphaFold3 for the first time. 459 
+
+This model provided first structural insights into the ORF3 –ZDHHC17 interaction 460 
+
+despite the overall disorder of the protein. First, this model revealed that N -terminal basic 461 
+
+residues adjacent to the critical cysteines do not appear to play a role in ZDHHC17 interaction 462 
+
+per se , but are rather oriented toward the membrane interface, suggesting a role in enhancing 463 
+
+electrostatic interactions with the membrane. This is consistent with previous reports showing 464 
+
+that positively charged residues are often located near acylated cysteines in diverse cellular 465 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+proteins 56 . Supporting this, substitution of arginines with lysins restored ORF3 palmitoylation 466 
+
+and apical localization (Suppl. Fig. 7C, 7D) and RHR23 –25AAA and R29A mutants retained 467 
+
+their ability to interact with ZDHHC17 (F ig. 4A). We propose that these residues are rather 468 
+
+essential for anchoring ORF3 into the membrane, thereby spatially constraining it near the 469 
+
+catalytic site of ZDHHC17 to enable efficient palmitoylation. 470 
+
+In the full -length model, the ORF3 PIFIQP motif was positioned in proximity to the 471 
+
+ZDHHC17 ARD; however, the interaction showed low local confidence scores, precluding 472 
+
+precise definition of the interface. To address this, we focused on a truncated ORF3 sequence 473 
+
+in complex with the ZDHHC17 ARD. Both AlphaFol d modeling and MD simulations supported 474 
+
+a specific interaction between these domains and identified additional critical residues. On 475 
+
+ORF3, these findings extend the previously described  Ψβ XXQP motif to include THR64, 476 
+
+PRO65, SER66, and ILE69, indicating tha t the interaction involves a broader sequence 477 
+
+context beyond the core hexapeptide 37 . This is consistent with the observation that the ORF3 -478 
+
+AAFIAA mutant retained partial palmitoylation and could partially rescue HEV pr ogeny release 479 
+
+(Fig. 4). 480 
+
+We acknowledge, however, that although our experimental data and modeling identify 481 
+
+the ZDHHC17 ARD as the primary determinant of ORF3 binding, a potential contribution of 482 
+
+the C -terminal ZDHHC17 PDZ domain cannot be excluded. Future studies should therefore 483 
+
+examine whether this domain further recruits or stabilizes ORF3 at the appropriate membrane 484 
+
+environment, or supports its productive incorporation into a larger trafficking complex. 485 
+
+Many questions remain regarding the mechanisms go verning vectorial HEV release. 486 
+
+Here, we identify ORF3 palmitoylation by ZDHHC17 as a central molecular mechanism linking 487 
+
+viral protein –host enzyme interactions to apical trafficking and directional HEV release, 488 
+
+thereby highlighting novel potential targets for antiviral intervention. More broadly, this work 489 
+
+establishes a framework for studying protein interactions involving disordered proteins. In 490 
+
+addition, an automated image analysis pipeline for quantification of apical signals was 491 
+
+implemented which will facilitate future insights into the vectorial trafficking machinery of 492 
+
+polarized epithelial cells. 493 
+
+Material & Methods 494 
+
+Standard cell culture 495 
+
+The human hepatoma cell line S10 -3 (a kind gift from Suzanne Emerson) and 496 
+
+HEK293T (ATCC CRL -3216) were culture d in Dulbecco's Modified Eagle Medium (DMEM, 497 
+
+Gibco) + GlutaMAX -I supplemented with 10% heat inactivated (HI) fetal bovine serum (FBS, 498 
+
+capricorn), here referred to as complete DMEM (cDMEM). HepG2/C3A cells (ATCC HB -8065) 499 
+
+were cultured on collagen -coated cel l culture vessels in cDMEM. Caco -2 (ATCC HTB -37) cells 500 
+
+were cultured on collage -coated cell culture vessels in DMEM + GlutamMAX -I supplemented 501 
+
+with 20% HI FBS. Polarized Caco -2 cells were cultured on collagen -coated cell culture inserts 502 
+
+(1 μm pore, Greiner ) until a TEER of > 1000  Ω×cm² was reached . HepaRG cells were cultured 503 
+
+and differentiated as previously described 57 . Cell lines were validated by phenotypic screening 504 
+
+and confirmed to be mycoplasma -free using a PCR detection kit (Abcam). All cells were 505 
+
+maintained at 37°C in 95% humidity and 5% CO 2 atmosphere. 506 
+
+Generation of cell lines 507 
+
+Various ORF3 derivatives were cloned into the lentiviral expression plasmid pLVX 508 
+
+(Takara Bio Europe) and shZDHHC17 was cloned into the dox -inducible plasmid pTRIPZ 509 
+
+(Dharmacon) by site -directed mutagenesis. Mutations were introduced by an overlap 510 
+
+extension PCR using the Phusion polymerase (New Eng land Biolabs) based on the primers 511 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+listed in Table 1. Lentiviruses were produced by transfecting HEK293T cells with plasmids 512 
+
+encoding VSV -G, HIV gag/pol proteins, and the transgene using the JetPRIME reagent 513 
+
+(Polyplus) according to the manufacturer’s proto col. Lentiviruses were harvested 48 h post -514 
+
+transfection. Caco -2 cells were transduced with pLVX -ORF3 (WT or derivative) or pTRIPZ -515 
+
+shZDHHC17 and selected in cDMEM supplemented with 20% HI FBS and puromycin (10 516 
+
+μg/mL). Transduced cells were treated with 2 μg /ml dox (Sigma) for 48 h to induce 517 
+
+shZDHHC17 expression. 518 
+
+Immunofluorescence staining 519 
+
+Cells were fixed with 4% paraformaldehyde (PFA, Science Services) for 15 min at 520 
+
+room temperature (RT). Cells were blocked and permeabilized with PBTG (10% goat serum, 521 
+
+1% bovine serum, and 0.1% TritonX -100 in PBS) for 30 min, followed by the incubation with 522 
+
+primary antibody diluted in PBTG at 4 °C over night. After three washes with PBS, cells were 523 
+
+incubated with the respective Alexa -conjugated secondary antibody diluted in PBTG for 1 h at 524 
+
+RT. Cells on coverslips were mounted using ProLong TM Glass Antifade Mountant (Thermo 525 
+
+Fisher Scientific) and cured for at least 12 h in the dark. Transwells were stained in a wet 526 
+
+chamber. After staining, the membrane was cut and mounted ont o a coverslide with a 527 
+
+coverslip using SlowFade™ Glass Soft -Set Antifade Mountant. The coverslips were sealed 528 
+
+using Nail polish or Twinsil (picodent ® Dental -Productions - und VertriebsGmbH) and cured 529 
+
+overnight in the dark. 530 
+
+Image acquisition 531 
+
+For polarized cells and non -polarized cells, multichannel z -series with a spacing of at 532 
+
+least 0.13 μm were acquired on a Zeiss Airyscan 2 LSM900 confocal microscope. A 63x oil 533 
+
+immersion objective was used for all images. To determine foci focus units (FFUs ) transparent 534 
+
+48 well -plate (Greiner Bio -One) was imaged using a Zeiss Celldiscoverer 7 inverted light 535 
+
+microscope. Images were analyzed and merged with Fiji 58 .536 
+
+Quantitative image analysis 537 
+
+3D image stacks were cro pped to exclude regions below the cell, defined by the lowest 538 
+
+z-slice with the highest mean MemBrite® or GFP signal (for some images with unusual 539 
+
+intensity distribution this was performed manually). The images were also cropped along the 540 
+
+x- and y -axes by selecting a region of interest (ROI), which was performed by maximum -541 
+
+intensity projection of the GFP channel of the 3D image along the z -axis (excluding the lowest 542 
+
+five z -slices), thresholding the resulting maximum -intensity projection image using Otsu’s 543 
+
+method 36 , morphological hole filling, and connected component analysis. If the largest 544 
+
+connected component covered 5–20% of the maximum -intensity projection image, the 545 
+
+bounding box of this component was expanded symmetri cally by 25% along the x -axis and 546 
+
+the y -axis and then selected as ROI (otherwise, the image was not cropped along the x - and 547 
+
+y-axes). The apical region was identified based on enriched MemBrite® signal (~2.5 μm along 548 
+
+the z -axis). For localizing the top bor der of the apical region, the MemBrite® channel was 549 
+
+divided into 12x12 pixel patches in the xy -plane. Within each patch, mean MemBrite® 550 
+
+intensities along the z -axis were calculated and the uppermost z -position satisfying one of two 551 
+
+conditions was selected as the top border of the apical region: (1) The membrane intensity at 552 
+
+this z -position and the next two z -positions below exceeded a threshold, or (2) the membrane 553 
+
+intensity at this z -position and the next z -position below exceeded a threshold, and also the 554 
+
+intensity at the next z -position below was higher than that at the next z -position above. The 555 
+
+threshold was determined adaptively by using the mean value of the membrane intensity 556 
+
+profile, or half of the mean if the intensity distribution was right -skewed . Outliers were 557 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+corrected using median values from neighboring patches. The apical region was defined as a 558 
+
+band below the localized top border, and the non -apical region as the region below it. To 559 
+
+reduce image noise, GFP signals were clipped at 99.9 th perc entile of the GFP intensity 560 
+
+distribution, smoothed (Gaussian filter,  σ = 1 pixel), and the background signal was segmented 561 
+
+using Otsu thresholding 36 . The GFP intensities were then quantified within apical and non -562 
+
+apical regions, excluding background pixels, and the percentage of apical GFP over the total 563 
+
+apical and n on -apical signal was computed. 564 
+
+Sample preparation for affinity purification of HEV -ORF3 proteins and cellular proteins 565 
+
+For HEV ‑ORF3 interactome analysis, four independent affinity ‑purification 566 
+
+experiments were performed in HepG2/C3A cells transduced with lentivirus to express either 567 
+
+pLVX ‑ORF3 or pLVX ‑mEGFP, each C‑terminally HA ‑tagged. Cells were expanded in 568 
+
+quadruplicate (two confluent 15 ‑cm dishes per replicate), washed with ice ‑cold PBS, scraped, 569 
+
+pooled by replicate, and pelleted at 500 × g for 5 min at 4 °C. Pellets were washed twice, 570 
+
+pellets were lysed in buffer containing 0.2% NP ‑40, 100 mM NaCl, 5% glycerol, 1.5 mM M gCl ₂,571 
+
+and 50 mM Tris ‑HCl (pH 7.5), with benzonase and EDTA ‑free Complete Protease Inhibitor 572 
+
+(Roche), incubated 30 min on ice, sonicated (Bioruptor, high intensity, 30 s on/off for 5 min), 573 
+
+and clarified at 15,000 × g for 30 min at 4 °C. Protein concentratio n was determined (Pierce 574 
+
+660 nm Assay, Thermo Fisher Scientific), and samples were adjusted to 2.5 mg total protein 575 
+
+in 700 μL lysis buffer plus protease inhibitor. Cleared lysates were incubated overnight at 4 °C 576 
+
+with 30 μL anti ‑HA agarose beads, followed by three washes with lysis buffer and three with 577 
+
+wash buffer (100 mM NaCl, 5% glycerol, 1.5 mM MgCl ₂, 50 mM Tris ‑HCl, pH 7.5). Bead ‑bound 578 
+
+proteins were resuspended in 4% SDC buffer (4% sodium deoxycholate in 100 mM Tris ‑HCl, 579 
+
+pH 8.5), heated at 95 °C for 5 min, reduced and alkylated with TCEP and CAA, and digested 580 
+
+sequentially with LysC (3 h) and trypsin (15 h) at 37 °C. Peptides were desalted using 581 
+
+SDB ‑RPS StageTips, eluted with 1.25% NH ₄OH in 60% ACN, dried in a SpeedVac, 582 
+
+resuspended in 0.1% FA, and quanti fied at 280 nm before LC ‑MS/MS. 583 
+
+584 
+
+Liquid chromatography -tandem mass spectrometry (LC 
+
+‑MS/MS) 585 
+
+LC ‑MS/MS analysis was performed on an EAS Y-nLC 1200 system (Thermo Fisher 586 
+
+Scientific) coupled online to a Q Exactive HF ‑X mass spectrometer via a nano ‑electrospray 587 
+
+source 59 . Peptides were separated on a 20 ‑cm C18 ‑AQ analytical column (1.9 μm, 75 μm 588 
+
+i.d.; Dr. Maisch) at 300 nL/min, using 0.1% formic acid in water (A) and 0.1% formic acid in 589 
+
+80% ACN (B). A gradient of 5 –30% B over 85 min, 30 –60% over 12 min, 60 –80% over 3 590 
+
+min, and 80 –95% over 1 min was followed by a 5 ‑min hold at 95% B, with re ‑equilibratio n to 591 
+
+5% B. After each run the column was washed for 15 min with 95% B to minimize carryover. 592 
+
+Data were acquired in data ‑dependent mode (DDA) over m/z 300 –1,650 at 60,000 resolution 593 
+
+(AGC 3 × 10⁶); the 15 most intense precursors were fragmented by HCD (NCE 2 7%) and 594 
+
+MS/MS spectra recorded at 15,000 resolution (AGC 1 × 10⁵, max 25 ms, dynamic exclusion 595 
+
+20 s). 596 
+
+597 
+
+Data processing and statistical analysis of MS samples 598 
+
+AP –LC –MS/MS data were processed using MaxQuant (v2.6.3.0) with the built ‑in 599 
+
+Andromeda search engin e as previously described 60 . Label ‑free quantification (LFQ) and 600 
+
+“match between runs” were ena bled, and MS/MS spectra were searched against a database 601 
+
+comprising forward and reverse sequences of the human proteome (UniProtKB 602 
+
+UP000005640, Sep 2023), HEV proteins (UniProt P29324 and related entries, Apr 2024), 603 
+
+mEGFP, and the HA tag. Carbamidomethylat ion of cysteine was set as a fixed modification; 604 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+oxidation of methionine and N‑terminal acetylation were set as variable modifications. 605 
+
+Precursor and fragment mass tolerances were 6 ppm and 0.5 Da, respectively, and peptide –606 
+
+spectrum matches and protein ide ntifications were filtered at 1% FDR. ProteinGroups output 607 
+
+tables were analyzed in Perseus (v2.0.11): reverse hits, potential contaminants, and proteins 608 
+
+identified “only by site” were removed; LFQ intensities were log ₂‑ transformed, and only 609 
+
+proteins quanti fied in at least three replicates in at least one group were retained. Missing 610 
+
+values were imputed from a normal distribution (width 0.3, downshift 1.8). Differential 611 
+
+enrichment between HEV ‑ORF3 and mEGFP pulldowns was evaluated using a two ‑sided 612 
+
+Student’s t‑test with permutation ‑based FDR correction, and proteins significantly enriched in 613 
+
+HEV ORF3 samples were considered candidate interacting partners. The volcano plot was 614 
+
+generated in R. 615 
+
+Co -immunoprecipitation 616 
+
+1.2 x 10 7 HEK293T cells were seeded on 10 -cm cell culture dishes coated with 100 617 
+
+μg/mL poly -L-lysine (Sigma -Aldrich). The next day, cells were co -transfected with 10 μg of 618 
+
+pLVX encoding ORF3::GFP or GFP -tagged ORF3 derivatives and 10 μg of the pLVX encoding 619 
+
+HA -ZDHH C17 in cDMEM without pen/strep. JetPrime (Polyplus ®) was used for transfection 620 
+
+at a DNA:JetPrime ratio of 1:1. Medium was changed after 5 –6 h. After 24 h, the cells were 621 
+
+lysed in ice -cold lysis buffer (10 mM Tris/Cl pH 7.5, 150 mM NaCl, 0.5 mM EDTA, 0.5% 622 
+
+Nonidet™ P40 Substitute), supplemented with 1x cOmplete Mini Protease Inhibitor Cocktail 623 
+
+(Roche) and incubated for 30 minutes on ice, agitated every 10 minutes. After removal of DNA, 624 
+
+10% of lysate was set aside as input and boiled with Laemmli sodium dodec yl sulfate (SDS) 625 
+
+sample buffer at 95 °C for 10 min. 15 μL GFP -Trap magnetic agarose (proteintech) were 626 
+
+added to each sample and incubated for 2 h, at 4 °C. Beads were washed five times with wash 627 
+
+buffer (10 mM Tris/Cl pH 7.5, 2 M NaCl, 2 % Nonidet™ P40 Subs titute, 1% SDS, 10% 628 
+
+Glycerol, 0.5 mM EDTA) and eluted in Laemmli SDS sample buffer by boiling at 95 °C for 5 629 
+
+min. 630 
+
+Alpha Fold modeling 631 
+
+Full -length models with and without palmitoylation were generated using AlphaFold3 632 
+
+with default parameters (5 models per ru n) 61 . Membrane insertion was predicted using the 633 
+
+PPM 3.0 web server, employing a predefined membrane composition representative of the 634 
+
+Golgi apparatus. To further improve models, AlphaFold2 predictions were performed using 635 
+
+ColabFold (v1.5.5) through the MassiveFold implementation , allowing the use of different 636 
+
+model parameter sets on a truncated version of ORF3 (residues 37 –83) and the ARD of 637 
+
+ZDHHC17 (residues 55 –288) 62 ,63 . Multiple sequence alignments were generated with 638 
+
+MMseqs2 usi ng the UniRef30 database (release 2302) and the environmental database 639 
+
+(release 2021_08) 63 –65 . All analyses were carried out using in -house Python scripts, and 640 
+
+molecular grap hics were generated with PyMOL 66 .641 
+
+Molecular dynamic simulation 642 
+
+Initial ORF3 complex structures were selected from MassiveFold predictions based on 643 
+
+pLDDT and conformation (models 0, 1, 10, and 16). Systems were parameterized with the 644 
+
+Amber ff99SB -ILDN force field and simulated using GROMACS 2025 67 .Each system was 645 
+
+solvated in a triclinic box (22 Å padding) with TIP3P water and 0.15 M NaCl 68 . After two -step 646 
+
+energy minimization (restrained and unrestrained), equilibration was performed with 100 ps 647 
+
+NVT and 100 ps NPT at 300 K using V -rescale and C -rescale, respectively 69,70 . For each 648 
+
+model, three independent 250 ns production runs were carried out (10 ps output). 649 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+Electrostatics were treated using the zero -dipole method (12 Å cutoff), with a 4 fs time step 650 
+
+enabled by hydrogen mass repartitioning. LINCS and SETTLE were applied, and the center 651 
+
+of mass was restrained as described previously 71 .System details are listed in Sup. Table 1.652 
+
+Data availability 653 
+
+Proteomic data sets have been deposited to PRIDE with project accession: PXD078645 .654 
+
+Token: (only accessible to reviewers). Alternatively, reviewer can access the dataset by 655 
+
+logging in to the PRIDE website using the following account details: (Only accessible to656 
+
+reviewers). Source data are provided with this paper. All scripts used AlphaFold structural 657 
+
+models and molecular dynamics simulations data produced in this study with are available on 658 
+
+BSM -Arc (only accessible for reviewers))659 
+
+Acknowledgements 660 
+
+The authors gratefully acknowledge Suzanne Emerson, Jérôme Gouttenoire, Darius 661 
+
+Moradpour, Hans -Georg Kräusslich and Rainer Ullrich for sharing reagents. The authors 662 
+
+acknowledge the help of Carola Krug for contributing to the development of the quantitative 663 
+
+imaging analysis pipeline. The authors acknowledge the data storage service SDS@hd 664 
+
+supported by the Ministry of Science, Research and the Arts Baden -Württemberg (MWK) and 665 
+
+the German Research Foundation (DFG) through grant INST 35/1803 -1 FUGG and INST 666 
+
+35/1804 -1 LAGG. This project was supported by GENCI at CINES and Idris with HPC and 667 
+
+storage resources, th anks to the grant AD010714400R1 on the supercomputer (Jean Zay and 668 
+
+Adastra's A100 and MI250x partition ). This work was in part performed under the International 669 
+
+Collaborative Research Program of the Institute for Protein Research, Osaka University, ICR -670 
+
+25 -21. Computational resources from the TSUBAME4.0 system (Institute of Scientific and 671 
+
+Industrial Research, Tokyo) were provided by the HPCI Research Project hp250165. We 672 
+
+acknowledge Vibor Laketa, head of the Infectious Disease Imaging Platform (IDIP) at the 673 
+
+University Hospital for external support. 674 
+
+Funding 675 
+
+This work was supported by grants from the Deutsche Forschungsgemeinschaft (DFG, 676 
+
+German Research Foundation) - Projektnummer - 240245660 —SFB 1129 (to C.F., K.R, and 677 
+
+V.L.D.T) and Projektnummer - 272983813 - TRR 179 (A.P. and V.L.D.T.). V .L.D.T. was further 678 
+
+supported by the Chica and Heinz Schaller Foundation. 679 
+
+Author contributions 680 
+
+Conceptualization, P.B., C.C.S., V.L.D.T.; Methodology, P.B., C.C.S., C.F., K.R., V.L.D.T.; 681 
+
+Investigation, P.B., C.S. , D.G., A.Piras., Z.E., A.F., H.C., P.J., C.F., S.P.T., T.T.; Resources, 682 
+
+V.L.D.T., A. Pichlmair; Software, C.K., L.K., S.P.T., T.T.; Formal analysis, P.B., C.S., C.K., 683 
+
+L.K., D.G., A.Piras., C.F., S.P.T., T.T.; Writing -original draft, P.B., V.L.D.T., T.T.; Final draft, 684 
+
+P.B., V.L.D.T., Supervision, K.R, A.P., V.L.D.T.; Funding, V.L.D.T. 685 
+
+686 
+
+Competing interests 687 
+
+Authors declare that they have no competing interests. 688 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+References 689 
+
+1. Webb, G. W. & Dalton, H. R. Hepatitis E: an underestimated em erging threat. 690 
+
+Therapeutic advances in infectious disease 6, 2049936119837162; 691 
+
+10.1177/2049936119837162 (2019). 692 
+
+2. Purdy, M. A. et al. ICTV Virus Taxonomy Profile: Hepeviridae 2022. Journal of General 693 
+
+Virology 103 ; 10.1099/jgv.0.001778 (2022). 694 
+
+3. Bhatia, V., Singhal, A., Panda, S. K. & Acharya, S. K. A 20 -year single -center 695 
+
+experience with acute liver failure during pregnancy: is the prognosis really worse? 696 
+
+Hepatology 48, 1577 –1585; 10.1002/hep.22493 (2008). 697 
+
+4. Dalton, H. R. & Izopet, J. Transmission and E pidemiology of Hepatitis E Virus Genotype 698 
+
+3 and 4 Infections. Cold Spring Harbor perspectives in medicine 8;699 
+
+10.1101/cshperspect.a032144 (2018). 700 
+
+5. Horvatits, T., zur Schulze Wiesch, J., Lütgehetmann, M., Lohse, A. W. & Pischke, S. 701 
+
+The Clinical Perspective on Hepatitis E. Viruses 11 ; 10.3390/v11070617 (2019). 702 
+
+6. Zhang, F. et al. Deciphering the hepatitis E virus ORF1: Functional domains, protein 703 
+
+processing, and patient -derived mutations. Virology 603, 110350; 704 
+
+10.1016/j.virol.2024.110350 (2025). 705 
+
+7. Zhou, Z., Xie, Y., Wu, C. & Nan, Y. The Hepatitis E Virus Open Reading Frame 2 706 
+
+Protein: Beyond Viral Capsid. Frontiers in Microbiology 12, 739124; 707 
+
+10.3389/fmicb.2021.739124 (2021). 708 
+
+8. Ding, Q. et al. Hepatitis E virus ORF3 is a functional ion channel required for r elease of 709 
+
+infectious particles. Proceedings of the National Academy of Sciences of the United 710 
+
+States of America 114, 1147 –1152; 10.1073/pnas.1614955114 (2017). 711 
+
+9. Tyagi, S., Korkaya, H., Zafrullah, M., Jameel, S. & Lal, S. K. The phosphorylated form of 712 
+
+the ORF3 protein of hepatitis E virus interacts with its non -glycosylated form of the 713 
+
+major capsid protein, ORF2. The Journal of biological chemistry 277, 22759 –22767; 714 
+
+10.1074/jbc.M200185200 (2002). 715 
+
+10. Gouttenoire, J. et al. Palmitoylation mediates membrane association of hepatitis E virus 716 
+
+ORF3 protein and is required for infectious particle secretion. PLoS pathogens 14, 717 
+
+e1007471; 10.1371/journal.ppat.1007471 (2018). 718 
+
+11. Yamada, K. et al. ORF3 protein of hepatitis E virus is essential for virion release from 719 
+
+infected cells. The Journal of general virology 90, 1880 –1891; 10.1099/vir.0.010561 -0720 
+
+(2009). 721 
+
+12. Nagashima, S. et al. Tumour susceptibility gene 101 and the vacuolar protein sorting 722 
+
+pathway are required for the release of hepatitis E virions. Journal of G eneral Virology 723 
+
+92, 2838 –2848; 10.1099/vir.0.035378 -0 (2011). 724 
+
+13. Takahashi, M. et al. Monoclonal antibodies raised against the ORF3 protein of hepatitis 725 
+
+E virus (HEV) can capture HEV particles in culture supernatant and serum but not those 726 
+
+in feces. Archi ves of virology 153, 1703 –1713; 10.1007/s00705 -008 -0179 -6 (2008). 727 
+
+14. Takahashi, M. et al. Hepatitis E Virus (HEV) strains in serum samples can replicate 728 
+
+efficiently in cultured cells despite the coexistence of HEV antibodies: characterization 729 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+of HEV virio ns in blood circulation. Journal of clinical microbiology 48, 1112 –1125; 730 
+
+10.1128/JCM.02002 -09 (2010). 731 
+
+15. Nagashima, S. et al. Characterization of the Quasi -Enveloped Hepatitis E Virus 732 
+
+Particles Released by the Cellular Exosomal Pathway. TGOLN2 TGOLN association of 733 
+
+HEV envelope. Journal of virology 91 ; 10.1128/JVI.00822 -17 (2017). 734 
+
+16. Yin, X., Li, X. & Feng, Z. Role of Envelopment in the HEV Life Cycle. Viruses 8, 229; 735 
+
+10.3390/v8080229 (2016). 736 
+
+17. Capelli, N. et al. Vectorial Release of Hepatitis E Virus in Polarized Human 737 
+
+Hepatocytes. Journal of virology 93 ; 10.1128/JVI.01207 -18 (2019). 738 
+
+18. Sari, G. et al. The Viral ORF3 Protein I s Required for Hepatitis E Virus Apical Release 739 
+
+and Efficient Growth in Polarized Hepatocytes and Humanized Mice. Journal of virology 740 
+
+95, e0058521; 10.1128/JVI.00585 -21 (2021). 741 
+
+19. Li, P. et al. Recapitulating hepatitis E virus -host interactions and facili tating antiviral drug 742 
+
+discovery in human liver -derived organoids. Science Advances 8, eabj5908; 743 
+
+10.1126/sciadv.abj5908 (2022). 744 
+
+20. Allweiss, L. et al. Human liver chimeric mice as a new model of chronic hepatitis E virus 745 
+
+infection and preclinical drug evaluation. Journal of hepatology 64, 1033 –1040; 746 
+
+10.1016/j.jhep.2016.01.011 (2016). 747 
+
+21. Marion, O. et al. Hepatitis E virus replication in human intestinal cells. Gut 69, 901 –910; 748 
+
+10.1136/gutjnl -2019 -319004 (2020). 749 
+
+22. Prallet, S. et al. Hepatitis E virus replication is maintained in proliferative cells within the 750 
+
+intestinal crypt. American Association for the Advancement of Science (2026). 751 
+
+23. Rodriguez -Bou lan, E. & Macara, I. G. Organization and execution of the epithelial 752 
+
+polarity programme. Nature reviews. Molecular cell biology 15, 225 –242; 753 
+
+10.1038/nrm3775 (2014). 754 
+
+24. Metzger, K. et al. Processing and Subcellular Localization of the Hepatitis E Virus 755 
+
+Rep licase: Identification of Candidate Viral Factories. Frontiers in Microbiology 13, 756 
+
+828636; 10.3389/fmicb.2022.828636 (2022). 757 
+
+25. Dao Thi, V. L. et al. Stem cell -derived polarized hepatocytes. Nature communications 758 
+
+11, 1677; 10.1038/s41467 -020 -15337 -2 (2020 ). 759 
+
+26. Bachour -El Azzi, P. et al. Comparative Localization and Functional Activity of the Main 760 
+
+Hepatobiliary Transporters in HepaRG Cells and Primary Human Hepatocytes. 761 
+
+Toxicological sciences : an official journal of the Society of Toxicology 145, 157 –168; 762 
+
+10.1093/toxsci/kfv041 (2015). 763 
+
+27. Pelaseyed, T. & Bretscher, A. Regulation of actin -based apical structures on epithelial 764 
+
+cells. Journal of Cell Science 131, jcs221853; 10.1242/jcs.221853 (2018). 765 
+
+28. Hidalgo, I. J., Raub, T. J. & Borchardt, R. T. Characte rization of the human colon 766 
+
+carcinoma cell line (Caco -2) as a model system for intestinal epithelial permeability. 767 
+
+Gastroenterology 96, 736 –749 (1989). 768 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+29. Cho, Y., Sung, M. -H., Kang, H. -T. & Lee, J. H. Establishment of an Apical -Out Organoid 769 
+
+Model for Directly Assessing the Function of Postbiotics. Journal of Microbiology and 770 
+
+Biotechnology 34, 2184 –2191; 10.4014/jmb.2405.05034 (2024). 771 
+
+30. Kenney, S. P., Wentworth, J. L., Heffron, C. L. & Meng, X. -J. Replacement of the 772 
+
+hepatitis E virus ORF3 protein PxxP motif with heterologous late domain motifs affects 773 
+
+virus release via interaction with TSG101. Virology 486, 198 –208; 774 
+
+10.1016/j.virol.2015.09.012 (2015). 775 
+
+31. Stix, R., Lee, C. -J., Faraldo -Gómez, J. D. & Banerjee, A. Structure and Mechanism of 776 
+
+DHHC Protein Acyltransferases. Journal of molecular biology 432, 4983 –4998; 777 
+
+10.1016/j.jmb.2020.05.023 (2020). 778 
+
+32. Fedi, A. et al. In vitro models replicating the human intestinal epithelium for absorption 779 
+
+and metabolism studies: A systematic review. Journal of controll ed release : official 780 
+
+journal of the Controlled Release Society 335, 247 –268; 10.1016/j.jconrel.2021.05.028 781 
+
+(2021). 782 
+
+33. Zurzolo, C. Viruses show the way. Nature reviews. Molecular cell biology 23, 698; 783 
+
+10.1038/s41580 -022 -00525 -3 (2022). 784 
+
+34. Sharof Tugizov, Ekaterina Maidji, Jianqiao Xiao, Zhenwei Zheng, Lenore Pereira. 785 
+
+Human Cytomegalovirus Glycoprotein B Contains Autonomous Determinants for 786 
+
+Vectorial Targeting to Apical Membranes of Polarized Epithelial Cells. J.VIROL. 72 787 
+
+(1998). 788 
+
+35. Wang, S. et al. Bindin g of Herpes Simplex Virus 1 UL20 to GODZ (DHHC3) Affects Its 789 
+
+Palmitoylation and Is Essential for Infectivity and Proper Targeting and Localization of 790 
+
+UL20 and Glycoprotein K. Journal of virology 91, e00945 -17; 10.1128/JVI.00945 -17 791 
+
+(2017). 792 
+
+36. Otsu, N. A Th reshold Selection Method from Gray -Level Histograms. IEEE Trans. Syst., 793 
+
+Man, Cybern. 9, 62 –66; 10.1109/TSMC.1979.4310076 (1979). 794 
+
+37. Lemonidis, K., Sanchez -Perez, M. C. & Chamberlain, L. H. Identification of a Novel 795 
+
+Sequence Motif Recognized by the Ankyrin Repeat Domain of zDHHC17/13 S -796 
+
+Acyltransferases. The Journal of biological chemistry 290, 21939 –21950; 797 
+
+10.1074/jbc.M115.657668 (2015). 798 
+
+38. Shafat, Z., Islam, A. & Parveen, S. Amino acid pattern reveals multi -functionality of 799 
+
+ORF3 protein from HEV. Bioinfor mation 20, 121 –135; 10.6026/973206300200121 800 
+
+(2024). 801 
+
+39. Lomize, M. A., Pogozheva, I. D., Joo, H., Mosberg, H. I. & Lomize, A. L. OPM database 802 
+
+and PPM web server: resources for positioning of proteins in membranes. Nucleic acids 803 
+
+research 40, D370 -6; 10.1093 /nar/gkr703 (2012). 804 
+
+40. Lomize, A. L., Todd, S. C. & Pogozheva, I. D. Spatial arrangement of proteins in planar 805 
+
+and curved membranes by PPM 3.0. Protein science : a publication of the Protein 806 
+
+Society 31, 209 –220; 10.1002/pro.4219 (2022). 807 
+
+41. Bekker, G. -J., Araki, M., Oshima, K., Okuno, Y. & Kamiya, N. Dynamic Docking of a 808 
+
+Medium -Sized Molecule to Its Receptor by Multicanonical MD Simulations. The journal 809 
+
+of physical chemistry. B 123, 2479 –2490; 10.1021/acs.jpcb.8b12419 (2019). 810 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+42. Jourdan, N. et al. Rotavir us is released from the apical surface of cultured human 811 
+
+intestinal cells through nonconventional vesicular transport that bypasses the Golgi 812 
+
+apparatus. J.VIROL. 71, 8268 –8278; 10.1128/JVI.71.11.8268 -8278.1997 (1997). 813 
+
+43. Cevallos Porta, D., López, S., Ari as, C. F. & Isa, P. Polarized rotavirus entry and 814 
+
+release from differentiated small intestinal cells. Virology 499, 65 –71; 815 
+
+10.1016/j.virol.2016.09.010 (2016). 816 
+
+44. Bhat, P., Snooks, M. J. & Anderson, D. A. Hepatocytes traffic and export hepatitis B 817 
+
+virus basolaterally by polarity -dependent mechanisms. Journal of virology 85, 12474 –818 
+
+12481; 10.1128/JVI.05344 -11 (2011). 819 
+
+45. Belouzard, S. et al. Entry and Release of Hepatitis C Virus in Polarized Human 820 
+
+Hepatocytes. Journal of virology 91, e00478 -17; 10.1128/JVI .00478 -17 (2017). 821 
+
+46. Zheng, M. & Tian, Z. Liver -Mediated Adaptive Immune Tolerance. Frontiers in 822 
+
+Immunology 10, 2525; 10.3389/fimmu.2019.02525 (2019). 823 
+
+47. Cao, X., Surma, M. A. & Simons, K. Polarized sorting and trafficking in epithelial cells. 824 
+
+Cell resea rch 22, 793 –805; 10.1038/cr.2012.64 (2012). 825 
+
+48. Slimane, T. A., Trugnan, G., van IJzendoorn, S. C. D. & Hoekstra, D. Raft -mediated 826 
+
+trafficking of apical resident proteins occurs in both direct and transcytotic pathways in 827 
+
+polarized hepatic cells: role of d istinct lipid microdomains. Molecular biology of the cell 828 
+
+14, 611 –624; 10.1091/mbc.e02 -08 -0528 (2003). 829 
+
+49. Yuan, Y. et al. Protein lipidation in health and disease: molecular basis, physiological 830 
+
+function and pathological implication. Signal transduction and targeted therapy 9, 60; 831 
+
+10.1038/s41392 -024 -01759 -7 (2024). 832 
+
+50. Fölsch, H. Regulation of membrane trafficking in polarized epithelial cells. Current 833 
+
+opinion in cell biology 20, 208 –213; 10.1016/j.ceb.2008.01.003 (2008). 834 
+
+51. Malgapo, M. I. P. & Linder, M. E. Substrate recruitment by zDHHC protein 835 
+
+acyltransferases. Open biology 11, 210026; 10.1098/rsob.210026 (2021). 836 
+
+52. Lemonidis, K., MacLeod, R., Baillie, G. S. & Chamberlain, L. H. Peptide array -based 837 
+
+screening reveals a large number of proteins interacting with the ankyrin -repeat domain 838 
+
+of the zDHHC17 S -acyltransferase. The Journal of biological chemistry 292, 17190 –839 
+
+17202; 10.1074/jbc.M117.799650 (2017). 840 
+
+53. Veit, M., Serebryakova, M. V. & Kordyukova, L. V. Palmitoylation of influenza virus 841 
+
+proteins. Biochem Soc Trans 41, 50 –55; 10.1042/BST20120210 (2013). 842 
+
+54. Meng, X. & Veit, M. Palmitoylation of the hemagglutinin of influenza B virus by ER -843 
+
+localized DHHC enzymes 1, 2, 4, and 6 is required for efficient virus replication. Journal 844 
+
+of v irology 97, e0124523; 10.1128/jvi.01245 -23 (2023). 845 
+
+55. Li, W. et al. Palmitoylation: an emerging therapeutic target bridging physiology and 846 
+
+disease. Cellular & molecular biology letters 30, 98; 10.1186/s11658 -025 -00776 -w847 
+
+(2025). 848 
+
+56. Weber, P. et al. Electr ostatic anchoring precedes stable membrane attachment of 849 
+
+SNAP25/SNAP23 to the plasma membrane. eLife Sciences Publications, Ltd (2017). 850 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+57. Gripon, P. et al. Infection of a human hepatoma cell line by hepatitis B virus. 851 
+
+Proceedings of the National Academy of Sciences of the United States of America 99, 852 
+
+15655 –15660; 10.1073/pnas.232137699 (2002). 853 
+
+58. Schindelin, J. et al. Fiji: an open -source platform for biological -image analysis. Nature 854 
+
+methods 9, 676 –682; 10.1038/nmeth.2019 (2012). 855 
+
+59. Girault, V. et al. Multi -proteomic profiling of the varicella -zoster virus -host interface 856 
+
+reveals host susceptibilities to severe infection. Nature microbiology 10, 2048 –2072; 857 
+
+10.1038/s41564 -025 -02068 -7 (2025). 858 
+
+60. Hubel, P. et al. A protein -interaction network of interferon -stimulated genes extends the 859 
+
+innate immune system landscape. Nature immunology 20, 493 –502; 10.1038/s41590 -860 
+
+019 -0323 -3 (2019). 861 
+
+61. Abramson, J. et al. Accurate structure prediction of biomolecular interactions with 862 
+
+AlphaFold 3. Nature 630, 493 –500; 10.1038 /s41586 -024 -07487 -w (2024). 863 
+
+62. Jumper, J. et al. Highly accurate protein structure prediction with AlphaFold. Nature 864 
+
+596, 583 –589; 10.1038/s41586 -021 -03819 -2 (2021). 865 
+
+63. Mirdita, M., Steinegger, M. & Söding, J. MMseqs2 desktop and local web server app for 866 
+
+fast, interactive sequence searches. Bioinformatics 35, 2856 –2858; 867 
+
+10.1093/bioinformatics/bty1057 (2019). 868 
+
+64. Suzek, B. E., Huang, H., McGarvey, P., Mazumder, R. & Wu, C. H. UniRef: 869 
+
+comprehensive and non -redundant UniProt reference clusters. Bioinformatic s 23, 1282 –870 
+
+1288; 10.1093/bioinformatics/btm098 (2007). 871 
+
+65. Mitchell, A. L. et al. MGnify: the microbiome analysis resource in 2020. Nucleic acids 872 
+
+research 48, D570 -D578; 10.1093/nar/gkz1035 (2020). 873 
+
+66. Schrödinger, L. L. The PyMOL Molecular Graphics System , Version 1.8, 2015. 874 
+
+67. Abraham, M. J. et al.  GROMACS: High performance molecular simulations through 875 
+
+multi -level parallelism from laptops to supercomputers. SoftwareX 1-2, 19 –25; 876 
+
+10.1016/j.softx.2015.06.001 (2015). 877 
+
+68. Joung, I. S. & Cheatham, T. E. Dete rmination of alkali and halide monovalent ion 878 
+
+parameters for use in explicitly solvated biomolecular simulations. The journal of 879 
+
+physical chemistry. B 112, 9020 –9041; 10.1021/jp8001614 (2008). 880 
+
+69. Bussi, G., Donadio, D. & Parrinello, M. Canonical sampling through velocity rescaling. J. 881 
+
+Chem. Phys. 126, 14101; 10.1063/1.2408420 (2007). 882 
+
+70. Bernetti, M. & Bussi, G. Pressure control using stochastic cell rescaling. J. Chem. Phys. 883 
+
+153, 114107; 10.1063/5.0020514 (2020). 884 
+
+71. Bekker, G. -J., Fukuda, I., Higo, J., F ukunishi, Y. & Kamiya, N. Cryptic -site binding 885 
+
+mechanism of medium -sized Bcl -xL inhibiting compounds elucidated by McMD -based 886 
+
+dynamic docking simulations. Scientific reports 11, 5046; 10.1038/s41598 -021 -84488 -z887 
+
+(2021). 888 
+
+889 
+
+Table 1: List of oligonucleotides used in this study 890 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+Oligonucleotide  Sequence (5’ -3’)  Origin 
+
+RPS11_fwd  GCCGAGACTATCTGCACTAC  10.1038/s41467 -020 -
+
+15337 -2
+
+RPS11_rev  ATGTCCAGCCTCAGAACTTC  10.1038/s41467 -020 -
+
+15337 -2
+
+HEV_fwd  GGTGGTTTCTGGGGTGAC  10.1053/j.gastro.2015.0 
+
+9.011 
+
+HEV_rev  AGGGGTTGGTTGGATGAA  10.1053/j.gastro.2015.0 
+
+9.011 
+
+HA::GSG::ZDHHC17 -gDNA -
+
+XhoI_fwd 
+
+CATCATCTCGAGATGTACCCA 
+
+TACGATGTTCCAGATTACGCT 
+
+GGTAGTGGTGGTAGTGGTGC 
+
+GGACGGCCCGGATGA 
+
+This study 
+
+ZDHHC17 -gDNA_NotI_rev  CATCATGCGGCCGCCTACACC 
+
+AGCTGGTACCCAG 
+
+This study 
+
+ORF3_ Ψβ XXQP_to_AXA_lo 
+
+ng_fwd 
+
+CATCATCCGCTGCATTCATCG 
+
+CAGCAACCCCTTCGCCGCCG 
+
+ATA 
+
+This study 
+
+ORF3_ Ψβ XXQP_to_AXALo 
+
+ng_rev 
+
+CATCATCTGCGATGAATGCAG 
+
+CGGAGGGCGAAGGGCTGAGA 
+
+This study 
+
+ORF3_full_Kozak_XhoI_fwd  ATGATGCTCGAGACCGGTGC 
+
+CGCCACCATGGGATCACCATG 
+
+TGCC 
+
+This study 
+
+pTRIPZ_GFP_ClaI_rev  ATCATCATCGATCTACTTGTAC 
+
+AGCTCGTCCATGC 
+
+This study 
+
+GSGGSG -mEGFP_fwd  GGTAGTGGTGGTAGTGGTGT 
+
+GAGC 
+
+This study 
+
+ORF3 -GSGGSG_rev  ACCACTACCACCACTACCACG 
+
+GCGCAGCCCCAG 
+
+This study 
+
+mEGFP_NotI_rev  CATCATGCGGCCGCTTACTTG 
+
+TACAGCTCGTCCATGCC 
+
+This study 
+
+shZDHHC17_fwd  CCGGGCAGGGAATACCACAG  This study 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+TCATTCTCGAGAATGACTGTG 
+
+GTATTCCCTGCTTTTTG 
+
+shZDHHC17_rev  GCAGGGAATACCACAGTCATT 
+
+CTCGAGAATGACTGTGGTATT 
+
+CCCTGCTTTTTGCG 
+
+This study 
+
+ZDHHC9_qPCR_fwd  CCCAGGCAGGAACACCTTTT  This study 
+
+ZDHHC9_qPCR_rev  CCGAGGAATCACTCCAGGG  This study 
+
+ZDHHC13_qPCR_fwd  ACCCCACTCTTATTGATGGAG 
+
+A
+
+This study 
+
+ZDHHC13_qPCR_rev  TGTCTGCCCATTTACATCTGT 
+
+C
+
+This study 
+
+ZDHHC17_qPCR_fwd  GGCCCGGATGAGTACGATAC  This study 
+
+ZDHHC17_qPCR_rev  TCCAAGAGGTTCACCATATCC 
+
+A
+
+This study 
+
+891 
+
+892 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+Figures 893 
+
+894 
+
+Figure 1. ORF3, but not ORF2 protein, is mainly localized apically in polarized intestinal 895 
+
+and liver epithelial cells. (A) Schematic representation of non -polarized, columnar polarized 896 
+
+and complex polarized cells. Apical (green) and basolateral (magenta) areas are indicated. 897 
+
+.CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint Crea ted in BioRender. Freistaedter, A. (2026) https://BioRender.com/i6730i9 (B -E) Hepatoma 898 
+
+cells, including (B) non -polarized S10 -3 and (C) complex polarized HepaRG, and intestinal 899 
+
+epithelial cells, including (D) non -polarized, and (E) polarized Caco -2, were i nfected with HEV 900 
+
+(MOI = 1 FFU/cell). 7 days post -infection, cells were fixed and stained for ORF2 (magenta), 901 
+
+ORF3 (green), nuclei (blue) and actin (yellow). Images ((B -D) maximum projections, (E -F) 902 
+
+single slice) were taken with a Zeiss Airyscan 2 LSM 900. (B -D) XY view, (E) XZ view. Scale 903 
+
+bar = 5 μm. Images are representative of three independent experiments. (F) Intestinal 904 
+
+organoids were transduced with ORF3::GFP, fixed after 48 h, and imaged.  Scale bar = 200 905 
+
+μm. 906 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+907 
+
+Figure 2. ZDHHC17 mediates ORF3 palmitoyl ation to control its apical localization and 908 
+
+HEV progeny release. (A) HepG2/C3A cells expressing ORF3::HA or mEGFP were 909 
+
+.CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint subjected to Co -IP followed by mass spectrometry. Volcano plot showing proteins identified in 910 
+
+the mass spectrometry screen. Each point r epresents a detected protein, plotted according to 911 
+
+log2 relative protein abundance and statistical significance (t -test, p -value, -log10). The 912 
+
+thresholds for significance and relative protein level are indicated by dashed lines. Viral 913 
+
+proteins (orange) and upregulated host proteins (yellow) are highlighted. (B) Scheme of 914 
+
+protein domains in ZDHHC9, 13, and 17; ARD = Ankryin repeat domain , TM = transmembrane 915 
+
+domain, DHHC -CRD = catalytic site domain, PDZ = protein -protein interaction module. 916 
+
+Created in BioRend er. Dao Thi, V. L. (2026) https://BioRender.com/ngauquj (C) Caco -2 cells 917 
+
+electroporated with HEV Kernow -C1/p6 RNA were transfected 5 days post -electroporation 918 
+
+with respective siRNAs (100 nM). Supernatant between day (d) 2 and 4 posttransfection was 919 
+
+collected and titrated on HepG2/C3A. Infected HepG2/C3A cells were fixed 5 d postinfection 920 
+
+and stained for ORF2 capsid protein to assess FFUs. Samples were normalized to siNT. n = 921 
+
+3 biological replicates. (D) Caco -2 cells expressing ORF3 were transfec ted with siNT, 922 
+
+siZDHHC9, siZDHHC13 or siZDHHC17 (100 nM) and lysates were harvested 2 d later for WB 923 
+
+analysis. (E, F) Caco -2 cells, expressing an dox -inducible plasmid with an shRNA against 924 
+
+ZDHHC17, were electroporated with HEV Kernow -c1/p6 RNA. 5 d later, the cells were treated 925 
+
+with dox to induce shZDHHC17 expression. 7 d post -electroporation, the medium was 926 
+
+replaced and 2 d later, virus from cell lysates (intracellular) and supernatant (extracellular) 927 
+
+were harvested and titrated on HepG2/C3A cells. FFUs w ere assessed as described in (C). 928 
+
+(C, E, F) n = 3 biological replicates. Significance by unpaired t test:** p < 0.01, **** p < 0.0001, 929 
+
+n.s. not significant. (G) Confocal images of Caco -2 cells stably expressing a bicistronic dox -930 
+
+inducible RFP/shZDHHC17 (fr om E, F). During polarization the cells were dox -induced. When 931 
+
+they reached a TEER of 1000  Ω×cm 2, cells were transduced with lentivirus carrying an 932 
+
+expression construct for ORF3::GFP. After 24 h, cells were fixed, stained for actin, and imaged 933 
+
+using a Zeis s Airyscan 2 LSM 900 microscope. Scale bar = 5 μm. Images are representative 934 
+
+of three independent experiments. 935 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+936 
+
+Figure 3. Mutational screening of charged residues in ORF3 reveals novel motifs critical 937 
+
+for its apical localization in polarized cells. (A) Overview of the automated image analysis 938 
+
+pipeline for quantifying GFP apical signal in polarized cells. Created in BioRender. Dao Thi, 939 
+
+V. L. (2026) https://BioRender.com/pkbq0hh (B) Example images to illustrate the workflow 940 
+
+shown in (A) of polarized Caco -2 cells transduced to express GFP or ORF3::GFP (green). 5 941 
+
+d posttransduction, cells were fixed, stained for nuclei (blue) and the plasma membrane 942 
+
+(magenta) and imaged with a Zeiss Airyscan 2 LSM 900. The yellow line indicates the position 943 
+
+of the XZ slice shown in the second row. Plasma membrane staining with MemBrite (magenta) 944 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+was used to define the apical region, highlighted by the yellow boundaries. The third row 945 
+
+shows the final segmentation of the GFP signal into apical (red) an d non -apical (cyan) regions. 946 
+
+Scale bar = 10 μm. (C) Polarized Caco -2 cells were transduced to express GFP or ORF3::GFP 947 
+
+variants and imaged as described in (B). The percentage of apical GFP over the total apical 948 
+
+and non -apical signal was quantified by the automated image analysis pipeline shown in (A). 949 
+
+n = biological replicates. Red line: Median. Significance by ordinary one -way ANOVA: ** p < 950 
+
+0.01, **** p < 0.0001, n.s. not significant. (D) Representative confocal images of Caco -2 cells 951 
+
+transduced to express ORF3::GFP, C 1-4A, RHR 23 -25 AAA, R 29 A, PIFIQP 58 -63 AAFIAA (green). 952 
+
+Cells were fixed and stained for actin (magenta) and nuclei (blue). Top row: XY, bottom row 953 
+
+XZ view. Scale bar = 5 μm. 954 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+955 
+
+Figure 4. The  Ψβ XXQP motif in ORF3 mediates its interaction with ZDHH C17 and HEV 956 
+
+progeny egress. (A) HEK293T cells were co -transfected with plasmids encoding 957 
+
+ZDHHC17::HA and ORF3::GFP WT and derivatives and lysed 24 h post -transfection, followed 958 
+
+by anti -GFP IP and WB analysis for ORF3 ( α-GFP), ZDHHC17 ( α-HA) and  β-actin exp ression, 959 
+
+using indicated antibodies. (B) WB analysis of Caco -2 cells stably expressing ORF3 -WT or 960 
+
+ORF3 -AAFIAA using antibodies against ORF3 and  β-actin. (C+D) ORF3 trans -961 
+
+complementation: Caco -2 cells stably expressing ORF3 -WT or ORF3 -AAFIAA were 962 
+
+electropor ated with  ΔORF3 HEV Kernow -C1/p6 RNA. 5 days later media was changed. 2 days 963 
+
+later HEV particles were harvested intra - and extracellular and titrated on HepG2/C3A cells. 964 
+
+FFUs were assessed 5 days post -infection by staining against HEV ORF2 protein. n = 4965 
+
+biological replicates. Significance by unpaired t test:** p < 0.01, n.s. not significant. 966 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+967 
+
+Figure 5. AlphaFold modeling of the ORF3_PIFIQP -ZDHHC17_ARD interaction reveals 968 
+
+positioning of positive charged residues and consecutive positioning of the recognit ion 969 
+
+sequence of ORF3 at the ARD of ZDHHC17 . (A) AlphaFold3 model of the best -scoring 970 
+
+ORF3 –ZDHHC17 complex positioned relative to a lipid bilayer (blue, red). ZDHHC17 is shown 971 
+
+embedded in the membrane, with the ankyrin repeat domain (ARD, orange) highlighte d. ORF3 972 
+
+(orange) is represented as a largely disordered chain. Insets show (i) the orientation of basic 973 
+
+residues (RHR23 -25, R29; magenta) toward the membrane interface, (ii) the positioning of 974 
+
+palmitoylated cysteines (yellow) near the DHHC catalytic motif (brown) and (iii) the proximity 975 
+
+of the PIFIQP motif to the ARD. Membrane insertion was predicted using the PPM webserver. 976 
+
+(B) Superposition of multiple models (from Sup. Fig. 7) demonstrating convergence of the 977 
+
+PIFIQP motif onto a common binding region on the ARD surface. (C) Contact frequency map 978 
+
+identifying key interacting residues between ORF3 and the ARD, revealing three main 979 
+
+interaction regions. 980 
+
+981 
+
+> .CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint
+
+982 
+
+983 
+
+984 
+
+Figure 6. Conformational landscapes and contact stability analysis reveal an extended 985 
+
+interaction inter face between ORF3 and ZDHHC17 (A) Molecular dynamic simulations of 986 
+
+.CC-BY-ND 4.0 International license made available under a (which was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is The copyright holder for this preprint this version posted June 18, 2026. ;https://doi.org/10.64898/2026.06.16.732616 doi: bioRxiv preprint ORF3 PIFIQP (± 4 residues up/downstream) together with the ARD of ZDHHC17. Free energy 987 
+
+landscapes projected onto principal components (PC1, PC2) for representative models of the 988 
+
+wild -type a nd AAFIAA variants. (B , C ) Residue -wise contact persistence (R -values) for ORF3 989 
+
+and ARD residues across simulations, highlighting stable interactions centered on the 990 
+
+wildtype, PIFIQP, motif (B) or the mutated, AAFIAA , motif (C) and its flanking residues. 991
