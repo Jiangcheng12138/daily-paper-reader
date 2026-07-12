@@ -6,50 +6,58 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-01 ~ 2026-07-10
-- 运行时间：2026-07-10 03:46:29 UTC
+- 最新运行日期：2026-07-12
+- 运行时间：2026-07-12 21:33:43 UTC
 - 运行状态：成功
-- 本次总论文数：10
+- 本次总论文数：12
 - 精读区：8
-- 速读区：2
+- 速读区：4
 
 ### 今日简报（AI）
-本期精读聚焦下丘脑寒战产热机制与睡眠分期领域泛化，速读涉及抑郁筛查和肝炎病毒运输。强烈推荐关注体温调控中下丘脑神经元的关键作用，以及睡眠分析中跨场景模型泛化的新方法。建议普通读者优先阅读《Shivering thermogenesis》了解体温调节前沿，再通过《SleepBand》学习如何利用生理结构提升AI诊断鲁棒性。
-- 详情：[/20260701-20260710/README](/20260701-20260710/README)
+今日日报聚焦睡眠机制研究，精读两篇高分论文：睡眠基础模型与蚊子睡眠蛋白。  
+Omni-Sleep模型通过层次对比学习解析中枢-自主神经动态；蚊子睡眠中发现血源性膳食蛋白的关键作用。  
+普通读者可关注睡眠基础科学新进展，以及神经科学与产热机制的交叉研究。
+- 详情：[/202607/12/README](/202607/12/README)
 
 ### 精读区论文标签
-1. [Shivering thermogenesis driven by hypothermia-sensitive neurons in the dorsomedial hypothalamus](/20260701-20260710/biorxiv-10-1101-2025-11-27-690920-v2-shivering-thermogenesis-driven-by-hypothermia-sensitive-neurons-in-the-dorsomedial-hypothalamus)  
-   标签：评分：10.0/10、query:tr-hb
-   evidence：低温敏感神经元驱动战栗产热以调节体温
-2. [SleepBand: Single-Source Domain Generalization for Sleep Staging via Physiologically Structured Spectral Modeling](/20260701-20260710/2607.04851v1-sleepband-single-source-domain-generalization-for-sleep-staging-via-physiologically-structured-spectral-modeling)  
+1. [Omni-Sleep: A Sleep Foundation Model via Hierarchical Contrastive Learning of CNS--ANS Dynamic](/202607/12/2607.07720v1-omni-sleep-a-sleep-foundation-model-via-hierarchical-contrastive-learning-of-cns--ans-dynamic)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：睡眠分期领域泛化方法
-3. [Lightweight ML-Based Automatic Sleep Staging Framework with Constrained CNN and Mamba for Small-Sample EEG Datasets](/20260701-20260710/2607.04934v1-lightweight-ml-based-automatic-sleep-staging-framework-with-constrained-cnn-and-mamba-for-small-sample-eeg-datasets)  
+   evidence：使用中枢/自主神经系统动力学的睡眠基础模型
+2. [Blood-derived dietary protein promotes sleep in the mosquito Aedes aegypti](/202607/12/biorxiv-10-1101-2025-09-24-678251-v2-blood-derived-dietary-protein-promotes-sleep-in-the-mosquito-aedes-aegypti)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：面向小样本EEG数据集的轻量级自动睡眠分期框架
-4. [Diminishing Arousal Shifts the Balance of Cortical Networks Supporting Spatial Attention](/20260701-20260710/biorxiv-10-64898-2025-12-08-692359-v2-diminishing-arousal-shifts-the-balance-of-cortical-networks-supporting-spatial-attention)  
+   evidence：血源性膳食蛋白促进蚊子睡眠
+3. [A Cold-Responsive Mitochondrial Transporter Stimulates Brown Adipose Tissue Thermogenesis](/202607/12/biorxiv-10-64898-2026-06-30-735039-v2-a-cold-responsive-mitochondrial-transporter-stimulates-brown-adipose-tissue-thermogenesis)  
+   标签：评分：9.0/10、query:tr-hb
+   evidence：冷诱导产热，棕色脂肪组织
+4. [Sleep-Related Respiratory Disruption is Associated with Altered Spindle Morphology and Poorer Attention in Children](/202607/12/biorxiv-10-64898-2026-07-06-736760-v1-sleep-related-respiratory-disruption-is-associated-with-altered-spindle-morphology-and-poorer-attention-in-children)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：使用困倦模型研究空间注意和唤醒的神经机制
-5. [Night-to-night sleep EEG variability over one year](/20260701-20260710/biorxiv-10-64898-2026-07-02-736125-v1-night-to-night-sleep-eeg-variability-over-one-year)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：分析一年内夜间睡眠脑电图变异性，直接相关于睡眠神经科学
-6. [Glia mediate brain-wide activity and sleep behavior during sickness through an adrenergic-glutamatergic axis](/20260701-20260710/biorxiv-10-64898-2026-07-02-736189-v1-glia-mediate-brain-wide-activity-and-sleep-behavior-during-sickness-through-an-adrenergic-glutamatergic-axis)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：胶质细胞介导疾病期间睡眠行为
-7. [A molecular integrator of sleep duration and interruption](/20260701-20260710/biorxiv-10-64898-2026-07-03-736427-v1-a-molecular-integrator-of-sleep-duration-and-interruption)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：编码单次睡眠时长和中断的分子机制
-8. [Slow Oscillatory Transcranial Direct Current Stimulation during a Restricted Sleep Opportunity Enhances Cognitive Performance during Subsequent Wakefulness](/20260701-20260710/biorxiv-10-64898-2026-07-03-736438-v1-slow-oscillatory-transcranial-direct-current-stimulation-during-a-restricted-sleep-opportunity-enhances-cognitive-performance-during-subsequent-wakefulness)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：通过tDCS增强NREM睡眠慢振荡功率
+   evidence：睡眠相关呼吸中断改变纺锤波形态
+5. [Integrated Respirometry and Metabolomics Unveil Circadian Metabolic Dynamics in Drosophila](/202607/12/biorxiv-10-1101-2025-07-22-665580-v2-integrated-respirometry-and-metabolomics-unveil-circadian-metabolic-dynamics-in-drosophila)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：睡眠突变体中的昼夜代谢动力学
+6. [Acetylation-dependent remodeling of the secretory pathway shapes the senescence-associated secretome](/202607/12/biorxiv-10-64898-2026-06-23-733964-v2-acetylation-dependent-remodeling-of-the-secretory-pathway-shapes-the-senescence-associated-secretome)  
+   标签：评分：8.0/10、query:qll
+   evidence：乙酰化在衰老相关分泌表型中的作用
+7. [Individual differences in post-encoding sleep continuity predict context memory accuracy and supporting ERPs in younger and older adults](/202607/12/biorxiv-10-64898-2026-07-06-736892-v1-individual-differences-in-post-encoding-sleep-continuity-predict-context-memory-accuracy-and-supporting-erps-in-younger-and-older-adults)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：睡眠连续性预测记忆准确性和ERP模式
+8. [Cortical Activity During Sustained Isometric Ankle Contractions Following Chronic Sleep Restriction: A High-Density EEG Study](/202607/12/biorxiv-10-64898-2026-07-07-737078-v1-cortical-activity-during-sustained-isometric-ankle-contractions-following-chronic-sleep-restriction-a-high-density-eeg-study)  
+   标签：评分：8.0/10、query:slp-ns
+   evidence：慢性睡眠限制与皮质活动的EEG研究
 
 ### 速读区论文标签
-1. [Machine Learning for Depression Screening and Intervention: an Original Circadian Rhythm Score-based Methodology](/20260701-20260710/2607.04648v1-machine-learning-for-depression-screening-and-intervention-an-original-circadian-rhythm-score-based-methodology)  
+1. [NeuroOnline: Bridging Pretraining and Online Adaptation for EEG Foundation Models](/202607/12/2607.03925v1-neuroonline-bridging-pretraining-and-online-adaptation-for-eeg-foundation-models)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：提出昼夜节律评分用于抑郁症筛查，与睡眠-觉醒周期相关
-2. [ZDHHC17-Mediated Palmitoylation of Hepatitis E Virus ORF3 Protein Regulates Vectorial Trafficking in Polarized Epithelial Cells](/20260701-20260710/biorxiv-10-64898-2026-06-16-732616-v2-zdhhc17-mediated-palmitoylation-of-hepatitis-e-virus-orf3-protein-regulates-vectorial-trafficking-in-polarized-epithelial-cells)  
-   标签：评分：6.0/10、query:qll
-   evidence：ZDHHC17棕榈酰转移酶修饰HEV ORF3蛋白调控运输
+   evidence：提出EEG基础模型在线自适应框架，可用于睡眠脑电分析
+2. [Slc25a34-Mediated Mitochondrial-to-Cytoplasmic AMP Transport Activates Brown Adipose Tissue Thermogenesis](/202607/12/biorxiv-10-64898-2026-06-30-735039-v1-slc25a34-mediated-mitochondrial-to-cytoplasmic-amp-transport-activates-brown-adipose-tissue-thermogenesis)  
+   标签：评分：7.0/10、query:tr-hb
+   evidence：冷诱导产热与代谢重编程
+3. [STST-JEPA: Shallow-Target Spatio-Temporal Joint Embedding Prediction Architecture For EEG Self-Supervised Learning](/202607/12/2607.06629v1-stst-jepa-shallow-target-spatio-temporal-joint-embedding-prediction-architecture-for-eeg-self-supervised-learning)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：EEG自监督学习方法可迁移至睡眠神经科学研究
+4. [The impact of behavioural activity on the EEG power spectrum, its source localisation, and global functional connectivity in rats](/202607/12/biorxiv-10-64898-2026-07-03-736278-v1-the-impact-of-behavioural-activity-on-the-eeg-power-spectrum-its-source-localisation-and-global-functional-connectivity-in-rats)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：大鼠EEG活动与行为状态相关
 
 
 <div class="dpr-home-promo-card">
