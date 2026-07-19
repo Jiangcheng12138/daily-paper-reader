@@ -1,0 +1,1352 @@
+Title: Microsoft Word - Manuscript-preprint-rev2.doc
+
+URL Source: https://www.biorxiv.org/content/10.1101/2025.03.31.646262v4.full.pdf
+
+Number of Pages: 35
+
+Markdown Content:
+1
+
+2
+
+3
+
+# Automated sleep scoring in hibernating and non-hibernating 4
+
+# American black bears 5
+
+6
+
+7
+
+8
+
+Øivind Tøien 1* , Elsa Cecile Pittaras 2, Yi-Ge Huang 3, Paul J. N. Brodersen 4, Giancarlo Allocca 5,6 ,9
+
+Brian M. Barnes 1, H. Craig Heller 2
+
+10 
+
+11 
+
+12 
+
+13 
+
+14 
+
+> 1
+
+Institute of Arctic Biology, University of Alaska Fairbanks, Fairbanks Alaska, USA 15 
+
+> 2
+
+Department of Biology, Stanford University, Stanford, California, USA 16 
+
+17 3Radcliffe Department of Medicine, University of Oxford, United Kingdom 18 
+
+19 4Department of Pharmacology, University of Oxford; Oxford, United Kingdom 20 
+
+21 5Florey Department of Neuroscience and Mental Health, University of Melbourne, Parkville, 22 
+
+Victoria, Australia 23 
+
+24 6Somnivore Pty Ltd, Bacchus Marsh, Victoria, Australia 25 
+
+26 
+
+27 
+
+*Corresponding author 28 
+
+Email otoien@alaska.edu (ØT) 29 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+30 
+
+# Abstract 31 
+
+Hibernating bears show remarkable metabolic suppression. Their decline in core body 32 
+
+temperature (T b) is moderate (from 38°C to 30-35°C), but their metabolism declines as much as 33 
+
+75%. To understand the role of sleep in this hypometabolic state, we recorded biotelemetrically 34 
+
+EEG, EOG and EMG data over 3500 days from 16 captive American black bears in and out of 35 
+
+hibernation under semi-natural conditions. This data set is too large to score manually for Wake, 36 
+
+REM- and NREM sleep, so we tested two machine learning classifiers: (1) Somnotate trained 37 
+
+on multiple one-day recordings, and (2) Somnivore, trained on a small subset from each 38 
+
+recording. As automated scoring methods have not been applied to hibernating species before, 39 
+
+a major concern is the effect changing brain temperature has on the EEG and on the machine 40 
+
+learning based detection. Therefore, we selected reference data using consensus by 3 manual 41 
+
+sleep scorers from each of 6 bears, two one-day recordings at the highest and lowest body 42 
+
+temperatures during hibernation when T b was oscillating in multiday cycles, and a non-43 
+
+hibernating one-day recording in summer. Somnotate results were excellent when trained 44 
+
+separately for hibernating and non-hibernating data. Training Somnotate separately for high and 45 
+
+low T b within hibernation did not improve results further. Sleep times in hibernation were about 46 
+
+2x that in summer for both automated scores and manual scores (p<0.0001). There were no 47 
+
+significant differences in occupancy of vigilance states between automated and manual scores 48 
+
+in hibernation (p>0.05), but a small overestimate of sleep time in summer (p<0.05). Both 49 
+
+applications yielded F-measures against manual scores in the 0.90-0.98 range. Outliers in the 50 
+
+0.67-0.88 range were correlated between the two applications, indicating that specific files are 51 
+
+more challenging to annotate. We conclude that both applications have accuracies approaching 52 
+
+that of manual scorers when trained on high quality data. 53 
+
+54 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+# Introduction 55 
+
+Bears are an unexplored and interesting model for studying therapeutic hypometabolism and 56 
+
+the role of sleep in that adaptation. In the hypometabolic state of hibernation black bears have 57 
+
+been found to suppress metabolic rate to 25% of normal basal rates, while their core body 58 
+
+temperatures (T b) on average decrease only 5.5°C during hibernation. But, their T bs do not stay 59 
+
+at a stable level, but vary in multiday body temperature cycles in the range of 30-35°C [1, 2]. 60 
+
+Animal studies typically classify sleep into stages of non-REM sleep (NREM), rapid eye 61 
+
+movement sleep (REM) and Wake [3], with NREM characterized by domination of medium to 62 
+
+large amplitude delta waves caused by synchronization of neuronal firing across cortex, REM 63 
+
+dominated by low amplitude alpha waves and presence of bipolar EOG spikes and lack of EMG 64 
+
+activity, and Wake with irregular high-frequency, low-amplitude EEG patterns and random EMG 65 
+
+activity. Studies in marine mammals have also defined a stage of Drowsiness [4, 5]. Human 66 
+
+studies additionally classify NREM further into sleep stages N1, N2 and N3 according to the 67 
+
+American Academy for Sleep Medicine (AASM) standards [6, 7]. With the exception of certain 68 
+
+hibernating dwarf lemur species [8], EEG based sleep studies have previously only been 69 
+
+published for smaller hibernators that go into torpor through a period of sleep but remain at too 70 
+
+low temperatures during deep torpor to record brain activity that can be used for classification of 71 
+
+sleep stages. Thus sleep stages can typically only be classified in these hibernators during the 72 
+
+episodic arousal episodes when animals return to euthermic levels of T b for one or two days [9, 73 
+
+10, 11, 12]. While functionality of the increased deltawave at early arousal caused much 74 
+
+controversy among these studies as to its function or even if it can be classified as sleep, in 75 
+
+contrast, bears in hibernation do not show torpor-arousal cycles and remain at high enough 76 
+
+body temperatures to be responsive to disturbance at any time, and because their brain 77 
+
+temperatures do not drop below the low 30 °C [1, 2], their vigilance states can be scored 78 
+
+throughout hibernation. 79 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+80 
+
+Presumed without data, bears are often said to be “asleep” during hibernation, but in this 81 
+
+context it refers to the hibernating state (“winter dormancy”). No sleep studies based on brain 82 
+
+wave activity existed in a large hibernator before we started collecting a very extensive (>3500 83 
+
+days) repository of polysomnographic data in American black bears ( Ursus americanus ) kept in 84 
+
+outdoor enclosures in Fairbanks, Alaska. Using telemetry implants we recorded global cortical 85 
+
+EEG, EOG, EMG, ECG, T b, breathing and respirometry (while dens were closed) and in some 86 
+
+of the recordings blood pressure, using telemetry implants. In contrast to small hibernators, 87 
+
+there is need to analyze sleep architecture though the whole 5-6 month hibernation period and 88 
+
+transitions in and out of the hibernation season to understand role of sleep in the 89 
+
+hypometabolism of hibernating bears. Through the years of our study, our polysomnographic 90 
+
+recordings produced too much data to score manually, and at the time data were collected 91 
+
+reliable methods to automatically score these data in their entirety were not available. A broad 92 
+
+range of machine learning techniques have become available for sleep classification more 93 
+
+recently, and a number of them have been reviewed [13, 14, 15, 16]. The majority of the studies 94 
+
+aimed at verifying machine learning based sleep classification have been performed on human 95 
+
+data and standard laboratory animals, e.g. mice and rats. Previous studies have not verified 96 
+
+machine learning based sleep classification of EEG recordings from hibernating animals. Thus, 97 
+
+before any automatic scoring technique is applied to analyze these data on a larger scale, the 98 
+
+integrity of the analysis must be verified. The variations in T b of hibernators has the potential to 99 
+
+affect the frequency distribution of the EEG signals [17], and since machine learning techniques 100 
+
+are typically based on a first step of convolution to extract the frequency distributions of the 101 
+
+signals [14], there could be potential problems with correct detection if the machine learning 102 
+
+routines are trained on data recorded at different T b‘s than occurred during the analyzed 103 
+
+recording. For the present study we selected two different machine learning based automatic 104 
+
+sleep qualifiers based on their previous successful verifications on animal data: (1) open source 105 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+Somnotate, a probabilistic classifier based on a combination of linear discriminant analysis with 106 
+
+a hidden Markov model that has previously been tested on mouse data [18], and (2) Somnivore, 107 
+
+which applies proprietary assisted machine learning algorithms that have been successfully 108 
+
+tested on a wide range of human data and animal data from mice, rats and pigeons [19]. The 109 
+
+purpose of the present study is to evaluate the integrity of automated sleep scoring using these 110 
+
+two applications on data from American black bears ( Ursus americanus ) in and out of 111 
+
+hibernation. 112 
+
+113 
+
+Due to the dissimilarity in how the two programs were designed, it was not feasible and we did 114 
+
+not intend to perform a comparison between the two qualifiers on terms of similar training and 115 
+
+testing conditions. While both programs can perform batch scoring on multiple files after 116 
+
+training, Somnivore was primarily designed to be trained on a minimal amount of data from a 117 
+
+one day recording to be tested (assisted machine learning) and currently cannot easily be 118 
+
+trained on data from multiple files. Somnotate is able to accumulate training data from an 119 
+
+unlimited number of files and multiple animals to generate machine learning models that provide 120 
+
+robustness against incursion of incorrect data in the training data set and can be applied across 121 
+
+multiple animals. For testing integrity and robustness of training models, Somnotate can 122 
+
+automate use of holdout testing so that each file to be tested is excluded from the training data 123 
+
+[18] and the results can then be compared to the non-holdout training model. Holdout testing 124 
+
+would typically not be used with Somnivore because of its assisted machine learning design. 125 
+
+We trained and tested the two applications on a reference data set that was selected from each 126 
+
+of 6 bears, a one day recording in mid hibernation with a T b at the peak of a multiday body 127 
+
+temperature cycle [2], a one day recording in mid-hibernation near the trough of a body 128 
+
+temperature cycle, and a one day recording in a non-hibernating state either in later summer or 129 
+
+after full recovery from hibernation in early summer. 130 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+131 
+
+132 
+
+# Material and methods 133 
+
+## Reference data set 134 
+
+The analyzed data were collected for monitoring purposes during a previous study, and the 135 
+
+procedures for animal care and implantation of the telemetry transmitters are described by 136 
+
+Tøien et al. [2]. These experiments were approved by the Institutional Animal Care and Use 137 
+
+Committee at University of Alaska Fairbanks (IACUC nos. 05-56 and 08-64). Sleep related data 138 
+
+from this data collection have not been published previously. Briefly, American black bears 139 
+
+(Ursus americanos, 62-93 kg) were captured in Alaska by Alaska Department of Fish and Game 140 
+
+(ADF&G) during May–July, transferred to Fairbanks and held individually in an outdoor facility 141 
+
+near the Institute of Arctic Biology in Fairbanks. The bears had been scheduled to be removed 142 
+
+from the wild by ADF&G due to bear–human conflicts and would have been euthanized if not 143 
+
+used by the project. In late August to late September in each year of the study, bears were 144 
+
+immobilized with 8 mg/kg Telazol administered with a pole syringe and brought into surgery. 145 
+
+Under isoflurane anesthesia and using aseptic protocol, the bears were implanted with 146 
+
+telemetry devices (model T28F-14B, Konigsberg Instruments Inc., Pasadena, CA 91107) for 147 
+
+measurement of T b, EKG, and deltoid muscle EMG. Using the same devices, global cortical 148 
+
+EEG was recorded with a single differential pair of electrodes diagonally 1 cm from the skulls 149 
+
+midline seam and 2 cm in front of and behind the bregma. The electrodes were stainless steel 150 
+
+bone screws that penetrated into the extradural space and were insulated with acrylic cement. A 151 
+
+single pair of EOG electrodes was implanted subcutaneously above the eyebrows. Some of the 152 
+
+bears were also implanted with a blood pressure transducer in the caudal aorta. During 153 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+recording, EEG, EOG and ECG channels were filtered with a 1-pole high pass (HP) filter at 0.1 154 
+
+Hz, and the EMG channel with 4-pole 20Hz HP filter. All of these channels were filtered with 3-155 
+
+pole low pass (LP) filters at 150Hz. Bears were also implanted with 2–3 intraperitoneal 156 
+
+temperature data loggers for additional measurement of T b (TidbitT temp model UTBI-001, 0.06 157 
+
+°C resolution, Onset Computer Corporation Inc, Bourne, MA 02532). Both types of devices were 158 
+
+calibrated against a mercury thermometer traceable to NIST standards in a water bath to an 159 
+
+accuracy of 0.1 °C. During analysis additional digital filtering was applied as found appropriate 160 
+
+by the manual sleep scorers, typically a 0.5 Hz 3 rd order Butterworth HP filter for EEG and a 1 161 
+
+Hz first order Butterworth HP filter for EOG. 162 
+
+163 
+
+Feeding was gradually removed over a two week period from mid October, and once showing 164 
+
+signs of entering hibernation, the instrumented bears were transferred to undisturbed outdoor 165 
+
+enclosures located in isolated forest lands near the Institute of Arctic Biology. The bears were 166 
+
+maintained in artificial dens (91 × 97 × 98 cm inside dimensions, 865 L, constructed from 167 
+
+welded 2.5 cm thick HD-polyethylene and insulated with 5cm Styrofoam) that functioned as 168 
+
+respirometry chambers when the breakaway doors were kept closed. Breathing was recorded 169 
+
+with total body plethysmography using custom designed differential pressure transducers based 170 
+
+on Honeywell SDX05 pressure sensors with one side connected to the den interiors, and the 171 
+
+reference side connected to spatial filters consisting of branched ca. 2 m long PP90 catheters 172 
+
+ending about 1.5 m apart in the immediate vicinity of the dens. The pressure signals were LP 173 
+
+filtered at 0.1Hz and also HP filtered with a 1000 s time constant that prevented long term drift 174 
+
+off the baseline. Radio telemetry signals were received and decoded by a base station 175 
+
+(Konigsberg TD14), and recorded at 500 Hz with a data acquisition system (CA recorder, DISS 176 
+
+LLC). The originally recorded CArecorder files (now an obsolete file format) were translated to 177 
+
+European Data Format (EDF) using custom code written in open source Lazarus Free Pascal 178 
+
+by the first author, adapting the open source PUMA repository (Dr. Johannes W. Dietrich, Ruhr 179 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+University of Bochum) to write large EDF files. Adhering to EDF/EDF+ standard, the data were 180 
+
+split into animal specific 1 day long files and relevant metadata for the signals added. 181 
+
+182 
+
+We selected from each of 6 bears three 24 h recordings: from mid-hibernation with a T b at the 183 
+
+peak of a multiday body temperature cycle [2] (T b= 34.9 ± 0.5°C), from mid-hibernation near the 184 
+
+trough of a T b cycle (T b= 32.1 ± 0.7°C), and from a non-hibernating state either in early or late 185 
+
+summer (T b= 38.1 ± 0.4°C). These data were manually qualified by 3 different volunteer scorers. 186 
+
+Scorers #1 and #3 had previous publication records in sleep research that included manual 187 
+
+scoring of EEG data from mammals [20, 21, 22, 23]. Scorer #2 recorded all the data to be 188 
+
+analyzed and had the longest experience with sleep data from hibernating bears, including the 189 
+
+real-time observation of polysomnograms with video monitoring. None of these scorers were 190 
+
+authors of the software that was used. As common in animal studies, we scored data into 191 
+
+stages of NREM, REM, and Wake using 10 s epochs, and generally mapped what would be 192 
+
+human stage N1, N2 and N3 to NREM, otherwise we used REM and Wake. We instructed 193 
+
+scorers to not base scores on preconceptions about allowed transitions, i.e. not preventing 194 
+
+Wake to REM transitions. In our preliminary analysis we also evaluated whether to also score a 195 
+
+transition stage of Drowsiness with intermittent medium amplitude slow waves during 196 
+
+inspirations occupying less than 50% of an epoch. However, we found difficulty in obtaining 197 
+
+consistency among scorers, and it did not show consistent differences in and out of hibernation. 198 
+
+199 
+
+While we used the Polyman EDF reader as default viewer, we did not restrict use of other 200 
+
+viewers or which additional channels that could be used for the manual scoring beyond 201 
+
+EEG/EOG/EMG. Thus scorer #1 used Somnivore (with automatic scoring disabled) as viewer. 202 
+
+Additional information from color spectral density arrays generated by the open source 203 
+
+EDFbrowser (Teunis van Beelen, https://www.teuniz.net) was also used for assistance in the 204 
+
+evaluation of the data. The scores were saved as separate EDF+ compliant files and were also 205 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+exported in text format. From the qualifications of the 3 individual scorers, we calculated 206 
+
+consensus scores though a voting system using code written in Lazarus Free Pascal. The 207 
+
+single set of consensus scores were used in the further software training and testing. 208 
+
+209 
+
+## Machine learning training 210 
+
+Due to the differences in design of the software, training differed between Somnivore and 211 
+
+Somnotate. For training Somnivore we used 100 epochs of NREM, REM, and Wake randomly 212 
+
+selected by the software from each file to be tested as per the design of the software. After an 213 
+
+initial assessment we used only the EEG and EOG channels for training as the recorded EMG 214 
+
+from the deltoid muscle showed very little activity in bears during hibernation, possibly due to 215 
+
+the typical curled postures of the bears [1] that causes stretching of the neck muscles. We 216 
+
+applied a scoring rule of minimum consistency of 3 epochs for each of NREM, REM and Wake, 217 
+
+which was necessary to approximate the sensitivity to changes in signal frequencies during 218 
+
+transitions between states. Score Forcing that was an available option was not used to prevent 219 
+
+Wake to REM transitions as it was found that spurious qualifications of short periods of Wake in 220 
+
+the NREM to REM transition could affect what was correct detection of REM periods. 221 
+
+222 
+
+Somnotate was trained on multiple complete one day recordings using the EEG and EOG 223 
+
+channels. We used a time resolution of 10s (same as the epoch length), which was found to be 224 
+
+a good compromise to prevent too high sensitivity to state changes during transition states. For 225 
+
+initial assessment we used multiple training data sets. In non-holdout mode we used all the 226 
+
+available data in a training data set, while in holdout mode we trained Somnotate with all the 227 
+
+files in the training data set except the specific file to be tested. We created training models: a) 228 
+
+based on a training data set with all the reference data, b) separate training data sets for 229 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+hibernating and non-hibernating states, and c) separate training data sets for the files at high 230 
+
+and low T b within the hibernating state. These were tested for overall accuracies in Somnotate. 231 
+
+232 
+
+233 
+
+## Statistical analysis 234 
+
+The metric used for detailed evaluation of algorithm generalization accuracy versus manual 235 
+
+scoring for both applications was F-measures calculated after import of scoring results into 236 
+
+Somnivore. It is one of the most stringent metrics available, as both high sensitivity and high 237 
+
+precision are required for high F-measure [19, 24]. Data are given as means ± standard 238 
+
+deviation. Further statistical analysis was performed in Sigmaplot ver. 11 and Excel. For testing 239 
+
+of statistical significance between different tests on the same sets of animals we used two-tailed 240 
+
+paired t-tests, otherwise two-tailed equal variance or unequal variance t-tests as found 241 
+
+appropriate after testing the data distributions. Differences were considered significant at 242 
+
+p<0.05. 243 
+
+244 
+
+# Results 245 
+
+Fig 1 shows examples with short segments of raw recordings of each vigilance state including a 246 
+
+pronounced delta wave EEG pattern during NREM, low amplitude EEG with alpha waves and 247 
+
+EOG with bipolar deflections during REM sleep, and quiet Wake including irregular low 248 
+
+amplitude EEG with additional muscle activity during active Wake. When qualifying the 249 
+
+transitions from Wake to NREM manual scorers followed the rule of 50% presence of medium to 250 
+
+high amplitude slow wave; the example in Fig 2 shows an occasional period of episodic slow 251 
+
+waves during inspiration and simultaneous shivering bursts occurring before NREM could be 252 
+
+defined. We initially evaluated if we should score these periods as a Drowsiness stage, 253 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+however an assessment by scorer #1 and #2 on samples from 1-2 bears revealed that there 254 
+
+was too much uncertainty in defining the Drowsiness stage. Also, the relative occupancy was 255 
+
+low and did not systematically change between hibernation and summer. Table 1 shows overall 256 
+
+agreement of individual scorer’s qualifications with the consensus scores. Two scorers had 257 
+
+overall agreement of 96.5% with the consensus, whereas the third scorer was lower at 90.5%. 258 
+
+These differences reflected that scorer #3 had been able to spend the least amount of time to 259 
+
+become familiar with the specifics of the data before scoring started. Only 0.5% of the total 260 
+
+epochs were no-consensus epochs and these were typically in the transitions. 261 
+
+262 
+
+Fig 1. Short examples of raw recordings. These 15 s examples show EEG (top panels), 263 
+
+EOG (middle panels) and EMG (bottom panels) during NREM, REM and different forms of 264 
+
+Wake in a hibernating black bear. 265 
+
+266 
+
+Fig 2. Wake to NREM transition. This raw recording example with EEG (top panel), EOG 267 
+
+(middle panel) and EMG (bottom panel) shows a challenging transition from Wake to NREM in a 268 
+
+hibernating black bear with discontinuous slow wave activity occurring during the inspiratory 269 
+
+phase of breathing and that was initially too intermittent to be manually qualified as NREM. 270 
+
+EMG activity from shivering bursts bleed into the EOG channel during breaths, while the EMG 271 
+
+of the deltoid muscle was typically without activity. 272 
+
+273 
+
+Table 1. Agreement of individual manual scorers with the consensus. 274 
+
+Total Scorer 1 Scorer 2 Scorer 3 Undefined Average Consensus epochs 154919 148778 148697 139447 776 
+
+Percent agreement 99.5% 96.5% 96.5% 90.5% 0.5% 94.5% 
+
+275 
+
+An initial assessment of how using different sets of training channels affected the overall 276 
+
+accuracy of Somnivore is shown in Fig 3. There was a significant increase in accuracy of the 277 
+
+hibernation sample from 91.4 ± 2.2% with training on the EEG channel only to 92.7 ± 1.6 % with 278 
+
+training on both the EEG and EOG channels (p<0.05, paired t-test), while there was only a 279 
+
+trend for increase in accuracy with more channels being used for training in summer samples 280 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+(p>0.1). Thus, for further analysis, we standardized on using the EEG and EOG channels for 281 
+
+training. While training Somnivore is normally performed on a subset of data from the file being 282 
+
+tested, we also tested the additional capability to apply training data generated with other files, 283 
+
+as shown in Fig 4. Accuracy significantly decreased from 92.7± 1.6 % with in-file training to 69.7 284 
+
+±15.9% (p<0.001) when training on data from different animals during hibernation. Training on 285 
+
+data from the same animal but from a file from a different T b during hibernation decreased 286 
+
+accuracy to 85.3 ± 5.6% (p<0.001). In summer bears accuracy decreased from 93.7 ± 3.2% to 287 
+
+84.9 ± 5.4 % (p<0.02) when training on data from a different animal than the one being 288 
+
+analyzed. Thus, for further analysis with Somnivore, we only use training data from a subset of 289 
+
+the file being tested. 290 
+
+291 
+
+Fig 3. Somnivore overall scoring accuracy with different sets of training channels. 292 
+
+Somnivore overall scoring accuracy when training on different channels of the analyzed file 293 
+
+using a random selection of 100 epochs of each qualified state, showing different results for 294 
+
+hibernation (solid bars) and summer samples (cross-hatched bars). * designates a significance 295 
+
+level of p<0.05 compared to using EEG/EOG channel for training. 296 
+
+297 
+
+Fig 4. Somnivore overall scoring accuracy when training on different files. These tests 298 
+
+used the EEG and EOG channels for training, but training was performed on a randomly 299 
+
+selected file from a different animal in the reference data set (Cross-animal), or a different file 300 
+
+from the same animal at different T b level (Diff. Tb), or the standard training on data from the file 301 
+
+being analyzed (Same file). Solid bars designate analyzed and training data from hibernation, 302 
+
+cross-hatched bars designate analyzed and training data from summer. Stars designate 303 
+
+significant differences compared to standard training on the analyzed file, * p<0.05, *** p<0.001. 304 
+
+305 
+
+306 
+
+The ability of Somnotate to train on multiple files and apply the training model to files recorded 307 
+
+under different conditions and in particular files recorded at different T b called for additional tests 308 
+
+of the robustness of the training data. Fig 5 shows the results of testing with different training 309 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+models, both with all files in the data set included and with holding out the tested file from the 310 
+
+training data. Holdout testing only decreased overall accuracy of Somnotate by 1.1-1.3% 311 
+
+(p<0.05 to p<0.0001) except 4.7 % decrease in holdout accuracy when training on both 312 
+
+hibernation summer files (p<0.05). Best accuracy for hibernation data was obtained by training 313 
+
+on hibernating files only, 92.0 % for holdout training and 93.2 % for non-holdout training. 314 
+
+Training separately on hibernation files with high T b (from the peak of the multiday body 315 
+
+temperature cycles) and low T b (from the trough of the body temperature cycles) did not improve 316 
+
+overall accuracy (p>0.37). Summer data had significantly lower accuracy when trained on both 317 
+
+hibernation and summer files (82.7% for holdout testing and 87.4% for non-holdout testing) 318 
+
+compared to training on summer data only (93.6% for holdout testing and 94.9% for non-holdout 319 
+
+testing, p<0.05). 320 
+
+321 
+
+Fig 5. Somnotate overall scoring accuracy when training on different data sets . Color 322 
+
+designates if tested file is held out from training data set (hold-out training, teal color) or not held 323 
+
+out from training data set (non hold-out training, blue color). Bar pattern designates if the tested 324 
+
+files is from hibernation (solid bar) or from summer (cross-hatched bars). Bar labels designate if 325 
+
+both hibernation and summer samples were used for training (All data), or hibernation samples 326 
+
+were used for training (Hib), or if training was performed separately on hibernation samples from 327 
+
+high and low T b (Sep Tb), or summer samples were used for training (Non-hib). Significant 328 
+
+differences between hold-out and non-holdout training is designated by * p<0.05, **** p<0.0001. 329 
+
+Significant differences between training on all data and summer samples only (both hold-out 330 
+
+and non-holdout) is designated by # p<0.05. The EEG and EOG channels were used for all 331 
+
+training. 332 
+
+333 
+
+Further detailed testing of both applications was performed without holdout of the tested file 334 
+
+from the training data. Fig 6 shows examples of one-day time courses of manual consensus 335 
+
+scores alignment with the automated scores from Somnotate and Somnivore and color density 336 
+
+spectral array plots visualizing changes in frequency distributions of the EEG signals. Good 337 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+alignment is seen between automated scores from both applications with consensus scores 338 
+
+both in the summer file and hibernation file, with a few deviations in the transitions between 339 
+
+states. The detail from hibernation exemplifies a troublesome NREM to REM transition where 340 
+
+the manual scorers did not reach a consensus and the automated scores inserted some wake 341 
+
+at the beginning and into the REM period. Analysis of transitions of the full data set indicated a 342 
+
+much higher prevalence of Wake to REM transitions with Somnivore (0.33) than with Somnotate 343 
+
+(0.15) and both were considerably higher than the manual consensus scores (0.03). However, 344 
+
+the duration of these Wake before REM periods were usually very short in the 0-5min bin and 345 
+
+thus would not be expected to contribute much to the total stage occupancy. 346 
+
+347 
+
+Fig 6. Examples of manual consensus scores vs. automated sleep scores from 24 h 348 
+
+periods in the same bear in summer and hibernation. For each, top panel: color spectral 349 
+
+density plot with frequency (0-30Hz) on y-axis and non-calibrated intensity color coded; middle 350 
+
+panel: consensus manual sleep scores; bottom panel: automated scores by Somnotate using 351 
+
+separate training data for hibernating and non-hibernating bears. Each trace shows Wake (W) 352 
+
+as highest value, REM (R) in the middle, NREM (N) as low value and non-consensus scores as 353 
+
+low off-scale deflections. The 5.5 hour detail from hibernation includes an NREM to REM 354 
+
+transition that proved problematic for both manual scorers and the automated scoring programs. 355 
+
+356 
+
+A summary of F-measures for comparison of automated scores with the consensus scores for 357 
+
+the different vigilance states is shown in Fig 7. There were no significant differences in F-358 
+
+measures between Somnivore and Somnotate (p>0.18). Both had overall average F-measures 359 
+
+in the 0.90-0.95 range. NREM sleep had the lowest variability of the F-measures, indicating a 360 
+
+tendency for the automated scoring to have less sensitivity to variability in the data for this state. 361 
+
+REM sleep detection in summer data had the lowest average F-measure of 0.84± 0.12 with 362 
+
+Somnivore. 363 
+
+364 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+Fig 7. F-measures of automated scoring vs consensus scores for different vigilance 365 
+
+states. F-measures of NREM, REM and Wake for Somnivore (red bars), Somnotate (blue bars), 366 
+
+in hibernation (solid bars) and summer (hatched bars), positive error bars indicating SD. 367 
+
+368 
+
+Fig 8 shows the average distribution of vigilance states in hibernation and summer for the 369 
+
+reference data set from 6 bears based on manual consensus scores and automated Somnivore 370 
+
+and Somnotate scores. Bears spent 1.95x as much time in NREM, 2.26x in REM, 2.05x in total 371 
+
+sleep, and 0.51x in Wake during hibernation compared to summer based on the consensus 372 
+
+scores. The distribution of vigilance states in hibernation based on the consensus scores was 373 
+
+NREM 42.9 ± 7.0 %, REM 22.0 ± 2.3 %, total sleep 64.9 ± 6.7 %, and Wake 34.6 ± 6.7%. The 374 
+
+automated scores in hibernation did not differ significantly from the consensus scores (p> 0.05 375 
+
+to p>0.52). During summer, the distribution of vigilance states based on consensus was NREM 376 
+
+21.9 ± 3.6 %, REM 9.7 ± 2.8 %, total sleep 31.7 ± 4.9 %, and Wake 68.0 ± 4.8 %. All vigilance 377 
+
+states differed significantly between hibernation and summer for both consensus scores and 378 
+
+automated scores (equal variance t-test, p< 0.0001, n=12 and 6 respectively). There were no 379 
+
+significant differences in detected vigilance states between the two automatic scoring methods 380 
+
+(p=0.08-0.97, paired test). Both applications consistently overestimated sleep times in summer 381 
+
+by a small amount (NREM 2.4% for both, REM 3.3% for Somnivore and 1.9% for Somnotate) 382 
+
+and underestimated wake times by a small amount (5.3% and 3.9%, respectively) compared to 383 
+
+the consensus scores (p<0.05 except p=0.13 for REM with Somnotate, paired t-tests). Small 384 
+
+overestimates of sleep times remained even when including EMG among the training channels 385 
+
+for Somnivore (p<0.05). 386 
+
+387 
+
+Fig 8. Distribution of vigilance states in the reference data set from 6 bears in hibernation 388 
+
+and summer with different scoring methods. Colors show manual consensus scores (black 389 
+
+or white bars), automated Somnivore scores (red bars), Somnotate scores (blue bars). Bar 390 
+
+pattern designates hibernation (solid bars) and summer (open or hatched bars). Positive error 391 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+bars indicate SD. Significance level for comparison of hibernation to summer is indicated by **** 392 
+
+at p< 0.0001 and applies to all three data sets. 393 
+
+394 
+
+A more detailed distribution of the performance of the two applications is visualized in Fig 9 395 
+
+showing individual files F-measures of Somnivore vs. those of Somnotate. F-measures with 396 
+
+both applications are clustered in the 0.90-0.98 range. Outliers with low F-measures were 397 
+
+consistently low for the same files with both scoring applications; correlations of F-measures 398 
+
+between Somnivore and Somnotate were for NREM R 2 = 0.73, REM R 2 = 0.57, Wake R 2 = 0.78. 399 
+
+For Wake and NREM, the outliers were mostly distributed among the hibernation data (closed 400 
+
+symbols), while outliers for REM were for summer data (open symbols). 401 
+
+402 
+
+Fig 9. Detailed F-measures of Somnivore vs Somnotate for different vigilance states. 403 
+
+Hibernation (closed symbols), summer (open symbols). The F-measures of automatic scores vs 404 
+
+consensus scores show that outliers with low F-measures tended to occur with both Somnivore 405 
+
+and Somnotate on the same files. 406 
+
+407 
+
+# Discussion 408 
+
+Comparing the use of two different automated scoring applications, this study is the first to score 409 
+
+vigilance state recordings from a non-human large animal model that includes hibernation and 410 
+
+non-hibernation. A major concern with the data from hibernators is the frequency shifts in the 411 
+
+EEG signal with decreases in brain temperature [17] that could cause problems for correct 412 
+
+designations of vigilance states by the automated scoring algorithms. The drop in T b of 413 
+
+hibernating black bears is more moderate, less than 8°C [1], than it is in smaller hibernators 414 
+
+where it can exceed 30°C. It is not known if those changes as well as the multi-day body 415 
+
+temperature cycles during the hibernation season [2] could prevent correct detection of vigilance 416 
+
+state by the machine learning algorithms. In addition, it was not known if the nature of sleep 417 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+during hibernation differs in other qualities from that during summer in ways that could 418 
+
+compromise integrity of the automated scoring. Our results show that with proper use of training 419 
+
+models the automated scoring with the two tested machine learning based qualifiers show 420 
+
+remarkably similar performance and can approximate the performance of manual scorers. 421 
+
+422 
+
+The use of consensus between 3 manual scorers in the present study helped reduce 423 
+
+uncertainties due to subjective judgment of the manual reference scores. As shown by 424 
+
+Brodersen et al. [18] a significant increase in accuracy of automatic scores was obtained 425 
+
+already when increasing the number of manual scorers from 1 to 3. As applied, the assisted 426 
+
+machine learning model of Somnivore [19] was unproblematic with respect to variability in the 427 
+
+data as it had the advantage of training on data very similar to that being analyzed by using a 428 
+
+limited number of epochs from each file to be analyzed as training data. Our protocol of using 429 
+
+100 epochs per vigilance state, which is above the number that was found to provide optimal 430 
+
+performance on human data and near optimal in rodents [19], only requires manual scoring of 431 
+
+3.5% of the total data to be automatically scored. Our initial testing showed relatively little 432 
+
+dependence of accuracy on which training channels were used. While it was optimal to train on 433 
+
+EEG and EOG channels in hibernation, it appears that the most important information during 434 
+
+training is extracted from the EEG channel. Thus, only a 1.3% decrease in overall accuracy is 435 
+
+predicted if an EOG channel is not available in the recording (Fig 3). It was not surprising that 436 
+
+training Somnivore on data recorded from a different bear than the analyzed file (cross-animal 437 
+
+training, Fig 4) caused a profound decrease in overall accuracy for the hibernation data, as it 438 
+
+included both the effects of a different animal and T b and is beyond the design of Somnivore. 439 
+
+Training Somnivore on files from the same animal at a different T b during hibernation also 440 
+
+caused a marked decrease in overall accuracy. Thus, for hibernating animals Somnivore is best 441 
+
+used with assisted machine learning as designed. 442 
+
+443 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+After training Somnotate on 6 one-day recordings of mouse data, it was shown to be highly 444 
+
+robust and tolerated as much as 50% randomly mislabeled epochs added to the training data 445 
+
+before accuracy decreased [18]. For our bear data we found that overall accuracy was 446 
+
+decreased if both hibernation and summer data were used for training and applied to summer 447 
+
+data, while we did not find a substantial drop in accuracy when the same training was applied to 448 
+
+hibernation data (Fig 5). This may partly reflect that our reference data set consisted of two 449 
+
+times as much data from hibernating bears as non-hibernating bears, but could also be due to 450 
+
+other characteristics of the signals that differ too much between hibernation and summer. The 451 
+
+finding of a high accuracy on hibernation data with training models based on both data from 452 
+
+high and low T b during hibernation is consistent with the previously observed robustness of 453 
+
+Somnotate on mice data [18]. The ability to use a single training model within hibernation in 454 
+
+bears is an important finding, as it otherwise would have been difficult to define which training 455 
+
+model should be selected when T b is varying though a continuum during multi-day body 456 
+
+temperature cycles. 457 
+
+458 
+
+The overall accuracy of automatic scores of Somnotate with separate training models for 459 
+
+hibernation and summer was only slightly lower or at the level of agreement of single manual 460 
+
+scores with the manual consensus scores (92.0-93.5% vs 94.5% Fig 5 and Table 1, 461 
+
+respectively). The use of consensus scores for training likely helps avoid outliers in the training 462 
+
+data due to subjective judgment and carries over to improve the automated scores. Our results 463 
+
+compare favorably with published results on machine learning based automated sleep scoring 464 
+
+that had overall accuracies in the 80-98% range for human data [13, 14, 15, 16]. The detailed 465 
+
+F-measures also indicate excellent ability to distinguish between vigilance states for both for 466 
+
+Somnotate and Somnivore with F-measures mostly in the 0.90-0.98 range. The two applications 467 
+
+performed remarkably similarly with a tendency for lower average F-measures and more spread 468 
+
+in F-measures for REM in summer (Fig 7). The lower occupancy of REM in summer (Fig. 8) 469 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+may have inherently influenced the F-measures. Previous testing of Somnotate on mouse data 470 
+
+resulted in average F-measures of 0.97, while tests of two other applications on the same 471 
+
+mouse data set had F-measures of 0.94 and 0.73 respectively [18]. Somnivore tested on rodent 472 
+
+data had highest average F-measures for Wake and NREM at 0.95 and 0.94, respectively, with 473 
+
+REM lowest at 0.91 [19]. This is similar to the lowest average F-measure of about 0.90 for REM 474 
+
+with both Somnotate and Somnivore in our study, while NREM had the highest average F-475 
+
+measure of 0.94-0.95 (Fig. 7). 476 
+
+477 
+
+The total distribution of vigilance states based on automated scores of the reference data set 478 
+
+show for the first time evidence that bears sleep about 2x as long during hibernation compared 479 
+
+to summer (Fig 8). The functional physiological base for this increase in NREM and REM 480 
+
+compared to summer will require a much deeper analysis than offered by our limited analysis 481 
+
+here. However it is unlikely that bears share functional similarities with the increase in delta 482 
+
+waves reported during early arousals in smaller hibernators [9,10], where the resolution of that 483 
+
+SWA is resolved without sleep [11, 12, 25]. This elevated SWA after arousal from low T b in 484 
+
+smaller hibernators may be related to synaptic loss during deep torpor that occurs linearly with a 485 
+
+decrease in brain temperature and could be due to a decreased release or responsiveness to 486 
+
+wake-promoting factors or to the slow regrowth of exitatory synapses in the cortex and thalamus 487 
+
+[26]. These sleep changes observed in deep hibernators have limited translational relevance to 488 
+
+hypometabolic states at brain temperatures closer to normal as in bears (30-35°C) [2] where T b489 
+
+is high enough to allow cortical brain activity to be recorded continuously and loss of synaptic 490 
+
+connectivity is unlikely to occur. 491 
+
+492 
+
+The results are a snapshot of two days during the coldest period during mid hibernation when 493 
+
+sleep patterns could have been affected by shivering. Thus, scoring extended periods during 494 
+
+hibernation in more bears is needed to better understand the time courses of sleep times and 495 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+bout lengths in relation ambient temperature and the multiday body temperature cycles [2]. 496 
+
+These results are remarkably similar for Somnivore and Somnotate and did not differ 497 
+
+significantly from the manual consensus scores during hibernation (Fig 8). However, there was 498 
+
+a small but significant overestimate of sleep time and underestimate of wake for the summer 499 
+
+data compared to the manual consensus scores. The summer data might present some 500 
+
+challenges in that the patterns were more fragmented, with bears drifting in an out of 501 
+
+drowsiness and sleep. This could perhaps cause a cumulative effect if automatically scored 502 
+
+sleep periods extend one or a few more epochs during each transition than they do in the 503 
+
+manually scored recordings. The summer recordings were also less clean with presence of 504 
+
+artifacts as bears moved around including EMG infusion into the EOG and EEG recordings. 505 
+
+Also, there were more problems with telemetry signal dropouts in summer recordings, although 506 
+
+both programs have strategies to detect and exclude these epochs. 507 
+
+508 
+
+Problematic files with lower F-measures tended to be outliers in both Somnivore and Somnotate 509 
+
+(Fig 9). It is likely that some data files have less well-defined states than others making the 510 
+
+automatic scoring more difficult. An alternative or additional explanation is that these 511 
+
+problematic files were also difficult for the manual scorers resulting in lower quality manual 512 
+
+consensus scores, and that the automatic scoring picked up features not recognized by the 513 
+
+manual scorers, resulting in the automatic scores deviating from the manual scores. 514 
+
+515 
+
+A particular potential difficulty is the correct detection of transition states. As pointed out, the 516 
+
+entry into NREM in hibernating bears could be challenging to qualify due to the respiration-517 
+
+related periodic appearance of slow waves (example Fig 2). However, it did not seem to affect 518 
+
+reliable detection as NREM had the highest F-measures (Fig 7). Scoring of transition states of 519 
+
+NREM was generally similar between the automatic scores and the consensus manual scores 520 
+
+(examples in Fig 6), and misalignment of a few epochs would have minimal effect on the overall 521 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+distribution of vigilance states except for potential cumulative effects caused by fragmented 522 
+
+patterns with frequent transitions. Automatic detection occasionally failed to detect correct 523 
+
+transitions as determined by the manual scorers, particularly with respect to transitions into 524 
+
+REM. This was particularly the case with Somnivore. However the incorrectly detected periods 525 
+
+of Wake before REM were quite short and likely did not contribute much to overall occupancy of 526 
+
+vigilance states. The sensitivity of the scoring software to state changes caused by short term 527 
+
+frequency changes in the EEG is modulated by the configuration. For Somnotate we used a 528 
+
+sampling interval of 10 s, and for Somnivore a scoring rule of minimum score consistency of 3 529 
+
+epochs was required to allow a state change for all three states. These are settings used to 530 
+
+align scoring rules to the conventions used to manually score the data, but do not necessarily 531 
+
+reflect the short term underlying frequency changes. They might compensate for uncertainty in 532 
+
+the determinations that otherwise would cause flipping of states back and forth and not 533 
+
+considered state changes by manual scorers. However if the required minimum score 534 
+
+consistency in Somnivore were set too high or the defined sampling interval in Somnotate was 535 
+
+set too long, the responsiveness to state changes could become too slow. So definition of these 536 
+
+parameters are compromises, but can possibly be fined tuned. For the manual scores we 537 
+
+decided to not base scores on pre-conceived conventions about allowed state changes, i. e. not 538 
+
+excluding Wake to REM transitions as making a priori assumptions may not be well founded 539 
+
+when scoring a new species and in a hibernating state. We did detect some unusual Wake to 540 
+
+REM transitions in the bears, but detailed anaysis of more data would be needed to draw any 541 
+
+conclusions on validity and origins. Caution should be used and not just reliance on automatic 542 
+
+scores to make conclusions about presence of unusual transitions as exemplified in Fig 6. 543 
+
+Somnotate has the additional ability, not explored in the results presented here, to flag epochs 544 
+
+with low probability for the state determination [18] that could be useful in finding transition 545 
+
+states that need manual inspection. 546 
+
+547 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+To conclude we have for the first time shown that automatic sleep scoring of a large mammal 548 
+
+comparing hibernation and non-hibernation states can be done with trained machine learning 549 
+
+models. Both Somnotate and Somnivore have overall accuracies approaching the best in the 550 
+
+literature based on automatic vs. manual consensus scores. We now have the tools to 551 
+
+determine distribution of vigilance states in the data set of 3500 days of polysomnographic 552 
+
+recording from hibernating and non-hibernating black bears using automated batch scoring. We 553 
+
+think one should keep an open mind on the possibility of unusual vigilance state transitions in a 554 
+
+new species and in unexplored states, but we suggest that conclusions about problematic 555 
+
+transitions should be determined by manual inspection that can be assisted by software 556 
+
+support. 557 
+
+558 
+
+# Acknowledgements: 559 
+
+We thank Stephen Morairty for early comments on the data and the manual sleep scoring 560 
+
+analysis. Alaska Department of Fish and Game helped providing bears as previously described 561 
+
+[2]. 562 
+
+563 
+
+# References 564 
+
+1. Tøien Ø, Blake J, Edgar DM, Grahn DA, Heller HC, Barnes BM. Hibernation in black 565 
+
+bears: independence of metabolic suppression from body temperature. Science 2011;331: 566 
+
+906-9. 567 
+
+2. Tøien Ø, Blake J, Barnes BM. Thermoregulation and energetics in hibernating black 568 
+
+bears: metabolic rate and the mystery of multi-day body temperature cycles. J Comp 569 
+
+Physiol. B 2015;185: 447-61. 570 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+3. Frank MG, Heller HC. The function(s) of sleep. In: Landolt H-P, Dijk D-J, editors. 571 
+
+Handbook of experimental pharmacology Switzerland: Springer Nature; 2019: 3-34. 572 
+
+4. Lyamin OI, Oleksenko AI, Polyakova IG. Sleep in the harp seal (Pagophilus 573 
+
+groenlandica). Peculiarities of sleep in pups during the first month of their lives. J Sleep 574 
+
+Res. 1993;2: 163-9. 575 
+
+5. Kendall-Bar. J. M., Mukherji R, Nichols J, Lopez C, Lozano DA, Pitman JK, et al. 576 
+
+Eavesdropping on the brain at sea: development of a surface-mounted system to detect 577 
+
+weak electrophysiological signals from wild animals. Anim Biotelem. 2022;10: 16. 578 
+
+6. Berry RB, Brooks R, Gamaldo C, Harding SM, Lloyd RM, Quan SF, et al. AASM Scoring 579 
+
+Manual Updates for 2017 (Version 2.4). J Clin Sleep Med. 2017;13: 665-6. 580 
+
+7. Moser D, Anderer P, Gruber G, Parapatics S, Loretz E, Boeck M, et al. Sleep 581 
+
+classification according to AASM and Rechtschaffen & Kales: effects on sleep scoring 582 
+
+parameters. Sleep 2009;32: 139-49. 583 
+
+8. Blanco MB, Dausmann KH, Faherty SL, Klopfer P, Krystal AD, Schopler R, et al. 584 
+
+Hibernation in a primate: does sleep occur? R Soc Open Sci. 2016;3: 160282. 585 
+
+9. Daan S, Barnes BM, Strijkstra AM. Warming up for sleep?--Ground squirrels sleep during 586 
+
+arousals from hibernation. Neurosci Lett. 1991;128: 265-8. 587 
+
+10. Trachsel L, Edgar DM, Heller HC. Are ground squirrels sleep deprived during 588 
+
+hibernation? Am J Physiol. 1991; 260: R1123-R1129. 589 
+
+11. Larkin JE, Heller HC. Sleep after arousal from hibernation is not homeostatically 590 
+
+regulated. Am J Physiol. 1999;276: R522-R529. 591 
+
+12. Strijkstra AM, Daan S. Dissimilarity of slow-wave activity enhancement by torpor and 592 
+
+sleep deprivation in a hibernator. Am J Physiol. 1998;275: R1110-R1117. 593 
+
+13. Fiorillo L, Puiatti A, Papandrea M, Ratti PL, Favaro P, Roth C, et al. Automated sleep 594 
+
+scoring: A review of the latest approaches. Sleep Med Rev. 2019;48: 101204. 595 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+14. Loh HW, Ooi CP, Vicnesh J, Oh SL, Faust O, Gertych A, et al. Automated detection of 596 
+
+sleep stages using deep learning techniques: A systematic review of the last decade 597 
+
+(2010–2020). Appl Sci. 2020;176: 81-91. 598 
+
+15. Faust O, Razaghi H, Barika R, Ciaccio EJ, Acharya UR. A review of automated sleep 599 
+
+stage scoring based on physiological signals for the new millennia. Comput Methods 600 
+
+Programs Biomed. 2019;176: 81-91. 601 
+
+16. Yue H, Chen Z, Guo W, Sun L, Dai Y, Wang Y, et al. Research and application of deep 602 
+
+learning-based sleep staging: Data, modeling, validation, and clinical practice. Sleep Med 603 
+
+Rev. 2024;74: 101897. 604 
+
+17. Deboer T. Electroencephalogram theta frequency changes in parallel with euthermic 605 
+
+brain temperature. Brain Res. 2002;930: 212-215. 606 
+
+18. Brodersen PJN, Alfonsa H, Krone LB, Blanco DC, Fisk AS, Flaherty SJ, et al. 607 
+
+Somnotate: A probabilistic sleep stage classifier for studying vigilance state transitions. 608 
+
+Plos Comput Biol. 2024;20(1): e1011793. 609 
+
+19. Allocca G, Ma S, Martelli D, Cerri M, Del VF, Bastianini S, et al. Validation of 610 
+
+'Somnivore', a Machine Learning Algorithm for Automated Scoring and Analysis of 611 
+
+Polysomnography Data. Front Neurosci. 2019;13: 207. 612 
+
+20. Pittaras E, Colas D, Chuluun B, Allocca G, Heller C. Enhancing sleep after training 613 
+
+improves memory in down syndrome model mice. Sleep 2022;45(4):1-12. 614 
+
+21. Pittaras EC, Artal JM, Ajibola G, Allocca G, Bennett M, Camargo A, et al. Short term 615 
+
+GABA antagonist treatment improves long term sleep quality, memory, and decision-616 
+
+making in a down syndrome mouse model. Sleep 2025;48(5): zsae300. 617 
+
+22. Huang YG, Flaherty SJ, Pothecary CA, Foster RG, Peirson SN, Vyazovskiy VV. The 618 
+
+relationship between fasting-induced torpor, sleep, and wakefulness in laboratory mice. 619 
+
+Sleep 2021;44: 1-16. 620 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+23. Yamagata T, Kahn MC, Prius MJ, Meijer E, Abanovi M, Guillaumin MCC, et al. The 621 
+
+hypothalamic link between arousal and sleep homeostasis in mice. PNAS 2021;118(51): 622 
+
+e2101580118. 623 
+
+24. Powers DM. Evaluation: from precision, recall and F-measure to ROC, informedness, 624 
+
+markedness and correlation. J. Mach. Learn. Tech 2011;2: 37–63. 625 
+
+25. Silvani A, Cerri M, Zoccoli G, Swoap SJ. Is Adenosine Action Common Ground for 626 
+
+NREM Sleep, Torpor, and Other Hypometabolic States? Physiol. 2018;33: 182-196. 627 
+
+26 . Von der Ohe CG, Darian-Smith C, Garner CC, Heller HC. Ubiquitous and temperature-628 
+
+dependent neural plasticity in hibernators. J. Neurosci. 2006;26: 10590-8. 629 
+
+630 631 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+Funding 
+
+Research reported in this publication was supported by the National Institute of General Medical Sciences of the National Institutes of Health under Center Award Number [P20GM130443]. NIGMS provided institutional infrastructure and salary support for U.S. personnel (ØT), but played no role in study design, data collection, or the decision to publish. No NIH grant funds, COBRE center core resources, or domestic materials supported the co-authors (PJNB, YGH, GA), who participated strictly in a voluntary advisory and editorial capacity from their home institution outside the United States. Somnivore Pty Ltd provided unconditional access to the Somnivore software free of charge and did not provide direct financial support for this study. Collection of the data set analyzed in this study was supported by U.S. Army Medical Research and Materiel Command awards W81XWH-06-1-0121 (to BMB) and W81XWH-09-2-0134 (to BMB), and by National Science Foundation award IOS-1147232 (to BMB). 
+
+Competing Interests 
+
+GA has a financial interest in Somnivore Pty Ltd as one of the founders. The company did not provide any direct financial support to the study beyond providing unconditional free use of the software and did not take any part in the data collection from the animals. GA participated in the design of the tests on an academic basis on terms with other members of the group. Somnivore Pty Ltd. only benefited from this collaboration by gaining experience with application of the software to analyze data from an unusual animal model. This does not alter our adherence to PLOS One policies on sharing data and materials. The remaining authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest. 
+
+Data availability 
+
+The data underlying the results presented in the study are available from the National Sleep Research Resource (https://doi.org/10.25822/cp4n-fh44) at https://sleepdata.org/datasets/toien-2025. The code for Somnotate is available at https://github.com/paulbrodersen/somnotate. The alaska branch contains custom modifications for the project. The Somnivore code is proprietary. The code used for extracting consensus scores is available at https://github.com/otoien/ConsensusCode. 
+
+> .CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint
+
+Fig 1 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint Fig 2 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint Fig 3 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint Fig 4 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint Fig 5 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint Fig 6 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint Fig 7 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint Fig 8 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint Fig 9 
+
+.CC-BY-NC-ND 4.0 International license available under a was not certified by peer review) is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity. It is made The copyright holder for this preprint (which this version posted July 14, 2026. ;https://doi.org/10.1101/2025.03.31.646262 doi: bioRxiv preprint

@@ -6,35 +6,55 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-13
-- 运行时间：2026-07-13 21:48:48 UTC
+- 最新运行日期：2026-07-19
+- 运行时间：2026-07-19 21:37:38 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：2
-- 速读区：3
+- 本次总论文数：11
+- 精读区：7
+- 速读区：4
 
 ### 今日简报（AI）
-今日精选5篇论文，涵盖心脏电生理、昼夜节律、抑郁症筛查、梦境分析及卵巢癌领域。最值得关注的是心脏Kv4.3棕榈酰化的磷酸化调控机制，以及日光对昼夜节律和生理的转化研究，为临床干预提供新思路。建议优先关注昼夜节律在抑郁症和心脏疾病中的潜在应用，同时留意衰老相关癌症的Hedgehog通路抑制策略。
-- 详情：[/202607/13/README](/202607/13/README)
+1) 今日日报精选11篇论文，精读7篇，其中“RG-Flow Transformer”与“皮质-海马新学习再平衡”均获满分9.0。  
+2) 最值得关注的方向：神经动态编码（稀疏EEG的尺度无关Transformer）与学习后脑区通讯的重塑机制。  
+3) 下一步建议：优先精读两篇9分论文，理解模型设计与生物学验证的结合点；速读部分可关注昼夜节律拓扑振荡器与中心模式生成器的可塑性。
+- 详情：[/202607/19/README](/202607/19/README)
 
 ### 精读区论文标签
-1. [A phosphorylation-dependent mechanism controls splice variant-specific S-palmitoylation of cardiac Kv4.3](/202607/13/biorxiv-10-64898-2026-07-03-735752-v1-a-phosphorylation-dependent-mechanism-controls-splice-variant-specific-s-palmitoylation-of-cardiac-kv43)  
-   标签：评分：8.0/10、query:qll
-   evidence：磷酸化依赖的S-棕榈酰化调控心脏离子通道剪接变体
-2. [Daylight, Daily Rhythms, and Downstream Physiology: A Translational Study in Diurnal Nile Grass Rats (Arvicanthis niloticus)](/202607/13/biorxiv-10-64898-2026-07-06-733427-v1-daylight-daily-rhythms-and-downstream-physiology-a-translational-study-in-diurnal-nile-grass-rats-arvicanthis-niloticus)  
+1. [The RG-Flow Transformer: Encoding Scale-Free Dynamics in Scarce EEG](/202607/19/2607.11950v2-the-rg-flow-transformer-encoding-scale-free-dynamics-in-scarce-eeg)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：提出RG-Flow Transformer用于EEG睡眠深度分析，在Sleep-EDF数据集上验证，推进睡眠神经科学研究
+2. [A cortical-hippocampal communication undergoes rebalancing after new learning](/202607/19/biorxiv-10-1101-2025-03-26-645547-v2-a-cortical-hippocampal-communication-undergoes-rebalancing-after-new-learning)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：研究睡眠期间的尖波涟漪和记忆巩固，直接相关于睡眠神经科学
+3. [Automated sleep scoring in hibernating and non-hibernating American black bears](/202607/19/biorxiv-10-1101-2025-03-31-646262-v4-automated-sleep-scoring-in-hibernating-and-non-hibernating-american-black-bears)  
+   标签：评分：9.0/10、query:tr-hb
+   evidence：对冬眠和非冬眠美洲黑熊进行自动睡眠评分，涉及代谢抑制、体温调节和睡眠
+4. [Brain-wide gaze-dependent activity during eyes-closed rest and sleep](/202607/19/biorxiv-10-64898-2026-07-10-737751-v1-brain-wide-gaze-dependent-activity-during-eyes-closed-rest-and-sleep)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：研究闭眼睡眠期间的注视相关全脑活动
+5. [Recent social loss, not chronic isolation, reshapes sleep in Drosophila](/202607/19/biorxiv-10-64898-2026-07-12-738068-v1-recent-social-loss-not-chronic-isolation-reshapes-sleep-in-drosophila)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：研究社交损失对果蝇睡眠的影响，与睡眠神经生物学相关
+6. [Post-encoding slow-wave amplitude during a daytime nap predicts pattern completion from sparse visual cues](/202607/19/biorxiv-10-64898-2026-07-17-738149-v1-post-encoding-slow-wave-amplitude-during-a-daytime-nap-predicts-pattern-completion-from-sparse-visual-cues)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：睡眠依赖的记忆巩固和午睡期间的模式完成
+7. [A claustro-cortical loop times state transitions for flexible behavior](/202607/19/biorxiv-10-64898-2026-07-10-737800-v1-a-claustro-cortical-loop-times-state-transitions-for-flexible-behavior)  
    标签：评分：8.0/10、query:slp-ns
-   evidence：研究昼行性啮齿动物的昼夜节律和每日运动节律，与睡眠-觉醒周期调控直接相关
+   evidence：屏状核-皮层环路计时皮层状态转换以支持灵活行为
 
 ### 速读区论文标签
-1. [Machine Learning for Depression Screening and Intervention: an Original Circadian Rhythm Score-based Methodology](/202607/13/2607.04648v1-machine-learning-for-depression-screening-and-intervention-an-original-circadian-rhythm-score-based-methodology)  
+1. [Robust topological oscillators govern a tunable phase transition to synchronized circadian rhythms](/202607/19/2607.13322v1-robust-topological-oscillators-govern-a-tunable-phase-transition-to-synchronized-circadian-rhythms)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：利用睡眠和活动数据的昼夜节律评分用于抑郁症筛查
-2. [PHINN-EEG: Topological Time-Series Analysis of Dream-State EEG -- Dynamic Betti Curves for Dream Content Classification and Topology-Conditioned Neural Signal Synthesis](/202607/13/2607.09662v1-phinn-eeg-topological-time-series-analysis-of-dream-state-eeg----dynamic-betti-curves-for-dream-content-classification-and-topology-conditioned-neural-signal-synthesis)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：梦境睡眠的拓扑EEG分析
-3. [Aging increases ovarian cancer growth, metastasis, and immunosuppression that can be alleviated by inhibiting hedgehog signaling](/202607/13/biorxiv-10-64898-2025-12-23-695206-v2-aging-increases-ovarian-cancer-growth-metastasis-and-immunosuppression-that-can-be-alleviated-by-inhibiting-hedgehog-signaling)  
-   标签：评分：7.0/10、query:qll
-   evidence：衰老对卵巢癌的影响，涉及卵巢衰老
+   evidence：研究与睡眠节律相关的昼夜节律振荡器同步化
+2. [Robustness tuning: mechanisms of acclimation-driven plasticity in a central pattern generator](/202607/19/biorxiv-10-64898-2026-07-07-737058-v2-robustness-tuning-mechanisms-of-acclimation-driven-plasticity-in-a-central-pattern-generator)  
+   标签：评分：7.0/10、query:tr-hb
+   evidence：温度适应和中枢模式发生器可塑性，与冬眠适应性相关
+3. [Energy allocation explains how protozoan phenotypic traits change in response to temperature and resource supply](/202607/19/biorxiv-10-1101-2023-07-25-550219-v9-energy-allocation-explains-how-protozoan-phenotypic-traits-change-in-response-to-temperature-and-resource-supply)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：代谢率和能量分配对环境条件的响应框架，与冬眠和蛰伏相关
+4. [Metabolic responses to physiological stressors assessed using continuous glucose monitoring integrated with indirect calorimetry in mice](/202607/19/biorxiv-10-64898-2026-07-13-738308-v1-metabolic-responses-to-physiological-stressors-assessed-using-continuous-glucose-monitoring-integrated-with-indirect-calorimetry-in-mice)  
+   标签：评分：6.0/10、query:tr-hb
+   evidence：测量代谢率和血糖动态，可用于冬眠/蛰伏研究
 
 
 <div class="dpr-home-promo-card">
