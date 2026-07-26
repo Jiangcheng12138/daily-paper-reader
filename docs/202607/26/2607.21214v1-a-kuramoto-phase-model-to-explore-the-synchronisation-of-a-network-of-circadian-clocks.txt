@@ -1,0 +1,1341 @@
+Title: A Kuramoto phase model to explore the synchronisation of a network of circadian clocks
+
+URL Source: https://arxiv.org/pdf/2607.21214v1
+
+Published Time: Fri, 24 Jul 2026 00:50:37 GMT
+
+Number of Pages: 35
+
+Markdown Content:
+# A Kuramoto phase model to explore the synchronisation of a network of circadian clocks. 
+
+# Franck Delaunay 1, Antoine Fortune 1, Ines Krawczyk 1, Anastasia Maréchal 2,Mathieu Mezache 2,3 , and Laurent Tournier 2
+
+> 1
+
+Université Côte d’Azur, Inserm, CNRS, Institut de Biologie Valrose, France 
+
+> 2
+
+Université Paris-Saclay, INRAE, MaIAGE (UR 1404), 78350 Jouy-en-Josas, France 
+
+> 3
+
+Université Paris-Saclay, INRIA, MUSCA, 91120 Palaiseau, France 
+
+# July 24, 2026 
+
+Abstract 
+
+We propose a model of the circadian clock in a population of cells based on a net-work of oscillators, derived from the Kuramoto model. The coupling between oscillators is described by a global interaction term but we introduce a phase-dependent coupling mechanism, such that oscillators interact only within a specific interval of the cycle cor-responding to a specific stage of the circadian cycle. We analytically demonstrate that this modified system achieves complete asymptotic phase synchronisation, provided specific conditions on the initial phase distribution and the coupling window length are met. To bridge this theoretical framework with experimental observations, we introduce a signal processing procedure based on wavelet decomposition to extract quantitative oscillatory features from Per2::luciferase reporter traces. We then calibrate the model against datasets from both wild type and Cry2 knockout hepatocyte spheroids using a two-step quasi-Monte Carlo filtering algorithm. The comparative analysis reveals significant phenotypic divergence, showing that the Cry2KO condition alters the iden-tifiability landscape of the model’s parameters and introduces new compensatory mech-anisms that confound the initial population heterogeneity with long-term macroscopic signal decay. 
+
+# 1 Introduction 
+
+The circadian clock is a mechanism common to many organisms, from prokaryotes like cyanobacteria to complex life forms including plants, insects, and vertebrates [12]. This mechanism drives an organism’s adaptation to environmental changes resulting from the daily light/dark cycle. These periodic changes translate into circadian oscillations in most physiological and behavioural processes, with a period of approximately 24 hours. In mam-mals, these oscillations can be observed throughout the body at the organ, tissue, cellular, down to the molecular level [35]. For a proper physiological function, these clocks, oper-ating at different levels, must maintain some degree of synchronisation. Poor coordination between them may alters physiological functions and is generally associated with metabolic disorders, inflammation, or malignant diseases [3]. Conversely, a correct synchronisation between clocks may ensure or restore global homeostasis. This inter-clock coordination is achieved in a hierarchical manner [3] with a central clock, located in the suprachiasmatic nuclei (SCN) in the hypothalamus and composed of a small number of neurons oscillating in a robust manner [37] which respond to environmental cues (zeitgebers) such as light and propagates a robust oscillating signal via neuronal and hormonal pathways to peripheral clocks within and outside the brain [2]. 1arXiv:2607.21214v1 [math.DS] 23 Jul 2026 At the bottom of this hierarchical system, each cell exhibits a circadian rhythm, driven by molecular oscillations. This cellular autonomous mechanism involves a complex gene regulatory network including multiple transcriptional and posttranslational feedback loops that interact to generate approximately 24h molecular oscillations [35]. These oscillations are generally described in terms of circadian time (CT), a normalised time unit that sets the phase of the circadian cycle independently of the time of day. In particular two cen-tral regulators, complexes CLOCK:BMAL1 and PER:CRY oscillate in phase opposition, CLOCK:BMAL1 peaking in the middle of the subjective day (around CT8-CT10) in mouse peripheral organs, PER:CRY peaking in the middle of the subjective night (around CT18-CT20). This phase opposition is a hallmark of the cellular clock system in mammals. More precisely, in [35], one can see that a complete cycle (CT0-CT24) can be decomposed into a succession of several qualitative stages (derepression, activation, transcription, repression and poised state). Several models of the regulatory network underlying the interactions between CLOCK:BMAL1, PER:CRY and other key regulators have been proposed, based on ordinary differential equations (ODE) [15, 1] or Boolean networks [9]. In [9, 1], both the complexes CLOCK:BMAL1-PER:CRY phase opposition and the succession of qualitative stages have been captured. Those models remain at the scale of a single cell though, little is known at the scale of a cell population. While it is generally admitted that the coordination between cellular clocks is globally ensured by robust oscillations of internal synchronisers under the control of the central clock in a mono-directional way [3], recent studies have challenged this view and observed that circadian rhythm in liver cells (hepatocytes) can be maintained in a coherent and phase-organised manner in the absence of a functional SCN [33]. Therefore, the traditionally accepted one-directional hierarchy may require further refinement. In particular, those ob-servations suggest some degree of intercellular coupling between hepatocytes, independent of external cues. Though the precise nature of this coupling remains unknown. In a sep-arate study [14], it has been proposed that intercellular coupling of molecular clocks may operate via a paracrine mechanism involving TGF-β signalling. TGF-β is a secreted sig-nalling molecule that seems to impact local circadian synchronisation, possibly regulating the expression of the Per2 clock gene. Given that Per2 expression exhibits robust circadian os-cillations [35], this observation suggests that intercellular coupling may be phase-dependent, being effective only during a specific stage of the circadian cycle. In this article, we propose to analyse local and phase-dependent intercellular coupling at the scale of a population of cells. A Kuramoto-like model is used to represent circadian clocks in a cell population. In its discrete version, this model consists of a system of ordinary differential equations (ODEs) describing the dynamics of a population of coupled oscillators. Each oscillator represents an oscillating cell, and is described by its phase indicating its progression through the cycle. Hence, the phase is interpreted as a continuous variable regulating the production of some transcriptional regulators, and the intrinsic frequency represents the natural speed of revolution at which the oscillator would evolve in the absence of coupling. In the seminal Kuramoto model [24], oscillators interact with one another via a "global" coupling term ( all-to-all coupling where each oscillator is coupled to all the other oscillators at all time), which tends to reduce the phase differences between them. This model is often used to analyse the synchronisation of an oscillators’ population [11]. For instance, in [13], it is shown that if the coupling strength passes a certain threshold, the population becomes phase-locked, meaning that all oscillators eventually evolve at the same frequency. In [17], authors show that when all oscillators share the same intrinsic frequency, their phases need only be sufficiently close at the start to achieve an asymptotically synchronisation of the oscillators. As a variant of the seminal Kuramoto model, we explore in the present article the possibility that intercellular communications may be phase-dependent. This implies a looser coupling term, where the synchronising signal is only active during a specific interval of the cycle. In a first step, we construct a Kuramoto-like model based on the biological cues cited 2above which formalises this phase-dependent coupling. We show that this relaxation of the Kuramoto model still generates asymptotic synchronisation (Theorem 3.10). In a second step, a signal processing procedure is proposed to characterise quantitatively the oscillatory features observed in the experimental data obtained from Per2::luciferase re-porter traces. The code is available at https://github.com/AnastasiaMARECHAL/InSyncPy .Then, the model is calibrated against experimental data. To this end, a reporter model is in-troduced, linking the theoretical model to experimental signals. A good agreement between the model and the data is achieved, and a range of values for the width of the coupling interval is identified, thereby supporting both the hypothesis of a coupling being active in a precise phase interval and the proposed model. Finally, a comparative study of the calibration results between two experimental settings is performed leading to a better un-derstanding of the dependencies between the coupling mechanisms and the reporter model as well as the phenotypic divergence and compensation mechanisms between the two settings. 
+
+# 2 Modelling a network of interacting circadian clocks by a phase-local coupling in the Kuramoto model 
+
+We consider a phase description of the dynamics of the circadian rhythm of a cell population. The Kuramoto model was introduced in 1975 to model a network of coupled oscillators [23]. The dynamics of the network is given by the following system on the oscillators’ phases: 
+
+ddt θi(t) = Ω i + KN
+
+> N
+
+X
+
+> k=1
+
+sin( θk(t) − θi(t)) , for t > 0, i = 1 , . . . , N, (2.1) where K > 0 is the coupling strength parameter and N the total number of oscillators. The last term on the right-hand side is a global coupling term, each sinusoidal term in the sum drawing the phase θi closer to the other phases. The coupling is thus all-to-all at any time t.In some formulations [11], variables θi are defined as angular variables on the torus R+/2πZ.In the following, the system is formulated in (R+)N to ease the presentation. System (2.1) leads to complete phase synchronisation under relatively large hypothesis, as described in [17]. More precisely, it is sufficient that the phase distribution of the oscillators is not too widespread at initial time ( max i,j |θi(0) − θj (0) | < π ) in order to obtain an exponential speed of synchronisation of the oscillators for system (2.1) in the case identical oscillators (Ωi = Ω ). In the following, a population of N oscillators is considered to model the time evolution of cellular circadian clocks in a population of hepatocytes. The phase variable θi(t) represents the progression of a hepatocyte indexed by i in the circadian cycle. Furthermore, the population of cells is assumed identical (i.e. their intrinsic frequencies are equal), implying that, without intercellular coupling, each cell completes a full revolution of the circadian cycle in the same amount of time. For the sake of clarity, we set the intrinsic frequency to 
+
+Ωi = 1 for i = 1 , . . . , N .In the seminal Kuramoto model (2.1), the all-to-all coupling is a strong hypothesis that does not seem to hold true in the case of interconnection of circadian clocks. Indeed, the cellular circadian clock is based on the succession of several qualitative stages, associated with specific transcriptional [35] and metabolic [3] mechanisms. However, a consensus has been reached that it is more likely that cellular clocks are coupled during one or a fraction of the stages of the cycle, rather than for the entire duration of the cycle. In particular, Finger et al. [14] proposed that paracrine signalling mechanisms could contribute to intercellular coordination. This signalling is known to influence the regulation of clock genes, including the expression of Per2. Per2 expression exhibiting circadian oscillations (see e.g. , [35]), it is reasonable to assume that cells adapt to incoming signals only during specific stages of the cycle. Hence, we make the assumption that cells are susceptible to receive a synchronising message only during a specific phase interval. 3By denoting L > 0 the duration of a full revolution, the time evolution of the phases of a network of oscillators modelling the circadian rhythm of hepatocytes is given by: 
+
+
+
+˙θi(t) = 1 + KN φ(θi(t)) NP
+
+> k=1
+
+sin  (θk(t) − θi(t)) 2πL
+
+ , i = 1 , . . . , N, θi(0) = θ0 
+
+> i
+
+∈ (0 , L ), i = 1 , . . . , N, 
+
+(2.2) where θ0 
+
+> i
+
+is the initial phase of the oscillator i and φ designates a L-periodic, compactly sup-ported on the restriction [0 , L ], coupling function. Here, φ modulates the coupling strength of the oscillator depending on whether or not its phase is within the correct interval. Indeed, we assume that φ has compact support in the phase domain and we denote by S ⊊ [0 , L ]
+
+its support such that 
+
+S ⊃ Iθ
+
+> def
+
+= [ θmin ; θmax ], and ∆θ
+
+> def
+
+= θmax − θmin . (2.3) where 0 < θ min < θ max < L are two given values (in CT), Iθ is the phase interval with non-negligible coupling strength and ∆θ is the length of this interval. For instance, if we consider the signal to be mediated through the direct modulation of Per2 expression, one may choose θmin = 13 or 14 (in CT) and θmax = 20 or 21 (in CT, see [35]). Moreover, we make several assumptions on the coupling function φ in order to ensure the following: 
+
+• the coupling operates during the stages associated to the window Iθ ,
+
+• the coupling function is bounded, i.e. the intercellular coupling is seen as a perturba-tion on the speed at which the cell completes one revolution of its circadian cycle. The following hypothesis formalises all these assumptions. 
+
+Hypothesis 2.1 (Phase-local coupling) . Let φ ∈ C 1(R+) be a L–periodic function (φ(x +
+
+L) = φ(x)) and supp (φ) = S/ (LN) ⊊ R+. Moreover, let 
+
+• φ be Lφ–Lipschitz continuous, Lφ > 0, |φ′(x)| ≤ Lφ and 0 ≤ φ(x) ≤ 1, ∀x ∈ R+,
+
+• ∃Cφ > 0, 0 < C φ ≤ φ(x) ≤ 1 for x ∈ ˚Iθ /(LN) (cf. (2.3) ). 
+
+As an illustration, the following figure gives an admissible shape for the coupling function φ.
+
+0 θmin θmax L
+
+0
+
+Cφ
+
+1
+
+φ(θ)
+
+∆θ
+
+θ
+
+The function φ is bounded by below and above on Iθ . On [0 , L ]\S, φ = 0 which implies no coupling between the oscillators. In these regions, the oscillator θi evolves freely follow-ing its intrinsic frequency. On the interval 
+
+S \ Iθ , there is a small coupling strength since 
+
+Cφ > φ ≥ 0 and we consider it negligible. System (2.2) can be seen as a specific adaptive Kuramoto model , where parameter K
+
+is generalised as a function of the phase K(θ). The generalisation through the adaptative Kuramoto model was initially introduced to formalise processes where interaction strengths are not fixed parameters but evolve in time due to learning, plasticity, or feedback from the oscillators’ states (cf. [18, 20, 32]). The adaptive Kuramoto model is particularly well suited for studying a network of coupled circadian clocks, since intercellular coupling can depend on physiological state (the stages of the circadian clock), signalling efficacy, and regulatory feedback [14]. Hence, for circadian cell networks, adaptive coupling offers a more realistic representation of how the tissue-level rhythm emerges from interacting cellular oscillators, at 4the expense of introducing additional non-linearities in the phase dynamics and increasing the analysis and computational costs. To our knowledge, one of the original motivation behind the introduction of adaptive Kuramoto model was to obtain a coupling strength that depends of the location of the phases and more specifically their distance between each other (cf. [18, 32]). This coupling term increases more when the two oscillators are near to be phase synchronised. In the present study, this is not the case. The phase dependent coupling term is kept at 0 outside a specific interval, allowing the coupling to be active only momentarily. Here, a structure for the function K(θ) is imposed, through the function φ, directly inspired from biological considerations. We make an additional hypothesis to ensure monotonicity for the progression in the circadian cycle. 
+
+Hypothesis 2.2 (Coupling strength) . Let the parameter K associated to the coupling strength between oscillators in the network such that K ∈ (0 , 1) .
+
+Under this hypothesis, and given that φ ≤ 1, the following inequality holds 
+
+KN φ(θi)
+
+> N
+
+X
+
+> k=1
+
+sin( θk − θi) > −1, i ∈ { 1, ..., N },
+
+implying ddt θi(t) > 0, ∀∀ i = 1 , . . . , N, t ∈ R+.
+
+Hence, Hypotheses 2.1 and 2.2 ensure that the phases are always increasing. 
+
+# 3 Asymptotic phase synchronisation of the model 
+
+For the sake of clarity and without loss of generality, we fix the value of the period L = 2 π
+
+in this section. Hence, we consider the following system : 
+
+ ddt θi(t) = 1 + KN φ(θi(t)) PNj=1 sin ( θj (t) − θi(t)) , i = 1 , . . . , N, θi(0) = θ0 
+
+> i
+
+∈ (0 , 2π), i = 1 , . . . , N. (3.1) As a first step, preliminary properties of the solution, including well-posedness, are es-tablished. An order parameter (phase diameter) is then introduced and shown to be non-increasing in time. Finally, we prove that system (3.1) achieves complete phase synchro-nisation asymptotically. Compared to the seminal Kuramoto model, the coupling term is weaker but the speed of convergence toward the synchronised state is also slower. 
+
+# 3.1 Properties of the oscillators’ phases 
+
+In the following, we prove in Proposition 3.1 that the solution of system (3.1) is well-posed, and that the phase trajectories do not intersect with one another in finite time. Then, we establish a monotony property (Lemma 3.2) stating that under the hypotheses 2.1 and 2.2, the phase of each oscillator is strictly increasing. 
+
+Proposition 3.1 (Well-posedness) . Suppose Hypotheses 2.1 and 2.2 hold. Consider Θ = (θi)i=1 ,...,N and Θ0 =  θ0
+
+> i
+
+ 
+
+> i=1 ,...,N
+
+such that 
+
+θ0
+
+> i
+
+̸ = θ0 
+
+> j
+
+, for i̸ = j. 
+
+Then there exists a unique global solution for system (3.1) on R+, with θi ∈ C 1(R+) for all 
+
+i = 1 , . . . , N . Moreover the following property holds: 
+
+θi(t)̸ = θj (t), for i̸ = j, i, j = 1 , . . . , N, ∀t > 0.
+
+5Proof. (Proposition 3.1) The well-posedness of system (3.1) is a direct consequence of the Cauchy–Lipschitz theorem, since the vector field of the system is globally Lipschitz con-tinuous under Hypothesis 2.1. Moreover, let Θ be a solution of system (3.1), with initial conditions satisfying θ0 
+
+> i
+
+∈ (0 , 2π) for all i = 1 , . . . , N and 
+
+θ0
+
+> i
+
+̸ = θ0 
+
+> j
+
+, for i̸ = j. 
+
+For any pair (i, j ) ∈ { 1, . . . , N }2 with i̸ = j, we denote the phase difference as 
+
+ϕi,j (t) def 
+
+= θi(t) − θj (t).
+
+Hence, by assumption, |ϕi,j (0) | > 0 for all i̸ = j. Then, for all t > 0,
+
+ddt |ϕi,j | =sign (ϕi,j ) ddt ϕi,j ,
+
+=sign (ϕi,j ) KN
+
+> N
+
+X
+
+> k=1
+
+φ(θi) sin( θk − θi) − φ(θj ) sin( θk − θj ),
+
+=sign (ϕi,j ) KN
+
+> N
+
+X
+
+> k=1
+
+(φ(θi) − φ(θj )) sin( θk − θi) + φ(θj )(sin( θk − θi) − sin( θk − θj )) .
+
+Thanks to Hypothesis 2.1: 
+
+−Lφ|ϕi,j | ≤ φ(θi) − φ(θj ) ≤ Lφ|ϕi,j |,
+
+and since the sine function is 1-Lispchitzian: 
+
+−| ϕi,j | ≤ sin( θk − θi) − sin( θk − θj ) ≤ | ϕi,j |.
+
+Thus, ddt |ϕi,j | ≥ − K(Lφ + 1) |ϕi,j |.
+
+Using the Grönwall’s inequality, we obtain for all t > 0
+
+|ϕi,j (t)| ≥ | ϕi,j (0) |e−K(Lφ+1) t.
+
+Then |ϕi,j (t)| > 0 for all t > 0.Proposition 3.1 states that the trajectories never intersect. This suggests that complete synchronisation can only be achieved asymptotically under a widespread phase’s initial dis-tribution. Another useful characteristic of the system in order to prove the asymptotic phase synchronisation is the monotony of the oscillators’ phases. 
+
+Lemma 3.2. Let Hypotheses 2.1 and 2.2 hold and let {θi}Ni=1 be the global solution of (3.1) .Then θi is strictly increasing and diverge to +∞ as t → ∞ for all i ∈ { 1, ..., N }.Proof. (Lemma 3.2) Let t > 0,
+
+ddt θi(t) = 1 + φ(θi(t)) KN
+
+> N
+
+X
+
+> k=1
+
+sin( θk(t) − θi(t)) ≥ 1 − K > 0
+
+because K < 1 (c.f. Hyp 2.2) and φ(x) ≥ 0 (c.f. Hyp 2.1). Thus, each θi is strictly increasing. Also, for i ∈ { 1, ..., N }
+
+θi(t) − θ0 
+
+> i
+
+≥ (1 − K)t. 
+
+Since θi is continuous on R+, and 1 − K > 0, by comparison, lim t→∞ θi(t) = + ∞ for all 
+
+i ∈ { 1, ..., N }.63.2 The phase diameter as a synchronisation’s order parameter 
+
+Since the trajectories never intersect (cf. Prop. 3.1), extremal phases remain the same over time, allowing the definition of the phase diameter as a difference between extremal phases (see Eq. (3.3) below). This specific diameter was previously introduced in [17] to obtain phase and frequency synchronisation estimates in the seminal Kuramoto model. We use this definition to extend the study of synchronisation to the modified Kuramoto model with the "phase-local" coupling, which is better aligned with the biological context being modeled. Let m ∈ { 1, . . . , N } be the index such that 
+
+θ0
+
+> m
+> def
+
+= min  
+
+> 1≤i≤N
+
+θ0
+
+> i
+
+and M ∈ { 1, . . . , N } be the index such that 
+
+θ0
+
+> M
+> def
+
+= max  
+
+> 1≤i≤N
+
+θ0 
+
+> i
+
+.
+
+Under the assumption of Proposition 3.1 
+
+θm(t) = min  
+
+> 1≤i≤N
+
+θi(t) and θM (t) = max  
+
+> 1≤i≤N
+
+θi(t), for all t > 0. (3.2) To quantify the distribution of the phases of the oscillators, we introduce the phase diameter as follows. 
+
+Definition 3.3 (Phase diameter) . We denote the phase diameter as 
+
+Dθ (t) def 
+
+= θM (t) − θm(t), ∀t > 0, (3.3) and we denote by D0 the initial phase diameter 
+
+D0 def 
+
+= θ0 
+
+> M
+
+− θ0
+
+> m
+
+.
+
+Now, the synchronisation of the system (3.1) can be characterised as follows. 
+
+Definition 3.4 (Phase synchronisation) . We consider that system (3.1) tends toward phase synchronisation if 
+
+lim  
+
+> t→∞
+
+|θi(t) − θk(t)| = 0 , ∀i, k ∈ { 1, . . . , N }.
+
+Or, equivalently, system (3.1) is synchronising over time if the phase diameter tends to zero, i.e., 
+
+lim  
+
+> t→∞
+
+Dθ (t) = 0 .
+
+Definition 3.4 states that the system is synchronising if the phases’ distribution concentrates towards a Dirac mass asymptotically. A monotony property of the phase diameter (3.3) is obtained subsequently. It allows to obtain uniform bounds of the phase diameter. 
+
+Proposition 3.5 (Non-increasing phase diameter) . Suppose Hypotheses 2.1 and 2.2 hold and let (θi)Ni=1 be the global solution of (3.1) with initial size distribution satisfying D0 < π. 
+
+Then Dθ is nonincreasing and subsequently 
+
+0 ≤ Dθ (t) ≤ D0, ∀t > 0.
+
+Proof. (Proposition 3.5) Let t∗ > 0 such that 
+
+t∗ = inf {t ≥ 0, D θ (t) = π}.
+
+7Since D0 < π and Dθ continuous, this implies Dθ (t) < π for all t ∈ [0 , t ∗). Let t ∈ [0 , t ∗),
+
+ddt Dθ (t) = ddt θM (t) − ddt θm(t),
+
+= KN
+
+> N
+
+X
+
+> k=1
+
+φ(θM (t)) sin( θk(t) − θM (t)) − φ(θm(t)) sin( θk(t) − θm(t)) .
+
+We have 
+
+sin( θk(t) − θM (t)) ≤ 0
+
+because −π < −Dθ (t) ≤ θk(t) − θM (t) ≤ 0. Similarly: 
+
+sin( θk(t) − θm(t)) ≥ 0.
+
+Since φ ≥ 0 (cf. Hyp. 2.1), we obtain 
+
+ddt Dθ (t) ≤ 0, ∀t ∈ [0 , t ∗)
+
+and then 
+
+Dθ (t) ≤ D0 < π, ∀t ∈ [0 , t ∗).
+
+Now, suppose 0 < t ∗ < ∞, then 
+
+π = Dθ (t∗) = lim 
+
+> t→t∗
+> t<t ∗
+
+Dθ (t).
+
+This leads to the following contradiction: 
+
+π = Dθ (t∗) = lim 
+
+> t→t∗
+> t<t ∗
+
+Dθ (t) ≤ D0 < π. 
+
+Hence, it implies that Dθ is nonincreasing and bounded by 
+
+0 ≤ Dθ (t) ≤ D0 < π, ∀t ≥ 0.
+
+# 3.3 Asymptotic phase synchronisation 
+
+Now, we look at the evolution of the phase diameter on the initial cycle (i.e. the first revolution of the oscillators) and iterate its study across cycles. We show that, under the assumption D0 < ∆θ , there is a non-empty time interval during which all oscillators are within the coupling interval, and using arguments similar to those introduced in [17], an exponential decay of the diameter on this interval is obtained. Then, we show that the size of this time interval is uniformly lower-bounded across cycles, which allows us to obtain a geometric decay of the diameter across cycles and thus to conclude that system (3.1) tends to a phase synchronised state. 
+
+3.3.1 Contraction of the phase diameter on the first cycle 
+
+The first step is to quantify the decay of the phase diameter Dθ during the initial cycle, as well as the time window during which all oscillators are in the coupling interval Iθ (see (2.3)). We define the two following characteristic features: 
+
+• the first time when all oscillators are coupled during the initial cycle denoted by T0
+
+with θm(T0) = θmin ,
+
+8• the time span during the initial cycle when all oscillators are coupled denoted by δ0
+
+with θM (T0 + δ0) = θmax .Using these two characteristic features, we obtain the following decay property on the phase diameter after the first revolution of the cycle. 
+
+Proposition 3.6. Suppose Hypotheses 2.1 and 2.2 hold and let {θi}Ni=1 be the global solution of (3.1) with initial phase distribution satisfying D0 < min( π, ∆θ ). Suppose that θ0 
+
+> m
+
+≤ θmin .Using notation introduced in (3.2) , let T1 and δ1 designate respectively the time and the time span such that 
+
+θm(T1) = θm(T0) + 2 π and θM (T1 + δ1) = θM (T0 + δ0) + 2 π. 
+
+Then, we have for t ∈ [T0, T 0 + δ0]
+
+Dθ (T1) ≤ Dθ (T0 + δ0) ≤ Dθ (T0)e−αKC φ(t−T0), with α def 
+
+= sin( D0)
+
+D0 > 0.
+
+Remark 3.7. In Proposition 3.6, we suppose that θ0 
+
+> m
+
+< θ min , i.e. the initial phase distri-bution support is not included in the coupling phase interval. Otherwise, the same result can be obtained by shifting to the second cycle and redefining Ti, δ i, i = 0 , 1 accordingly. This assumption does not affect the decay estimate on the first cycle. Moreover, one can note that on the interval [T0, T 0 + δ0], all phases are between θmin and θmax . Hence, similar arguments as in [17] can be used to obtain the exponential decay of the phase diameter Dθ .
+
+Proof. (Proposition 3.6) The proof consists of two steps. First, we verify that all oscillators remain in the coupling interval during a positive time interval. Then, an exponential decay estimate for the diameter is derived. 
+
+Step 1: Non trivial coupling time span. 
+
+Since θm(t) is strictly increasing with respect to time and tends to infinity (c.f. Lemma 3.2), T0 and T1 are uniquely defined and T0 < T 1. Since D0 < ∆θ , θm(T0) = θmin and 
+
+sin( θk(t) − θM (t)) ≤ 0 for t ≥ 0, we have θM (T0) < θ max .
+
+Hence, the time span δ0 such that θM (T0 + δ0) = θmax is such that δ0 > 0. Also, θM
+
+is increasing and lim t→∞ θM = + ∞ (c.f. Lemma 3.2), so δ0 is unique. Finally, since 
+
+θm(t) < θ M (t) for all t > 0 and 
+
+θM (T0 + δ0) = θmax < θ min + 2 π = θm(T1)
+
+then, by continuity and strict monotony, T1 > T 0 + δ0.
+
+Step 2: Exponential decay of Dθ on [T0, T 0 + δ0].
+
+For t < T 0, the function φ is null or arbitrary small ( φ(x) < C φ ≪ 1 for x ∈ [0; 2 π] \ Iθ )hence the phase diameter stays almost constant. Let t ∈ [T0, T 0 + δ0], since θM (t), θ m(t) ∈
+
+[θmin , θ max ] and φ(θm(t)) ≥ Cφ, φ (θM (t)) ≥ Cφ (cf. Hyp. 2.1), we get that 
+
+ddt Dθ (t) = KN φ(θM (t)) 
+
+> N
+
+X
+
+> k=1
+
+sin( θk(t) − θM (t)) − KN φ(θm(t)) 
+
+> N
+
+X
+
+> k=1
+
+sin( θk(t) − θm(t)) ,
+
+≤ KC φ
+
+N
+
+> N
+
+X
+
+> k=1
+
+sin( θk(t) − θM (t)) − sin( θk(t) − θm(t)) .
+
+Now, θk(t) − θM (t) ∈ [−π, 0] for all t ≥ 0 and k ∈ { 0, . . . , N } since θM (t) ≥ θk(t), thanks to Proposition 3.5, we get 
+
+|θk(t) − θM (t)| ≤ Dθ (t) < D 0.
+
+Since the sine function is concave on [−π, 0] , we obtain for all k ∈ { 1, ..., N },
+
+sin( θk(t) − θM (t)) ≤ sin( D0)
+
+D0 (θk(t) − θM (t)) .
+
+9Similarly, θk(t) − θm(t) ∈ [0 , π ] for all t ≥ 0 and the sine function is convex on [0 , π ], then, for all k ∈ { 1, ..., N },
+
+sin( θk(t) − θm(t)) ≥ sin( D0)
+
+D0 (θk(t) − θm(t)) .
+
+Denoting α = sin( D0) 
+
+> D0
+
+, we have 
+
+ddt Dθ (t) ≤ KC φ
+
+N
+
+> N
+
+X
+
+> k=1
+
+sin( θk(t) − θM (t)) − sin( θk(t) − θm(t)) ,
+
+≤ α KC φ
+
+N
+
+> N
+
+X
+
+> k=1
+
+(θk(t) − θM (t) − θk(t) + θm(t)) ,
+
+≤ − αKC φ(θM (t) − θm(t)) = −αKC φDθ (t).
+
+Using Grönwall’s lemma, we obtain for t ∈ [T0, T 0 + δ0] that 
+
+Dθ (t) ≤ Dθ (T0)e−αKC φ(t−T0).
+
+Since Dθ is nonincreasing (c.f. Lemma 3.5) and T0 < T 1, we have: 
+
+Dθ (T1) ≤ Dθ (T0 + δ0) ≤ Dθ (T0)e−αKC φ(t−T0), for T0 ≤ t ≤ T0 + δ0.
+
+3.3.2 Phase diameter decay and iterative contractions across cycles 
+
+Now, we show that Dθ converges to 0, which leads the system to asymptotic phase syn-chronisation. First, we define iteratively Tn and δn, the time when all oscillators are in the coupling interval during the n + 1 cycle and the time span during which all oscillators are coupled respectively, 
+
+θm(Tn) def 
+
+= θm(Tn−1) + 2 π, n ∈ N∗,θM (Tn + δn) def 
+
+= θM (Tn−1 + δn−1) + 2 π, n ∈ N∗. (3.4) 
+
+Proposition 3.8. Suppose Hypotheses 2.1 and 2.2 hold and let {θi}Ni=1 be the global solution of (3.1) with initial phase distribution satisfying D0 < min( π, ∆θ ). Suppose that θ0 
+
+> m
+
+≤ θmin .Then, using the notation introduced in (3.4) , we have 
+
+Dθ (Tn+1 ) ≤ Dθ (Tn)e−αKC φ(t−Tn), ∀n ∈ N∗, ∀t ∈ [Tn, T n + δn].
+
+The proof of the contraction of the phase diameter stated in Proposition 3.8 uses the same arguments as in the proof of Proposition 3.6. We propose to give a sketch of the proof. First, we use the monotony of each {θi}Ni=1 to prove that the sequences (Tn)n∈N∗ and (δn)n∈N∗
+
+are well defined and that Tn+1 > T n + δn ≥ Tn. Moreover, since the initial phase diameter verifies D0 < ∆θ and the phase diameter Dθ is non-increasing, then δn > 0 for all n ∈ N∗.Hence, the intervals [Tn, T n + δn] are non-empty for all n ∈ N∗. The exponential decay of the phase diameter is finally obtained by applying the same reasoning as in the proof of the Proposition 3.6, switching T0 by Tn, T1 by Tn+1 and δ0 by δn. The result holds for all 
+
+n ∈ N∗.Proposition 3.6 gives an exponential decay during a specific time interval of length δ0 and Proposition 3.8 extends this result to intervals of length δn for every n ∈ N∗. The following lemma gives a uniform lower bound of this time span δn.10 Lemma 3.9. Let the same assumptions as in Proposition 3.6 hold, then 
+
+δn ≥ δ > 0, ∀n ∈ N,
+
+where δ = ∆θ −D0 
+
+> 1+ K
+
+.
+
+Proof. (Lemma 3.9 ) Let n ∈ N. For t ≥ 0, using Hypothesis 2.1 and the uniform upper bound on the sine function, we have that 
+
+ddt θM (t) = 1 + φ(θM (t)) KN
+
+> N
+
+X
+
+> k=1
+
+sin ( θk(t) − θM (t)) ≤ 1 + K. 
+
+Then, for t ∈ [Tn, T n + δn], we introduce the comparison function 
+
+g(t) = θM (Tn) + (1 + K)( t − Tn), (3.5) which satisfies g(Tn) = θM (Tn) and θM (t) ≤ g(t).Now, we look at the time span tn such that g(Tn + tn) = θmax + 2 πn . Since ddt θM (t) ≤ 
+
+> ddt
+
+g(t), we have δn ≥ tn. With Eq. (3.5) 
+
+tn = θmax + 2 πn − θM (Tn)1 + K .
+
+Since θm(Tn) = θmin + 2 πn and Dθ (Tn) ≤ D0 (c.f. Lemma 3.5), we obtain that 
+
+θM (Tn) = θm(Tn) + Dθ (Tn) ≤ θmin + 2 πn + D0.
+
+Therefore 
+
+δn ≥ tn ≥ δ def 
+
+= ∆θ − D0
+
+1 + K > 0.
+
+Finally, the following Theorem establishes the result on the convergence toward a syn-chronised state for the modified Kuramoto model. 
+
+Theorem 3.10. Suppose Hypotheses 2.1 and 2.2 hold and let {θi}Ni=1 be the global solution of (3.1) with initial phase distribution satisfying D0 < min( π, ∆θ ). Suppose that θ0 
+
+> m
+
+≤ θmin .Then, we obtain 
+
+Dθ (Tn+1 ) ≤ Dθ (Tn)e−αKC φδ , ∀n ∈ N.
+
+In particular, the sequence (Dθ (Tn)) n∈N decays to 0 faster than a geometric sequence with ratio e−αKC φδ .Proof. (Theorem 3.10) Let n ∈ N. Recall the result in Proposition 3.8, for all t ∈ [Tn, T n+δn]
+
+Dθ (Tn+1 ) ≤ Dθ (Tn)e−αKC φ(t−Tn).
+
+Especially, for t = Tn + δn, we have 
+
+Dθ (Tn+1 ) ≤ Dθ (Tn)e−αKC φδn .
+
+Also, since δn ≥ δ > 0 (see Lemma 3.9), then, 
+
+Dθ (Tn+1 ) ≤ Dθ (Tn)e−αKC φδ .
+
+Thus, (Dθ (Tn)) n∈N is a geometrically decreasing sequence with common ratio 
+
+q := e−αKC φδ ∈]0 , 1[ 
+
+11 since αKC φδ > 0. Therefore, 
+
+Dθ (Tn) → 0 as n → ∞ .
+
+Also, since Tn+1 > T n + δn, an induction argument yields 
+
+Tn > T 0 + nδ, 
+
+and then Tn → +∞ as n → +∞. Finally, let t > T 0 and choose n ∈ N such that t ∈
+
+[Tn, T n+1 ], thus 
+
+0 ≤ Dθ (t) ≤ Dθ (Tn).
+
+As t → +∞, we have necessarily n → +∞ and since Dθ (Tn) → 0 as n → +∞, Dθ (t) → 0
+
+as t → +∞.
+
+# 4 Processing and analysis of experimental data 
+
+Having established the main synchronisation result in the previous section, we now evaluate the relevance of the model by comparing it with experimental data. We begin by presenting the Per2::luciferase reporter dataset before introducing the signal processing approach used to extract quantitative features that will help confronting mathematical model and obser-vations in the next section. Quantitative characterisation of oscillatory features in experimental signals of circadian rhythms is crucial for uncovering underlying regulatory mechanisms and enabling model-driven hypothesis testing. Accurately quantifying key oscillatory parameters, such as the temporal evolution of the period and amplitude, sheds light on the entrainment dynamics and intercellular coupling governing circadian clock synchronisation or desynchronisation in ex vivo experiments. More generally, a rigorous quantification of oscillatory signals improves the preciseness of the interpretations, and thus enhances both mechanistic insight and trans-lational application. Specifically, this section details the data processing pipeline used to extract the instanta-neous period and amplitude from the reporter recordings. Finally, a preliminary analysis of these quantities is provided, highlighting the main dynamical features of experimental data prior to model calibration. 
+
+# 4.1 Experimental time series 
+
+In this study, we use spheroids composed of MMHD3 hepatocytes as an experimental model system to monitor phase localisation within the circadian cycle. We utilised cells with two different periods: control cells, denoted as wild-type (WT), which exhibit a period close to 24 h, and Cry2KO cells, in which the Cry2 clock gene has been knocked out, exhibiting a longer period. Experiments were carried out on populations of n = 61 spheroids containing approximatively 2000 cells each. In total, there are 20 datasets for WT and 15 for Cry2KO spheroids. At the beginning of the experiments, a 30 min pulse of dexamethasone is applied to chemically realign the circadian clocks of the cells within the spheroids. The MMHD3 cells display a strong contact inhibition when assembled in spheroids and therefore do not divide. Furthermore, the medium for each experiment is sufficiently rich to sustain cell ac-tivity throughout its duration, meaning that cell death can be assumed to be negligible. To precisely and quantitatively retrieve information regarding the circadian clock, the reporter gene Per2:luciferase, stably integrated into both WT and Cry2KO cells, is used as a proxy to record real-time photon emission by luciferase upon oxydation of the luciferin substrate, when the Per2 gene is expressed. Figure 1 shows the raw luminescence recordings for the WT (left) and Cry2KO (right) datasets, where each trace corresponds to one dataset. Oscillations of significant amplitude 12 Figure 1: Raw luminescence recordings for the WT (left) and Cry2KO (right) datasets. Each trace corresponds to one dataset of 61 spheroids of approximately 2000 cells. indicate that the Per2 genes of all cells are transcribed synchronously, demonstrating co-ordination within the cell population. Conversely, a flat trace indicates a desynchronised population. Although more datasets are available for the WT populations, the Cry2KO populations appear to exhibit greater variability. For all datasets, the first peak is excluded from the analysis, as it corresponds to an initial transitional phase characterised by high variability and limited reproducibility. 
+
+Idealised data representation. The data are time series representing the evolution of the bio-markers of the luciferin (indicating when the Per2 gene is on). In order to describe the data at our disposal, we denote : 
+
+• M ≥ 1 the number of luminescence experiments, 
+
+• nj ≫ 1 the number of measurements for the experiment indexed by j where j =0, . . . , M − 1,
+
+• s ∈ { W T, Cry 2KO } the indication on the type of spheroid used in the experiment, 
+
+W T (resp. Cry 2KO ) for spheroids composed of wild type cells (resp. cells with the gene Cry2 knocked out), 
+
+• dt j the time step between observations of experiment indexed by j = 0 , . . . , M − 1.
+
+For some (large) nj ≥ 1, we have measurements ynj 
+
+> i
+
+[s] of a noisy signal of type s localised around i/n j , so that i is a location parameter and nj a frequency parameter. We may idealise our data via a representation of the form 
+
+ynj 
+
+> i
+
+[s] = xj  i × dt j ; s + σj [s]ξnj 
+
+> i
+
+, i = 0 , . . . , n j − 1, j = 0 , . . . , M − 1, (4.1) where xj (·; s) is the true (unknown) signal of interest and the ξi are independent and iden-tically distributed noise measurements, that we assume here to be standard Gaussian. This assumption is based on the following : the noise in the light intensity is generated as the superposition of a large number of random independent interactions at the molecular level. The quantity σj [s] > 0 is a (fixed) noise level characterising the experiment indexed by j of type s.For the sake of clarity, we use a simplified notation in the following to describe a standard set of data which is rigorously formalised by (4.1): 
+
+yi = xi + σξ i, i = 0 , . . . , N − 1, (4.2) where i is the time localisation index and N ∈ N∗ the number of samples. Hence, (xi)0≤i≤N −1
+
+is the true (unknown) signal of interest. 13 4.2 Quantitative features of circadian oscillations 
+
+The analysis of time-series data from circadian rhythm experiments conducted on hepato-cyte spheroids presents several challenges. First, the recording time is short relative to the oscillation period; due to experimental constraints, only a maximum of 10 cycles can be observed. Furthermore, the signal intensity decreases over time, making the signal char-acteristics less clear. Additionally, since the oscillation periods are around 24 hours, the relevant range of frequencies is very low and the distinction between trend and oscillatory features is blurry. Finally, edge effects influence the signal characteristics at the beginning or end of the recording, causing unrealistic phase shifts or amplitude variations at these edges in the spectral domain. In order to tackle these bottlenecks, we introduce a signal processing method based on wavelet decomposition to extract reliable quantitative features character-ising these signals. The following signal processing procedure is using Python language and is available at https://github.com/AnastasiaMARECHAL/InSyncPy .
+
+4.2.1 Oscillatory features characterisation 
+
+Continuous wavelet transform (CWT) approaches [36, 26], have emerged as powerful ana-lytical tools thanks to their ability to bypass the strict stationarity assumptions required by traditional Fourier analysis, thereby enabling the accurate extraction of instantaneous oscil-latory parameters. Despite these significant advantages, standard wavelet methods are fun-damentally constrained by the uncertainty principle, which imposes an unavoidable trade-off between time and frequency localisation. In order to extract quantitative features of oscillat-ing biological signals, existing tools like pyBOAT [30] typically rely on maximum power ridge tracking using standard Morlet wavelet. In the following, we describe a signal processing method based on SynchroSqueezed wavelet Transform (SST) [7] using the generalised Morlet wavelet [28]. The advantages are twofold: first, the generalised Morlet wavelet introduces an additional parameter that allows for explicit control over the trade-off between time and frequency localisation. Second, the SST sharpens frequency localisation and enhances the precision of instantaneous frequency estimation when analysing complex biological signals. 
+
+Preprocessing. Data preprocessing consists of denoising, trend removal, and edge trim-ming. First, we denoise the signals via wavelet decomposition and fixed-threshold selective reconstruction. Next, we remove the low-frequency baseline trend by smoothing the data with splines. Finally, we trim the extremities of the recordings to mitigate edge effects and align them to a common peak, thereby enabling robust comparisons. More details are provided in Appendix A.1. 
+
+Quantitative descriptors of the oscillations. Now that preprocessing is complete, we start extracting the characteristics of the oscillations. The main idea is to characterise the damping of the oscillations and to quantify the period evolution over time using the continuous wavelet transform (CWT) on a denoised and detrended signal. Signals of circadian rhythms are slow-varying oscillations with damped amplitude. They can be modeled as a monocomponent signal 
+
+x(t) = A(t)eiϕ (t), A(t) = e−εt , ε > 0, (4.3) with slowly varying phase ϕ(t). Quantitative descriptors of oscillatory features are obtained via the continuous wavelet transform (CWT) [6]: 
+
+Wx(a, b ) = 1
+
+√a
+
+Z ∞−∞ 
+
+x(t)ψ
+
+ t − ba
+
+
+
+dt, (4.4) where a is the scale (inversely related to frequency), b the time localisation and ψ the appropriate chosen wavelet (in our case the generalised Morlet wavelet). Then, we use 14 the synchrosqueezed wavelet transform (SST) [7] to improve the time-frequency resolution. First, we compute the instantaneous frequency of the signal denoted by ωx:
+
+ωx(a, b ) = −i ∂bWx(a, b )
+
+Wx(a, b )
+
+and then we get the SST of the signal: 
+
+Tx(ω, b ) = 
+
+Z
+
+a− 32 Wx(a, b )δ(ωx(a, b ) − ω)da, (4.5) where δ is the dirac function. The ridges extraction from the SST allows to track local maxima of the synchrosqueezed energy over time. The quantitative feature characterising the frequency evolution is given by 
+
+ωr (b) = arg max  
+
+> ω
+
+|Tx(ω, b )|, (4.6) and the one characterising the amplitude evolution is 
+
+Ainst (b) = |Tx(ωr (b), b )|.
+
+The parameter of the amplitude decay , ε, is estimated by fitting the instantaneous am-plitude obtained with the CWT with a model t 7 → exp( −εt ).
+
+The SST provides a robust framework for oscillatory features estimation via ridge ex-traction [21], ensuring reliable performance under appropriate conditions such as reasonable signal-to-noise ratio, slow frequency variation, and suitable wavelet choice [26]. More details are provided in the Appendix A.2. 
+
+Limitations at low amplitude. It should be noted that when the instantaneous am-plitude of the signal is very low, the ridge extraction becomes more sensitive to noise. As a result, the estimated instantaneous period may become less reliable for these low-amplitude segments. This limitation is inherent to all time-frequency based approaches. 
+
+4.2.2 Oscillatory features of the Per2:luciferase reporter 
+
+The luminescence recordings for the WT and Cry2KO cells (cf. Figure 1) are analysed using the signal processing method described in the previous section. For the sake of visualisation, we propose the following transformation of the extracted frequency features derived from both the CWT and the SST. The frequency estimate has been converted into a period estimate by taking the inverse, and the mean has been computed, resulting in a single period estimator for each luminescence recording. Figure 2 allows to visualise the amplitude decay parameter against the mean period param-eter for each luminescence recording, contrasting the CWT estimates (left panel) with the SST estimates (right panel). The first striking observation is that there is a clear separa-tion between features of WT cells (blue dot) and ones of Cry2KO cells (red cross). This separation is predominantly driven by the period estimators. In the CWT analysis, period distributions are highly concentrated around a single value on the y-axis for both cell types. When examining the SST scatter plot, the period estimates exhibit a wider vertical disper-sion. However, the fundamental period separation between the two cell populations remains clearly identifiable. The Cry2KO cells have a longer period (mean: 28.42h) as compared to the WT cells (mean: 24.46h), which is expected from the literature [16]. Concerning the amplitude decay of the oscillations, across both methods, the amplitude pa-rameters’ distribution for the WT cells is mainly contained between 0.009 and 0.016 whereas the amplitude parameters’ distribution for the Cry2KO cells is noticeably more spread (be-tween 0.007 and 0.021 ). This observation consistently corroborates the commonly accepted fact by biological experimentalists that genetic perturbation on a living model induces more variability for the behaviour of the modified living organism. The second striking observa-tion from this analysis is that the variability predominantly impacts the amplitude of the oscillations. 15 Figure 2: Scatter plots of the amplitude decay parameter ε (x-axis) versus the mean period pa-rameter (y-axis). The period and amplitude decay estimates are either computed from the CWT coefficients (left) or the SST coefficients (right). The marginal distributions above (resp. on the right) the scatter plot characterise the spreading of the amplitude decay parameter’s distribution (resp. the period parameter’s distribution). The color blue (resp. red) is for the WT population experiments (resp. the Cry2KO population experiments). 
+
+# 5 Outputs system to simulate circadian rhythm 
+
+To compare system (2.2) to experimental Per2::luciferase recordings (see Figure 1), we adapt the reporter model introduced in [22]. The time evolution of the luminescence produced by the network of oscillators is assimilated to the dynamic of the Per2 reporter. In [22], the output system is modelled by a differential equation where the reporter protein’s concentra-tion changes based on a clock-regulated production rate, a basal production term, a linear degradation rate, and independent stochastic noise. Since the signal processing step removes noise, trend and normalises the amplitude of the oscillations (cf. Section 4.2), we model the reporter concentration dynamic the following way. We denote P (t) the ideal reporter’s con-centration (without taking into account the impact of the experimental setting) at time t
+
+and model its dynamic by: 
+
+ 
+
+> ddt
+
+P (t) = 1
+
+N
+
+> N
+
+X
+
+> k=1
+
+f (θk(t)) 
+
+| {z }
+
+> Production driven by the oscillators’ phases
+
+− kP P (t)
+
+| {z }
+
+> Degradation of the luminescence
+
+P (0) = P 0,
+
+(5.1) where the phases (θk)k=1 ,...,N are solution of the system (2.2) and kP > 0 is the degradation rate of the circadian clock reporter. The reporter production is then modelled through a periodic production function f :
+
+f (θ) = 1 + cos 
+
+
+
+(θ − θP ER ) 2πL
+
+
+
+, (5.2) with θP ER the parameter corresponding to the CT with maximum production of the re-porter. In the mammalian circadian clock architecture described by Takahashi et al. [35], Per2 repressor occupancy peaks at approximately CT16 ≈ 2L/ 3. Hence, we set θP ER = 2 L/ 3
+
+in (5.2) to align the production peak with the biological knowledge. 16 Then, we denote ˜P (t) the centered and renormalised reporter output (where we subtract its mean and divide by its absolute maximum value). Moreover, in these experiments, the amplitude of the Per2::luciferase signal provides a direct indicator of synchronisation at the population scale. When individual cells oscillate with similar phases, their Per2’s reporter outputs add up and produce a signal of bigger amplitude compared to a desynchronised state. However, since in long-term recordings without medium replacement hepatocytes gradually lose their nutrients, it leads inevitably to cell death which consequently reduces reporter protein levels over time. Hence, the overall decay of the oscillations amplitude over the whole time window of the experiments (cf. Figure 1) are modeled by an exponential loss term with parameter λ > 0 and a more realistic output Y (t) is given by: 
+
+Y (t) = ˜P (t)e−λt , t > 0. (5.3) Finally, to align experimental recordings and model output, we set the initial condition of equation (5.2) such that P 0 is a maximal point of the trajectory of the output model: 
+
+P 0 =
+
+> 1
+> N
+
+PNj=1 f  θ0
+
+> j
+
+
+
+kP
+
+. (5.4) Indeed, the experimental data that have been denoised, detrended, centered, normalised and trimmed such that the beginning of the signal corresponds to the first peak of an oscillation. This reporter model allows to couple the phase-based description for the cells’ circadian rhythms to a protein induced luminescence processes, thus facilitating the comparison be-tween the outputs of the Kuramoto model with experimental data. It should be noted that luciferase production could be more detailed at the intracellular scale (see e.g. [25]), how-ever since we are interested in the macroscopic behaviour of the cell population adding more complexity (in terms of parameters, size of the system, etc) in the high-dimensional system studied here would be adversarial to that goal. In this study, we will consider the simplified version proposed in [25] and detailed above. Figure 3 illustrates the synchronisation dynamics within a network of circadian oscilla-tors. While the phase diameter serves as the rigorous mathematical metric for quantifying network synchronisation, direct experimental observation of this state is challenging, as the available data is limited to macroscopic Per2::luciferase bioluminescence signals. To highlight the links between the theoretical phase metric (the phase diameter (3.3)) and ob-servable reporter data, we conducted in silico simulations to characterise the reporter output system under three distinct network states: fully synchronised (Figure 3 A), dynamically synchronising (Figure 3 B), and desynchronising (Figure 3 C). A critical distinction in how synchronisation dynamics manifest in the macroscopic sig-nal can be concluded from this analysis. Specifically, the processes of synchronisation and desynchronisation exert decoupled effects on the instantaneous amplitude and the instanta-neous period. The impact of cellular interactions on the instantaneous period is negligible; instead, the instantaneous amplitude emerges as the primary proxy for the underlying phase distribution of the oscillators. During network synchronisation, the aggregate output yields robust interference, resulting in high-amplitude oscillations and a concurrent amplification of signal energy visible on the scaleogram (Figure 3 B). Conversely, as the oscillators desyn-chronise, phase dispersion causes the signal energy to dissipate, yielding a low-amplitude profile that asymptotically approaches zero (Figure 3 C). Ultimately, it demonstrates how the temporal variations in signal amplitude and scaleogram energy provide a robust frame-work for inferring the unobservable phase distributions of cellular circadian clocks. 
+
+# 6 Calibration procedure 
+
+A robust calibration approach is required to link the mechanistic framework of the adaptive Kuramoto model (2.2) and the reporter system (5.1)-(5.3) with the experimental observa-tions. In this section, we detail the methodology used to estimate the model’s parameters. 17 Figure 3: Graphical illustration of the output system. The figure shows the temporal evolution of the phase diameter (first row), the output system (5.2) (second row), the scaleogram of the output system (third row) and the instantaneous amplitude (red) and instantaneous period (black, last row). The x-axes are shared. The simulations were performed with L = 24 , kP = 0 .2,and P 0 given in Eq (5.4). Three different behaviours of the system are shown column-wise: A: 
+
+the oscillators are initially aligned on the same phase and no interaction happens in the system. The parameters values are N = 10 , K = 0 , ∆θ = L, D 0 = 0 . B: The initial phase distribution is spread out and the oscillators are synchronising over time. The parameters values: N = 10 , K =0.1, ∆θ = L, D 0 = 3 L/ 4. C: The oscillators are aligned on the same phase and the oscillators are desynchronising over time. The parameters values: N = 2 , K = −0.17 , ∆θ = L/ 2, D 0 = 0 .1.
+
+We first outline the parameter space, the objective functions, and the filtering algorithm. Subsequently, we provide a biological interpretation of the resulting parameter distributions and the correlation matrix, with a specific focus on the implications of parameter identifia-bility. 
+
+# 6.1 Parameter space and filtering procedure 
+
+The parameter space. The mathematical model of coupled circadian clocks relies on a set of parameters governing the circadian oscillation, the dynamic coupling of hepatocytes and the dynamics of the luminescence reporter. The parameters ranges and biological mean-ing are summarised in Table 2 and additional details are provided in the Appendix B. Some parameters are fixed a priori based on established properties of mammalian circadian clocks and for computational convenience: 
+
+• The period L. Since the instantaneous periods of each experiments show little vari-18 Name Values/Range Units Description 
+
+> Circadian clocks
+
+LWT 24 .46 h Estimated period of the WT dataset 
+
+LCry2KO 28 .42 h Estimated period of the Cry2KO dataset 
+
+N 100 - Number of oscillators Initial condition 
+
+σ [10 −2; 10 2] CT Initial distribution spread out parameter 
+
+P 0 see Eq (5.4) - Initial photon concentration Phase model 
+
+Ω 1 CT/h Intrinsic frequencies 
+
+K (0; 1) - Coupling strength 
+
+∆θ [0; L] CT Width of the coupling interval Iθ
+
+> Output model
+
+kP [0; 1] h−1 Degradation rate of the reporter protein 
+
+λ [0; 0 .1] h−1 Degradation rate of the luminescence signal 
+
+Table 1: Table of the parameters of the models (2.2) and (5.1)-(5.3). ability across datasets (cf. Section 4.2.2 and Figure 2), we fix the period to the mean value, i.e. the WT population exhibits a period of LWT = 24 .46 hours, whereas the Cry2KO population shows a longer period of LCry2KO = 28 .42 hours. 
+
+• The intrinsic frequencies Ω. Since we are modelling an homogeneous population of hepatocytes with the same period for their circadian clocks, we fix Ω = 1 so that the period of the circadian cycle is only determined by the parameter L.
+
+• The initial condition of the reporter system P 0. We set the initial condition for the reporter model as a function of the initial phase distribution in order to fit the experimental data (cf. (5.4)). Similarly, parameters dictating the dynamical behaviour of the system were constrained to prevent physically impossible rapid state changes, acknowledging the transcriptional-translational feedback loop delays inherent to circadian timekeeping. Hence, to ensure bio-logical plausibility and computationally tractable filtering, it is necessary to define bound-aries and assumptions for these free parameters: 
+
+• The spread of the initial condition σ. The synchronisation state of the population at initial time of the experiment is unknown. Then the initial phase distribution is parametrised to account for different levels of synchronisation and we assume it follows a truncated Gaussian distribution on the interval [0 , L ], centered at L/ 2 with density 
+
+f such that: 
+
+f (ϕ)dϕ =exp 
+
+
+
+− (ϕ−L/ 2) 2
+
+> 2σ2
+
+R L 
+
+> 0
+
+exp 
+
+
+
+− (x−L/ 2) 2
+
+> 2σ2
+
+
+
+dx dϕ, ϕ ∈ [0; L],
+
+where parameter σ ∈ [10 −2, 10 2] controls the spread of the distribution (see Appendix B). 
+
+• The coupling strength K. The coupling strength of interactions between individual clocks is assumed in (0; 1) (see Hyp. 2.2). It allows to avoid the totally uncoupled state and the opposite state where K is at its maximum admissible coupling strength. 
+
+• The width of the coupling window ∆θ . We set the coupling window width such that ∆θ ∈ [0 , L ]. It follows that the network of oscillators can interact in the whole spectrum from totally uncoupled to coupled at all stages of the circadian cycle. 19 • The degradation rate of the reporter’s protein kP . It is assumed that kP ∈ [0 , 1] .
+
+• The exponential decay of the output signal λ. Since the amplitude decay esti-mates exhibit variability across datasets as explained in Section 4.2.2, the parameter 
+
+λ was treated as a calibration parameter and explored over the range [0; 0 .1] .
+
+The objective functions. The calibration of these parameters is framed as an inverse problem. We define our objective functions Fi for i = 1 , 2 such that F1 is the mean squared error between the simulated reporter system (5.3) and the averaged sum of the experiments of a specific type of spheroid s ∈ { W T, Cry 2KO } (cf. Section 4.1) and F2 is the mean squared error between the projections of these two signals in the wavelet domain on a specific scale window. Let Γ := {σ, K, ∆θ , k P , λ } denote the set of free parameters and Y (t; Γ) denote the numer-ical approximation of the reporter output (5.3) evaluated at time t with parameters Γ. Recall the notations of the data representation (Section 4.1) and let M [s] for s ∈ { W T, Cry 2KO }
+
+be the number of experiments of type s such that M [W T ] + M [Cry 2KO ] = M . We per-formed the calibration on the two different datasets WT and Cry2KO, aiming to estimate the five parameters: σ, K, ∆θ , k P and λ, and to compare the results between the two cali-brations. For each dataset, let Tj = ( nj − 1) × dt j be the maximal time of the j-th recording with j ∈ { 1, . . . , M [s]}.To compare the mathematical model to the experimental data, two metrics are used. The first one is the standard mean squared error (MSE), defined as 
+
+F1(Γ) = 1
+
+M [s] 
+
+> M[s]
+
+X
+
+> j=1
+
+1
+
+Tj
+
+Z Tj
+
+> 0
+
+(yj (t) − Y (t; Γ)) 2dt (6.1) where yj is the experimental observation (cf. (4.2)). This choice of metric allows for a direct comparison between experimental and simulated trajectories over time by measuring the L2-deviation between the curves. In particular, the MSE penalises divergence in both amplitude and temporal dynamics, making it a particularly suitable indicator for evaluating the model’s ability to reproduce the full shape of the observed signals. The second metric captures differences in the time–frequency structure of the signals by comparing their wavelet coefficients defining in Eq. (4.4): 
+
+F2(Γ) = 1
+
+M [s] 
+
+> M[s]
+
+X
+
+> j=1
+
+Wyj − WY (·;Γ) F (6.2) where || .|| F is the Frobenius norm given by 
+
+|| Wx|| F =
+
+X
+
+> a,b
+
+|Wx(a, b )|2
+
+
+
+> 1/2
+
+.
+
+The wavelet coefficients are computed over a restricted range of scales corresponding to relevant periods, namely between 15h and 35h, in order to focus the comparison on a relevant range of scales for the circadian dynamics. 
+
+The filtering procedure. In the context of inverse problem, e.g. parameter estimations, we propose a two-step quasi-Monte-Carlo calibration procedure [5] that sequentially captures macroscopic energy dynamics and scale-localised transient features (see Figure 4). For a given set of parameters Γ, the computation of both criterion F1 and F2 requires two numerical simulation approximations, one for the Wild type (WT) data and one for the Cry2KO data. The integrals over time intervals are computed with a trapezoidal rule. The computation 20 Uniform sampling Gaussian sampling 
+
+# Filtering 
+
+# J0
+
+# J1
+
+# J2
+
+# J3
+
+# Mean and covariance 
+
+Figure 4: Schematic view of the step-wise algorithm used to select parameter sets. The collection J0 of parameter sets is distributed uniformly over the hypercube of Table 1. The collection J1 is obtained by filtering J0 keeping the 0.1% parameters sets with the lowest evaluation of the objective function F1 (6.1). The collection J2 is obtained by re-sampling the hypercube with a Gaussian distribution fitted on J1. The collection J3 is obtained by filtering J2 keeping the 0.1% parameters sets with the lowest evaluation of the objective function F2 (6.2). The final collection J3 is a collection of parameter sets that are consistent with data and minimizes the mean square deviations for the time series and for their projection on the time-frequency domain. of the gradient ∇ΓFi(Γ) of any coordinate of the criterion can not be obtained analytically. This means that we have no descent direction to minimize our criteria. The space we have to explore is the hypercube of dimension 5 defined by the range column of Table 1. Hence, we rely on a two-stage algorithm. In the first step, the standard MSE F1 (6.1) between the empirical data and model output is used to explore uniformly the whole range of parameters and fit the overall amplitude and frequency dynamics of the system. This initial time-domain optimization establishes a preliminary basin of attraction in the parameter space. From this collection, we adjust a Gaussian distribution truncated to the initial hypercube. In a second step, the distribution is used to draw new parameter sets that are informed by the data. We refine the parameter estimates by selecting among these draws the best parameter sets according to the second criterion using the Frobenius norm of the error matrix F2 (6.2) between the CWT of the empirical and simulated data, strictly confined to a predefined and pertinent scale range (the range with the most biologically relevance for circadian clock data). This scale-restricted CWT mapping acts as a targeted time-frequency filter rejecting out-of-band frequency features. The results of the calibration procedure are summarized in the Table 2 and Figure 5 shows the model outputs corresponding to the best 0.1% parameter sets obtained during the calibration procedure. 21 σ ∆θ K kP λ
+
+Range [10 −2; 10 2] [0; L] [0; 1] [0; 1] [0; 0 .1] 
+
+WT 18 .96 ± 2.79 0.69 ± 0.16 2.20 ± 0.77 0.21 ± 0.018 0.015 ± 0.0005 
+
+Cry2KO 26 .40 ± 1.29 0.87 ± 0.08 6.78 ± 1.49 0.15 ± 0.046 0.019 ± 0.0017 
+
+Table 2: Outputs of the filtering procedure. Range for the free parameters: estimated mean values of the parameters with standard deviation for the two data types: Wild type (WT), cells with Cry2 gene knocked out (Cry2KO). 
+
+# 6.2 Interpretation of the calibration results: posterior analysis and phenotypic characterisation 
+
+Rather than reducing complex dynamical models to a deterministic point estimate, we try to understand the parameter uncertainty. In this non-linear system, a multitude of distinct parameter combinations can yield output errors functionally indistinguishable from a visual perspective based on the biological variability (see Figure 5). Consequently, relying on an isolated "optimal" parameter set invariably forces the calibration to overfit to the mean trajectory and creates an artificial sense of certainty. Furthermore, retaining an ensemble of parameter sets explicitly acknowledges the inherent physical heterogeneity of the biological process and provides a more accurate representation of system reliability. To assess the identifiability of the mathematical model and the physiological impact of the Cry2 knockout, the posterior parameter distributions, defined as the top 0.1 % of tuples minimizing the objective functions, were subjected to a comprehensive analysis. Recall that the observed system behavior is governed by two interacting modules. The oscillators’ network is parametrised by its coupling strength ( K) and its coupling window size ( ∆θ ), which dictate the phase interaction and synchronization capacity of the cellular population. The initial state of this network is characterized by σ, representing the spread of the initial distribution of the oscillators. Concurrently, the observable luminescence output is modulated by the intrinsic reporter degradation rate ( kp) and a macroscopic signal decay parameter ( λ), which captures the exponential attenuation of the signal amplitude due to experimental constraints and progressive cell death. First, we analyse the marginal probability densities (see Figure 6) in order to characterise the phenotypic effect of the knockout of Cry2 on the parameters of the mechanistic model. Then, we assess the monotonic dependencies and compensatory mechanisms via Spearman rank correlation (Figure 7). 
+
+Validation and trajectory dispersion The two-step quasi-Monte Carlo calibration algorithm successfully identified parameter sets that reproduce the main features of the experimental signals across both datasets. A first assessment of the simulated state space (Figure 5) reveals that the calibrated trajectories are more tightly concentrated for the Wild Type (WT) dataset than for the Cry2KO dataset. This disparity in dispersion accurately reflects the larger intrinsic biological variability observed in the corresponding Cry2KO ex-perimental recordings. 
+
+Phenotypic divergence and marginal constraints The marginal distributions of the accepted parameter sets (Figure 6) capture the phenotypic shift between the WT and Cry2KO settings. The posterior densities for the parameters σ, ∆θ , and λ exhibit distinct, non-overlapping separations between the two experimental conditions. This divergence pro-vides strong quantitative evidence that the knockout of Cry2 gene fundamentally alters the biophysical mechanisms governed by these specific parameters (e.g. the initial spread of the phase distribution, the length of the phase coupling interval and the exponential decay of the luminescence signal). 22 Figure 5: Graphs of the processed experimental data (blue) and the calibrated numerical outputs (red). Left: WT dataset, right: Cry2KO dataset. The simulations correspond to the trajectories associated to the parameter sets J3 representing the 0.1% parameter sets with lowest values for the objective function F2 .Interestingly, the increased trajectory variability observed in the Cry2KO dataset is not uniformly reflected across all calibrated parameters. After calibration, the reporter model parameters ( kP and λ) consistently display much narrower, more identifiable distributions than the parameters of the adaptative Kuramoto model ( K and ∆θ ) in both datasets. Fur-thermore, the broader dispersion of the Cry2KO system is exclusively absorbed by these reporter parameters; kP and λ exhibit notably larger dispersion for Cry2KO compared to WT, whereas the parameters of the Kuramoto model do not show this same trend of in-creased variance. This also suggests a hierarchy between the parameters’ identifiability where the parameters of the reporter model are more practically identifiable than the pa-rameters of the Kuramoto model. In addition, the marginal densities also reveal critical nuances regarding parameter con-straints. For both datasets, the accepted tuples successfully satisfy the physical constraint 
+
+∆θ < L . However, the posterior mass for ∆θ in the Cry2KO condition is heavily truncated against the upper bound of the prior domain, suggesting the true physiological optimum may press closely against this predefined boundary. Furthermore, while the parameter kp is tightly constrained and identifiable in the WT condi-tion, its posterior density degenerates into a broad, left-skewed distribution in the Cry2KO setting. This loss of identifiability implies that the system shifts into a dynamic regime where the precise value of kp becomes less critical to the targeted physical scales. Lastly, the parameter K exhibits practical unidentifiability across both experimental settings; while the data gently preferentially weights higher values, the posterior spans nearly the entire upper half of the prior range suggesting strong coupled interactions between the circadian clocks. 
+
+Parameter identifiability and compensatory mechanisms By examining the pos-terior parameter distributions, specifically the Spearman rank correlations in Figure 7, of WT and Cry2KO experimental settings, we identify compensatory mechanisms between the initial system state, network coupling strength, and reporter degradation kinetics. In both experimental conditions, the most prominent parametric dependency is the strong negative correlation between the initial distribution spread σ and the reporter degradation rate kp. In the WT setting, this coupling is highly pronounced ( −0.79 ) as well as in the Cry2KO setting ( −0.64 ). It confirms a strong trade-off in both experimental settings: an increase in σ must be compensated by a decrease in kp to maintain the same system output. 23 Figure 6: Marginal posterior probability densities for the five model parameters ( σ, K, ∆θ ,
+
+kp, and λ). The blue histograms correspond to WT, while the orange histograms represent Cry2KO. Dashed black vertical lines indicate the uniform prior boundaries established during the initial sampling phase. 
+
+Figure 7: Spearman rank correlation heatmaps of the parameter sets for the WT (left) and Cry2KO (right) conditions. This metric quantifies the strength of monotonic dependencies between parameter pairs. 24 The most striking divergence between the two settings occurs in the relationship between the initial distribution spread σ and the macroscopic decay rate λ. In the WT model, these parameters are statistically independent ( −0.066 ), indicating that the initial state of the network does not interfere with the inference of long-term signal attenuation caused by ex-perimental constraints. However, in the Cry2KO setting, a moderate positive correlation emerges ( 0.38 ). This shift introduces an identifiability challenge: a highly heterogeneous ini-tial state (high σ) combined with rapid exponential decay (high λ) produces a macroscopic output indistinguishable from a more homogeneous initial state with lower macroscopic decay. Biologically, this suggests that the Cry2KO mutation diminishes the system’s syn-chronisation robustness over time. The progressive desynchronisation characteristic of the knockout mimics the macroscopic amplitude decay typically attributed to cell death, thereby confounding the estimation of λ.Furthermore, the knockout condition induces a tighter functional linkage between the initial spread σ and the network coupling parameters ∆θ and K. The positive correlation between 
+
+σ and the coupling window ∆θ nearly doubles from the WT to the Cry2KO condition (from 
+
+0.2 for WT to 0.37 for Cry2KO), alongside a slight increase in correlation with the coupling strength K (from 0.28 for WT to 0.34 for Cry2KO). This indicates that in the Cry2KO network, achieving a specific synchronized state from a highly dispersed initial population requires a proportionally wider coupling window and stronger interaction strength. The WT network appears more robust, capable of overcoming initial heterogeneity with less reliance on specific coupling geometries. Ultimately, the transition from the WT to the Cry2KO phenotype is characterised not merely by isolated parameter shifts, but by a global restructuring of the parameter depen-dency landscape. While it slightly relaxes its tightest dependency with kP , it introduces stronger dependencies with the rest of the parameters, particularly with λ and to a lesser extent with ∆θ . The identifiability of the long-term viability parameter λ is significantly compromised in the knockout model due to newly formed interdependencies with the initial phase spread σ, with the coupling strength K (from 0.023 for WT to 0.25 for Cry2KO) and with the coupling window size ∆θ (from −0.018 for WT to 0.13 for Cry2KO). The Cry2KO mutation fundamentally alters the identifiability landscape, decoupling short-term reporter dynamics while introducing novel confounding effects between initial heterogeneity and long-term macroscopic signal decay and between the macroscopic signal decay and the coupling parameters of the oscillators’ network. 
+
+# 7 Perspectives 
+
+This article introduces a mathematical deterministic model based on the Kuramoto phase model to describes the circadian clocks of a population of cells and their interactions. To this end, a phase-dependent coupling interaction kernel is introduced, limiting oscillators’ coupling to the cells whose phase of the circadian cycle lies within a specific interval. This assumption is motivated by the hypothesis formulated in [14], which suggests that cells receive or interpret a chemical signal only during certain stages of the cycle. A mathematical study of this adaptative Kuramoto model is proposed. It is shown that, in the case of identical oscillators, the system tends to a complete phase synchronised state under some conditions. These conditions are the same as those required to achieve complete synchronisation for the seminal Kuramoto model, with the addition of one more condition on the initial phase distribution dispersal and the length of the coupling window. An estimate of the speed of convergence toward this synchronised state is achieved. This new mathematical formalism provides a more realistic description of an interacting network of cells’ circadian clocks. A signal processing approach based on wavelet decom-position is proposed to extract relevant oscillatory features from experimental data and its Python code is available at https://github.com/AnastasiaMARECHAL/InSyncPy . The mathematical model is then finely calibrated to the available data using two-step quasi-25 Monte Carlo algorithm. Parameters distributions are obtained for two experimental settings: wild type cells and cells with the Cry2 gene knocked out. A comparative study of the pa-rameters dependencies is performed and highlights the phenotypic divergence. Though the knockout condition introduces more heterogeneity in the experimental data which reflects for a stronger biological variability, the mathematical model successfully reproduces the tra-jectory corresponding to the mean behaviour for both experimental conditions. However, while it is shown that the wild type setting is capable of generating more robust oscillations and that the model can identify and characterise the coupling interactions, the knockout situation alters the identifiability landscape of the models parameters by revealing stronger compensatory phenomena which leads to an ill-posed calibration problem. Building upon the adaptive Kuramoto framework developed in this study to describe cellular circadian clock interactions, several perspectives emerge. First, an extension of the current model to integrate heterogeneous oscillator networks presents a critical next step. The present analysis characterises the synchronization dynamics within isolated, homoge-nous experimental conditions. A natural progression involves the theoretical and experi-mental integration of these distinct phenotypes, such as co-culturing or simulating mixed populations. This approach would be assimilated to the study of non-identical oscillator net-works, allowing for the rigorous investigation of how sub-populations with disparate intrinsic parameter distributions, phase dynamics, and coupling capacities interact to shape global entrainment. Analysing such mixed networks is essential for understanding the robustness of circadian synchronisation in physiologically complex tissues where diverse cellular pheno-types coexist and communicate. Second, incorporating explicit spatial topology into the modelling framework would sig-nificantly enhance its biological realism. The current experimental data and corresponding model formulations neglect the spatial architecture, relying primarily on topological interac-tion networks without physical coordinates. However, spatial proximity inherently dictates the intercellular signalling. Introducing a spatial variable would enable the study of emer-gent, localised synchronisation phenomena such as travelling waves, localised phase clusters across a cellular architecture. To computationally and mathematically accommodate this spatial dimension, it would be highly advantageous to transition from the discrete Kuramoto model to its corresponding kinetic formulation. Operating in the continuum limit, the ki-netic Kuramoto model is far better equipped to handle large-scale, continuous distributions of oscillators over a spatial domain, providing a robust mathematical framework to analyse the continuous spatio-temporal dynamics of cells’ circadian clocks. 
+
+Conceptualization: FD, AF, IK, AM, MM, LT; Data curation: FD, AF, IK, AM; Formal analysis: AM, MM; Funding acquisition: FD, MM, LT; Methodology: 
+
+AM, MM, LT; Software: AF, AM, MM; Writing – original draft: FD, IK, AM, MM, LT; Writing – review & editing: FD, AF, IK, AM, MM, LT; 
+
+# Declarations 
+
+This research was supported by the French National Agency for Research through project InSync ANR-22-CE45-0012-01 and by LABEX SIGNALIFE (ANR-11-LABX-0028) and the Idex program DYNABIO from Université Côte d’Azur. The authors declares no competing interests. The authors would like to thank Dr G. Kon Kam King for insightful discussions and fruitful interactions. 
+
+Availability of data and materials. This article introduces a model of ODEs for formal-ising the network of circadian oscillators. Experimental data are used to inform and validate the mechanistic model. The experimental methodology used to generate the datasets will be described elswhere (Krawczyk et al, in preparation) and all luminescent recording data for the WT and Cry2KO experiments are available upon request. A signal processing procedure based on wavelet decomposition is proposed to extract quantitative features of the oscillatory dynamics. The code is available at https://github.com/AnastasiaMARECHAL/InSyncPy .26 An algorithm based on previous work is then proposed to calibrate the deterministic model and measure the goodness of fit with experimental data. 
+
+# References 
+
+[1] Sofia Almeida, Madalena Chaves, and Franck Delaunay. Transcription-based circadian mechanism controls the duration of molecular clock states in response to signaling inputs. Journal of theoretical biology , 484:110015, 2020. [2] Aurélio Balsalobre, Lysiane Marcacci, and Ueli Schibler. Multiple signaling path-ways elicit circadian gene expression in cultured rat-1 fibroblasts. Current Biology ,10(20):1291–1294, 2000. [3] Joseph Bass and Joseph S. Takahashi. Circadian integration of metabolism and ener-getics. Science , 330(6009):1349–1354, 2010. [4] René A Carmona, Wen-Liang Hwang, and Bruno Torrésani. Characterization of signals by the ridges of their wavelet transforms. IEEE transactions on signal processing ,45(10):2586–2590, 1997. [5] Marie-Jose Chaaya, Sophie Chauvet, Florence Hubert, Fanny Mann, Mathieu Mezache, and Pierre Pudlo. A continuous approach of modeling tumorigenesis and axons regula-tion for the pancreatic cancer. Journal of theoretical biology , 595:111967, 2024. [6] Ingrid Daubechies. Ten lectures on wavelets . SIAM, 1992. [7] Ingrid Daubechies, Jianfeng Lu, and Hau-Tieng Wu. Synchrosqueezed wavelet trans-forms: An empirical mode decomposition-like tool. Applied and Computational Har-monic Analysis , 30(2):243–261, 2011. [8] Nathalie Delprat, Bernard Escudié, Philippe Guillemain, Richard Kronland-Martinet, Philippe Tchamitchian, and Bruno Torresani. Asymptotic wavelet and gabor analysis: Extraction of instantaneous frequencies. IEEE transactions on Information Theory ,38(2):644–664, 1992. [9] Ousmane Diop, Madalena Chaves, and Laurent Tournier. Qualitative analysis of mam-malian circadian oscillations: Cycle dynamics and robustness. In International Confer-ence on Computational Methods in Systems Biology , pages 176–192. Springer, 2020. [10] David L Donoho and Iain M Johnstone. Ideal spatial adaptation by wavelet shrinkage. 
+
+biometrika , 81(3):425–455, 1994. [11] Florian Dörfler and Francesco Bullo. On the critical coupling for kuramoto oscillators. 
+
+SIAM Journal on Applied Dynamical Systems , 10(3):1070–1099, 2011. [12] Jay C. Dunlap. Molecular bases for circadian clocks. Cell , 96(2):271–290, 1999. [13] G Bard Ermentrout. Synchronization in a pool of mutually coupled oscillators with random frequencies. Journal of Mathematical Biology , 22(1):1–9, 1985. [14] Anna-Marie Finger, Sebastian Jäschke, Marta Del Olmo, Robert Hurwitz, Adrián E Granada, Hanspeter Herzel, and Achim Kramer. Intercellular coupling between periph-eral circadian oscillators by tgf-β signaling. Science advances , 7(30):eabg5174, 2021. [15] Brian C Goodwin. Oscillatory behavior in enzymatic control processes. Advances in enzyme regulation , 3:425–437, 1965. 27 [16] Casey J Guenthner, Martha E Luitje, Lorna A Pyle, Penny C Molyneux, Jimmy K Yu, Alexander S Li, Tanya L Leise, and Mary E Harrington. Circadian rhythms of per2:: Luc in individual primary mouse hepatocytes and cultures. PloS one , 9(2):e87573, 2014. [17] Seung-Yeal Ha, Taeyoung Ha, and Jong-Ho Kim. On the complete synchronization of the kuramoto phase model. Physica D: Nonlinear Phenomena , 239(17):1692–1700, 2010. [18] Seung-Yeal Ha, Se Eun Noh, and Jinyeong Park. Synchronization of kuramoto oscilla-tors with adaptive couplings. SIAM Journal on Applied Dynamical Systems , 15(1):162– 194, 2016. [19] Trevor Hastie, Robert Tibshirani, Jerome Friedman, et al. The elements of statistical learning . Springer series in statistics New-York, 2009. [20] Frank C Hoppensteadt and Eugene M Izhikevich. Pattern recognition via synchroniza-tion in phase-locked loop neural networks. IEEE Transactions on Neural Networks ,11(3):734–738, 2000. [21] Dmytro Iatsenko, Peter VE McClintock, and Aneta Stefanovska. Extraction of instan-taneous frequencies from ridges in time–frequency representations of signals. Signal Processing , 125:290–303, 2016. [22] Hotaka Kaji, Fumito Mori, and Hiroshi Ito. Enhanced precision of circadian rhythm by output system. Journal of Theoretical Biology , 574:111621, 2023. [23] Yoshiki Kuramoto. International symposium on mathematical problems in theoretical physics. Lecture notes in Physics , 30:420, 1975. [24] Yoshiki Kuramoto. Chemical turbulence. In Chemical oscillations, waves, and turbu-lence , pages 111–140. Springer, 1984. [25] GEN KUROSAWA, ATSUSHI MOCHIZUKI, and YOH IWASA. Comparative study of circadian clock models, in search of processes promoting oscillation. Journal of Theoretical Biology , 216(2):193–208, 2002. [26] Jonathan M Lilly. Element analysis: A wavelet-based method for analysing time-localized events in noisy time series. Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences , 473(2200):20160776, 2017. [27] Stéphane Mallat. A wavelet tour of signal processing . Elsevier, 1999. [28] Erick Axel Martinez-Ríos, Rogelio Bustamante-Bello, Sergio Navarro-Tuch, and Hector Perez-Meana. Applications of the generalized morse wavelets: A review. Ieee Access ,11:667–688, 2022. [29] Yi Qin, Baoping Tang, and Yongfang Mao. Adaptive signal decomposition based on wavelet ridge and its application. Signal Processing , 120:480–494, 2016. [30] Christoph Schmal, Gregor Mönke, and Adrián E Granada. Analysis of complex circa-dian time series data using wavelets. In Circadian Regulation: Methods and Protocols ,pages 35–54. Springer, 2022. [31] Ervin Sejdić, Igor Djurović, and Jin Jiang. Time–frequency feature representation using energy concentration: An overview of recent advances. Digital signal processing ,19(1):153–183, 2009. [32] Philip Seliger, Stephen C Young, and Lev S Tsimring. Plasticity and learning in a network of coupled phase oscillators. Physical Review E , 65(4):041906, 2002. 28 [33] Flore Sinturel, Pascal Gos, Volodymyr Petrenko, Claudia Hagedorn, Florian Kreppel, Kai-Florian Storch, Darko Knutti, Andre Liani, Charles Weitz, Yann Emmenegger, et al. Circadian hepatocyte clocks keep synchrony in the absence of a master pacemaker in the suprachiasmatic nucleus or other extrahepatic clocks. Genes & development ,35(5-6):329–334, 2021. [34] Janko Slavič, Igor Simonovski, and Miha Boltežar. Damping identification using a continuous wavelet transform: application to real data. Journal of Sound and Vibration ,262(2):291–307, 2003. [35] Joseph S Takahashi. Transcriptional architecture of the mammalian circadian clock. 
+
+Nature Reviews Genetics , 18(3):164–179, 2017. [36] Christopher Torrence and Gilbert P Compo. A practical guide to wavelet analysis. 
+
+Bulletin of the American Meteorological society , 79(1):61–78, 1998. [37] David K Welsh, Joseph S Takahashi, and Steve A Kay. Suprachiasmatic nucleus: cell autonomy and network properties. Annual review of physiology , 72(1):551–577, 2010. 
+
+# A Details on the Data Processing 
+
+Several issues arise when analysing the time series coming from circadian clock experiments on spheroids of hepatocytes cells : 1. the length of the signal is relatively short. The duration of the experiments is limited by the protocol allowing to sustain alive hepatocytes in the spheroids. Since, no medium change is possible during the recording of the light intensity the cells are bound to die by a lack of necessary nutrients. This means that it is only possible to record ten cycles at most. Moreover, the signal intensity is generally decreasing over time due to the cells’ degradation. 2. On this data set, the limited number of cycles combined to the averaged duration of 24 hours for the circadian clock makes it challenging to extract information on the frequency domain. The frequency of the features of interest needs to be precisely estimated on a frequency range up to 1e−4 Hz. Thus, the seminal way to perform a time frequency analysis of the signal using short-time Fourier transform is facing a key limitation in this study. Circadian have long periods ( ≈24 hours) and hence require long windows to accurately identify oscillatory features, however the fixed (and large) window size is particularly detrimental to the time localization of the features [31]. 3. The quantitative descriptors that we want to extract from these signals are also affected by edge effects. In the context of circadian data, which involves low-frequency oscilla-tions, edge effects are especially problematic: meaningful features near the beginning or end of the recording (e.g., phase shifts, amplitude changes) can be misrepresented or attenuated, leading to inaccurate interpretation of biological rhythms. Hence, in this nonparametric setting, we aim at detecting and quantitatively characteris-ing from the data (yi)0≤i≤N −1 the features displayed by (xi)0≤i≤N −1 at a specific frequency range corresponding to experimentally observed circadian periods. Therefore, we need to investigate the shape of (xi)0≤i≤N −1, which requires smoothing in order to get rid of the noise (ξi)0≤i≤N −1. Another difficulty is to separate the circadian clocks’ features from the low frequency features emerging from experimental measurements and resulting in trends in the signal. 29 A.1 Pre-processing: noise and trend removal, trimming the signal 
+
+Denoising and detrending a signal prior to time-frequency analysis enhances the inter-pretability and accuracy of extracted features by minimising confounding noise and slow drifts that overshadow true oscillatory content. Denoising removes high-frequency artifacts that can leak down on the frequency axis in the time-frequency domain, while detrending removes low-frequency baseline shifts that may distort the localisation and amplitude of wavelet coefficients. Thus, this pre-processing step improves spectral resolution, reduces edge artifacts, and facilitates robust detection of biologically relevant dynamics. 
+
+Denoising processing. These signals display additive noise with damped oscillations, meaning that although the noise level remains constant through time, the ratio signal/noise is decreasing. Hence, the impact of the noise becomes more significant as time passes and affects negatively the quantitative estimators unevenly with respect to time. The first step of the signal processing is an attempt to remove the white noise influence by filtering in the wavelet domain (c.f. Chap. 11 in [27]). This process corresponds to a low-pass filter that allows to keeps information below a frequency threshold ω.The method we use in this step, which we summarise below, was introduced in [10] and is based on selective wavelet reconstruction. For the sake of simplicity, suppose that for our data (yi)0≤i≤N −1 described in (4.2), N = 2 J+1 for J ∈ N and suppose that the signal of interest x is sufficiently smooth. Hence, one may construct an orthogonal matrix W ∈ MN (K), denoted the finite wavelet transform matrix (c.f. Chap. 3 in [6], Chap. 7 in [27]), which is the discrete wavelet transform operator : 
+
+(wi)0≤i≤N −1 = W (yi)0≤i≤N −1 , (A.1) and the following inverse formula holds 
+
+(yi)0≤i≤N −1 = WT (wi)0≤i≤N −1 .
+
+Usually, the vector (wi)0≤i≤N −1 is indexed dyadically: 
+
+wj,k : j = 0 , . . . , J ; k = 0 , . . . , 2j − 1
+
+and we rewrite the signal as a sum of basis elements Wjk with (wavelet) coefficients wj,k :
+
+yi = X
+
+> j,k
+
+wj,k Wjk (i).
+
+For the mother wavelet ψ, the basis elements are defined as the following: 
+
+√N W jk (i) = 2 j/ 2ψ  2j iN − k .
+
+Hence, the signal projected in the time-scale domain is expressed as the following: 
+
+wj,k = θj,k + σξ j,k , (A.2) where ξj,k are independent and identically distributed standard Gaussian noise. It follows from the Parceval formula that for the estimators denoted ˆx and ˆθ:
+
+E∥x − ˆx∥22 = E∥θ − ˆθ∥22.
+
+Finally, the process of reconstructing the denoised signal (ˆ xi)0≤i≤N −1 consists of perform-ing the wavelet transform, applying a keep-or-kill strategy with a hard thresholding and performing the inverse wavelet transform. Hence, the estimators 
+
+ˆθj,k 
+
+
+
+> j,k
+
+is given by: 
+
+ˆθj,k = wj,k 1
+
+n
+
+wj,k > p2 log N ˆσ
+
+o
+
+,
+
+30 where ˆσ is the estimated noise level corresponding to the median absolute deviation of 
+
+(wJ,k )k (the coefficients at the finest scale assumed to be pure noise). This assumption is justified in our case since there is a large gap between the frequency of the real signal features (around 1e − 4 Hz) and the frequency sampling ( 1.67 e − 3 Hz). In conclusion, the reconstructed denoised signal is obtained using the inverse formula: 
+
+ˆx = WT ˆθ
+
+and, thanks to Theorem 4 in [10], the following holds 
+
+E∥x − ˆx∥22 ≤ LN
+
+ σ2
+
+N + RN,σ (y, x )
+
+
+
+, (A.3) where LN ∼ 2 log N and 
+
+RN,σ (y, x ) = inf  
+
+> δ
+
+E X
+
+> (j,k )∈δ
+
+wj,k Wjk − x
+
+> 22
+
+.
+
+Moreover suppose x is a polynomial of finite order, the squared residuals RN,σ (y, x ) satisfies 
+
+RN,σ (y, x ) = O
+
+ σ2 log NN
+
+
+
+.
+
+Detrending processing. Once the denoised signal (ˆ xi)0≤i≤N −1 is obtained , our goal is to remove the low frequency features that corresponds to experimental artefacts characterised by slow varying dynamics (changes on a time scale of several days). These low frequency features in the time-frequency domain correspond to the trend of the signal. An efficient way to remove these features is to minimise the penalised residual sum of squares (c.f. Chap. 5 in [19]): 
+
+F( ˆϑ)( ·) = arg min   
+
+> f∈C 2(Ω)
+> N−1
+
+X
+
+> i=0
+
+(f (i × dt ) − ˆxi)2 + λ
+
+Z
+
+> Ω
+
+f (2) (u)du, (A.4) where λ is the smoothing parameters controlling the trade-off between the goodness-of-fit to the data and the smoothness of the trend estimators, where ˆϑ ∈ RN is the vector of estimated parameters which is a linear combination of ˆxi and where the unique minimiser is a linear combination of natural cubic splines (ϕi)0≤i≤N −1. Hence 
+
+F( ˆϑ)( ·) =  
+
+> N−1
+
+X
+
+> i=0
+
+ˆϑiϕi(·)
+
+and since the (ϕi)0≤i≤N −1 forms a set of basis functions of natural splines, the following holds (c.f. Chap. 5 in [19]) : 
+
+ ˆϑi
+
+ 
+
+> 0≤i≤N−1
+
+= Sλ (ˆ xi)0≤i≤N −1
+
+and Sλ = M  M T M + λΩ−1 M T with M, Ω ∈ M N (R) and Mij = ϕj (i × dt ) and Ωij =R ϕj (t)ϕi(t)dt. We denote by (˜ xi)0≤i≤N −1 the detrended signal 
+
+˜xi = ˆ xi − F ( ˆϑ)( i × dt ), i = 0 , . . . , N − 1. (A.5) It is important to emphasise two points. The first is that the smoothing parameter λ plays a significant role in the trend approximation. If λ = 0 , the trend is any function interpolating the data and if λ = ∞, the trend is the best linear fit of the data. The second point is that poor or no detrending implies a persistence of edge effects that negatively impact the time-frequency analysis since the signal is non-stationary. 31 Trimming the signal. The trimming preprocessing step is designed to remove the initial transient oscillation and to align the retained signal segment to zero before performing the time–frequency analysis. The practical motivations are twofold: 
+
+• eliminating the initial oscillation reduces bias from start-up transients that contami-nate wavelet estimates through edge effects. Indeed, the dexamethasone pulse used to synchronise the circadian clock also induces a transient, immediate and strong pertur-bation of the cells that last for few hours and which impact on multiple non circadian clock pathways. 
+
+• Cutting at a zero crossing reduces phase discontinuities at the trim point, improves the behavior of transforms that assume local stationarity or continuity [36]. The trimming preprocessing step is performed by localising the peaks of the absolute value of the denoised and detrended signal (˜ xi)0≤i≤N −1 with a minimal inter-peak distance set to 5 hours. Then we discard the portion of the signal prior to the second detected peak to remove a full revolution. 
+
+# A.2 Quantitative descriptors of the circadian oscillators for a pop-ulation of cells 
+
+The experimental signals processed in this study have damped harmonic oscillations and exhibit a nonstationary behaviour. The main idea is to characterise the damping of the oscillations and to quantify the period evolution over time using the continuous wavelet transform (CWT) and its Synchrosqueezed Transform (SST) on a denoised and detrended signal. In the following, we denote (˜ xi)0≤i≤N −1 the signal assimilated to (xi)0≤i≤N −1 where the trend features have been removed. 
+
+About the CWT. The continuous wavelet transform (CWT) provides a powerful frame-work for time-frequency analysis of non-stationary signals (cf. [6, 27]). For a signal x(·) ∈
+
+L2(R) and a mother wavelet ψ ∈ L2(R) (i.e. a normalised function with an average value equal to 0), the continuous wavelet transform of f is defined as: 
+
+Wx(a, b ) = 1
+
+√a
+
+Z ∞−∞ 
+
+x(t)ψ
+
+ t − ba
+
+
+
+dt 
+
+where ψ denotes the complex conjugate of ψ. The parameter a > 0 is the scale parameter (inversely related to the frequency), b ∈ R is the translation parameter linked to the time localisation. 
+
+About the SST. The synchrosqueezed wavelet transform (SST) [7] is often used to im-prove the time-frequency resolution involving a rigorous energy reassignment method. The fundamental mechanism of the SST relies on extracting the instantaneous frequency di-rectly from the CWT. For any point (a, b ) where the wavelet coefficients are non-vanishing (Wx(a, b )̸ = 0 ), the two-dimensional candidate instantaneous frequency ω(a, b ) is computed as the analytical phase derivative with respect to time: 
+
+ω(a, b ) = −i 1
+
+Wx(a, b )
+
+∂W x(a, b )
+
+∂b 
+
+Once computed, the SST reallocates the diffuse oscillatory energy from the time-scale domain 
+
+(b, a ) directly to the time-frequency domain (b, ω ) by "squeezing" it along the frequency axis. Formally, the discrete synchrosqueezed transform Tx(ωl, b ) is defined by mapping the wavelet 32 coefficients to a center frequency ωl within a discrete frequency bin [ωl − ∆ω/ 2, ω l + ∆ ω/ 2] 
+
+of resolution ∆ω:
+
+Tx(ωl, b ) = 1∆ω
+
+X 
+
+> ak∈Ωl
+
+Ws(ak, b )a−3/2 
+
+> k
+
+(∆ a)k
+
+where ak are the logarithmically spaced discrete scales, Ωl = {a : |ω(a, b ) − ωl| ≤ ∆ω/ 2}
+
+is the frequency window of length ∆ω and center ωl and (∆ a)k = ak − ak−1 is the scale step. Consequently, the original signal can be robustly reconstructed by integrating the synchrosqueezed representation over the frequency axis: 
+
+x(t) = Re 
+
+"
+
+1
+
+Cψ
+
+X
+
+> l
+
+Tx(ωl, t )∆ ω
+
+#
+
+where Cψ is the admissibility constant of the mother wavelet ψ.
+
+Quantitative descriptors of the oscillations using the ridges of the SST. Signals of circadian rhythms are slow-varying oscillating signals with a damped amplitude. They may reasonably be considered as a monocomponent signal x(t) = A(t)eiϕ (t) with slowly varying amplitude 
+
+A(t) = exp( −λt )
+
+with λ > 0 and slowly varying phase ϕ(t). Hence, the quantitative descriptors of the oscil-latory features in the signal corresponds to the time-frequency energy localisation given by the SST [8]. Denote ϕ′(t) = ω(t) the instantaneous frequency, then the curves shaped by the local max-ima of the CWT in the time-scale plane follow the instantaneous frequency. Hence, the 
+
+quantitative descriptor of the period evolution is given by 
+
+ωr (b) = arg max  
+
+> ω
+
+|Tx(ω, b )|,
+
+and the instantaneous amplitude is 
+
+Ainst (b) = |Tx(ωr (b), b )|.
+
+The parameter of the amplitude decay , λ, is estimated by fitting the instantaneous am-plitude obtained with the CWT with a model t 7 → exp( −λt ).
+
+The continuous wavelet transform and synchrosqueezed transform provide a robust math-ematical framework for instantaneous frequency estimation through ridge extraction which ensures reliable performance under appropriate conditions: reasonable signal-to-noise ratio, sufficiently slow rate of frequency variation, the correct wavelet choice and its time-frequency concentration, etc (cf. [26]). Several methods are available to extract the ridges [4, 34, 29] and they mostly involve: 
+
+• to compute the CWT over appropriate scales and times 
+
+• to find the frequency ωr (b) that maximises |Tx(ω, b )| for each time localisation param-eter b,
+
+• to apply smoothing constraints to ensure the ridge continuity, 
+
+• and to convert the ridge scales to instantaneous frequency. The key strength of the CWT-based approach lies in its adaptive time-frequency resolution, making it particularly suitable for analysing signals with time-varying spectral content. Moreover, the features extraction using this method also has the advantage of enabling accurate estimation despite a very low signal-to-noise ratio (cf. Figure 8). 33 Figure 8: Robustness of the wavelet-based feature extraction method in the presence of noise. The signal-to-noise ratio modulates the additive noise effect. (Left) Synthetic signal (dashed black) with additive noise at multiple levels (color), illustrating increasing signal degradation. (Middle) Estimated instantaneous frequency for each noise level. (Right) Estimated instantaneous amplitude for each noise level. The method reliably extracts the amplitude and period for signal-to-noise ratios up to 0.5, thereby demonstrating its robustness against additive noise. 
+
+# B Modelling assumptions 
+
+In this Appendix, we detail the modelling choice about the parameters values and the nu-merical methods. Table 3 recalls the parameters that are fixed a priori based on established properties of mammalian circadian clocks and for computational convenience. Parameters LWT LCry2KO Ωi P 0
+
+Values 24 .46 h 28 .42 h 1 Eq.(5.4) Table 3: Fixed parameters for the system (2.2)-(5.3). Parameters dictating the dynamical behaviour of the system are described in Section 6.1 and the ranges of those parameters are given in Table 2. In the following, we give supplementary information for the sake of clarity and reproducibility. 
+
+Additional information about the spread of the initial condition σ:
+
+The synchronisation state of the population at initial time of the experiment is unknown. Then the initial phase dis-tribution is parametrised to account for different levels of synchronisation and we assume it follows a truncated Gaus-sian distribution on the interval [0 , L ], centered at L/ 2 with density f such that: 
+
+f (ϕ)dϕ =exp 
+
+
+
+− (ϕ−L/ 2) 2
+
+> 2σ2
+
+R L 
+
+> 0
+
+exp 
+
+
+
+− (x−L/ 2) 2
+
+> 2σ2
+
+
+
+dx dϕ, ϕ ∈ [0; L],
+
+where parameter σ ∈ [10 −2, 10 2] controls the spread of the distribution. 
+
+Additional information about the width of the coupling window ∆θ : The coupling window is defined with two additional parameters θmin (resp. θmax ) which characterised the beginning (resp. the end) of the stage of the circadian cycle where cells are susceptible to intercellular coupling. We set θmin = L/ 2 − ∆θ /2 and θmax = L/ 2 + ∆ θ /2, which guarantees that the coupling window [θmin , θ max ] is contained within the circadian cycle interval [0 , L ].
+
+Additional information about the discretisation parameters: The parameters for the numerical approximations are described in Table 4. The simulations are performed in 34 Parameters N dt Tmax s
+
+Values 100 10 min 2Tdata 20 Table 4: Discretisation parameters used for numerical simulations. Python using the solve_ivp solver with the LSODA method and the following is assumed: 
+
+• Number of oscillator N . Since we compare the normalised output Y of equation (5.3) with the normalised data, the number of oscillator does not directly affects the comparison. To keep a balance between the biological reality and computational effi-ciency, we choose to simulate a population of N = 100 oscillators. 
+
+• Time step of the computation dt . The time step used for the simulations is chosen to match the sampling interval of the experimental data, i.e., 10 minutes, allowing direct comparison between the model output and the data. 
+
+• Maximum simulation time Tmax . To ensure that the model output can be com-pared with the experimental data, the maximum simulation time is set to twice the maximum duration of the dataset. 
+
+• Phase localised coupling function φ. We de-fine φ on a single cycle and extend it by periodic-ity to obtain an L-periodic function. Numerically, 
+
+φ is given by 
+
+φ(θ) = tanh( s(θ − θmin )) + tanh( s(θmax − θ)) 2 . 0 θmin θmax L  
+
+> 0
+> 0.5
+> 1
+> θφ(θ)
+> s= 20
+> s= 2
+
+As seen in the figure, the parameter s defines the slope of the function: the larger s is, the closer φ approaches an indicator function. We fix s = 20 to balance the smoothness of the function with a sufficiently sharp transition at the edges of the coupling interval. 35
