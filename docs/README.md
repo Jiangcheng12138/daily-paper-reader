@@ -6,40 +6,37 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-27
-- 运行时间：2026-07-27 21:59:28 UTC
+- 最新运行日期：2026-07-30
+- 运行时间：2026-07-30 22:00:23 UTC
 - 运行状态：成功
-- 本次总论文数：6
+- 本次总论文数：5
 - 精读区：3
-- 速读区：3
+- 速读区：2
 
 ### 今日简报（AI）
-1) 今日聚焦睡眠医学与脑电图可解释诊断，推荐5篇论文涵盖逻辑时序队列引擎、指南符号表示及多种脑电图解析方法。
-2) 最值得关注的是精读中最高分（9.0）的《逻辑时序队列发现引擎》，其算法与索引在国家级睡眠研究数据中表现优异；另一精读（8.0）用集成逻辑表示睡眠医学指南，为临床决策提供符号化工具。
-3) 建议普通读者优先阅读这两篇精读论文，了解如何利用逻辑建模提升睡眠医学数据挖掘的准确性与可解释性，并关注速读中脑电图生物标志物与动态脑网络的新方法。
-- 详情：[/202607/27/README](/202607/27/README)
+1) 今日精读两篇高分研究，聚焦睡眠分期生理约束与AI大规模睡眠生理发现，速读钙成像与脑脊液运输新进展。  
+2) 最值得关注：睡眠分期需结合生理约束（如《StageGuard》），AI驱动的大规模睡眠生理学发现推动精准医学。  
+3) 建议从生理约束睡眠分期和脑脊液运输机制入手，探索睡眠障碍与神经交换的交叉方向。
+- 详情：[/202607/30/README](/202607/30/README)
 
 ### 精读区论文标签
-1. [A Logic-based Temporal Cohort Discovery Engine: Algorithms, Indices, and Experimental Results on the National Sleep Research Resource](/202607/27/2607.21377v1-a-logic-based-temporal-cohort-discovery-engine-algorithms-indices-and-experimental-results-on-the-national-sleep-research-resource)  
+1. [StageGuard: Physiologically Constrained Sleep Staging](/202607/30/2607.23284v1-stageguard-physiologically-constrained-sleep-staging)  
    标签：评分：9.0/10、query:slp-ns
-   evidence：基于逻辑的睡眠研究数据时序队列发现引擎
-2. [Ensemble Logic for Symbolic Representation of Sleep Medicine Guidelines](/202607/27/2607.21331v1-ensemble-logic-for-symbolic-representation-of-sleep-medicine-guidelines)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：睡眠评分指南的符号化表示，应用于临床睡眠障碍
-3. [Neural drift during rest drives walking direction and memory consolidation in Drosophila](/202607/27/biorxiv-10-1101-2025-03-20-644317-v2-neural-drift-during-rest-drives-walking-direction-and-memory-consolidation-in-drosophila)  
-   标签：评分：8.0/10、query:slp-ns
-   evidence：休息时神经漂移驱动记忆巩固
+   evidence：基于生理约束的睡眠分期方法提升睡眠结构指标可靠性
+2. [Agentic AI-enabled discovery across large-scale sleep physiology](/202607/30/2607.25175v2-agentic-ai-enabled-discovery-across-large-scale-sleep-physiology)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：利用大规模PSG的AI驱动睡眠生理发现
+3. [LGFNet: A CTC-Guided Local-Global Fusion Framework for Single-Channel Sleep Staging](/202607/30/2607.25197v1-lgfnet-a-ctc-guided-local-global-fusion-framework-for-single-channel-sleep-staging)  
+   标签：评分：9.0/10、query:slp-ns
+   evidence：提出单通道睡眠分期的深度学习新框架，推动睡眠神经科学研究。
 
 ### 速读区论文标签
-1. [Adaptive Multi-Expert Graph Transformer for Interpretable EEG-Based Diagnostics](/202607/27/2607.19429v1-adaptive-multi-expert-graph-transformer-for-interpretable-eeg-based-diagnostics)  
+1. [CAPT: A Multi-task Continuous Autoregressive Transformer enabling Cross-dataset and Cross-species Transfer for Calcium Population Dynamics](/202607/30/2607.23258v1-capt-a-multi-task-continuous-autoregressive-transformer-enabling-cross-dataset-and-cross-species-transfer-for-calcium-population-dynamics)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：基于EEG的诊断与动态连接
-2. [Interpretable EEG biomarkers with bag-of-waves: Spatial and temporal waveform dictionaries for low-data regimes](/202607/27/2607.22508v1-interpretable-eeg-biomarkers-with-bag-of-waves-spatial-and-temporal-waveform-dictionaries-for-low-data-regimes)  
+   evidence：钙成像跨物种迁移，适用于睡眠神经科学
+2. [Sleep-related forcing of cerebrospinal fluid streaming transport through the third ventricle](/202607/30/2607.24501v1-sleep-related-forcing-of-cerebrospinal-fluid-streaming-transport-through-the-third-ventricle)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：可解释的EEG生物标志物方法，适用于睡眠神经科学
-3. [FSDBN: Foreground-Aware EEG--Visual Alignment via Dynamic Brain Networks](/202607/27/2607.18344v1-fsdbn-foreground-aware-eeg--visual-alignment-via-dynamic-brain-networks)  
-   标签：评分：6.0/10、query:slp-ns
-   evidence：基于EEG的视觉解码与脑网络
+   evidence：睡眠相关脑脊液在NREM睡眠期的流送传输
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,207 @@
+Title: Sleep-related forcing of cerebrospinal fluid streaming transport through the third ventricle
+
+URL Source: https://arxiv.org/pdf/2607.24501v1
+
+Published Time: Tue, 28 Jul 2026 02:06:27 GMT
+
+Number of Pages: 21
+
+Markdown Content:
+# Sleep-related forcing of cerebrospinal fluid streaming transport through the third ventricle 
+
+Pengcheng Zhao a, Luke McTavish a, Christoph Bruecker a,1 
+
+> aCity St George’s, University of London, Northampton Square, London, EC1V 0HB, United Kingdom
+
+Abstract 
+
+Quasi-periodic pressure pulses associated with cardiac and respiratory ac-tivity generate reciprocating cerebrospinal fluid (CSF) motion in the hu-man ventricles. While weak and more regular during wakefulness, oscillatory fluid motions have recently been found to be much more exaggerated dur-ing NREM sleep, appearing as large flushes in successive pulse trains. The present study investigates whether this forcing can induce greater residual streaming through the human ventricles. Transient CFD simulations were performed in the third ventricle under awake and sleep-related flow pulses. Sleep-related forcing produced clear caudal and rostral preferential pathways and less overall recirculation in the cavity. The streaming flux relative to the stroke volume increased from a low value of about 0.540% to 28 .4% dur-ing sleep. Thus, sleep-related forcing changes not only the magnitude of reciprocating fluid displacement but also the relative contribution of residual streaming. These findings demonstrate differences in hydrodynamic organi-sation in the third ventricle and highlight the importance of this organisation for intraventricular fluid exchange. 
+
+Keywords: cerebrospinal fluid, third ventricle, sleep, computational fluid dynamics, streaming transport   
+
+> ∗Corresponding author.
+> Email address: Christoph.Bruecker@citystgeorges.ac.uk (Christoph Bruecker) arXiv:2607.24501v1 [physics.med-ph] 27 Jul 2026
+
+1. Introduction 
+
+Cerebrospinal fluid (CSF) motion in the ventricular system contributes to mechanical protection and fluid exchange around the brain (Sakka et al., 2011; Iliff et al., 2012). In addition to the quasi-steady transport of CSF produced in the ventricles, CSF motion also has an oscillatory component, which is driven primarily by quasi-periodic pressure pulses associated with cardiac pulsation and respiration (Yamada et al., 2013; Chen et al., 2015). Typically, the net CSF flow rate due to production and drainage in the system is one order of magnitude lower than the volume that is displaced caudally and rostrally in each cycle (Spijkerman et al., 2019). The resulting quasi-periodic flow reversals make ventricular CSF motion a candidate for so-called steady streaming (Haselton and Scherer, 1982; Khani et al., 2018), namely, the generation of residual mean motion that contributes to fluid exchange even when the net fluid displacement over a cycle is close to zero. Oscillatory, reciprocating flows can therefore still generate effective transport and mixing even when the cycle-averaged net flow is small. Such residual motion can arise when an oscillatory flow interacts with complex geometries and spatially non-uniform velocity gradients; therefore, its organisation cannot be inferred from net flow alone. As an example, streaming has been demonstrated as an important transport mechanism in reciprocating flow through bifurcations in the human airways (Haselton and Scherer, 1982; Wanigasekara et al., 2024). The focus of our study herein is the region of the third ventricle, as it occupies a central position in the CSF passage: it receives CSF from the lateral ventricles through two small channels, the FOM, and communicates with the fourth ventricle through another narrow channel, the cerebral aque-duct. Its curved walls, local anatomical constraints such as the position and size of a possible interthalamic adhesion (see Duque Parra et al. (2022)), and the shape of the FOM and aqueduct can organise the hydrodynamic pattern of the residual streaming motion. The constrictions of the FOM and the aqueduct can also amplify local velocity gradients relative to those within the main ventricular cavity. The third ventricle therefore provides an impor-tant setting in which to examine how physiological forcing is converted into cross-ventricular exchange and residual streaming. Previous CFD studies have already been conducted to analyse CSF flow in the third ventricle (Kurtcuoglu et al., 2007b,a). These early studies used subject-specific models of the third ventricle and examined aqueductal jets, recirculation, and laminar flow characteristics; however, they used bound-2ary conditions relevant only to the awake condition. In the meantime, the ground-breaking paper by Fultz et al. has highlighted the fundamentally dif-ferent situation during NREM sleep (Fultz et al., 2019). In their human neu-roimaging study, they showed that non-rapid eye movement (NREM) sleep is associated with large-volume, slow CSF oscillations coupled to neural and haemodynamic activity (Fultz et al., 2019). These events differ substantially in amplitude and time scale from the smaller, faster pulsations that char-acterise oscillatory CSF exchange during wakefulness. This led Fultz et al. to call this the "Washing Machine", which helps to clear the brain. Animal work has indeed shown that sleep enhances metabolite clearance from the brain (Xie et al., 2013). The current work incorporates these new observations into revised bound-ary conditions for the CFD simulations. It focuses on the hydrodynamic question of whether sleep-related CSF oscillations alter local ventricular flow organisation, exchange, and streaming relative to an awake condition. CFD provides a complementary approach for resolving local ventricular flow struc-tures under controlled physiological conditions. A representative human third-ventricle geometry was used to compare awake and sleep-related os-cillatory forcing while the geometry, mesh, and material properties were held fixed. The analysis considered midsagittal velocity fields, preferential path-ways, stroke volume, the residual streaming flux Qr, and the streaming effi-ciency. The objective was to determine whether sleep-related forcing changes both the magnitude of CSF exchange and the spatial organisation of stream-ing transport through the third ventricle. This controlled design attributes differences in the computed response to the imposed forcing amplitude and period. 
+
+2. Methods 
+
+2.1. Geometry and mesh generation 
+
+A representative human third-ventricle geometry was obtained from the public 3D model platform Thingiverse (published by the user akshay_d21, see https://www.thingiverse.com/thing:2199907). According to the model description, the geometry was derived from BodyParts3D/Anatomography. It was transferred into Fusion 360 to generate a computational fluid domain that contains the third-ventricle body, the bilateral FOM, and the cerebral aqueduct (aqueduct of Sylvius). The reconstructed fluid-domain volume was approximately 1.25 mL , which is within the range of adult third-ventricle 3Figure 1: Reconstructed third ventricle geometry used for CFD simulation, adapted from the public Thingiverse model by akshay_d21. (a) Three-dimensional view of the processed fluid domain showing the FOM and the cerebral aqueduct. (b) Lateral view of the same geometry with scale bar and outlet extension. The vertical axis of the coordinate system is aligned with the axis of the inferior end of the aqueduct. 
+
+volumes reported by Hernández-Cortés et al. (2023). The inferior end of the cerebral aqueduct was extended further into a circular pipe with small taper to ensure smooth entrance into the aqueduct when the flow is rostral. The equivalent diameter of the inferior end with a cross-sectional area of AAq =2.86 mm 2 results to DAq = 1 .9 mm , which lies within the range reported for the aqueduct diameter in normal subjects (Oner et al., 2017). The combined area of the two FOM inlets was Ain = 11 .24 mm 2.The FOM were defined as inlet boundaries, while the extended cerebral aqueduct was defined as the outlet boundary. All remaining surfaces were treated as no-slip walls. The processed geometry was imported into ANSYS Meshing, where an unstructured mesh was generated automatically using a global element size of 9 × 10 −5 m together with local refinement around the FOM, the cere-bral aqueduct, and strongly curved regions. Named selections were assigned to the inlet, outlet, and wall boundaries before import into ANSYS Flu-ent. The same geometry and baseline mesh, comprising approximately 4.84 
+
+million elements, were used for the awake and sleep simulations so that dif-ferences between cases reflected the prescribed forcing rather than geometry or discretisation. A mesh-independence study was carried out and showed 4sufficient resolution for both cases; see the documentation in Appendix A. 
+
+2.2. Fluid model and numerical method 
+
+Cerebrospinal fluid (CSF) was modelled as an incompressible Newtonian fluid with water-like properties with the density ρ = 1000 kg m −3 and the kinematic viscosity ν = 1 .0 × 10 −6 m2 s−1. Numerical simulations were per-formed in ANSYS Fluent using a pressure-based solver for the transient incompressible Navier–Stokes equations. The Reynolds-number estimates given later in Section 3.2 remained below the conventional transition range for internal flow; a laminar formulation was therefore used, with rigid no-slip walls. Each case was simulated for three complete cycles, and the final cycle was used for flow-metric extraction after the initial transient response. Residuals of the continuity equation and velocity components were moni-tored, and the outlet flow-rate waveform was checked for temporal stability and periodicity. 
+
+2.3. Boundary conditions and simulation settings 
+
+The inlet velocity was prescribed as a spatially uniform sinusoidal wave-form on both sides of the FOM, 
+
+U (t) = Upeak sin 
+
+2πt T
+
+
+
+, (1) where Upeak is the peak inlet velocity and T is the oscillation period. The resulting Q-t flow waveform has a positive part that generates caudal flow from the third ventricle towards the fourth ventricle, whereas the negative part denotes reverse flow in the rostral direction. Herein, we take into account only the oscillatory part of CSF transport for both the awake and sleep conditions in order to isolate the streaming effect induced by the flow reversals. This is justified because the net CSF flow rate due to production and drainage in the system is one order of mag-nitude lower than the volume that is displaced caudally and rostrally in each cycle (Spijkerman et al., 2019). As a first-order approximation, we further represent the successive flow pulses in both conditions using an idealised si-nusoidal waveform, with each pulse flushing the same volume of fluid (the stroke volume SV ) caudally and rostrally. This assumption is at least rea-sonable for the awake condition; see (Gholampour and Fatouraee, 2021). So far, no detailed flow measurements in the aqueduct have been possible during sleep. In the absence of such measurements, the first-order approximation is 5a reasonable simplification for focusing on the streaming effect under similar boundary conditions; see also (Beggs et al., 2019). This allowed the compari-son to isolate the effects of amplitude and oscillation period on the streaming effect. In the following, the reference velocity inside the aqueduct is introduced using the relevant cross-sectional areas. For a sinusoidal inlet waveform, the positive-half-cycle stroke volume in the model was related to the peak inlet velocity by 
+
+SV =
+
+Z T / 20
+
+Q(t) d t = Ain Upeak ,in Tπ = AAq Upeak ,Aq Tπ . (2) For the awake condition, the target stroke volume was taken from the data reported by Markenroth Bloch et al. (2018), giving SV awake = 6 .0 μL.With Tawake = 1 .0 s , this gave the FOM inlet amplitude Upeak = 0 .0017 m s −1.The awake simulation used a solver time step of 0.02 s , a total physical time of 3.0 s , and three complete cycles. For the sleep condition, the forcing amplitude and period were approx-imated from the large, spatially coherent CSF inflow-related fMRI signal changes reported during NREM sleep by Fultz et al. (2019). The reported data showed large waves of CSF inflow approximately every 20 s . A detailed inspection of their signals revealed that each wave consisted of 3–4 succes-sive larger oscillatory peaks with a peak-to-peak interval of T ≈ 4 s ; these observations suggested a representative period of Tsleep = 4 .0 s , as probably driven by the breathing cycle during sleep. The estimated velocity amplitude, 
+
+Upeak ,in = 0 .17 m s −1, is detailed further in Appendix B. The corresponding nominal model stroke volume was approximately 2.43 mL . Relative to the reconstructed third-ventricle volume of approximately 1.25 mL , these values corresponded to approximately 0.49% of the ventricular volume per awake cycle and approximately 1.9 ventricular volumes per sleep cycle. The sleep simulation used a solver time step of 5.0 × 10 −4 s, a total physical time of 
+
+12 .0 s , and three complete cycles. Export was performed every 80 solver time steps, giving an export interval of 0.04 s and 100 exported points per cycle. 6Case Upeak T Solver time step Cycles Awake 0.0017 m s −1 1.0 s 0.02 s 3Sleep 0.17 m s −1 4.0 s 5.0 × 10 −4 s 3
+
+> Table 1: Inlet velocity boundary conditions and temporal settings for the awake and sleep simulations.
+
+A representative Courant–Friedrichs–Lewy (CFL) number was also esti-mated using C = Upeak ∆t/ ∆x, with ∆x = 9 × 10 −5 m taken as the repre-sentative mesh length scale (Courant et al., 1928). The representative CFL numbers were Cawake ≈ 0.38 and Csleep ≈ 0.94 , indicating adequate temporal resolution for the selected time-step sizes. 
+
+2.4. Characteristic flow parameters 
+
+The Reynolds number based on the cerebral aqueduct diameter as the characteristic length scale is defined as 
+
+Re = UAq ,peak DAq 
+
+ν , (3) where UAq ,peak is the peak cross-sectionally averaged velocity in the cere-bral aqueduct and DAq is its equivalent diameter. The estimated Reynolds numbers were Re awake = 12 .7 and Re sleep = 1270 . Both values remained below the conventional transition range for internal pipe flow. The Womersley number was used to characterise the relative importance of unsteady inertial effects and viscous diffusion in the oscillatory CSF flow (Womersley, 1955): 
+
+α = DAq 
+
+2
+
+r 2πT ν . (4) The resulting values were αawake ≈ 2.38 and αsleep ≈ 1.19 . Please note that these values refer to the flow in the aqueduct and are not representative of the typical scales in the ventricle. 
+
+2.5. Post-processing and flow metrics 
+
+Post-processing was performed in MATLAB using the exported transient velocity fields from ANSYS Fluent. Quantitative flow metrics were calculated from the cerebral aqueduct outlet; the midsagittal plane was used only for 7velocity-contour and streamline visualisation. Unless otherwise stated, flow metrics were evaluated over the final simulated cycle for each case. The net-streaming flow pattern becomes visible by time-averaging the velocity field which is bUs, called the mean streaming velocity field. This flow field is later analysed in detail using streamline patterns and contour plots. From this, the component of residual streaming flux across the boundary of the inferior end of the aqueduct is calculated as follows (see also Wanigasekara et al. (2024)): 
+
+Qr =
+
+Z
+
+> A
+
+h bUs · nAq 
+
+i
+
+H
+
+ bUs · nAq 
+
+
+
+dA, (5) where H is the Heaviside step function. The vector n is the normal vector at the surface of the aqueductal cross-section. The streaming efficiency was then defined as 
+
+SE = Qr · TSV . (6) Because of the annular structure of the aqueduct, the results of the streaming flux at the inferior end are mostly representative also for the upper cross-sections in the aqueduct. The aqueduct was selected for defining SE as it indicates how streaming is also affecting the fluid exchange at the bound-ary to the 4th ventricle, thus showing the importance of cross-ventricular exchange between the interconnected cavities of the brain. 
+
+3. Results 
+
+3.1. Instantaneous bidirectional flow over the cycle 
+
+The instantaneous velocity fields were compared at nine equally spaced phases of the final simulated cycle (Figure 2). The normalised phase was defined as t∗ = ( t − t0)/T , where t0 is the start of the analysed cycle and T is the oscillation period. Thus, t∗ = 0 and t∗ = 1 represent equivalent phases in successive cycles. Under the prescribed sinusoidal convention, 0 < t ∗ < 1/2
+
+corresponds to caudal flow from the FOM towards the cerebral aqueduct, whereas 1/2 < t ∗ < 1 corresponds to rostral/cephalad reverse flow. The phases t∗ = 0 , 1/2, and 1 are associated with flow reversal, at which the imposed inlet velocity approaches zero. In the awake condition, the instantaneous motion remained relatively weak and diffuse throughout the cycle. The largest velocity magnitudes 8occurred near the cerebral aqueduct, particularly around the peak caudal and rostral phases at t∗ = 1 /4 and t∗ = 3 /4, respectively. Overall, the streamline patterns at peak inflow and outflow looked very similar, differing only in flow direction, meaning that the broad streamline topology recurred with the flow direction reversed. Most of the main third-ventricle cavity remained at a low velocity magnitude, and the instantaneous streamline patterns changed direction without forming a strongly concentrated pathway through the entire cavity. In the sleep condition, both half-cycles produced substantially stronger and more spatially distinct motion patterns. During the caudal half-cycle, a concentrated pathway extended from the superior ventricular region towards the cerebral aqueduct, curving around the adhesion on the left side. During the rostral half-cycle, the flow reversed and a pronounced jet-like structure extended from the aqueductal region into the main ventricular cavity, pass-ing the adhesion on the right-hand side. Stronger streamline curvature and more evident local recirculation accompanied this jet. Across the cycle, the broad streamline topology under sleep-related forcing showed greater spatial variation in regions of high velocity magnitude and clearer spatial organisa-tion. 9Figure 2: Instantaneous midsagittal velocity magnitude and streamline distributions at nine equally spaced phases with ∆t∗ = 1 /8 during the final simulated cycle for (a) the awake condition and (b) the sleep condition. Here, t∗ = ( t − t0)/T . Separate colour-bar ranges are used because of the large difference in velocity magnitude between the two conditions. 
+
+3.2. Cycle-averaged streaming organisation 
+
+Having established the phase-dependent bidirectional motion, the cycle-averaged velocity fields were examined to determine whether the oscillatory flow generated an organised residual streaming pattern. The midsagittal mean fields showed clear differences between the awake and sleep conditions (Figure 3). In the awake condition, the mean velocity magnitude remained low over most of the third ventricle, with higher values mainly localised near the FOM and cerebral aqueduct. The residual motion in the central ventricular cavity was therefore dominated by a large-scale circular motion around the adhesion at very low velocities. Under sleep-related forcing, the mean velocity magnitude increased along the principal connection between the superior ventricular region and the 10 aqueductal outlet. A more distinct jet-like structure appeared near the cere-bral aqueduct, accompanied by stronger streamline curvature and local recir-culation along the jet pathway. These cycle-averaged patterns show that the difference between the two conditions was not limited to the magnitude of the instantaneous oscillation: sleep-related forcing also generated a stronger and more clearly organised residual streaming field.     
+
+> Figure 3: Comparison of cycle-averaged midsagittal flow organisation of bUsunder (a,c) awake and (b,d) sleep-related conditions. Panels (a) and (b) compare the mean velocity magnitude and streamlines; separate colour-bar ranges are used because of the substan-tially different velocity scales. The dashed circles indicate the approximate projected regions of the FOM, which do not intersect the midsagittal plane directly. Panels (c) and (d) provide qualitative classifications of the corresponding mean streamline fields, identifying the FOM–aqueduct and aqueduct–FOM pathways, internal recirculation zone, aqueduct jet penetration zone, and peripheral dead-flow zones.
+
+The annotated mean-streamline maps further classified the residual flow into FOM–aqueduct and aqueduct–FOM pathways, an internal recirculation zone, an aqueduct jet-penetration zone, and peripheral dead-flow zones (Fig-ure 3). These labels describe the organisation of the cycle-averaged field and should not be equated directly with the caudal and rostral directions of the instantaneous half-cycles. In the awake condition, both connections appeared as residual pathways around a broad internal recirculation zone which cov-11 ered half of the ventricular space. In the sleep condition, they formed more clearly defined main pathways, with a distinct aqueduct jet-penetration zone and clearer separation from the peripheral dead-flow regions. 
+
+3.3. Streaming across the aqueduct and quantitative flow metrics 
+
+To quantify the cross-ventricular transport associated with the streaming effect, the cycle-averaged velocity distribution was evaluated at the cerebral aqueduct outlet, see (Figure 4). The cross-sectional shape has the bottom corner (z= 0,x=-0.008) facing anteriorly (ventrally) toward the front of the brain, representing the inner curvature wall of the aqueduct. In awake situ-ation, this is where most of the flow goes rostral (negative velocity) into the 3rd ventricle, while at the center of the aqueduct flow is caudal. This changes in sleep when the center part flow is forced to reverse rostral, while the cau-dal flow regions are squeezed into the outer curvature walls of the aqueduct. The magnitude of the streaming velocity was substantially greater under sleep-related forcing. This opposing motion across the outlet cross-section is consistent with a residual streaming pattern superimposed on the predomi-nantly reciprocating flow.     
+
+> Figure 4: Time-averaged normal velocity distributions of bUsat the inferior end of the cerebral aqueduct under (a) awake and (b) sleep-related conditions. Red indicates positive caudal flow from the third ventricle towards the fourth ventricle, whereas blue indicates negative rostral flow towards the third ventricle. separate colour-bar ranges are used because of the substantially different velocity magnitudes.
+
+The dimensionless, exchange-related, and pressure metrics are summarised in Table 2. 12 Table 2: Dimensionless metrics for the awake and sleep-related simulations. Here, Qr T is the residual streaming volume accumulated over one cycle, SE = Qr T /Q s is the streaming efficiency, and ∆ppeak is the maximum absolute difference between the area-weighted mean pressures at the bilateral FOM and the cerebral aqueduct outlet.                         
+
+> Case Re Aq ,peak αSV (μL/cycle) QrT(μL/cycle) SE (%) ∆ppeak (Pa)
+> Awake 12.7 2.38 0.0955 5.12 ×10 −40.540 1.49 Sleep 1270 1.19 57.9 16.8 28.4 792
+
+The streaming efficiency SE = QrT /Q s increased from 0.540% to 28 .4% .Thus, sleep-related forcing increased not only the magnitude of the recip-rocating exchange but also the proportion expressed as residual streaming across the aqueduct. 
+
+4. Discussion 
+
+This study compared physiologically pressure-driven reciprocating CSF motion, represented by prescribed velocity boundaries, under awake and sleep-related forcing in the same representative human third-ventricle geome-try. Sleep-related forcing produced greater velocity magnitude and outlet ex-change, together with clearer caudal and rostral preferential pathways and a stronger aqueductal jet. While the nominal sleep stroke volume exceeded the reconstructed ventricular volume, this does not mean that there is replace-ment of the complete ventricular contents in each cycle. Rather, streaming is to characterize cross-ventricular bidirectional exchange. The streaming ef-ficiency measured in the aqueduct increased from 0.54% to 28 .4% , indicating that both the strength of oscillatory exchange and the organisation of the residual streaming flow pattern enhanced cross-ventricular transport. Figure 3 separates mean-flow organisation from instantaneous direction. The FOM–aqueduct and aqueduct–FOM labels identify connections within the mean streamline field, whereas caudal and rostral refer to opposite phases of the instantaneous oscillation. Flow moved from the FOM towards the aqueduct during the caudal phase and reversed during the rostral phase. In the awake condition, the connections remained residual pathways around a broad internal recirculation zone; under sleep-related forcing, they became more focused main pathways with clearer separation from the internal recir-culation, jet-penetration, and peripheral dead-flow regions. Greater pathway continuity implies that a larger part of the cavity participated coherently in 13 the cross-ventricular exchange. The forcing therefore reorganised the flow rather than merely scaling its velocity. The stronger jet-like structure near the cerebral aqueduct provides a plau-sible fluid-mechanical explanation for this reorganisation. A higher-velocity aqueductal jet may entrain adjacent low-velocity CSF into the main pathway and thereby promote local recirculation and intraventricular mixing. This mechanism can transfer momentum between the narrow high-speed pathway and the weakly moving surrounding fluid without requiring a sustained net flow. The spatially non-uniform mean velocity at the outlet further indicates that this residual motion is organised across the section rather than behaving as a uniform plug flow. The sharper velocity gradients also suggest stronger shear-layer interaction. The streaming efficiency measured in the aqueduct increased from 0.540% 
+
+to 28 .4% indicating that sleep-related forcing increased not only the reciprocating-flow magnitude but also the fraction represented by cross-ventricular stream-ing. This distinction is important because a stronger oscillation does not necessarily imply a proportionally larger residual component. It should be noted that the observed streaming efficiency is a hydrody-namic descriptor and cannot be interpreted directly as a measure of phys-iological clearance efficiency, which should be investigated in future work. However, our findings may suggest that streaming is relevant as a further mechanism that could support metabolite clearance (Xie et al., 2013), a mechanism not previously studied in this context. The present results add a third-ventricle-scale interpretation: stronger forcing may reorganise local pathways as well as increase cross-ventricular streaming exchange. The current study builds on previous CFD studies that have already examined third-ventricle CSF flow, aqueductal jets, recirculation, mixing, and mass transfer (Kurtcuoglu et al., 2007a,b). The present contribution is the controlled comparison of awake and sleep-related forcing within the same geometry, introducing pathway classification and streaming analysis. The results are specific for this selected geometry of the ventricle, including the position and size of the interthalamic adhesion. Additional assumption were made about the sleep-related forcing boundary conditions, derived from fMRI signals and reasonable arguments reported in Fultz et al. (2019), while direct measurements of aqueductal velocities with sufficient resolution during NREM sleep were not available. 14 5. Conclusion 
+
+This study compared cerebrospinal fluid (CSF) motion in one represen-tative human third-ventricle geometry under oscillatory flow conditions rep-resentative of the pulse waves induced by the cardiac and respiratory cycles during wakefulness and NREM sleep. Sleep-related forcing imposed stronger bulk CSF displacement over the cycle; however this is not a simple scaling of the awake field. Rather, it showed the formation of organised caudal and ros-tral preferential pathways with a large increase in cross-ventricular exchange due to streaming. The streaming efficiency at the aqueduct increased from 
+
+0.540% to 28 .4% , indicating that streaming transport represented a consid-erable proportion of the cross-ventricular fluid exchange. Furthermore, the awake condition shows a larger recirculating region in the ventricle, which suggests weak mixing and fluid exchange. This changes substantially under sleep-induced forcing, leading to improved mixing and wash-out of dead-water zones. 
+
+Funding 
+
+The position of Christoph Bruecker is co-funded as the BAE SYSTEMS Sir Richard Olver Chair and the Royal Academy of Engineering Chair (grant RCSRF1617/4/11). The work was partly supported in its initial stage by the Engineering and Physical Sciences Research Council (EPSRC) in DTP 2224. 
+
+Acknowledgments 
+
+This paper is dedicated to the memory of Luke McTavish. The authors thank Lady Dorit Young of Dartington for her interest and inspiration to fur-ther investigate flow in the human ventricles as part of the complex metabolic system of the brain. 
+
+Declaration of competing interest 
+
+The authors declare that they have no known competing financial inter-ests or personal relationships that could have appeared to influence the work reported in this paper. 15 Data availability 
+
+The data that support the findings of this study are available from the corresponding author upon reasonable request. 
+
+Declaration of generative AI and AI-assisted technologies in the manuscript preparation process 
+
+During the preparation of this work, the authors used OpenAI Chat-GPT/Codex to assist with language editing, formatting, and manuscript or-ganisation. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication. 
+
+References 
+
+Beggs, C.B., Shepherd, S.J., Cecconi, P., Lagana, M.M., 2019. Predicting the aqueductal cerebrospinal fluid pulse: A statistical approach. Applied Sciences 9, 2131. doi: 10.3390/app9102131 .Chen, L., Beckett, A., Verma, A., Feinberg, D.A., 2015. Dynamics of res-piratory and cardiac CSF motion revealed with real-time simultaneous multi-slice EPI velocity phase contrast imaging. NeuroImage 122, 281– 287. doi: 10.1016/j.neuroimage.2015.07.073 .Courant, R., Friedrichs, K., Lewy, H., 1928. Über die partiellen differen-zengleichungen der mathematischen physik. Mathematische Annalen 100, 32–74. doi: 10.1007/BF01448839 .Duque Parra, J.E., Pava Ripoll, Á., Vélez García, J.F., 2022. Interthalamic adhesion in humans: A gray commissure? Anatomy & Cell Biology 55, 109–112. doi: 10.5115/acb.21.164 .Fultz, N.E., Bonmassar, G., Setsompop, K., Stickgold, R.A., Rosen, B.R., Polimeni, J.R., Lewis, L.D., 2019. Coupled electrophysiological, hemody-namic, and cerebrospinal fluid oscillations in human sleep. Science 366, 628–631. doi: 10.1126/science.aax5440 .Gholampour, S., Fatouraee, N., 2021. Boundary conditions investigation to improve computer simulation of cerebrospinal fluid dynamics in hy-drocephalus patients. Communications Biology 4, 394. doi: 10.1038/ s42003-021-01920-w .16 Haselton, F.R., Scherer, P.W., 1982. Flow visualization of steady streaming in oscillatory flow through a bifurcating tube. Journal of Fluid Mechanics 123, 315–333. doi: 10.1017/S0022112082003085 .Hernández-Cortés, K.S., Pujals-Table, A.A., Sagaró del Campo-Nelsa, M., Montoya-Arquímedes, P., 2023. Tables of percentiles of the third ventricle according to age and sex associated with brain aging. Revista Mexicana de Neurociencia 24, 140–149. doi: 10.24875/RMN.23000009 .Iliff, J.J., Wang, M., Liao, Y., Plogg, B.A., Peng, W., Gundersen, G.A., Ben-veniste, H., Vates, G.E., Deane, R., Goldman, S.A., Nagelhus, E.A., Ned-ergaard, M., 2012. A paravascular pathway facilitates CSF flow through the brain parenchyma and the clearance of interstitial solutes, including amyloid β. Science Translational Medicine 4, 147ra111. doi: 10.1126/ scitranslmed.3003748 .Khani, M., Sass, L.R., Xing, T., Sharp, M.K., Balédent, O., Martin, B.A., 2018. Anthropomorphic model of intrathecal cerebrospinal fluid dynamics within the spinal subarachnoid space: Spinal cord nerve roots increase steady-streaming. Journal of Biomechanical Engineering 140, 081012. doi: 10.1115/1.4040401 .Kurtcuoglu, V., Soellinger, M., Summers, P., Boomsma, K., Poulikakos, D., Boesiger, P., Ventikos, Y., 2007a. Computational investigation of subject-specific cerebrospinal fluid flow in the third ventricle and aque-duct of sylvius. Journal of Biomechanics 40, 1235–1245. doi: 10.1016/j. jbiomech.2006.05.031 .Kurtcuoglu, V., Soellinger, M., Summers, P., Poulikakos, D., Boesiger, P., 2007b. Mixing and modes of mass transfer in the third cerebral ventricle: A computational analysis. Journal of Biomechanical Engineering 129, 695– 702. doi: 10.1115/1.2768376 .Markenroth Bloch, K., Töger, J., Ståhlberg, F., 2018. Investigation of cerebrospinal fluid flow in the cerebral aqueduct using high-resolution phase contrast measurements at 7t mri. Acta Radiologica 59, 988–996. doi: 10.1177/0284185117740762 .Oner, Z., Sagir Kahraman, A., Kose, E., Oner, S., Kavakli, A., Cay, M., Ozbag, D., 2017. Quantitative evaluation of normal aqueductal cere-17 brospinal fluid flow using phase-contrast cine MRI according to age and sex. The Anatomical Record 300, 549–555. doi: 10.1002/ar.23514 .Sakka, L., Coll, G., Chazal, J., 2011. Anatomy and physiology of cere-brospinal fluid. European Annals of Otorhinolaryngology, Head and Neck Diseases 128, 309–316. doi: 10.1016/j.anorl.2011.03.002 .Spijkerman, J.M., Geurts, L.J., Siero, J.C.W., Hendrikse, J., Luijten, P.R., Zwanenburg, J.J.M., 2019. Phase contrast MRI measurements of net cerebrospinal fluid flow through the cerebral aqueduct are confounded by respiration. Journal of Magnetic Resonance Imaging 49, 433–444. doi: 10.1002/jmri.26181 .Wanigasekara, C., Jacob, C., Manasseh, R., Leontini, J., 2024. Mean stream-ing in reciprocating flow in a double bifurcation. Fluid Dynamics Research 56, 045505. doi: 10.1088/1873-7005/ad6289 .Womersley, J.R., 1955. Method for the calculation of velocity, rate of flow and viscous drag in arteries when the pressure gradient is known. The Journal of Physiology 127, 553–563. doi: 10.1113/jphysiol.1955.sp005276 .Xie, L., Kang, H., Xu, Q., Chen, M.J., Liao, Y., Thiyagarajan, M., O’Donnell, J., Christensen, D.J., Nicholson, C., Iliff, J.J., Takano, T., Deane, R., Nedergaard, M., 2013. Sleep drives metabolite clearance from the adult brain. Science 342, 373–377. doi: 10.1126/science.1241224 .Yamada, S., Miyazaki, M., Yamashita, Y., Ouyang, C., Yui, M., Nakahashi, M., Shimizu, S., Aoki, I., Morohoshi, Y., McComb, J.G., 2013. Influ-ence of respiration on cerebrospinal fluid movement using magnetic reso-nance spin labeling. Fluids and Barriers of the CNS 10, 36. doi: 10.1186/ 2045-8118-10-36 .
+
+Appendix A. 
+
+Appendix A.1. Mesh independence 
+
+A mesh-independence comparison was performed using the sleep case be-cause it provided the more demanding test of spatial resolution. The baseline mesh contained approximately 4.84 million elements. A refined mesh in-creased the spatial resolution in all directions and contained approximately 
+
+20 million elements. The same post-processing workflow and 101 samples 18 from the selected oscillation cycle were used for both datasets. The compar-ison focused on stroke volume, residual streaming flux, stream-effect ratio, peak outlet flow, and representative maximum velocities.   
+
+> Table A.1: Mesh-independence comparison for the sleep simulation. The relative difference was calculated with respect to the baseline-mesh result; Qrdenotes residual streaming flux.
+
+Metric Baseline mesh Refined mesh Difference Difference (%) 
+
+SV (μL/cycle) 2432.117 2432.667 0.549 0.023 
+
+QrT (μL/cycle) 547.634 532.003 -15.630 -2.854 
+
+SE (%) 22.513 21.869 -0.644 -2.860 
+
+The integrated outlet-flow quantities showed very small differences be-tween the two datasets. Stroke volume differed by 0.023% , while the peak positive and negative outlet flow rates differed by 0.004% and 0.038% , re-spectively. The principal cycle-integrated exchange quantities were therefore insensitive to mesh refinement. The residual streaming flux Qr showed a larger difference of −2.854% ,and Qr/Q s changed from 22 .513% to 21 .869% , an absolute change of 0.644 
+
+percentage points. This greater sensitivity is expected because Qr is derived from the positive part of the residual mean field and therefore depends on local velocity structure. The midsagittal maximum mean velocity differed by 1.054% , supporting adequate resolution of the principal intraventricular velocity scale. Overall, the mesh-independence comparison showed that the selected mesh provided stable predictions of the principal outlet exchange metrics, stroke volume, stream-effect ratio, and representative velocity scales. The mesh was therefore considered sufficiently resolved for the comparative awake and sleep-related simulations. 
+
+Appendix A.2. Time-step independence 
+
+The time-step selection was assessed using the representative CFL esti-mates reported in the numerical method. The awake and sleep simulations gave Cawake ≈ 0.38 and Csleep ≈ 0.94 , respectively, indicating that the se-lected solver time steps were adequate for the prescribed peak velocities and representative mesh length. 19 Appendix A.3. Cycle independence 
+
+A cycle-independence test was performed for the sleep simulation by com-paring the second and third oscillation cycles. The sleep case was used be-cause it produced the strongest velocity magnitude and largest exchange volume, and therefore provided the most stringent test of temporal periodic-ity. The same post-processing procedure was applied to both cycles, and the comparison included outlet exchange volume, stroke volume, net flow, and peak outlet flow rates.                     
+
+> Table A.2: Cycle-independence comparison between the second and third sleep cycles. The percentage difference was calculated with respect to Cycle 2.
+> Metric Cycle 2 Cycle 3 Difference Difference (%) Inflow magnitude (μL/cycle) 2431.706 2431.719 0.01249 0.000514
+> SV (μL/cycle) 2432.112 2432.117 0.00496 0.000204
+> QrT(μL/cycle) 540.670 549.803 9.13295 1.68919
+
+The comparison showed that the main cycle-integrated flow quantities were essentially unchanged between the second and third cycles. Stroke vol-ume differed by 0.000204% , while the difference in streaming transport was only 1.7% , which is low compared with the total streaming flux exchange. The third cycle was therefore considered to represent a cycle-independent periodic state and was used for the reported sleep-flow analysis. 
+
+Appendix B. Estimation of the sleep inlet velocity 
+
+The sleep-related forcing data were approximated from the fMRI data presented by Fultz et al. (2019). Their NREM sleep sequence, shown in Fig-ure 2D, illustrates successive waves of large CSF inflow-related signal changes (pulse trains of 3–4 pulses), from which we derived an approximate pulse-time interval of T ≈ 4 s . Further information was obtained from their video in the supplementary material, published in the PubMed Central (PMC) repos-itory. The blue region shown in the fMRI colour map covers a large area in the fourth ventricle during the sudden evacuation of blood; therefore, the resulting drop in pressure is assumed to act uniformly across the fourth ven-tricle, drawing the CSF upwards as a coordinated liquid plug. As reported in their paper, during some of those events, the velocity considerably exceeded the critical imaging velocity of 11 .4 mm s −1 for slice 2, which is located in 20 the fourth ventricle and corresponds to the deep-blue region in their movie during one of the strong flushing events. For the simplified CFD condition, a representative maximum velocity in the fourth ventricle was approximated as 
+
+20 mm s −1. Scaling this enhanced inflow to the bilateral FOM in the recon-structed model gave a prescribed inlet amplitude of Upeak ,sleep = 0 .17 m s −1.The resulting nominal positive-half-cycle stroke volume was 2.43 mL .21
