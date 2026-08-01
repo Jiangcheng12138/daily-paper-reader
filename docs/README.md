@@ -6,37 +6,27 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-30
-- 运行时间：2026-07-30 22:00:23 UTC
+- 最新运行日期：2026-08-01
+- 运行时间：2026-08-01 21:40:23 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：3
+- 本次总论文数：2
+- 精读区：0
 - 速读区：2
 
 ### 今日简报（AI）
-1) 今日精读两篇高分研究，聚焦睡眠分期生理约束与AI大规模睡眠生理发现，速读钙成像与脑脊液运输新进展。  
-2) 最值得关注：睡眠分期需结合生理约束（如《StageGuard》），AI驱动的大规模睡眠生理学发现推动精准医学。  
-3) 建议从生理约束睡眠分期和脑脊液运输机制入手，探索睡眠障碍与神经交换的交叉方向。
-- 详情：[/202607/30/README](/202607/30/README)
+今日速读2篇论文，暂无精读；内容聚焦脑脊液流 transporte 与生物信号模板估计。最值得关注的是脑脊液经第三脑室的运输受睡眠影响，或为睡眠功能提供新视角；另一篇则探讨生物信号模板的规律化学习方法。建议下一步优先精读第一篇，深入理解睡眠如何调节脑脊液循环。
+- 详情：[/202608/01/README](/202608/01/README)
 
 ### 精读区论文标签
-1. [StageGuard: Physiologically Constrained Sleep Staging](/202607/30/2607.23284v1-stageguard-physiologically-constrained-sleep-staging)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：基于生理约束的睡眠分期方法提升睡眠结构指标可靠性
-2. [Agentic AI-enabled discovery across large-scale sleep physiology](/202607/30/2607.25175v2-agentic-ai-enabled-discovery-across-large-scale-sleep-physiology)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：利用大规模PSG的AI驱动睡眠生理发现
-3. [LGFNet: A CTC-Guided Local-Global Fusion Framework for Single-Channel Sleep Staging](/202607/30/2607.25197v1-lgfnet-a-ctc-guided-local-global-fusion-framework-for-single-channel-sleep-staging)  
-   标签：评分：9.0/10、query:slp-ns
-   evidence：提出单通道睡眠分期的深度学习新框架，推动睡眠神经科学研究。
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [CAPT: A Multi-task Continuous Autoregressive Transformer enabling Cross-dataset and Cross-species Transfer for Calcium Population Dynamics](/202607/30/2607.23258v1-capt-a-multi-task-continuous-autoregressive-transformer-enabling-cross-dataset-and-cross-species-transfer-for-calcium-population-dynamics)  
+1. [Sleep-related forcing of cerebrospinal fluid streaming transport through the third ventricle](/202608/01/2607.24501v1-sleep-related-forcing-of-cerebrospinal-fluid-streaming-transport-through-the-third-ventricle)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：钙成像跨物种迁移，适用于睡眠神经科学
-2. [Sleep-related forcing of cerebrospinal fluid streaming transport through the third ventricle](/202607/30/2607.24501v1-sleep-related-forcing-of-cerebrospinal-fluid-streaming-transport-through-the-third-ventricle)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：睡眠相关脑脊液在NREM睡眠期的流送传输
+   evidence：研究非快速眼动睡眠期脑脊液流动增强现象，将睡眠状态与大脑清除功能联系起来
+2. [Learning Regularization Structure for Biosignal Template Estimation](/202608/01/2607.23232v1-learning-regularization-structure-for-biosignal-template-estimation)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：数据驱动的生物信号模板估计方法，适用于睡眠事件相关信号
 
 
 <div class="dpr-home-promo-card">
