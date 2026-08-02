@@ -6,27 +6,27 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-01
-- 运行时间：2026-08-01 21:40:23 UTC
+- 最新运行日期：2026-08-02
+- 运行时间：2026-08-02 21:31:01 UTC
 - 运行状态：成功
 - 本次总论文数：2
 - 精读区：0
 - 速读区：2
 
 ### 今日简报（AI）
-今日速读2篇论文，暂无精读；内容聚焦脑脊液流 transporte 与生物信号模板估计。最值得关注的是脑脊液经第三脑室的运输受睡眠影响，或为睡眠功能提供新视角；另一篇则探讨生物信号模板的规律化学习方法。建议下一步优先精读第一篇，深入理解睡眠如何调节脑脊液循环。
-- 详情：[/202608/01/README](/202608/01/README)
+今日速读两篇 EEG 相关论文，暂无精读；其中 ZUNA1.1 以 7.0 分领先，聚焦脑电去噪与超分辨率的更灵活基础模型。另一篇 S-CEReBrO（6.0 分）则针对连续 EEG 监测的内存瓶颈提出突破。建议优先精读 ZUNA1.1，了解其对低质量脑电信号的修复能力。
+- 详情：[/202608/02/README](/202608/02/README)
 
 ### 精读区论文标签
 - 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Sleep-related forcing of cerebrospinal fluid streaming transport through the third ventricle](/202608/01/2607.24501v1-sleep-related-forcing-of-cerebrospinal-fluid-streaming-transport-through-the-third-ventricle)  
+1. [ZUNA1.1: A more flexible EEG foundation model for Denoising and Super-resolution](/202608/02/2607.27308v1-zuna11-a-more-flexible-eeg-foundation-model-for-denoising-and-super-resolution)  
    标签：评分：7.0/10、query:slp-ns
-   evidence：研究非快速眼动睡眠期脑脊液流动增强现象，将睡眠状态与大脑清除功能联系起来
-2. [Learning Regularization Structure for Biosignal Template Estimation](/202608/01/2607.23232v1-learning-regularization-structure-for-biosignal-template-estimation)  
+   evidence：面向脑电图去噪与超分辨率的基座模型，可应用于睡眠神经科学研究
+2. [S-CEReBrO: Breaking the Memory Barrier in Continuous EEG Monitoring](/202608/02/2607.27913v1-s-cerebro-breaking-the-memory-barrier-in-continuous-eeg-monitoring)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：数据驱动的生物信号模板估计方法，适用于睡眠事件相关信号
+   evidence：连续EEG监测是睡眠神经科学的关键支撑技术
 
 
 <div class="dpr-home-promo-card">
