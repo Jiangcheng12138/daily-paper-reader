@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-08-03 <!--dpr-date:20260803-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/03/2607.24519v1-stress-testing-eeg-foundation-models-for-clinical-decoding-dataset-identity-and-targeted-negative-controls" data-sidebar-item="{&quot;title&quot;: &quot;Stress-Testing EEG Foundation Models for Clinical Decoding: Dataset Identity and Targeted Negative Controls&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.24519v1-stress-testing-eeg-foundation-models-for-clinical-decoding-dataset-identity-and-targeted-negative-controls&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;slp-ns&quot;}], &quot;evidence&quot;: &quot;对脑电基础模型进行临床解码基准测试，与睡眠障碍监测相关&quot;}">Stress-Testing EEG Foundation Models for Clinical Decoding: Dataset Identity and Targeted Negative Controls</a>
   * 2026-08-02 <!--dpr-date:20260802-->
     * 速读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/02/2607.27308v1-zuna11-a-more-flexible-eeg-foundation-model-for-denoising-and-super-resolution" data-sidebar-item="{&quot;title&quot;: &quot;ZUNA1.1: A more flexible EEG foundation model for Denoising and Super-resolution&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.27308v1-zuna11-a-more-flexible-eeg-foundation-model-for-denoising-and-super-resolution&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;slp-ns&quot;}], &quot;evidence&quot;: &quot;面向脑电图去噪与超分辨率的基座模型，可应用于睡眠神经科学研究&quot;}">ZUNA1.1: A more flexible EEG foundation model for Denoising and Super-resolution</a>
