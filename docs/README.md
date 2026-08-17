@@ -6,29 +6,27 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-16
-- 运行时间：2026-08-16 20:41:19 UTC
+- 最新运行日期：2026-08-17
+- 运行时间：2026-08-17 20:57:41 UTC
 - 运行状态：成功
 - 本次总论文数：2
 - 精读区：0
 - 速读区：2
 
 ### 今日简报（AI）
-今日速读2篇论文，暂无精读，聚焦睡眠标签建模与单细胞基因调控网络。  
-最值得关注的是7.0分的个性化评分者建模框架，用于从多专家标注生成稳健睡眠分期；6.0分的RNA速度解码基因调控网络也值得一瞥。  
-建议优先精读高分睡眠论文，先了解其损失函数设计与专家一致性处理思路。
-- 详情：[/202608/16/README](/202608/16/README)
+今日速读2篇EEG基础模型论文，均获6.0分，聚焦脑电与语言对齐及预测可解释性。值得关注：连续潜在语义对齐模型与EEG-PRISM分别从表征融合和生理可解释性切入，为脑电语言解码提供新思路。下一步可深入对比两方法的训练数据与下游任务表现，以判断实际应用潜力。
+- 详情：[/202608/17/README](/202608/17/README)
 
 ### 精读区论文标签
 - 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Personalized Scorer Modeling: A Learning-Based Framework for Deriving Robust Sleep Stage Labels from Multiple Experts](/202608/16/2608.12446v1-personalized-scorer-modeling-a-learning-based-framework-for-deriving-robust-sleep-stage-labels-from-multiple-experts)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：睡眠分期、EEG、评分员间差异
-2. [Decoding Gene Regulatory Networks from Single-Cell RNA Velocity](/202608/16/2608.09722v1-decoding-gene-regulatory-networks-from-single-cell-rna-velocity)  
-   标签：评分：6.0/10、query:tr-hb
-   evidence：提供了一种从单细胞RNA速率重建基因调控网络的数学框架，可迁移用于研究冬眠的分子机制
+1. [Continuous-Latent Predictive Modeling with Semantic Alignment for EEG-Language Foundation Models](/202608/17/2608.11656v1-continuous-latent-predictive-modeling-with-semantic-alignment-for-eeg-language-foundation-models)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：提出脑电-语言基础模型，可用于睡眠神经科学的脑电分析
+2. [EEG-PRISM: Physiologically-Grounded Interpretability of Predictions by EEG Foundation Models](/202608/17/2608.13676v1-eeg-prism-physiologically-grounded-interpretability-of-predictions-by-eeg-foundation-models)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：适用于睡眠EEG研究的EEG可解释性方法
 
 
 <div class="dpr-home-promo-card">
