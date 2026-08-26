@@ -6,24 +6,22 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-24
-- 运行时间：2026-08-24 20:36:29 UTC
+- 最新运行日期：2026-08-26
+- 运行时间：2026-08-26 22:38:54 UTC
 - 运行状态：成功
-- 本次总论文数：1
+- 本次总论文数：0
 - 精读区：0
-- 速读区：1
+- 速读区：0
 
 ### 今日简报（AI）
-今日仅速读1篇，聚焦犬皮肤成纤维细胞在长时间低温下的动态响应。最值得关注的方向是低温胁迫的时间分辨表型与转录组变化，但评分6.0，参考价值中等。若想深入，可结合该文方法，自行设计低温时长梯度验证关键基因表达。
-- 详情：[/202608/24/README](/202608/24/README)
+> 今日无新推荐，系统未产出可展示论文。
+- 详情：[/202608/26/README](/202608/26/README)
 
 ### 精读区论文标签
 - 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Time-Resolved Phenotypic and Transcriptomic Responses of Primary Canine Dermal Fibroblasts to Prolonged Hypothermic Stress](/202608/24/biorxiv-10-64898-2026-08-14-744362-v1-time-resolved-phenotypic-and-transcriptomic-responses-of-primary-canine-dermal-fibroblasts-to-prolonged-hypothermic-stress)  
-   标签：评分：6.0/10、query:tr-hb
-   evidence：细胞低温应激响应与诱导休眠和低温保存应用相关
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">
