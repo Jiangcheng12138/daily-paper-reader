@@ -1,0 +1,784 @@
+Title: Spectral Features Dominate BCG Respiratory-Event Detection: A Large-Scale Patient-Independent Comparison of Feature Groups in Sleep Apnea Patients
+
+URL Source: https://arxiv.org/pdf/2608.28242v1
+
+Published Time: Mon, 31 Aug 2026 00:53:25 GMT
+
+Number of Pages: 35
+
+Markdown Content:
+# Spectral Features Dominate BCG Respiratory-Event Detection: A Large-Scale Patient-Independent Comparison of Feature Groups in Sleep Apnea Patients 
+
+Israel Campero Jurado a, ∗, Zoe Bousraou b, Lara Benning b, Sara Padilla Neira c, Alexander Breuss c, Robert Riener c, Esther Irene Schwarz b,Elisabeth Wilhelm a
+
+> aDepartment of Engineering and Technology Institute Groningen, Faculty of Science and Engineering, University of Groningen, The Netherlands
+> bDepartment of Pulmonology, University Hospital Zürich, Switzerland
+> cSensory-Motor Systems Lab, ETH Zürich, Switzerland
+
+Abstract 
+
+Unobtrusive ballistocardiographic (BCG) sensing is a promising modality for long-term sleep-apnea monitoring, yet it remains unclear which signal fea-tures are most discriminative for respiratory-event detection. We present a literature-guided, patient-independent comparison of ten BCG feature groups using a 512-sensor capacitive pressure mat recorded simultaneously with res-piratory polygraphy in 155 patients (52 female, 103 male) undergoing in-hospital evaluation for obstructive sleep apnea. Features were extracted from six spatially distinct signal channels, yielding a 191-dimensional feature vec-tor spanning general statistical, time-domain, frequency-domain, wavelet, frame-energy, and nonlinear complexity descriptors. Under strict leave-one-patient-out cross-validation for binary classifica-tion of respiratory-event windows versus event-free reference windows, Ran-dom Forest and Histogram Gradient Boosting achieved AUC-ROC of 0.967 
+
+and 0.969 and AUC-PR of 0.977 and 0.979 , respectively. Feature-importance analysis revealed that frequency-domain features dominate discrimination: breathing-band power in the 0.1–0.4 Hz range accounted for 30.3% of to-  
+
+> ∗Corresponding author
+> Email address: i.c.j.campero.jurado@rug.nl (Israel Campero Jurado) arXiv:2608.28242v1 [cs.LG] 28 Aug 2026
+
+tal discriminative information across all spatial channels, and Fast Fourier Transform (FFT) spectral-shape descriptors of the adaptively preprocessed channel contributed a further 15.1%. Area Under the Curve (AUC) and curve-length features provided the main complementary time-domain evi-dence (21.5%), whereas wavelet-derived and nonlinear features contributed smaller secondary effects (10.4% combined across 59 features). Frequency-domain and time-domain features together accounted for 67% of total dis-criminative information, demonstrating that a compact, interpretable sub-set of the full feature library achieves clinically relevant performance under patient-independent validation and providing an empirical basis for feature selection in future BCG systems. 
+
+Keywords: Obstructive sleep apnea, BCG, Unobtrusive sensing, Feature extraction, Machine learning, Polygraphy synchronisation, Signal processing 
+
+1. Introduction 
+
+Ballistocardiographic (BCG) sensing using force or pressure sensors in-tegrated into or placed beneath the mattress, in the bed frame, or at the foot of the bed is an attractive modality for long-term sleep monitoring because it captures respiratory effort, posture, and gross body movement without requiring sensors to be attached to the body, and is therefore com-fortable enough for repeated overnight use [1, 2, 3]. Bed-based BCG has been investigated for sleep-disordered breathing (SDB) detection in a num-ber of studies, and it has been shown that the BCG signal carries informa-tion sufficient to distinguish respiratory events from normal-breathing seg-ments [4, 5, 6, 7, 8, 9]. However, these studies differ substantially in sens-ing hardware, feature definitions, prediction targets, and validation proto-cols (see Table 1). As a direct consequence, it remains unclear which feature groups contribute most to the discrimination of respiratory-event windows from normal-breathing windows in BCG-based detection. Prior work has used general statistical descriptors [4, 5, 7, 8, 9], time-domain waveform fea-tures [4, 6, 9], frequency-domain band power [4, 5, 7], FFT spectral-shape descriptors [10, 11], wavelet-derived features [6, 5, 9], and nonlinear complex-ity measures [6, 5, 10], but none has compared all of these under a single, patient-independent experimental protocol. Establishing a feature ranking matters for two practical reasons. First, it identifies which BCG signal properties are indicative of apneic or hypop-2neic events, grounding the classification in signal physiology rather than in benchmark results alone. Second, it provides an empirical basis for deciding which feature groups are worth computing in future real-time or resource-constrained systems and which can be omitted without meaningful perfor-mance loss. The goal of the present work is therefore to answer the fol-lowing research questions under strict leave-one-patient-out (LOPO) cross-validation in a cohort of 155 patients: 1. Which feature categories carry the most discriminative information for BCG respiratory-event detection? 2. Does adaptive preprocessing (high-pass filtering, quality-score-based sensor selection, and polarity-aligned averaging) amplify feature dis-criminability compared with raw spatial aggregates? 3. Which feature categories provide complementary discriminative infor-mation beyond the dominant tier? We extracted 191 features organised into ten groups, informed by a structured review of prior BCG, electrocardiogram (ECG), and acoustic SDB studies, and applied them to six signal channels derived from a 512-sensor capacitive BCG recorded synchronously with respiratory polygraphy. Random Forest feature importance (mean decrease in impurity) provides the group rank-ing. We address these questions through a systematic study in which all ten feature groups are applied to six signal channels derived from a 512-sensor capacitive BCG recorded synchronously with respiratory polygraphy in 155 patients, and evaluated under strict leave-one-patient-out cross-validation. Their discriminative contributions are quantified using Random Forest mean decrease in impurity, providing a standardised, patient-independent feature-group ranking for BCG respiratory-event detection. 
+
+2. Background and Related Work 
+
+2.1. BCG Sensing for Sleep-Disordered Breathing 
+
+BCG sensing measures small changes of mechanical forces and body mo-tions generated by cardiovascular activity, especially the inertial effects of cardiac ejection and blood flow [12, 13]. Bed-based sensors can also capture respiratory effort, posture, and gross body movement [14]. When a sensor is placed beneath the mattress or bed sheet, the measured signal is not a pure physiological signal, but a superposition of several mechanical sources. Slow 3components are mainly associated with body load, posture, and gradual po-sition changes [15, 16, 17]. Respiratory effort appears as a low-frequency os-cillatory component. Cardiac micromotion related to blood ejection from the heart and blood flow through the aorta contributes additional low-frequency and higher-frequency components to the BCG signal. The relative contribu-tion of these components depends on sensor type, mattress coupling, body posture, and preprocessing [18, 19]. This mixed mechanical origin makes BCG sensing attractive but also chal-lenging for sleep-disordered-breathing detection. During respiratory events, changes in thoracoabdominal expansion, inverse or paradoxical breathing patterns, recovery breaths, and arousal-related changes in heart rate can alter the frequency content and waveform morphology of the recorded sig-nal [20, 21]. Careful feature engineering is therefore important because ap-propriate features may capture subtle event-related changes in respiratory modulation, cardiac-related dynamics, and overall signal shape, thereby im-proving classifier performance. 
+
+2.2. Feature-Based Approaches in Prior Bed-Based OSA Work 
+
+Table 1 summarises representative BCG and bed-pressure studies for sleep-disordered-breathing detection. Related ECG and acoustic work is dis-cussed where it has informed the selection of features included in the present study, since these modalities target the same underlying physiological events and their feature choices provide useful guidance for pressure-mat feature design. 
+
+Table 1: Feature categories used in prior BCG and bed-pressure studies for sleep-disordered breathing or OSA-related detection. ✓ = used as a classifier or decision feature; pre-proc.=used during preprocessing, signal extraction, or fusion but not as a final classifier-feature category; NR =not reported. PVDF stands for polyvinylidene fluoride, a piezo-electric polymer material.                                             
+
+> Study Signal / modality General stat. Time domain Frequency domain Wavelet / TF Nonlinear / complexity Spatial / fusion
+> Zhao et al. [6] BCG-derived HBI + STC-Min breathing effort NR ✓NR preproc. ✓NR Waltisberg et al. [4] 8-sensor under-mattress strain-gauge array ✓✓✓NR NR ✓
+> Wang et al. [5] BCG-derived RR intervals ✓NR ✓preproc. ✓NR Gao et al. [7] Mattress BCG / respiratory signal; HRV + similarity features ✓NR ✓NR NR NR Sadek et al. [8] Under-mattress microbend fiber-optic sensor ✓NR NR preproc. NR NR Qi et al. [9] PVDF mattress pressure sensor; respiratory waveform similarity ✓✓NR preproc. NR NR
+
+As Table 1 shows, no single study has used all feature categories simulta-neously, and no study has compared their relative discriminative contribution 4under patient-independent validation. General statistical features summaris-ing central tendency and variability [5, 7, 8, 9], time-domain waveform de-scriptors [6, 4, 9], and frequency-domain band-power features [4, 5, 7] are the most consistently used categories. Wavelet-based methods and nonlinear complexity measures (sample entropy, detrended fluctuation analysis) have also been applied, but predominantly for signal separation or cardiac-interval analysis rather than as direct classifier inputs [6, 5, 9]. This heterogeneity motivates the systematic comparison presented here. 
+
+2.3. Spatial Information in Bed-Based Sensing 
+
+Many BCG systems rely on a single sensor or a global aggregate, which provides only a limited projection of the spatially distributed mechanical activity [17, 8, 9]. High-resolution pressure mats may provide additional information because thoracoabdominal motion, posture-dependent coupling, and asynchronous or inverse breathing patterns can have different expressions across the upper, middle, and lower body regions. Prior work has shown that multi-sensor fusion can improve apnea and movement detection [4, 3, 22], but whether discriminative information is best captured by a global signal, regional aggregates, or adaptively selected local sensors remains unclear. This study evaluates six spatial signal channels to address this question directly. 
+
+3. Materials and Methods 
+
+3.1. Participants and Data Collection 
+
+Data were recorded at the Sleep Disorders Centre of the Department of Pulmonology, University Hospital Zürich (USZ). This clinical trial was approved by the Cantonal Ethics Committee of Zurich (Ethikkommission Zürich), Switzerland (BASEC No. 2025-00339). The study was conducted in accordance with the principles of the Declaration of Helsinki, the Swiss Human Research Act (HRA), and Good Clinical Practice (GCP) guidelines. Written informed consent was obtained from all participants prior to enrol-ment. A custom sensor unit consisting of a Raspberry Pi (RPi) data logger and a 16 × 32 capacitive BCG (512 sensors, fs = 50 Hz) placed beneath the bed sheet was deployed alongside the standard hospital polygraphy work-flow using the Philips Respironics Alice 6 system [23]. The mat was placed within the mattress, between the cushioning layer and the mattress cover, 5over which the sheet was then placed. Expert scoring of polygraphy record-ings was performed according to AASM 2020 rules [24, 25]. The overall procedure described in this section is summarised in Figure 1. Poligraphy Recording (Alice 6) 
+
+> EDF + RML
+> fs: multiple
+> Pressure Mat (Raspberry Pi)
+> 512 sensors 50 Hz CSV
+> Sync & Windowing
+> EEG sync pulse 10-s windows
+> Feature Extraction
+> raw / mean5 / prep 191 features
+> LOPO Classifier
+> RF / HistGBT AUC-ROC 0.969
+> Step 1 Data sources Step 2 Synchronisation Step 3 Feature engineering Step 4 Classification
+
+Figure 1: End-to-end processing pipeline. Step 1: simultaneous acquisition from the Alice 6 PSG system and a Raspberry Pi data logger recording the 16 ×32 BCG at 50 Hz. 
+
+Step 2: EEG sync-pulse alignment maps expert-scored events onto the BCG timeline. 
+
+Step 3: six signal channels are derived and processed through standardised feature groups, yielding a 191-dimensional feature vector per window. Step 4: leave-one-patient-out cross-validated classifiers produce binary predictions (respiratory event vs. event-free window). 
+
+3.2. Polygraphy–BCG Synchronisation 
+
+Signals from the polygraphy system and the Raspberry Pi BCG logger were aligned using a dedicated EEG sync-pulse protocol. The two systems operate on independent clocks, so synchronisation was required before polyg-raphy scored respiratory events could be mapped onto the BCG timeline. The synchronisation protocol consisted of two phases. In the first phase (duration approximately 10 s), a pseudo-random binary sequence (PRBS) was coupled into one EEG channel of the polygraphy system as a large-amplitude positive square wave. The Raspberry Pi generated this digital sequence, stored it in the Pi sync CSV file together with RPi timestamps, and used it to drive a GPIO pin connected to the EEG input of the polygraphy device. In the second phase, 18-second frames were transmitted at 2 Hz. Each frame encoded a 16-bit timestamp using on–off keyed binary encoding: a HIGH–LOW start token followed by 16 one-second bit slots, with two samples per slot and 36 samples per frame. The bit value was determined by the state of the first sample in each slot, where HIGH represented 1 and LOW represented 0. The polygraphy EEG sync channel was binarised by thresholding at the 90th percentile of the raw channel amplitude. The RPi and polygraphy sync 6streams were then decoded independently by searching for valid start tokens, verifying inter-sample timing consistency, and decoding the transmitted 16-bit values. The synchronisation offset was computed from the first matched timestamp sequence: 
+
+∆t = t(q)Pi − t(q)polygraphy , (1) where q denotes the first timestamp sequence decoded in both systems, 
+
+t(q)Pi is the RPi timestamp of that sequence, and t(q)polygraphy is the corresponding polygraphy timestamp. Expert-scored redline markup language (RML) respiratory events were then mapped to the BCG timeline. The respiratory-event labels included Ob-structive Apnea, Hypopnea, Obstructive Hypopnea, Central Apnea, Mixed Apnea, and Central Hypopnea. For an event with polygraphy start time 
+
+tpolygraphy ,e , the corresponding RPi time was computed as 
+
+tPi ,e = tpolygraphy ,e + ∆ t, (2) where tPi ,e is the event start time on the RPi clock. The BCG sample index was then obtained as 
+
+ne = ⌊(tPi ,e − tPi ,0) fs⌉ , (3) where ne is the mapped BCG sample index, tPi ,0 is the RPi timestamp of the first BCG sample, fs = 50 Hz is the BCG sampling frequency, and ⌊·⌉ 
+
+denotes rounding to the nearest integer. 
+
+3.3. Signal Channels and Window Selection 
+
+Feature extraction was performed on one-dimensional signals derived from the 512-channel BCG. The purpose of this step was to obtain comparable spatial representations before computing the same feature groups. Six signal channels were used: four raw spatial aggregates, one raw top-sensor average, and one adaptively preprocessed top-sensor average. 
+
+Raw spatial aggregates. The channel raw_total was defined as the pointwise sum of all 512 raw BCG sensor values (16 × 32 sensors grid). This channel summarises the total pressure variation measured by the mat and is sensi-tive to posture, gross movement, and large-scale thoracoabdominal pressure modulation. Three additional zonal aggregates were computed by partition-ing the mat along the body axis: raw_upper (rows 0–3, shoulder/upper-back 7region), raw_mid (rows 4–11, mid-back), and raw_lower (rows 12–15, lower-back region). These channels provide coarse anatomical spatial information while preserving raw sensor amplitudes. Let xi[n] denote the raw signal of sensor i at sample n, with i = 1 , . . . , 512 .For any sensor subset R, the corresponding raw aggregate was computed as 
+
+xR[n] = X
+
+> i∈R
+
+xi[n]. (4) The global raw aggregate, denoted raw_total , was obtained by setting 
+
+R equal to the full set of 512 sensors. Regional aggregates were computed by selecting sensors according to their spatial location on the mat. Specifically, the mat was divided into upper, middle, and lower body regions, correspond-ing to the first four sensor rows, the middle eight sensor rows, and the last four sensor rows, respectively. These aggregates are denoted raw_upper ,
+
+raw_mid , and raw_lower .
+
+A selection of top-quality sensors. To obtain a local pressure signal with strong respiratory periodicity, sensors were ranked using a respiratory-quality score (based on autocorrelation). Before computing this score, each sensor was high-pass filtered using a 4th-order Butterworth filter with cut-off fre-quency fc = 0 .05 Hz. This filter was used to suppress slow baseline drift while retaining respiratory, cardiac, and movement-related dynamics above the cut-off frequency. For each sensor i, the respiratory-quality score Si Eq. 5) was adapted from the threshold-value criterion proposed by Padilla et al. [26], which combines an autocorrelation term and a spectral-concentration term to rank sensors by the strength and periodicity of their respiratory signal. 
+
+Si = max  
+
+> τ∈[2 ,5] s
+
+ˆRii (τ )
+
+| {z }
+
+> autocorrelation term
+
++
+
+X     
+
+> fk∈[f∗
+> i−0.1, f ∗
+> i+0 .1] Hz
+
+Pi(fk)
+
+X  
+
+> fk∈[0 .1,0.5] Hz
+
+Pi(fk)
+
+| {z }
+
+> spectral-concentration term
+
+. (5) Here, ˆRii (τ ) is the normalised autocorrelation of the high-pass-filtered signal from sensor i at lag τ , and Pi(fk) is the power spectral density of sensor 
+
+i at frequency bin fk. The frequency f ∗ 
+
+> i
+
+denotes the dominant frequency of sensor i within the candidate breathing-frequency range. The numerator 8of the spectral-concentration term sums the spectral power in a 0.2 Hz-wide band centred on f ∗ 
+
+> i
+
+, that is, from f ∗ 
+
+> i
+
+−0.1 Hz to f ∗ 
+
+> i
+
++0 .1 Hz. The denominator sums the total spectral power in the broader respiratory band [0 .1, 0.5] Hz. Thus, the autocorrelation term favours sensors with a clear repeated pattern in the expected breathing-lag range of 2–5 s, while the spectral-concentration term favours sensors whose respiratory-band power is concentrated near a dominant breathing-related frequency. The five sensors with the largest values of Si were selected for each win-dow. Let T denote this set of selected top sensors, with |T | = 5 .
+
+Raw top-sensor average. The channel raw_mean5 was computed as the point-wise average of the five selected sensors using the raw, unfiltered signals: 
+
+xraw _mean5 [n] = 15
+
+X
+
+> i∈T
+
+xi[n]. (6) This channel preserves the raw pressure signal of the selected sensors, including slow baseline components. 
+
+Preprocessed. The channel prep was designed as a locally coherent respiratory-pressure representation, complementary to the unaligned raw global and re-gional aggregates. It was computed from the top-ranked sensors selected by the adaptive sensor-selection criterion after high-pass filtering and polarity alignment. Polarity alignment was applied only before forming this adaptive top-sensor average, because local mattress deformation and sensor loading can cause respiratory-related changes to appear with opposite signs across selected sensor locations. The highest-ranked selected sensor was used as the reference, and each other selected sensor was inverted when its first-difference trend was more often opposite than aligned with the reference. The raw global and regional aggregates were retained because they describe net pressure redistribution across the full mat or anatomical regions, rather than a polarity-aligned local respiratory waveform. Let ˜xi[n] denote the high-pass-filtered signal from selected sensor i, and let r[n] denote the high-pass-filtered signal of the highest-ranked reference sensor. The difference of a signal is defined as z[n] is ∆z[n] = z[n + 1] − z[n].We use #{·} to denote the number of samples satisfying a condition. Aselected sensor was assigned polarity ai ∈ {− 1, 1} according to 9ai =
+
+(
+
+−1, #{n : ∆ r[n]∆˜ xi[n] < 0} > #{n : ∆ r[n]∆˜ xi[n] > 0},
+
+1, otherwise . (7) Thus, a sensor was inverted when its local temporal changes were more often opposite than aligned with those of the reference sensor. The adaptively preprocessed signal was then computed as 
+
+xprep [n] = 1
+
+|T | 
+
+X
+
+> i∈T
+
+ai ˜xi[n], (8) where T is the set of selected sensors. In this study, |T | = 5 .Thus, prep is a high-pass filtered, quality-selected, polarity-aligned spa-tial average of the five sensors with the strongest respiratory periodicity. 
+
+Window selection. Positive windows were defined from expert-scored respi-ratory events mapped to the BCG timeline. The positive class label was 
+
+y = 1 . Events shorter than 10 s were symmetrically padded to 10 s. Negative windows were sampled from recording segments free of any annotated event and were assigned label y = 0 . Negative windows had a minimum duration of 30 s and were sampled with a 30 s safety buffer from annotated events to reduce contamination by peri-event arousals or movement. For filtering and preprocessing, a 5 s context was included on both sides of each window and discarded before feature computation. 
+
+3.4. Implemented Feature Groups 
+
+Categories were implemented as ten concrete feature groups: Standard Stat , InterQuartile , ZeroCrossing , AUC , PSD , FFT , Energy , Entropy ,
+
+Wavelet , and HiguchiFD .The six signal channels represented two complementary types of pressure-mat information. The raw global, regional, and selected-sensor aggregate channels were retained to preserve net pressure redistribution across the mat and across anatomical regions. In contrast, prep was designed as an adaptive respiratory waveform representation by applying high-pass filtering, sensor-quality selection, polarity alignment, and averaging of the selected sensors. Six feature groups were computed for every signal channel: StandardStat ,
+
+InterQuartile , ZeroCrossing , AUC , PSD , and HiguchiFD . Together, these 10 groups produced 22 common features per channel, allowing direct compari-son of feature groups across global, regional, selected-sensor, and adaptively preprocessed representations. Four additional feature groups were computed only for prep : FFT , Energy ,
+
+Entropy , and Wavelet . These groups were restricted to prep because they were intended to describe the respiratory-enhanced waveform after sensor selection, polarity alignment, and baseline-drift removal, rather than the un-aligned net pressure redistribution captured by the raw aggregate channels. This design avoids mixing two different signal representations while still al-lowing the common feature groups to compare information across all chan-nels. Consequently, the five aggregate channels contributed 5 × 22 = 110 fea-tures, while prep contributed 22 + 59 = 81 features. The complete represen-tation therefore contained 110 + 81 = 191 features per window. 
+
+Table 2: Implemented feature groups and their per-channel application. ✓ = computed for all six channels; prep =computed only for the adaptively preprocessed channel.                                             
+
+> Feature group Features included Count Applied to
+> StandardStat Mean, median, standard deviation, variance, kurtosis, skewness, range 7✓
+> InterQuartile IQR, interdecile range, upper/lower quartile, upper/lower decile 6✓
+> ZeroCrossing Zero-crossing count 1✓
+> AUC Signed AUC, absolute AUC, length of curve 3✓
+> PSD Total power; band power at 0.1–0.6, 0.1–0.4, 0.4–0.8 Hz 4✓
+> HiguchiFD Higuchi fractal dimension 1✓
+> FFT Dominant frequency, spectral mean/std/centroid/skewness/entropy 6prep Energy Total energy, mean power, RMS, frame-energy mean/std/median/max 7prep Entropy Shannon entropy of signal-value histogram 1prep Wavelet Peak count and inter-peak interval statistics across 9 DWT levels 45 prep
+> Common features per channel 22 Five non-prep channels 5×22 = 110
+> Additional prep -only features 59 Total prep features 22 + 59 = 81
+> Total feature vector 110 + 81 = 191
+
+General statistical features. For a windowed signal x[n], n = 1 , . . . , N , the 
+
+StandardStat group contains the mean, median, standard deviation, vari-ance, skewness, kurtosis, and range [27]. The mean and standard deviation are defined as 
+
+μx = 1
+
+N
+
+NX
+
+n=1 
+
+x[n], σx =
+
+vuut 1
+
+N − 1
+
+NX
+
+n=1 
+
+(x[n] − μx)2. (9) Skewness and kurtosis were computed using standard sample moment definitions [27]. 11 The InterQuartile group contains percentile-based robust statistics. Let Qp(x) denote the pth percentile [28] of x. The interquartile range and interdecile range are 
+
+IQR = Q75 (x) − Q25 (x), IDR = Q90 (x) − Q10 (x). (10) The individual percentiles Q10 , Q25 , Q75 , and Q90 were also retained as features. 
+
+Time-domain features. Let x[n], n = 1 , . . . , N , denote a discrete BCG signal window, where N is the number of samples in the window, n is the sample index, and fs is the sampling frequency. The corresponding continuous-time representation is denoted by x(t), with window duration T = ( N − 1) /f s.The ZeroCrossing [29] group contains the zero-crossing count, 
+
+ZC = 12
+
+> N
+
+X
+
+> n=2
+
+|sign( x[n]) − sign( x[n − 1]) | , (11) where sign( ·) returns the sign of its argument. The feature counts sign changes between consecutive samples. It is reported as a count rather than a rate because it is not normalised by the window duration. The AUC group contains the signed area under the curve, the absolute area under the curve, and the curve length. The signed and absolute AUC features were computed using trapezoidal numerical integration [30]: 
+
+AUC = 
+
+Z T
+
+> 0
+
+x(t) d t ≈ 1
+
+fsN −1X
+
+> n=1
+
+x[n] + x[n + 1] 2 , (12) 
+
+AUC abs =
+
+Z T
+
+> 0
+
+|x(t)| dt ≈ 1
+
+fsN −1X
+
+> n=1
+
+|x[n]| + |x[n + 1] |
+
+2 . (13) Here, AUC preserves the sign of the signal, whereas AUC abs measures the total absolute signal magnitude over the window. The curve length feature, also referred to as line length in biomedical time-series analysis [31], was defined as 
+
+Lx = 
+
+> N−1
+
+X
+
+> n=1
+
+s
+
+(x[n + 1] − x[n]) 2 +
+
+ 1
+
+fs
+
+2
+
+, (14) where Lx measures the cumulative length of the sampled waveform in the time–amplitude plane. 12 Frequency-domain features. Let x[n], n = 1 , . . . , N , denote the discrete signal window sampled at frequency fs. Its discrete frequency representation [32] is denoted by X(fk), where fk is the frequency associated with FFT bin k.The frequency spacing is 
+
+∆f = fs
+
+N . (15) The PSD group was computed using Welch’s power spectral density (PSD) [32] estimate. Let P (f ) denote the continuous PSD and P (fk) its estimate at fre-quency bin fk. For a frequency interval [f1, f 2], the corresponding band power was defined as 
+
+BP [f1,f 2] =
+
+Z f2
+
+> f1
+
+P (f ) d f ≈ X 
+
+> fk∈[f1,f 2]
+
+P (fk)∆ f, (16) where f1 and f2 are the lower and upper frequency limits of the band, respec-tively, and ∆f is the frequency resolution of the PSD estimate. The retained PSD features were total power over the available frequency range and band power in the intervals 0.1–0.6 Hz, 0.1–0.4 Hz, and 0.4–0.8 Hz. The FFT group was computed only from the preprocessed ( prep ) channel. Let K denote the set of retained FFT bins, restricted to frequencies between 0.05 Hz and the Nyquist frequency fs/2. For each k ∈ K , let fk be the corresponding frequency and 
+
+Ak = |X(fk)|2 (17) the squared FFT magnitude at that frequency. The dominant frequency was defined as the frequency bin with maximum spectral power: 
+
+k∗ = arg max  
+
+> k∈K
+
+Ak, fdom = fk∗ . (18) The spectral centroid [33] was defined as the power-weighted mean fre-quency: 
+
+fc =
+
+P 
+
+> k∈K
+
+fkAk
+
+P 
+
+> k∈K
+
+Ak
+
+, (19) where fc represents the centre of mass of the spectrum. For spectral entropy [33], the spectral powers were first normalised as 
+
+pk = Ak
+
+P 
+
+> j∈K
+
+Aj
+
+, X
+
+> k∈K
+
+pk = 1 . (20) 13 The spectral entropy [33] was then computed as 
+
+Hspec = − X
+
+> k∈K
+
+pk log pk. (21) Low spectral entropy indicates that the signal power is concentrated in a small number of frequency bins, whereas high spectral entropy indicates a more dispersed spectrum. Spectral skewness was computed from the distribution of squared FFT magnitudes {Ak}k∈K and quantifies asymmetry in the spectral-power distri-bution. 
+
+Event-energy features. The Energy group was computed only from the prep 
+
+channel. Let x[n], n = 1 , . . . , N , denote a signal window containing N sam-ples. The total energy, mean power, and root-mean-square (RMS) ampli-tude [32] were defined as 
+
+Etot =
+
+> N
+
+X
+
+> n=1
+
+x[n]2, Pmean = 1
+
+N
+
+> N
+
+X
+
+> n=1
+
+x[n]2, RMS = pPmean , (22) where Etot is the total squared signal amplitude over the window, Pmean is the average squared amplitude per sample, and RMS is the square root of the mean power. To describe short-term changes in signal energy, each window was divided into M non-overlapping frames of 1 s duration. At sampling frequency fs,each frame contains 
+
+L = fs (23) samples. Let Fm denote the set of sample indices belonging to frame m,where m = 1 , . . . , M . The energy of frame m was defined as 
+
+Em = X
+
+> n∈F m
+
+x[n]2. (24) The mean, standard deviation, median, and maximum of the frame-energy sequence {Em}Mm=1 were retained as features. 
+
+Wavelet-derived features. The Wavelet group was computed only from the 
+
+prep channel. A discrete wavelet transform (DWT) using the biorthogonal 
+
+bior3.9 wavelet [34, 35] was applied at nine decomposition levels [36]. Let 14 a(ℓ)[r] denote the approximation coefficient at coefficient index r and decom-position level ℓ, where ℓ = 1 , . . . , 9.Peaks were detected separately in the approximation-coefficient sequence at each level. Let 
+
+p(ℓ)1 , . . . , p (ℓ) 
+
+> Mℓ
+
+(25) denote the ordered coefficient indices of the Mℓ detected peaks at level ℓ.The peak count Mℓ was retained as one feature for each decomposition level. When at least two peaks were detected, the inter-peak differences were defined as 
+
+d(ℓ) 
+
+> j
+
+= p(ℓ) 
+
+> j+1
+
+− p(ℓ) 
+
+> j
+
+, j = 1 , . . . , M ℓ − 1. (26) Here, d(ℓ) 
+
+> j
+
+is the distance, measured in approximation-coefficient indices, be-tween two consecutive peaks at level ℓ. For each level, the minimum, mean, maximum, and variance of {d(ℓ) 
+
+> j
+
+}Mℓ−1 
+
+> j=1
+
+were retained. Together with the peak count, this gives five features per level and 9×5 = 45 wavelet-derived features in total. 
+
+Nonlinear and complexity features. The Entropy group contains Shannon entropy [37] computed from a histogram of the signal values. Let the range of x[n] be divided into K histogram bins, and let ck denote the number of samples assigned to bin k. The empirical probability of bin k was defined as 
+
+pk = ck
+
+PKj=1 cj
+
+,
+
+> K
+
+X
+
+> k=1
+
+pk = 1 . (27) The Shannon entropy was then computed as 
+
+H = −
+
+> K
+
+X
+
+> k=1
+
+pk log pk, (28) where H quantifies the uncertainty of the signal-value histogram. The HiguchiFD group contains the Higuchi fractal dimension [38]. Let 
+
+x[n], n = 1 , . . . , N , denote the signal window, where N is the number of samples. For a scale parameter k and a starting index m, the subsampled sequence is 
+
+x[m], x [m + k], x [m + 2 k], . . . , x 
+
+
+
+m +
+
+N − mk
+
+
+
+k
+
+
+
+, (29) 15 where k = 1 , . . . , k max and m = 1 , . . . , k . The length of this subsampled curve was estimated as 
+
+Lm(k) = N − 1
+
+N −mk
+
+ k2
+
+⌊N −mk ⌋X
+
+> j=1
+
+|x[m + jk ] − x[m + ( j − 1) k]| , (30) where Lm(k) is the estimated curve length for scale k and starting index m.The average curve length at scale k was then defined as 
+
+L(k) = 1
+
+k
+
+> k
+
+X
+
+> m=1
+
+Lm(k). (31) The Higuchi fractal dimension was estimated as the slope of the least-squares linear fit between log L(k) and log(1 /k ) over k = 1 , . . . , k max .
+
+3.5. Classification and Evaluation 
+
+The classification task was binary discrimination between expert-scored respiratory-event windows and event-free windows. The positive class was defined as y = 1 for respiratory-event windows and the negative class as 
+
+y = 0 for event-free windows. Analyses were implemented in Python using the following packages: nu mpy [39], pandas [40], scipy [41] for signal filtering and spectral estimation, and scikit-learn [42] for classification and cross-validation. All models were evaluated using leave-one-patient-out (LOPO) cross-validation. In each fold, all windows from one participant were held out for testing, and all win-dows from the remaining participants were used for training. This protocol evaluates whether the extracted BCG features generalise to unseen patients. Four classifiers were evaluated: • Majority-class Dummy classifier : a baseline model that always predicts the majority class in the training fold. • Logistic Regression : an L2-regularised linear classifier trained with the lbfgs solver. • Random Forest : a nonlinear ensemble of decision trees trained with class-balanced weighting. Random Forest was also used for feature importance analysis using mean decrease in impurity (MDI). 16 • Histogram Gradient Boosting : a tree-based gradient boosting clas-sifier for tabular data. Predictive performance was used to verify whether the extracted BCG features contain patient-generalising information about respiratory events. Feature-importance analysis was then used to rank the contribution of the implemented feature groups, individual features, and signal channels. The primary feature-ranking analysis used Random Forest MDI importances. For each trained Random Forest, feature importances were obtained by averag-ing impurity decrease across trees and normalising the resulting importance values to sum to one. For each LOPO fold, the following metrics were computed: area un-der the receiver-operating-characteristic curve (AUC-ROC), area under the precision-recall curve (AUC-PR; average precision), F1 score, balanced ac-curacy, sensitivity (recall), and specificity. Fold-level metrics were reported as mean ± standard deviation and median across held-out patients. Patients (sorted by event window count) 
+
+> 0200 400 600 800 1000 1200
+> Windows in test fold
+> Median event windows: 150 Median clean windows: 127 Overall pos : neg = 1.38
+
+(a) Per-patient window counts     
+
+> No clean windows (N=29) Event windows Clean windows
+> 0.00 0.25 0.50 0.75 1.00
+> Fraction of event windows
+> 0510 15 20 25 30
+> Number of patients
+
+(b) Class balance distribution 
+
+> Has clean windows Mean = 0.64 No clean windows (N=29)
+
+Figure 2: Per-patient class distribution in the held-out test fold. (a) Event (red) and clean (blue) windows per patient, sorted by event-window count. Orange triangles mark the 29 patients whose test fold contained no clean windows after the 30 s event-exclusion buffer; these folds have undefined AUC-ROC but well-defined F1 scores. (b) Distribution of the event-window fraction per patient. The majority of patients have more event than clean windows (mean fraction = 0 .64 ), motivating the use of a balanced class weighting in the Random Forest and Hist-GBT. 
+
+4. Results 
+
+The final dataset comprised 155 participants (Table 3) spanning the full clinical range of OSA severity. 17 Table 3: Cohort demographics and dataset statistics. ± denotes standard deviation. 
+
+Characteristic Value 
+
+Participants 
+
+Sex (female / male) 52 / 103 Age, mean ± SD (years) 49.5 ± 12.5 BMI, mean ± SD (kg/m 2) 30.3 ± 6.9 AHI, median (IQR) (events/h) 14.4 (7.8–27.6) OSA severity (none / mild / moderate / severe) 15% / 36% / 27% / 22% ODI, median (IQR) (events/h) 13.8 (7.5–26.6) SpO 2, mean ± SD (%) 91.6 ± 7.9 T90, median (IQR) (%) 4.2 (0.5–18.7) 
+
+Dataset windows (variable duration) 
+
+Event windows (positive class, y = 1 ) 28,786 Clean windows (negative class, y = 0 ) 21,088 Positive-to-negative ratio 1.37 Avg. event windows per patient 186 ± 130 
+
+4.1. Synchronisation Quality 
+
+The EEG sync-pulse protocol was decoded for all 155 recorded partici-pants (Figure 3). Of these, 100 recordings had both NTP-based system-clock information and EEG-pulse synchronisation, while 55 recordings used EEG-pulse synchronisation alone because NTP information was not available. For the NTP+EEG group, the detected absolute clock offset |∆t| shows a me-dian of 1.7 s, with 90% of participants below 4.0 s (Figure 3a). These offsets quantify the mismatch between the independent polygraphy and RPi clocks before correction. All detected offsets were corrected before respiratory-event mapping by adding the synchronisation offset ∆t to each polygraphy event timestamp and converting the corrected time to a BCG sample index, as defined in Eqs. 2–3. The precision of the EEG-pulse synchronisation was assessed from the absolute difference between the Pi-encoded timestamp de-coded from the polygraphy signal and the corresponding timestamp recorded directly by the RPi. Across all 155 participants, the median encoding pre-cision was 21 ms (Figure 3b). In total, 96% of participants had an encoding error below 50 ms. 18 0 10 20 30 
+
+Detected clock offset | t| (s) 
+
+> 0% 20% 40% 60% 80% 100%
+> Cumulative fraction of patients
+> Median = 1.7 s 90th pct = 4.0 s
+> EEG-only (N = 55): Pi clock not NTP-synced
+> 8 patient(s) clipped at 30 s
+
+(a) NTP clock drift detected by EEG pulse (NTP+EEG group)       
+
+> NTP+EEG (N = 100)
+> 020 40 60 80 100
+
+Encoding precision (ms) 
+
+> 0% 20% 40% 60% 80% 100%
+> Cumulative fraction of patients
+> Median = 21 ms 96% < 50 ms 20 ms (1 frame)
+
+(b) Sync measurement precision (all patients) 
+
+> All patients (N = 155)
+
+Figure 3: EEG sync-pulse protocol performance across 155 participants. (a) Empirical cumulative distribution of the detected absolute clock offset |∆t| for the NTP+EEG group. The green dashed line marks the median offset (1.7 s), and the grey dotted line marks the 90th percentile (4.0 s). Eight participants with offsets above 30 s are clipped at 30 s for display. (b) Encoding precision for all participants ( N = 155 ), defined as the absolute difference between the Pi-encoded timestamp decoded from the polygraphy signal and the corresponding timestamp recorded directly by the RPi. The median precision was 21 ms, and 96% of participants had an encoding error below 50 ms. 
+
+4.2. Classifier Performance 
+
+Table 4 summarises LOPO cross-validation performance across the four classifiers. The non-linear ensemble models substantially outperformed both the majority-class baseline and the linear baseline. Random Forest achieved an AUC-ROC of 0.967 and AUC-PR of 0.977 ; Hist-GBT achieved an AUC-ROC of 0.969 and AUC-PR of 0.979 . Logistic Regression achieved lower performance (AUC-ROC = 0 .792 ), indicating that respiratory event discrim-ination in the BCG feature space is not purely linear. 
+
+Table 4: LOPO cross-validation performance: mean ± SD across N = 155 patient folds (AUC-ROC and AUC-PR computed over the 123 folds with evaluable negative windows; F1 over all 155). Best values per metric are highlighted in bold .                                                                              
+
+> Classifier AUC-ROC AUC-PR F1 Bal. Acc. Sensitivity Specificity
+> Majority-class 0.500 ±0.000 0.565 ±0.212 0.742 ±0.217 0.584 ±0.212 1.000 ±0.000 0.000 ±0.000
+> Logistic Reg. 0.792 ±0.104 0.840 ±0.119 0.702 ±0.210 0.705 ±0.125 0.678 ±0.206 0.736 ±0.229
+> Random Forest 0.967 ±0.044 0.977 ±0.036 0.905 ±0.153 0.895 ±0.119 0.953 ±0.065 0.807 ±0.245
+> Hist-GBT 0.969 ±0.052 0.979 ±0.040 0.915 ±0.151 0.912 ±0.100 0.944 ±0.077 0.862 ±0.193
+
+19 Per-fold AUC-ROC profiles were available for 123 of 155 patients whose test fold contained both respiratory-event and event-free windows. The re-maining folds did not contain both classes in the held-out test set, making AUC-ROC undefined for those folds. Among the 123 evaluable folds, 79% of Random Forest folds and 83% of Hist-GBT folds yielded AUC-ROC > 0.95 .In addition, 93% of folds exceeded AUC-ROC > 0.90 for both models (Fig-ure 4). Harder folds, defined here as folds with AUC-ROC < 0.95 , were observed across the AHI-defined OSA severity groups used in this study, in-cluding mild, moderate, and severe OSA. This indicates that fold difficulty was not determined by AHI severity alone. 0 50 100 Clinical AHI (events / h) 0.75 0.80 0.85 0.90 0.95 1.00 AUC-ROC 
+
+> 0.95
+
+(a) Random Forest   
+
+> 050 100 Clinical AHI (events / h) 0.75 0.80 0.85 0.90 0.95 1.00 AUC-ROC
+> 0.95
+
+(b) Hist-GBT  
+
+> None (<5) Mild (5 15)
+> Mod. (15 30)
+> Severe (30)
+> 0.75 0.80 0.85 0.90 0.95 1.00 AUC-ROC
+
+(c) RF by severity 
+
+Per-patient LOPO AUC-ROC vs. clinical AHI and OSA severity      
+
+> None (AHI < 5) Mild (5 15)
+> Moderate (15 30)
+> Severe (30)
+> No neg. windows (N = 32)
+
+Figure 4: Per-patient LOPO AUC-ROC as a function of clinical AHI and OSA severity, including no OSA, mild OSA, moderate OSA, and severe OSA. (a) Random Forest and 
+
+(b) Hist-GBT: each point represents one held-out patient, coloured by OSA severity cat-egory (AASM thresholds). The dashed horizontal line marks AUC-ROC = 0 .95 . Vertical tick marks at the top edge indicate the 29 patients whose test fold contained no eligible negative windows after applying the 30 s event-exclusion buffer; AUC-ROC is undefined for these folds (F1 scores ranged from 0.90 to 1.00). (c) Distribution of Random Forest AUC-ROC stratified by severity category (box: IQR; white line: median; whiskers: 1.5×IQR; jittered points: individual folds). Harder cases (AUC-ROC < 0.95 ) are distributed across all severity groups, with mild-OSA patients most frequently represented. 
+
+Figure 5 summarises the distribution of per-patient fold scores. Both Random Forest and Hist-GBT show compact, high-valued distributions, with 20 AUC-ROC interquartile ranges of 0.961–0.994 and 0.968–0.996, respectively, and medians of 0.982 and 0.988. In contrast, Logistic Regression has a wider AUC-ROC distribution (IQR 0.728–0.866) and a lower minimum in the hard-est folds. This contrast indicates that the implemented feature groups are most effectively exploited by non-linear classifiers, consistent with interac-tions between signal channel, feature group, patient morphology, and event physiology. 0.0 0.2 0.4 0.6 0.8 1.0     
+
+> Score
+> AUC-ROC AUC-PR F1 Score Balanced Accuracy
+> Per-patient LOPO cross-validation performance distributions
+> Logistic Reg. Random Forest Hist-GBT
+
+Figure 5: Per-patient LOPO performance distributions shown as box-and-whisker plots overlaid with individual fold scores (jittered points) for Logistic Regression, Random For-est, and Hist-GBT across four metrics. Boxes span the interquartile range; horizontal white lines show medians; whiskers extend to 1.5×IQR. The Majority-class Dummy base-line is omitted for clarity (fixed AUC-ROC = 0 .5). Both non-linear classifiers exhibit tight, high-valued distributions, confirming robust performance across diverse patients. 
+
+Figure 6 shows the sensitivity-specificity trade-off at the per-patient level. Most folds lie in the high-sensitivity, high-specificity region. Random Forest is slightly biased toward sensitivity, whereas Hist-GBT provides a more bal-anced sensitivity-specificity trade-off. For the present study, these differences are secondary to the main feature-discrimination question, but they provide context for possible deployment. 
+
+4.3. Feature Group Analysis 
+
+Figure 7 shows the top-20 Random Forest features ranked by mean de-crease in impurity (MDI). The two highest-ranked features are prep- S pectralStd and prep-SpectralMean , both from the FFT group com-puted on the preprocessed ( prep ) channel. They account for 6.6% and 6.0% of the total impurity decrease, respectively. The third-ranked feature is 21 0.0 0.2 0.4 0.6 0.8 1.0       
+
+> Specificity
+> 0.6 0.7 0.8 0.9 1.0
+> Sensitivity
+> Random Forest
+> mean sens. 0.948 mean spec. 0.806
+> 0.0 0.2 0.4 0.6 0.8 1.0
+> Specificity
+> 0.6 0.7 0.8 0.9 1.0
+> Sensitivity
+> Hist-GBT
+> mean sens. 0.937 mean spec. 0.862 0.75 0.80 0.85 0.90 0.95 1.00
+> AUC-ROC
+> Per-patient sensitivity vs. specificity (colour = AUC-ROC)
+
+Figure 6: Per-patient sensitivity versus specificity for Random Forest (left) and Hist-GBT (right), with point colour encoding AUC-ROC (green = high, red = low). Dashed and dotted lines indicate per-classifier mean sensitivity and specificity, respectively. Random Forest achieves slightly higher mean sensitivity ( μ = 0 .948 ) at the cost of lower mean specificity ( μ = 0 .806 ), while Hist-GBT achieves a more balanced trade-off (sensitivity 
+
+0.937 , specificity 0.862 ), making the two classifiers suitable for different clinical deployment priorities. 
+
+prep-Bandpower0.1-0.4 , a PSD breathing-band power feature. Ranks 4–8 are occupied by the same 0.1–0.4 Hz band-power feature across the remain-ing raw signal channels ( raw_upper , raw_mid , raw_lower , raw_total , and 
+
+raw_mean5 ). Together, the top-20 features account for 54.9% of the total MDI. Figure 7 reports the leading Random Forest feature importances used in the main analysis. To support a more detailed interpretation of the dis-criminative signal structure, Table 5, Table 6, and Table 7 report the top-30 individual features and the corresponding summaries aggregated by imple-mented feature group and signal channel. Importances are Random Forest MDI values computed on the full feature set and normalised to sum to one across all 191 features. The top-30 features account for 64.0% of the total MDI. The leading fea-tures are dominated by PSD breathing-band power, FFT -derived frequency de-scriptors, and AUC -based time-domain integral features. The highest-ranked 
+
+Wavelet feature is the peak-count feature from the bior3.9 decomposition of prep . This might indicate that respiratory-event discrimination is driven primarily by disruption of breathing-related spectral structure, with comple-mentary information from integrated pressure displacement and multi-scale 22 0.00 0.01 0.02 0.03 0.04 0.05 0.06 Mean Decrease in Impurity (MDI) 
+
+> upper·Bandpower0.4-0.8 lower·Bandpower0.4-0.8 total·Bandpower0.4-0.8 prep·bior3.9-5rateperframe lower·|AUC| lower·AUC upper·|AUC| total·|AUC| upper·AUC mid·|AUC| total·AUC mid·AUC mean5·BP[0.1-0.4Hz] total·BP[0.1-0.4Hz] lower·BP[0.1-0.4Hz] mid·BP[0.1-0.4Hz] upper·BP[0.1-0.4Hz] prep·BP[0.1-0.4Hz] prep·SpectralMean prep·SpectralStd
+
+0.0109 0.0123 0.0127 0.0148 0.0156 0.0168 0.0192 0.0220 0.0232 0.0242 0.0268 0.0270 0.0294 0.0302 0.0320 0.0347 0.0350 0.0355 0.0604 0.0664 
+
+Top-20 Random Forest feature importances (top-20 cumulative MDI: 54.9% of total)    
+
+> Preprocessed signal (prep) Total mat (raw_total) Upper zone shoulders (raw_upper)
+> Mid zone thorax (raw_mid)
+> Lower zone lumbar (raw_lower)
+> Top-5 sensors (raw_mean5)
+
+Figure 7: Top-20 Random Forest feature importances ranked by mean decrease in im-purity (MDI). Colour encodes the signal channel: preprocessed signal ( prep ), total mat ( raw_total ), upper zone (orange, raw_upper ), mid zone (purple, raw_mid ), lower zone (teal, raw_lower ), and top-5 sensor mean (dark blue, raw_mean5 ). The top-20 features account for 54.9% of the total MDI. FFT-derived frequency descriptors and breathing-band power of prep dominate ranks 1–3, with band-power features across all remaining signal channels occupying ranks 4–8, and AUC and wavelet-derived features providing complementary information. 
+
+temporal structure. Aggregating importance by feature group (Table 7) confirms the pattern seen in the individual ranking. PSD features explain the largest share of to-tal importance (30.3%), followed by AUC features (21.5%) and FFT -derived frequency descriptors (15.1%). Together, these three groups account for 66.9% of the total MDI. Wavelet -derived features contribute 6.9%, while 
+
+HiguchiFD , Energy , ZeroCrossing , and Entropy features contribute smaller shares under the present sensor, model and analysis. Table 8 summarises the feature-group ranking and provides a practical recommendation for each group. 
+
+5. Discussion 
+
+5.1. Dominant Role of Frequency-Domain Features 
+
+The most prominent finding is that frequency-domain features account for 45.4% of the total MDI: the FFT spectral-shape sub-group (6 features, 23 Table 5: Top-30 Random Forest feature importances. Importance denotes normalised mean decrease in impurity (MDI). The cumulative column reports the cumulative per-centage of total MDI explained up to each rank. 
+
+Rank Feature Signal channel Feature group Importance Cumulative 
+
+1 prep-SpectralStd prep FFT 0.0664 6.6% 2 prep-SpectralMean prep FFT 0.0604 12.7% 3 prep-Bandpower0.1-0.4 prep PSD 0.0355 16.2% 4 raw_upper-Bandpower0.1-0.4 raw_upper PSD 0.0350 19.7% 5 raw_mid-Bandpower0.1-0.4 raw_mid PSD 0.0347 23.2% 6 raw_lower-Bandpower0.1-0.4 raw_lower PSD 0.0320 26.5% 7 raw_total-Bandpower0.1-0.4 raw_total PSD 0.0302 29.5% 8 raw_mean5-Bandpower0.1-0.4 raw_mean5 PSD 0.0294 32.4% 9 raw_mid-AreaUnderCurve raw_mid AUC 0.0270 35.1% 10 raw_total-AreaUnderCurve raw_total AUC 0.0268 37.8% 11 raw_mid-AreaUnderCurveAbs raw_mid AUC 0.0242 40.2% 12 raw_upper-AreaUnderCurve raw_upper AUC 0.0232 42.5% 13 raw_total-AreaUnderCurveAbs raw_total AUC 0.0220 44.7% 14 raw_upper-AreaUnderCurveAbs raw_upper AUC 0.0192 46.6% 15 raw_lower-AreaUnderCurve raw_lower AUC 0.0168 48.3% 16 raw_lower-AreaUnderCurveAbs raw_lower AUC 0.0156 49.9% 17 prep-bior3.9-5rateperframe prep Wavelet 0.0148 51.4% 18 raw_total-Bandpower0.4-0.8 raw_total PSD 0.0127 52.6% 19 raw_lower-Bandpower0.4-0.8 raw_lower PSD 0.0123 53.9% 20 raw_upper-Bandpower0.4-0.8 raw_upper PSD 0.0109 54.9% 21 prep-bior3.9-5vardiff prep Wavelet 0.0106 56.0% 22 prep-SpectralSkewness prep FFT 0.0101 57.0% 23 prep-DomFreq prep FFT 0.0100 58.0% 24 raw_mid-Bandpower0.4-0.8 raw_mid PSD 0.0099 59.0% 25 prep-bior3.9-5meandiff prep Wavelet 0.0098 60.0% 26 raw_upper-Bandpower0.1-0.6 raw_upper PSD 0.0097 60.9% 27 prep-bior3.9-6meandiff prep Wavelet 0.0082 61.8% 28 prep-Bandpower0.4-0.8 prep PSD 0.0077 62.5% 29 raw_upper-Mean raw_upper StandardStat 0.0076 63.3% 30 raw_total-HiguchiFD raw_total HiguchiFD 0.0075 64.0% 
+
+15.1%) and the PSD band-power sub-group (24 features, 30.3%) together dominate the feature ranking. On a per-feature basis, FFT spectral-shape descriptors average 2.51% MDI each, the highest average of any group. The two most important individual features, prep-SpectralStd and prep-Spe ctralMean , account for 6.6% and 6.0% of total MDI respectively. This dominance has a direct physiological basis. During normal breath-ing, the mat records quasi-periodic pressure modulation caused by thora-coabdominal motion, which is the signal component targeted by several BCG systems [4, 7, 9]. During apnea or hypopnea, this modulation is altered, in-terrupted, or distorted, and the recovery phase may introduce deeper breaths or irregular motion [24, 4]. Because the BCG signal in the adult breathing range ( 0.1–0.4 Hz) is driven by this effort, an apneic event produces a char-24 Table 6: Random Forest importance aggregated by implemented feature group. Values are normalised MDI summed across all features in each group. 
+
+Feature group Importance Share of total 
+
+PSD 0.3029 30.3% 
+
+AUC 0.2154 21.5% 
+
+FFT 0.1508 15.1% 
+
+InterQuartile 0.1206 12.1% 
+
+StandardStat 0.1048 10.5% 
+
+Wavelet 0.0687 6.9% 
+
+HiguchiFD 0.0239 2.4% 
+
+Energy 0.0094 0.9% 
+
+ZeroCrossing 0.0019 0.2% 
+
+Entropy 0.0015 0.2% 
+
+> Table 7: Random Forest importance aggregated by signal channel. Values are normalised MDI summed across all features extracted from each channel.
+
+Signal channel Importance Share of total 
+
+prep 0.3074 30.7% 
+
+raw_upper 0.1656 16.6% 
+
+raw_total 0.1557 15.6% 
+
+raw_mid 0.1553 15.5% 
+
+raw_lower 0.1420 14.2% 
+
+raw_mean5 0.0741 7.4% 
+
+acteristic change of power in that band and a concurrent shift in the centroid and spread of the spectral distribution. FFT spectral-shape descriptors cap-ture the full shape of this shift, whereas band-power features quantify its magnitude independently in each spatial channel. The consistent appear-ance of band-power features across all six spatial channels confirms that the respiratory signature is detectable across the entire mat surface, regardless of whether a global aggregate, a zonal aggregate, or a per-window top-sensor mean, in which the five sensors with the strongest respiratory periodicity are reselected for each analysis window. 
+
+5.2. Information Content of Time-Domain AUC Features 
+
+AUC and curve-length features (18 features across six channels) account for 21.5% of total MDI, making them the second most informative category 25 Table 8: Feature-group MDI ranking. MDI % is the fraction of total Random Forest mean decrease in impurity attributed to each group, averaged across all 155 LOPO folds. Per-feature average = MDI % divided by the number of features in the group. Recom-mendation: Include = high information per feature; Consider = moderate contribution spread over many features; Optional = low per-feature contribution.                                                              
+
+> Feature group Applied to NMDI % Per-feat. % Rec.
+> Freq-domain: PSD band power All channels 24 30.3 1.26 Include
+> Time-domain: AUC / curve length All channels 18 21.5 1.20 Include
+> Freq-domain: FFT shape prep only 615.1 2.51 Include
+> Gen. stat: interquartile range All channels 36 12.1 0.33 Consider Gen. stat: central/spread All channels 42 10.5 0.25 Consider Wavelet ( bior3.9 )prep only 45 6.9 0.15 Optional Non-linear: Higuchi FD All channels 62.4 0.40 Optional Frame energy prep only 70.9 0.13 Optional Time-domain: zero-crossing All channels 60.2 0.03 Optional Non-linear: Shannon entropy prep only 10.2 0.15 Optional
+> Total 191 100.0
+
+overall and the main source of information complementary to the frequency-domain group. On a per-feature basis their average contribution (1.20%) is comparable to that of band-power features (1.26%), indicating that these two groups are similarly efficient, despite capturing different signal properties. The importance of AUC features is consistent with the physical nature of BCG sensing, where the recorded signal reflects a mixture of respiratory effort, cardiac-related micromotion, posture, and gross body movement [14, 4, 1]. A respiratory event can reduce the regular respiratory component, but it may also change the integrated pressure variation through altered respiratory effort, recovery breaths, arousal-related movement, or posture-dependent pressure redistribution [4]. Curve length additionally captures the smoothness of the waveform over time: regular breathing produces a quasi-periodic oscillation with a characteristic arc-length per cycle, while apneic interruptions and recovery breaths alter this pattern. Together, these time-domain descriptors provide a complementary representation to spectral measures, because they are sensitive to changes in the amplitude dynamics of the pressure waveform rather than its frequency structure. 
+
+5.3. Limited Contribution of Wavelet and Nonlinear Features 
+
+The wavelet group ( bior3.9 , 9-level decomposition, 45 features) accounts for 6.9% of total MDI, averaging only 0.15% per feature. This is the low-26 est per-feature average of any group, meaning that a very large number of features provides a small and diffuse contribution. The Higuchi fractal di-mension group (6 features, 2.4%) and the frame-energy group (7 features, 0.9%) make similarly limited contributions. Shannon entropy (1 feature, 0.2%) and zero-crossing rate (6 features, 0.2%) are the two least informative groups. These findings do not imply that lower-ranked descriptors are physiolog-ically meaningless [43, 5]. However, under this validation protocol and this feature library, they do not provide information independent of what is al-ready captured by the spectral and time-domain groups. This may reflect the high signal quality achieved by the adaptive sensor selection in the present setup: when the respiratory periodicity is already well concentrated in the averaged channel, wavelet decomposition and nonlinear transforms may offer limited additional discriminability compared with direct spectral measures. In settings with lower signal-to-noise ratio, for example, lower-resolution pres-sure mats or sensors with weaker body coupling, these transforms could re-cover information that spectral features miss, and their contribution may therefore differ across hardware configurations. What is clear from the data is that, for a BCG respiratory-event detector using the features studied here, wavelet-derived and nonlinear features are secondary and can be deprioritised without substantial loss of discriminative information. 
+
+5.4. Effect of Preprocessing on Feature Discriminability 
+
+A consistent pattern across the ranking is that features computed on the 
+
+prep channel (the adaptively preprocessed, polarity-aligned spatial average) dominate the top individual ranks. The top three individual features all belong to prep (prep-SpectralStd , prep-SpectralMean , prep-Bandpow er0.1-0.4 ). This confirms that the adaptive sensor selection and polarity alignment concentrate the respiratory signature into a single averaged signal, amplifying the discriminability of frequency-domain features computed on that channel. Raw spatial aggregates ( raw_total , raw_upper , raw_mid , raw_lower ,
+
+raw_mean5 ) also contribute substantially through their band-power features, occupying ranks 4–10 for the 0.1–0.4 Hz band. This shows that the respira-tory band-power reduction is a robust, spatially distributed signature that does not require extensive preprocessing to be detectable, but that prepro-cessing specifically benefits the spectral-shape features that distinguish nor-mal breathing from apneic quiescence by the shape “not just the magnitude” 27 of the power spectrum. 
+
+5.5. Practical Feature-Group Recommendations 
+
+The ranking in Table 8 supports three concrete design recommendations for future BCG systems targeting respiratory-event detection. Frequency-domain and AUC features should be included in any implementation: to-gether they account for 67% of total discriminative information while requir-ing only 48 features across six channels, and both can be computed efficiently from short signal segments using standard spectral and integration methods. General statistical descriptors (central tendency, spread, and interquartile range) account for a further 22.6% of MDI and are cheap to compute, but they are spread over 78 features, giving a low per-feature average of 0.29%. They complement the dominant groups through a different representation of amplitude behaviour and should be included when computational budget permits, but they are not essential for acceptable performance. Wavelet-derived features (45 features, 6.9%), Higuchi fractal dimension (6 features, 2.4%), frame energy (7 features, 0.9%), and Shannon entropy (1 fea-ture, 0.2%) together account for only 10.4% of MDI distributed over 59 fea-tures, each contributing on average less than 0.18% individually. In resource-constrained or real-time implementations, removing these groups would re-duce the feature vector by 31% while sacrificing only 10% of discriminative information, making their omission a reasonable engineering trade-off in most deployment scenarios. 
+
+5.6. Comparison with Prior Work 
+
+The AUC-ROC values of 0.967 (Random Forest) and 0.969 (Hist-GBT) under strict LOPO validation compare favourably with prior BCG-based OSA detection studies. However, direct comparison with previous work is limited because studies differ substantially in sensing hardware, feature de-sign, cohort size, prediction target, and validation protocol. BCG studies reporting AUC above 0.9 have generally used smaller cohorts ( N < 50 )and cross-validation schemes that do not fully prevent data leakage across patients [5, 44]. In addition, prior studies have often focused on specific sub-sets of information, such as BCG-derived heartbeat-interval features, HRV-related frequency bands, nonlinear interval dynamics, respiratory waveform similarity, or sensor-fusion strategies, rather than evaluating a common set of time-domain, frequency-domain, wavelet, complexity, and spatial pressure-mat features under the same patient-independent protocol. Waltisberg et 28 al. reported F1 scores of 0.715 for breathing irregularity detection with a bed-based BCG system in nine participants [4], considerably lower than the 0.905–0.915 F1 reported here. This difference should therefore be in-terpreted in the context of both cohort size and feature representation. The primary contribution of the present work is not only the absolute perfor-mance level, but the systematic feature ranking it provides: the results show that respiratory-event detection benefits from complementary information in adaptive frequency-domain descriptors, multi-channel breathing-band power, and time-domain AUC features. This ranking can inform future BCG and pressure-mat systems by indicating which feature groups are most important to preserve when designing compact real-time pipelines. 
+
+5.7. Limitations 
+
+Several limitations should be acknowledged. First, the feature importance ranking is based on Random Forest MDI, which can overestimate the contri-bution of features with many unique values and is not a measure of causal importance. Second, the study frames OSA detection as binary classification, pooling all respiratory event types including obstructive apneas, hypopneas, and central events; a finer annotation target may yield a different feature ranking. It should be noted that Waltisberg et al. [4] targeted breathing irregularity detection rather than individual event classification, and Wang et al. [5] performed severity classification at the subject level rather than window-level binary detection. These differences in prediction target mean that the performance values are not directly comparable, and the discussion should be read as a comparison of feature sets and validation methodology rather than of classification accuracy. Third, the study was conducted in a controlled in-hospital environment with a standardised mattress and bed height; the extent to which the feature ranking holds in home settings with varying mattress types, body positions, and co-sleeping remains to be estab-lished. Fourth, the wavelet features implemented here use a specific bior3.9 
+
+basis with inter-peak interval statistics; other wavelet representations may yield different group-level contributions. 
+
+6. Conclusion 
+
+We have reported a systematic, patient-independent comparison of ten feature groups for BCG-based respiratory-event detection in a cohort of 155 29 patients. Frequency-domain features are the dominant category, account-ing for 45.4% of total Random Forest discriminative information: PSD band power in the breathing range ( 0.1–0.4 Hz) contributes 30.3% across all six sig-nal channels, and FFT spectral-shape descriptors contribute a further 15.1% on the preprocessed channel alone. These two groups together outperform all other categories combined, each averaging more than 1.2% MDI per feature. Adaptive preprocessing amplifies this discriminability: the top three in-dividual features all belong to the preprocessed channel ( prep ), and FFT spectral-shape features computed on prep average 2.51% MDI per feature, approximately twice the per-feature average of the same descriptors applied to raw channels. High-pass filtering, quality-score-based sensor selection, and polarity-aligned averaging concentrate the respiratory signature and specifi-cally benefit spectral-shape features. AUC and curve-length features are the main complementary group, con-tributing 21.5% of MDI through sensitivity to changes in cumulative pressure displacement during events. General statistical features provide a further 22.6% but are distributed over 78 features (0.29% per feature) and are there-fore less efficient. Wavelet-derived features, Higuchi fractal dimension, frame energy, and entropy together contribute 10.4% across 59 features and repre-sent the weakest tier. The practical implication is direct: a BCG respiratory-event detector can achieve near-maximal discriminative performance using only the frequency-domain and time-domain AUC groups (48 features, 67% of MDI). General statistical features provide a modest further gain; wavelet-derived, frame-energy, and nonlinear features can be omitted from resource-constrained im-plementations without substantial performance loss. This feature ranking provides an empirical reference point for the design and evaluation of future BCG systems for sleep-disordered-breathing detection. 
+
+Acknowledgements 
+
+This research was funded by the Swiss National Science Foundation (SNSF) grant number 32003BM_220059. 
+
+Declaration of Competing Interest 
+
+The authors declare no competing interests. 30 References 
+
+[1] D. Vitazkova, E. Foltan, H. Kosnacova, M. Micjan, M. Donoval, A. Kuzma, M. Kopani, E. Vavrinsky, Advances in respiratory moni-toring: A comprehensive review of wearable and remote technologies, Biosensors 14 (2) (2024) 90. [2] O. T. Inan, P.-F. Migeotte, K. S. Park, M. Etemadi, K. Tavakolian, R. Casanella, J. M. Zanetti, J. Tank, I. Funtova, G. K. Prisk, M. D. Rienzo, Ballistocardiography and seismocardiography: A review of re-cent advances, IEEE Journal of Biomedical and Health Informatics 19 (2015) 1414–1427. URL https://api.semanticscholar.org/CorpusID:1722293 
+
+[3] C. Brüser, A. Kerekes, S. Winter, S. Leonhardt, Multi-channel optical sensor-array for measuring ballistocardiograms and respiratory activity in bed, in: 2012 Annual International Conference of the IEEE engineer-ing in medicine and biology society, IEEE, 2012, pp. 5042–5045. [4] D. Waltisberg, O. Amft, D. P. Brunner, G. Tröster, Detecting disordered breathing and limb movement using in-bed force sensors, IEEE journal of biomedical and health informatics 21 (4) (2016) 930–938. [5] Z. Wang, X. Zhou, W. Zhao, F. Liu, H. Ni, Z. Yu, Assessing the severity of sleep apnea syndrome based on ballistocardiogram, PloS one 12 (4) (2017) e0175351. [6] W. Zhao, H. Ni, X. Zhou, Y. Song, T. Wang, Identifying sleep apnea syndrome using heart rate and breathing effort variation analysis based on ballistocardiography, in: 2015 37th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC), IEEE, 2015, pp. 4536–4539. [7] W. Gao, Y. Xu, S. Li, Y. Fu, D. Zheng, Y. She, Obstructive sleep apnea syndrome detection based on ballistocardiogram via machine learning approach, Mathematical Biosciences and Engineering 16 (5) (2019) 5672. [8] I. Sadek, T. T. S. Heng, E. Seet, B. Abdulrazak, A new approach for detecting sleep apnea using a contactless bed sensor: Comparison study, Journal of medical Internet research 22 (9) (2020) e18297. 31 [9] P. Qi, S. Gong, N. Jiang, Y. Dai, J. Yang, L. Jiang, J. Tong, Mattress-based non-influencing sleep apnea monitoring system, Sensors 23 (7) (2023) 3675. [10] M. Mendez, J. Corthout, S. Van Huffel, M. Matteucci, T. Penzel, S. Cerutti, A. M. Bianchi, Automatic screening of obstructive sleep ap-nea from the ecg based on empirical mode decomposition and wavelet analysis, Physiological measurement 31 (3) (2010) 273–289. [11] E. Dafna, A. Tarasiuk, Y. Zigel, Automatic detection of whole night snoring events using non-contact microphone, PloS one 8 (12) (2013) e84139. [12] I. Sadek, J. Biswas, B. Abdulrazak, Ballistocardiogram signal process-ing: a review, Health Information Science and Systems 7 (2019). URL https://api.semanticscholar.org/CorpusID:162170899 
+
+[13] P. Balali, J. Rabineau, A. Hossein, C. Tordeur, O. Debeir, P. van de Borne, Investigating cardiorespiratory interaction using ballistocardio-graphy and seismocardiography—a narrative review, Sensors (Basel, Switzerland) 22 (2022). URL https://api.semanticscholar.org/CorpusID:254440510 
+
+[14] L. Giovangrandi, O. T. Inan, R. M. Wiard, M. Etemadi, G. T. Kovacs, Ballistocardiography—a method worth revisiting, in: 2011 Annual In-ternational Conference of the IEEE engineering in medicine and biology society, IEEE, 2011, pp. 4279–4282. [15] J. Nickerson, G. Humphreys, R. Deterling, T. Fleming, J. Mathers, Di-agnosis of coarctation of the aorta with the aid of the low frequency, critically damped ballistocardiograph, Circulation 1 (4) (1950) 1032– 1036. [16] C.-S. Kim, S. L. Ober, M. S. McMurtry, B. A. Finegan, O. T. Inan, R. Mukkamala, J.-O. Hahn, Ballistocardiogram: Mechanism and poten-tial for unobtrusive cardiovascular health monitoring, Scientific reports 6 (1) (2016) 31297. [17] J. Paalasmaa, M. Waris, H. Toivonen, L. Leppäkorpi, M. Partinen, Un-obtrusive online monitoring of sleep at home, in: 2012 Annual Inter-32 national Conference of the IEEE engineering in medicine and biology society, IEEE, 2012, pp. 3784–3788. [18] J. Gomez-Clapers, A. Serra-Rocamora, R. Casanella, R. Pallas-Areny, Towards the standardization of ballistocardiography systems for j-peak timing measurement, Measurement 58 (2014) 310–316. [19] A. Albukhari, F. Lima, U. Mescheder, Bed-embedded heart and respi-ration rates detection by longitudinal ballistocardiography and pattern recognition, Sensors 19 (6) (2019) 1451. [20] H. E. Pysick, R. K. Sainju, R. Nair, D. Dragon, E. Bravo, L. Vilella, X. Li, S. D. Lhatoo, G. B. Richerson, B. K. Gehlbach, Severe, non-apneic respiratory dysfunction and hypoxia following generalized con-vulsive seizures, Annals of neurology 99 (2026) 1263 – 1276. URL https://api.semanticscholar.org/CorpusID:285070141 
+
+[21] D. R. Mazzotti, D. C. Lim, K. Sutherland, L. Bittencourt, J. W. Mindel, U. J. Magalang, A. I. Pack, P. de Chazal, T. Penzel, Opportunities for utilizing polysomnography signals to personalize obstructive sleep apnea subtypes and severity, Physiological measurement 39 (2018) 09TR01 – 09TR01. URL https://api.semanticscholar.org/CorpusID:51719528 
+
+[22] D. Hu, W. Gao, K. K. Ang, M. Hu, R. Huang, G. Chuai, X. Li, Chmm-convscalenet: a hybrid convolutional neural network and continuous hid-den markov model with multi-scale features for sleep posture detection, Scientific Reports 15 (1) (2025) 12206. [23] M. Meszaros, A. Breuss, E. Wilhelm, R. Riener, M. Kohler, E. I. Schwarz, Robotic beds for the treatment of positional obstructive sleep apnea–a randomized cross-over pilot trial, Sleep Medicine 129 (2025) 94–100. [24] R. B. Berry, R. Budhiraja, D. J. Gottlieb, D. Gozal, C. Iber, V. K. Kapur, C. L. Marcus, R. Mehra, S. Parthasarathy, S. F. Quan, et al., Rules for scoring respiratory events in sleep: update of the 2007 aasm manual for the scoring of sleep and associated events: deliberations of the sleep apnea definitions task force of the american academy of sleep medicine, Journal of clinical sleep medicine 8 (5) (2012) 597–619. 33 [25] K. Ramar, R. K. Malhotra, K. A. Carden, J. L. Martin, F. Abbasi-Feinberg, R. N. Aurora, V. K. Kapur, E. J. Olson, C. L. Rosen, J. A. Rowley, et al., Sleep is essential to health: an american academy of sleep medicine position statement, Journal of Clinical Sleep Medicine 17 (10) (2021) 2115–2119. [26] S. Padilla Neira, A. Telli, F. Pietrogiacomi, C. Barcaru, E. Wilhelm, R. Riener, Position-dependent performance of Pressure-Mat and IR-UWB Radar systems for contactless respiratory and heart rate monitor-ing, Biomedical Signal Processing and ControlManuscript in preparation (2026). [27] D. N. Joanes, C. A. Gill, Comparing measures of sample skewness and kurtosis, Journal of the Royal Statistical Society: Series D (The Statis-tician) 47 (1) (1998) 183–189. doi:10.1111/1467-9884.00122 .[28] R. J. Hyndman, Y. Fan, Sample quantiles in statistical packages, The American Statistician 50 (4) (1996) 361–365. doi:10.1080/00031305 .1996.10473566 .[29] L. R. Rabiner, R. W. Schafer, Digital Processing of Speech Signals, Prentice-Hall, Englewood Cliffs, NJ, 1978. [30] W. H. Press, Numerical recipes 3rd edition: The art of scientific com-puting, Cambridge university press, 2007. [31] R. Esteller, J. Echauz, T. Tcheng, B. Litt, B. Pless, Line length: An efficient feature for seizure onset detection, in: Proceedings of the 23rd Annual International Conference of the IEEE Engineering in Medicine and Biology Society, Vol. 2, 2001, pp. 1707–1710. doi:10.1109/IEMBS. 2001.1020545 .[32] A. V. Oppenheim, Discrete-time signal processing, Pearson Education India, 1999. [33] G. Peeters, A large set of audio features for sound description (similarity and classification) in the cuidado project, Tech. rep., IRCAM (2004). [34] S. G. Mallat, A theory for multiresolution signal decomposition: the wavelet representation, IEEE transactions on pattern analysis and ma-chine intelligence 11 (7) (1989) 674–693. 34 [35] G. R. Lee, R. Gommers, F. Waselewski, K. Wohlfahrt, A. O’Leary, Pywavelets: A python package for wavelet analysis, Journal of Open Source Software 4 (36) (2019) 1237. doi:10.21105/joss.01237 .[36] A. Cohen, I. Daubechies, J.-C. Feauveau, Biorthogonal bases of com-pactly supported wavelets, Communications on Pure and Applied Math-ematics 45 (5) (1992) 485–560. doi:10.1002/cpa.3160450502 .[37] C. E. Shannon, A mathematical theory of communication, The Bell system technical journal 27 (3) (1948) 379–423. [38] T. Higuchi, Approach to an irregular time series on the basis of the fractal theory, Physica D: Nonlinear Phenomena 31 (2) (1988) 277–283. [39] T. E. Oliphant, et al., Guide to numpy, Vol. 1, Trelgol Publishing USA, 2006. [40] W. McKinney, et al., pandas: a foundational python library for data analysis and statistics, Python for high performance and scientific com-puting 14 (9) (2011) 1–9. [41] P. Virtanen, R. Gommers, T. E. Oliphant, M. Haberland, T. Reddy, D. Cournapeau, E. Burovski, P. Peterson, W. Weckesser, J. Bright, et al., Scipy 1.0: fundamental algorithms for scientific computing in python, Nature methods 17 (3) (2020) 261–272. [42] E. Bisong, Introduction to scikit-learn, in: Building machine learning and deep learning models on google cloud platform: a comprehensive guide for beginners, Springer, 2019, pp. 215–229. [43] J. S. Richman, J. R. Moorman, Physiological time-series analysis us-ing approximate entropy and sample entropy, American journal of physiology-heart and circulatory physiology 278 (6) (2000) H2039– H2049. [44] F. Siyahjani, G. Garcia Molina, S. Barr, F. Mushtaq, Performance evalu-ation of a smart bed technology against polysomnography, Sensors 22 (7) (2022) 2605. 35

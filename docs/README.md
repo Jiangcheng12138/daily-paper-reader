@@ -6,36 +6,35 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-30
-- 运行时间：2026-08-30 23:05:48 UTC
+- 最新运行日期：2026-08-31
+- 运行时间：2026-09-01 00:47:31 UTC
 - 运行状态：成功
-- 本次总论文数：5
+- 本次总论文数：4
 - 精读区：0
-- 速读区：5
+- 速读区：4
 
 ### 今日简报（AI）
-今日共速读5篇论文，其中3篇有评分，最高分为7.0的《A latent space network model for dynamic neural latent embedding》。值得关注的方向是动态神经潜在嵌入建模，以及基于自监督学习的脑表征与脆弱性分析。建议普通读者优先精读高分论文，理解其方法在脑网络动态建模中的应用思路。
-- 详情：[/202608/30/README](/202608/30/README)
+今日共阅读4篇论文，其中3篇速读，均获6.0分，无精读。  
+值得关注的方向：动态神经潜在空间建模，以及结构MRI与动态功能网络融合的跨模态方法。  
+建议后续可优先精读这3篇，重点比较其模型设计在真实脑数据上的可推广性。
+- 详情：[/202608/31/README](/202608/31/README)
 
 ### 精读区论文标签
 - 本次无精读推荐。
 
 ### 速读区论文标签
-1. [A latent space network model for dynamic neural latent embedding](/202608/30/2608.24452v1-a-latent-space-network-model-for-dynamic-neural-latent-embedding)  
-   标签：评分：7.0/10、query:slp-ns
-   evidence：神经时空交互建模方法，可应用于睡眠脑网络动态研究
-2. [ReMAP: Self-supervised learning to unveil brain representations and vulnerability](/202608/30/2608.22042v1-remap-self-supervised-learning-to-unveil-brain-representations-and-vulnerability)  
+1. [A latent space network model for dynamic neural latent embedding](/202608/31/2608.24452v1-a-latent-space-network-model-for-dynamic-neural-latent-embedding)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：基于自监督学习的脑状态轨迹分析，可迁移用于睡眠神经科学
-3. [A general-purpose sensitivity method for multiple simultaneous parameter perturbations in stochastic reaction networks](/202608/30/2608.22627v1-a-general-purpose-sensitivity-method-for-multiple-simultaneous-parameter-perturbations-in-stochastic-reaction-networks)  
-   标签：评分：6.0/10、query:tr-hb
-   evidence：随机反应网络敏感性方法可应用于冬眠代谢速率建模
-4. [DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction](/202608/30/2608.23114v1-demixpert-decomposed-response-modeling-with-gaussian-mixtures-for-ood-single-cell-perturbation-prediction)  
-   标签：评分：6.0/10、query:tr-hb
-   evidence：单细胞扰动响应预测方法支持分子/遗传机制研究
-5. [Time-Varying Spiky Wave-Shape Functions for Non-Stationary Signal Decomposition](/202608/30/2608.26285v1-time-varying-spiky-wave-shape-functions-for-non-stationary-signal-decomposition)  
+   evidence：动态神经潜变量嵌入模型，推断脑区交互网络，可用于睡眠环路研究
+2. [MSR-IVA: Masked Structural Residual Independent Vector Analysis for State-Aware Fusion of Structural MRI and Dynamic Functional Network Connectivity](/202608/31/2608.24978v1-msr-iva-masked-structural-residual-independent-vector-analysis-for-state-aware-fusion-of-structural-mri-and-dynamic-functional-network-connectivity)  
    标签：评分：6.0/10、query:slp-ns
-   evidence：用于分解非平稳尖峰EEG类信号的方法，可应用于睡眠脑电分析
+   evidence：结构MRI与动态功能连接的状态感知融合方法，可迁移至睡眠-觉醒状态分析
+3. [Virtual iEEG from Scalp EEG: Charting the Landscape of Source Imaging, Intracranial Inference and Reconstruction](/202608/31/2608.26998v1-virtual-ieeg-from-scalp-eeg-charting-the-landscape-of-source-imaging-intracranial-inference-and-reconstruction)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：无创头皮脑电到颅内脑电的推断可揭示与睡眠-觉醒环路相关的深部脑活动
+4. [Spectral Features Dominate BCG Respiratory-Event Detection: A Large-Scale Patient-Independent Comparison of Feature Groups in Sleep Apnea Patients](/202608/31/2608.28242v1-spectral-features-dominate-bcg-respiratory-event-detection-a-large-scale-patient-independent-comparison-of-feature-groups-in-sleep-apnea-patients)  
+   标签：评分：6.0/10、query:slp-ns
+   evidence：直接研究睡眠呼吸暂停中的呼吸事件检测，属于临床睡眠障碍相关研究
 
 
 <div class="dpr-home-promo-card">
