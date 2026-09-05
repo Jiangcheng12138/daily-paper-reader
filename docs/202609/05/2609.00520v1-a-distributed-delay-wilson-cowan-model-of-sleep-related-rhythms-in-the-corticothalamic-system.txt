@@ -1,0 +1,726 @@
+Title: A distributed-delay Wilson-Cowan model of sleep-related rhythms in the corticothalamic system
+
+URL Source: https://arxiv.org/pdf/2609.00520v1
+
+Published Time: Wed, 02 Sep 2026 00:38:34 GMT
+
+Number of Pages: 37
+
+Markdown Content:
+# A distributed-delay Wilson–Cowan model of sleep-related rhythms in the corticothalamic system 
+
+Eva Kaslik 1, Anca Rˇ adulescu 2, Anca Stanoev 1
+
+Department of Computer Science, West University of Timi¸ soara Department of Mathematics, SUNY New Paltz 
+
+Abstract 
+
+The corticothalamic circuit supports rhythms with timescales that differ by orders of magnitude: sleep spindles, the sigma-band events of non-rapid-eye-movement (NREM) sleep, and infra-slow fluctuations near 0.02 Hz that organize when spindles occur. Because the anatomy is the same in both cases, architec-ture alone cannot determine which rhythm the circuit expresses. We ask whether the temporal structure of the circuit’s own feedback can. In a four-population Wilson–Cowan model comprising cortical excita-tory and inhibitory populations, thalamic relay cells, and the thalamic reticular nucleus (TRN), we first establish how connectivity controls access to oscillatory behavior, and then introduce temporal coupling as either a weak Gamma distributed delay or a discrete delay. We investigate three distinct connectivity levels: recurrent cortical excitation gates whether the circuit can oscillate at all, the reciprocal relay–TRN pair determines where the oscillation lies and how it is configured, sustained, and terminated, and reticular self-inhibition limits its extent. We then examine how these connectivity-dependent regimes are affected by delayed coupling. Although delay does not change the equilibria themselves, it can substantially alter their stability and the organization of the resulting oscillatory dynamics. Under weak Gamma integration, short delays support spindle-compatible oscillations in the sigma band, while longer delays give rise to a much slower regime near 0.02 Hz. The discrete-delay formulation produces a qualitatively different and more complex bifurcation structure. Together, these results show that the dynamics of the corticothalamic circuit depend not only on its connectivity, but also on the temporal organization of interactions within the circuit. 
+
+# 1 Introduction 
+
+Sleep is not a uniform state, but is organized into recurring stages with distinct patterns of brain activity. Much of sleep is spent in non-rapid-eye-movement (NREM) sleep, which ranges from lighter to deeper stages. One of its most characteristic features is the sleep spindle: a brief, waxing-and-waning burst of neural activity, typically lasting on the order of a second and oscillating in the sigma range of roughly 11–16 Hz. Spindles are especially prominent during the intermediate NREM stage known as N2 [13, 42, 36]. They arise within the corticothalamic circuit formed by thalamic relay neurons, the thalamic reticular nucleus (TRN), and cortical excitatory and inhibitory populations. Within this circuit, the reciprocal relay-TRN interaction provides a rhythm-generating core, while corticothalamic feedback helps shape the timing and spatial organization of individual spindle events [57, 17, 45, 3]. The same circuit also participates in activity on a dramatically slower timescale. During NREM sleep, an infra-slow fluctuation near 0.02 Hz modulates when spindles occur, grouping them into clusters and contributing to alternating periods of greater sleep continuity and greater fragility [34, 33, 58, 7]. This fluctuation is not simply a spindle slowed down. Rather, it reflects a different level of temporal organization, associated with the longer-timescale structure and maintenance of sleep. Thus, the same corticothalamic circuit is associated with rhythms whose characteristic timescales differ by several orders of magnitude. A first place to look for the origin of these different behaviors is the architecture of the circuit itself. The pattern and strength of connections between neural populations strongly constrain the collective dynamics that a network can support [11, 19]. In the corticothalamic system, these connections also play distinct roles: relay and reticular populations are central to rhythm generation, while cortical excitatory and inhibitory populations influence how that rhythm is expressed, amplified, and organized in time [45, 41, 61]. At the same time, connectivity alone cannot explain the coexistence of spindle and infra-slow dynamics, since the underlying anatomical circuit is the same in both cases. The question is therefore what other properties of the circuit can shift its dynamics between these very different timescales without changing its basic wiring. This question also has clinical relevance: spindle expression is altered in schizophrenia [37, 38], reorganized by interictal activity in focal epilepsy [29], and reduced in Alzheimer’s disease and amnestic mild cognitive impairment in association with cognitive decline [16, 59], while reduced spindle density in Parkinson’s disease has been linked to later dementia [32]. 1arXiv:2609.00520v1 [q-bio.NC] 1 Sep 2026 A natural candidate is the timescale over which influences on the corticothalamic system are integrated. Neural activity is shaped by processes operating over a wide range of timescales, from axonal conduction, synaptic transmission, and dendritic integration to recurrent network dynamics and slower neuromodulatory or hormonal effects. At the population level, the combined influence of such processes can introduce a dependence on past activity that is spread over time rather than concentrated at a single instant. How that past activity is weighted may itself matter dynamically. Most delayed neural-population models represent this temporal dependence by a single fixed lag, largely for mathematical and computational convenience. Yet there is little reason to expect the effective temporal profile of biological interactions to be universal across networks, physiological states, or functional contexts. Our previous analyses of Wilson–Cowan systems with distributed delays have shown that the shape of the delay kernel, and not only its characteristic timescale, can qualitatively alter the accessible dynamics and the transitions between them [26, 27]. This motivates examining temporal integration alongside connectivity as a factor shaping the dynamics of the corticothalamic system. Existing models of thalamocortical sleep rhythms fall broadly into two families, and neither has been used to ask this question. Biophysically detailed models resolve the intrinsic currents and synaptic kinetics that generate spindles and slow-wave activity, including the low-threshold calcium current and rebound bursting of TRN neurons and the gap-junctional coupling between them [10, 15, 4, 30]. These models reproduce the rhythms faithfully, but their dimensionality makes broad, systematic exploration of the dynamics across parameter space difficult. Mean-field and neural-mass corticothalamic models occupy the complementary position: they are low-dimensional enough for stability and continuation analysis and have reproduced NREM-sleep spectra and their responses to perturbation [50, 24, 49], and delayed corticothalamic feedback has been shown to organize their stability boundaries [48]. Related work has also shown that thalamocortical mean-field models can sit close to multiple coexisting regimes, with transitions into pathological synchrony organized by the same parameters as normal activity [54, 51]. These models, however, either omit delay or represent it as a single characteristic lag. The consequence is that connectivity and timing have largely been studied separately, and whether temporal dispersion, acting jointly with connectivity, can select among the timescales that one circuit is able to support has not been addressed directly. Here we examine that question in a four-population Wilson–Cowan model [60] of the corticothalamic circuit, comprising cortical pyramidal and inhibitory populations, thalamic relay cells, and the TRN, with connectivity calibrated to the anatomical and modeling literature. We compare three temporal formulations: instantaneous coupling, a weak Gamma distributed delay kernel, and a discrete delay. Equilibria, limit cycles, and their bifurcations are obtained by numerical continuation, and are complemented by analytical results governing stability at small and large values of the delay. The model was tuned to produce oscillatory regimes consistent with both the experimentally observed spindle frequency range and the characteristic relative recruitment patterns of the four populations. More details are presented in Section 2.1. Our central goal is to investigate how connectivity and temporal integration play complementary roles in shaping the dynamics of the corticothalamic circuit. We focus on several connectivity features that have been implicated in spindle dynamics: recurrent cortical excitation and corticothalamic drive, the reciprocal interaction between thalamic relay and reticular populations, and interactions within the TRN. We ask whether these different levels of connectivity control distinct aspects of oscillatory behavior, including access to oscillations, their structure and persistence, and the conditions under which they emerge or disappear. We then investigate how these connectivity-dependent effects are modified by delayed coupling, and whether the form of temporal integration – weak Gamma distributed or discrete – changes the dynamical regimes available to the circuit. Finally, we ask to what extent connectivity and delay, separately and in combination, can account for the experimentally observed spindle-band regime and for the much slower infra-slow organization near 0.02 Hz within the same corticothalamic architecture. 
+
+# 2 Modeling the CTRC loop and generation of sleep rhythms 
+
+The coexistence of spindle-band and infra-slow rhythms described above makes NREM sleep a particularly rich setting for investigating dynamics across widely separated timescales. The thalamic reticular nucleus (TRN) stands within a broader corticothalamic network, interacting reciprocally with thalamic relay pop-ulations and with cortical excitatory and inhibitory populations, and it is within this coupled setting that sleep-related dynamics emerge. Our modeling framework is therefore designed to examine how distinct regimes are generated within this circuit, and what factors allow transitions from one to another. In the 2following sections, we first discuss the functional oscillatory regimes of interest and the criteria by which the model is assessed against them, then summarize the connectivity architecture that forms the biological backdrop for our model, and finally state the equations and parameters themselves. 
+
+# 2.1 CTRC rhythms across population timescales 
+
+Spindle rhythms. To calibrate the four-node Wilson–Cowan network, we distinguish between the temporal frequency of the spindle rhythm and the level of activity expressed by each population during that rhythm. Human depth-electrode, intracranial EEG and LFP recordings consistently identify spindle oscillations in the approximately 10–16 Hz range [36, 3, 42]. We therefore require a spindle-compatible periodic solution to oscillate on this temporal scale. The four Wilson–Cowan populations share this common oscillatory period; differences among populations are represented instead through their activity levels, which reflect the substantially different degrees to which the corresponding neuronal populations are recruited during individual spindle cycles. Where direct human population recordings are available, we use them to establish the spindle-frequency range. Because population-resolved human spiking data are more limited, we supplement these observations with rodent and feline single-unit and population studies describing cycle-by-cycle participation. The result-ing Wilson–Cowan activity ranges should therefore be interpreted as Hz-equivalent mean-field targets: they preserve the experimentally observed distinction between strongly recruited populations and populations that participate only sparsely in the same spindle-frequency network oscillation, rather than representing literal firing rates of every individual neuron. 
+
+Thalamic reticular population. The TRN is a central component of the spindle-generating thalamic circuit. Optogenetic activation of TRN PV neurons can initiate thalamic bursts and cortical spindles [17], while classical intracellular recordings demonstrate intrinsic and network-supported TRN rhythmicity in the spindle-frequency range [53]. Natural-sleep recordings further show that reticular neurons are strongly, but not uniformly, recruited across spindle cycles. Barth´ o et al. [2] reported nRT participation probabilities rang-ing from below approximately 40% to about 60%, with firing declining markedly toward spindle termination and bursts containing approximately 3–5 spikes. The lower-recruitment portions of this trajectory therefore support an activity scale of only a few Hz, motivating W C min ≈ 3–5 Hz, whereas the strong recruitment of TRN neurons, which can participate on successive spindle cycles, supports an upper population-activity scale approaching the spindle-cycle rate. We consequently take W C min ≈ 3–5 Hz and W C max ≈ 10–15 Hz for the reticular population. 
+
+Thalamic relay population. Human thalamic recordings demonstrate a clear spindle-band population rhythm in the 10-16 Hz range [36, 3]. Individual thalamocortical relay cells, however, participate much more sparsely in that population rhythm. Animal recordings show extensive cycle-skipping [44]; in natural sleep, Barth´ o et al. (2014) measured TC-cell participation probabilities of approximately 35-45% across spindle cycles. Applied to a 10-15 Hz spindle rhythm, this degree of participation corresponds to approximately 3.5-7 recruited cycle-events per second, providing a direct scale for the upper end of relay population activity and motivating W C max ≈ 4-6 Hz. The intermittent, cycle-skipping character of relay-cell recruitment also supports a population-activity trough close to zero, motivating W C min ≈ 0-1 Hz. We therefore take 
+
+W C min ≈ 0-1 Hz and W C max ≈ 4–6 Hz for the relay population. 
+
+Cortical pyramidal population. Cortical EEG and intracranial recordings show the same spindle-band temporal rhythm observed in thalamus [42, 36], but individual pyramidal neurons participate only sparsely. Recordings during natural sleep show low average firing and substantial cycle skipping among pyramidal neurons [1]; Averkin et al., for example, found that superficial pyramidal cells fired on only a small fraction of spindle cycles, with spindle-phase firing rates near 1–2 Hz in the more strongly modulated cells. Other cell-resolved recordings report mean pyramidal firing around 3-4 Hz during local spindle oscillations [20]. Together, these observations motivate a low-activity range of W C min ≈ 1–2 Hz and a spindle-recruited upper range of W C max ≈ 3–5 Hz. Thus cortical pyramidal activity remains sparse even while the population signal oscillates robustly in the spindle band. 
+
+Cortical inhibitory population. Cortical inhibitory neurons are recruited considerably more strongly during spindles than neighboring pyramidal neurons. Human and animal recordings show strong spindle phase-locking of inhibitory activity [42, 41, 1], with fast-spiking and PV-dominated populations showing 3particularly strong spindle-related recruitment. At the same time, cortical inhibitory populations are het-erogeneous: recordings during local spindle oscillations show firing rates ranging from only a few Hz in more weakly recruited interneuron classes to approximately 10-17 Hz in strongly recruited PV basket cells [20]. We therefore use W C min ≈ 1-2 Hz to represent the low-activity end of the coarse-grained inhibitory population and W C max ≈ 10-15 Hz to represent the strongly recruited, spindle-locked end. The broad range reflects the markedly greater and more heterogeneous recruitment of cortical inhibitory cells relative to pyramidal neurons. These ranges were used to assess the physiological plausibility of the dynamical regimes produced by the chosen parameter sets. Thus, model validation did not consist of imposing an independent recruitment constraint after matching the spindle frequency. Rather, spindle-compatible behavior was identified by con-sidering both the common spindle-band oscillation and the population-activity scales expected from the experimentally observed differential recruitment of the four populations. 
+
+Infra-slow fluctuations. In addition to spindle-band activity, non-rapid-eye-movement sleep exhibits a much slower temporal organization on the infra-slow timescale. In particular, several studies have identified an approximately 0.02 Hz rhythm during NREM sleep, corresponding to a period on the order of 50 seconds, which modulates spindle occurrence and helps organize sleep microstructure rather than constituting a spindle rhythm itself [34, 58, 33]. This infra-slow fluctuation has been linked to the clustering and spacing of faster spindle events, to alternating periods of greater sleep continuity versus fragility, and more broadly to the temporal organization of NREM sleep [34, 58, 33, 7]. These observations suggest that infra-slow fluctuations play an important functional role in sleep not by replacing faster rhythms such as spindles, but by regulating when such rhythms occur and how they are distributed over longer timescales. In this sense, infra-slow activity appears to provide a broader temporal scaffold for sleep microarchitecture, contributing to sleep maintenance and to the internal organization of NREM sleep. In the present work, we therefore treat infra-slow activity not at the level of detailed population-by-population firing statistics, but as a biologically observed slower timescale relevant to the slower oscillatory regime of the model. This regime is consequently assessed on the frequency constraint alone: population-resolved firing statistics comparable to those available for individual spindle cycles have not been reported for the infra-slow rhythm, so imposing a recruitment constraint there would not be evidence-based. Accordingly, when the Wilson–Cowan dynamics exhibit a slow oscillatory mode in the infra-slow range, we interpret this not as a literal single-cell firing rate, but as a network-level organizing regime associated with infra-slow sleep organization. 
+
+# 2.2 Description of CTRC neural circuitry 
+
+The connectivity architecture between the four representative neural populations in our system is summarized below, and illustrated in Figure 1. The corresponding coupling weights and ranges used in our analysis of the model are included in Table 2, and define the connectivity matrix introduced in Section 2.3. While not directly empirically driven, the coupling baseline values and ratios were based on existing literature on the CTRC circuit, also included in Table 2. 
+
+Corticothalamic projections and collaterals to TRN. Layer-VI pyramidal neurons send descending axons not only to thalamic relay nuclei but also branch collaterals into the TRN, providing the principal excitatory (glutamate-mediated) drive that paces TRN burst-firing and helps initiate each spindle cycle [61]. Additional studies confirm that TRN cells receive glutamatergic corticothalamic collateral synapses and are closely coupled to their neighbors by GABA A receptor-containing inhibitory synapses [62]. No converse projection from the TRN to the cortex has been found to be relevant to spindle dynamics [45]. These pathways are represented by the cortico-reticular collateral wRP , and by the absence of any R → P or 
+
+R → I entry in the connectivity matrix. 
+
+Long-range projections between cortex and thalamic relay. Relay neurons in sensory (ventrobasal, lateral geniculate) and associative thalamic nuclei issue axon branches en route to cortex that activate TRN cells, closing the relay–TRN–relay inhibitory loop that sustains spindle oscillations. Both these projections are glutamatergic. Thalamocortical axon terminals express vesicular glutamate transporter 2 (VGLUT2), driving excitatory postsynaptic responses in both cortical pyramidal cells and interneurons [62]. Conversely, there is a massive, glutamatergic, feedback projection to the thalamus, primarily from the layer 6 corti-cothalamic projection neurons, both to the specific thalamic relay nucleus that provides its principal input 4and to higher order thalamic nuclei [56]. Layer 6 pyramidal neurons, in turn, receive extrinsic excitatory input, from the thalamus and from other cortical regions, as further detailed below. These pathways are represented by the ascending weights wP T and wIT and by the descending corticothalamic drive wT P .
+
+Long-range projections between thalamic relay and TRN. Every TRN neuron is GABAergic and projects back onto the relay cells that innervate cortex [45]. Their rhythmic inhibitory postsynaptic poten-tials drive rebound bursts in these relay neurons, which then re-excite the TRN, generating the spindle-band oscillation. Early intracellular recordings in thalamic slices established that TRN inhibition is both neces-sary and sufficient for spindle-like oscillations [57]. In turn, the glutamatergic input to TRN depolarizes TRN neurons and helps initiate the inhibitory-rebound cycles underlying spindles, although activation of metabotropic glutamate receptors can, in some settings, produce a slower inhibitory response through potas-sium conductances [57]. Deafferentation and in vivo recording studies demonstrated that interrupting these projections abolishes spindle rhythms [53]. The spread of inhibition through the TRN as more and more TRN cells are excited by the collaterals of thalamocortical fibers may be responsible for the shortening of the burst discharges [62]. Conversely, studies in rodent and other species found the sheet of GABAergic neurons in the TRN to form the principal source of inhibition to the relay neurons of most dorsal thalamic nuclei [45]. There is no evidence of similar interconnections within the thalamic relay, or of significant effects of one relay cell on another, each relay cell acting as an essentially independent link to cortex [52]. This reciprocal pair is represented by the excitatory return wRT and the inhibitory return wT R , with no relay self-coupling.     
+
+> Cortical pyramidal
+> P(t)Cortical interneurons
+> I(t)Thalamic relay
+> T(t)Reticular (TRN)
+> R(t)
+> cortex thalamus
+> wIP
+> wP I
+> wP P wII
+> wRT
+> wT R wRR
+> wT P
+> wP T
+> wIT
+> wRP
+
+Figure 1: Architecture of the corticothalamic–reticular Wilson–Cowan model. Filled teal arrows denote excitatory couplings and hollow brick arrows inhibitory couplings; each weight wXY is the directed connection from population Y to population X. Baseline values and exploration ranges are given in Table 2. The delay is not specific to any one population: every coupling transmits the filtered state ( hρ ∗ X)( t) rather than the instantaneous state X(t), under either of the two kernels compared in Section 2.4. 
+
+Intrinsic and electrical coupling within the TRN. Intrinsic membrane currents in the TRN, partic-ularly low-threshold T-type calcium channels and hyperpolarization-activated H-currents, are essential for generating the rebound bursts that drive each spindle cycle [23, 21]. Moreover, TRN neurons are exten-sively coupled by gap junctions, forming an electrical syncytium that synchronizes burst timing across the nucleus [31, 9]. Once initiated, cortical circuits can further amplify and propagate these spindles: intracor-tical reverberation via cortico-cortical loops sustains and shapes spindle activity beyond the thalamus [4]. At the mean-field level, both the chemical inhibition internal to the nucleus and the net population-level consequence of its electrical coupling are absorbed into the single self-coupling wRR ; this is a deliberate reduction, since gap junctions synchronize rather than inhibit, and a one-variable population description cannot separate the two. 5Intra-cortical connections [19]. Pyramidal cells form recurrent connections with local neurons of the same class. In turn, the primary targets of Vip and single-bouquet cells are other interneurons, especially Sst interneurons as well as Pvalb-positive basket cells. The excitatory and inhibitory cortical populations are also interconnected: cortical (Sst and Pvalb) interneurons receive excitatory input from local neurons and in turn inhibit excitatory cortical cells on their dendrites and somata respectively. Let us also remind that the inhibitory interneurons do not send significant long-range projections, including the relay and the TRN in particular [28]. These interactions are represented by wP P , wIP , wP I and wII , and by the vanishing 
+
+I → T and I → R entries of the connectivity matrix. 
+
+Brainstem modulatory inputs to TRN. Anatomical tracing has mapped dense innervation of the TRN and relay nuclei by cholinergic, noradrenergic and serotonergic systems [18, 25, 40], which dynamically adjust TRN and relay cell excitability and thereby control spindle amplitude and duration in a state-dependent manner [40]. Cholinergic inputs from the basal forebrain likewise modulate the activity of cortical neurons, contributing to the distinct network dynamics of different brain states [35]. Slow-wave sleep is characterized by a low level of these neuromodulators and by the resulting progressive hyperpolarization of thalamocor-tical and reticular neurons, which deinactivates a low-threshold Ca 2+ current and permits the burst-firing mode crucial to spindle generation [23]. In the present model this state is fixed rather than dynamic: the constant background drive B, together with the population-specific offsets IT and IR, represents the low neuromodulatory tone characteristic of NREM sleep, and sleep–wake state transitions lie outside the present scope. 
+
+# 2.3 Model equations and parameters 
+
+Our basic model realizes this connectivity architecture as a system of Wilson–Cowan type equations, in which the four variables ( P , I, T and R) represent temporal mean-field activity in our four CTRC populations, respectively: cortical pyramidal cells P , cortical interneurons I, thalamic relay cells T and reticular thalamic nucleus R. These populations integrate the sum of internal and external inputs via sigmoidal functions 
+
+SαX ,θ X ,β X (u) = αX
+
+1 + exp( −βX [u − θX ]) − αX
+
+1 + exp( βX θX ) , (1) where X ∈ { P, I, T, R } is the respective integrating node. The subtracted constant guarantees S(0) = 0, so that a silent input yields no output; note, however, that it also gives S(u) < 0 for u < 0, so that the vector field does not confine trajectories to the non-negative orthant. Non-negativity of the four activity variables is therefore an admissibility criterion imposed on solutions rather than a property guaranteed by the equations, and a trajectory leaving the non-negative range, while mathematically well defined, no longer represents a realizable population state; the saturation factors supply the complementary upper bound X ≤ 1/r X . For every coupling parameter, wXY > 0 denotes the strength of the directed projection from population Y to population X, namely, the first index is the target and the second index is the source. Then we can write the equations governing the behavior of the system, without yet considering distributed delays: 
+
+τ dP dt = −P + (1 − rP P ) · S αP ,θ P ,β P (wP P P − wP I I + wP T T + B + IP ) (2) 
+
+τ dI dt = −I + (1 − rI I) · S αI ,θ I ,β I (wIP P − wII I + wIT T + B) (3) 
+
+τ dT dt = −T + (1 − rT T ) · S αT ,θ T ,β T (wT P P − wT R R + B + IT ) (4) 
+
+τ dR dt = −R + (1 − rRR) · S αR,θ R,β R (wRP P + wRT T − wRR R + B + IR) (5) Here B is a common background drive applied to every population, while IP , IT and IR are population-specific offsets for the pyramidal, relay and reticular populations; the interneuron population receives only the common drive, equivalently II = 0. At the baseline configuration used throughout, IP = 0, so that the pyramidal population likewise receives only the common drive. The excitatory populations P and T
+
+share a single response class, SP ≡ S T ≡ S E , while the interneuron and reticular populations use SI and 
+
+SR respectively, the latter with a higher maximal output ( αR = 75 against αE = αI = 50). A single time constant τ is shared by all four populations, although TRN bursting, relay rebound and cortical integration 6operate on distinct intrinsic timescales; this is deliberate, since it leaves the mean delay as the only temporal parameter varied and makes the dimensionless ratio q = ρ/τ of Section 2.5 the sole temporal quantity governing spectral stability. Population-specific time constants are deferred to future work. The values and ranges of the coupling and sigmoidal parameters and of the external inputs were set based on existing modeling literature and empirically demonstrated relationships between their magnitudes. In the tables below, we describe these ranges and the references used. Table 1: Non-coupling parameters: values, roles and literature support. 
+
+Symbol Value Role Reference(s) 
+
+(αE , θ E , β E ) (50 , 4.0, 1.2) Excitatory sigmoid SE (P , T ) [60, 39, 50] (αI , θ I , β I ) (50 , 3.8, 2.5) Interneuron sigmoid SI [60, 39, 50] (αR, θ R, β R) (75 , 3.8, 2.5) TRN sigmoid SR (higher output) [39, 50, 45] 
+
+τ 1.0 Population time constant (1 s) [60] (rP , r I , r T , r R) (0 .05 , 0.03 , 0.03 , 0.03) Saturation coefficients [60] 
+
+B 0.6 Common background drive (all populations) [60, 39] 
+
+IP 0 Pyramidal-specific offset —
+
+IT 2.8 Relay-specific offset [6, 50] 
+
+IR 1.5 Reticular-specific offset [6, 50] 
+
+Table 2: Coupling weights and the delay parameter: pathways, baseline values, exploration ranges, functional roles and literature support. Baseline values define the reference configuration; ranges indicate the parameters varied in the continuation and delay studies. 
+
+Parameter Pathway Baseline Baseline exploration set Interpretation Reference(s) 
+
+wP P PYR → PYR 1.1 [0 .8, 1.2] Recurrent cortical excitation [5, 19] 
+
+wP I IN → PYR 0.4 fixed Pyramidal inhibition [22, 46] 
+
+wP T TR → PYR 0.4 fixed Thalamocortical drive [24, 47] 
+
+wIP PYR → IN 0.7 fixed Interneuron recruitment [14, 22] 
+
+wII IN → IN 0.1 fixed Interneuron self-inhibition [43] 
+
+wIT TR → IN 0.7 fixed Relay–interneuron drive [8] 
+
+wT P PYR → TR 1.25 [1 .0, 1.5] Corticothalamic drive [24] 
+
+wT R TRN → TR 0.8 [0 .6, 1.0] Reticular inhibition of relay [50, 62] 
+
+wRP PYR → TRN 0.7 fixed Cortico-reticular collateral [61] 
+
+wRT TR → TRN 0.4 [0 .1, 0.4] Relay–reticular excitation [50, 45] 
+
+wRR TRN → TRN 0.2 [0 .1, 0.3] Reticular self-limitation [9, 31] 
+
+ρ all couplings 0 [0 , 5] Mean coupling delay —
+
+We denote X = ( P, I, T, R )T, and define Θ( X) = diag  1 − rP P, 1 − rI I, 1 − rT T, 1 − rRR,
+
+together with the componentwise transfer function 
+
+S(z) =  SP (zP ), S I (zI ), S T (zT ), S R(zR)T.
+
+The signed connectivity matrix and the input vector are 
+
+C =
+
+
+
+wP P −wP I wP T 0
+
+wIP −wII wIT 0
+
+wT P 0 0 −wT R 
+
+wRP 0 wRT −wRR 
+
+ , U =
+
+
+
+B + IP
+
+BB + IT
+
+B + IR
+
+ .
+
+The zero entries of C encode the anatomical constraints described in Section 2.2: the absence of TRN projections to cortex, of long-range interneuron projections, and of relay-to-relay coupling. Therefore, the instantaneous model can be written compactly as 
+
+τ ˙X(t) = −X(t) + Θ( X(t)) S(CX (t) + U ) . (6) 72.4 Temporal coupling formulations 
+
+In this paper, we also extend the instantaneous model using two complementary delay formulations having the same mean-delay parameter ρ: a weak Gamma distributed kernel and a discrete delay. The weak Gamma kernel is closely related to the exponentially weighted temporal response underlying classical Wilson–Cowan formulations and is widely used to represent heterogeneous transmission and integration times in neural-population models. By contrast, the discrete delay concentrates the delayed influence at a single time lag and provides a simple, widely used benchmark. Comparing these formulations allows us to separate the effects of the characteristic delay from those of temporal dispersion. The comparison is further motivated by our previous results [26, 27], in which discrete delays produced richer bifurcation structures and more complex oscillatory dynamics than Gamma-distributed delays. We write the general distributed delayed system as 
+
+τ ˙X(t) = −X(t) + Θ( X(t)) S(C(hρ ∗ X)( t) + U ) , (7) where hρ is the delay kernel with mean delay ρ and hρ ∗ X represents the convolution. 
+
+2.4.1 weak Gamma distributed delay 
+
+The weak Gamma kernel with mean delay ρ is 
+
+hρ(s) = 1
+
+ρ e−s/ρ , s ≥ 0.
+
+Defining the filtered activity 
+
+Y (t) = 
+
+Z ∞
+
+> 0
+
+hρ(s)X(t − s) ds, 
+
+the distributed-delay system is 
+
+τ ˙X(t) = −X(t) + Θ( X(t)) S(CY (t) + U ) ,ρ ˙Y (t) = X(t) − Y (t). (8) The second equation represents the linear-chain representation of the weak Gamma convolution. 
+
+2.4.2 Discrete delay 
+
+For a fixed delay ρ > 0 (i.e. discrete delay kernel hρ(s) = δ(s − ρ)) the corresponding retarded functional differential equation is 
+
+τ ˙X(t) = −X(t) + Θ( X(t)) S(CX (t − ρ) + U ) , (9) which is associated with a continuous history 
+
+X(θ) = φ(θ), θ ∈ [−ρ, 0] .
+
+# 2.5 Linearization and characteristic equation 
+
+For the models considered in this paper, the location of the equilibria is independent of both the delay parameter and the choice of temporal kernel. Indeed, for both the weak Gamma and discrete-delay kernels, the equilibrium equation is identical to that of the delay-free system: 
+
+−X∗ + Θ( X∗)S(CX ∗ + U ) = 0 .
+
+Hence, for fixed model parameters, introducing either type of delay does not change the set of equilibria. It may only change their stability and the bifurcation structure organized around them. Considering an equilibrium X∗, let us denote 
+
+u∗ = CX ∗ + U, Θ∗ = Θ( X∗), Φ∗ = diag  S′ 
+
+> P
+
+(u∗ 
+
+> P
+
+), S ′ 
+
+> I
+
+(u∗ 
+
+> I
+
+), S ′ 
+
+> T
+
+(u∗ 
+
+> T
+
+), S ′
+
+> R
+
+(u∗
+
+> R
+
+).
+
+Further denoting 
+
+D = Θ −1 
+
+> ∗
+
+, K = Θ ∗Φ∗C, 
+
+8the general linearized equation is 
+
+τ ˙ξ(t) = −Dξ (t) + K
+
+Z ∞
+
+> 0
+
+hρ(s)ξ(t − s) ds, 
+
+and its characteristic equation is ∆( λ; ρ) := det 
+
+
+
+τ λI + D − bhρ(λ)K
+
+
+
+= 0 , (10) where bhρ represents the Laplace transform of the corresponding delay kernel. More precisely, for the two kernels considered here, bhρ(λ) = (1 + ρλ )−1 for the weak Gamma coupling, and bhρ(λ) = e−ρλ for the discrete delay. In the delay-free case (i.e. ρ = 0), the characteristic equation (10) becomes ∆( λ; 0) := det( τ λI + D − K) = 0 , (11) and hence, the characteristic roots satisfy τ λ ∈ σ(K − D). For ρ > 0, let us assume in general that {hρ}ρ> 0 is a fixed-shape scale family of normalized delay kernels 
+
+hρ(s) = 1
+
+ρ h
+
+ sρ
+
+
+
+, s ≥ 0, where 
+
+Z ∞
+
+> 0
+
+h(s) ds = 1 .
+
+If, in addition, Z ∞
+
+> 0
+
+sh (s) ds = 1 ,
+
+then ρ > 0 is the mean delay of hρ. Moreover, bhρ(λ) = bh(ρλ ), and introducing z = τ λ and 
+
+q = ρτ ,
+
+the characteristic equation (10) can be written as 
+
+e∆( z; q) := det 
+
+
+
+zI + D − bh(qz )K
+
+
+
+= 0 . (12) Consequently, the spectral stability of the equilibrium depends on τ and ρ only through the dimensionless ratio q = ρ/τ . It is also important to note that for q → 0, as bh(0) = 1, we recover the corresponding delay-free characteristic equation. 
+
+Remark 2.1. Varying q alone cannot generically create a zero-eigenvalue bifurcation. A saddle-node, tran-scritical or pitchfork bifurcation can only occur when det( D − K) = 0 , which gives a boundary determined by the connectivity parameters. If the coupling parameters lie away from this boundary, every generic change of equilibrium stability caused by varying q must occur through a nonzero imaginary pair, hence through a Hopf crossing. More precisely, if the equilibrium is asymptotically stable for the delay-free system, there exists 
+
+q0 > 0, such that the equilibrium remains asymptotically stable for any q ∈ (0 , q 0) and any delay kernel h
+
+(see Theorem 4.1 in Appendix A). Now let us assume that the equilibrium is asymptotically stable at q = 0 and that a finite first stability threshold q∗ > 0 exists. If the characteristic roots reaching the imaginary axis at q = q∗ form a simple pair 
+
+z(q∗) = ±iΩ∗, Ω∗ > 0,
+
+and the crossing is transversal, then this first crossing must be destabilizing: 
+
+ddq Re z(q)
+
+> q=q∗
+
+> 0.
+
+If, in addition, the standard nonlinear Hopf nondegeneracy conditions hold, a local branch of periodic solutions bifurcates from the equilibrium. However, it is important to note that neither stability at q = 0 nor the first-crossing observation guarantees that a finite threshold q∗ exists. For some parameter configurations, the equilibrium may remain stable for all q > 0.
+
+9A sufficient condition excluding this possibility is provided by Theorem 4.2 (Appendix A). More precisely, if the limiting characteristic equation 
+
+∆∞(u) = det  D − bh(u)K = 0 
+
+has a simple root u+ with Re u+ > 0, then the equilibrium is unstable for all sufficiently large q. Since it is stable for sufficiently small q, continuity of the characteristic roots implies the existence of at least one finite critical value q∗ > 0 such that e∆( iΩ∗; q∗) = 0 for some Ω∗ > 0.Furthermore, in the discrete-delay case, where bh(qz ) = e−qz , every such critical pair (q∗, Ω∗) generates the infinite sequence 
+
+q∗ 
+
+> n
+
+= q∗ + 2πn 
+
+Ω∗ , n ∈ Z+.
+
+Hence, whenever one critical delay exists, there are infinitely many delay values at which the characteristic equation has imaginary roots. The later values q∗ 
+
+> n
+
+may correspond to additional stability switches and Hopf bifurcations, if the relevant nondegeneracy conditions are fulfilled. 
+
+# 3 Modeling results 
+
+We begin by analyzing the stability and bifurcation structure of the delay-free system, both to obtain a broad baseline understanding of the role of the parameters and to calibrate the model. We will then restrict our attention to the key coupling weights and investigate how distributed delays interact with these crucial coupling parameters to shape the system’s dynamics. The numerical analysis was performed in MatCont, version 7p4 [12], implemented in MATLAB [55]. 
+
+# 3.1 Attractors and transitions for the system with no delays 
+
+Strength of pyramidal projections wP P and wT P . We first explored the effect of varying wP P and wT P 
+
+on the system’s temporal dynamics. Increasing wP P strengthens recurrent excitation within the cortical pyramidal population, making cortical activity more self-sustaining; decreasing it weakens this internal drive. Increasing wT P strengthens cortical drive to the thalamic relay population, increasing the influence of cortical activity on relay dynamics. We illustrate this combined dependence in Figure 2. In each panel (one for each variable P , I, T , and R, respectively), we show the dependence on wP P in the form of a bifurcation diagram, with different diagrams corresponding to different fixed values of wT P .The figure identifies wP P as a primary access parameter for oscillatory dynamics. Across all sampled values of wT P , increasing recurrent pyramidal excitation first destabilizes the equilibrium through a super-critical Hopf bifurcation (marked with a star), opening a bounded oscillatory window (shown as the shaded region). As wP P continues to increase, the oscillations grow in amplitude, enter and later exit a spindle-compatible window, and eventually terminate at a limit point cycle. The persistence of this same qualitative bifurcation skeleton across different fixed values of wT P shows that the dominant role of wP P is structural rather than just modulatory: it controls whether the cortical component of the CTRC loop becomes suf-ficiently self-sustained to support rhythmic activity at all. All equilibrium curves additionally presented with a limit point (shown as a colored dot), producing a second stable equilibrium branch and, therefore, a window of hysteresis and bistability in conjunction with the original equilibrium branch and the stable cycle. This branch persists over a wide range of wP P values, and survives as the only attractor for values of wP P 
+
+beyond the limit point cycle that ends oscillations, but is only biologically viable for intermediate values of 
+
+wT P (since the T ∗ component becomes negative for high wT P and exceeds the adopted range for low wT P ). Overall, varying corticothalamic drive wT P did not change the underlying bifurcation mechanism, but only shifted the positions of the Hopf point and the LPC, effectively moving the oscillatory window to the right as wT P increased. This suggests that corticothalamic input to the relay population acts primarily as a positioning or enabling parameter, whereas recurrent pyramidal excitation provides the core destabilizing drive. Thus, Figure 2 establishes that recurrent cortical excitation is not simply an amplitude control, but a fundamental determinant of whether the system can access a biologically relevant oscillatory corridor. Figure 3 provides a complementary view of how the two pyramidal weights, wP P and wT P , cooperate to shape the onset, termination, and placement of oscillatory regimes. In this analysis, we focus on the transitions into and out of oscillations as wT P increases, for several sample values of wP P , as specified in the 10 Figure 2: Dependence on wP P for sample wT P values. The panels show the transitions of the system as wP P 
+
+is increased, for three different fixed values of wT P : wT P = 1 (orange); wT P = 1 .25 (blue); wT P = 1 .5 (brown). Each panel represents the same bifurcation diagram, from the perspective of a different system component: P , I, T and R
+
+respectively. Stable equilibrium branches are shown as solid curves, unstable branches as dashed and dotted curves (based on the number of unstable directions). Limit points are marked with large dots, and Hopf bifurcations are marked by stars, with the evolution of the corresponding stable cycles shown as shaded areas (with the shade matching the respective equilibrium curve). Limit point cycles are marked by a black bar, where the stable cycle meets the unstable cycle (shown with no color and full transparency). For this simulation, wT R = 0 .8, wRT = 0 .4, wRR = 0 .2,and the other parameters were fixed to their table baseline values. 
+
+caption. In all three cases, the equilibrium curve exhibits two Hopf points, so that stable oscillatory regimes flank an intermediate range of wT P values for which the equilibrium is locally attracting. However, although both oscillatory windows are mathematically admissible, only the left one falls within the biologically relevant range for wT P . Higher values of wP P shift the Hopf entry point of this right branch to the left, but not enough to bring it into a physiologically meaningful range. More significantly, the location, width, and biological relevance of the left oscillatory window also depend strongly on wP P . For smaller values of wP P , this window is displaced toward implausible values of the T
+
+component or even into the negative wT P range, making it progressively less physiologically meaningful. Thus, the role of wT P cannot be assessed in isolation: its ability to position the system within an admissible oscillatory window depends strongly on the background level of recurrent cortical excitation. Taken together, these results show that viable oscillatory regimes occupy only a relatively narrow and structured region of the ( wP P , w T P ) plane. This region narrows further when attention is restricted to spindle-like dynamics. 
+
+Strength of reticular self-inhibition wRR . We next investigate how this balance conditions the effect of other coupling weights on the system’s dynamics. In particular, we explore the dependence on the strength of reticular self-inhibition wRR , reflecting the efficiency of synaptic and electrical interactions within the TRN population. Figure 4 illustrates this dependence for several pairs ( wP P , w T P ) chosen from the biologically 11 Figure 3: Dependence on wT P for sample wP P values. The panels show the transitions of the system as wT P is increased, for three different fixed values of wP P : wP P = 1 (brown); wP P = 0 .75 (blue); wP P = 0 .5 (orange). Each panel represents the same bifurcation diagram, from the perspective of two different system components: T and R
+
+(left and right panel, respectively). Stable equilibrium branches are shown as solid curves, unstable branches as dotted curves (based on the number of unstable directions). Supercritical Hopf bifurcations are marked by stars, with the evolution of the corresponding stable cycles shown as shaded areas (with the shade matching the respective equilibrium curve). The limit point cycle for wP P = 1 is marked by a black bar, and the emerging unstable cycle is shown with no color and full transparency. For this simulation, wT R = 0 .8, wRT = 0 .4, wRR = 0 .2, and the other parameters were fixed to their table baseline values. 
+
+Figure 4: Dependence on wRR for sample wP P and wT P values. The panels show the transitions of the system as wRR is increased, for three different fixed pairs of wP P and wT P : (wP P , w T P ) = (1 , 1.75) (pink); (wP P , w T P ) = (0 .75 , 1) (blue); (wP P , w T P ) = (0 .75 , 1.75) (orange). Each panel represents the same bifurcation diagram, from the perspective of T and R (left and right panels, respectively). Stable equilibrium branches are shown as solid curves, unstable branches as dashed and dotted curves (based on the number of unstable directions). Limit points are marked with large dots, and Hopf bifurcations are marked by stars, with the evolution of the corresponding stable cycles shown as a shaded area (with the shade matching the respective equilibrium curve). The limit point cycle found for (wP P , w T P ) = (1 , 1.75) is marked by a black bar. For this simulation, wT R = 0 .8, wRT = 0 .4, and the other parameters were fixed to their table baseline values. 
+
+relevant region suggested by the previous analysis. The effect of wRR is strongly contingent on the background position of the system in the ( wP P , w T P )plane. In all cases shown, oscillations occur within a window of small values of wRR and disappear as the equilibrium regains stability through a supercritical Hopf bifurcation. However, the location, biological admissibility and geometry of this oscillatory window depend markedly on the chosen ( wP P , w T P ) pair – reinforcing the finding that insufficient wP P leads to biologically inadmissible cycles (negative in the T ∗ com-ponent). Figure 4 therefore supports a potentially hierarchical picture of parameter control: once ( wP P , w T P )12 place the system near a viable oscillatory regime, wRR governs how that regime is internally structured and how far it can persist. Along these lines, wRR can be interpreted primarily as a self-limitation parameter. Increasing wRR strengthens internal suppression within the reticular population, thereby compressing the oscillatory window, reshaping the associated cycles, and eventually terminating the oscillations altogether. This admissible region narrows further when one restricts attention to particular rhythms, such as spindle-like oscillations. 
+
+Figure 5: Dependence on wT R for different wP P values. The panels show the transitions of the system as wT R                     
+
+> is increased, for three different fixed values of wP P :wP P = 1 .1(blue); wP P = 1 (orange); wP P = 0 .9(brown). Each panel represents the same bifurcation diagram, from the perspective of Tand R(left and right panels, respectively). Stable equilibrium branches are shown as solid curves, unstable branches as dashed and dotted curves (based on the number of unstable directions). Limit points are marked with large dots, and Hopf bifurcations are marked by stars, with the evolution of the corresponding stable cycles shown as a shaded area (with the shade matching the respective equilibrium curve). Limit point cycles are marked by a black bar. For this simulation, wRT = 0 .4,wRR = 0 .2and the other parameters were fixed to their table baseline values.
+
+Strength of TRN-to-relay coupling wT R . We simulated the effect of varying wT R on oscillatory dy-namics, for a range of recurrent cortical excitation wP P and relay-to-TRN coupling wRT . Figure 5 shows that, when fixing wRT , the influence of the TRN-to-relay coupling wT R still depends strongly on the level of recurrent cortical excitation wP P . In all three cases, increasing wT R eventually drives the system through a supercritical Hopf threshold (marked by a star), beyond which a stable oscillatory window appears and persists until it terminates at an LPC. However, as expected, the location, width, and biological viability of this oscillatory window vary significantly with wP P . For lower values of wP P , the oscillatory window is reached earlier in wT R and remains relatively restricted. A second equilibrium branch acts as the system attractor for values of wT R beyond the LPC point marking the end of oscillations; however, this equilibrium quickly becomes biologically unsustainable (negative in the T ∗ component). As wP P increases, the oscillatory window broadens, but also shifts so that oscillations are physiologically stopped before reaching the LPC, by entering the negative domain for T . The level of wP P also controls the oscillation amplitudes and duty cycle (not shown), effectively shaping access to different firing rhythms in the CTRC loop. Overall, this indicates that the same increase in inhibitory reticular drive can have qualitatively different effects depending on how strongly the cortical pyramidal population already supports recurrent excitation. The figure suggests that inhibition from TRN onto relay cells becomes dynamically effective only once the broader corticothalamic loop has already been primed for a specific oscillatory regime. In this sense, wP P can be viewed as acting as a gatekeeper to specific oscillatory regimes, while wT R controls the network’s entry into and exit from oscillations within that regime. We next show how, once wP P grants access to an oscillatory behavior, the pair ( wT R , w RT ) can further modulate the detailed structure of the oscillatory window. Figures 6 and 7 illustrate the direct dependence on wT R for a range of wRT values, for a lower versus a higher value of cortical excitation ( wP P = 1 and 
+
+wP P = 1 .1, respectively). In both cases, wRT further gates access to stable oscillations, and controls the onset point, width and geometry of the oscillatory window shown with respect to wT R .Figure 6 illustrates this dual control when wP P = 1. For high wRT (wRT = 0 .4, orange diagram), the 13 Figure 6: Dependence on wT R for different wRT values. The panels show the transitions of the system as 
+
+wT R is increased, for fixed wP P = 1 and three different fixed values of wRT : wRT = 0 .4 (orange); wRT = 0 .2 (blue); 
+
+wRT = 0 .1 (brown). Each panel represents the same bifurcation diagram, from the perspective of T and R (left and right panels, respectively). Stable equilibrium branches are shown as solid curves, unstable branches as dashed and dotted curves (based on the number of unstable directions). Limit points are marked with large dots, and Hopf bifurcations (both supercritical and subcritical) are marked by stars. The evolution of the stable cycles is shown as a shaded area (with the shade matching the respective equilibrium curve); unstable cycles are shown in no color and full transparency. 
+
+Figure 7: Dependence on wT R for different wRT values. The panels show the transitions of the system as 
+
+wT R is increased, for fixed wP P = 1 .1 and three different fixed values of wRT : wRT = 0 .4 (orange); wRT = 0 .2
+
+(blue); wRT = 0 .1 (brown). Each panel represents the same bifurcation diagram, from the perspective of T and R (left and right panels, respectively). Stable equilibrium branches are shown as solid curves, unstable branches as dashed and dotted curves (based on the number of unstable directions). Limit points are marked with large dots, and Hopf bifurcations (both supercritical and subcritical) are marked by stars. The evolution of the stable cycles is shown as a shaded area (with the shade matching the respective equilibrium curve); unstable cycles are shown in no color and full transparency. Limit points of cycles are marked by a black bar. 
+
+system has a stable equilibrium in the biological range for low wT R . This equilibrium crosses into stable oscillations at the Hopf bifurcation (orange star), sustained as wT R increases throughout its biological range. This scenario remains qualitatively similar when wRT is decreased to wRT = 0 .2, with the reduced relay-to-TRN excitation producing only a shift to the right on the Hopf bifurcation, and modulation of the oscillation amplitudes. However, if wRT is decreased below a threshold level of relay-to-TRN excitation, the system undergoes a phase transition that presents with the creation of two limit points and hysteresis along the main equilibrium branch, which subsequently changes the nature of the Hopf bifurcation. The cycles born at the Hopf point along the brown equilibrium (representing wRT = 0 .1) are unstable, leaving the system 14 with a bistability window and no access to oscillatory behavior. Figure 7 confirms that the interpretation emerging from Figure 6 is robust and not tied to a single cortical operating point. When wP P is increased, the pair ( wT R , w RT ) continues to dominate the detailed organization of the oscillatory window in a consistent way, by controlling reticular recruitment and the inhibitory return onto the relay population. On this background, the exact location of the phase transitions and the extent of the oscillatory regimes shift with the cortical background. For example, a visible difference in higher wP P = 1 .1 compared to lower wP P = 1 is that the cycles born at the Hopf point are unstable for both wRT = 0 .2 and for wRT = 0 .1, hence one does not need to lower wRT as much as in the previous case in order to block stable oscillations for the entire wT R range. 
+
+Figure 8: Dependence on wRT for different wT R values. The top panels show the transitions of the system as wRT is increased, for fixed wP P = 1 .1 and three different fixed values of wT R : wT R = 0 .6 (orange); wT R = 0 .8
+
+(blue); wT R = 1 (brown). Each panel represents the same bifurcation diagram, from the perspective of T and R (left and right panels, respectively). Stable equilibrium branches are shown as solid curves, unstable branches as dashed and dotted curves (based on the number of unstable directions). Limit points are marked with large dots, and Hopf bifurcations (both supercritical and subcritical) are marked by stars. The evolution of the stable cycles is shown as a shaded area (with the shade matching the respective equilibrium curve); unstable cycles are shown in no color and full transparency. Limit points of cycles are marked by a black bar. For wT R = 0 .6, the orange attracting cycle changes stability at a Neimark–Sacker bifurcation, shown as a green vertical bar. For wT R = 0 .8, the unstable cycle born at the Hopf point becomes stable at a Neimark–Sacker bifurcation, shown as a purple vertical bar. The bottom panel shows (in a three-dimensional (P, T, R ) slice) an instance of the stable invariant torus that emerges via this bifurcation, with the color evolving with time as shown in the attached gradient bar. 
+
+The fine-control pair ( wT R , w RT ) acts therefore as a thalamo-reticular “core:” once the cortical back-ground has been appropriately tuned, these two parameters can determine how the oscillations are configured, sustained, and terminated. Cortical excitation still matters, but no longer as the main player. Once cortical parameters determine accessibility to a regime, thalamo-reticular couplings determine its detailed expression. This motivated us to center the remainder of the analysis (in the no-delay system, as well as when consid-ering distributed delays) on the relay-TRN coupling pair for fixed baseline values of wP P , wT P and wRR ,rather than on the full parameter space. To reinforce the interplay between wT R and wRT in controlling oscillatory rhythms in the CTRC circuit, we provide a complementary perspective in Figure 8 by showing the dependence on wRT for fixed values of wT R . For lower values of wT R (e.g., wT R = 0 .6, orange diagram), 15 the system can only be pushed into stable oscillations by values of wRT which are too high for the biological range, and these oscillations may never reach the amplitudes required for functional relevance. For values of 
+
+wT R on the high end of the table range (e.g., wT R = 1, brown diagram) the system cannot enter oscillations at all (the subcritical Hopf bifurcation renders unstable cycles only). Middle range values of wT R open up the possibility of cycling for an adequately tuned window of wRT . The blue diagram illustrates this situation for wT R = 0 .8. The Hopf point at wRT ∼ 0.15 gives birth to an unstable cycle, which later gains stability via a Neimark–Sacker bifurcation at wRT ∼ 0.18 (shown as a purple vertical bar) before it ends at a LPC bifurcation at wRT ∼ 0.35. Notice that for this setup, the system has access not only to stable, spindle-like cycles (cyan shaded region), but also to aperiodic oscillations, for values of wRT slightly lower than the NS bifurcation (the insert shows the invariant torus obtained for wRT = 0 .17). This emphasizes the idea that this fine control is not provided by either coupling in isolation, but by the functional balance within the coupling scheme: relay activity must recruit TRN strongly enough to sustain the oscillation in the right regime, while TRN inhibition must return strongly enough to generate rebound structure without collapsing the dynamics into quiescence. This observation is especially important for the delay analysis in the next section, because delays are expected to have their strongest effect precisely where excitation and inhibition already form a tightly balanced cyclic loop. Figure 8 therefore motivates the study of introducing distributed delays in the system – not only physiologically, but also dynamically. Throughout the remainder of the analysis, we focus on the relay–TRN pair, where the main structurally meaningful organization of the oscillatory dynamics is concentrated. 
+
+# 3.2 Attractors and transitions for weak Gamma distributed delays 
+
+Having established in Section 2.5 that the delay does not change the equilibrium locations and enters the dimensionless characteristic equation through the relative delay q = ρ/τ , we now investigate numerically how weak Gamma temporal integration changes the stability and oscillatory dynamics of the system. Since 
+
+τ = 1 is fixed throughout the numerical analysis, the numerical values of q and ρ coincide. This analysis was also performed in MatCont 7p4 [12]. We first focus on the dependence of the dynamics on the thalamo-reticular couplings wT R and wRT ,considering several representative values of the mean delay ρ. To complement the bifurcation analysis with direct numerical illustrations, we explore how the system’s dynamic transitions vary across these coupling parameters and over a range of values of ρ. Compared with the delay-free system, ρ provides an additional control mechanism that shifts the coupling combinations permitting oscillations, influences their onset, ter-mination, and stability, and modifies their amplitude, period, and temporal profile. This allows us to examine the interplay between connectivity strength and delay in shaping temporal rhythms in the system. To begin with, Figure 9 illustrates the overall deformation of the oscillatory landscape in the ( wT R , w RT )parameter plane – as the average delay ρ is increased by one order of magnitude within its biological range, from short delays ( ρ = 0 .5) to long delays ( ρ = 5). The broad picture shows qualitatively different behavior across connectivity profiles. For high wRT (above wRT ∼ 0.6), the oscillatory window lies in a lower wT R 
+
+range, and slightly (yet consistently) shrinks as the delay ρ is increased. For low wRT (below wRT ∼ 0.6), the oscillatory window shifts overall to higher wT R , but the termination curves are no longer monotonically dependent on the delay, and have much more complex dependence on both connectivity and ρ (with the plots visibly crossing and swapping each other, and showing codimension two bifurcation points). To clarify and better understand the underpinnings of these behaviors, we constructed one-parameter cross-sections of this figure, by fixing wT R and wRT to two respective values (one in the respective high range and one in the low range), and plotting the corresponding bifurcation diagram with respect to the remaining parameter, for all four chosen values of ρ.Figure 10 first shows this deformation along the wT R direction, for two fixed levels of relay-to-TRN excitation wRT . For wRT = 0 .4 (bottom row panels), increasing the average delay produces a regular, monotone contraction of the oscillatory window in terms of wT R . As ρ increases through the four values considered, the Hopf onset shifts progressively to the right, from approximately wT R = 0 .22 for ρ = 0 .5 to 
+
+wT R = 0 .27, 0 .31, and 0 .36 for ρ = 1, 3, and 5, respectively. At the same time, the terminal LPC moves steadily to the left, from approximately wT R = 0 .91 to 0 .88, 0 .79, and 0 .75. Thus, for this higher value of wRT , longer delays both postpone the onset of oscillations and advance their termination, leading to a consistent narrowing of the oscillatory window. In the regime of lower wRT = 0 .2 (top row panels), the dependence on ρ of the upper end of the oscillatory 16 Figure 9: Onset and termination of stable cycles shown in the (wT R , w RT ) parameter plane, for different values of the delay ρ, as follows: ρ = 0 .5 (magenta curves); ρ = 1 (blue); ρ = 3 (green); ρ = 5 (cyan). For each value of ρ, the supercritical Hopf curve marking the onset of stable oscillations is shown as a thick curve, and the Limit Point Cycle or Period Doubling curve marking the end of the oscillatory window is shown as a thin curve in the same color. Codimension two bifurcations are marked along these curves as dots in the same color as the corresponding curve. 
+
+window is no longer monotone, consistently with Figure 9. At ρ = 0 .5, the oscillatory window begins near 
+
+wT R = 0 .54 and terminates near wT R = 0 .94. When the delay is increased to ρ = 1, the Hopf onset moves sharply to the left, to approximately wT R = 0 .37, while the terminal bifurcation shifts to about wT R = 0 .82, so that the oscillatory window initially broadens rather than contracts. For larger delays, the trend reverses: the Hopf onset moves back to the right, while the termination point continues to move left, respectively. The temporal panels underneath the bifurcation landscapes clarify that the dynamical consequences of the interplay between the delay and the connectivity parameters go beyond simply shifting the oscillation window. For ρ = 0 .1 and ρ = 0 .5, the sampled parameter values lie close to the oscillation onset, and support more rapid recurrent oscillations ( ∼ 0.1 − 0.2Hz). By ρ = 2, the sample point is closer to the right side of the oscillatory window, and the surviving cycles are substantially slower ( ∼ 0.06Hz). Higher values of wT R successively cross into the stable-equilibrium regime. For example, at ρ = 5, the point wT R = 0 .5falls below the oscillation offset for wRT = 0 .4, but is outside of the oscillatory window for wRT = 0 .2. In turn, wT R = 0 .8 is beyond the limit point cycle in both cases. This provides a compelling illustration of the coupling-delay interaction: for the same delay and the same value of wT R , the rhythm may either be suppressed or persist as a very slow oscillation, depending only on the strength of the excitatory return from the relay population to the TRN. It also shows that the duty cycle changes significantly across the oscillation window, an important idea which we will revisit separately later. 17 Figure 10:  Dependence on  wT R  for different  wRT  values and different delays  ρ. Top:  wRT  = 0 .2.  Bottom:  wRT  = 0 .4.  Different diagrams stand for different average delays:  ρ = 0 .5 (pink);  ρ = 1 (blue);  ρ = 3 (green);  ρ = 5 (orange). The temporal panels underneath illustrate a sample solution for the scenario of fixed  wRT  = 0 .2 (top), and for fixed  wRT  = 0 .4 (bottom) for  wT R  = 0 .5 (solid curves) and  wT R  = 0 .8 (dashed curves), for four different sample delays in each case (left to right):  ρ = 0 .1.  ρ = 0 .5,  ρ = 2,  ρ = 5. The system components are coded by color as follows:  P (blue),  I (red);  T (green) and  R (purple). For these simulations,  wP P  = 1 .1,  wRR  = 0 .2 and all other parameters were fixed to their baseline tabulated values. 
+
+18 Figure 11:  Dependence on  wRT  for different  wT R  values and different delays  ρ. Top:  wT R  = 0 .6.  Bottom:  wT R  = 0 .8.  Different diagrams stand for different average delays:  ρ = 0 .5 (pink);  ρ = 1 (blue);  ρ = 3 (green);  ρ = 5 (orange). The temporal panels underneath illustrate a sample solution for  wRT  = 0 .15 (solid curves) and  wRT  = 0 .1 (dashed curves), for four different sample delays in each case (left to right):  ρ = 0 .5.  ρ = 1,  ρ = 3,  ρ = 5. The system components are coded by color as follows:  P (blue),  I (red);  T (green) and  R (purple). For these simulations,  wP P  = 1 .1,  wRR  = 0 .2 and all other parameters were fixed to their baseline tabulated values. 
+
+19 Figure 11 flips the view, considering bifurcations with respect to wRT , for two levels of TRN-to-relay inhibition: a lower value wT R = 0 .6, and a higher value wT R = 0 .8. For wT R = 0 .6, the dependence of the oscillatory window on the average delay is monotone. As ρ increases, the Hopf onset shifts overall toward larger values of wRT , and the terminal LPC moves slightly to the left. Thus, for this lower wT R , increasing the delay produces an overall contraction of the oscillatory window, primarily by progressively removing its low-wRT portion. This progression changes dramatically at the higher wT R = 0 .8. For ρ = 0 .5, the oscillatory window is broad, extending approximately from wRT = 0 .07 to wRT = 0 .49. When the delay is increased to 
+
+ρ = 1, this region collapses to a very narrow interval near wRT = 0 .07–0 .08. For larger delays, oscillations reappear within windows that shift progressively to the right. The dependence on ρ is therefore strongly nonmonotone in this regime: increasing the delay first almost eliminates stable oscillations and then restores them within a different range of relay-to-TRN coupling strengths. As before, the temporal panels underneath illustrate the consequences of these changes on the duty cycle of the oscillations. In particular, increasing the delay can suppress and subsequently restore rhythmic activity by moving the oscillatory window across the connectivity landscape, while simultaneously stretching the timescale of the surviving cycles. Having established that ρ contributes to reshaping the oscillatory boundary and rhythms across the (wT R , w RT ) connectivity landscape in nontrivial ways, we next want to focus in more depth on analyzing the implications of increasing the delay for a fixed connectivity profile. This will help us better understand to what extent the dynamics of a system can be reshaped by simply increasing the delay in responses, without changing the architecture or connectivity strengths. This analysis aims to look beyond transitions in and out of cycling behavior, but also consider the biological plausibility of the oscillation, and its physiological meaning – through interpreting its baseline, amplitude, frequency and duty cycle. Figure 12 provides a complementary view of the effect of the average weak Gamma delay ρ, by following the geometry and biological admissibility of the stable periodic orbit itself as ρ is varied. The top row compares this dependence across several closely related thalamo-reticular connectivity landscapes, allowing the effects of wRR , wRT , and wT R to be separated. Although the detailed amplitude and extent of the oscillatory branch change substantially with connectivity, the overall picture remains one in which delay and coupling strength act jointly to determine not only whether stable oscillations exist, but also whether those oscillations remain within the biologically admissible region. The first two panels isolate the effect of reticular self-inhibition wRR at two different fixed values of the relay-to-reticular coupling wRT . In the top left panel, for fixed wT R = 0 .5 and wRT = 0 .4, decreasing wRR 
+
+from 0 .2 to 0 .15 produces a pronounced increase in the amplitude of the P oscillation and substantially extends the stable periodic branch toward larger values of ρ. Notice that, for wRR = 0 .15, the cycle persists throughout essentially the entire delay interval displayed. The same qualitative effect is visible in the top middle panel, where wT R = 0 .5 and wRT = 0 .2: reducing wRR from 0 .2 to 0 .15 again increases the cycle amplitude and extends the range of delays over which oscillations persist. However, both branches in this panel terminate at considerably smaller values of ρ than their counterparts in the left panel. Thus, weakening reticular self-inhibition generally favors larger and more persistent oscillations, but the magnitude of this effect depends strongly on the background relay-to-reticular excitation. In particular, wRR does not act independently, but modulates the dynamics of a loop whose effectiveness is already conditioned by wRT .The top right panel directly illustrates this latter dependence. Here wT R = 0 .6 and wRR = 0 .2 are fixed, while wRT is increased from 0 .2 to 0 .25. The stronger relay-to-reticular coupling produces both a larger oscillation amplitude and a substantial extension of the periodic branch toward larger delays. The complementary effect of wT R can be seen by comparing the wRT = 0 .2, wRR = 0 .2 curves in the top middle and right panels. Increasing wT R from 0 .5 to 0 .6 enlarges the oscillations and extends their persistence in ρ. Taken together, these comparisons reinforce the interpretation suggested by the previous bifurcation diagrams: wT R and wRT operate as a coupled thalamo-reticular control pair. Strengthening either side of this reciprocal loop can substantially enlarge the delay range over which stable rhythmic activity is supported, whereas wRR regulates this activity through internal suppression of the reticular population. The bottom panels examine in greater detail one representative case (from the top left panel), namely 
+
+wT R = 0 .5, wRT = 0 .4, and wRR = 0 .2. They show that mathematical persistence of the stable cycle does not imply biological admissibility throughout the entire branch. At short delays, the oscillations fall within the spindle-compatible regime; at substantially larger delays, the same periodic branch reaches an infra-slow regime. Between these two ranges, however, the minimum of the P component becomes negative. We therefore treat this intermediate portion as biologically inadmissible even though the periodic orbit remains mathematically stable. In this sense, the intervening “no-go” region is not a region without oscillations, but 20 Figure 12: Evolution of oscillations with increasing the average weak Gamma delay ρ. On the top row, the evolution of the P component of the stable cycle is illustrated as ρ increases, for different connectivity landscapes. 
+
+A. wT R = 0 .5, wRT = 0 .4 and two different values of wRR : wRR = 0 .15 (cyan) and wRR = 0 .2 (deep blue); B. 
+
+wT R = 0 .5, wRT = 0 .2 and two different values of wRR : wRR = 0 .15 (yellow) and wRR = 0 .2 (green); C. wT R = 0 .6,
+
+wRR = 0 .2 and two different values of wRT : wRT = 0 .25 (orange) and wRT = 0 .2 (brown). All other parameters were set to their baseline values in Table 1 and 2. A dotted gray line marks the boundary P = 0 of the biological range of oscillations. The bottom panels detail the behavior of the blue cycles in the first panel (for wT R = 0 .5, wRT = 0 .4,
+
+wRR = 0 .2. The color of the shading encodes the rhythm and physiological meaning of the oscillations from deep blue (spindle range) to deep yellow (infra-slow range), with the transient showing the intermediate rhythms between them. The cycle is shown in white when it is outside of the biological range ( P enters the negative domain, force-stopping oscillations). The two subsequent panels show actual solutions of the system for one delay value sampled in the spindle range ( ρ = 0 .5) and one sampled in the infra-slow range ( ρ = 6 .5). All components of the system are shown, color coded as follows: P (blue); I (red); T (green); R (purple). 
+
+a region without biologically viable oscillations. An important feature of this inadmissible interval is that the violation of positivity is relatively small: the lower envelope of the cycle remains close to the boundary P = 0 rather than cutting more deeply into the negative domain. Consequently, the precise entry into and exit from the no-go region are sensitive to the connectivity landscape. Relatively modest changes in wRR , wRT , or wT R can shift the points at which the periodic orbit crosses the positivity boundary, thereby moving, narrowing, or enlarging the biologically inaccessible interval. The comparisons in the top row of Figure 12 illustrate precisely this sensitivity. Thus, the existence of an intermediate inadmissible range appears to be a robust feature of the weak Gamma dynamics considered here, but its exact boundaries are not universal parameter thresholds. From a dynamical perspective, this organization suggests a potential mechanism by which distributed delays can act as a selector of collective timescale rather than simply slowing a single rhythm continuously. For sufficiently short ρ, delayed feedback remains rapid enough to coordinate the recurrent thalamo-reticular interactions associated with the fast oscillatory regime. As ρ increases, this coordination is disrupted before the distributed feedback has acquired the temporal scale required to support the much slower organization of the infra-slow regime. The stable periodic branch therefore passes through a biologically inadmissible interval rather than providing a physiologically meaningful continuum between the two rhythms. At still larger delays, a second admissible operating regime emerges. The two time courses shown in Figure 12 for 
+
+ρ = 0 .5 and ρ = 6 .5 illustrate the markedly different temporal organizations reached on the two sides of this interval. 21 This separation is consistent with the distinct physiological roles associated with these rhythms during NREM sleep. Spindles are rapidly coordinated thalamocortical events, whereas approximately 0 .02 Hz infra-slow fluctuations organize spindle occurrence and sleep fragility over much longer timescales [33, 34, 58]. At the Wilson–Cowan population scale, the larger values of ρ required for the second regime should therefore not be interpreted as literal axonal or synaptic transmission delays. Rather, in the weak Gamma formulation, 
+
+ρ represents the characteristic timescale over which past population activity contributes to the recurrent feedback, and can therefore be interpreted as an effective integration or memory timescale of the population-level dynamics. Values of ρ on the order of several to tens of seconds are consequently not intrinsically incompatible with the infra-slow regime. An approximately 0 .02Hz oscillation has a period on the order of 50 seconds, and the physiological processes implicated in organizing infra-slow NREM dynamics likewise operate over substantially longer timescales than individual synaptic or axonal events. Thus, values such as 
+
+ρ = 6, 10, or even larger should be understood as representing a distributed population history extending over a substantial fraction of an infra-slow cycle, rather than an implausibly long point-to-point neural transmission delay. In this interpretation, the large effective delays required by the model are consistent with the slow temporal organization of the processes associated with infra-slow activity. A sufficiently extended population history can therefore provide the phase organization required for slow collective activity, whereas intermediate temporal integration may be poorly matched to either function: too slow to maintain the faster coordinated regime, yet insufficient to establish the broader infra-slow organiza-tion. In this way, the same underlying corticothalamic architecture can support two very different functional timescales, with the distributed delay selecting between them and the connectivity parameters controlling the accessibility and boundaries of the corresponding regimes. 
+
+# 3.3 Attractors and transitions for the system with discrete delays 
+
+Having established that, under weak Gamma distributed delays, both the cycling regimes and the properties of the oscillations depend significantly and nontrivially on the interplay between ρ and the connectivity landscape, we next turn to discrete delays. Discrete delays have been extensively studied and are often the default choice in delayed neural-population models, since a single fixed lag provides a particularly direct and computationally tractable representation of non-instantaneous feedback [26, 27]. At the same time, the actual temporal-integration profile implemented biologically remains unknown and may not be universal: different kernels may operate across individuals or brain networks, or within the same network under different states, tasks, or contexts. This possibility is further motivated by our previous results showing that the kernel itself can qualitatively reshape the accessible dynamics and the transitions between them. In particular, discrete delays produced broader oscillatory domains and richer bifurcation sequences, including transitions among periodic, quasi-periodic, and chaotic behavior [26, 27]. The following section examines which features of the weak Gamma results persist under discrete delays and what additional dynamical complexity emerges. The numerical bifurcation analysis was carried out using MatCont 7.6 [12]. For the discrete-delay system, the delayed state was approximated by a 10-stage linear chain, corresponding to an Erlang approximation of the discrete-delay kernel with mean ρ, thereby yielding a finite-dimensional ODE system suitable for numerical continuation. To obtain a broad picture of how the system’s dynamics change with the discrete delay ρ, Figure 13 shows the corresponding bifurcation structure in the ( wT R , w RT ) plane. This can be readily compared to the corresponding illustration for weak Gamma delays in Figure 9. This principal equilibrium branch can undergo multiple Hopf bifurcations. The larger number of Hopf points is not surprising for a system with discrete delays, nor is the substantially richer bifurcation structure that emerges compared with the weak Gamma case. For sufficiently small delays, however, the basic organization identified for the weak Gamma kernel remains recognizable. For ρ = 0 .1 and ρ = 0 .5, stable cycles are generated directly at the first Hopf point and persist until they lose stability through an LPC or period-doubling bifurcation. For ρ = 1, access to this “principal” stable oscillatory regime is already mediated by a more complicated LPC structure, as will be clarified by the one-parameter continuations below. Thus, at short discrete delays, the onset and termination of this principal stable cycle can still be described approximately by a Hopf onset and an LPC/PD offset, much as in the weak Gamma system, although this organization occurs over considerably smaller values of 
+
+ρ. As the delay increases, this relatively simple mechanism breaks down and the organization of the stable oscillatory regimes becomes progressively more complex. These bifurcation boundaries describe only the existence and stability of this principal cycle family and therefore provide only the first layer of the analysis. 22 Figure 13: Regions of stable oscillations in the (wT R , w RT ) parameter plane for three discrete delay values: ρ = 0 .1 (blue), ρ = 0 .5 (pink), and ρ = 1 (green). In each case, the Hopf curve associated with the onset of oscillations is shown as a thick line in the corresponding color, while the LPC or PD curves marking their termination are shown as thin lines in the same color. For ρ = 1 (green), stable cycles are not generated directly at the Hopf curve, but instead emerge through an LPC mechanism, as clarified in Figure 14. A second relevant LPC branch is therefore also shown in thin green, since it contributes to delimiting the region of stable oscillations in this case. 
+
+As in the weak Gamma case, we must additionally determine over which parameter ranges these cycles are biologically admissible; how their amplitude, frequency, and duty cycle vary with the parameters and what these changes imply physiologically; and whether the discrete-delay system supports additional stable cycles or other attractors. Figure 14 clarifies in greater detail the transitions into and out of oscillatory behavior summarized in Figure 13, by fixing the same representative values of ρ and constructing one-parameter bifurcation diagrams with respect to wT R (for fixed wRT = 0 .4). The complexity of the bifurcation structure increases rapidly as the delay is increased. In particular, progressively more Hopf bifurcations appear along the principal equilibrium branch. For each Hopf point detected by the MatCont 7p6 continuation, we followed the corresponding periodic-orbit branch through successive LPC and period-doubling (PD) bifurcations, continuing it until we were reasonably confident that no additional interval of full stability would be recovered. Stable cycles are shown in solid cyan shading with thick contour curves, irrespective of their biological relevance. Their positivity and the possible physiological interpretation of the attainable rhythms will be considered separately below. Unstable portions of the cycle extensions are included for dynamical context and are represented using thin contours and transparent shading in separate colors, to distinguish them more clearly. For ρ = 0 .1, a single supercritical Hopf bifurcation occurs within the biological range of wT R , giving rise to a stable cycle that persists until an LPC, where the branch collides with an unstable cycle and disappears. The cycle remains positive in all four components throughout its stable existence, up to approximately 
+
+wT R ∼ 0.78. For ρ = 0 .5, the principal equilibrium branch undergoes two supercritical Hopf bifurcations. The first generates a stable cycle, which persists to approximately wT R ∼ 0.9 before terminating at an LPC. By the time the second Hopf point is reached, however, the equilibrium already possesses unstable directions inherited from the previous stability loss. Consequently, although this Hopf is also supercritical, the cycle generated there is unstable, since it inherits transverse instability from the equilibrium. For ρ = 1, the bifurcation structure becomes substantially more intricate. The stable cycle emerges through a bifurcation sequence initiated at the second subcritical Hopf bifurcation; this gives rise to an 23 Figure 14: Effect of delay on dependence of wT R , for fixed wRT = 0 .4. The bifurcation diagram with respect to the connectivity wT R is sketched for three discrete delay values, as follows: ρ = 0 .1 (top row); ρ = 0 .5 (middle row); ρ = 1 (bottom row). Each panel shows the evolution of an equilibrium branch, which undergoes supercritical Hopf bifurcations (marked with stars), and the limit cycles that are generated at these Hopf points. As before, stable cycles are shown in solid cyan, and unstable cycles (identified through the values of the Floquet multipliers and of the equilibrium eigenvalues, when applicable) are shown in various transparent shades, to be able to distinguish them from one another. Some of the cycle extensions identified multiple stable intervals, hence the cycle branches were followed until they appeared to have resolved in terms of producing any additional stable windows. The LPC and LCPD (flip) bifurcations are marked as vertical solid lines if they delimit regions of stable from unstable cycles. Other additional LPC bifurcations are shown as dotted vertical lines. Not all cycle bifurcations are shown, to avoid cluttering of the panels. All other parameters were fixed to their table baseline values. 
+
+unstable limit cycle that subsequently reaches an LPC bifurcation, where the periodic-orbit branch folds and becomes stable. As this cycle is continued in wT R , it repeatedly loses and regains stability through secondary cycle bifurcations, producing several distinct windows of stable oscillations, shown in cyan in Figure 14. The intervening unstable portions are shown in various transparent shades (to be able to distinguish them from one another) and were continued until we were reasonably confident that no further recovery of stability would occur. Stability alone, however, does not guarantee biological admissibility. A closer examination shows that all of the stable cycles obtained for ρ = 1 at this parameter set enter the negative domain in the P component and therefore fail the positivity requirement of the model. In our interpretation, this loss of positivity provides the effective biological termination of the oscillatory regime, even when the mathematical cycle itself remains stable. Thus, among the discrete-delay values examined here, biologically admissible stable oscillations are restricted to the smaller delays. For ρ = 0 .1, the stable cycle remains positive throughout essentially its entire oscillatory window, approximately 0 .44 ≲ wT R ≲ 0.74. For ρ = 0 .5, the positive stable window is approximately the same (excluding small intervals near onset and termination, where P and T
+
+take negative values, respectively). To better contextualize, the four components of an example temporal solution are shown in Figure 15, 24 Figure 15: Time evolutions of the system components for two thalamo-reticular connectivity levels:                 
+
+> wT R = 0 .44 (top panels) and wT R = 0 .65 (bottom panels). Each panel illustrates one component, for three delay values: ρ= 0 .1(blue curve), ρ= 0 .5(pink curve) and ρ= 1 (green curve). The relay-TRN connectivity was fixed to
+> wRT = 0 .4. All other parameters were fixed to their table baseline values.
+
+for wT R = 0 .44 and for wT R = 0 .65 (at which all three values of ρ exhibit stable oscillations). These further illustrate how both ρ and wT R shape the resulting rhythms. For ρ = 0 .1, increasing wT R from 0 .44 to 0 .65 strengthens the oscillations and brings their amplitudes closer to the spindle-compatible ranges, particularly for the more strongly recruited I and R populations. At ρ = 0 .5, the bursts become broader and larger; increasing wT R strengthens them further, but can also push some population firing levels beyond the ranges that provide the closest spindle match. By ρ = 1, the oscillations are slower and larger still, and the P and T
+
+components become slightly negative. Importantly, this dependence differs qualitatively from that obtained with the weak Gamma kernel, where increasing ρ separated a short-delay spindle regime from a long-delay infra-slow regime through an intermediate “no-go” region of non-admissible oscillations. The discrete-delay model does not show the same delay-driven separation of timescales. We return to the implications of this difference between delay kernels in the Discussion. The three values of ρ considered above provide only discrete snapshots of the dependence on delay. To examine this dependence more continuously, we next construct a one-parameter bifurcation diagram with respect to ρ, fixing the representative connectivity pair wT R = 0 .5 and wRT = 0 .4 (the same values used in the weak Gamma analysis). Figure 16 confirms the existence of an interval of small discrete delays for which stable oscillations are biologically admissible. At the same time, it shows that additional windows of stable oscillatory behavior can occur at larger values of ρ; however, these cycles extend into the negative domain and therefore do not satisfy the positivity requirement of the model. Interestingly, the loss of biological admissibility in these higher-ρ oscillatory windows is generally mild: the cycles typically enter the negative domain only slightly, and only in a single component. This suggests that these regimes may lie very close to the boundary of biological admissibility, rather than representing fundamentally unrealistic dynamics. In particular, relatively small changes in one or more of the secondary model parameters—many of which have been fixed throughout the present analysis at their baseline values from Tables 1 and 2 may be sufficient to shift these cycles entirely into the positive domain. Thus, the additional stable oscillatory windows identified at larger discrete delays may be viewed as latent biologically admissible regimes, accessible under modest changes in the broader parameter configuration. A systematic exploration of this possibility is important, but falls beyond the scope of the present work, whose primary aim is a broad comparison of the dynamical effects produced by different delay formulations. A more comprehensive investigation of these higher-delay oscillatory regimes, including their dependence on the remaining model parameters, is currently being pursued in conjunction with further refinements of the model architecture, as discussed in the section on limitations and future work. 25 Figure 16: Effect of discrete delay on oscillatory regimes. The bifurcation diagram with respect to the average discrete delay ρ is sketched for fixed connectivities wT R = 0 .5 and wRT = 0 .4. The panels show from the perspective of the cortical pyramidal component P (top) and of the reticular nucleus R (bottom) the evolution of the primary equilibrium branch with increasing ρ. The branch undergoes supercritical Hopf bifurcations (marked with stars), and the limit cycles that are generated at these Hopf points. As before, stable cycles are shown in solid cyan, and unstable cycles are shown in various transparent shades. The cycle branches were followed until they appeared to have resolved in terms of producing any additional stable windows. The LPC and LCPD (flip) bifurcations are marked as vertical solid lines if they delimit regions of stable from unstable cycles. Other additional LPC bifurcations are shown as dotted vertical lines. Not all cycle bifurcations are shown, to avoid cluttering of the panels. 
+
+# 4 Discussion 
+
+# 4.1 Specific comments on the model 
+
+In this paper, we studied the dynamics of a corticothalamic-reticular circuit (CTRC) under three temporal formulations: the original system without delays, the same system with weak Gamma distributed delays, and then with discrete delays. The delay-free analysis first established how the connectivity architecture organizes access to oscillatory behavior, while the delayed systems allowed us to ask how this underlying landscape is reshaped when temporal integration is introduced. Across the three formulations, the results point to a hierarchy of control in which recurrent cortical excitation largely determines whether oscillatory behavior is accessible, while the thalamo-reticular couplings provide finer control over where oscillations occur and what form they take. An important mathematical feature of both delayed formulations is that the equilibria themselves are unchanged by the introduction of delay. For any fixed connectivity configuration, the equilibrium locations are therefore inherited directly from the delay-free system; what the temporal kernel changes is their stability and the bifurcation structure organized around them. Delays can consequently create or remove access to oscillatory regimes, shift their onset and termination, and generate substantially different periodic-orbit structures without altering the underlying fixed points. This separation is useful conceptually: connectivity 26 determines the equilibrium landscape, while the temporal structure of feedback can profoundly reorganize the dynamics supported around it. In the delay-free system, recurrent pyramidal excitation wP P acts as an important access parameter: increasing wP P can destabilize the equilibrium and open a bounded oscillatory window, while corticothalamic excitation of the relay population, wT P , primarily shifts the location of this window. Once the cortical background is appropriately positioned, the balance between wT R and wRT becomes particularly important. Increasing wT R can drive the system into oscillations through a Hopf bifurcation and later out of them through an LPC, but the location, width, amplitude and biological viability of this window depend strongly on wRT and on the cortical operating point. Conversely, changing wRT can move the system between stable equilibria, stable cycles and, for some parameter combinations, more complicated dynamical regimes. These results motivated our focus on the thalamo-reticular pair ( wT R , w RT ) in the delayed analysis: neither coupling acts as an isolated control parameter, and the relevant aspect is their balance within the broader CTRC loop. This dependence becomes even clearer for weak Gamma distributed delays. In the ( wT R , w RT ) plane, changing the average delay ρ does not simply translate the oscillatory domain uniformly. Instead, its effect depends strongly on the underlying connectivity. For relatively large wRT , increasing ρ progressively com-presses the oscillatory region: the Hopf boundary moves toward larger wT R while the terminal LPC moves toward smaller wT R . In this regime, stronger delay therefore requires stronger TRN-to-relay coupling to ini-tiate oscillations, while at the same time reducing how far that coupling can be increased before oscillations terminate. At lower wRT , however, this dependence becomes nonmonotone. Moderate increases in ρ can initially broaden the available wT R window, before further increases reverse the trend and again compress it. Thus, the influence of delay cannot be separated from the excitatory return from relay to TRN: the same change in ρ can either facilitate or suppress oscillations depending on the connectivity background. The complementary dependence on wRT reinforces this picture. The effect of increasing the delay depends strongly on the underlying strength of the reciprocal relay–TRN couplings: in some connectivity regimes, increasing ρ progressively contracts the oscillatory window, whereas in others it can first suppress stable oscillations and then allow them to re-emerge within a different range of wRT . Thus, delay does not act as a simple additive perturbation to the connectivity landscape. Rather, wT R and wRT define the dynamical background on which temporal integration operates, so that changing the connectivity can qualitatively alter the effect of increasing ρ.The connectivity parameters also shape the temporal form of the rhythms once oscillations are present. Across the weak Gamma simulations, changes in wT R and wRT alter not only whether the system cycles, but also its amplitude, frequency and duty cycle. For a fixed delay, moving through the oscillatory window can therefore move the system between rhythms with very different temporal profiles; conversely, at fixed connectivity, increasing ρ can slow and broaden the oscillations substantially. This joint dependence is important physiologically, since entry into a stable cycle alone is not sufficient to identify a spindle-like or infra-slow regime. The rhythm must also occupy an appropriate range of population activities and temporal organization. Reticular self-inhibition wRR provides an additional control on the oscillatory dynamics, but its effect depends on the strength of the reciprocal relay–TRN loop. Reducing wRR weakens the inhibitory feedback acting directly on the reticular population, generally allowing larger oscillatory excursions and permitting stable cycles to persist over a wider range of delays. The extent of this effect, however, depends on how strongly changes in reticular activity are transmitted to the relay population through wT R and fed back to the TRN through wRT .Against this detailed connectivity dependence, one of the most interesting results of the weak Gamma model is the persistence of a common higher-level organization. Across the connectivity configurations ex-amined, short delays support biologically admissible spindle-like activity, whereas sufficiently long delays support a distinct infra-slow regime. Between them lies a broad interval in which the periodic orbit may remain mathematically stable but becomes biologically inadmissible because one population enters the neg-ative domain. The delay therefore does not simply slow a spindle continuously into an infra-slow oscillation. Instead, it selects between two distinct functional operating regimes, with a biological “no-go” interval sep-arating them. Connectivity controls where these regimes occur, how broad they are, and how strongly the populations are recruited, but does not erase this overall organization. This separation is especially interesting because spindle and infra-slow rhythms play different roles in NREM sleep. The former reflect relatively rapid coordinated thalamo-cortical activity, whereas infra-slow 27 fluctuations organize spindle-rich and spindle-poor periods over much longer timescales. Within the weak Gamma model, the same circuit can support both forms of organization without continuously passing through every intermediate rhythm. The inadmissible interval effectively partitions the available dynamics into two functional modes. In this sense, temporal integration acts not merely as a delay in transmission but as a selector of collective timescale. The discrete-delay formulation preserves some aspects of this picture while departing from it in important ways. At short delays, it can still support stable spindle-like activity, and the resulting rhythms remain strongly shaped by the thalamo-reticular connectivity. As ρ increases, however, the bifurcation structure becomes substantially richer, with multiple Hopf bifurcations and repeated losses and recoveries of periodic-orbit stability through LPC and period-doubling bifurcations. Stable oscillatory windows can therefore disappear and reappear throughout the parameter range, rather than remaining organized around one simple oscillatory corridor. This richer structure does not reproduce the same clean delay-driven separation between spindle and infra-slow activity observed for weak Gamma integration. This does not necessarily make the discrete formulation biologically irrelevant. Indeed, many of the additional stable cycles lie only slightly outside the biologically admissible domain, often becoming weakly negative in only one population. They therefore represent a reservoir of nearby dynamics that could potentially become admissible under modest changes in parameters that were held fixed here. The difference is instead one of organization and robustness: under the parameterization considered in this study, weak Gamma integration naturally produces well-separated functional regimes, whereas the discrete delay exposes a larger repertoire whose biological realization appears to depend more strongly on finer parameter adjustment. This distinction is consistent with our broader view that there is no reason to assume that one delay kernel should operate universally across neural systems, or even within a single system under all physiolog-ical conditions. Different temporal-integration profiles may be appropriate for different networks, states or functional demands. For the CTRC system considered here, however, the weak Gamma kernel provides a particularly economical organization of the two sleep-related timescales of interest, while the discrete for-mulation reveals greater dynamical flexibility and a substantial amount of latent oscillatory structure. We return below to the broader implications of this contrast and to the possibility that different temporal kernels may themselves form part of the functional repertoire of neural systems. 
+
+# 4.2 General comments and significance 
+
+The results above suggest a broader interpretation of temporal integration in the corticothalamic system. The TRN-centered circuit is already known to participate in dynamics spanning very different timescales. At the faster end, reciprocal interactions between TRN and thalamic relay populations are central to the generation of sleep spindles, with cortical feedback further shaping and propagating these events [17, 57, 36]. At a much slower scale, approximately 0 .02 Hz fluctuations during NREM sleep organize the occurrence and clustering of spindles and contribute to alternating periods of sleep continuity and fragility [33, 34, 58]. Thus, the spindle and infra-slow regimes considered here should not be viewed as two versions of the same oscillation. Rather, they represent distinct levels of temporal organization that coexist within the same broader corticothalamic system. From this perspective, the transition obtained with weak Gamma delays is physiologically plausible not because a spindle is expected to slow continuously until it becomes an infra-slow rhythm, but almost for the opposite reason. The model provides a mechanism by which the same connectivity architecture can support two distinct functional modes while preventing a biologically meaningful continuum between them. Short temporal integration favors spindle-like activity, whereas sufficiently extended integration supports a much slower network-level organization. Between these regimes, the periodic solution persists mathematically but leaves the biologically admissible state space. The resulting “no-go” interval therefore provides a dynamical separation between two functions that operate on very different timescales. This separation should not be interpreted as a rigid boundary in parameter space. In the weak Gamma model, as in several of the discrete-delay regimes, loss of admissibility generally occurs through relatively small negative values in a single population. Consistently, changing the connectivity background can sub-stantially shift the onset and termination of the no-go region, and can widen or narrow both the spindle-like and infra-slow windows. The robustness of the weak Gamma result therefore lies less in the precise location of these boundaries than in the persistence of the overall organization: across the connectivity configurations 28 examined here, the two physiologically meaningful regimes remain separated by an intermediate range that is not biologically viable. The connectivity parameters determine where that separation occurs, while the temporal kernel helps determine its overall form. Such an organization may itself be advantageous. Neural circuits must remain capable of changing state, but physiological function may also require protection against arbitrary transitions into every dynamical state that the underlying network can mathematically support. In the weak Gamma system, changes in temporal integration provide access to two relevant operating regimes, while the intervening loss of admissi-bility constrains the routes between them. The same anatomical circuit can therefore be reused for functions expressed on very different timescales without requiring a separate architecture for each. In this sense, tem-poral integration may provide an economical mechanism for state-dependent reorganization while preserving a degree of separation between functional modes. The discrete delay system suggests a different balance. Its mathematical bifurcation structure is consider-ably richer, with multiple Hopf points, repeated losses and recoveries of cycle stability, and, at larger delays, oscillations with more complicated temporal profiles, including the multi-peaked structure seen for ρ = 1. Importantly, however, this should not be equated with a correspondingly larger repertoire of physiologically available rhythms. Many of these stable-cycle windows enter the negative domain and therefore remain bio-logically inadmissible under the parameter values considered here. What the discrete system reveals instead is a larger collection of nearby dynamical possibilities, some of which lie only slightly beyond the biological boundary and could potentially become admissible under relatively small changes in other parameters. This distinction suggests a possible tradeoff between robustness and dynamical flexibility. The weak Gamma formulation organizes the dynamics comparatively cleanly around two physiologically interpretable regimes. The discrete formulation, by contrast, places the system near a greater variety of alternative oscilla-tory states, but access to many of them depends more strongly on the surrounding parameter configuration. Such proximity may be useful: changes in connectivity, external input, or physiological state could poten-tially recruit behaviors that are not accessible in the baseline configuration. At the same time, an operating landscape containing many nearby stability windows and more complicated rhythms may be more sensitive to perturbation than one in which the dominant functional regimes are more clearly separated. This possibility is particularly interesting in the thalamocortical system because the circuitry involved in normal spindle generation is also capable of supporting abnormal synchronized activity. Changes in tha-lamic and corticothalamic interactions have been associated with pathological oscillatory regimes, including epileptic thalamocortical dynamics [44, 51]. We therefore raise, as a hypothesis rather than a conclusion of the present study, the possibility that the temporal organization of feedback may contribute not only to the repertoire of rhythms available to a circuit, but also to its robustness against transitions into atypical dynamics. A broadly distributed temporal kernel such as the weak Gamma form considered here may favor stronger segregation of physiological operating regimes, whereas a more sharply concentrated temporal re-sponse may place the system closer to additional and potentially more complicated oscillatory states. The richer bifurcation structure and unusual cycle shapes observed in the discrete delay system are consistent with this possibility, but should not themselves be interpreted as signatures of pathology. Conversely, it would be premature to identify weak Gamma integration as a uniquely “healthy” temporal kernel, or discrete delays as intrinsically pathological. We have argued previously that temporal integration profiles need not be universal, and that different kernels may effectively operate in different neural networks, individuals, physiological states, tasks, or contexts. The present results instead suggest that different kernels may provide different dynamical advantages. A more broadly distributed temporal response may favor robust separation between a limited number of functional regimes, whereas a more concentrated response may leave additional dynamical possibilities nearby, at the cost of greater dependence on the precise operating point of the network. Which organization is preferable may itself depend on the function being performed. More generally, these results shift the question away from identifying a single “correct” representation of neural delay and toward asking what different forms of temporal integration allow a network to do. In the present CTRC model, weak Gamma integration provides a particularly economical mechanism for separating spindle-like activity from infra-slow organization, while discrete delays expose a more intricate surrounding dynamical landscape whose biological accessibility depends on finer parameter adjustment. Whether robust temporal dispersion is preferentially associated with normal physiological regulation, and whether changes in the temporal-integration profile can increase susceptibility to atypical or pathological rhythms, remain open questions. Addressing them will require greater physiological detail in the model, together with empirical constraints on how corticothalamic networks actually integrate activity over time. 29 4.3 Limitations and future work 
+
+The present model was deliberately formulated at the Wilson-Cowan population level, which provides a tractable framework for identifying bifurcations, mapping oscillatory regimes, and examining how connec-tivity and temporal integration interact across a relatively large parameter space. This level of description is well suited to the system-level questions addressed here, but compresses many cellular and within-population mechanisms into effective variables and coupling parameters. This limitation is particularly relevant for the TRN. The R node represents the mean activity of a population whose internal architecture is itself dynam-ically important: TRN neurons exhibit intrinsic bursting, communicate through both chemical inhibition and electrical coupling, and may organize into spatially structured patterns of synchronization. None of this internal organization can be represented explicitly by a single Wilson-Cowan variable. A natural next step is therefore to introduce cellular resolution selectively within the TRN, rather than replacing the entire population model by a uniformly more detailed description. In our previous work, we studied networks of reduced Rinzel-Golomb neurons representing TRN cells, including inhibitory interac-tions and structured gap-junctional coupling. We plan to incorporate such a network directly within the present corticothalamic architecture, replacing the single R node by a heterogeneous population of reduced conductance-based neurons, coupled through all-to-all chemical inhibition together with clustered electrical coupling. The cortical excitatory and inhibitory populations and the thalamic relay population can initially remain at the Wilson-Cowan level. The resulting hybrid model would therefore connect cellular and popu-lation descriptions within the same CTRC circuit, allowing dynamics generated by the internal organization of the TRN to interact directly with the larger corticothalamic loop. An important part of this extension will be to establish a meaningful translation between the two mod-eling scales. The signal transmitted from a Wilson-Cowan population to the cellular TRN network must be related to the inputs received by individual Rinzel-Golomb neurons, while the heterogeneous activity of the TRN network must in turn be coarse-grained into an effective population signal that can interact with the remaining Wilson-Cowan nodes. Developing this correspondence will allow us to ask not only whether the hybrid model reproduces the macroscopic regimes identified here, but also under what conditions a Wilson– Cowan node provides an adequate reduction of a heterogeneous neuronal network, and when microscopic mechanisms such as intrinsic bursting, gap-junctional organization, and cellular heterogeneity qualitatively alter the population-level bifurcation structure. The goal is therefore to preserve the Wilson-Cowan descrip-tion and an overall envelope, but also introduce cellular detail specifically where mechanisms operating below the population scale are likely to be essential. The delay formulations considered here are also intentionally idealized. Weak Gamma and discrete kernels provide two mathematically clear and dynamically distinct ways of representing temporal integration, but real corticothalamic pathways need not share a single delay distribution or even the same effective temporal profile across connections. Different pathways may have different characteristic delays and degrees of temporal dispersion, and these properties may themselves vary with physiological state. Future work can therefore extend the present analysis to heterogeneous and pathway-specific kernels. The multiscale formulation may eventually provide an additional route toward this problem: rather than prescribing the effective temporal kernel entirely at the population level, one may ask whether particular forms of distributed temporal integration emerge naturally from heterogeneous cellular, synaptic, and network dynamics. Although the parameter ranges and relative coupling strengths were informed by the experimental and modeling literature, their specific numerical values remain phenomenological rather than being directly esti-mated from empirical data. A further limitation is that, in order to make the connectivity-delay interactions interpretable, many secondary parameters were held fixed at their baseline values while a smaller number of influential couplings were explored systematically. The resulting boundaries of biological admissibility should therefore not be interpreted as universal. This is especially important because, for both delay formulations, some periodic solutions cross into the negative domain only slightly and often in a single component. Rel-atively modest changes in the surrounding parameter configuration can consequently move the boundaries of the admissible and inadmissible regions. In the weak Gamma system, this may shift the extent of the spindle, “no-go,” and infra-slow windows without necessarily destroying their broader organization; in the discrete system, it may render some of the presently near-admissible stable windows fully positive. A more extensive exploration of these secondary parameter dependencies is therefore warranted. Relatedly, positivity provides a necessary biological constraint for the current Wilson-Cowan formulation, but the behavior of trajectories close to zero also reflects the limits of the coarse population description. A small negative value in a mean-field variable is mathematically inadmissible and must be excluded here, 30 but it does not by itself specify what cellular mechanism would terminate or reorganize the corresponding activity in a biological circuit. The hybrid model should help clarify this distinction by allowing some of the population-level boundaries identified here to be examined in terms of explicit neuronal recruitment, synchrony, and firing dynamics. Finally, the present analysis is primarily deterministic and focuses on asymptotic attractors and their bifurcations. Physiological sleep spindles are finite, state-dependent events whose initiation and termination are influenced by ongoing fluctuations, transient inputs, and neuromodulatory state. Incorporating noise, transient perturbations, and slowly varying external drive would therefore provide a natural subsequent step, allowing the bifurcation structures identified here to serve as an organizing framework for understanding how the system actually moves between regimes. Together with the multiscale TRN extension, this would allow future work to connect cellular mechanisms, population dynamics, temporal integration, and state-dependent transitions within a common framework. 
+
+# Appendix A 
+
+Theorem 4.1 (Persistence of stability for small relative delays) . Suppose that the equilibrium X∗ is linearly asymptotically stable for the delay-free system (6) . For Re z ≥ 0, consider G(z) := ( zI + D − K)−1 K.Denote 
+
+rK (z) := 
+
+
+
+1
+
+ρsp (G(z)) , ρsp (G(z)) > 0,
+
++∞, ρsp (G(z)) = 0 .
+
+where ρsp denotes the spectral radius, and 
+
+q0 := inf     
+
+> z∈C,Re z≥0, z ̸=0
+> rK(z)≤2
+
+rK (z)
+
+|z| , (13) 
+
+with the convention that the infimum of the empty set is +∞.Then q0 ∈ (0 , ∞], and for every 0 ≤ q < q 0 the characteristic equation (12) has no roots in the closed right half-plane. Consequently, the equilibrium remains asymptotically stable for all sufficiently small relative delays. Proof. Let us consider M (z, q ) := zI + D − bh(qz )K and M0(z) := zI + D − K. As σ(K − D) is included in the open left half-plane, it follows that M0(z) is invertible for every z with Re z ≥ 0. We first derive two estimates for the Laplace transform. For Re ξ ≥ 0, we have 
+
+|bh(ξ)| ≤ 
+
+Z ∞
+
+> 0
+
+|e−ξs |h(s) ds ≤
+
+Z ∞
+
+> 0
+
+h(s) ds = 1 .
+
+Moreover, 1 − e−ξs = ξs 
+
+Z 10
+
+e−θξs dθ, 
+
+and hence 
+
+|1 − e−ξs | ≤ | ξ|s for Re ξ ≥ 0.
+
+As h has unit mean, we obtain 
+
+|1 − bh(ξ)| =
+
+Z ∞
+
+> 0
+
+ 1 − e−ξs  h(s) ds ≤ | ξ|
+
+Z ∞
+
+> 0
+
+sh (s) ds = |ξ|.
+
+Together with |bh(ξ)| ≤ 1, this gives 
+
+|1 − bh(ξ)| ≤ min {| ξ|, 2}. (14) Let us assume, by contradiction, that for some q < q 0 there exists a characteristic root z with Re z ≥ 0. We first notice that z̸ = 0, as M (0 , q ) = D − K is nonsingular. Defining δ(z, q ) := 1 − bh(qz ), we have 
+
+M (z, q ) = zI + D − K +
+
+
+
+1 − bh(qz )
+
+
+
+K = M0(z) [ I + δ(z, q )G(z)] .
+
+31 Since M0(z) is invertible and det M (z, q ) = 0, it follows that I + δ(z, q )G(z) is singular. Consequently, there exists μ ∈ σ(G(z)) such that 1 + δ(z, q )μ = 0 .
+
+Therefore, 
+
+|δ(z, q )| = 1
+
+|μ| ≥ 1
+
+ρsp (G(z)) = rK (z). (15) On the other hand, (14) yields 
+
+|δ(z, q )| ≤ min {q|z|, 2}. (16) Equations (15) and (16) imply rK (z) ≤ 2 and rK (z) ≤ q|z|. Hence 
+
+q ≥ rK (z)
+
+|z| ≥ q0,
+
+which contradicts q < q 0. Hence, no characteristic root can lie in the closed right half-plane. It remains to verify that q0 ∈ (0 , ∞]. Since K − D is Hurwitz, G(z) is continuous on the closed right half-plane. Moreover, 
+
+G(z) = 1
+
+z
+
+
+
+I − K − Dz
+
+−1
+
+K, 
+
+which leads to 
+
+ρsp (G(z)) = O
+
+ 1
+
+|z|
+
+
+
+as |z| → ∞ .
+
+Therefore rK (z) → +∞ as |z| → ∞ and the constraint rK (z) ≤ 2 confines z to a bounded set. Since G is bounded near z = 0, rK (z) is bounded below by a positive constant there, and therefore rK (z)/|z| → +∞
+
+as z → 0. Consequently, every minimizing sequence with finite objective can be restricted to a compact annulus ε ≤ | z| ≤ R, on which rK (z)/|z| has a strictly positive lower bound. Hence, the infimum in (13) is either taken over an empty set, in which case q0 = + ∞, or over a compact set bounded away from zero, in which case it is strictly positive. 
+
+Theorem 4.2 (Instability for large relative delays) . For the equilibrium X∗, define the limiting characteristic function 
+
+∆∞(u) := det 
+
+
+
+D − bh(u)K
+
+
+
+.
+
+and suppose that it has a simple zero u+ in the open right half-plane: 
+
+∆∞(u+) = 0 , ∆′∞(u+)̸ = 0 , Re u+ > 0.
+
+Then there exist Q > 0 and a characteristic root z(q) of (12) , defined for q ≥ Q, such that 
+
+z(q) = u+
+
+q + O
+
+ 1
+
+q2
+
+
+
+as q → ∞ .
+
+In particular, Re z(q) > 0 for all sufficiently large q, and hence the equilibrium is unstable for all q ≥ Q.Proof. For q > 0, denoting ε = q−1 and u = qz , the characteristic equation (12) is equivalent to 
+
+F (u, ε ) := det 
+
+
+
+εuI + D − bh(u)K
+
+
+
+= 0 .
+
+Since Re u+ > 0, the Laplace transform bh is holomorphic in a neighborhood of u+. Moreover, 
+
+F (u, 0) = ∆ ∞(u).
+
+By the implicit function theorem, there exists a branch u(ε), defined for sufficiently small ε ≥ 0, such that 
+
+u(0) = u+, F (u(ε), ε ) = 0 , u(ε) = u+ + O(ε).
+
+Returning to z = εu gives 
+
+z(q) = 1
+
+q u
+
+ 1
+
+q
+
+
+
+= u+
+
+q + O
+
+ 1
+
+q2
+
+
+
+.
+
+Since Re u+ > 0, it follows that Re z(q) > 0 for all sufficiently large q. Therefore, the equilibrium is eventually unstable. 32 Remark 4.3. Let A = D−1K. For the weak Gamma kernel, 
+
+∆∞(u) = det( D) det 
+
+
+
+I − 11 + u A
+
+
+
+.
+
+Consequently, if A has a simple eigenvalue μ satisfying Re μ > 1, then u+ = μ − 1 satisfies the hypotheses of Theorem 4.2. For the discrete kernel, 
+
+∆∞(u) = det( D) det  I − e−uA .
+
+Hence, if A has a simple eigenvalue μ with |μ| > 1, then the corresponding roots 
+
+uk = log |μ| + i arg μ + 2 kπ , k ∈ Z,
+
+lie in the open right half-plane, and Theorem 4.2 applies. 
+
+33 References 
+
+[1] Robert G. Averkin, Viktor Szemenyei, S´ andor Bord´ e, and G´ abor Tam´ as. Identified cellular correlates of neocortical ripple and high-gamma oscillations during spindles of natural sleep. Neuron , 92(4):916–928, 2016. [2] Peter Barth´ o, Andrea Sl´ ezia, Ferenc M´ aty´ as, Lejla Faradzs-Zade, Istv´ an Ulbert, Kenneth D. Harris, and L´ aszl´ o Acs´ ady. Ongoing network state controls the length of sleep spindles via inhibitory activity. 
+
+Neuron , 82(6):1367–1379, 2014. [3] H´ el` ene Bastuji, Pierre Lamouroux, Manon Villalba, Michel Magnin, and Luis Garcia-Larrea. Local sleep spindles in the human thalamus. The Journal of Physiology , 598(11):2109–2124, 2020. [4] Maxim Bazhenov, Igor Timofeev, Mircea Steriade, and Terrence J. Sejnowski. Model of thalamocortical slow-wave sleep oscillations and transitions to activated states. Journal of Neuroscience , 22(19):8691– 8704, 2002. [5] Nicolas Brunel. Dynamics of sparsely connected networks of excitatory and inhibitory spiking neurons. 
+
+Journal of Computational Neuroscience , 8(3):183–208, 2000. [6] Caglar Cakan, Nikola Jajcay, and Klaus Obermayer. neurolib: A simulation framework for whole-brain neural mass modeling. Cognitive Computation , 15(4):1132–1152, 2023. [7] Pierre Champetier, Claire Andr´ e, Frederik D. Weber, St´ ephane Rehel, Valentin Ourry, Alice Laniepce, Antoine Lutz, Fran¸ coise Bertran, Nicolas Cab´ e, Anne-Lise Pitel, et al. Age-related changes in fast spindle clustering during non-rapid eye movement sleep and their relevance for memory consolidation. 
+
+Sleep , 46(5):zsac282, 2023. [8] Scott J. Cruikshank, Heidi J. Rose, and Raju Metherate. Thalamocortical synaptic transmission in mouse auditory cortex. Journal of Neurophysiology , 98(6):3765–3780, 2007. [9] Charlotte Deleuze and John R. Huguenard. Distinct electrical and chemical connectivity maps in the thalamic reticular nucleus: potential roles in synchronization and sensation. Journal of Neuroscience ,26(33):8633–8645, 2006. [10] Alain Destexhe, Diego Contreras, Terrence J. Sejnowski, and Mircea Steriade. A model of spindle rhythmicity in the isolated thalamic reticular nucleus. Journal of Neurophysiology , 72(2):803–818, 1994. [11] Alain Destexhe and Terrence J. Sejnowski. The Wilson–Cowan model, 36 years later. Biological Cyber-netics , 101(1):1–2, 2009. [12] Annick Dhooge, Willy Govaerts, Yuri A. Kuznetsov, Hil G. E. Meijer, and Bart Sautois. New features of the software MatCont for bifurcation analysis of dynamical systems. Mathematical and Computer Modelling of Dynamical Systems , 14(2):147–175, 2008. [13] Laura M. J. Fernandez and Anita L¨ uthi. Sleep spindles: Mechanisms and functions. Physiological Reviews , 100(2):805–868, 2020. [14] Tam´ as F. Freund and Istv´ an Katona. Perisomatic inhibition. Neuron , 56(1):33–42, 2007. [15] David Golomb, Xiao-Jing Wang, and John Rinzel. Synchronization properties of spindle oscillations in a thalamic reticular nucleus model. Journal of Neurophysiology , 72(3):1109–1126, 1994. [16] Maurizio Gorgoni, Giulia Lauri, Ilaria Truglia, Susanna Cordone, Simone Sarasso, Serena Scarpelli, Anastasia Mangiaruga, Aurora D’Atri, Daniela Tempesta, Michele Ferrara, Camillo Marra, Paolo M. Rossini, and Luigi De Gennaro. Parietal fast sleep spindle density decrease in Alzheimer’s disease and amnesic mild cognitive impairment. Neural Plasticity , 2016:8376108, 2016. [17] Michael M. Halassa, Joshua H. Siegle, Jason T. Ritt, Jonathan T. Ting, Guoping Feng, and Christo-pher I. Moore. Selective optical drive of thalamic reticular nucleus generates thalamic bursts and cortical spindles. Nature Neuroscience , 14(9):1118–1120, 2011. 34 [18] Ann E. Hallanger, Allan I. Levey, Henry J. Lee, David B. Rye, and Bruce H. Wainer. The origins of cholinergic and other subcortical afferents to the thalamus in the rat. Journal of Comparative Neurology ,262(1):105–124, 1987. [19] Kenneth D. Harris and Gordon M. G. Shepherd. The neocortical circuit: themes and variations. Nature Neuroscience , 18(2):170–181, 2015. [20] Katja Hartwich, Thomas Pollak, and Thomas Klausberger. Distinct firing patterns of identified basket and dendrite-targeting interneurons in the prefrontal cortex during hippocampal theta and local spindle oscillations. The Journal of Neuroscience , 29(30):9563–9574, 2009. [21] John R. Huguenard and David A. McCormick. Simulation of the currents involved in rhythmic oscilla-tions in thalamic relay neurons. Journal of Neurophysiology , 68(4):1373–1383, 1992. [22] Jeffry S. Isaacson and Massimo Scanziani. How inhibition shapes cortical activity. Neuron , 72(2):231– 243, 2011. [23] H. Jahnsen and R. Llin´ as. Electrophysiological properties of guinea-pig thalamic neurones: an in vitro study. The Journal of Physiology , 349(1):205–226, 1984. [24] Nikola Jajcay, Jaroslav Hlinka, Jessica Tinker, et al. The role of thalamus in neural mass models for the simulation of pathological oscillations. Frontiers in Computational Neuroscience , 16:769860, 2022. [25] Barbara E. Jones. Arousal systems. Frontiers in Bioscience , 8(5):438–451, 2003. [26] Eva Kaslik, Emanuel-Attila K¨ ok¨ ovics, and Anca R˘ adulescu. Stability and bifurcations in Wilson–Cowan systems with distributed delays, and an application to basal ganglia interactions. Communications in Nonlinear Science and Numerical Simulation , 104:105984, 2022. [27] Eva Kaslik, Emanuel-Attila K¨ ok¨ ovics, and Anca R˘ adulescu. Stability of coupled Wilson–Cowan systems with distributed delays. Chaos, Solitons & Fractals , 179:114420, 2024. [28] Adam Kepecs and Gordon Fishell. Interneuron cell types are fit to function. Nature , 505(7483):318–326, 2014. [29] Mark A. Kramer, Sally M. Stoyell, Dhinakaran Chinappen, Lauren M. Ostrowski, Elizabeth R. Spencer, Angelique K. Morgan, Britt C. Emerton, Jin Jing, M. Brandon Westover, Uri T. Eden, Steven M. Stufflebeam, Dara S. Manoach, and Catherine J. Chu. Focal sleep spindle deficits reveal focal thalamo-cortical dysfunction and predict cognitive deficits in sleep activated developmental epilepsy. Journal of Neuroscience , 41(8):1816–1829, 2021. [30] Giri P. Krishnan, Sylvain Chauvette, Isaac Shamie, Sara Soltani, Igor Timofeev, Sydney S. Cash, Eric Halgren, and Maxim Bazhenov. Cellular and neurochemical basis of sleep stages in the thalamocortical network. eLife , 5:e18607, 2016. [31] Carole E. Landisman, Michael A. Long, Michael Beierlein, Michael R. Deans, David L. Paul, and Barry W. Connors. Electrical synapses in the thalamic reticular nucleus. Journal of Neuroscience ,22(3):1002–1009, 2002. [32] V´ eronique Latreille, Julie Carrier, Marjolaine Lafortune, Ronald B. Postuma, Josie-Anne Bertrand, Michel Panisset, Sylvain Chouinard, and Jean-Fran¸ cois Gagnon. Sleep spindles in Parkinson’s disease may predict the development of dementia. Neurobiology of Aging , 36(2):1083–1090, 2015. [33] Zsolt I. L´ az´ ar, Derk-Jan Dijk, and Alp´ ar S. L´ az´ ar. Infraslow oscillations in human sleep spindle activity. 
+
+Journal of Neuroscience Methods , 316:22–34, 2019. [34] Sandro Lecci, Laura M. J. Fernandez, Frederik D. Weber, Romain Cardis, Jean-Yves Chatton, Jan Born, and Anita L¨ uthi. Coordinated infraslow neural and cardiac oscillations mark fragility and offline periods in mammalian sleep. Science Advances , 3(2):e1602026, 2017. [35] Seung-Hee Lee and Yang Dan. Neuromodulation of brain states. Neuron , 76(1):209–222, 2012. 35 [36] Rachel A. Mak-McCully, Matthieu Rolland, Anna Sargsyan, Chris Gonzalez, Michel Magnin, Patrick Chauvel, Marc Rey, H´ el` ene Bastuji, and Eric Halgren. Coordination of cortical and thalamic activity during non-REM sleep in humans. Nature Communications , 8(1):15499, 2017. [37] Dara S. Manoach, Jen Q. Pan, Shaun M. Purcell, and Robert Stickgold. Reduced sleep spindles in schizophrenia: A treatable endophenotype that links risk genes to impaired cognition? Biological Psychiatry , 80(8):599–608, 2016. [38] Dara S. Manoach and Robert Stickgold. Abnormal sleep spindles, memory consolidation, and schizophre-nia. Annual Review of Clinical Psychology , 15(1):451–479, 2019. [39] Andr´ e C. Marreiros, Jean Daunizeau, Stefan J. Kiebel, and Karl J. Friston. Population dynamics: Variance and the sigmoid activation function. NeuroImage , 42(1):147–157, 2008. [40] David A. McCormick and Hans-Christian Pape. Noradrenergic and serotonergic modulation of a hyperpolarization-activated cation current in thalamic relay neurones. The Journal of Physiology ,431(1):319–342, 1990. [41] Niels Niethard, Hong-Viet V. Ngo, Ingrid Ehrlich, and Jan Born. Cortical circuit activity underlying sleep slow oscillations and spindles. Proceedings of the National Academy of Sciences , 115(39):E9220– E9229, 2018. [42] Yuval Nir, Richard J. Staba, Thomas Andrillon, Vladyslav V. Vyazovskiy, Chiara Cirelli, Itzhak Fried, and Giulio Tononi. Regional slow waves and spindles in human sleep. Neuron , 70(1):153–169, 2011. [43] Carla K. Pfeffer, Max Xue, Miao He, Z. Josh Huang, and Massimo Scanziani. Inhibition of inhibition in visual cortex: the logic of connections between molecularly distinct interneurons. Nature Neuroscience ,16(8):1068–1076, 2013. [44] Didier Pinault. Cellular interactions in the rat somatosensory thalamocortical system during normal and epileptic 5–9 Hz oscillations. The Journal of Physiology , 552(3):881–905, 2003. [45] Didier Pinault. The thalamic reticular nucleus: structure, function and concept. Brain Research Reviews ,46(1):1–31, 2004. [46] Tobias C. Potjans and Markus Diesmann. The cell-type specific cortical microcircuit: relating structure and activity in a full-scale spiking network model. Cerebral Cortex , 24(3):785–806, 2014. [47] Iva Reichov´ a and S. Murray Sherman. Somatosensory corticothalamic projections: distinguishing drivers from modulators. Journal of Neurophysiology , 92(4):2185–2197, 2004. [48] James A. Roberts and P. A. Robinson. Modeling absence seizure dynamics: Implications for basic mechanisms and measurement of thalamocortical and corticothalamic latencies. Journal of Theoretical Biology , 253(1):189–201, 2008. [49] P. A. Robinson, C. J. Rennie, and D. L. Rowe. Dynamics of large-scale brain activity in normal arousal states and epileptic seizures. Physical Review E , 65(4):041924, 2002. [50] Michael Schellenberger Costa, Alexandra Weigenand, Hong-Viet V. Ngo, Lisa Marshall, Jan Born, and Thomas Martinetz. A thalamocortical neural mass model of the EEG during NREM sleep and its response to auditory stimulation. PLoS Computational Biology , 12(9):e1005022, 2016. [51] J. Helen Sheeba, Roxana A. Stefanescu, and Viktor K. Jirsa. Thalamic oscillatory dynamics: Cross-frequency interaction at emergent epilepsy. Biophysical Journal , 95(6):2722–2738, 2008. [52] S. Murray Sherman. Thalamus plays a central role in ongoing cortical functioning. Nature Neuroscience ,19(4):533–541, 2016. [53] M. Steriade, L. Domich, G. Oakson, and M. Deschˆ enes. The deafferented reticular thalamic nucleus generates spindle rhythmicity. Journal of Neurophysiology , 57(1):260–273, 1987. 36 [54] P. Suffczynski, S. Kalitzin, and F. H. Lopes Da Silva. Dynamics of non-convulsive epileptic phenomena modeled by a bistable neuronal network. Neuroscience , 126(2):467–484, 2004. [55] The MathWorks Inc. MATLAB version: R2024a, 2024. [56] Alex M. Thomson. Neocortical layer 6, a review. Frontiers in Neuroanatomy , 4:13, 2010. [57] Marcus von Krosigk, Thierry Bal, and David A. McCormick. Cellular mechanisms of a synchronized oscillation in the thalamus. Science , 261(5119):361–364, 1993. [58] Brendon O. Watson. Cognitive and physiologic impacts of the infraslow oscillation. Frontiers in Systems Neuroscience , 12:44, 2018. [59] Yi-Ying Weng, Xu Lei, and Jing Yu. Sleep spindle abnormalities related to Alzheimer’s disease: Asystematic mini-review. Sleep Medicine , 75:37–44, 2020. [60] Hugh R. Wilson and Jack D. Cowan. Excitatory and inhibitory interactions in localized populations of model neurons. Biophysical Journal , 12(1):1–24, 1972. [61] Liming Zhang and Edward G. Jones. Cortical input to thalamic reticular cells in the rat. Journal of Comparative Neurology , 472(3):317–333, 2004. [62] Liming Zhang and Edward G. Jones. Corticothalamic inhibition in the thalamic reticular nucleus. 
+
+Journal of Neurophysiology , 91(2):759–766, 2004. 37

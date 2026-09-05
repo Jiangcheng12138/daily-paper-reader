@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-09-05 <!--dpr-date:20260905-->
+    * 精读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/05/2609.00520v1-a-distributed-delay-wilson-cowan-model-of-sleep-related-rhythms-in-the-corticothalamic-system" data-sidebar-item="{&quot;title&quot;: &quot;A distributed-delay Wilson-Cowan model of sleep-related rhythms in the corticothalamic system&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.00520v1-a-distributed-delay-wilson-cowan-model-of-sleep-related-rhythms-in-the-corticothalamic-system&quot;, &quot;score&quot;: &quot;9.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;slp-ns&quot;}], &quot;evidence&quot;: &quot;构建皮层-丘脑回路中NREM睡眠纺锤波与极慢波动的计算模型，直接对应非快速眼动睡眠神经生物学&quot;}">A distributed-delay Wilson-Cowan model of sleep-related rhythms in the corticothalamic system</a>
   * 2026-08-31 <!--dpr-date:20260831-->
     * 速读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202608/31/2608.24452v1-a-latent-space-network-model-for-dynamic-neural-latent-embedding" data-sidebar-item="{&quot;title&quot;: &quot;A latent space network model for dynamic neural latent embedding&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2608.24452v1-a-latent-space-network-model-for-dynamic-neural-latent-embedding&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;slp-ns&quot;}], &quot;evidence&quot;: &quot;动态神经潜变量嵌入模型，推断脑区交互网络，可用于睡眠环路研究&quot;}">A latent space network model for dynamic neural latent embedding</a>
