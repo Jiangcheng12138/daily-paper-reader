@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-10-07 <!--dpr-date:20261007-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202610/07/2609.36619v1-sempsg-a-semantic-channel-aware-foundation-model-for-polysomnography-analysis" data-sidebar-item="{&quot;title&quot;: &quot;SemPSG: A Semantic Channel-Aware Foundation Model for Polysomnography Analysis&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.36619v1-sempsg-a-semantic-channel-aware-foundation-model-for-polysomnography-analysis&quot;, &quot;score&quot;: &quot;6.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;slp-ns&quot;}], &quot;evidence&quot;: &quot;面向多导睡眠图睡眠分析的基础模型&quot;}">SemPSG: A Semantic Channel-Aware Foundation Model for Polysomnography Analysis</a>
   * 2026-09-09 <!--dpr-date:20260909-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202609/09/2609.06849v1-learning-transferable-human-physiology-from-two-million-hours-of-sleep-with-sleepfm-2" data-sidebar-item="{&quot;title&quot;: &quot;Learning transferable human physiology from two million hours of sleep with SleepFM-2&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2609.06849v1-learning-transferable-human-physiology-from-two-million-hours-of-sleep-with-sleepfm-2&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;slp-ns&quot;}], &quot;evidence&quot;: &quot;大规模多模态睡眠基础模型推进睡眠研究中的表型分析与疾病预测&quot;}">Learning transferable human physiology from two million hours of sleep with SleepFM-2</a>

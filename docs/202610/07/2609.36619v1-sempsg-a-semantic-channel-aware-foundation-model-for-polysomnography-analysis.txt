@@ -1,0 +1,925 @@
+Title: SemPSG: A Semantic Channel-Aware Foundation Model for Polysomnography Analysis
+
+URL Source: https://arxiv.org/pdf/2609.36619v1
+
+Published Time: Wed, 30 Sep 2026 01:04:21 GMT
+
+Number of Pages: 22
+
+Markdown Content:
+# SEM PSG: A S EMANTIC CHANNEL -A WARE FOUNDA -
+
+# TION MODEL FOR POLYSOMNOGRAPHY ANALYSIS 
+
+Junyu Chen 1, Chenxi Liu 1∗ , Shiqin Tang 1, Hao Miao 2, Wanyun Ling 3, Ziyue Li 3,Hongbin Liu 1, Gaofeng Meng 1
+
+> 1
+
+Center for Artificial Intelligence and Robotics, Hong Kong Institute of Science & Innovation, CAS 
+
+> 2
+
+Shenzhen Institute for Advanced Study, University of Electronic Science and Technology of China 
+
+> 3
+
+Department of Operations and Technology, Technical University of Munich  
+
+> {junyu.chen, chenxi.liu, shiqin.tang, hongbin.liu, gaofeng.meng }@cair-cas.hk.org
+
+hao-miao@outlook.com, {wanyun.ling, ziyue.li }@tum.de 
+
+## ABSTRACT 
+
+Polysomnography (PSG) integrates multiple physiological signals to provide a comprehensive characterization of human sleep. The growing availability of large-scale PSG recordings creates an opportunity to develop unified time series mod-els across diverse applications. Existing studies often overlook the structured se-mantics encoded in heterogeneous PSG channel identities. Meanwhile, multi-scale temporal dynamics and entangled intra- and inter-modality dependencies pose challenges for unified PSG representation learning. In this paper, we pro-pose SemPSG , a Semantic channel-aware foundation model for heterogeneous PSG analysis. SemPSG learns representations from time series and image views while incorporating the channel semantics. Notably, it introduces a channel se-mantics tokenizer that encodes physiological information from channel identities. A semantic-aware time-series and image architecture jointly captures long-range temporal dynamics, time-frequency patterns, and local waveform morphology, al-leviating the trade-off across temporal scales. Finally, the intra- and inter-modality encoders explicitly model channel-level dependencies within each modality and cross physiological interactions. We evaluate SemPSG on six sleep and health-related tasks, experimental results demonstrate SemPSG outperforms general-purpose and PSG-specific foundation models, achieving a 9.6 percentage-point gain for sleep-disordered breathing classification, while demonstrating transfer-ability across heterogeneous PSG and channel configurations. 
+
+## 1 INTRODUCTION 
+
+Polysomnography (PSG) provides a comprehensive view of human sleep by continuously captur-ing multiple physiological signals, including electroencephalography (EEG), electrooculography (EOG), electromyography (EMG), electrocardiography (ECG), and respiratory signals (Troester et al., 2023; Lee et al., 2025). Jointly, these signals capture brain activity, eye movements, mus-cle activity, cardiac activity, and respiratory dynamics (Krugliakova et al., 2026), respectively. The synchronized recordings form multi-physiological time series that support diverse downstream anal-yses (Ma et al., 2025). However, conventional PSG models are commonly developed for individual tasks, such as sleep staging or event detection, and rely on task-specific annotations (Phan et al., 2021; Wang et al., 2024; Kjaer et al., 2026). The growing availability of large-scale PSG record-ings creates an opportunity to develop unified time series models that learn reusable physiological representations and transfer them across diverse applications (Thapa et al., 2024; Shuai et al., 2026). Recent progress in time series foundation models has demonstrated the effectiveness of self-supervised pretraining for learning transferable representations across domains (Nie et al., 2023; Liu et al., 2024; Fu et al., 2026). However, PSG differs from conventional time series. As illus-trated in Figure 1 (a), PSG comprises multiple physiological modalities with distinct sleep-related temporal dynamics and complex interactions across physiological systems, making direct adapta-
+
+> ∗
+
+Corresponding author. 
+
+1arXiv:2609.36619v1 [cs.LG] 29 Sep 2026 Multi-Scale Temporal Dynamics Heterogenous  Channel Configurations (a)                   
+
+> EEG
+> EOG
+> EMG
+> ECG
+> RESP
+> EEG (C3-M2)
+> 10
+> 0
+> 0510 15 20 25 30
+> Time (s)
+> 0510 15 20 25 30
+> Time (s)
+> 1
+> 10
+> 20
+> 30
+> 40
+> Frequency (Hz)
+> 0.1 s
+> 20 μV −20
+> 0
+> 20
+> Relative power (dB)
+> PSG Sleep-Monitoring
+> Lo ng-Term Temporal Waveform
+> Time-Frequency Local Waveform
+> Cross-Physiological Modalities
+> C3_M2
+> C4_M1
+> O2_M1
+> …
+> LOC
+> …
+> throax
+> …
+> ECG
+> …
+> EMG
+> …
+> …
+> (b) Channel Identity Collapse Predefined Channel Space
+> Dataset A
+> Dataset B
+> C3
+> C4
+> F3
+> FPz
+> O1
+> C3_M2
+> C4_M1
+> O2_M1
+> …
+> Fp1
+> Fp2
+> F3_M2
+> …
+> C3_M2
+> Type: EEG
+> Location: Left central scalp
+> Derivation Kind: Bipolar
+> Reference: M2
+> …
+> EEG
+> (d) PSG Waveforms
+> C3_M2
+> LOC
+> EMG
+> ECG
+> CHEST
+> Channel Name
+> Channel-Semantics
+> Encoder
+> Time Series Feature Extraction
+> Semantics
+> Time Series Encoder
+> Image Creator Multi-View
+> Encoder
+> Cross-Signal
+> Interaction
+> Dataset A
+> C3_M2
+> C4_M1
+> …
+> LOC
+> ROC
+> ECG
+> …
+> …
+> abdomen
+> Total: 13
+> Dataset B
+> Fp2
+> Fp1
+> F3-M2
+> …
+> E1-M2
+> E2-M1
+> AirFlow
+> …
+> Chin2
+> …
+> Total: 32
+> Dataset C
+> EEG
+> EEG(sec)
+> …
+> EOG(L)
+> EMG
+> ECG I
+> …
+> …
+> NEW AIR
+> Total: 11
+> (c)
+
+Figure 1: Motivation. (a) An example of PSG monitoring. (b) Limitations of conventional PSG. (c) PSG data characteristics. (d) The pipeline of SemPSG. tion of general-purpose foundation models non-trivial. These characteristics have motivated the development of foundation models specifically tailored to sleep- related physiological data (Xu et al., 2026). For example, SleepFM explores multimodal contrastive pretraining across physio-logical signals (Thapa et al., 2026), while SleepMaMi employs hierarchical temporal representation learning (Park et al., 2026). Other studies investigate cross-modal alignment across heterogeneous nocturnal biosignals (Yuan et al., 2026) and unified time-frequency modeling (Huang et al., 2026). Despite these advances, existing approaches still struggle to learn generalizable representations across heterogeneous PSG recordings due to several challenges. The first challenge lies in channel semantics heterogeneity . PSG channels vary substantially across datasets from different acquisition systems, as illustrated in Figure 1 (a). One major issue is channel identity collapse, where dis-tinct channels within the same physiological modality become indistinguishable when represented only by coarse modality labels, as shown in the left panel of Figure 1 (b). For example, C3-M2 
+
+is not merely an EEG channel: C3 specifies the recording location over the left central scalp re-gion, whereas M2 specifies the reference electrode over the right mastoid. Moreover, C3-M2 and 
+
+M2-C3 contain the same electrode identities but opposite derivation directions, resulting in reversed waveform. Furthermore, predefined channel spaces preserve identities by assigning them to a fixed vocabulary of canonical channels, as shown in the right part of Figure 1 (b). It is difficult to accom-modate unseen channels arising from different derivation configurations and naming conventions. The second challenge is temporal dynamics trade-off . As shown in the left panel of Figure 1 (c), PSG signals exhibit distinct temporal dynamics at multiple scales: long-term temporal waveform characterizes the evolution of physiological states over extended periods, whereas time-frequency patterns reveal spectral characteristics; Meanwhile, local waveform morphology captures transient physiological events. These temporal dynamics provide complementary information for sleep anal-ysis, but remains difficulties to balance for effective temporal representations. The third challenge is 
+
+intra- and inter-modality dependency entanglement . As illustrated in the right part of Figure 1 (c), PSG contains dependencies both within and across physiological modalities. Existing approaches often emphasize inter-modality interactions while underexploring intra-modality channel relation-ships (Thapa et al., 2026; Huang et al., 2026; Park et al., 2026), causing channel-level correlations to become entangled with modality-level interactions. In this paper, we propose SemPSG , a Semantic channel-aware foundation model for PSG analysis. As illustrated in Figure 1 (d), SemPSG learns representations from time series and image views while incorporating the channel semantics. To address the channel semantic heterogeneity, a chan-nel semantics tokenizer is designed to represent each channel through the structured physiological semantics encoded in its identity. These semantic representations condition both waveform feature learning and channel aggregation, preserving channel-specific information without collapsing chan-nels into coarse modality labels and restricting them to a predefined channel space. To alleviate the temporal dynamics trade-off, the semantic-aware time-series module captures long-range tem-poral dynamics from physiological waveforms, while the time-frequency and morphology branch extracts spectral patterns and local waveform morphology through Wavelet Transform (CWT) scalo-grams, Short-Time Fourier Transform (STFT) spectrograms, and morphology envelopes. The three-category views are then aggregated using learned sample-dependent weights. To disentangle the intra- and inter-modality dependencies, an intra-modality encoder first captures relationships among 2channels within each physiological modality, followed by semantic channel aggregation that forms modality-level representations. An inter-modality encoder then models interactions across differ-ent physiological systems, preventing channel-level correlations from being directly mixed with modality-level dependencies. Overall, our main contributions are summarized as follows: 
+
+(i) We propose SemPSG , a Semantic channel-aware foundation model for heterogeneous PSG anal-ysis. SemPSG introduces a channel semantics tokenizer that transforms dataset-specific channel identities into structured physiological representations, establishing a unified semantic space for knowledge sharing across heterogeneous channel configurations and acquisition systems. 
+
+(ii) SemPSG learns a unified representation from semantic time series and image views. The semantic-aware time series module hierarchically models intra- and inter-modality dependencies, disentangling channel-level correlations from modality-level interactions, while the multi-scale tem-poral module balances the long-range dynamics, spectral, and local waveform patterns. 
+
+(iii) Experiments conducted on six downstream tasks covering diverse sleep and health outcomes. SemPSG consistently outperforms general-purpose and PSG-specific foundation models, achiev-ing a 9.6 percentage-point gain for sleep-disordered breathing classification, while demonstrating transferability across heterogeneous PSG datasets and channel configurations. 
+
+## 2 METHODOLOGY 
+
+SemPSG learns unified PSG representations from two views: a semantic-aware time series view and a time-frequency and morphology view, as shown in Figure 2. In the semantic time-series view, PSG signals are tokenized into temporal representations, while channel identities are encoded into semantic tokens that capture the structured information associated with each PSG channel. The fused semantic time-series embeddings are learned with intra- and inter-modality reconstruction objectives used during pretraining. In the image view, each physiological signal is transformed into Contin-uous Wavelet Transform (CWT) scalograms, Short-Time Fourier Transform (STFT) spectrograms, and morphology envelopes to capture complementary time-frequency and waveform characteristics. Finally, semantic, intra- and inter-modal, and multi-scale temporal representations are aligned in a shared space, enabling the model to capture both the semantics and physiological patterns of PSG. 2.1 SEMANTIC -A WARE TIME -S ERIES ENCODING 
+
+To incorporate channel identity into physiological dependency modeling, the time-series branch combines channel-semantic conditioning with successive intra- and inter-modality encoding. It maps the waveforms X(t), channel names N (t), and validity mask A(t) to window-level repre-sentations {u(t) 
+
+> m
+
+}Mm=1 , retaining a separate output token for each physiological modality. 
+
+Channel Semantics Tokenizer. Raw channel names provide recording identity cues that can inform how physiological signals are modeled. To this end, we develop a channel semantics Tokenizer consists of byte-level embeddings, a convolutional stem, Transformer blocks, and padding-masked pooling followed by layer normalization. For channel c of modality m, its name n(t) 
+
+> m,c
+
+is converted into a UTF-8 byte-token sequence b(t) 
+
+> m,c
+
+= ( b(t)
+
+> m,c, 1
+
+, ..., b (t) 
+
+> m,c,L m,c
+
+), where Lm,c denotes the sequence length, each byte is mapped to a token in {1, ..., 256 }, and 0 is reserved for padding. This byte level representation preserves the original lexical structure, including case, whitespace, punctuation and byte order. The convolutional stem and Transformer blocks encode the byte sequence into contextual states H(t) 
+
+> m,c
+
+∈ RLm,c ×Dn . Then, the encoder Ename provides the channel-name representation: 
+
+h(t) 
+
+> m,c
+
+= LN 
+
+
+
+Mean valid 
+
+
+
+Ename 
+
+
+
+b(t)
+
+> m,c
+
+ 
+
+∈ RDn . (1) To endow h(t) 
+
+> m,c
+
+with physiological semantics, we pretrain the Channel Semantics Tokenizer us-ing structured channel annotations. Specifically, auxiliary heads predict semantic type, derivation, anatomical location, and sensor information, while an alias-contrastive objective aligns different channel names sharing the same semantic signature. For ordered derivations, direction-aware hard negatives further distinguish reversed channel orders. After pretraining, the auxiliary heads are dis-3Semantic-Aware Time Series Representation       
+
+> Time Series Tokenizer Temporal Aggregator Image Generator
+> Morphology Envelope
+> CWT Scalgram
+> STFT Spectrogram Multi-Image Encoder Channel Semantics Tokenizer Adapter Intra-Modality Encoder
+> σσσσσ
+> Aggregation
+> Time-Frequency and Morphology Representation
+> Inter-Modality Encoder
+> VS VS VS
+> Representation Flow Pretraining Supervision Self-Supervised Objective
+> ❄
+> 💾
+> Cross-Modal Alignment
+> Semantic Time Series Multi-View Images
+> Mean Pooling Projection Head Projection Head
+> Image Time Series Positive Pair Negative Pair
+> Concat
+> Cross-Modal Contrastive Learning
+> …
+> RESP
+> Airflow Thorax Abdomen SpO2
+> ECG
+> Lead I Lead II
+> EMG
+> Chin Leg
+> EOG
+> Left Right
+> C3-A2 C4-A1 O1-A2 O2-A1
+> EEG
+> Polysomnography (PSG)
+> ❄/💾 Frozen / Offline
+
+Figure 2: Overall Framework of SemPSG. 
+
+carded, the tokenizer is frozen, and a lightweight adapter learns to incorporate the fixed semantic representations into waveform modeling: 
+
+s(t)
+
+m,c = GELU 
+
+
+
+Wadp LN 
+
+
+
+h(t)
+
+m,c 
+
+
+
++ badp 
+
+
+
+, (2) where s(t)
+
+m,c ∈ RD is trainable semantic conditioning for intra-modality and channel aggregation. 
+
+Intra-Modality Encoder. To model dependencies among channels within each modality, we jointly encode channel and temporal context under semantic conditioning. Each valid channel X(t)
+
+m,c, : is di-vided into P non-overlapping patches {x(t)
+
+m,c,p }Pp=1 , which are mapped by a shared convolutional tokenizer to physiological tokens v(t)
+
+m,c,p = Tts (x(t)
+
+m,c,p ) ∈ RD . The resulting tokens are then pro-cessed by Transformer blocks with semantic modulation and joint channel-temporal self-attention. Channel semantics guide how these physiological tokens interact by conditioning their hidden rep-resentation before self-attention. The semantic representation s(t)
+
+m,c is projected into feature-wise modulation parameters γ(t)
+
+m,c and β(t)
+
+m,c that are shared across all temporal patches of channel c: 
+
+[γ(t)
+
+m,c , β (t)
+
+m,c ] = Wsem s(t)
+
+m,c + bsem , ˜z(t)
+
+m,c,p =
+
+
+
+1 + γ(t)
+
+m,c 
+
+
+
+⊙ LN 
+
+
+
+z(t)
+
+m,c,p 
+
+
+
++ β(t)
+
+m,c , (3) where z(t)
+
+m,c,p denotes the hidden representation of patch p. Self-attention is performed on the modu-lated representations. Applying the shared encoder separately to each modality yields contextualized physiological tokens {z(t)
+
+m,c,p }c,p .To recover local waveform information from intra-modality context, we mask selected valid phys-iological tokens while preserving their channel semantics. A prediction head then reconstructs the masked token representations as ˆvi = Rintra( zi), with the objective 
+
+Lintra = 1
+
+|Ωintra |
+
+X
+
+i∈Ωintra 
+
+[1 − cos( ˆvi, sg( vi))] , (4) where Ωintra denotes the set of valid masked positions, vi is the tokenizer output before masking, and sg( ·) stops gradients through the reconstruction target. After intra-modality encoding, a semantic-aware gate aggregates channel representations into modality-level temporal sequences. For each patch p, the gate score for channel c combines its contextual token z(t)
+
+m,c,p with the projected channel-semantic representation: 
+
+e(t)
+
+m,c,p = w⊤ 
+
+LN 
+
+
+
+z(t)
+
+m,c,p 
+
+
+
++ Wss(t)
+
+m,c 
+
+
+
+. (5) 4The scores are normalized over the valid channels using the channel validity mask A(t), and the contextualized representations are aggregated as 
+
+α(t) 
+
+> m,c,p
+
+= A(t) 
+
+> m,c
+
+exp( e(t)
+
+> m,c,p
+
+)
+
+PCc′=1 A(t) 
+
+> m,c ′
+
+exp( e(t)
+
+> m,c ′,p
+
+) , f (t) 
+
+> m,p
+
+= X
+
+> c
+
+α(t)
+
+> m,c,p
+
+z(t)
+
+> m,c,p
+
+, (6) where f (t) 
+
+> m,p
+
+∈ RD integrates valid channels while retaining the modality and temporal indices. 
+
+Inter-Modality Encoder. To capture dependencies between physiological modalities, we design inter-modality interaction among the aggregated modality-level representation f (t) 
+
+> m,p
+
+at each temporal patch. The Inter-Modality Encoder consists of learnable modality embeddings and a Transformer. For each modality m, a learnable modality embedding em ∈ RD is added to f (t) 
+
+> m,p
+
+to indicate its modality identity. Then, the tokens at p are jointly encoded: 
+
+G(t) 
+
+> p
+
+= Einter 
+
+h 
+
+f (t)1,p + e1, ..., f (t) 
+
+> M,p
+
++ eM
+
+i 
+
+∈ RM ×D . (7) The resulting g(t) 
+
+> m,p
+
+∈ RD denotes the contextualized representation of modality m at temporal position p, while missing modalities are excluded from attention. During pretraining, we further leverage recovery from inter-modality context by masking selected valid modality–temporal representations. For each masked position i, a prediction head reconstructs the corresponding channel-aggregated representation as ˆfi = Rinter (gi), with the objective 
+
+Linter = 1
+
+|Ωinter |
+
+X
+
+> i∈Ωinter
+
+[1 − cos( ˆfi, sg( fi))] , (8) where Ωinter denotes the set of valid masked modality-temporal positions. To obtain window-level representations while preserving modality-specific information, a temporal aggregator independently summarizes each sequence g(t)m, pp = 1 P . The temporal weights are: 
+
+a(t) 
+
+> m,p
+
+= softmax p
+
+
+
+w⊤ 
+
+> temp
+
+LN 
+
+
+
+g(t)
+
+> m,p
+
+ 
+
+, (9) and obtain the corresponding window-level modality representation as u(t) 
+
+> m
+
+= PPp=1 a(t)
+
+> m,p
+
+g(t)
+
+> m,p
+
+.2.2 TIME -F REQUENCY AND MORPHOLOGY ENCODING 
+
+Raw PSG waveforms exhibit heterogeneous temporal characteristics, including multi-scale oscil-lations, localized spectral variations, and waveform morphology. To explicitly capture these com-plementary structures, we construct three image views for each PSG window: a CWT scalogram for scale-dependent oscillatory patterns, an STFT spectrogram for localized spectral content, and a morphology map for local time-domain waveform characteristics. CWT and STFT provide com-plementary time-frequency descriptions (Moca et al., 2021), while the morphology view preserves waveform information beyond spectral transforms. 
+
+Temporal Images Generation. To convert multichannel PSG signals into consistently organized image inputs, the Image Creator consists of channel-wise feature transformations and modality-wise spatial composition. For each valid channel c of modality m, we construct a feature map 
+
+Y(t) 
+
+> v,m,c
+
+= Tv
+
+
+
+X(t)
+
+> m,c, :
+
+
+
+, v ∈ { cwt , stft , morph }, (10) where Tv denotes the corresponding transformation. The CWT and STFT views apply a Morlet wavelet and a Hann analysis window, respectively, followed by the log-power mapping log(1+ |·| 2).To accommodate varying channel configurations while preserving a fixed modality layout, valid channels within each modality are aggregated using nonlearned weights derived from window-level signal statistics. CWT maps are normalized and resized before aggregation, whereas STFT and morphology maps are processed after aggregation. This yields a modality-specific image strip 
+
+J(t) 
+
+> v,m
+
+∈ [0 , 1] H×W , and the complete view is formed by vertically stacking the M modality strips: 
+
+I(t) 
+
+> v
+
+= Concat height 
+
+
+
+J(t)
+
+> v, 1
+
+, ..., J(t)
+
+> v,M
+
+
+
+∈ [0 , 1] (M H )×W . (11) 5Missing modalities retain blank strips and are marked as invalid by spatial validity masks. All transformations are performed offline, and the image set I(t) = {I(t)cwt , I (t)stft , I (t)morph }, together with its validity masks, serves as the input to the Multi-Image Encoder. 
+
+Multi-Image Encoder. To accommodate these differences while learning shared contextual fea-tures, the Multi-Image Encoder consists of view-specific convolutional stems and a parameter-shared Transformer. Each stem ϕv maps its input into spatial tokens R(t) 
+
+> v
+
+= ϕv
+
+
+
+I(t)
+
+> v
+
+
+
+∈ RQ×D , where Q
+
+is the number of spatial patches. A learnable view embedding ev ∈ RD is added to preserve view identity, after which the tokens are passed through a Transformer fimg shared across the three views. We denote the resulting contextualized representation as H(t) 
+
+> v
+
+= fimg (R(t) 
+
+> v
+
++ ev ) ∈ RQ×D .To preserve local structure, we apply masked latent reconstruction to the Multi-Image Encoder. Valid patches are masked before encoding and replaced with a learnable mask token, while a prediction head reconstructs their target latents. For position q in view v, the target is y(t)v, q = R(t)v, q + ev ,obtained from the unmasked image using the same view-specific stem under stop-gradient: 
+
+Lmim = 1
+
+|Ωimg |
+
+X
+
+> i∈Ωimg
+
+[1 − cos( ˆyv,q , sg( yv,q ))] , (12) where Ωimg contains the valid masked positions, ˆyv,q denotes the prediction. Local reconstruction captures view-specific spatial structure but does not explicitly align different transformations of the same PSG window. We therefore introduce cross-view contrastive learning at the representation level. The contextualized tokens are averaged over valid spatial positions: 
+
+r(t) 
+
+> v
+
+= 1
+
+|Q tv |
+
+X
+
+> q∈Q tv
+
+H(t) 
+
+> v,q
+
+, (13) where Qtv denotes the valid spatial positions in view v. Representations from the same PSG window form positive pairs across views, while other eligible windows in the batch provide negatives. For a view pair (v, v ′), let N denote the number of samples for which both views are valid. The directional contrastive loss and its symmetric aggregation are 
+
+Lv→v′ = − 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+log exp(sim( rv,i , rv′,i )/τ )
+
+PNj=1 exp(sim( rv,i , rv′,j )/τ ) , Lview = 1
+
+P
+
+X
+
+> (v,v ′)∈P
+
+Lv→v′ + Lv′→v
+
+2 ,
+
+(14) where rv,i denotes the view-level representation of sample i, sim( ·, ·) is cosine similarity between L2-normalized representations, τ is the temperature, and P =
+
+{(cwt , stft) , (cwt , morph) , (stft , morph) } contains the three complementary view pairs. After cross-view representation learning, the view-level representations are integrated into a single image representation using learned sample-dependent weights: 
+
+a(t) 
+
+> v
+
+= softmax v∈V (t) w⊤ 
+
+> img
+
+LN( r(t) 
+
+> v
+
+), z(t)img = X
+
+> v∈V (t)
+
+α(t) 
+
+> v
+
+r(t) 
+
+> v
+
+∈ RD , (15) where V(t) denotes the set of valid views and wimg ∈ RD is a shared learnable scoring vector. 2.3 CROSS -M ODAL ALIGNMENT : B RIDGING TIME -S ERIES AND IMAGE REPRESENTATIONS 
+
+While multi-image views captures temporal dynamics, the semantic time-series view captures wave-form dynamics and modality structure. To align these two views, we average valid modality rep-resentations only along the alignment pathway and project the pooled time-series and aggregated image representations into a shared contrastive space: 
+
+¯u(t) =
+
+PMm a(t) 
+
+> m
+
+u(t)
+
+> m
+
+PMm a(t)
+
+> m
+
+, q(t)ts = gts 
+
+
+
+¯u(t)
+
+, q(t)img = gimg 
+
+
+
+z(t)img 
+
+
+
+, (16) where a(t) 
+
+> m
+
+indicates the validity of modality m, and gts and gimg are modality projection heads. 6For N paired windows, same-windows form positives and others form negatives. We use cosine similarity between L2-normalized projections to define the cross-modal contrastive objective: 
+
+Lts →img = − 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+log exp(sim( qts ,i , qimg ,i )/τ )
+
+PNj=1 exp(sim( qts ,i , qimg ,j )/τ ) , Lalign = Lts →img + Limg →ts 
+
+2 . (17) The final representation is Z(t) = [ u(t)1 , . . . , u(t) 
+
+> M
+
+, z(t)img ] ∈ R(M +1) ×D , formed by stacking the unprojected time-series and image representations. Combining cross-modal alignment with the re-construction and cross-view objectives, the overall pretraining loss is: 
+
+L = Lintra + λinter Linter + λmim Lmim + Lview + Lalign , (18) where λinter is progressively increased during pretraining to strengthen cross-modal reconstruction, 
+
+λmim controls the contribution of masked image reconstruction. 
+
+## 3 EXPERIMENTS 
+
+We evaluate six downstream tasks, with the four task results in Sections 3.2– 3.6, two tasks results are reported in Appendix A.8.1– A.8.2, and additional results are provided in Appendix A.8.3– A.10. 3.1 DATASET USAGE 
+
+Figure 3: Statistics of the PSG datasets. As shown in Figure 3, we construct a heteroge-neous PSG corpus from 10 cohorts, comprising 37,082 participants, 49,207 recordings, and 409,462 hours of sleep recordings. Pretraining: SemPSG is pretrained on nine cohorts: SHHS (Quan et al., 1997), MrOS (Blackwell et al., 2011), WSC (Young et al., 2009), MESA (Chen et al., 2015), AP-PLES (Quan et al., 2011), CCSHS (Rosen et al., 2003), PN2018 (Ghassemi et al., 2018), HSP-S0001 (Li et al., 2026), and iSLEEPS (Maiti et al., 2026). For cohorts also used downstream, only training subjects are used for pretraining to pre-vent leakage. Downstream Evaluation: We evaluate on SHHS, APPLES, and CFS. SHHS and APPLES assess within-cohort transfer, while CFS (Redline et al., 1995) is excluded from pretraining and serves as an external cohort for cross-dataset generaliza-tion. For SHHS and CFS, we follow the partition protocol of SleepMaMi (Park et al., 2026). 3.2 SLEEP STAGING 
+
+Sleep staging is formulated as a five-class classification task over 30-s PSG epochs. We evaluate both in-cohort generalization on SHHS1 and cross-dataset generalization on the unseen CFS cohort. As shown in Table 1, SemPSG consistently outperforms other sleep foundation models across both datasets and all metrics, with the largest gain on SHHS1, improving Kappa by 5.2 percentage points over SleepMaMi. General-purpose time-series models remain competitive, with Zeus performing particularly well on CFS, indicating that generic temporal representations capture useful staging information. SemPSG further improves performance by explicitly modeling intra-modality channel dependencies and inter-modality physiological interactions. 3.3 SLEEP -D ISORDERED BREATHING ANALYSIS 
+
+We evaluate sleep-disordered breathing (SDB) using two downstream tasks, SDB classification and apnea–hypopnea index (AHI) regression. SDB classification identifies normal and disordered breathing on a second-by-second basis, whereas AHI regression estimates overall respiratory dis-turbance severity at the recording level. As shown in Tables 2, SemPSG performs strongly on the SDB classification, which improves Macro-F1 by 9.6 percentage points over the second-best model SleepMaMi. For the experimental results of AHI regression, please see Appendix A.8.1 7Table 1: Sleep staging performance on SHHS1 and CFS. All metrics are reported as percentages. 
+
+Dataset Category Model Accuracy ↑ Kappa ↑ Macro-F1 ↑
+
+SHHS1 General-purpose TSFM MOMENT 79.4 70.0 65.6 UniTS 64.2 53.3 59.2 Zeus 79.2 70.5 69.5 EEG Foundation Model LaBraM 70.2 55.7 54.1 Sleep Foundation Model SleepFM 69.7 55.9 56.3 SleepMaMi 81.9 70.0 74.1 SemPSG 82.4 75.2 74.6 
+
+CFS General-purpose TSFM MOMENT 71.4 56.7 52.4 UniTS 64.1 53.3 58.1 Zeus 80.8 72.9 69.7 EEG Foundation Model LaBraM 77.5 67.3 61.8 Sleep Foundation Model SleepFM 71.1 57.5 57.4 SleepMaMi 80.7 72.9 71.2 SemPSG 81.9 74.8 73.6 
+
+Table 2: Sleep-disordered breathing classification performance on SHHS1 and CFS. 
+
+Dataset Category Model Accuracy ↑ Macro-F1 ↑
+
+SHHS1 General-purpose TSFM MOMENT 73.4 33.4 UniTS 88.2 48.8 EEG Foundation Model LaBraM 50.2 20.4 Sleep Foundation Model SleepFM 77.5 39.4 SleepMaMi 77.3 60.6 SemPSG 83.5 70.2 
+
+CFS General-purpose TSFM MOMENT 74.2 38.5 UniTS 85.5 40.0 EEG Foundation Model LaBraM 47.0 41.7 Sleep Foundation Model SleepFM 82.1 46.6 SleepMaMi 79.9 66.1 SemPSG 86.5 69.4 
+
+3.4 DISEASE PREDICTION 
+
+We evaluate whether the learned PSG representations transfer to downstream disease prediction. Based on the outcomes available in SHHS1, we consider six cardiovascular and cerebrovascular endpoints: angina, CVD death, CHF, CHD death, MI, and stroke. Performance is evaluated using the concordance index (C-index). As shown in Table 3, SemPSG achieves the highest C-index for four of the six outcomes, including CVD death, CHF, CHD death, and stroke. The largest gains are observed for CHD death and CVD death, where SemPSG outperforms the second-best model, SleepFM, by 7.2% and 5.7%, respectively. Its leading performance on CHF and stroke further indicates that the gains extend across multiple cardiovascular and cerebrovascular endpoints. 3.5 COGNITION AND AFFECTIVE ASSESSMENT 
+
+We assess cognitive and affective information in the learned PSG representations via HAM-D and WASI score prediction on APPLES. As shown in Table 4, SemPSG achieves the lowest MAE on both tasks, reducing MAE by 6.0% for HAM-D and 6.5% for WASI over the second-best SleepFM. These results demonstrate that SemPSG preserves information relevant to both affective symptoms and cognitive function beyond conventional sleep outcomes. 3.6 MODALITY SEMANTICS VISUALIZATION 
+
+8Table 3: Disease prediction performance measured on SHHS1. 
+
+Category Models Disease Outcomes Angina CVD Death CHF CHD Death MI Stroke 
+
+C-Index ↑
+
+General-purpose TSFM MOMENT 0.676 0.698 0.692 0.689 0.584 0.609 UniTS 0.593 0.640 0.636 0.667 0.579 0.620 Sleep Foundation Model SleepFM 0.632 0.791 0.764 0.781 0.636 0.729 SleepMaMi 0.778 0.788 0.793 0.776 0.662 0.718 SemPSG 0.727 0.836 0.798 0.837 0.660 0.751 
+
+Table 4: Cognition and affective assessment performance on APPLES. 
+
+Dataset Category Model HAM-D MAE ↓ WASI MAE ↓
+
+APPLES General-purpose TSFM MOMENT 3.15 9.12 UniTS 3.13 8.86 Sleep Foundation Model SleepFM 3.02 8.56 SleepMaMi 3.05 9.88 SemPSG 2.84 8.00 
+
+Figure 4: Channel and modality semantics visualization. Left: Pairwise cosine similarity between learned channel-semantic embeddings. Right: Learned channel-gating weights over a 30-s window for EEG, ECG, and EMG under the original and shuffled channel-name assignments. 
+
+Figure 5: UMAP of channel semantic embeddings across modalities. We visualize the representation of channel semantics tok-enizer to explain the semantics of PSG. We assess the ef-fect of channel semantics on channel fusion by shuffling channel-name assignments while keeping waveforms un-changed. As shown in Figure 4 (right), the gating patterns change for EEG, ECG, and EMG, demonstrating that channel-name semantics directly influence intra-modality channel weighting. Figure 4 (left) shows that channels within the same physiological modality generally exhibit higher semantic similarity. Figure 5 reveals finer-grained intra-modality structure. For example, respiratory chan-nels form distinct subregions rather than collapsing into a single cluster, indicating that the learned space captures both modality-level and channel-specific semantics. 94 CONCLUSION 
+
+In this work, we present SemPSG , a semantic-aware foundation model for learning generalizable representations from heterogeneous PSG recordings. SemPSG integrates channel semantics, cap-tures both intra- and inter-modality dependencies, and aligns waveform and image representations in a shared representation space. Experiments across a broad range of downstream tasks show that the learned representations transfer effectively across different prediction settings, supporting the use of SemPSG as a general-purpose foundation model for sleep and physiological signal analysis. AI USE STATEMENT 
+
+Generative AI tools were used to assist with language polishing and with limited implementation and code-related tasks, including code editing and debugging. The research methodology, model architecture, experimental design, and interpretation of results were developed by the authors. ETHICS STATEMENT 
+
+This study uses de-identified PSG recordings from publicly available datasets and involves no new human-subject data collection. Ethical approval and informed consent for the original studies were obtained by the respective institutions, and all datasets were used in accordance with their access and usage requirements. 
+
+## REFERENCES 
+
+Terri Blackwell, Kristine Yaffe, Sonia Ancoli-Israel, Susan Redline, Kristine E Ensrud, Marcia L Stefanick, Alison Laffan, Katie L Stone, and Osteoporotic Fractures in Men Study Group. Associations between sleep architecture and sleep-disordered breathing and cognition in older community-dwelling men: the osteoporotic fractures in men sleep study. Journal of the American Geriatrics Society , 59(12):2217–2225, 2011. Xiaoli Chen, Rui Wang, Phyllis Zee, Pamela L Lutsey, Sogol Javaheri, Carmela Alc´ antara, Chan-dra L Jackson, Michelle A Williams, and Susan Redline. Racial/ethnic differences in sleep dis-turbances: the multi-ethnic study of atherosclerosis (mesa). Sleep , 38(6):877–888, 2015. Mingyue Cheng, Xiaoyu Tao, Zhiding Liu, Qi Liu, Hao Zhang, Rujiao Zhang, and Enhong Chen. Timemae: Self-supervised representations of time series with decoupled masked autoencoders. In 
+
+Proceedings of the Nineteenth ACM International Conference on Web Search and Data Mining ,pp. 498–508, 2026. Jiaxiang Dong, Haixu Wu, Haoran Zhang, Li Zhang, Jianmin Wang, and Mingsheng Long. SimMTM: A simple pre-training framework for masked time-series modeling. Advances in Neu-ral Information Processing Systems , 36:29996–30025, 2023. Yisong Fu, Zezhi Shao, Chengqing Yu, Yujie Li, Yongjun Xu, Xueqi Cheng, and Fei Wang. Zeus: Towards tuning-free foundation model for time series analysis. In ICML , 2026. Shanghua Gao, Teddy Koker, Owen Queen, Thomas Hartvigsen, Theodoros Tsiligkaridis, and Marinka Zitnik. UniTS: A unified multi-task time series model. Advances in Neural Information Processing Systems , 37:140589–140631, 2024. Mohammad M Ghassemi, Benjamin E Moody, Li-Wei H Lehman, Christopher Song, Qiao Li, Haoqi Sun, Roger G Mark, M Brandon Westover, and Gari D Clifford. You snooze, you win: the physionet/computing in cardiology challenge 2018. In 2018 Computing in Cardiology Conference (CinC) , volume 45, pp. 1–4. IEEE, 2018. Mononito Goswami, Konrad Szafer, Arjun Choudhry, Yifu Cai, Shuo Li, and Artur Dubrawski. MO-MENT: A family of open time-series foundation models. In Proceedings of the 41st International Conference on Machine Learning , pp. 16115–16152, 2024. 10 Weixuan Huang, Yan Wang, Hanrong Cheng, Wei Xu, Tingyue Li, Xiuwen Wu, Hui Xu, Pan Liao, Zaixu Cui, Qihong Zou, et al. A unified time-frequency foundation model for sleep decoding. 
+
+Nature Communications , 17(1):1198, 2026. Wei-Bang Jiang, Liming Zhao, and Bao-Liang Lu. Large brain model for learning generic represen-tations with tremendous eeg data in bci. In International Conference on Learning Representations ,2024. Magnus Ruud Kjaer, Umaer Hanif, Andreas Brink-Kjaer, Mads Olsen, Oliver Sum-Ping, Oscar Car-rillo, Scott A Sands, Susan Redline, Katie L Stone, Poul Jennum, et al. Expert-level probabilistic breathing event detector informs phenotyping of sleep apnea. Nature Communications , 17(1): 2548, 2026. Elena Krugliakova, Friederike Breuer, Nico Adelh¨ ofer, Alejandra Alonso, Luciana Besedovsky, Keith Murphy, Emma Peters, Karolina Raczek, Bj¨ orn Rasch, Leila Salvesen, Sophia Snipes, Sarah Schoch, Thomas Schreiner, Rick Wassing, Til Ole Bergmann, and Martin Dresler. Hacking the functions of sleep: noninvasive approaches to stimulate sleep neurophysiology. Physiological Reviews , 106(2):675–749, 2026. Hyojin Lee, You Rim Choi, Hyun Kyung Lee, Jaemin Jeong, Joopyo Hong, Hyun-Woo Shin, and Hyung-Sin Kim. Explainable vision transformer for automatic visual sleep staging on multimodal psg signals. NPJ digital medicine , 8(1):55, 2025. Qichen Li, Shenghan Wen, Haoqi Sun, Wolfgang Ganglberger, Ayush Tripathi, Niels Turley, Samuel Waters, Arnav Gupta, Aditya Gupta, Manohar Ghanta, et al. The human sleep project: A multi-center clinical polysomnography dataset across the human lifespan. Sleep , pp. zsag215, 2026. Yong Liu, Haoran Zhang, Chenyu Li, Xiangdong Huang, Jianmin Wang, and Mingsheng Long. Timer: Generative pre-trained transformers are large time series models. In Forty-first Interna-tional Conference on Machine Learning , 2024. Jiaming Ma, Qihe Huang, Haofeng Ma, Guanjun Wang, Sheng Huang, Zhengyang Zhou, Pengkun Wang, Xu Wang, Binwu Wang, and Yang Wang. PHAT: Modeling period heterogeneity for multivariate time series forecasting. In International Conference on Learning Representations ,volume 2026, pp. 135659–135685, 2026. Shuo Ma, Yingwei Zhang, Yiqiang Chen, Hualei Wang, Yuan Jin, Wei Zhang, and Ziyu Jia. Sleepsmc: Ubiquitous sleep staging via supervised multimodal coordination. In International Conference on Learning Representations , volume 2025, pp. 24170–24191, 2025. Suvadeep Maiti, Shivam Kumar Sharma, S Mythirayee, Srijithesh Rajendran, and Raju S Bapi. Polysomnography dataset for sleep analysis in ischemic stroke patients. Scientific Data , 13(1): 421, 2026. Vasile V Moca, Harald Bˆ arzan, Adriana Nagy-D˘ abˆ acan, and Raul C Mures , an. Time-frequency super-resolution with superlets. Nature communications , 12(1):337, 2021. Yuqi Nie, Nam H Nguyen, Phanwadee Sinthong, and Jayant Kalagnanam. A time series is worth 64 words: Long-term forecasting with transformers. In The Eleventh International Conference on Learning Representations , 2023. Keondo Park, Younghoon Na, Yourim Choi, Hyunwoo Ryu, Hyun-Woo Shin, and Hyung-Sin Kim. Sleepmami: A universal sleep foundation model for integrating macro- and micro-structures. In 
+
+Proceedings of the International Conference on Machine Learning (ICML) , 2026. Huy Phan, Oliver Y Ch´ en, Minh C Tran, Philipp Koch, Alfred Mertins, and Maarten De Vos. Xsleep-net: Multi-view sequential model for automatic sleep staging. IEEE Transactions on Pattern Analysis and Machine Intelligence , 44(9):5903–5915, 2021. Stuart F Quan, Barbara V Howard, Conrad Iber, James P Kiley, F Javier Nieto, George T O’Connor, David M Rapoport, Susan Redline, John Robbins, Jonathan M Samet, et al. The sleep heart health study: design, rationale, and methods. Sleep , 20(12):1077–1085, 1997. 11 Stuart F Quan, Cynthia S Chan, William C Dement, Alan Gevins, James L Goodwin, Daniel J Gottlieb, Sylvan Green, Christian Guilleminault, Max Hirshkowitz, Pamela R Hyde, et al. The association between obstructive sleep apnea and neurocognitive performance—the apnea positive pressure long-term efficacy study (apples). Sleep , 34(3):303–314, 2011. Susan Redline, Peter V Tishler, Tor D Tosteson, John Williamson, Kenneth Kump, Ilene Browner, Veronica Ferrette, and Patrick Krejci. The familial aggregation of obstructive sleep apnea. Amer-ican journal of respiratory and critical care medicine , 151(3 Part 1):682–687, 1995. Carol L Rosen, Emma K Larkin, H Lester Kirchner, Judith L Emancipator, Sarah F Bivins, Susan A Surovec, Richard J Martin, and Susan Redline. Prevalence and risk factors for sleep-disordered breathing in 8-to 11-year-old children: association with race and prematurity. Journal of Pedi-atrics , 142(4):383–389, 2003. Zitao Shuai, Zongzhe Xu, David Yang, Wei Wang, and Yuzhe Yang. OSF: On pre-training and scal-ing of sleep foundation models. In Forty-third International Conference on Machine Learning ,2026. Rahul Thapa, Bryan He, Magnus Ruud Kjaer, Hyatt Moore IV, Gauri Ganjoo, Emmanuel Mignot, and James Zou. Sleepfm: Multi-modal representation learning for sleep across brain activity, ecg, and respiratory signals. In Proceedings of the 41st International Conference on Machine Learning , volume 235 of Proceedings of Machine Learning Research , pp. 48019–48037. PMLR, 2024. Rahul Thapa, Magnus Ruud Kjaer, Bryan He, Ian Covert, Hyatt Moore, IV, Umaer Hanif, Gauri Ganjoo, M. Brandon Westover, Poul Jennum, Andreas Brink-Kjaer, et al. A multimodal sleep foundation model for disease prediction. Nature Medicine , pp. 1–11, 2026. M.M. Troester, S.F. Quan, American Academy of Sleep Medicine, and R.B. Berry. The AASM Manual for the Scoring of Sleep and Associated Events, Version 3 . American Academy Of Sleep Medicine, 2023. ISBN 9780970613714. Jiquan Wang, Sha Zhao, Haiteng Jiang, Shijian Li, Tao Li, and Gang Pan. Generalizable sleep staging via multi-level domain alignment. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 38, pp. 265–273, 2024. Zongzhe Xu, Zitao Shuai, Eideen Mozaffari, Ravi S Aysola, Rajesh Kumar, and Yuzhe Yang. SleepLM: Natural-language intelligence for human sleep. In Forty-Third International Confer-ence on Machine Learning , 2026. Terry Young, Mari Palta, Jerome Dempsey, Paul E Peppard, F Javier Nieto, and K Mae Hla. Burden of sleep apnea: rationale, design, and major findings of the wisconsin sleep cohort study. WMJ: official publication of the State Medical Society of Wisconsin , 108(5):246, 2009. Weixuan Yuan, Zengrui Jin, Yichen Wang, Donglin Xie, Ziyi Ye, Chao Zhang, et al. sleep2vec: Unified cross-modal alignment for heterogeneous nocturnal biosignals. In The Fourteenth Inter-national Conference on Learning Representations , 2026. Zhihan Yue, Yujing Wang, Juanyong Duan, Tianmeng Yang, Congrui Huang, Yunhai Tong, and Bixiong Xu. TS2Vec: Towards universal representation of time series. In Proceedings of the AAAI conference on artificial intelligence , volume 36, pp. 8980–8987, 2022. Zhe Zhao, Pengkun Wang, Haibin Wen, Shuang Wang, Liheng Yu, and Yang Wang. STEM-LTS: Integrating semantic-temporal dynamics in llm-driven time series analysis. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 39, pp. 22858–22866, 2025. 12 A APPENDIX 
+
+A.1 RELATED WORK 
+
+Time-Series Representation Learning aims to extract generalizable features from sequential data that can be transferred across downstream tasks. To reduce the dependence on task-specific anno-tations, self-supervised learning has become a widely adopted paradigm, with representative ap-proaches based on temporal-view consistency (Yue et al., 2022; Ma et al., 2026) and masked recon-struction (Dong et al., 2023; Cheng et al., 2026; Zhao et al., 2025). More recently, general-purpose time series foundation models have further scaled representation learning to heterogeneous datasets and tasks. For example, MOMENT (Goswami et al., 2024) learns generalizable representations through large-scale masked pretraining, while UniTS (Gao et al., 2024) adopts a unified architecture across different time series tasks. These models demonstrate the potential of large-scale pretrain-ing in general-purpose time series analysis, but they are not specifically designed to capture the structured physiological information associated with PSG channels. 
+
+Foundation Models for Polysomnography Analysis have recently emerged to exploit the het-erogeneous physiological signals and temporally structured sleep patterns in PSG. For instance, SleepFM (Thapa et al., 2026) learns representations through contrastive learning across physiolog-ical signals, while SleepMami (Park et al., 2026) models sleep patterns at multiple temporal scales. Other studies have explored representation learning across heterogeneous nocturnal biosignals (Yuan et al., 2026) and channel-adaptive time-frequency modeling (Huang et al., 2026), further broadening the range of PSG signal settings considered. Despite these advances, existing approaches do not ex-plicitly represent PSG channel identity through its structured physiological attributes, such as signal type, recording location, and reference configuration. This limits their ability to exploit semantics among channels and transfer knowledge across heterogeneous channel configurations. A.2 PRELIMINARIES 
+
+PSG Signals . A PSG (Polysomnography) signal R contains synchronized physiological time-series signals from five modalities M = {EEG, EOG, EM G, ECG, RESP }. We divide each record-ing into non-overlapping 30s windows {W (t)}Tt=1 . For the t-th window, the time series signals are represented as X(t) ∈ RM ×C×S , where M = 5 , C is the padded channel dimension, and 
+
+S is the number of samples per channel. The corresponding raw channel names are denoted by 
+
+N (t) = {n(t)
+
+> m,c
+
+}, with the channel validity indicated by A(t) ∈ { 0, 1}M ×C . Each window is also associated with V = 3 image views I(t) = {I(t) 
+
+> v
+
+}Vv=1 derived from the same physiological signals. Thus, each PSG window is represented as W(t) = ( X(t), N (t), I(t), A (t)).
+
+Problem Formulation . Given a PSG window Wt, our goal is to learn a foundation model fθ that maps its time series signals, channel name, and image views to a unified representation, Z(t) =
+
+fθ (W(t)) = [ u(t)1 , ..., u(t) 
+
+> M
+
+, z(t) 
+
+> img
+
+], where Z(t) ∈ R(M +1) ×D , u(t) 
+
+> m
+
+∈ RD denotes the representation of physiological modality m, and z(t) 
+
+> img
+
+∈ RD denotes the image representation. The foundation model is pretrained on unlabeled PSG windows with self-supervised objectives that capture local physiological structure and promote consistency across time-series and image representations. A.3 PHYSIOLOGICAL MODALITIES AND CHANNEL ORGANIZATION IN PSG PSG provides a multimodal view of sleep by jointly recording neurophysiological and cardiores-piratory activity. We organize the recorded signals into five physiological modalities: electroen-cephalography (EEG), electrooculography (EOG), electromyography (EMG), electrocardiography (ECG), and respiration (RESP). 
+
+Neurophysiological Signals. EEG, EOG, and EMG jointly characterize brain activity, eye move-ments, and muscle tone during sleep, providing complementary information about neurophysiolog-ical states. 
+
+Cardiorespiratory Signals. ECG captures cardiac activity and autonomic variations, while RESP may include airflow, thoracic and abdominal effort, and SpO 2, jointly characterizing respiratory dynamics during sleep. 13 Channel Organization. Each modality may contain multiple channels with different recording locations, derivations, and sensor characteristics. We retain these channel-level distinctions within a consistent modality space, motivating the modeling of both intra-modality channel dependencies and inter-modality physiological interactions. 
+
+Figure 6: Statistics and demographic characteristics of the PSG datasets used in this study. For each cohort, we report its usage in pretraining and downstream evaluation, the number of patients and PSG recordings, and the distributions of gender and age groups. SHHS and APPLES are used for both pretraining and downstream evaluation, CFS is reserved exclusively for downstream evaluation, and the remaining cohorts are used for pretraining. The colored bars visualize the demographic composition of each cohort. A.4 DATASET DETAILS 
+
+We pretrain SemPSG on multiple PSG cohorts collected from diverse populations and recording settings to expose the model to substantial variation in physiological signals, participant character-istics, and channel configurations during representation learning. As summarized in Figure 6, the pretraining corpus includes SHHS (Quan et al., 1997), MrOS (Blackwell et al., 2011), WSC (Young et al., 2009), MESA (Chen et al., 2015), APPLES (Quan et al., 2011), CCSHS (Rosen et al., 2003), PN2018 (Ghassemi et al., 2018), HSP-S0001 (Li et al., 2026), and iSLEEPS (Maiti et al., 2026). These cohorts differ markedly in scale, demographic composition, clinical characteristics, acquisi-tion environments, and PSG channel configurations SHHS and APPLES contribute to both pretrain-ing and downstream evaluation, with evaluation subjects excluded from representation learning to prevent information leakage. The remaining cohorts are used exclusively for pretraining, further broadening the diversity of the training distribution. For downstream evaluation, we additionally include CFS (Redline et al., 1995), which is completely excluded from pretraining and therefore serves as an unseen cohort for assessing cross-dataset generalization. Below, we describe the char-acteristics of each cohort and its specific role in our experimental setup. • Sleep Heart Health Study (SHHS) . SHHS is a large-scale cohort study containing overnight PSG recordings together with extensive demographic and clinical information. The recordings provide multiple physiological signals covering neurophysiological, car-diac, and respiratory activity. In this study, SHHS is included in the pretraining corpus and is also used for downstream evaluation. Subjects assigned to downstream test sets are kept separate from the recordings used for representation learning. • MrOS Sleep Study (MrOS) . The MrOS Sleep Study is an ancillary study of the Osteo-porotic Fractures in Men cohort and contains overnight PSG recordings from community-dwelling older men. The sleep assessment includes unattended home PSG with neuro-14 physiological, cardiac, and respiratory measurements, providing recordings from an older population and a home-based acquisition setting. We include MrOS as part of the pretrain-ing corpus. • Multi-Ethnic Study of Atherosclerosis (MESA) . MESA includes overnight sleep record-ings collected as part of a population-based study of cardiovascular health. Its PSG record-ings contain signals from multiple physiological modalities and provide additional variation in participant characteristics and recording configurations. We include MESA as part of the pretraining corpus. • Wisconsin Sleep Cohort (WSC) . WSC is a longitudinal observational study established to investigate the prevalence, causes, and consequences of sleep disorders in adults. It includes repeated overnight in-laboratory PSG recordings collected from community-dwelling par-ticipants, together with extensive demographic and clinical information. The cohort there-fore contributes longitudinal PSG data and additional variation in participant characteristics and recording sessions. We include WSC as part of the pretraining corpus. • Apnea Positive Pressure Long-term Efficacy Study (APPLES) . APPLES is a multicen-ter clinical study of obstructive sleep apnea originally conducted to investigate the long-term effects of continuous positive airway pressure therapy. The dataset contains diagnostic PSG recordings together with demographic, clinical, and neurocognitive information from participants with suspected or diagnosed obstructive sleep apnea. In this study, APPLES is included in the pretraining corpus and is also used for downstream evaluation. Sub-jects assigned to downstream test sets are excluded from pretraining to maintain separation between representation learning and evaluation. • Cleveland Children’s Sleep and Health Study (CCSHS) . CCSHS is a population-based cohort established to investigate sleep and sleep-disordered breathing in children and ado-lescents. The available TREC visit includes full overnight laboratory PSG recordings with multiple physiological signals, introducing a younger population and a laboratory-based recording setting into the pretraining data. We include CCSHS as part of the pretraining corpus. • PhysioNet/Computing in Cardiology Challenge 2018 (PN2018) . PN2018 contains overnight PSG recordings collected from subjects monitored in the Massachusetts Gen-eral Hospital sleep laboratory for the diagnosis of sleep disorders. The recordings include multiple physiological signals together with expert annotations of sleep stages and sleep-related arousals. We use the physiological recordings for self-supervised pretraining, with-out relying on the accompanying task annotations. • Human Sleep Project (HSP). The Human Sleep Project is a large-scale clinical sleep database containing overnight PSG recordings collected from patients undergoing sleep assessment. In this study, we use the HSP-S0001 subset, which provides multichannel physiological recordings from a clinical sleep population and further expands the diversity of recording conditions and channel configurations represented in the pretraining corpus. HSP-S0001 is used exclusively for pretraining. • iSLEEPS. iSLEEPS is a clinical PSG dataset collected from patients with ischemic stroke at the National Institute of Mental Health and Neurosciences in India. It contains full-night PSG recordings acquired in a clinical setting, together with expert sleep-stage annotations, respiratory events, and associated demographic and clinical information. The recordings capture multiple physiological signals across neurophysiological, cardiac, and respiratory modalities, providing PSG data from a population with underlying neurological conditions. Compared with population-based sleep cohorts, iSLEEPS introduces additional variation in participant characteristics, disease status, and recording conditions. We include iSLEEPS exclusively in the pretraining corpus to broaden the physiological and clinical diversity encountered during representation learning and to expose SemPSG to heterogeneous PSG patterns. • Cleveland Family Study (CFS). CFS is a family-based cohort established to investigate the familial aggregation of sleep apnea and related physiological characteristics. The study includes participants from a broad age range, with full overnight PSG available from the later study visit. In our experiments, CFS is used exclusively for downstream evaluation and is not included in the pretraining corpus, ensuring that its recordings remain unseen during representation learning. 15 A.5 ALGORITHMS 
+
+Algorithm 1 Channel semantics tokenizer Pretraining 1: procedure TRAIN SEMANTICS (Dname , R)2: Initialize encoder Tϕ and semantic heads Cψ
+
+3: for each batch (N, Y, A ) do 
+
+4: h ← Tϕ(N ); z ← Normalize( h)
+
+5: Lsem ← SEMANTIC LOSS (Cψ (h), Y, A ) ▷ Attribute supervision 6: Lalias ← ALIAS CONTRAST (z, R) ▷ Alias consistency 7: Ldir ← DIRECTION LOSS (Tϕ, N, R) ▷ Ordered derivations 8: L ← L sem + Lalias + λdir Ldir 
+
+9: Update (ϕ, ψ ) to minimize L
+
+10: end for 
+
+11: return validation-selected Tϕ
+
+12: end procedure Algorithm 2 SemPSG Pretraining Overview 1: procedure PRETRAIN PSGFM( D, T ϕ)2: Freeze Tϕ; initialize trainable parameters θ
+
+3: Prepare CWT, STFT, and morphology views 4: for each batch (X, N, I, A ) at step s do 
+
+5: (U, Lintra , Linter ) ← ENCODE SIGNALS (X, N, A )
+
+6: (R, z img , Lmim ) ← ENCODE IMAGES (I, A )
+
+7: Lview ← VIEW CONTRAST (R) ▷ Across image views 8: Lalign ← ALIGN (U, z img , A ) ▷ Signals and images 9: L ← L intra + λinter (s)Linter + λmim Lmim + Lview + Lalign 
+
+10: Update θ to minimize L
+
+11: end for 
+
+12: return fθ
+
+13: end procedure 
+
+14: function ENCODE SIGNALS (X, N, A )15: E ← Adapter( Tϕ(N )) ; V ← TOKENIZE (X)
+
+16: (H, Lintra ) ← MASKED INTRA (V, E, A ) ▷ Within modalities 17: F ← SEMANTIC POOL (H, E, A ) ▷ Across channels 18: (G, Linter ) ← MASKED INTER (F, A ) ▷ Across modalities 19: U ← TEMPORAL POOL (G, A )
+
+20: return (U, Lintra , Linter )
+
+21: end function 
+
+Figure 7: Channel semantics tokenizer training process. 16 A.6 BASELINES 
+
+We compare SemPSG with representative pretrained models from three categories, including general-purpose time-series foundation models, sleep-specific foundation models, and EEG foun-dation models where applicable. The general-purpose baselines include UniTS (Gao et al., 2024), MOMENT (Goswami et al., 2024), and Zeus (Fu et al., 2026), while the sleep-specific baselines include SleepFM (Thapa et al., 2026) and SleepMaMi (Park et al., 2026). LaBraM (Jiang et al., 2024) is additionally included as an EEG foundation model for tasks where it is applicable. Since not all pretrained models support every downstream setting, the exact set of baselines varies across tasks. All methods are evaluated using the same downstream data splits and task-specific evaluation protocols. • UniTS . UniTS is a general-purpose time-series model designed to handle multiple pre-dictive and generative tasks within a unified architecture. It introduces task tokenization to represent different task specifications and employs a shared Transformer backbone to learn transferable representations from heterogeneous time-series datasets spanning differ-ent domains, sampling rates, and temporal scales. The pretrained model can be adapted to downstream tasks such as classification, forecasting, imputation, and anomaly detec-tion. In our implementation, we load the released UniTS x128 pretrained backbone and keep it frozen, using ten fixed zero prompt tokens and masked mean pooling over valid chunks, patches, and channels to obtain 128-dimensional representations for downstream evaluation. • MOMENT . MOMENT is a family of general-purpose time-series foundation models pre-trained on the Time Series Pile, a large collection of publicly available time-series datasets from diverse domains. Its pretraining framework is designed to learn transferable tem-poral representations that can be adapted to a range of downstream tasks under limited supervision, including classification, forecasting, imputation, and anomaly detection. We load the pretrained MOMENT-base checkpoint through the official package in embedding mode, freeze the encoder, and apply masked mean pooling over valid chunks, patches, and channels to obtain 768-dimensional representations for each 30-second epoch. • Zeus . Zeus is a general-purpose time-series foundation model developed for tuning-free adaptation across heterogeneous analysis tasks. It combines point-wise tokenization with a multi-scale Transformer organized in a U-shaped hierarchy and introduces multi-objective temporal masking to capture temporal information required by different tasks within a shared pretrained model. This design enables the same model to perform multiple down-stream tasks without task-specific fine-tuning. We use the official pretrained checkpoint as a frozen feature extractor, concatenating temporally pooled features from its five hidden-state scales and averaging across signal chunks and channels under our downstream protocol. • LaBraM . LaBraM is an EEG foundation model designed to learn transferable represen-tations across heterogeneous EEG datasets. It partitions multichannel EEG signals into channel-wise patches and uses a vector-quantized neural tokenizer to convert continuous EEG segments into discrete neural codes, after which a Transformer is pretrained to re-cover the codes of masked EEG patches. Because LaBraM is specifically designed for EEG rather than complete PSG recordings, we include it only for downstream tasks in which the required EEG inputs are available. • SleepFM . SleepFM is a multimodal sleep foundation model pretrained on large-scale PSG recordings spanning EEG, ECG, EMG, and respiratory signals. It adopts a channel-agnostic architecture together with leave-one-out contrastive learning to learn across heterogeneous PSG configurations, encouraging representations from one physiological modality to align with information from the remaining modalities. The pretrained repre-sentations are designed to support transfer across sleep-related and clinical prediction tasks. We load the released SleepFM checkpoint with its accompanying model configuration and freeze the encoder, applying its spatial and temporal attention pooling within each modality and concatenating the resulting modality representations into a 512-dimensional vector. • SleepMaMi . SleepMaMi is a sleep foundation model that jointly captures short-term phys-iological patterns and long-range sleep structure through a hierarchical dual-encoder archi-tecture. Its Micro-Encoder models fine-grained biosignal characteristics using masked au-17 toencoding and multimodal contrastive learning, while its Macro-Encoder captures longer-term sleep dynamics and incorporates demographic-guided contrastive learning. This hier-archical design provides representations at both local physiological and extended temporal scales. We use the official pretrained checkpoint with frozen parameters, following its channel and filtering conventions while adapting inference to complete nights and concate-nating macro- and micro-encoder features into 3328-dimensional epoch representations. A.7 IMPLEMENTATION 
+
+SemPSG is pretrained on 8 × Ascend NPUs using AdamW with a learning rate of 10 −4 and a global batch size of 64. The pretrained encoder is frozen for downstream evaluation, where task-specific linear heads are trained. 
+
+Input processing . PSG recordings are processed as 30-s windows at 128 Hz, yielding 3,840 sam-ples per channel. Continuous signals are normalized per channel at the recording level, without additional window-level normalization or clipping. Oxygen saturation values are scaled by 0.01. Each waveform is divided into patches of 64 samples, resulting in 60 temporal tokens per channel. Channels are organized into five modality groups: EEG, EOG, EMG, ECG, and RESP. Validity masks identify missing channels and modalities. 
+
+Model configuration . The intra-modality and inter-modality encoders each use two Transformer layers with a hidden dimension of 128, four attention heads, a feed-forward dimension of 2,048, and a dropout rate of 0.1. The separately pretrained channel-name encoder remains frozen throughout PSG pretraining, while the semantic adapter is trainable. The image branch receives three grayscale views of size 160 × 160 , each arranged into five modality strips of height 32. The CWT view uses real Morlet wavelets with 32 geometrically spaced scales from 1 to 128. The STFT view uses a 256-sample Hann window with a hop size of 64, and the morphology view uses 80 temporal bins. Images are generated offline. The image encoder uses view-specific stems of width 64, 16 × 16 
+
+patches, and a shared two-layer Transformer with the same hidden dimension, attention head count, feed-forward dimension, and dropout as the waveform encoders. The final window representation consists of six 128-dimensional tokens, one for each physiological modality and one for the image branch. Invalid output tokens are zeroed, and their validity masks are retained. 
+
+Pretraining . SemPSG is pretrained on eight Ascend NPUs in FP32 using AdamW with a learning rate of 10 −4 and weight decay of 0.01. The batch size is eight windows per device, giving a global batch size of 64 without gradient accumulation. We use 2,000 warmup steps followed by cosine learning-rate decay and clip the gradient norm at 1.0. Training runs for 80,245 optimizer steps with random seed 42. The masking probabilities for channel-level temporal tokens, modality-level temporal tokens, and image patches are 0.35, 0.25, and 0.40, respectively. Masking is applied only to valid tokens. The contrastive temperature is 0.07. Validation is performed every 5,000 steps using at most 20 global batches of 64 windows. For checkpoint selection, the validation weights for intra-modality reconstruction, inter-modality reconstruction, image reconstruction, cross-view contrast, and waveform-image alignment are (1 , 1, λ mim , 1, 1) , respectively. 
+
+Downstream adaptation . The entire pretrained encoder is frozen during downstream evaluation, and only task-specific prediction heads are trained on cached representations. For window-level linear probes, the six output tokens are concatenated into a 768-dimensional feature vector. A.8 ADDITIONAL EXPERIMENTAL RESULTS 
+
+Figure 8 provides an overall comparison across six downstream task groups, including sleep stag-ing, sleep-disordered breathing analysis, AHI regression, disease prediction, cognition and emotion assessment, and demographic estimation. For visualization, all metrics are normalized to a common scale, with MAE-based metrics inverted so that larger values consistently indicate better perfor-mance. SemPSG exhibits strong and balanced performance across most task categories, with its curve remaining close to the outer boundary of the radar chart. In contrast, competing models tend to perform strongly on particular tasks but show larger variations across different physiological and clinical outcomes. This comparison highlights the broad transferability of SemPSG representations across heterogeneous downstream settings. 18 Staging SHHS1 Accuracy Staging SHHS1 Kappa Staging SHHS1 Macro-F1 Staging CFS Accuracy Staging CFS Kappa Staging CFS Macro-F1 SDB SHHS1 Accuracy SDB SHHS1 Macro-F1 SDB CFS Accuracy SDB CFS Macro-F1 Angina C-index CVD death C-index CHF C-index CHD death C-index MI C-index Stroke C-index AHI SHHS1 MAE (inverted) HAM-D APPLES MAE (inverted) WASI APPLES MAE (inverted) Gender SHHS1 Accuracy Age SHHS1 MAE (inverted)     
+
+> 0.25 0.50 0.75 1.00
+> MOMENT UniTS SleepFM SleepMaMi SemPSG
+> Sleep staging Sleep-disordered breathing Disease prediction AHI regression Cognition & emotion Demographic estimation
+
+Figure 8: Overall downstream performance of SemPSG and competing foundation models. 
+
+Each axis represents a normalized evaluation metric from one of six downstream task groups. MAE-based metrics are inverted such that higher values consistently indicate better performance. Colored sectors denote different task categories. Table 5: AHI regression performance on SHHS1. 
+
+Category Model MAE ↓
+
+General-purpose TSFM MOMENT 10.54 UniTS 10.61 Sleep Foundation Model SleepFM 6.94 SleepMaMi 8.40 SemPSG 6.29 
+
+A.8.1 SLEEP -D ISORDERED BREATHING ANALYSIS : AHI R EGRESSION 
+
+Another type of sleep-disordered breathing analysis is apnea–hypopnea index (AHI) regression, SemPSG achieves a 9.4% lower MAE than the second-best model SleepFM, indicating more ac-curate estimation of recording-level respiratory disturbance severity. These results show that the learned PSG representations capture information relevant to both fine-grained breathing abnormali-ties and overall respiratory burden. By preserving modality-specific representations while modeling intra-modality channel dependencies and inter-modality interactions, SemPSG captures respiratory patterns alongside physiological responses distributed across other PSG signals, supporting both second-by-second SDB classification and recording-level AHI estimation. A.8.2 DEMOGRAPHIC ESTIMATION 
+
+We evaluate whether the learned PSG representations encode demographic information through gen-der classification and age regression. As shown in Table 6, SemPSG achieves the highest accuracy for gender classification and the second-lowest MAE for age estimation. The results indicate that 19 Table 6: Demographic estimation performance on SHHS1. 
+
+Dataset Category Model Gender Accuracy ↑ Age MAE ↓
+
+SHHS1 General-purpose TSFM MOMENT 72.7 8.28 UniTS 58.9 9.22 Sleep Foundation Model SleepFM 77.9 6.14 
+
+SleepMaMi ∗ 80.1 9.45 SemPSG 83.5 6.29  
+
+> ∗SleepMaMi is evaluated using only its Micro-Encoder for both gender classification and age regression, as its Macro-Encoder is pretrained with the demographic contrastive objective.
+
+the learned representations retain information associated with demographic characteristics such as gender and age. A.8.3 SLEEP STAGING 
+
+Figure 9 provides a stage-wise analysis of SemPSG’s sleep-staging predictions. Both datasets ex-hibit predominantly diagonal confusion matrices, with recall exceeding 76% for Wake, N2, N3, and REM. Wake achieves the highest recall on SHHS-1 and CFS (87.7% and 90.8%, respectively), while N2 and REM maintain recall above 80% on both datasets. N3 recall is 76.7% on SHHS-1 and 81.0% on CFS, with most N3 errors assigned to N2 (23.1% and 18.0%, respectively). The reverse confusion is substantially smaller: only 5.8% and 6.3% of true N2 epochs are classified as N3. 
+
+Figure 9: Row-normalized confusion matrices for sleep staging using frozen SemPSG representa-tions with validation-selected linear probes on the SHHS-1 (left) and CFS (right) test sets. Rows indicate ground-truth stages and columns indicate predicted stages. Each entry reports the per-centage of epochs within the corresponding ground-truth stage; diagonal entries therefore represent per-stage recall. 20 A.9 CHANNEL SEMANTICS AND MODALITY ANALYSIS 
+
+Figure 10 and figure 11 extend the semantic visualizations in the main text to all five modality groups. Figure 10 presents pairwise cosine similarities between learned channel-name embeddings. The matrix exhibits modality-related structure without forming uniformly similar blocks. ECG channels show relatively high within-group similarity, whereas EEG, EOG, and EMG display more heterogeneous patterns, with stronger similarities among particular channel subsets. Respiratory-related channels also form distinct subgroups rather than a single homogeneous block. These ob-servations indicate that the learned embeddings capture distinctions within the broad modality cate-gories. Figure 11 examines how channel-name assignments affect channel aggregation while keeping the waveform inputs fixed. Shuffling the names changes the relative gating weights of several chan-nels, most visibly within EEG, EMG, and the respiratory-related group. For example, the contrast between the EEG channel rows changes, and the relative weighting of the EMG and leg channels is redistributed. EOG and ECG show comparatively small visual changes in this window, indicat-ing that sensitivity to name reassignment varies across modality groups. The differences primarily concern channel-wise weighting, while the weights remain relatively stable over time within the displayed segment. Together, these visualizations connect the structure of the channel-name embedding space with the model’s use of channel metadata during aggregation. The shuffling comparison demonstrates that channel weighting depends on the assigned names for the illustrated input. It does not, by itself, establish the contribution of this dependence to downstream performance; the gating weights char-acterize model behavior rather than physiological channel importance. 
+
+Figure 10: Full pairwise cosine similarity matrix of learned channel-name embeddings across EEG, EOG, EMG, ECG, and respiratory-related channels, extending the subset shown in the main text. 21 Figure 11: Learned channel-gating weights across all five modality groups over a 30-s window under the original (left) and shuffled (right) channel-name assignments, extending the visualization in the main text. A.10 ANALYSIS OF PRETRAINED REPRESENTATIONS 
+
+Figure 12 visualizes the representations extracted from three pretrained models with their param-eters frozen. SleepMaMi and SleepFM exhibit substantial overlap among sleep stages, although some regions show stage-specific concentrations. In SleepMaMi, Wake epochs extend toward the right of the main group, while the remaining stages are largely intermingled. SleepFM produces a more elongated distribution, with local concentrations of Wake and N3 but considerable overlap throughout the projection. SemPSG exhibits a more visible stage-related organization: Wake epochs concentrate toward the upper region, N3 epochs are more prevalent in the lower region, and N2 occupies much of the inter-vening space. N1 and REM remain interspersed with other stages, indicating that the representation does not yield fully separated stage clusters. This pattern suggests that SemPSG captures sleep-stage structure before downstream task-specific training, while retaining overlap between stages. 
+
+Figure 12: UMAP visualizations of frozen pretrained representations from (a) SleepMaMi, (b) SleepFM, and (c) SemPSG on SHHS-1. Each point represents a sleep epoch and is colored by its ground-truth sleep stage: Wake, N1, N2, N3, or REM. The projections provide a qualitative view of how sleep-stage information is organized in the pretrained representation spaces. 22
